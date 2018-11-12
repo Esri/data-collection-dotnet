@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0e4a590d-8ccc-44ca-9127-10ed36dd02e9</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\MapViewExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\LocationDisplayController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\LocalizationConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ProgressToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\FeatureExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\FeatureTableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\IOExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MobileMapPackageExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessenger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessengerEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BroadcastMessageKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ConnectivityMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LocalizedStrings\Resources.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptMessageChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptMessenger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointControllerCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\PopupManagerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\AppRules.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptResponseChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FieldContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\Resources.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DownloadViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SyncViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\TreeSurveyWorkflows.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DestinationRelationshipViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EditViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IdentifiedFeatureViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\OriginRelationshipViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MapViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)LocalizedStrings\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Properties\Configuration.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\AddressLocator.loc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\AddressLocator.locb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\AddressLocator.lox">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\AddressLocator.loc.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
+  </ItemGroup>
+</Project>

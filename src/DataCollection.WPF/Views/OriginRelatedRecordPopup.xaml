@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views.OriginRelatedRecordPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF"
+             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:LocalizationConverter x:Key="LocalizationConverter"/>
+            <local:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid DataContext="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <!-- Attribute information for the origin relationship selected -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+            <StackPanel Orientation="Vertical" Background="White">
+                <ItemsControl Grid.Row="0" ItemsSource="{Binding SelectedRecordPopupManager.DisplayedFields}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="3">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Field.Label}" FontWeight="Bold" Margin="10, 0, 0, 0" />
+                                <TextBox IsEnabled="False" Text="{Binding FormattedValue, Mode=OneWay}" TextWrapping="Wrap" BorderThickness="0" Margin="10, 0, 0, 0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid Grid.Row="1" Background="Green">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding EditRelatedRecordCommand}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"/>
+                    <Button Content="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" Command="{Binding DataContext.DeleteFeatureCommand, 
+                        RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Origin related record in Edit mode -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+            <StackPanel Orientation="Vertical" Background="White">
+                <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0" Margin="5"/>
+                <Grid Grid.Row="1" Background="Green">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding SaveEditsCommand}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"/>
+                    <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" 
+                            Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding .}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

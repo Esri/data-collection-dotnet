@@ -1,0 +1,200 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views.IdentifiedFeaturePopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
+             xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters"
+             xmlns:local="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:LocalizationConverter x:Key="LocalizationConverter"/>
+            <localconverters:MultivalueCommandParameterConverter x:Key="MultivalueCommandParameterConverter"/>
+            <local:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector"/>
+            <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="../ResourceDictionary.xaml"/>
+        </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid DataContext="{Binding IdentifiedFeatureViewModel}">
+        <!-- Popup user control in View Mode -->
+        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  CanContentScroll="True" PanningMode="VerticalOnly"
+                       Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+            <Grid Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                 <!--List of attributes from identified feature-->
+                <ItemsControl ItemsSource="{Binding PopupManager.DisplayedFields}" Grid.Row="0" Margin="3">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Field.Label}" FontWeight="Bold" Margin="10, 0, 0, 0" />
+                                <TextBox IsEnabled="false" Text="{Binding FormattedValue, Mode=OneWay}" TextWrapping="Wrap" BorderThickness="0" Margin="10, 0, 0, 0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--List of relationships where identified feature is destination-->
+                <ItemsControl ItemsSource="{Binding DestinationRelationships}" HorizontalContentAlignment="Stretch" Grid.Row="1" Margin="3">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Separator Background="Green" Margin="10,0,10,0" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"/>
+                                <StackPanel Grid.Column="0" Grid.Row="1">
+                                    <TextBlock Text="{Binding PopupManager.DisplayedFields[0].Field.Label}" FontSize="12" FontWeight="Bold" Margin=" 10,0,0,0"/>
+                                    <TextBlock Text="{Binding PopupManager.DisplayedFields[0].FormattedValue}" FontSize="12" Foreground="Gray" Margin="12,0,0,0"/>
+                                    <TextBlock Text="{Binding PopupManager.DisplayedFields[1].Field.Label}" FontSize="12" FontWeight="Bold" Margin=" 10,0,0,0"/>
+                                    <TextBlock Text="{Binding PopupManager.DisplayedFields[1].FormattedValue}" FontSize="12" Foreground="Gray" Margin="12,0,0,0"/>
+                                </StackPanel>
+                                <Button Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                                        Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,10,0" 
+                                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"
+                                        Command="{Binding DataContext.IdentifiedFeatureViewModel.SetSelectedDestinationRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!--List of relationships where identified feature is origin-->
+                <ItemsControl ItemsSource="{Binding OriginRelationships}" HorizontalContentAlignment="Stretch" Grid.Row="2" Margin="5">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <Grid Background="Green">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding RelatedTable.TableName}" FontSize="17" Background="Green" Foreground="White" Padding="10" Grid.Column="0"/>
+                                    <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}"
+                                            Grid.Column="1" Margin="0, 0, 10, 0" Command="{Binding DataContext.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding .}"/>
+                                </Grid>
+                                <ItemsControl ItemsSource="{Binding OriginRelatedRecords}" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="3">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="40"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="5"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+                                                    <TextBlock Text="{Binding DisplayedFields[0].Field.Label}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"/>
+                                                    <TextBlock Text="{Binding DisplayedFields[0].FormattedValue}" FontSize="12" Foreground="Gray" Margin="7,0,0,0"/>
+                                                    <TextBlock Text="{Binding DisplayedFields[1].Field.Label}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"/>
+                                                    <TextBlock Text="{Binding DisplayedFields[1].FormattedValue}" FontSize="12" Foreground="Gray" Margin="7,0,0,0"/>
+                                                    <TextBlock Text="{Binding DisplayedFields[2].Field.Label}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"/>
+                                                    <TextBlock Text="{Binding DisplayedFields[2].FormattedValue}" FontSize="12" Foreground="Gray" Margin="7,0,0,10"/>
+                                                </StackPanel>
+                                                <Button Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" VerticalAlignment="Center" Style="{StaticResource MenuButtonStyle}" 
+                                                        Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0" 
+                                                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"
+                                                        Command="{Binding DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource MultivalueCommandParameterConverter}">
+                                                            <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=StackPanel}"/>
+                                                            <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=Grid}"/>
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                <Separator Background="Green" Margin="5,-5,5,0" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Top"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid Background="Green" Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding EditFeatureCommand}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"/>
+                    <Button Content="&#xE74d;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" Command="{Binding DataContext.DeleteFeatureCommand, 
+                        RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        
+         <!--Popup user control in Edit Mode-->
+        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+            <Grid  Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Margin="3"/>
+
+                <!--List of relationships where identified feature is destination-->
+                <ItemsControl ItemsSource="{Binding DestinationRelationships}" Grid.Row="1" Margin="3">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding RelatedTable.TableName}" FontSize="12" FontWeight="Bold" Margin=" 10,0,0,0"/>
+                                    <ComboBox ItemsSource="{Binding OrderedAvailableValues}" SelectedItem="{Binding DataContext.PopupManager, 
+                                        RelativeSource={RelativeSource AncestorType=StackPanel}}" Width="230"  Margin="10,0,0,5" HorizontalAlignment="Left">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding DisplayedFields[0].Field.Label}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left"/>
+                                                    <TextBlock Text="{Binding DisplayedFields[0].FormattedValue}" FontSize="12" Foreground="Gray" HorizontalAlignment="Left"/>
+                                                    <TextBlock Text="{Binding DisplayedFields[1].Field.Label}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Left"/>
+                                                    <TextBlock Text="{Binding DisplayedFields[1].FormattedValue}" FontSize="12" Foreground="Gray" HorizontalAlignment="Left"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Grid Background="Green" Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding SaveEditsCommand}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"/>
+                    <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" 
+                            Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding .}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
