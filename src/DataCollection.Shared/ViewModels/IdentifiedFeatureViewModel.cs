@@ -45,6 +45,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 Fields = FieldContainer.GetFields(PopupManager);
                 FeatureTable = featureTable;
                 ConnectivityMode = connectivityMode;
+
+                // fetch attachments to display count
+                PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t => { });
             }
         }
 
@@ -333,6 +336,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                             }
                         }
+                    }));
+            }
+        }
+
+        private ICommand _viewAttachmentsCommand;
+
+        /// <summary>
+        /// Gets the command to view attachments for the selected record
+        /// </summary>
+        public ICommand ViewAttachmentsCommand
+        {
+            get
+            {
+                return _viewAttachmentsCommand ?? (_viewAttachmentsCommand = new DelegateCommand(
+                    async (x) =>
+                    {
+                        // create a new AttachmentsViewModel to display the attachments to the user
+                        var attachmentsViewModel = new AttachmentsViewModel();
+                        await attachmentsViewModel.InitializeAsync(PopupManager.AttachmentManager.Attachments);
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(attachmentsViewModel, BroadcastMessageKey.AttachmentViewModel);
                     }));
             }
         }

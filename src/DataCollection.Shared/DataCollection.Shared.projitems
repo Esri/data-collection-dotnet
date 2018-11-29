@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MobileMapPackageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessengerEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AttachmentWithThumbnail.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BroadcastMessageKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConnectivityMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LocalizedStrings\Resources.Designer.cs" />
@@ -39,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\FieldContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\Resources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AttachmentsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DownloadViewModel.cs" />

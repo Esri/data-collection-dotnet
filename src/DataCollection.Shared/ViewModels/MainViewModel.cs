@@ -58,6 +58,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     DownloadPath = l.Args.Value?.ToString();
                 }
+                else if (l.Args.Key == BroadcastMessageKey.AttachmentViewModel)
+                {
+                    AttachmentsViewModel = l.Args.Value as AttachmentsViewModel;
+                }
             };
 
             // Initialize the identify controller
@@ -211,6 +215,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 if (_editViewModel != value)
                 {
                     _editViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private AttachmentsViewModel _attachmentsViewModel;
+
+        /// <summary>
+        /// Gets or sets the viewmodel for the currently selected attachments
+        /// </summary>
+        public AttachmentsViewModel AttachmentsViewModel
+        {
+            get => _attachmentsViewModel;
+            set
+            {
+                if (_attachmentsViewModel != value)
+                {
+                    _attachmentsViewModel = value;
                     OnPropertyChanged();
                 }
             }

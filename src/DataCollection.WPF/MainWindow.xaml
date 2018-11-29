@@ -376,6 +376,9 @@
                 <views:DestinationRelatedRecordPopup Grid.Row="1" DataContext="{Binding}"/>
             </Grid>
         </Grid>
+
+        <!-- Attachments view -->
+        <views:AttachmentsView Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding AttachmentsViewModel, Converter={StaticResource NullToVisibilityConverter}}"/>
         <!-- Login Window -->
         <views:LoginWindow Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
     </Grid>
