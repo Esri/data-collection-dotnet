@@ -14,20 +14,15 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using System.Windows.Media.Imaging;
+
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 {
-    /// <summary>
-    /// Represents the types of BroadcastMessages the app supports. These are used in conjunction with BroadcastMessenger
-    /// </summary>
-    public enum BroadcastMessageKey
+    class AttachmentWithEditableProperties
     {
-        DownloadPath,
-        OAuthRefreshToken,
-        SyncDate,
-        AuthenticatedUser,
-        ConnectivityMode,
-        SyncSucceeded,
-        AttachmentViewModel,
-        NewAttachmentFile,
+        public string Name { get; set; }
+        public string Size { get; set; }
+        public BitmapImage Thumbnail { get; set; }
+        public string LocalFilePath { get; set; }
     }
 }

@@ -16,18 +16,10 @@
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 {
-    /// <summary>
-    /// Represents the types of BroadcastMessages the app supports. These are used in conjunction with BroadcastMessenger
-    /// </summary>
-    public enum BroadcastMessageKey
+    public enum AttachmentMode
     {
-        DownloadPath,
-        OAuthRefreshToken,
-        SyncDate,
-        AuthenticatedUser,
-        ConnectivityMode,
-        SyncSucceeded,
-        AttachmentViewModel,
-        NewAttachmentFile,
+        View,
+        Edit,
+        Add,
     }
 }

@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\MapViewExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\LocationDisplayController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\AttachmentModeToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
@@ -24,6 +25,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MobileMapPackageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessengerEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AttachmentMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AttachmentWithEditableProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AttachmentWithThumbnail.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BroadcastMessageKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConnectivityMode.cs" />

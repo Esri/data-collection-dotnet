@@ -25,7 +25,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// Raises the <see cref="MapViewModel.PropertyChanged" /> event
+        /// Raises the <see cref="BaseViewModel.PropertyChanged" /> event
         /// </summary>
         /// <param name="propertyName">The name of the property that has changed</param>
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

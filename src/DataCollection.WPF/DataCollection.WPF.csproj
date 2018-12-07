@@ -177,6 +177,9 @@
   <ItemGroup>
     <Folder Include="Messengers\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlaceholderThumbnail.png" />
+  </ItemGroup>
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
