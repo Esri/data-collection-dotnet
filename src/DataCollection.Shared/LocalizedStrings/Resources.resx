@@ -291,4 +291,10 @@
   <data name="MapLoadingError_Title" xml:space="preserve">
     <value>Map failed to load</value>
   </data>
+  <data name="DeleteConfirmationAttachment_Message" xml:space="preserve">
+    <value>This will remove the attachment from the database permanently and cannot be undone.</value>
+  </data>
+  <data name="DeleteConfirmationAttachment_Title" xml:space="preserve">
+    <value>Are you sure you want to delete this attachment?</value>
+  </data>
 </root>

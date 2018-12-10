@@ -27,7 +27,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
         AuthenticatedUser,
         ConnectivityMode,
         SyncSucceeded,
-        AttachmentViewModel,
+        AttachmentViewModelCreated,
         NewAttachmentFile,
     }
 }

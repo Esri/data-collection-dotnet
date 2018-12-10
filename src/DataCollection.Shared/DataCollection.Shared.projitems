@@ -13,7 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\MapViewExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\LocationDisplayController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\AttachmentModeToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\MatchingValueParameterToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />

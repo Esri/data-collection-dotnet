@@ -44,6 +44,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(dialog.FileName, BroadcastMessageKey.NewAttachmentFile);
+
+                    // TODO: Remove tight coupling by setting this property from the view
                     ((MainViewModel)DataContext).AttachmentsViewModel.AttachmentMode = AttachmentMode.Edit;
                 }
             }

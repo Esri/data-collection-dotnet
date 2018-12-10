@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 {
+    // TODO: Combine this with AttachmentWithThumbnail
     class AttachmentWithEditableProperties
     {
         public string Name { get; set; }

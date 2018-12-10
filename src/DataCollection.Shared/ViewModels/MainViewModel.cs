@@ -58,7 +58,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     DownloadPath = l.Args.Value?.ToString();
                 }
-                else if (l.Args.Key == BroadcastMessageKey.AttachmentViewModel)
+                else if (l.Args.Key == BroadcastMessageKey.AttachmentViewModelCreated)
                 {
                     AttachmentsViewModel = l.Args.Value as AttachmentsViewModel;
                 }

@@ -28,10 +28,14 @@ using CustomCultureInfo = System.Globalization.CultureInfo;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
 {
-    class AttachmentModeToVisibilityConverter : IValueConverter
+    /// <summary>
+    /// Visibility converter that tests matching value and parameter
+    /// </summary>
+    class MatchingValueParameterToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
+            // return visible if the parameter and value match, otherwise return collapsed
             if (parameter != null)
             {
                 return (parameter.ToString() == value.ToString()) ? Visibility.Visible : Visibility.Collapsed;

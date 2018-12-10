@@ -353,9 +353,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     async (x) =>
                     {
                         // create a new AttachmentsViewModel to display the attachments to the user
-                        var attachmentsViewModel = new AttachmentsViewModel();
-                        await attachmentsViewModel.InitializeAsync(PopupManager, Feature.FeatureTable);
-                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(attachmentsViewModel, BroadcastMessageKey.AttachmentViewModel);
+                        var attachmentsViewModel = new AttachmentsViewModel(PopupManager, Feature.FeatureTable);
+                        await attachmentsViewModel.InitializeAsync();
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(attachmentsViewModel, BroadcastMessageKey.AttachmentViewModelCreated);
                     }));
             }
         }

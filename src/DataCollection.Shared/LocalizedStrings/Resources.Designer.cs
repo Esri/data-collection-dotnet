@@ -160,6 +160,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This will remove the attachment from the database permanently and cannot be undone..
+        /// </summary>
+        internal static string DeleteConfirmationAttachment_Message {
+            get {
+                return ResourceManager.GetString("DeleteConfirmationAttachment_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this attachment?.
+        /// </summary>
+        internal static string DeleteConfirmationAttachment_Title {
+            get {
+                return ResourceManager.GetString("DeleteConfirmationAttachment_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You will no longer have a map if you are in offline mode. .
         /// </summary>
         internal static string DeleteMap_Message {
