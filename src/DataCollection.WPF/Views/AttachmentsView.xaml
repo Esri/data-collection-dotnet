@@ -65,7 +65,7 @@
                             <StackPanel Orientation="Vertical" Margin="20">
                                 <TextBlock Text="{Binding Attachment.Name}" Background="Green" Foreground="White" Padding="5"/>
                                 <Border BorderThickness="1, 0, 1, 0" BorderBrush="Black">
-                                    <Image Source="{Binding Thumbnail}" MaxHeight="100" MaxWidth="100" />
+                                    <Image Source="{Binding Thumbnail}" MaxHeight="100" MaxWidth="100"  MouseDown="Image_MouseDown"/>
                                 </Border>
                                 <Grid Background="Green">
                                     <Grid.ColumnDefinitions>

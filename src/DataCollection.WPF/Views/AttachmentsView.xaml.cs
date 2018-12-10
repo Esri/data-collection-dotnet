@@ -14,10 +14,14 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.Mapping.Popups;
+using System.IO;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
 {
@@ -48,6 +52,35 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
                     // TODO: Remove tight coupling by setting this property from the view
                     ((MainViewModel)DataContext).AttachmentsViewModel.AttachmentMode = AttachmentMode.Edit;
                 }
+            }
+        }
+
+
+        /// <summary>
+        /// Event handler for user clicking the attachment to open it
+        /// </summary>
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var image = sender as Image;
+            var attachment = ((AttachmentWithThumbnail)image.DataContext).Attachment;
+
+            var newFileName = attachment.Filename + Path.GetExtension(attachment.Name);
+
+            // if the file exists, rename it to contain the proper extension
+            if (File.Exists(attachment.Filename))
+            {
+                File.Move(attachment.Filename, newFileName);
+            }
+
+            // if the renamed file exists, open it in the user's preferred application
+            if (File.Exists(newFileName))
+            {
+                System.Diagnostics.Process.Start(newFileName);
+            }
+            else
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged("File not found", "The attachment file you are trying to open could not be located. Please try restarting the application.", true);
+                return;
             }
         }
     }
