@@ -271,16 +271,73 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         private static IDictionary<string, string> _mappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
         {
-            // TODO: Add more types from the AGOL list
-            { ".bmp", "image/bmp"},
+            // TODO: Move these into a file
+            {".bmp", "image/bmp"},
+            {".ecw", "application/x-ImageWebServer-ecw"},
+            {".emf", "application/emf"},
+            {".eps", "application/postscript"},
+            {".ps", "application/postscript"},
             {".gif", "image/gif"},
-            {".jfif", "image/pjpeg"},
-            {".jpe", "image/jpeg"},
-            {".jpeg", "image/jpeg"},
+            {".img", "image/img"},
+            {".jpc", "image/jp2"},
+            {".j2k", "image/jp2"},
+            {".jpf", "image/jpf"},
+            {".jp2", "image/jp2"},
             {".jpg", "image/jpeg"},
+            {".jpeg", "image/jpeg"},
+            {".jpe", "image/jpeg"},
             {".png", "image/png"},
+            {".psd", "application/octet-stream"},
+            {".raw", "image/x-dcraw"},
+            {".sid", "audio/x-psid"}, // not sure about this one
             {".tif", "image/tiff"},
-            {".tiff", "image/tiff"}
+            {".tiff", "image/tiff"},
+            {".wmf", "windows/metafile"},
+            {".wps", "application/vnd.ms-works"},
+            {".avi", "video/avi"},
+            {".mpg", "video/mpeg"}, // this could also be audio/mpeg, test it out
+            {".mpe", "video/mpeg"},
+            {".mpeg", "video/mpeg"},
+            {".mov", "video/quicktime"},
+            {".wmv", "video/x-ms-wmv"},
+            {".aif", "audio/aiff"},
+            {".mid", "audio/midi"},
+            {".rmi", "audio/mid"},
+            {".mp2", "video/mpeg"}, // this could also be audio/mpeg, test it out
+            {".mp3", "video/mpeg"}, // this could also be audio/mpeg, test it out
+            {".mp4", "video/mp4"},
+            {".pma", "application/x-perfmon"},
+            {".mp2v", "video/mpeg2"},
+            {".qt", "video/quicktime"},
+            {".ra", "audio/x-pn-realaudio"},
+            {".ram", "audio/x-pn-realaudio"},
+            {".wav", "audio/x-wav"},
+            {".wma", "audio/x-ms-wma"},
+            {".doc", "application/msword"},
+            {".docx", "application/msword"},
+            {".dot", "application/msword"},
+            {".xls", "application/excel"},
+            {".xlsx", "application/excel"},
+            {".xlt", "application/excel"},
+            {".pdf", "application/pdf"},
+            {".ppt", "application/mspowerpoint"},
+            {".pptx", "application/mspowerpoint"},
+            {".txt", "text/plain"},
+            {".zip", "application/x-zip-compressed"},
+            {".7z", "application/x-7z-compressed"},
+            {".gz", "application/x-gzip"},
+            {".gtar", "application/x-gtar"},
+            {".tar", "application/x-tar"},
+            {".tgz", "application/gnutar"},
+            {".vrml", "application/x-vrml"},
+            {".gml", "application/gml+xml"},
+            {".json", "application/json"},
+            {".xml", "application/xml"},
+            {".mdb", "application/msaccess"},
+            {".geodatabase", "???"},
+
+
+
         };
 
         /// <summary>
