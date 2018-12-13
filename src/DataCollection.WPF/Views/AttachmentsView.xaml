@@ -43,18 +43,13 @@
                 <Button Content="&#xE8bB;" Grid.Row="0" HorizontalAlignment="Right" Padding="10, 10, 10, 5" FontFamily="Segoe MDL2 Assets" 
                     FontSize="15" Style="{StaticResource MenuButtonStyle}" Command="{Binding AttachmentsViewModel.CloseAttachmentsCommand}" />
                 <Grid Background="Green" Grid.Row="2">
-                    <Button Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 0" Style="{StaticResource MenuButtonStyle}">
+                    <Button Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 0" Style="{StaticResource MenuButtonStyle}" Click="BrowseButton_Click">
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="10" VerticalAlignment="Bottom" />
                                 <TextBlock Text="&#xE723;" FontFamily="Segoe MDL2 Assets" FontSize="18" />
                             </StackPanel>
                         </Button.Content>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <ei:ChangePropertyAction TargetObject="{Binding AttachmentsViewModel}" PropertyName="AttachmentMode" Value="Add"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
                     </Button>
                 </Grid>
 
@@ -88,29 +83,6 @@
             </Grid>
         </Grid>
 
-        <!-- Grid to select attachment source -->
-        <Grid Height="200" Width="300" Background="White" Visibility="{Binding AttachmentsViewModel.AttachmentMode, Converter={StaticResource MatchingValueParameterToVisibilityConverter}, ConverterParameter=Add}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Select File" Foreground="White" FontSize="20" Padding="15, 10, 5, 5" Background="Green" Grid.Row="0"/>
-            <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="15" Style="{StaticResource MenuButtonStyle}"
-                    HorizontalAlignment="Right" Padding="10, 10, 10, 5" Grid.Row="0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ei:ChangePropertyAction TargetObject="{Binding AttachmentsViewModel}" PropertyName="AttachmentMode" Value="View"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button x:Name="CameraButton" Height="80" Width="80" Style="{StaticResource MenuButtonStyle}" Margin="0, 0, 50, 0" HorizontalAlignment="Stretch"
-                        Content="&#xE722;" FontFamily="Segoe MDL2 Assets" FontSize="35"/>
-                <Button x:Name="BrowseButton" Height="80" Width="80" Style="{StaticResource MenuButtonStyle}" HorizontalAlignment="Stretch"
-                        Click="BrowseButton_Click" Content="&#xE7C5;" FontFamily="Segoe MDL2 Assets" FontSize="35"/>
-            </StackPanel>
-        </Grid>
-
         <!-- Grid to edit attachments -->
         <Grid Background="White" Visibility="{Binding AttachmentsViewModel.AttachmentMode, Converter={StaticResource MatchingValueParameterToVisibilityConverter}, ConverterParameter=Edit}" Width="300" Height="300">
             <Grid.RowDefinitions>
@@ -121,13 +93,7 @@
             <TextBlock Text="Add Attachment" Foreground="White" FontSize="20" Padding="15, 10, 5, 5" Background="Green" Grid.Row="0"/>
             <StackPanel Orientation="Vertical" Grid.Row="1">
                 <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1" VerticalAlignment="Top" MaxHeight="100" MaxWidth="100" Margin="5">
-                    <Image Source="{Binding AttachmentsViewModel.SelectedAttachment.LocalFilePath, Mode=TwoWay}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDown">
-                                <ei:ChangePropertyAction TargetObject="{Binding AttachmentsViewModel}" PropertyName="AttachmentMode" Value="Add"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Image>
+                    <Image Source="{Binding AttachmentsViewModel.SelectedAttachment.LocalFilePath, Mode=TwoWay}"/>
                 </Border>
                 <TextBlock Text="Attachment Title" FontSize="12" FontWeight="Bold" Margin=" 10,0,0,0"/>
                 <TextBox Text="{Binding AttachmentsViewModel.SelectedAttachment.Name, Mode=TwoWay}" Margin="10, 0, 10, 5"/>
@@ -143,7 +109,13 @@
                         HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"/>
                 <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
                         HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" 
-                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"/>
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <ei:ChangePropertyAction TargetObject="{Binding AttachmentsViewModel}" PropertyName="AttachmentMode" Value="View"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                </Button>
             </Grid>
         </Grid>
     </Grid>

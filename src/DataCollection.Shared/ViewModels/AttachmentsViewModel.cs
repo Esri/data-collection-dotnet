@@ -335,9 +335,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {".xml", "application/xml"},
             {".mdb", "application/msaccess"},
             {".geodatabase", "???"},
-
-
-
         };
 
         /// <summary>
