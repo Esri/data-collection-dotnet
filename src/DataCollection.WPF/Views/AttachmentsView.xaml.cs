@@ -14,12 +14,12 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
-using Esri.ArcGISRuntime.Mapping.Popups;
 using System.IO;
+using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -39,18 +39,29 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
         {
             using (var dialog = new System.Windows.Forms.OpenFileDialog())
             {
+                // TODO: Remove tight coupling by setting this property from the view
+                var dataContext = ((MainViewModel)DataContext).AttachmentsViewModel;
+
+                var extensionStringBuilder = new StringBuilder("Supported files() |");
+
+                // create list of supported file for the dialog filter
+                foreach(var extension in FileExtensionHelper.AllowedExtensions)
+                {
+                    extensionStringBuilder.Replace(") |", string.Format(" *{0},) |", extension.Key));
+                    extensionStringBuilder.Append(string.Format(" *{0};", extension.Key));
+                }
+
                 // list of file types supported as attachments
                 // https://developers.arcgis.com/rest/services-reference/query-attachments-feature-service-layer-.htm
-                dialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
-                dialog.Title = "Please select an image as attachment.";
+
+                dialog.Filter = extensionStringBuilder.ToString();
+                dialog.Title = "Please select a file to add as attachment.";
                 var result = dialog.ShowDialog();
 
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(dialog.FileName, BroadcastMessageKey.NewAttachmentFile);
-
-                    // TODO: Remove tight coupling by setting this property from the view
-                    ((MainViewModel)DataContext).AttachmentsViewModel.AttachmentMode = AttachmentMode.Edit;
+                    dataContext.AttachmentMode = AttachmentMode.Edit;
                 }
             }
         }

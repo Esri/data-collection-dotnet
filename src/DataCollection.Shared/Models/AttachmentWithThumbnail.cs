@@ -16,9 +16,11 @@
 
 using Esri.ArcGISRuntime.Mapping.Popups;
 using Esri.ArcGISRuntime.UI;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 {
@@ -38,17 +40,35 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
         {
             Attachment = attachment;
 
-            try
+
+            switch (Attachment.Type)
             {
-                // this is a workaround to generating thumbnails as CreateThumbnailAsyncdoesn't work
-                // TODO: replace with CreateThumbnailAsync() when fixed
-                var rtImage = await attachment.CreateFullImageAsync();
-                Thumbnail = await GetImageAsync(rtImage);
+                case PopupAttachmentType.Image:
+                    try
+                    {
+                        // this is a workaround to generating thumbnails as CreateThumbnailAsyncdoesn't work
+                        // TODO: replace with CreateThumbnailAsync() when fixed
+                        var rtImage = await attachment.CreateFullImageAsync();
+                        var image = await GetImageAsync(rtImage);
+                        Dispatcher.CurrentDispatcher.Invoke(() => Thumbnail = image);
+                    }
+                    catch
+                    {
+                        //TODO: show an error image if unable to retrieve attachment
+                    }
+                    break;
+                case PopupAttachmentType.Video:
+                case PopupAttachmentType.Document:
+                default:
+                    await attachment.LoadAsync();
+                    var defaultImage = new BitmapImage(new Uri("pack://application:,,,/Images/PlaceholderThumbnail.png"));
+                    defaultImage.Freeze();
+                    Dispatcher.CurrentDispatcher.Invoke(() => Thumbnail = defaultImage);
+                    
+                    break;
             }
-            catch
-            {
-                //TODO: show an error image if unable to retrieve attachment
-            }
+
+
         }
 
         /// <summary>
@@ -70,6 +90,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                 image.StreamSource = stream;
                 image.CacheOption = BitmapCacheOption.OnLoad;
                 image.EndInit();
+                image.Freeze();
                 return image;
             }
             return null;

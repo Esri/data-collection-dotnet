@@ -28,7 +28,6 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
 
                  <!--List of attributes from identified feature-->
@@ -127,29 +126,6 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Grid Background="Green" Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="50"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Width="45" Height="30" Style="{StaticResource MenuButtonStyle}" Command="{Binding ViewAttachmentsCommand}"
-                        HorizontalAlignment="Left" Margin="10, 0, 0, 0" Grid.Column="0" HorizontalContentAlignment="Left" >
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE723;" FontFamily="Segoe MDL2 Assets" FontSize="18"/>
-                                <TextBlock Text="{Binding PopupManager.AttachmentManager.Attachments.Count}"  FontSize="12" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" Command="{Binding EditFeatureCommand}" 
-                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"/>
-                    <Button Content="&#xE74d;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="2" Command="{Binding DataContext.DeleteFeatureCommand, 
-                        RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" 
-                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"/>
-                </Grid>
             </Grid>
         </ScrollViewer>
         
@@ -160,7 +136,6 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
 
                 <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" 
@@ -191,19 +166,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Grid Background="Green" Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="50"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding SaveEditsCommand}" 
-                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"/>
-                    <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" 
-                            Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding .}" 
-                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"/>
-                </Grid>
+               
             </Grid>
         </ScrollViewer>
     </Grid>

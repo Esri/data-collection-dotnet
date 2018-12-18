@@ -314,7 +314,17 @@
 
         <!-- Popup containing identified feature information -->
         <Grid Visibility="{Binding IdentifiedFeatureViewModel, Converter={StaticResource NullToVisibilityConverter}}"
-              Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+              Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="IdentifiedFeaturePopup">
+            <i:Interaction.Triggers>
+                <ei:PropertyChangedTrigger Binding="{Binding Visibility, ElementName=IdentifiedFeaturePopup}">
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=IdentifiedFeatureDetailView}" PropertyName="Visibility" Value="Visible"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=IdentifiedFeatureAttachmentsView}" PropertyName="Visibility" Value="Collapsed"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureDetailsModeButton}" PropertyName="Foreground" Value="White"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureDetailsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureAttachmentsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                    <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureAttachmentsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                </ei:PropertyChangedTrigger>
+            </i:Interaction.Triggers>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="300"/>
@@ -322,7 +332,9 @@
             <Grid VerticalAlignment="Center" Margin="20" Background="White" MaxWidth="300" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
+                    <RowDefinition Height="35"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <Grid.Effect>
                     <DropShadowEffect Opacity=".5" BlurRadius="20"/>
@@ -334,7 +346,71 @@
                     Grid.Row="0" HorizontalAlignment="Right" Padding="10, 10, 10, 5" 
                         ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CloseButton_Tooltip}"
                     FontFamily="Segoe MDL2 Assets" FontSize="15" Style="{StaticResource MenuButtonStyle}" />
-                <views:IdentifiedFeaturePopup Grid.Row="1" DataContext="{Binding}"/>
+                <Grid  Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".5*"/>
+                        <ColumnDefinition Width=".5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Details" x:Name="FeatureDetailsModeButton" FontSize="18" Style="{StaticResource MenuButtonStyle}" Grid.Column="0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=IdentifiedFeatureDetailView}" PropertyName="Visibility" Value="Visible"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=IdentifiedFeatureAttachmentsView}" PropertyName="Visibility" Value="Collapsed"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureDetailsModeButton}" PropertyName="Foreground" Value="White"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureDetailsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureAttachmentsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureAttachmentsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Name="FeatureAttachmentsModeButton" Content="Attachments" FontSize="18" Style="{StaticResource MenuButtonStyle}" Grid.Column="1">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=IdentifiedFeatureDetailView}" PropertyName="Visibility" Value="Collapsed"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=IdentifiedFeatureAttachmentsView}" PropertyName="Visibility" Value="Visible"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureAttachmentsModeButton}" PropertyName="Foreground" Value="White"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureAttachmentsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureDetailsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                                <ei:ChangePropertyAction TargetObject="{Binding ElementName=FeatureDetailsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+                
+                <!-- Detail view-->
+                <views:IdentifiedFeaturePopup x:Name="IdentifiedFeatureDetailView" Grid.Row="2" DataContext="{Binding}"/>
+
+                <!-- Attachments view -->
+                <views:AttachmentsView x:Name="IdentifiedFeatureAttachmentsView" Grid.Row="2" DataContext="{Binding}"/>
+
+                <!-- Bottom buttons when identified feature is in view mode -->
+                <Grid Background="Green" Grid.Row="3"  Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding IdentifiedFeatureViewModel.EditFeatureCommand}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"/>
+                    <Button Content="&#xE74d;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="2" Command="{Binding DeleteFeatureCommand}" CommandParameter="{Binding IdentifiedFeatureViewModel}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"/>
+                </Grid>
+
+                <!-- Bottom buttons when identified feature is in edit mode -->
+                <Grid Background="Green" Grid.Row="3" Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding IdentifiedFeatureViewModel.SaveEditsCommand}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"/>
+                    <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" 
+                            Command="{Binding CancelEditsCommand}" CommandParameter="{Binding IdentifiedFeatureViewModel}" 
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"/>
+                </Grid>
             </Grid>
 
             <!-- Popup containing origin table information -->
@@ -377,8 +453,6 @@
             </Grid>
         </Grid>
 
-        <!-- Attachments view -->
-        <views:AttachmentsView Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3" Visibility="{Binding AttachmentsViewModel, Converter={StaticResource NullToVisibilityConverter}}"/>
         <!-- Login Window -->
         <views:LoginWindow Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
     </Grid>

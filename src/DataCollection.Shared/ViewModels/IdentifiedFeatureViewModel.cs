@@ -47,7 +47,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 ConnectivityMode = connectivityMode;
 
                 // fetch attachments to display count
-                PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t => { });
+                PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(async t => 
+                {
+                    // create a new AttachmentsViewModel to display the attachments to the user
+                    var attachmentsViewModel = new AttachmentsViewModel(PopupManager, Feature.FeatureTable);
+                    //await attachmentsViewModel.InitializeAsync();
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(attachmentsViewModel, BroadcastMessageKey.AttachmentViewModelCreated);
+                });
             }
         }
 
@@ -336,26 +342,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                             }
                         }
-                    }));
-            }
-        }
-
-        private ICommand _viewAttachmentsCommand;
-
-        /// <summary>
-        /// Gets the command to view attachments for the selected record
-        /// </summary>
-        public ICommand ViewAttachmentsCommand
-        {
-            get
-            {
-                return _viewAttachmentsCommand ?? (_viewAttachmentsCommand = new DelegateCommand(
-                    async (x) =>
-                    {
-                        // create a new AttachmentsViewModel to display the attachments to the user
-                        var attachmentsViewModel = new AttachmentsViewModel(PopupManager, Feature.FeatureTable);
-                        await attachmentsViewModel.InitializeAsync();
-                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(attachmentsViewModel, BroadcastMessageKey.AttachmentViewModelCreated);
                     }));
             }
         }
