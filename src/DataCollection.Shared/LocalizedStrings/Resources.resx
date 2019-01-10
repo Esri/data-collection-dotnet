@@ -297,4 +297,19 @@
   <data name="DeleteConfirmationAttachment_Title" xml:space="preserve">
     <value>Are you sure you want to delete this attachment?</value>
   </data>
+  <data name="AddAttachment_Tooltip" xml:space="preserve">
+    <value>Add attchment</value>
+  </data>
+  <data name="DeleteAttachment_Tooltip" xml:space="preserve">
+    <value>Delete attachment</value>
+  </data>
+  <data name="FileNotFound_Message" xml:space="preserve">
+    <value>The attachment file you are trying to open could not be located. Please try restarting the application.</value>
+  </data>
+  <data name="FileNotFound_Title" xml:space="preserve">
+    <value>File not found</value>
+  </data>
+  <data name="OpenAttachment_Tooltip" xml:space="preserve">
+    <value>Open attachment</value>
+  </data>
 </root>

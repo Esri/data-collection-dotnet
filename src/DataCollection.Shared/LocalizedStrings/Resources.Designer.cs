@@ -61,6 +61,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add attchment.
+        /// </summary>
+        internal static string AddAttachment_Tooltip {
+            get {
+                return ResourceManager.GetString("AddAttachment_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Feature.
         /// </summary>
         internal static string AddFeature_Tooltip {
@@ -129,6 +138,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string ConditionDBH_UpdateError_Title {
             get {
                 return ResourceManager.GetString("ConditionDBH_UpdateError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete attachment.
+        /// </summary>
+        internal static string DeleteAttachment_Tooltip {
+            get {
+                return ResourceManager.GetString("DeleteAttachment_Tooltip", resourceCulture);
             }
         }
         
@@ -331,6 +349,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The attachment file you are trying to open could not be located. Please try restarting the application..
+        /// </summary>
+        internal static string FileNotFound_Message {
+            get {
+                return ResourceManager.GetString("FileNotFound_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File not found.
+        /// </summary>
+        internal static string FileNotFound_Title {
+            get {
+                return ResourceManager.GetString("FileNotFound_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string GenericAffirmativeButton_Content {
@@ -480,6 +516,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string NoSync_DeviceOffline_Message {
             get {
                 return ResourceManager.GetString("NoSync_DeviceOffline_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open attachment.
+        /// </summary>
+        internal static string OpenAttachment_Tooltip {
+            get {
+                return ResourceManager.GetString("OpenAttachment_Tooltip", resourceCulture);
             }
         }
         

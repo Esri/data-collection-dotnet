@@ -2,16 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-            <converters:MatchingValueParameterToVisibilityConverter x:Key="MatchingValueParameterToVisibilityConverter"/>
             <converters:LocalizationConverter x:Key="LocalizationConverter"/>
-            <converters:DebugConverter x:Key="DebugConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -28,15 +25,17 @@
                             <ColumnDefinition Width="140" />
                             <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>
-
-                        <Border BorderThickness="1" BorderBrush="Black"  Margin="10" Height="50" Width="50" Grid.Column="0">
-                            <Image Source="{Binding Thumbnail}" MaxHeight="50" MaxWidth="50"  MouseDown="Image_MouseDown"/>
-                        </Border>
+                        <Button Margin="10" Height="50" Width="50" Grid.Column="0" CommandParameter="{Binding Attachment}" ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}"
+                                        Command="{Binding DataContext.AttachmentsViewModel.OpenAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" >
+                            <Button.Content>
+                                <Image Source="{Binding Thumbnail}"/>
+                            </Button.Content>
+                        </Button>
                         <TextBlock Text="{Binding Attachment.Name}" Padding="5" TextWrapping="Wrap" VerticalAlignment="Center" MaxWidth="150" Grid.Column="1"/>
                         <Button Content="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" Grid.Column="2"
-                                Visibility="{Binding DataContext.IdentifiedFeatureViewModel.EditViewModel, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}"
-                                        HorizontalAlignment="Right" Command="{Binding DataContext.AttachmentsViewModel.DeleteAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding Attachment}"/>
-
+                                    Visibility="{Binding DataContext.EditViewModel, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}"
+                                    HorizontalAlignment="Right" Command="{Binding DataContext.AttachmentsViewModel.DeleteAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding Attachment}"
+                                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -46,61 +45,5 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-
-        <!--<Grid Background="Green" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="50"/>
-            </Grid.ColumnDefinitions>
-            <Button Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding EditFeatureCommand}" 
-                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"/>
-            <Button Content="&#xE74d;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="2" Command="{Binding DataContext.DeleteFeatureCommand, 
-                        RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" 
-                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"/>
-            <Button Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10, 0, 10, 0" Style="{StaticResource MenuButtonStyle}" Click="BrowseButton_Click">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="10" VerticalAlignment="Bottom" />
-                        <TextBlock Text="&#xE723;" FontFamily="Segoe MDL2 Assets" FontSize="18" />
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-        </Grid>-->
-
-        <!-- Grid to edit attachments -->
-        <!--<Grid Background="White" Visibility="{Binding AttachmentsViewModel.AttachmentMode, Converter={StaticResource MatchingValueParameterToVisibilityConverter}, ConverterParameter=Edit}" Width="300" Height="270">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="40"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Add Attachment" Foreground="White" FontSize="20" Padding="15, 10, 5, 5" Background="Green" Grid.Row="0"/>
-            <StackPanel Orientation="Vertical" Grid.Row="1">
-                <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1" VerticalAlignment="Top" MaxHeight="100" MaxWidth="100" Margin="5">
-                    <Image Source="{Binding AttachmentsViewModel.SelectedAttachment.LocalFilePath, Mode=TwoWay}"/>
-                </Border>
-                <TextBlock Text="Attachment Title" FontSize="12" FontWeight="Bold" Margin=" 10,10,0,0"/>
-                <TextBox Text="{Binding AttachmentsViewModel.SelectedAttachment.Name, Mode=TwoWay}" Margin="10, 5, 10, 5"/>
-            </StackPanel>
-            <Grid Grid.Row="2" Background="Green">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="50"/>
-                </Grid.ColumnDefinitions>
-                <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" Command="{Binding AttachmentsViewModel.SaveAttachmentCommand}"
-                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"/>
-                <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                        HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" 
-                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <ei:ChangePropertyAction TargetObject="{Binding AttachmentsViewModel}" PropertyName="AttachmentMode" Value="View"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                </Button>
-            </Grid>
-        </Grid>-->
     </Grid>
 </UserControl>

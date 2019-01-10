@@ -22,6 +22,7 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -146,6 +147,34 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
             TreeSurveyWorkflows.NeighborhoodOperationalLayerId = Settings.Default.NeighborhoodOperationalLayerId;
             TreeSurveyWorkflows.NeighborhoodAttribute = Settings.Default.NeighborhoodAttribute;
             TreeSurveyWorkflows.AddressAttribute = Settings.Default.AddressAttribute;
+        }
+
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (var dialog = new OpenFileDialog())
+            {
+
+                var extensionStringBuilder = new StringBuilder("Supported files() |");
+
+                // create list of supported file for the dialog filter
+                foreach (var extension in FileExtensionHelper.AllowedExtensions)
+                {
+                    extensionStringBuilder.Replace(") |", string.Format(" *{0},) |", extension.Key));
+                    extensionStringBuilder.Append(string.Format(" *{0};", extension.Key));
+                }
+
+                // list of file types supported as attachments
+                // https://developers.arcgis.com/rest/services-reference/query-attachments-feature-service-layer-.htm
+
+                dialog.Filter = extensionStringBuilder.ToString();
+                dialog.Title = "Please select a file to add as attachment.";
+                var result = dialog.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(dialog.FileName, BroadcastMessageKey.NewAttachmentFile);
+                }
+            }
         }
     }
 }

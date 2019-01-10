@@ -6,32 +6,75 @@
              xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
              xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters"
              xmlns:local="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <converters:LocalizationConverter x:Key="LocalizationConverter"/>
             <localconverters:MultivalueCommandParameterConverter x:Key="MultivalueCommandParameterConverter"/>
             <local:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector"/>
             <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="../ResourceDictionary.xaml"/>
-        </ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid DataContext="{Binding IdentifiedFeatureViewModel}">
-        <!-- Popup user control in View Mode -->
-        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  CanContentScroll="True" PanningMode="VerticalOnly"
-                       Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top tabs for details and attachments -->
+        <Grid  Grid.Row="0" Visibility="{Binding FeatureTable.HasAttachments, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*"/>
+                <ColumnDefinition Width=".5*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Details" x:Name="DetailsModeButton" FontSize="18" Style="{StaticResource MenuButtonStyle}" Grid.Column="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Visible"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Collapsed"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="White"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button Name="AttachmentsModeButton" Content="Attachments" FontSize="18" FontWeight="Light" Foreground="GhostWhite" Style="{StaticResource MenuButtonStyle}" Grid.Column="1">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Collapsed"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Visible"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="White"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </Grid>
+
+        <!-- Attribute information for the identified feature -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"  CanContentScroll="True" PanningMode="VerticalOnly"
+                      Grid.Row="1" x:Name="DetailsView">
             <Grid Background="White">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                 <!--List of attributes from identified feature-->
-                <ItemsControl ItemsSource="{Binding PopupManager.DisplayedFields}" Grid.Row="0" Margin="3">
+                <!-- View Mode -->
+                <!--List of attributes from identified feature-->
+                <ItemsControl ItemsSource="{Binding PopupManager.DisplayedFields}" Grid.Row="0" Margin="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -42,8 +85,9 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
+                <!-- View Mode -->
                 <!--List of relationships where identified feature is destination-->
-                <ItemsControl ItemsSource="{Binding DestinationRelationships}" HorizontalContentAlignment="Stretch" Grid.Row="1" Margin="3">
+                <ItemsControl ItemsSource="{Binding DestinationRelationships}" HorizontalContentAlignment="Stretch" Grid.Row="1" Margin="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}">
@@ -71,8 +115,9 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
+                <!-- View Mode -->
                 <!--List of relationships where identified feature is origin-->
-                <ItemsControl ItemsSource="{Binding OriginRelationships}" HorizontalContentAlignment="Stretch" Grid.Row="2" Margin="5">
+                <ItemsControl ItemsSource="{Binding OriginRelationships}" HorizontalContentAlignment="Stretch" Grid.Row="2" Margin="5" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
@@ -126,23 +171,15 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </Grid>
-        </ScrollViewer>
-        
-         <!--Popup user control in Edit Mode-->
-        <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-            <Grid  Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
 
+                <!-- Edit Mode -->
+                <!--List of attributes from identified feature-->
                 <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" 
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Margin="3"/>
-
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Margin="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"/>
+                
+                <!-- Edit Mode -->
                 <!--List of relationships where identified feature is destination-->
-                <ItemsControl ItemsSource="{Binding DestinationRelationships}" Grid.Row="1" Margin="3">
+                <ItemsControl ItemsSource="{Binding DestinationRelationships}" Grid.Row="1" Margin="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -166,8 +203,41 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-               
+
             </Grid>
         </ScrollViewer>
+
+        <!-- Attachments view -->
+        <views:AttachmentsView x:Name="AttachmentsView" Grid.Row="1" DataContext="{Binding .}" Visibility="Collapsed"/>
+
+        <!-- Bottom buttons to edit or delete record -->
+        <Grid Background="Green" Grid.Row="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                            HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding EditFeatureCommand}" 
+                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"/>
+            <Button Content="&#xE74d;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                            HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" Command="{Binding DataContext.DeleteFeatureCommand, 
+                            RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" 
+                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"/>
+        </Grid>
+
+        <!-- Bottom buttons to save or discard changes to record -->
+        <Grid Background="Green" Grid.Row="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                    HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding SaveEditsCommand}" 
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"/>
+            <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                    HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" 
+                        Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding .}" 
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"/>
+        </Grid>
     </Grid>
 </UserControl>

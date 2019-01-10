@@ -26,8 +26,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MobileMapPackageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessengerEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\AttachmentMode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\AttachmentWithEditableProperties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AttachmentWithThumbnail.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BroadcastMessageKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConnectivityMode.cs" />

@@ -14,14 +14,9 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
-using System.IO;
-using System.Text;
+using Esri.ArcGISRuntime.Mapping.Popups;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
 {
@@ -35,64 +30,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
             InitializeComponent();
         }
 
-        private void BrowseButton_Click(object sender, System.Windows.RoutedEventArgs e)
+
+        /// <summary>
+        /// Creates a PopupManager property
+        /// </summary>
+        public static readonly DependencyProperty PopupManagerProperty = DependencyProperty.Register(
+            "PopupManager", typeof(PopupManager), typeof(AttachmentsView), new PropertyMetadata(null, OnPopupManagerChanged));
+
+        /// <summary>
+        /// Invoked when the  ViewPoint value has changed
+        /// </summary>
+        private static void OnPopupManagerChanged(DependencyObject bindable, DependencyPropertyChangedEventArgs e)
         {
-            using (var dialog = new System.Windows.Forms.OpenFileDialog())
+            if (e.NewValue is PopupManager)
             {
-                // TODO: Remove tight coupling by setting this property from the view
-                var dataContext = ((MainViewModel)DataContext).AttachmentsViewModel;
-
-                var extensionStringBuilder = new StringBuilder("Supported files() |");
-
-                // create list of supported file for the dialog filter
-                foreach(var extension in FileExtensionHelper.AllowedExtensions)
-                {
-                    extensionStringBuilder.Replace(") |", string.Format(" *{0},) |", extension.Key));
-                    extensionStringBuilder.Append(string.Format(" *{0};", extension.Key));
-                }
-
-                // list of file types supported as attachments
-                // https://developers.arcgis.com/rest/services-reference/query-attachments-feature-service-layer-.htm
-
-                dialog.Filter = extensionStringBuilder.ToString();
-                dialog.Title = "Please select a file to add as attachment.";
-                var result = dialog.ShowDialog();
-
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(dialog.FileName, BroadcastMessageKey.NewAttachmentFile);
-                    dataContext.AttachmentMode = AttachmentMode.Edit;
-                }
+                var x = e.NewValue;
             }
         }
 
-
-        /// <summary>
-        /// Event handler for user clicking the attachment to open it
-        /// </summary>
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        public PopupManager PopupManager
         {
-            var image = sender as Image;
-            var attachment = ((AttachmentWithThumbnail)image.DataContext).Attachment;
-
-            var newFileName = attachment.Filename + Path.GetExtension(attachment.Name);
-
-            // if the file exists, rename it to contain the proper extension
-            if (File.Exists(attachment.Filename))
-            {
-                File.Move(attachment.Filename, newFileName);
-            }
-
-            // if the renamed file exists, open it in the user's preferred application
-            if (File.Exists(newFileName))
-            {
-                System.Diagnostics.Process.Start(newFileName);
-            }
-            else
-            {
-                UserPromptMessenger.Instance.RaiseMessageValueChanged("File not found", "The attachment file you are trying to open could not be located. Please try restarting the application.", true);
-                return;
-            }
+            get { return GetValue(PopupManagerProperty) as PopupManager; }
+            set { SetValue(PopupManagerProperty, value); }
         }
     }
 }

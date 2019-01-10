@@ -58,10 +58,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     DownloadPath = l.Args.Value?.ToString();
                 }
-                else if (l.Args.Key == BroadcastMessageKey.AttachmentViewModelCreated)
-                {
-                    AttachmentsViewModel = l.Args.Value as AttachmentsViewModel;
-                }
             };
 
             // Initialize the identify controller
@@ -215,24 +211,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 if (_editViewModel != value)
                 {
                     _editViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private AttachmentsViewModel _attachmentsViewModel;
-
-        /// <summary>
-        /// Gets or sets the viewmodel for the currently selected attachments
-        /// </summary>
-        public AttachmentsViewModel AttachmentsViewModel
-        {
-            get => _attachmentsViewModel;
-            set
-            {
-                if (_attachmentsViewModel != value)
-                {
-                    _attachmentsViewModel = value;
                     OnPropertyChanged();
                 }
             }
@@ -682,7 +660,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     await TreeSurveyWorkflows.UpdateIdentifiedFeature(
                                         IdentifiedFeatureViewModel.SelectedOriginRelationship.OriginRelatedRecords,
                                         IdentifiedFeatureViewModel.Feature,
-                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.SelectedRecordPopupManager);
+                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager);
 
                                     IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                                 }
@@ -714,7 +692,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         }                      
                         else if (x is OriginRelationshipViewModel)
                         {
-                            var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.SelectedRecordPopupManager?.Popup?.GeoElement as ArcGISFeature;
+                            var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
 
                             if (feature != null && IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
                             {

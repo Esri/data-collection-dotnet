@@ -46,13 +46,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 FeatureTable = featureTable;
                 ConnectivityMode = connectivityMode;
 
-                // fetch attachments to display count
-                PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(async t => 
+                // fetch attachments
+                PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t =>
                 {
                     // create a new AttachmentsViewModel to display the attachments to the user
-                    var attachmentsViewModel = new AttachmentsViewModel(PopupManager, Feature.FeatureTable);
-                    //await attachmentsViewModel.InitializeAsync();
-                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(attachmentsViewModel, BroadcastMessageKey.AttachmentViewModelCreated);
+                    AttachmentsViewModel = new AttachmentsViewModel(PopupManager, Feature.FeatureTable);
                 });
             }
         }
@@ -130,6 +128,21 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
+        private AttachmentsViewModel _attachmentsViewModel;
+
+        /// <summary>
+        /// Gets or sets the AttachmentViewModel to handle viewing and editing attachments 
+        /// </summary>
+        public AttachmentsViewModel AttachmentsViewModel
+        {
+            get { return _attachmentsViewModel; }
+            set
+            {
+                _attachmentsViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Gets the feature currently selected
         /// </summary>
@@ -201,7 +214,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             if (parameterArray[0] is OriginRelationshipViewModel && parameterArray[1] is PopupManager)
                             {
                                 SelectedOriginRelationship = (OriginRelationshipViewModel)parameterArray[0];
-                                SelectedOriginRelationship.SelectedRecordPopupManager = (PopupManager)parameterArray[1];
+                                SelectedOriginRelationship.PopupManager = (PopupManager)parameterArray[1];
                             }
                         }
                     }));
@@ -327,14 +340,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     await ((ArcGISFeature)feature).LoadAsync();
 
                                     // get the corresponding PopupManager
-                                    SelectedOriginRelationship.SelectedRecordPopupManager = new PopupManager(new Popup(feature, SelectedOriginRelationship.RelatedTable.PopupDefinition));
+                                    SelectedOriginRelationship.PopupManager = new PopupManager(new Popup(feature, SelectedOriginRelationship.RelatedTable.PopupDefinition));
 
                                     // related new record to the feature
                                     ((ArcGISFeature)feature).RelateFeature((ArcGISFeature)Feature, SelectedOriginRelationship.RelationshipInfo);
 
                                     // open editor and finish creating the feature
                                     SelectedOriginRelationship.EditViewModel = new EditViewModel(ConnectivityMode);
-                                    SelectedOriginRelationship.EditViewModel.CreateFeature(null, (ArcGISFeature)feature, SelectedOriginRelationship.SelectedRecordPopupManager);
+                                    SelectedOriginRelationship.EditViewModel.CreateFeature(null, (ArcGISFeature)feature, SelectedOriginRelationship.PopupManager);
                                 }
                             }
                             catch (Exception ex)

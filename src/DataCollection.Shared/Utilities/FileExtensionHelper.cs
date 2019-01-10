@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
 {
@@ -41,12 +42,21 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
             return AllowedExtensions.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
         }
 
+        public static string GetExtensionFromType(string type)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            return AllowedExtensions.FirstOrDefault(x => x.Value.ToLower() == type.ToLower()).Key;
+        }
+
         /// <summary>
         /// Dictionary with extensions and mime type mappings
         /// </summary>
         public static IDictionary<string, string> AllowedExtensions = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
         {
-            // TODO: Move these into a file
             {".bmp", "image/bmp"},
             {".ecw", "application/x-ImageWebServer-ecw"},
             {".emf", "application/emf"},
@@ -62,15 +72,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
             {".jpeg", "image/jpeg"},
             {".jpe", "image/jpeg"},
             {".png", "image/png"},
-            {".psd", "application/octet-stream"},
+            {".psd", "application/x-photoshop"},
             {".raw", "image/x-dcraw"},
-            {".sid", "audio/x-psid"}, // not sure about this one
+            {".sid", "audio/x-psid"}, 
             {".tif", "image/tiff"},
             {".tiff", "image/tiff"},
             {".wmf", "windows/metafile"},
             {".wps", "application/vnd.ms-works"},
             {".avi", "video/avi"},
-            {".mpg", "video/mpeg"}, // this could also be audio/mpeg, test it out
+            {".mpg", "video/mpeg"}, 
             {".mpe", "video/mpeg"},
             {".mpeg", "video/mpeg"},
             {".mov", "video/quicktime"},
@@ -78,8 +88,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
             {".aif", "audio/aiff"},
             {".mid", "audio/midi"},
             {".rmi", "audio/mid"},
-            {".mp2", "video/mpeg"}, // this could also be audio/mpeg, test it out
-            {".mp3", "video/mpeg"}, // this could also be audio/mpeg, test it out
+            {".mp2", "video/mpeg"}, 
+            {".mp3", "video/mpeg"}, 
             {".mp4", "video/mp4"},
             {".pma", "application/x-perfmon"},
             {".mp2v", "video/mpeg2"},
@@ -109,7 +119,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
             {".json", "application/json"},
             {".xml", "application/xml"},
             {".mdb", "application/msaccess"},
-            {".geodatabase", "???"},
+            {".geodatabase", "application/octet-stream"},
         };
     }
 }

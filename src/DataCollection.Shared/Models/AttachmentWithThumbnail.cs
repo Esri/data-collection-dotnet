@@ -14,22 +14,22 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using Esri.ArcGISRuntime.UI;
 using System;
-using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 {
-    class AttachmentWithThumbnail
+    public class AttachmentWithThumbnail
     {
         /// <summary>
         /// Gets or sets the Thumbnail image for the attachment 
         /// </summary>
-        public BitmapImage Thumbnail { get; private set; }
+        public ImageSource Thumbnail { get; private set; }
 
         /// <summary>
         /// Gets or sets the attachment metadata 
@@ -43,57 +43,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 
             switch (Attachment.Type)
             {
+                // create thumbnail for the image attachments
                 case PopupAttachmentType.Image:
                     try
                     {
-                        // this is a workaround to generating thumbnails as CreateThumbnailAsyncdoesn't work
-                        // TODO: replace with CreateThumbnailAsync() when fixed
-                        var rtImage = await attachment.CreateFullImageAsync();
-                        var image = await GetImageAsync(rtImage);
-                        Dispatcher.CurrentDispatcher.Invoke(() => Thumbnail = image);
+                        var rtImage = await attachment.CreateThumbnailAsync(50, 50);
+                        Thumbnail = await rtImage.ToImageSourceAsync();
+                        Thumbnail?.Freeze();
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        //TODO: show an error image if unable to retrieve attachment
+                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                     }
                     break;
+
+                // use placeholder image for the rest of the attachments
                 case PopupAttachmentType.Video:
                 case PopupAttachmentType.Document:
                 default:
-                    await attachment.LoadAsync();
-                    var defaultImage = new BitmapImage(new Uri("pack://application:,,,/Images/PlaceholderThumbnail.png"));
-                    defaultImage.Freeze();
-                    Dispatcher.CurrentDispatcher.Invoke(() => Thumbnail = defaultImage);
-                    
+                    Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/PlaceholderThumbnail.png"));
+                    Thumbnail?.Freeze();
                     break;
             }
-
-
-        }
-
-        /// <summary>
-        /// Method to get BitmapImage from RuntimeImage
-        /// </summary>
-        private async Task<BitmapImage> GetImageAsync(RuntimeImage rtImage)
-        {
-            if (rtImage != null)
-            {
-                if (rtImage.LoadStatus != LoadStatus.Loaded)
-                {
-                    await rtImage.LoadAsync();
-                }
-
-                var stream = await rtImage.GetEncodedBufferAsync();
-                var image = new BitmapImage();
-                image.BeginInit();
-                stream.Seek(0, SeekOrigin.Begin);
-                image.StreamSource = stream;
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.EndInit();
-                image.Freeze();
-                return image;
-            }
-            return null;
         }
     }
 }

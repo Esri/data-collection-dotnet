@@ -16,7 +16,6 @@
 
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
@@ -25,15 +24,27 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    class AttachmentsViewModel : BaseViewModel
+    public class AttachmentsViewModel : BaseViewModel
     {
         private FeatureTable _featureTable;
         private PopupManager _popupManager;
+
+        public PopupManager PopupManager
+        {
+            get => _popupManager;
+            set
+            {
+                _popupManager = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AttachmentsViewModel"/> class.
@@ -45,26 +56,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             _featureTable = featureTable;
             _popupManager = popupManager;
 
-            AttachmentMode = AttachmentMode.View;
             Attachments = new ObservableCollection<AttachmentWithThumbnail>();
 
-            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += (s, l) =>
-            {
-                // event handler for when a new attachment is selected through the view
-                if (l.Args.Key == BroadcastMessageKey.NewAttachmentFile && l.Args.Value != null)
-                {
-                    if (l.Args.Value != null)
-                    {
-                        var filePath = l.Args.Value.ToString();
-                        SelectedAttachment = new AttachmentWithEditableProperties()
-                        {
-                            Name = Path.GetFileName(filePath),
-                            Size = "300",
-                            LocalFilePath = filePath,
-                        };
-                    }
-                }
-            };
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += Instance_BroadcastMessengerValueChanged;
 
             LoadAttachments();
         }
@@ -79,60 +73,52 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         public PopupAttachmentManager AttachmentManager { get; private set; }
 
-        /// <summary>
-        /// Initialization code for the AttachmentsViewModel
-        /// </summary>
-        public async Task InitializeAsync()
-        {
-            await LoadAttachments();
-        }
 
-        private AttachmentMode _attachmentMode;
+        private ICommand _openAttachmentCommand;
 
         /// <summary>
-        /// Gets or sets the AttachmentMode which determines if the user is viewing, adding or editing an attachment
+        /// Gets the command to open the attachment the user tapped on
         /// </summary>
-        public AttachmentMode AttachmentMode
-        {
-            get => _attachmentMode;
-            set
-            {
-                _attachmentMode = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private AttachmentWithEditableProperties _selectedAttachment;
-
-        /// <summary>
-        /// Gets or sets the attachment that is selected and is being edited
-        /// </summary>
-        public AttachmentWithEditableProperties SelectedAttachment
-        {
-            get => _selectedAttachment;
-            set
-            {
-                if (_selectedAttachment != value)
-                {
-                    _selectedAttachment = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private ICommand _closeAttachmentsCommand;
-
-        /// <summary>
-        /// Gets the command to clear the attachments
-        /// </summary>
-        public ICommand CloseAttachmentsCommand
+        public ICommand OpenAttachmentCommand
         {
             get
             {
-                return _closeAttachmentsCommand ?? (_closeAttachmentsCommand = new DelegateCommand(
-                    (x) =>
+                return _openAttachmentCommand ?? (_openAttachmentCommand = new DelegateCommand(
+                    async (x) =>
                     {
-                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.AttachmentViewModelCreated);
+                        if (x != null && x is PopupAttachment attachment)
+                        {
+                            if (attachment.LoadStatus != LoadStatus.Loaded)
+                            {
+                                await attachment.LoadAsync();
+                            }
+
+                            // create file name from runtime attachment filename hash and the actual attachment name
+                            var runtimeFileHash = attachment.Filename.Split('.').FirstOrDefault();
+                            var newFileName = runtimeFileHash + "." + attachment.Name;
+
+                            // if the file exists, rename it to contain the proper extension
+                            if (File.Exists(attachment.Filename))
+                            {
+                                File.Move(attachment.Filename, newFileName);
+                            }
+
+                            // if the renamed file exists, open it in the user's preferred application
+                            if (File.Exists(newFileName))
+                            {
+#if WPF
+                                System.Diagnostics.Process.Start(newFileName);
+#endif
+                            }
+                            else
+                            {
+                                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                                     Resources.GetString("FileNotFound_Title"),
+                                     Resources.GetString("FileNotFound_Message"),
+                                     true);
+                                return;
+                            }
+                        }
                     }));
             }
         }
@@ -178,19 +164,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             {
                                 try
                                 {
-                                    // open popup manager for editing
-                                    //_popupManager.StartEditing();
-
-                                    // delete attachment
                                     AttachmentManager.DeleteAttachment(attachment);
 
-                                    // close popup manager editing session
-                                    //await _popupManager.FinishEditingAsync();
-
-                                    // apply edits to feature table
-                                    //await _featureTable.ApplyEdits();
-
-                                    // reload the attachments panel
+                                    // reload the attachments panel after deleting attachment
                                     await LoadAttachments();
                                 }
                                 catch (Exception ex)
@@ -203,49 +179,23 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private ICommand _saveAttachmentCommand;
-
         /// <summary>
-        /// Gets the command to save attachment that has been added
+        /// Event handler for when a new attachment is selected through the view
         /// </summary>
-        public ICommand SaveAttachmentCommand
+        private async void Instance_BroadcastMessengerValueChanged(object sender, BroadcastMessengerEventArgs e)
         {
-            get
+            if (e.Args.Key == BroadcastMessageKey.NewAttachmentFile && e.Args.Value != null)
             {
-                //THIS DOES NOT WORK. SUBMITTED BUG IN RUNTIME
-                return _saveAttachmentCommand ?? (_saveAttachmentCommand = new DelegateCommand(
-                    async (x) =>
-                    {
-                        if (SelectedAttachment != null)
-                        {
-                            // retrieve file extension
-                            var extension = Path.GetExtension(SelectedAttachment.LocalFilePath);
+                var filePath = e.Args.Value.ToString();
 
-                            // determine type based on extension
-                            var contentType = FileExtensionHelper.GetTypeFromExtension(extension);
+                //retrieve file extension
+                var extension = Path.GetExtension(filePath);
 
-                            // open popup manager for editing
-                            _popupManager.StartEditing();
+                // determine type based on extension
+                var contentType = FileExtensionHelper.GetTypeFromExtension(extension);
 
-                            try
-                            {
-                                AttachmentManager.AddAttachment(SelectedAttachment.LocalFilePath, contentType);
-                                await _popupManager.FinishEditingAsync();
-                                await _featureTable.ApplyEdits();
-                            }
-                            catch (Exception ex)
-                            {
-                                UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                            }
-
-                            SelectedAttachment = null;
-
-                            AttachmentMode = AttachmentMode.View;
-
-                            // reload the attachments panel
-                            await LoadAttachments();
-                        }
-                    }));
+                AttachmentManager.AddAttachment(filePath, contentType);
+                await LoadAttachments();
             }
         }
 
@@ -264,7 +214,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 var attachmentWithThumbnail = new AttachmentWithThumbnail();
                 await attachmentWithThumbnail.LoadAsync(attachment);
 
-                Attachments.Add(attachmentWithThumbnail);           
+                // add attachment to collection using the UI thread (for the binding to work)
+                Application.Current.Dispatcher.Invoke(new Action(() => { Attachments.Add(attachmentWithThumbnail); }));
             }
         }
     }
