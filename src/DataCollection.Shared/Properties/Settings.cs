@@ -49,6 +49,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                         // get settings file shipped with the app
 #if WPF
                         var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Configuration.xml";
+#elif NETFX_CORE
+                        var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Configuration.xml";
 #endif
                         // create stream and deserialize into a Settings object
                         var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath);

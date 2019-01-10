@@ -22,9 +22,15 @@ using Esri.ArcGISRuntime.Portal;
 using Esri.ArcGISRuntime.Security;
 using System;
 using System.Net;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Input;
+#if NETFX_CORE
+using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.DataProtection;
+#elif WPF
+using System.Security.Cryptography;
+#endif
+
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -195,16 +201,21 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             else
             {
                 // unprotect the refresh token
-                var token = ProtectedData.Unprotect(
+#if WPF
+                var byteToken = ProtectedData.Unprotect(
                       Convert.FromBase64String(_oAuthRefreshToken),
                       null,
                       DataProtectionScope.CurrentUser);
 
+                var token = System.Text.Encoding.Unicode.GetString(byteToken);
+#elif NETFX_CORE
+                var token = await UnprotectRefreshTokenForUWP(_oAuthRefreshToken);
+#endif
                 // set up credential using the refresh token
                 credential = new OAuthTokenCredential()
                 {
                     ServiceUri = info.ServiceUri,
-                    OAuthRefreshToken = System.Text.Encoding.Unicode.GetString(token),
+                    OAuthRefreshToken = token,
                     GenerateTokenOptions = info.GenerateTokenOptions
                 };
 
@@ -236,12 +247,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 if (!string.IsNullOrEmpty(credential.OAuthRefreshToken))
                 {
+#if WPF
                     var token = ProtectedData.Protect(
                             System.Text.Encoding.Unicode.GetBytes(credential.OAuthRefreshToken),
                             null,
                             DataProtectionScope.CurrentUser);
-
                     BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(Convert.ToBase64String(token), BroadcastMessageKey.OAuthRefreshToken);
+#elif NETFX_CORE
+                    var token = await ProtectRefreshTokenForUWP(credential.OAuthRefreshToken);
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(token, BroadcastMessageKey.OAuthRefreshToken);
+
+#endif
+
                 }
                 else
                 {
@@ -282,6 +299,40 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(Resources.GetString("AuthError_Title"), ex.Message, true, ex.StackTrace);
             }
         }
+
+#if NETFX_CORE
+        private async Task<string> ProtectRefreshTokenForUWP(string refreshToken)
+        {
+            var descriptor = "LOCAL=user";
+            var encoding = BinaryStringEncoding.Utf8;
+
+            // Create a DataProtectionProvider object for the specified descriptor.
+            var provider = new DataProtectionProvider(descriptor);
+
+            // Encode the plaintext input to a buffer.
+            var buffer = CryptographicBuffer.ConvertStringToBinary(refreshToken, encoding);
+
+            // Encrypt the message.
+            var token = await provider.ProtectAsync(buffer);
+
+            return token.ToString();
+        }
+
+        private async Task<string> UnprotectRefreshTokenForUWP(string token)
+        {
+            var encoding = BinaryStringEncoding.Utf8;
+
+            // Create a DataProtectionProvider object.
+            var provider = new DataProtectionProvider();
+
+            // Encode the plaintext input to a buffer.
+            var buffer = CryptographicBuffer.ConvertStringToBinary(token, encoding);
+
+            var unprotectedToken = await provider.UnprotectAsync(buffer);
+
+            return unprotectedToken.ToString();
+        }
+#endif
     }
 }
 

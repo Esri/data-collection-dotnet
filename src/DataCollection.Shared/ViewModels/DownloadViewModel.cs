@@ -29,7 +29,7 @@ using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    class DownloadViewModel : BaseViewModel
+    public class DownloadViewModel : BaseViewModel
     {
         public DownloadViewModel(Map map, string downloadPath)
         {
