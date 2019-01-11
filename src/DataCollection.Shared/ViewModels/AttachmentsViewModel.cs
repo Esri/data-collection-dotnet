@@ -32,7 +32,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
     public class AttachmentsViewModel : BaseViewModel
     {
-        private FeatureTable _featureTable;
         private PopupManager _popupManager;
 
         public PopupManager PopupManager
@@ -50,14 +49,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         public AttachmentsViewModel(PopupManager popupManager, FeatureTable featureTable)
         {
-            AttachmentManager = popupManager.AttachmentManager;
+            if (popupManager != null)
+            {
+                AttachmentManager = popupManager.AttachmentManager;
 
-            _featureTable = featureTable;
-            _popupManager = popupManager;
+                _popupManager = popupManager;
 
-            Attachments = new ObservableCollection<AttachmentWithThumbnail>();
+                Attachments = new ObservableCollection<AttachmentWithThumbnail>();
 
-            LoadAttachments();
+                LoadAttachments();
+            }
         }
 
         /// <summary>
@@ -103,6 +104,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             if (File.Exists(newFileName))
                             {
 #if WPF
+                                // in WPF, let Windows open the file with the application the user has set as default
                                 System.Diagnostics.Process.Start(newFileName);
 #endif
                             }

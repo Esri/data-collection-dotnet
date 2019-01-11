@@ -16,42 +16,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
 {
     public static class FileExtensionHelper
     {
-        /// <summary>
-        /// Method to retrieve mime type from extension
-        /// </summary>
-        public static string GetTypeFromExtension(string extension)
-        {
-            if (extension == null)
-            {
-                throw new ArgumentNullException("extension");
-            }
-
-            if (!extension.StartsWith("."))
-            {
-                extension = "." + extension;
-            }
-
-            string mime;
-
-            return AllowedExtensions.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
-        }
-
-        public static string GetExtensionFromType(string type)
-        {
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
-
-            return AllowedExtensions.FirstOrDefault(x => x.Value.ToLower() == type.ToLower()).Key;
-        }
-
         /// <summary>
         /// Dictionary with extensions and mime type mappings
         /// </summary>

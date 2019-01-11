@@ -13,8 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\MapViewExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\LocationDisplayController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\DebugConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\MatchingValueParameterToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
@@ -39,7 +37,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PopupManagerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\AppRules.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptResponseChangedEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\FeatureViewMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FieldContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\Resources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\Settings.cs" />

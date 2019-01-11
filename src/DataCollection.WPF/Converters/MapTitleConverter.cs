@@ -32,7 +32,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters
         /// </summary>
         object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is string)
+            if (values != null && values[0] is string)
             {
                 if (string.IsNullOrEmpty(values[0].ToString()))
                     return values[1];

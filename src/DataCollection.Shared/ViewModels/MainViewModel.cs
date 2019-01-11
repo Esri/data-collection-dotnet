@@ -579,7 +579,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);
 
                                     // create the feature and its corresponding viewmodel
-                                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ((FeatureLayer)layer).FeatureTable, ConnectivityMode)
+                                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode)
                                     {
                                         EditViewModel = new EditViewModel(ConnectivityMode)
                                     };
@@ -744,7 +744,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     }
 
                     // set the viewmodel for the feature
-                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, feature.FeatureTable, ConnectivityMode);
+                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode);
 
                     // Call method to set up relationship info
                     await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature);

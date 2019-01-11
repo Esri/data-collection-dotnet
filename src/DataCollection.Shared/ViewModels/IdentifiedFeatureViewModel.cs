@@ -36,14 +36,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentifiedFeatureViewModel"/> class.
         /// </summary>
-        public IdentifiedFeatureViewModel(Feature feature, FeatureTable featureTable, ConnectivityMode connectivityMode)
+        public IdentifiedFeatureViewModel(Feature feature, ConnectivityMode connectivityMode)
         {
             if (feature != null)
             {
                 Feature = feature;
-                PopupManager = new PopupManager(new Popup(feature, featureTable.PopupDefinition));
+                FeatureTable = feature.FeatureTable;
+                PopupManager = new PopupManager(new Popup(feature, FeatureTable.PopupDefinition));
                 Fields = FieldContainer.GetFields(PopupManager);
-                FeatureTable = featureTable;
                 ConnectivityMode = connectivityMode;
 
                 // fetch attachments
@@ -188,11 +188,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _setSelectedDestinationRelationshipCommand ?? (_setSelectedDestinationRelationshipCommand = new DelegateCommand(
                     (x) =>
                     {
-                        if (x is DestinationRelationshipViewModel)
+                        if (x is DestinationRelationshipViewModel destinationRelationshipViewModel)
                         {
-                            SelectedDestinationRelationship = (DestinationRelationshipViewModel)x;
+                            SelectedDestinationRelationship = destinationRelationshipViewModel;
                         }
-
                     }));
             }
         }
@@ -369,7 +368,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             OriginRelationships.Clear();
 
             // get RelationshipInfos from the table
-            var relationshipInfos = feature.FeatureTable.GetRelationshipInfos(feature);
+            var relationshipInfos = feature.FeatureTable.GetRelationshipInfos();
 
             // query only the related tables which match the application rules
             // save destination and origin type relationships separately as origin relates features are editable in the app

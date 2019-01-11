@@ -61,7 +61,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
         /// <summary>
         /// Retrieves all relationship infos for a table
         /// </summary>
-        internal static IReadOnlyList<RelationshipInfo> GetRelationshipInfos(this FeatureTable featureTable, Feature feature)
+        internal static IReadOnlyList<RelationshipInfo> GetRelationshipInfos(this FeatureTable featureTable)
         {
             if (featureTable is ServiceFeatureTable serviceFeatureTable)
             {

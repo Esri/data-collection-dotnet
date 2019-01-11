@@ -14,8 +14,6 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.Mapping.Popups;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
@@ -28,30 +26,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
         public AttachmentsView()
         {
             InitializeComponent();
-        }
-
-
-        /// <summary>
-        /// Creates a PopupManager property
-        /// </summary>
-        public static readonly DependencyProperty PopupManagerProperty = DependencyProperty.Register(
-            "PopupManager", typeof(PopupManager), typeof(AttachmentsView), new PropertyMetadata(null, OnPopupManagerChanged));
-
-        /// <summary>
-        /// Invoked when the  ViewPoint value has changed
-        /// </summary>
-        private static void OnPopupManagerChanged(DependencyObject bindable, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is PopupManager)
-            {
-                var x = e.NewValue;
-            }
-        }
-
-        public PopupManager PopupManager
-        {
-            get { return GetValue(PopupManagerProperty) as PopupManager; }
-            set { SetValue(PopupManagerProperty, value); }
         }
     }
 }

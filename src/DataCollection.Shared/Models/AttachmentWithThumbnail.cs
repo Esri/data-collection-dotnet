@@ -40,7 +40,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
         {
             Attachment = attachment;
 
-
             switch (Attachment.Type)
             {
                 // create thumbnail for the image attachments
