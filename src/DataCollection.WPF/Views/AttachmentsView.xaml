@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <!-- Wrap panel containing attachment thumbnails -->
+        <!-- Wrap panel containing attachment thumbnails and names -->
         <ItemsControl Background="White" ItemsSource="{Binding AttachmentsViewModel.Attachments}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -39,11 +39,6 @@
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
         </ItemsControl>
     </Grid>
 </UserControl>

@@ -19,7 +19,6 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.ObjectModel;
@@ -58,8 +57,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             Attachments = new ObservableCollection<AttachmentWithThumbnail>();
 
-            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += Instance_BroadcastMessengerValueChanged;
-
             LoadAttachments();
         }
 
@@ -72,7 +69,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// Gets or sets the attachment manager for the feature
         /// </summary>
         public PopupAttachmentManager AttachmentManager { get; private set; }
-
 
         private ICommand _openAttachmentCommand;
 
@@ -176,26 +172,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             }
                         }
                     }));
-            }
-        }
-
-        /// <summary>
-        /// Event handler for when a new attachment is selected through the view
-        /// </summary>
-        private async void Instance_BroadcastMessengerValueChanged(object sender, BroadcastMessengerEventArgs e)
-        {
-            if (e.Args.Key == BroadcastMessageKey.NewAttachmentFile && e.Args.Value != null)
-            {
-                var filePath = e.Args.Value.ToString();
-
-                //retrieve file extension
-                var extension = Path.GetExtension(filePath);
-
-                // determine type based on extension
-                var contentType = FileExtensionHelper.GetTypeFromExtension(extension);
-
-                AttachmentManager.AddAttachment(filePath, contentType);
-                await LoadAttachments();
             }
         }
 
