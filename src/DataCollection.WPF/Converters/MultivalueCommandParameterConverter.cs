@@ -27,7 +27,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters
     {
         object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values ?? values.Clone();
+            return values.Clone();
         }
 
         object[] IMultiValueConverter.ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

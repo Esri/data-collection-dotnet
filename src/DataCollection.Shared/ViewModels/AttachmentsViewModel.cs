@@ -181,7 +181,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// Loads attachments from the attachments manager
         /// This method is also called when an attachment is added or removed to refresh the list 
         /// </summary>
-        private async Task LoadAttachments()
+        internal async Task LoadAttachments()
         {
             // clear any existing attachments in the collection
             Attachments.Clear();

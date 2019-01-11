@@ -680,11 +680,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _cancelEditsCommand ?? (_cancelEditsCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         if (x is IdentifiedFeatureViewModel)
                         {
-                            if (IdentifiedFeatureViewModel.DiscardChanges() &&
+                            if (await IdentifiedFeatureViewModel.DiscardChanges() &&
                             IdentifiedFeatureViewModel.Feature.IsNewFeature())
                             {
                                 IdentifiedFeatureViewModel = null;
@@ -694,7 +694,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         {
                             var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
 
-                            if (feature != null && IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
+                            if (feature != null && await IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
                             {
                                 IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                             }

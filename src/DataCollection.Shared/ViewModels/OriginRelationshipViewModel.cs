@@ -287,7 +287,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Discards edits performed on a related record 
         /// </summary>
-        internal bool DiscardChanges()
+        internal async Task<bool> DiscardChanges()
         {
             if (PopupManager.HasEdits())
             {
@@ -322,6 +322,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // cancel the edits if the PopupManager doesn't have any edits or if the user chooses to
             EditViewModel.CancelEdits(PopupManager);
             EditViewModel = null;
+            await AttachmentsViewModel.LoadAttachments();
             return true;
         }
 
