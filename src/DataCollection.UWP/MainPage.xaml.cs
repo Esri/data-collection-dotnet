@@ -18,7 +18,7 @@ using Esri.ArcGISRuntime.UI;
 using Esri.ArcGISRuntime.UI.Controls;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
 
-namespace DataCollection.UWP
+namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
 {
 	/// <summary>
 	/// A map page that can be used on its own or navigated to within a Frame.

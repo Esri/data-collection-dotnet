@@ -21,6 +21,10 @@ using System.IO;
 using System.Xml.Serialization;
 using static System.Environment;
 
+#if NETFX_CORE
+using Windows.Storage;
+#endif
+
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
 {
     // Singleton class to provide access to settings from Configuration.xml
@@ -30,7 +34,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         private static Settings _instance;
 
         // set the path on disk for the settings file
+#if WPF
         private static string _settingsPath = Path.Combine(GetFolderPath(SpecialFolder.ApplicationData), "DataCollectionSettings.xml");
+#elif NETFX_CORE
+        private static string _settingsPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "DataCollectionSettings.xml");
+#endif
 
         /// <summary>
         /// Default instance of the <see cref="Settings"/> class
@@ -50,7 +58,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
 #if WPF
                         var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Configuration.xml";
 #elif NETFX_CORE
-                        var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Configuration.xml";
+                        var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Properties.Configuration.xml";
 #endif
                         // create stream and deserialize into a Settings object
                         var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath);
