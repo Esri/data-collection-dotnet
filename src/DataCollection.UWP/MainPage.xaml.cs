@@ -17,6 +17,7 @@ using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.UI;
 using Esri.ArcGISRuntime.UI.Controls;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
 {
@@ -35,6 +36,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
         /// </summary>
         public MainViewModel MainViewModel { get; } = new MainViewModel();
 
-        // Map initialization logic is contained in MapViewModel.cs
+        public AuthViewModel AuthViewModel { get; } = new AuthViewModel(
+                                                        Settings.Default.WebmapURL,
+                                                        Settings.Default.ArcGISOnlineURL,
+                                                        Settings.Default.AppClientID,
+                                                        Settings.Default.RedirectURL,
+                                                        Settings.Default.OAuthRefreshToken);
+
+
     }
 }

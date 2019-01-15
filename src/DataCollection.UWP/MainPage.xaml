@@ -14,6 +14,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         </ResourceDictionary>
     </Page.Resources>
     
@@ -28,7 +29,14 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <esri:MapView x:Name="MapView" Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}" 
-                       Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3">
+                      Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
+                      utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}">
+            <!--<utils:MapViewExtensions.ViewpointController>
+                <utils:ViewpointController Viewpoint="{x:Bind MainViewModel.MapViewModel.AreaOfInterest, Mode=TwoWay}"/>
+            </utils:MapViewExtensions.ViewpointController>-->
+            <utils:MapViewExtensions.LocationDisplayController>
+                <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}"/>
+            </utils:MapViewExtensions.LocationDisplayController>
         </esri:MapView>
 
         <!-- Compass control that displays when user rotates the map -->
@@ -36,18 +44,32 @@
                       Margin="20"  Grid.Column="2" Grid.Row="1" />
 
         <!-- Title bar with top buttons-->
-        <CommandBar Grid.Row="0">
+        <CommandBar Grid.Row="0" Grid.ColumnSpan="3">
             <CommandBar.Content>
-                <TextBlock Text="Portland Trees" Foreground="White" FontSize="25" FontWeight="SemiBold"
-                       VerticalAlignment="Center" Margin="15,0,0,0" />
+                <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}"  Foreground="White" FontSize="25" FontWeight="SemiBold"
+                       VerticalAlignment="Center" Margin="15,5,0,0" />
             </CommandBar.Content>
-            <AppBarButton Label="Move to Current Location">
+            <AppBarButton Label="Move to Current Location" Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand}" 
+                          Visibility="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" Visibility="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, 
-                                Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}"/>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton Icon="Add" Label="Add Feature"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Sign In" Command="{x:Bind AuthViewModel.LoginCommand}" 
+                        Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" >
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Label="Sign Out" Command="{x:Bind AuthViewModel.LogOutCommand}"
+                              Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" >
+                    <AppBarButton.Icon>
+                        <BitmapIcon UriSource="{x:Bind AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
 
     </Grid>

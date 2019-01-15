@@ -14,8 +14,12 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+#if NETFX_CORE
+using Windows.UI.Core;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -28,9 +32,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// Raises the <see cref="MapViewModel.PropertyChanged" /> event
         /// </summary>
         /// <param name="propertyName">The name of the property that has changed</param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected async void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
+#if WPF
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+#elif NETFX_CORE
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            });
+#endif
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
