@@ -76,17 +76,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         }
 
         /// <summary>
-        /// Invoked when the MapView's ViewPoint value has changed
+        /// Invoked when the  MapView's Viewpoint value has changed
         /// </summary>
         private void MapView_ViewpointChanged(object sender, EventArgs e)
         {
                 _isMapViewViewpointChangedEventFiring = true;
-                try
-                {
-                    Viewpoint = (sender as MapView)?.GetCurrentViewpoint(ViewpointType.CenterAndScale);
-                }
-                // if unable to get the viewpoint, don't do anything
-                catch { }
+            try
+            {
+                Viewpoint = (sender as MapView)?.GetCurrentViewpoint(ViewpointType.CenterAndScale);
+            }
+
+            // if unable to get the viewpoint, don't do anything
+            catch { }
                 _isMapViewViewpointChangedEventFiring = false;
         }
 
@@ -94,10 +95,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         /// Creates a ViewpointController property
         /// </summary>
         public static readonly DependencyProperty ViewpointProperty = DependencyProperty.Register(
-            nameof(Viewpoint), typeof(Viewpoint), typeof(ViewpointController), new PropertyMetadata(null, OnViewpointChanged));
+            "Viewpoint", typeof(Viewpoint), typeof(ViewpointController), new PropertyMetadata(null, OnViewpointChanged));
 
         /// <summary>
-        /// Invoked when the  ViewPoint value has changed
+        /// Invoked when the  Viewpoint value has changed
         /// </summary>
         private async static void OnViewpointChanged(DependencyObject bindable, DependencyPropertyChangedEventArgs e)
         {

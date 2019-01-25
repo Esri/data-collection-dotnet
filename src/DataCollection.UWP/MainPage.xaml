@@ -31,9 +31,9 @@
         <esri:MapView x:Name="MapView" Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}" 
                       Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
                       utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}">
-            <!--<utils:MapViewExtensions.ViewpointController>
-                <utils:ViewpointController Viewpoint="{x:Bind MainViewModel.MapViewModel.AreaOfInterest, Mode=TwoWay}"/>
-            </utils:MapViewExtensions.ViewpointController>-->
+            <utils:MapViewExtensions.ViewpointController>
+                <utils:ViewpointController  Viewpoint="{x:Bind MainViewModel.MapViewModel.AreaOfInterest, Mode=OneWay}"/>
+            </utils:MapViewExtensions.ViewpointController>
             <utils:MapViewExtensions.LocationDisplayController>
                 <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}"/>
             </utils:MapViewExtensions.LocationDisplayController>
@@ -49,7 +49,7 @@
                 <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}"  Foreground="White" FontSize="25" FontWeight="SemiBold"
                        VerticalAlignment="Center" Margin="15,5,0,0" />
             </CommandBar.Content>
-            <AppBarButton Label="Move to Current Location" Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand}" 
+            <AppBarButton Label="Move to Current Location" Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}" 
                           Visibility="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
