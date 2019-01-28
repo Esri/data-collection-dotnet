@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 _popupManager = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private string _newAttachmentPath;
+
+        /// <summary>
+        /// Gets or sets the path for the new attachment to be added to layer
+        /// </summary>
+        public string NewAttachmentPath
+        {
+            get => _newAttachmentPath;
+            set
+            {
+                _newAttachmentPath = value;
+                if (_newAttachmentPath != null && File.Exists(_newAttachmentPath))
+                {
+                    AddNewAttachment(_newAttachmentPath);
+                }
             }
         }
 
@@ -204,6 +223,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             // run parallel tasks
             await Task.WhenAll(tasks);
+        }
+
+        /// <summary>
+        /// Add new attachment file to the attachment manager
+        /// </summary>
+        private async void AddNewAttachment(string filePath)
+        {
+            //retrieve file extension
+            var extension = Path.GetExtension(filePath);
+
+            // determine type based on extension
+            var contentType = FileExtensionHelper.GetTypeFromExtension(extension);
+
+            // add new attachment to layer
+            var newAttachment = AttachmentManager.AddAttachment(filePath, contentType);
+
+            // load the new attachment into a StagedAttachment and add it to Attachments list to display
+            var stagedAttachment = new StagedAttachment();
+            await stagedAttachment.LoadAsync(newAttachment);
+            Attachments.Add(stagedAttachment);
         }
     }
 }

@@ -76,6 +76,7 @@
     <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
     <Compile Include="Converters\MapTitleConverter.cs" />
     <Compile Include="Converters\MultivalueCommandParameterConverter.cs" />
+    <Compile Include="Helpers\BrowseHelper.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="Views\AttachmentsView.xaml.cs">
       <DependentUpon>AttachmentsView.xaml</DependentUpon>
@@ -176,9 +177,7 @@
   <ItemGroup>
     <Resource Include="Images\PinShadow.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messengers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\PlaceholderThumbnail.png" />
   </ItemGroup>

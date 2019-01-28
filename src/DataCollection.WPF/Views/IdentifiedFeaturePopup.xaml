@@ -210,34 +210,62 @@
         <!-- Attachments view -->
         <views:AttachmentsView x:Name="AttachmentsView" Grid.Row="1" DataContext="{Binding .}" Visibility="Collapsed"/>
 
-        <!-- Bottom buttons to edit or delete record -->
-        <Grid Background="Green" Grid.Row="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+        <!-- Bottom Buttons -->
+        <Grid Grid.Row="2" Background="Green">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
+            
+            <!-- Bottom buttons to edit or delete record -->
             <Button Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                            HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding EditFeatureCommand}" 
-                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"/>
+                            HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" Command="{Binding EditFeatureCommand}" 
+                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"/>
             <Button Content="&#xE74d;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                            HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" Command="{Binding DataContext.DeleteFeatureCommand, 
+                            HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="2" Command="{Binding DataContext.DeleteFeatureCommand, 
                             RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" 
-                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"/>
+                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"/>
+
+            <!-- Bottom buttons to save or discard changes to record -->
+            <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                    HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" Command="{Binding SaveEditsCommand}" 
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"/>
+            <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                    HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="2" 
+                        Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding .}" 
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"/>
+
+            <!-- Button to add new attachment -->
+            <!-- Clicking this button switches user to Attachments tab, begins edit mode, and starts up a browse dialog -->
+            <Button x:Name="AddAttachmentButton" Width="39" Height="30" Style="{StaticResource MenuButtonStyle}" 
+                        HorizontalAlignment="Left" Margin="10, 0, 0, 0" Grid.Column="0" 
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
+                        Command="{Binding EditFeatureCommand}" Click="AddAttachmentButton_Click">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE723;" FontFamily="Segoe MDL2 Assets" FontSize="20"/>
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="10"/>
+                    </StackPanel>
+                </Button.Content>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Collapsed"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Visible"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="White"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
         </Grid>
 
-        <!-- Bottom buttons to save or discard changes to record -->
-        <Grid Background="Green" Grid.Row="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="50"/>
-            </Grid.ColumnDefinitions>
-            <Button Content="&#xE74E;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                    HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="0" Command="{Binding SaveEditsCommand}" 
-                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"/>
-            <Button Content="&#xE8bB;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
-                    HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" 
-                        Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding .}" 
-                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"/>
-        </Grid>
+        <!-- Hidden element used to pass new attachment path to the viewmodel-->
+        <TextBlock x:Name="AttachmentPathTextBlock" Text="{Binding AttachmentsViewModel.NewAttachmentPath, Mode=TwoWay}" Visibility="Collapsed"/>
     </Grid>
 </UserControl>
