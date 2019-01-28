@@ -137,11 +137,20 @@
       <Version>6.2.0-preview1-26926-04</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>SET SRCPATH=..\..\..\..\DataCollection.Shared\LocalizedStrings
+SET DESTPATH=LocalizedStrings
+
+mkdir %25DESTPATH%25
+
+copy /Y %25SRCPATH%25\Resources.resx %25DESTPATH%25\Resources.resw</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
