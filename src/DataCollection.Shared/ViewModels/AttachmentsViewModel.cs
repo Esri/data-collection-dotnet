@@ -21,6 +21,7 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -34,6 +35,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
     {
         private PopupManager _popupManager;
 
+        /// <summary>
+        /// Gets or sets the PopupManager for the attachment
+        /// </summary>
         public PopupManager PopupManager
         {
             get => _popupManager;
@@ -52,10 +56,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             if (popupManager != null)
             {
                 AttachmentManager = popupManager.AttachmentManager;
-
                 _popupManager = popupManager;
-
-                Attachments = new ObservableCollection<AttachmentWithThumbnail>();
 
                 LoadAttachments();
             }
@@ -64,7 +65,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Gets or sets the collection of attachments to be displayed 
         /// </summary>
-        public ObservableCollection<AttachmentWithThumbnail> Attachments { get; private set; }
+        public ObservableCollection<StagedAttachment> Attachments { get; private set; } = new ObservableCollection<StagedAttachment>();
 
         /// <summary>
         /// Gets or sets the attachment manager for the feature
@@ -94,7 +95,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             var runtimeFileHash = attachment.Filename.Split('.').FirstOrDefault();
                             var newFileName = runtimeFileHash + "." + attachment.Name;
 
-                            // if the file exists, rename it to contain the proper extension
+                            // if the file exists, rename it to contain the hash, the name, and the actual file extension for the file
                             if (File.Exists(attachment.Filename))
                             {
                                 File.Move(attachment.Filename, newFileName);
@@ -186,15 +187,23 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // clear any existing attachments in the collection
             Attachments.Clear();
 
+            // create list of tasks to run in parallel
+            List<Task> tasks = new List<Task>();
+
             // loop through attachments and add them to the collection
             foreach (var attachment in AttachmentManager.Attachments)
             {
-                var attachmentWithThumbnail = new AttachmentWithThumbnail();
-                await attachmentWithThumbnail.LoadAsync(attachment);
+                var stagedAttachment = new StagedAttachment();
+                var loadTask = stagedAttachment.LoadAsync(attachment);
 
                 // add attachment to collection using the UI thread (for the binding to work)
-                Application.Current.Dispatcher.Invoke(new Action(() => { Attachments.Add(attachmentWithThumbnail); }));
+                Application.Current.Dispatcher.Invoke(new Action(() => { Attachments.Add(stagedAttachment); }));
+
+                tasks.Add(loadTask);
             }
+
+            // run parallel tasks
+            await Task.WhenAll(tasks);
         }
     }
 }

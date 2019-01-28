@@ -18,21 +18,32 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using Esri.ArcGISRuntime.UI;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 {
-    public class AttachmentWithThumbnail
+    public class StagedAttachment : INotifyPropertyChanged
     {
-        /// <summary>
-        /// Gets or sets the Thumbnail image for the attachment 
-        /// </summary>
-        public ImageSource Thumbnail { get; private set; }
+        private ImageSource _thumbnail;
 
         /// <summary>
-        /// Gets or sets the attachment metadata 
+        /// Gets the Thumbnail image for the attachment 
+        /// </summary>
+        public ImageSource Thumbnail {
+            get => _thumbnail;
+            private set
+            {
+                _thumbnail = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets the attachment metadata 
         /// </summary>
         public PopupAttachment Attachment { get; private set; }
 
@@ -65,5 +76,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                     break;
             }
         }
+
+        /// <summary>
+        /// Raises the <see cref="BaseViewModel.PropertyChanged" /> event
+        /// </summary>
+        /// <param name="propertyName">The name of the property that has changed</param>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }
