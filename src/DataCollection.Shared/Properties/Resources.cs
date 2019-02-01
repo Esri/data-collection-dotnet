@@ -9,18 +9,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
     {
 #if NETFX_CORE
         private static readonly Windows.ApplicationModel.Resources.ResourceLoader s_resource =
-            Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse("Esri.ArcGISRuntime.ExampleApps/Resources");
+            Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse("Resources");
 
         public static string GetString(string name)
         {
-            try
-            {
-                return s_resource.GetString(name);
-            }
-            catch
-            {
-                return "Resource value not found";
-            }
+            return s_resource.GetString(name);
         }
 #else
         private static ResourceManager s_resourceManager;
