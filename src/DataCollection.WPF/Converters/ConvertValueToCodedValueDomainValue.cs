@@ -50,9 +50,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters
         {
             // object[2] is an array of 2 objects because ConvertBack expects to return a multivalue
             // but only the actual code is needed so the first value is set to null
-            if (value != null && value is CodedValue)
+            if (value != null && value is CodedValue codedValue)
             {
-                return new object[2] { null, ((CodedValue)value).Code };
+                return new object[2] { null, codedValue.Code };
             }
             return new object[2] { null, null };
         }

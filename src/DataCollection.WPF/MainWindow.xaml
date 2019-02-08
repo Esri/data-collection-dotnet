@@ -347,13 +347,15 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship.SelectedRecordPopupManager.Title}" 
+                <TextBlock Text="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title}" 
                        Background="Green" Foreground="White" FontSize="20" Padding="15, 10, 5, 5" Grid.Row="0"/>
                 <Button Content="&#xE8bB;" Command="{Binding IdentifiedFeatureViewModel.ClearRelationshipsCommand}"
                     Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
                     FontFamily="Segoe MDL2 Assets" FontSize="15" Style="{StaticResource MenuButtonStyle}" 
                     Padding="10, 10, 10, 5" Grid.Row="0" HorizontalAlignment="Right" 
                         ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CloseButton_Tooltip}" />
+
+                <!-- Detail View -->
                 <views:OriginRelatedRecordPopup Grid.Row="1" DataContext="{Binding}" />
             </Grid>
 
@@ -376,6 +378,7 @@
                 <views:DestinationRelatedRecordPopup Grid.Row="1" DataContext="{Binding}"/>
             </Grid>
         </Grid>
+
         <!-- Login Window -->
         <views:LoginWindow Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"/>
     </Grid>

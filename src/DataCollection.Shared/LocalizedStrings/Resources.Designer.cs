@@ -61,6 +61,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add attchment.
+        /// </summary>
+        internal static string AddAttachment_Tooltip {
+            get {
+                return ResourceManager.GetString("AddAttachment_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Feature.
         /// </summary>
         internal static string AddFeature_Tooltip {
@@ -133,6 +142,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete attachment.
+        /// </summary>
+        internal static string DeleteAttachment_Tooltip {
+            get {
+                return ResourceManager.GetString("DeleteAttachment_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string DeleteButton_Content {
@@ -156,6 +174,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string DeleteConfirmation_Title {
             get {
                 return ResourceManager.GetString("DeleteConfirmation_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will remove the attachment from the database permanently and cannot be undone..
+        /// </summary>
+        internal static string DeleteConfirmationAttachment_Message {
+            get {
+                return ResourceManager.GetString("DeleteConfirmationAttachment_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this attachment?.
+        /// </summary>
+        internal static string DeleteConfirmationAttachment_Title {
+            get {
+                return ResourceManager.GetString("DeleteConfirmationAttachment_Title", resourceCulture);
             }
         }
         
@@ -313,6 +349,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The attachment file you are trying to open could not be located. Please try restarting the application..
+        /// </summary>
+        internal static string FileNotFound_Message {
+            get {
+                return ResourceManager.GetString("FileNotFound_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File not found.
+        /// </summary>
+        internal static string FileNotFound_Title {
+            get {
+                return ResourceManager.GetString("FileNotFound_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string GenericAffirmativeButton_Content {
@@ -462,6 +516,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string NoSync_DeviceOffline_Message {
             get {
                 return ResourceManager.GetString("NoSync_DeviceOffline_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open attachment.
+        /// </summary>
+        internal static string OpenAttachment_Tooltip {
+            get {
+                return ResourceManager.GetString("OpenAttachment_Tooltip", resourceCulture);
             }
         }
         

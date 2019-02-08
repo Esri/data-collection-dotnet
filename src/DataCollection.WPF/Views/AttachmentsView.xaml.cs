@@ -14,25 +14,18 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
+namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
 {
     /// <summary>
-    /// Base View Model that all View Models inherit
+    /// Interaction logic for AttachmentsView.xaml
     /// </summary>
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public partial class AttachmentsView : UserControl
     {
-        /// <summary>
-        /// Raises the <see cref="BaseViewModel.PropertyChanged" /> event
-        /// </summary>
-        /// <param name="propertyName">The name of the property that has changed</param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public AttachmentsView()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            InitializeComponent();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

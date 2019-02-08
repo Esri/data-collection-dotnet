@@ -77,7 +77,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     // load feature to be able to access popup
                     if (relatedRecord is ArcGISFeature loadableFeature)
+                    {
                         await loadableFeature.LoadAsync();
+                    }
+
                     var popupManager = new PopupManager(new Popup(relatedRecord, relatedRecord.FeatureTable.PopupDefinition));
 
                     OriginRelatedRecords.Add(popupManager);
@@ -156,25 +159,46 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private PopupManager _selectedRecordPopupManager;
+        private PopupManager _popupManager;
 
         /// <summary>
         /// Gets or sets the active related record for the origin relationship
         /// </summary>
-        public PopupManager SelectedRecordPopupManager
+        public PopupManager PopupManager
         {
-            get { return _selectedRecordPopupManager; }
+            get { return _popupManager; }
             set
             {
-                if (_selectedRecordPopupManager != value)
+                if (_popupManager != value)
                 {
-                    _selectedRecordPopupManager = value;
+                    _popupManager = value;
                     if (value != null)
                     {
                         Fields = FieldContainer.GetFields(value);
+
+                        // If the selected related record changes, fetch the attachments and create a new AttachmentsViewModel
+                        PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t =>
+                        {
+                            AttachmentsViewModel = new AttachmentsViewModel(PopupManager, RelatedTable);
+                        });
                     }
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        private AttachmentsViewModel _attachmentsViewModel;
+
+        /// <summary>
+        /// Gets or sets the AttachmentViewModel to handle viewing and editing attachments 
+        /// </summary>
+        public AttachmentsViewModel AttachmentsViewModel
+        {
+            get { return _attachmentsViewModel; }
+            set
+            {
+                _attachmentsViewModel = value;
+                OnPropertyChanged();
             }
         }
 
@@ -191,7 +215,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     (x) =>
                     {
                         EditViewModel = new EditViewModel(ConnectivityMode);
-                        SelectedRecordPopupManager.StartEditing();
+                        PopupManager.StartEditing();
                     }));
             }
         }
@@ -208,7 +232,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _saveEditsCommand ?? (_saveEditsCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        var feature = await EditViewModel.SaveEdits(SelectedRecordPopupManager, RelatedTable, null);
+                        var feature = await EditViewModel.SaveEdits(PopupManager, RelatedTable, null);
 
                         if (feature != null)
                         {
@@ -232,7 +256,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         internal async Task<bool> DeleteRelatedRecord()
         {
-            var feature = SelectedRecordPopupManager?.Popup?.GeoElement as ArcGISFeature;
+            var feature = PopupManager?.Popup?.GeoElement as ArcGISFeature;
 
             if (feature != null)
             {
@@ -242,7 +266,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     await feature.FeatureTable?.ApplyEdits();
 
                     // if delete was successful, remove the record from the list
-                    OriginRelatedRecords.Remove(SelectedRecordPopupManager);
+                    OriginRelatedRecords.Remove(PopupManager);
 
                     return true;
                 }
@@ -259,9 +283,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Discards edits performed on a related record 
         /// </summary>
-        internal bool DiscardChanges()
+        internal async Task<bool> DiscardChanges()
         {
-            if (SelectedRecordPopupManager.HasEdits())
+            if (PopupManager.HasEdits())
             {
                 bool confirmCancelEdits = false;
                 // wait for response from the user if the truly want to cancel the edit operation
@@ -292,8 +316,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
 
             // cancel the edits if the PopupManager doesn't have any edits or if the user chooses to
-            EditViewModel.CancelEdits(SelectedRecordPopupManager);
+            EditViewModel.CancelEdits(PopupManager);
             EditViewModel = null;
+
+            // reload the attachments to discard any changes that the user may have done to the Attachments list
+            await AttachmentsViewModel.LoadAttachments();
             return true;
         }
 
@@ -325,7 +352,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 OriginRelatedRecords.Add(popupManager);
 
                 // set the selected record to the new popup manager
-                SelectedRecordPopupManager = popupManager;
+                PopupManager = popupManager;
             }
             catch (Exception ex)
             {

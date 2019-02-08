@@ -579,7 +579,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);
 
                                     // create the feature and its corresponding viewmodel
-                                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ((FeatureLayer)layer).FeatureTable, ConnectivityMode)
+                                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode)
                                     {
                                         EditViewModel = new EditViewModel(ConnectivityMode)
                                     };
@@ -660,7 +660,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     await TreeSurveyWorkflows.UpdateIdentifiedFeature(
                                         IdentifiedFeatureViewModel.SelectedOriginRelationship.OriginRelatedRecords,
                                         IdentifiedFeatureViewModel.Feature,
-                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.SelectedRecordPopupManager);
+                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager);
 
                                     IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                                 }
@@ -680,11 +680,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _cancelEditsCommand ?? (_cancelEditsCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         if (x is IdentifiedFeatureViewModel)
                         {
-                            if (IdentifiedFeatureViewModel.DiscardChanges() &&
+                            if (await IdentifiedFeatureViewModel.DiscardChanges() &&
                             IdentifiedFeatureViewModel.Feature.IsNewFeature())
                             {
                                 IdentifiedFeatureViewModel = null;
@@ -692,9 +692,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         }                      
                         else if (x is OriginRelationshipViewModel)
                         {
-                            var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.SelectedRecordPopupManager?.Popup?.GeoElement as ArcGISFeature;
+                            var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
 
-                            if (feature != null && IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
+                            if (feature != null && await IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
                             {
                                 IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                             }
@@ -744,7 +744,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     }
 
                     // set the viewmodel for the feature
-                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, feature.FeatureTable, ConnectivityMode);
+                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode);
 
                     // Call method to set up relationship info
                     await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature);
