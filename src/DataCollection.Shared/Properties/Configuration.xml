@@ -2,13 +2,13 @@
 <Settings>
   <!-- These settings are used to configure the app for use with different webmaps. Modify to suit your needs -->
   <ArcGISOnlineURL>https://www.arcgis.com/sharing/rest</ArcGISOnlineURL>
-  <WebmapURL>http://runtime.maps.arcgis.com/home/item.html?id=fcc7fc65bb96464c9c0986576c119a92</WebmapURL>
+  <WebmapURL>http://arcgisruntime.maps.arcgis.com/home/item.html?id=16f1b8ba37b44dc3884afc8d5f454dd2</WebmapURL>
   <DefaultZoomScale>5000</DefaultZoomScale>
   <AppClientID>h3em0ifYNGfz3uHX</AppClientID>
   <RedirectURL>data-collection://auth</RedirectURL>
   
   <!-- The settings below are speficic to the Tree Survey dataset and workflow. Do not modify -->
-  <TreeDatasetWebmapUrl>http://runtime.maps.arcgis.com/home/item.html?id=fcc7fc65bb96464c9c0986576c119a92</TreeDatasetWebmapUrl>
+  <TreeDatasetWebmapUrl>http://arcgisruntime.maps.arcgis.com/home/item.html?id=16f1b8ba37b44dc3884afc8d5f454dd2</TreeDatasetWebmapUrl>
   <GeocodeUrl>https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer</GeocodeUrl>
   <OfflineLocatorPath>\Resources\AddressLocator.loc</OfflineLocatorPath>
   <NeighborhoodOperationalLayerId>0</NeighborhoodOperationalLayerId>
