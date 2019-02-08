@@ -41,19 +41,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         {
             RelatedTable = relatedTable;
             ConnectivityMode = connectivityMode;
-
-            PropertyChanged += async (s, l) =>
-            {
-                // If the selected related record changes, fetch the attachments and create a new AttachmentsViewModel
-                if (l.PropertyName == nameof(PopupManager))
-                {
-                    if (PopupManager != null)
-                    {
-                        await PopupManager.AttachmentManager.FetchAttachmentsAsync();
-                        AttachmentsViewModel = new AttachmentsViewModel(PopupManager, RelatedTable);
-                    }
-                }
-            };
         }
 
         private TaskCompletionSource<bool> _initTcs;
@@ -90,7 +77,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     // load feature to be able to access popup
                     if (relatedRecord is ArcGISFeature loadableFeature)
+                    {
                         await loadableFeature.LoadAsync();
+                    }
+
                     var popupManager = new PopupManager(new Popup(relatedRecord, relatedRecord.FeatureTable.PopupDefinition));
 
                     OriginRelatedRecords.Add(popupManager);
@@ -185,6 +175,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     if (value != null)
                     {
                         Fields = FieldContainer.GetFields(value);
+
+                        // If the selected related record changes, fetch the attachments and create a new AttachmentsViewModel
+                        PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t =>
+                        {
+                            AttachmentsViewModel = new AttachmentsViewModel(PopupManager, RelatedTable);
+                        });
                     }
                     OnPropertyChanged();
                 }
@@ -322,6 +318,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // cancel the edits if the PopupManager doesn't have any edits or if the user chooses to
             EditViewModel.CancelEdits(PopupManager);
             EditViewModel = null;
+
+            // reload the attachments to discard any changes that the user may have done to the Attachments list
             await AttachmentsViewModel.LoadAttachments();
             return true;
         }
