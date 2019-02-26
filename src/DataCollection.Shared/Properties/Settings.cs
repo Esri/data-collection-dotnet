@@ -30,7 +30,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         private static Settings _instance;
 
         // set the path on disk for the settings file
-        private static string _settingsPath = Path.Combine(GetFolderPath(SpecialFolder.ApplicationData), "DataCollectionSettings.xml");
+        private static string _settingsPath = Path.Combine(GetFolderPath(SpecialFolder.LocalApplicationData), "ArcGISRuntime", "ExampleApps", "DataCollection", "DataCollectionSettings.xml");
 
         /// <summary>
         /// Default instance of the <see cref="Settings"/> class
@@ -170,7 +170,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
 
             // open settings file for edit
-            var settingsFile = File.Exists(_settingsPath) ?
+            var fileinfo = new FileInfo(_settingsPath);
+            if (!fileinfo.Directory.Exists)
+                fileinfo.Directory.Create();
+            var settingsFile = fileinfo.Exists ?
                 File.Open(_settingsPath, FileMode.Truncate) :
                 File.Create(_settingsPath);
 
