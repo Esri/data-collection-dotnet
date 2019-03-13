@@ -28,7 +28,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
         {
             if (extension == null)
             {
-                throw new ArgumentNullException("extension");
+                throw new ArgumentNullException(nameof(extension));
             }
 
             if (!extension.StartsWith("."))

@@ -110,14 +110,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 await attachment.LoadAsync();
                             }
 
+                            // HACK: This workflow is in place until API changes occur to save the file name with its proper extension
+
                             // create file name from runtime attachment filename hash and the actual attachment name
                             var runtimeFileHash = attachment.Filename.Split('.').FirstOrDefault();
                             var newFileName = runtimeFileHash + "." + attachment.Name;
 
-                            // if the file exists, rename it to contain the hash, the name, and the actual file extension for the file
+                            // if the file exists, copy it to a new file that contains the hash, the name, and the actual file extension for the file
                             if (File.Exists(attachment.Filename))
                             {
-                                File.Move(attachment.Filename, newFileName);
+                                File.Copy(attachment.Filename, newFileName);
                             }
 
                             // if the renamed file exists, open it in the user's preferred application

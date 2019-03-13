@@ -242,7 +242,7 @@
 
             <!-- Button to add new attachment -->
             <!-- Clicking this button switches user to Attachments tab, begins edit mode, and starts up a browse dialog -->
-            <Button x:Name="AddAttachmentButton" Width="39" Height="30" Style="{StaticResource MenuButtonStyle}" 
+            <Button Width="39" Height="30" Style="{StaticResource MenuButtonStyle}" 
                         HorizontalAlignment="Left" Margin="10, 0, 0, 0" Grid.Column="0" 
                         ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
                         Command="{Binding EditFeatureCommand}" Click="AddAttachmentButton_Click">
