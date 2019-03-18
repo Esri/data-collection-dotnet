@@ -110,24 +110,37 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 await attachment.LoadAsync();
                             }
 
-                            // HACK: This workflow is in place until API changes occur to save the file name with its proper extension
+                            // HACK: This workflow is in place until API changes occur to save the attachment with its proper name and extension
+                            // when an attachment is downloaded, the API generates a random temp file name that cannot be opened unless renamed to have a proper extension
+                            // when an attachment is newly added, the API points to the file the user selected, so the name and extension are valid and the file can be opened directly 
 
-                            // create file name from runtime attachment filename hash and the actual attachment name
-                            var runtimeFileHash = attachment.Filename.Split('.').FirstOrDefault();
-                            var newFileName = runtimeFileHash + "." + attachment.Name;
+                            var fileInfo = new FileInfo(attachment.Filename);
+                            var attachmentLocalPath = "";
 
-                            // if the file exists, copy it to a new file that contains the hash, the name, and the actual file extension for the file
-                            if (File.Exists(attachment.Filename))
+                            // if attachment was just added, its path still points to the location on disk, so open from there
+                            // otherwise, use dowload path 
+                            if (fileInfo.Exists)
                             {
-                                File.Copy(attachment.Filename, newFileName);
-                            }
+                                if (fileInfo.Name == attachment.Name)
+                                {
+                                    attachmentLocalPath = attachment.Filename;
+                                }
+                                else
+                                {
+                                    // create temp directory from the random attachment file name 
+                                    var directory = Path.Combine(fileInfo.DirectoryName, fileInfo.Name.Replace(".", ""));
 
-                            // if the renamed file exists, open it in the user's preferred application
-                            if (File.Exists(newFileName))
-                            {
+                                    if (!Directory.Exists(directory))
+                                        Directory.CreateDirectory(directory);
+
+                                    // place file into the newly created temp directory
+                                    attachmentLocalPath = Path.Combine(directory, attachment.Name);
+                                    if (!File.Exists(attachmentLocalPath))
+                                        File.Copy(attachment.Filename, attachmentLocalPath);
+                                }
 #if WPF
                                 // in WPF, let Windows open the file with the application the user has set as default
-                                System.Diagnostics.Process.Start(newFileName);
+                                System.Diagnostics.Process.Start(attachmentLocalPath);
 #endif
                             }
                             else
@@ -139,6 +152,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 return;
                             }
                         }
+
                     }));
             }
         }
