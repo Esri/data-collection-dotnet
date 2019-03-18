@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Helpers;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
@@ -26,6 +28,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
         public IdentifiedFeaturePopup()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Event handler for user clicking the Add Attachment button
+        /// </summary>
+        private void AddAttachmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            AttachmentPathTextBlock.Text = BrowseHelper.GetFileFromUser();
         }
     }
 }

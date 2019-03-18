@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -21,6 +21,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
 {
     public static class FileExtensionHelper
     {
+        /// <summary>
+        /// Method to retrieve mime type from extension
+        /// </summary>
+        public static string GetTypeFromExtension(string extension)
+        {
+            if (extension == null)
+            {
+                throw new ArgumentNullException(nameof(extension));
+            }
+
+            if (!extension.StartsWith("."))
+            {
+                extension = "." + extension;
+            }
+
+            string mime;
+
+            return AllowedExtensions.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
+        }
+
         /// <summary>
         /// Dictionary with extensions and mime type mappings
         /// </summary>
