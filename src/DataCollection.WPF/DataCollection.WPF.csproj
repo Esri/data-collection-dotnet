@@ -177,9 +177,11 @@
   <ItemGroup>
     <Resource Include="Images\PinShadow.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Images\PlaceholderThumbnail.png" />
+    <Resource Include="Images\AttachmentDocument.png" />
+    <Resource Include="Images\AttachmentImage.png" />
+    <Resource Include="Images\AttachmentOther.png" />
+    <Resource Include="Images\AttachmentVideo.png" />
   </ItemGroup>
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

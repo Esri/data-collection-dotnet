@@ -31,11 +31,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
         {
             if (featureTable is ServiceFeatureTable serviceFeatureTable)
             {
-                return serviceFeatureTable.GetRelatedTables(relationshipInfo).First();
+                return serviceFeatureTable.GetRelatedTables(relationshipInfo).FirstOrDefault();
             }
             else if (featureTable is GeodatabaseFeatureTable geodatabaseFeatureTable)
             {
-                return geodatabaseFeatureTable.GetRelatedTables(relationshipInfo).First();
+                return geodatabaseFeatureTable.GetRelatedTables(relationshipInfo).FirstOrDefault();
             }
             return null;
         }

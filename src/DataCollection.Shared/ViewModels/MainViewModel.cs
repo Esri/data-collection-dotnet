@@ -746,8 +746,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     // set the viewmodel for the feature
                     IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode);
 
-                    // Call method to set up relationship info
-                    await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature);
+                    try
+                    {
+                        // Call method to set up relationship info
+                        await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature);
+                    }
+                    catch(Exception ex)
+                    {
+                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                    }
                 }
             }
         }

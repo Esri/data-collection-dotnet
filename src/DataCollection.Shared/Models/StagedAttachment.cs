@@ -59,22 +59,29 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                     {
                         var rtImage = await attachment.CreateThumbnailAsync(50, 50);
                         Thumbnail = await rtImage.ToImageSourceAsync();
-                        Thumbnail?.Freeze();
                     }
                     catch (Exception ex)
                     {
-                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                        // API currently does not support generating thumbnails for GIFs 
+                        if (ex.Message == "Conversion failed exception: Unsupported image file format.")
+                            Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentVideo.png"));
+                        else
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                     }
                     break;
 
-                // use placeholder image for the rest of the attachments
+                // use placeholder images for the rest of the attachments
                 case PopupAttachmentType.Video:
+                    Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentVideo.png"));
+                    break;
                 case PopupAttachmentType.Document:
+                    Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentDocument.png"));
+                    break;
                 default:
-                    Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/PlaceholderThumbnail.png"));
-                    Thumbnail?.Freeze();
+                    Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentOther.png"));
                     break;
             }
+            Thumbnail?.Freeze();
         }
 
         /// <summary>
