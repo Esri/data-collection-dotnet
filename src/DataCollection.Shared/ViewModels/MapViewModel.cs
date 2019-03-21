@@ -52,7 +52,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             // Initialize the location data source for device location
             LocationDataSource = new SystemLocationDataSource();
-            LocationDataSource.LocationChanged += async (s, l) =>
+            LocationDataSource.LocationChanged += (s, l) =>
             {
                 _lastLocation = l;
                 IsLocationStarted = true;
