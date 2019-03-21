@@ -61,12 +61,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
             set
             {
                 if (MapView != null)
+                {
                     MapView.ViewpointChanged -= MapView_ViewpointChanged;
+                }
 
                 if (_mapViewWeakRef == null)
+                {
                     _mapViewWeakRef = new WeakReference<MapView>(value);
+                }
                 else
+                {
                     _mapViewWeakRef.SetTarget(value);
+                }
 
                 if (value != null)
                 {
@@ -76,11 +82,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         }
 
         /// <summary>
-        /// Invoked when the  MapView's Viewpoint value has changed
+        /// Invoked when the MapView's Viewpoint value has changed
         /// </summary>
         private void MapView_ViewpointChanged(object sender, EventArgs e)
         {
-                _isMapViewViewpointChangedEventFiring = true;
+            _isMapViewViewpointChangedEventFiring = true;
             try
             {
                 Viewpoint = (sender as MapView)?.GetCurrentViewpoint(ViewpointType.CenterAndScale);
@@ -88,17 +94,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
 
             // if unable to get the viewpoint, don't do anything
             catch { }
-                _isMapViewViewpointChangedEventFiring = false;
+
+            _isMapViewViewpointChangedEventFiring = false;
         }
 
         /// <summary>
         /// Creates a ViewpointController property
         /// </summary>
         public static readonly DependencyProperty ViewpointProperty = DependencyProperty.Register(
-            "Viewpoint", typeof(Viewpoint), typeof(ViewpointController), new PropertyMetadata(null, OnViewpointChanged));
+            nameof(Viewpoint), typeof(Viewpoint), typeof(ViewpointController), new PropertyMetadata(null, OnViewpointChanged));
 
         /// <summary>
-        /// Invoked when the  Viewpoint value has changed
+        /// Invoked when the Viewpoint value has changed
         /// </summary>
         private async static void OnViewpointChanged(DependencyObject bindable, DependencyPropertyChangedEventArgs e)
         {

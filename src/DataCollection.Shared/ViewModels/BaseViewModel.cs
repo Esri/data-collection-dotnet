@@ -14,10 +14,10 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 #if NETFX_CORE
+using System;
 using Windows.UI.Core;
 #endif
 

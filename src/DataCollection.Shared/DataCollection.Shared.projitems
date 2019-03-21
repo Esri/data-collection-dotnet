@@ -17,7 +17,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\DebugConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\LocalizationConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ProgressToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FeatureExtensions.cs" />
