@@ -91,19 +91,19 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
             {
                 if (l.Args.Key == BroadcastMessageKey.ConnectivityMode)
                 {
-                    ConnectivityMode = l.Args.Value?.ToString();
+                    _instance.ConnectivityMode = l.Args.Value?.ToString();
                 }
                 else if (l.Args.Key == BroadcastMessageKey.DownloadPath)
                 {
-                    DownloadPath = l.Args.Value?.ToString();
+                    _instance.DownloadPath = l.Args.Value?.ToString();
                 }
                 else if (l.Args.Key == BroadcastMessageKey.OAuthRefreshToken)
                 {
-                    OAuthRefreshToken = l.Args.Value?.ToString();
+                    _instance.OAuthRefreshToken = l.Args.Value?.ToString();
                 }
                 else if (l.Args.Key == BroadcastMessageKey.SyncDate)
                 {
-                    SyncDate = l.Args.Value?.ToString();
+                    _instance.SyncDate = l.Args.Value?.ToString();
                 }
 
                 SerializeSettings(_instance);

@@ -1,30 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.UI;
-using Esri.ArcGISRuntime.UI.Controls;
+﻿using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
+using Windows.UI.Xaml.Controls;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
 {
-	/// <summary>
-	/// A map page that can be used on its own or navigated to within a Frame.
-	/// </summary>
-	public sealed partial class MainPage : Page
+    /// <summary>
+    /// A map page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class MainPage : Page
 	{
 		public MainPage()
 		{
@@ -42,7 +25,5 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
                                                         Settings.Default.AppClientID,
                                                         Settings.Default.RedirectURL,
                                                         Settings.Default.OAuthRefreshToken);
-
-
     }
 }
