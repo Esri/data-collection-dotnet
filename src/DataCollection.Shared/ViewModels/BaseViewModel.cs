@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         /// <summary>
-        /// Raises the <see cref="MapViewModel.PropertyChanged" /> event
+        /// Raises the <see cref="BaseViewModel.PropertyChanged" /> event
         /// </summary>
         /// <param name="propertyName">The name of the property that has changed</param>
         protected async void OnPropertyChanged([CallerMemberName] string propertyName = null)

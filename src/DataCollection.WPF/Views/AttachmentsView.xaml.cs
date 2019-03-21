@@ -14,18 +14,18 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using System;
+using System.Windows.Controls;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
+namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
 {
     /// <summary>
-    /// EventArgs class for the UserPromptMessenger
+    /// Interaction logic for AttachmentsView.xaml
     /// </summary>
-    public class UserPromptResponseChangedEventArgs : EventArgs
+    public partial class AttachmentsView : UserControl
     {
-        /// <summary>
-        /// Gets or sets the response from the user 
-        /// </summary>
-        public bool Response { get; set; }
+        public AttachmentsView()
+        {
+            InitializeComponent();
+        }
     }
 }

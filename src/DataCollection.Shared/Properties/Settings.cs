@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Xml.Serialization;
 using static System.Environment;
 
@@ -35,10 +36,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
 
         // set the path on disk for the settings file
 #if WPF
-        private static string _settingsPath = Path.Combine(GetFolderPath(SpecialFolder.ApplicationData), "DataCollectionSettings.xml");
+        private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
 #elif NETFX_CORE
-        private static string _settingsPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "DataCollectionSettings.xml");
+
+        private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
 #endif
+
+        private static string _settingsPath = Path.Combine(_localFolder,
+            typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
+            typeof(Settings).Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
+            "Settings.xml");
+
 
         /// <summary>
         /// Default instance of the <see cref="Settings"/> class
@@ -180,7 +188,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
 
             // open settings file for edit
-            var settingsFile = File.Exists(_settingsPath) ?
+            var fileinfo = new FileInfo(_settingsPath);
+            if (!fileinfo.Directory.Exists)
+                fileinfo.Directory.Create();
+            var settingsFile = fileinfo.Exists ?
                 File.Open(_settingsPath, FileMode.Truncate) :
                 File.Create(_settingsPath);
 

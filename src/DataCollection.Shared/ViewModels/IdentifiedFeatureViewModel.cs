@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -36,15 +36,22 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentifiedFeatureViewModel"/> class.
         /// </summary>
-        public IdentifiedFeatureViewModel(Feature feature, FeatureTable featureTable, ConnectivityMode connectivityMode)
+        public IdentifiedFeatureViewModel(Feature feature, ConnectivityMode connectivityMode)
         {
             if (feature != null)
             {
                 Feature = feature;
-                PopupManager = new PopupManager(new Popup(feature, featureTable.PopupDefinition));
+                FeatureTable = feature.FeatureTable;
+                PopupManager = new PopupManager(new Popup(feature, FeatureTable.PopupDefinition));
                 Fields = FieldContainer.GetFields(PopupManager);
-                FeatureTable = featureTable;
                 ConnectivityMode = connectivityMode;
+
+                // fetch attachments
+                PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t =>
+                {
+                    // create a new AttachmentsViewModel to display the attachments to the user
+                    AttachmentsViewModel = new AttachmentsViewModel(PopupManager, Feature.FeatureTable);
+                });
             }
         }
 
@@ -121,6 +128,21 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
+        private AttachmentsViewModel _attachmentsViewModel;
+
+        /// <summary>
+        /// Gets or sets the AttachmentViewModel to handle viewing and editing attachments 
+        /// </summary>
+        public AttachmentsViewModel AttachmentsViewModel
+        {
+            get { return _attachmentsViewModel; }
+            set
+            {
+                _attachmentsViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Gets the feature currently selected
         /// </summary>
@@ -166,11 +188,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _setSelectedDestinationRelationshipCommand ?? (_setSelectedDestinationRelationshipCommand = new DelegateCommand(
                     (x) =>
                     {
-                        if (x is DestinationRelationshipViewModel)
+                        if (x is DestinationRelationshipViewModel destinationRelationshipViewModel)
                         {
-                            SelectedDestinationRelationship = (DestinationRelationshipViewModel)x;
+                            SelectedDestinationRelationship = destinationRelationshipViewModel;
                         }
-
                     }));
             }
         }
@@ -192,7 +213,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             if (parameterArray[0] is OriginRelationshipViewModel && parameterArray[1] is PopupManager)
                             {
                                 SelectedOriginRelationship = (OriginRelationshipViewModel)parameterArray[0];
-                                SelectedOriginRelationship.SelectedRecordPopupManager = (PopupManager)parameterArray[1];
+                                SelectedOriginRelationship.PopupManager = (PopupManager)parameterArray[1];
                             }
                         }
                     }));
@@ -318,14 +339,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     await ((ArcGISFeature)feature).LoadAsync();
 
                                     // get the corresponding PopupManager
-                                    SelectedOriginRelationship.SelectedRecordPopupManager = new PopupManager(new Popup(feature, SelectedOriginRelationship.RelatedTable.PopupDefinition));
+                                    SelectedOriginRelationship.PopupManager = new PopupManager(new Popup(feature, SelectedOriginRelationship.RelatedTable.PopupDefinition));
 
                                     // related new record to the feature
                                     ((ArcGISFeature)feature).RelateFeature((ArcGISFeature)Feature, SelectedOriginRelationship.RelationshipInfo);
 
                                     // open editor and finish creating the feature
                                     SelectedOriginRelationship.EditViewModel = new EditViewModel(ConnectivityMode);
-                                    SelectedOriginRelationship.EditViewModel.CreateFeature(null, (ArcGISFeature)feature, SelectedOriginRelationship.SelectedRecordPopupManager);
+                                    SelectedOriginRelationship.EditViewModel.CreateFeature(null, (ArcGISFeature)feature, SelectedOriginRelationship.PopupManager);
                                 }
                             }
                             catch (Exception ex)
@@ -347,7 +368,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             OriginRelationships.Clear();
 
             // get RelationshipInfos from the table
-            var relationshipInfos = feature.FeatureTable.GetRelationshipInfos(feature);
+            var relationshipInfos = feature.FeatureTable.GetRelationshipInfos();
 
             // query only the related tables which match the application rules
             // save destination and origin type relationships separately as origin relates features are editable in the app
@@ -422,7 +443,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Discards edits performed on a feature 
         /// </summary>
-        internal bool DiscardChanges()
+        internal async Task<bool> DiscardChanges()
         {
             if (PopupManager.HasEdits())
             {
@@ -458,6 +479,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // cancel the edits if the PopupManager doesn't have any edits or if the user chooses to
             EditViewModel.CancelEdits(PopupManager);
             EditViewModel = null;
+            await AttachmentsViewModel.LoadAttachments();
             return true;
         }
 
