@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@
 
 using System;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
-using System.Windows.Media;
 #if NETFX_CORE
-using Windows.UI.Xaml;
+using Windows.UI;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 using CustomCultureInfo = System.String;
 #else
 using System.Windows.Data;
-using System.Windows;
+using System.Windows.Media;
 using CustomCultureInfo = System.Globalization.CultureInfo;
 #endif
 

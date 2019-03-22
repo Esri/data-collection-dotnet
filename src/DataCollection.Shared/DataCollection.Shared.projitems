@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\MapViewExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\LocationDisplayController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
@@ -24,13 +25,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MobileMapPackageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessengerEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\StagedAttachment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BroadcastMessageKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConnectivityMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LocalizedStrings\Resources.Designer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptMessageChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptMessenger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointControllerCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PopupManagerExtensions.cs" />
@@ -39,6 +39,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\FieldContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\Resources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\FileExtensionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AttachmentsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DownloadViewModel.cs" />
@@ -74,8 +76,5 @@
     <Content Include="$(MSBuildThisFileDirectory)Resources\AddressLocator.loc.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
   </ItemGroup>
 </Project>
