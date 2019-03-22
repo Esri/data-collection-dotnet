@@ -38,7 +38,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
 #if WPF
         private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
 #elif NETFX_CORE
-
         private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
 #endif
 

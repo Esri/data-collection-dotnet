@@ -8,7 +8,6 @@
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
-    RequestedTheme="Dark"
     mc:Ignorable="d">
     
     <Page.Resources>
@@ -46,7 +45,7 @@
         <!-- Title bar with top buttons-->
         <CommandBar Grid.Row="0" Grid.ColumnSpan="3">
             <CommandBar.Content>
-                <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}"  Foreground="White" FontSize="25" FontWeight="SemiBold"
+                <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" FontSize="25" FontWeight="SemiBold"
                        VerticalAlignment="Center" Margin="15,5,0,0" />
             </CommandBar.Content>
             <AppBarButton Label="Move to Current Location" Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}" 
