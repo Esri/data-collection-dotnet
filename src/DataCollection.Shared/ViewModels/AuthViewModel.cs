@@ -22,9 +22,15 @@ using Esri.ArcGISRuntime.Portal;
 using Esri.ArcGISRuntime.Security;
 using System;
 using System.Net;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Input;
+#if NETFX_CORE
+using Windows.ApplicationModel;
+using Windows.Security.Credentials;
+#elif WPF
+using System.Security.Cryptography;
+#endif
+
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -177,41 +183,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 info.GenerateTokenOptions = new GenerateTokenOptions();
             }
 
-            OAuthTokenCredential credential = null;
-
             // if no refresh token, call to generate credentials
             // otherwise if a refresh token exists, login user using the refresh token
-            if (string.IsNullOrEmpty(_oAuthRefreshToken))
-            {
-                // HACK: portal endpoints that do not contain "sharing/rest" generate ArcGISTokenCredential instead of OAuthTokenCredential
-                // Forcing login into ArcGIS online if "sharing/rest" not in the service uri
-                var serviceUri = info.ServiceUri.ToString().Contains("sharing/rest") ? info.ServiceUri : new Uri(_arcGISOnlineURL);
+            var credential = string.IsNullOrEmpty(_oAuthRefreshToken) ?
+                await CreateNewCredential(info) :
+                await CreateCredentialFromRefreshToken(info);
 
-                // AuthenticationManager will handle challenging the user for credentials
-                credential = await Security.AuthenticationManager.Current.GenerateCredentialAsync(
-                serviceUri,
-                info.GenerateTokenOptions) as OAuthTokenCredential;
-            }
-            else
-            {
-                // unprotect the refresh token
-                var token = ProtectedData.Unprotect(
-                      Convert.FromBase64String(_oAuthRefreshToken),
-                      null,
-                      DataProtectionScope.CurrentUser);
-
-                // set up credential using the refresh token
-                credential = new OAuthTokenCredential()
-                {
-                    ServiceUri = info.ServiceUri,
-                    OAuthRefreshToken = System.Text.Encoding.Unicode.GetString(token),
-                    GenerateTokenOptions = info.GenerateTokenOptions
-                };
-
-                await credential.RefreshTokenAsync();
-            }
-
-            // add credential to the authentication manager singleton instance to be used int he app
+            // add credential to the authentication manager singleton instance to be used in the app
             Security.AuthenticationManager.Current.AddCredential(credential);
 
             try
@@ -236,12 +214,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 if (!string.IsNullOrEmpty(credential.OAuthRefreshToken))
                 {
-                    var token = ProtectedData.Protect(
-                            System.Text.Encoding.Unicode.GetBytes(credential.OAuthRefreshToken),
-                            null,
-                            DataProtectionScope.CurrentUser);
-
-                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(Convert.ToBase64String(token), BroadcastMessageKey.OAuthRefreshToken);
+                    StoreToken(credential.OAuthRefreshToken);
                 }
                 else
                 {
@@ -249,6 +222,49 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 }
             }
 
+            return credential;
+        }
+
+        /// <summary>
+        /// Methos to create a new credential given a refresh token exists
+        /// </summary>
+        private async Task<OAuthTokenCredential> CreateCredentialFromRefreshToken(CredentialRequestInfo info)
+        {
+            // set up credential using the refresh token
+            try
+            {
+                var credential = new OAuthTokenCredential()
+                {
+                    ServiceUri = info.ServiceUri,
+                    OAuthRefreshToken = GetToken(_oAuthRefreshToken),
+                    GenerateTokenOptions = info.GenerateTokenOptions
+                };
+
+                await credential.RefreshTokenAsync();
+                return credential;
+            }
+            catch
+            {
+                // if using the refresh token fails, clear the token 
+                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.OAuthRefreshToken);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Method to create a new credential
+        /// </summary>
+        private async Task<OAuthTokenCredential> CreateNewCredential(CredentialRequestInfo info)
+        {
+            // HACK: portal endpoints that do not contain "sharing/rest" generate ArcGISTokenCredential instead of OAuthTokenCredential
+            // Forcing login into ArcGIS online if "sharing/rest" not in the service uri
+            var serviceUri = info.ServiceUri.ToString().Contains("sharing/rest") ? info.ServiceUri : new Uri(_arcGISOnlineURL);
+
+            // AuthenticationManager will handle challenging the user for credentials
+            var credential = await Security.AuthenticationManager.Current.GenerateCredentialAsync(
+            serviceUri,
+            info.GenerateTokenOptions) as OAuthTokenCredential;
             return credential;
         }
 
@@ -281,6 +297,70 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(Resources.GetString("AuthError_Title"), ex.Message, true, ex.StackTrace);
             }
+        }
+
+        /// <summary>
+        /// Retrieve refresh token from the appropriate password storage 
+        /// This varies based on platform
+        /// </summary>
+        private string GetToken(string tokenFromSettings)
+        {
+#if WPF
+            // decrypt refresh token retrieved from the config file
+            var byteToken = ProtectedData.Unprotect(
+                    Convert.FromBase64String(tokenFromSettings),
+                    null,
+                    DataProtectionScope.CurrentUser);
+            return System.Text.Encoding.Unicode.GetString(byteToken);
+
+#elif NETFX_CORE
+            // retrieve refresh token from Windows' password vault
+            var vault = new PasswordVault();
+            try
+            {
+                // throws if no match found
+                return vault.Retrieve(Package.Current.DisplayName, tokenFromSettings).Password;
+            }
+            catch
+            {
+                return null;
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Store refresh token in the appropriate password storage 
+        /// This varies based on platform
+        /// </summary>
+        private void StoreToken(string refreshToken)
+        {
+#if WPF
+            // encrypt refresh token to be stored in the app's config file
+            var token = ProtectedData.Protect(
+                    System.Text.Encoding.Unicode.GetBytes(refreshToken),
+                    null,
+                    DataProtectionScope.CurrentUser);
+            BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(Convert.ToBase64String(token), BroadcastMessageKey.OAuthRefreshToken);
+
+#elif NETFX_CORE
+            // store refresh token for the user, or update it if it already exists
+            var vault = new PasswordVault();
+
+            try
+            {
+                // throws if no match found
+                vault.Retrieve(Package.Current.DisplayName, AuthenticatedUser.UserName).Password = refreshToken; 
+            }
+            catch
+            {
+                vault.Add(new PasswordCredential(
+                    Package.Current.DisplayName, AuthenticatedUser.UserName, refreshToken));
+            }
+            finally
+            {
+                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(AuthenticatedUser.UserName, BroadcastMessageKey.OAuthRefreshToken);
+            }        
+#endif
         }
     }
 }

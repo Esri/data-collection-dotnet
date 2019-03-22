@@ -34,7 +34,7 @@ using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    class MainViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
         private string _webMapURL;
         private int _defaultZoomScale;

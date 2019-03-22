@@ -232,7 +232,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 var loadTask = stagedAttachment.LoadAsync(attachment);
 
                 // add attachment to collection using the UI thread (for the binding to work)
+#if WPF
                 Application.Current.Dispatcher.Invoke(new Action(() => { Attachments.Add(stagedAttachment); }));
+#endif
 
                 tasks.Add(loadTask);
             }

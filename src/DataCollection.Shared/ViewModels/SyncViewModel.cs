@@ -25,7 +25,7 @@ using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    class SyncViewModel : BaseViewModel
+    public class SyncViewModel : BaseViewModel
     {
         public SyncViewModel(Map map)
         {

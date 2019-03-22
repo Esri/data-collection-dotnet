@@ -21,8 +21,13 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+#if WPF
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+#elif NETFX_CORE
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 {
@@ -81,7 +86,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                     Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentOther.png"));
                     break;
             }
+#if WPF
             Thumbnail?.Freeze();
+#endif
         }
 
         /// <summary>

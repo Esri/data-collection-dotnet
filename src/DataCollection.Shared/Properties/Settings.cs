@@ -22,6 +22,10 @@ using System.Reflection;
 using System.Xml.Serialization;
 using static System.Environment;
 
+#if NETFX_CORE
+using Windows.Storage;
+#endif
+
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
 {
     // Singleton class to provide access to settings from Configuration.xml
@@ -31,10 +35,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         private static Settings _instance;
 
         // set the path on disk for the settings file
-        private static string _settingsPath = Path.Combine(GetFolderPath(SpecialFolder.LocalApplicationData),
+#if WPF
+        private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
+#elif NETFX_CORE
+        private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#endif
+
+        private static string _settingsPath = Path.Combine(_localFolder,
             typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
             typeof(Settings).Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
             "Settings.xml");
+
 
         /// <summary>
         /// Default instance of the <see cref="Settings"/> class
@@ -53,6 +64,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                         // get settings file shipped with the app
 #if WPF
                         var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Configuration.xml";
+#elif NETFX_CORE
+                        var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Properties.Configuration.xml";
 #endif
                         // create stream and deserialize into a Settings object
                         var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath);
@@ -85,19 +98,19 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
             {
                 if (l.Args.Key == BroadcastMessageKey.ConnectivityMode)
                 {
-                    ConnectivityMode = l.Args.Value?.ToString();
+                    _instance.ConnectivityMode = l.Args.Value?.ToString();
                 }
                 else if (l.Args.Key == BroadcastMessageKey.DownloadPath)
                 {
-                    DownloadPath = l.Args.Value?.ToString();
+                    _instance.DownloadPath = l.Args.Value?.ToString();
                 }
                 else if (l.Args.Key == BroadcastMessageKey.OAuthRefreshToken)
                 {
-                    OAuthRefreshToken = l.Args.Value?.ToString();
+                    _instance.OAuthRefreshToken = l.Args.Value?.ToString();
                 }
                 else if (l.Args.Key == BroadcastMessageKey.SyncDate)
                 {
-                    SyncDate = l.Args.Value?.ToString();
+                    _instance.SyncDate = l.Args.Value?.ToString();
                 }
 
                 SerializeSettings(_instance);

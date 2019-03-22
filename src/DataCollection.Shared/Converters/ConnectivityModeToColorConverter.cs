@@ -16,14 +16,14 @@
 
 using System;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
-using System.Windows.Media;
 #if NETFX_CORE
-using Windows.UI.Xaml;
+using Windows.UI;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 using CustomCultureInfo = System.String;
 #else
 using System.Windows.Data;
-using System.Windows;
+using System.Windows.Media;
 using CustomCultureInfo = System.Globalization.CultureInfo;
 #endif
 
