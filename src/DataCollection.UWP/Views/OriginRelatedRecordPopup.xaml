@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views.OriginRelatedRecordPopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <Pivot>
+            <PivotItem Header="Details">
+                <StackPanel Orientation="Vertical">
+                    <!-- Origin related record in View mode -->
+                    <ItemsControl  ItemsSource="{x:Bind OriginRelationshipViewModel.PopupManager.DisplayedFields, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="3">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Field.Label, Mode=OneWay}" FontWeight="Bold" Margin="10, 0, 0, 0" />
+                                    <TextBox IsEnabled="False" Text="{Binding FormattedValue, Mode=OneWay}" TextWrapping="Wrap" BorderThickness="0" Margin="10, 0, 0, 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Attachments">
+                <TextBlock Text="Not yet implemented"/>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</UserControl>

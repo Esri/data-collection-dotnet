@@ -25,5 +25,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
                                                         Settings.Default.AppClientID,
                                                         Settings.Default.RedirectURL,
                                                         Settings.Default.OAuthRefreshToken);
+
+        private void BladeView_BladeClosed(object sender, Microsoft.Toolkit.Uwp.UI.Controls.BladeItem e)
+        {
+            if (e.Name == "IdentifiedFeatureBlade")
+                MainViewModel.IdentifiedFeatureViewModel = null;
+            else if (e.Name == "OriginRelationshipBlade")
+                MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
+            else if (e.Name == "DestinationRelationshipBlade")
+                MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship = null;
+        }
     }
 }

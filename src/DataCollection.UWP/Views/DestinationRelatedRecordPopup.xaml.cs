@@ -24,39 +24,39 @@ using Windows.UI.Xaml.Controls;
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
 {
     /// <summary>
-    /// Interaction logic for IdentifiedFeaturePopup.xaml
+    /// Interaction logic for DestinationRelatedRecordPopup.xaml
     /// </summary>
-    public sealed partial class IdentifiedFeaturePopup : UserControl, INotifyPropertyChanged
+    public sealed partial class DestinationRelatedRecordPopup : UserControl, INotifyPropertyChanged
     {
-        public IdentifiedFeaturePopup()
+        public DestinationRelatedRecordPopup()
         {
             InitializeComponent();
 
-            // set the IdentifiedFeatureViewModel property when DataContext changes and IdentifiedFeatureViewModel is set
+            // set the DestinationRelationshipViewModel property when DataContext changes and DestinationRelationshipViewModel is set
             DataContextChanged += (s, e) =>
             {
-                if (DataContext is MainViewModel mainViewModel)
+                if (DataContext is IdentifiedFeatureViewModel identifiedFeatureViewModel)
                 {
-                    mainViewModel.PropertyChanged += (o, a) =>
+                    identifiedFeatureViewModel.PropertyChanged += (o, a) =>
                     {
-                        if (a.PropertyName == nameof(IdentifiedFeatureViewModel))
-                            IdentifiedFeatureViewModel = mainViewModel.IdentifiedFeatureViewModel;
+                        if (a.PropertyName == "SelectedDestinationRelationship")
+                            DestinationRelationshipViewModel = identifiedFeatureViewModel.SelectedDestinationRelationship;
                     };
                 }
             };
         }
 
-        private IdentifiedFeatureViewModel _identifiedFeatureViewModel;
+        private DestinationRelationshipViewModel _destinationRelationshipViewModel;
 
         /// <summary>
-        /// Gets or sets the IdentifiedFeatureViewModel
+        /// Gets or sets the DestinationRelationshipViewModel
         /// </summary>
-        public IdentifiedFeatureViewModel IdentifiedFeatureViewModel
+        public DestinationRelationshipViewModel DestinationRelationshipViewModel
         {
-            get => _identifiedFeatureViewModel;
+            get => _destinationRelationshipViewModel;
             set
             {
-                _identifiedFeatureViewModel = value;
+                _destinationRelationshipViewModel = value;
                 OnPropertyChanged();
             }
         }
