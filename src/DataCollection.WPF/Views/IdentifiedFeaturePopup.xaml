@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
              xmlns:local="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -37,24 +36,24 @@
             <Button Content="Details" x:Name="DetailsModeButton" FontSize="18" Style="{StaticResource MenuButtonStyle}" Grid.Column="0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Visible"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Collapsed"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="White"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Regular"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Visible"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Collapsed"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="White"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Light"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
             <Button Name="AttachmentsModeButton" Content="Attachments" FontSize="18" FontWeight="Light" Foreground="GhostWhite" Style="{StaticResource MenuButtonStyle}" Grid.Column="1">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Collapsed"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Visible"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="White"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Regular"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Collapsed"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Visible"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="White"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Light"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
@@ -247,12 +246,12 @@
                 </Button.Content>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Collapsed"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Visible"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="White"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Regular"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
-                        <ei:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Light"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsView}" PropertyName="Visibility" Value="Collapsed"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsView}" PropertyName="Visibility" Value="Visible"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="Foreground" Value="White"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=AttachmentsModeButton}" PropertyName="FontWeight" Value="Regular"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="Foreground" Value="GhostWhite"/>
+                        <i:ChangePropertyAction TargetObject="{Binding ElementName=DetailsModeButton}" PropertyName="FontWeight" Value="Light"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
