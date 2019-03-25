@@ -75,7 +75,7 @@
                          Grid.Row="1" Grid.Column="2"/>
 
         <!-- BladeView control that contains the popups for identified features and related records-->
-        <controls:BladeView BladeMode="Normal" Grid.Row="1" Grid.Column="0" BladeClosed="BladeView_BladeClosed"
+        <controls:BladeView BladeMode="Normal" Grid.Row="1" Grid.Column="0" BladeClosed="BladeView_BladeClosed" 
                             Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
             <controls:BladeItem x:Name="IdentifiedFeatureBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}" 
                                 IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
