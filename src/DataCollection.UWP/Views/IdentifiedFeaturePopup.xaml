@@ -31,15 +31,15 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <TextBlock Text="{Binding Field.Label, Mode=OneWay}" FontWeight="Bold" Margin="10, 0, 10, 0" />
-                                        <TextBox IsEnabled="false" Text="{Binding FormattedValue, Mode=OneWay}" TextWrapping="Wrap" BorderThickness="0" Margin="10, 0, 10, 0"/>
+                                        <TextBlock Text="{Binding Field.Label, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" Margin="10, 5, 10, 0" />
+                                        <TextBlock Text="{Binding FormattedValue, Mode=OneWay}" TextWrapping="Wrap" Style="{StaticResource BaseTextBlockStyle}" Margin="12, 5, 10, 5"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
                         <!--List of relationships where identified feature is destination-->
-                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships, Mode=OneWay}" HorizontalContentAlignment="Stretch" Grid.Row="1" Margin="3">
+                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships, Mode=OneWay}" HorizontalContentAlignment="Stretch" Grid.Row="1">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Visibility="{Binding PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
@@ -48,18 +48,19 @@
                                             <ColumnDefinition Width="40"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="10"/>
+                                            <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
 
+                                        <TextBlock Text="{Binding PopupManager.Title}" Grid.Row="0" Style="{StaticResource SubtitleTextBlockStyle}" Margin="10, 10, 10, 5"/>
                                         <StackPanel Grid.Column="0" Grid.Row="1">
-                                            <TextBlock Text="{Binding PopupManager.DisplayedFields[0].Field.Label, Mode=OneWay}" FontSize="12" FontWeight="Bold" Margin=" 10,0,0,0"/>
-                                            <TextBlock Text="{Binding PopupManager.DisplayedFields[0].FormattedValue, Mode=OneWay}" FontSize="12" Foreground="Gray" Margin="12,0,0,0"/>
-                                            <TextBlock Text="{Binding PopupManager.DisplayedFields[1].Field.Label, Mode=OneWay}" FontSize="12" FontWeight="Bold" Margin=" 10,0,0,0"/>
-                                            <TextBlock Text="{Binding PopupManager.DisplayedFields[1].FormattedValue, Mode=OneWay}" FontSize="12" Foreground="Gray" Margin="12,0,0,0"/>
+                                            <TextBlock Text="{Binding PopupManager.DisplayedFields[0].Field.Label, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}"  Margin=" 10,5,0,0"/>
+                                            <TextBlock Text="{Binding PopupManager.DisplayedFields[0].FormattedValue, Mode=OneWay}" Style="{StaticResource BaseTextBlockStyle}" Margin="12,5,0,5"/>
+                                            <TextBlock Text="{Binding PopupManager.DisplayedFields[1].Field.Label, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" Margin=" 10,5,0,0"/>
+                                            <TextBlock Text="{Binding PopupManager.DisplayedFields[1].FormattedValue, Mode=OneWay}" Style="{StaticResource BaseTextBlockStyle}" Margin="12,5,0,5"/>
                                         </StackPanel>
-                                        <Button Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30"
-                                                Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,10,0" 
+                                        <Button Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Style="{StaticResource TextBlockButtonStyle}" Width="30" Height="30"
+                                                Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,15,0" 
                                                 Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedDestinationRelationshipCommand}" CommandParameter="{Binding}"/>
                                     </Grid>
                                 </DataTemplate>
@@ -67,7 +68,7 @@
                         </ItemsControl>
 
                         <!--List of relationships where identified feature is origin-->
-                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.OriginRelationships, Mode=OneWay}" HorizontalContentAlignment="Stretch" Grid.Row="2" Margin="5">
+                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.OriginRelationships, Mode=OneWay}" HorizontalContentAlignment="Stretch" Grid.Row="2">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -76,9 +77,9 @@
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="40"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{Binding RelatedTable.TableName, Mode=OneWay}" FontSize="17" Padding="10" Grid.Column="0"/>
+                                            <TextBlock Text="{Binding RelatedTable.TableName, Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}" Padding="10" Grid.Column="0"/>
                                         </Grid>
-                                        <ItemsControl ItemsSource="{Binding OriginRelatedRecords,Mode=OneWay}" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="3">
+                                        <ItemsControl ItemsSource="{Binding OriginRelatedRecords,Mode=OneWay}"  HorizontalContentAlignment="Stretch">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid>
@@ -90,16 +91,16 @@
                                                             <RowDefinition Height="5"/>
                                                             <RowDefinition Height="*"/>
                                                         </Grid.RowDefinitions>
-                                                        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" x:Name="OriginRecordGrid"> 
-                                                            <TextBlock Text="{Binding DisplayedFields[0].Field.Label, Mode=OneWay}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"/>
-                                                            <TextBlock Text="{Binding DisplayedFields[0].FormattedValue, Mode=OneWay}" FontSize="12" Foreground="Gray" Margin="7,0,0,0"/>
-                                                            <TextBlock Text="{Binding DisplayedFields[1].Field.Label, Mode=OneWay}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"/>
-                                                            <TextBlock Text="{Binding DisplayedFields[1].FormattedValue, Mode=OneWay}" FontSize="12" Foreground="Gray" Margin="7,0,0,0"/>
-                                                            <TextBlock Text="{Binding DisplayedFields[2].Field.Label, Mode=OneWay}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"/>
-                                                            <TextBlock Text="{Binding DisplayedFields[2].FormattedValue, Mode=OneWay}" FontSize="12" Foreground="Gray" Margin="7,0,0,10"/>
+                                                        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" x:Name="OriginRecordGrid">
+                                                            <TextBlock Text="{Binding DisplayedFields[0].Field.Label, Mode=OneWay}"  Style="{StaticResource BodyTextBlockStyle}"  Margin=" 10,5,0,0"/>
+                                                            <TextBlock Text="{Binding DisplayedFields[0].FormattedValue, Mode=OneWay}" Style="{StaticResource BaseTextBlockStyle}" Margin="12,5,0,5"/>
+                                                            <TextBlock Text="{Binding DisplayedFields[1].Field.Label, Mode=OneWay}"  Style="{StaticResource BodyTextBlockStyle}"  Margin=" 10,5,0,0"/>
+                                                            <TextBlock Text="{Binding DisplayedFields[1].FormattedValue, Mode=OneWay}" Style="{StaticResource BaseTextBlockStyle}" Margin="12,5,0,5"/>
+                                                            <TextBlock Text="{Binding DisplayedFields[2].Field.Label, Mode=OneWay}"  Style="{StaticResource BodyTextBlockStyle}"  Margin=" 10,5,0,0"/>
+                                                            <TextBlock Text="{Binding DisplayedFields[2].FormattedValue, Mode=OneWay}" Style="{StaticResource BaseTextBlockStyle}" Margin="12,5,0,5"/>
                                                         </StackPanel>
-                                                        <Button Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" VerticalAlignment="Center"
-                                                            Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0" 
+                                                        <Button Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Style="{StaticResource TextBlockButtonStyle}" Width="30" Height="30" VerticalAlignment="Center"
+                                                            Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,15,0" 
                                                             Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand}" 
                                                             CommandParameter="{Binding}"/>
                                                     </Grid>

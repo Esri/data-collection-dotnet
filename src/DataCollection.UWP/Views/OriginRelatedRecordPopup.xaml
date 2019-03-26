@@ -13,12 +13,12 @@
             <PivotItem Header="Details">
                 <StackPanel Orientation="Vertical">
                     <!-- Origin related record in View mode -->
-                    <ItemsControl  ItemsSource="{x:Bind OriginRelationshipViewModel.PopupManager.DisplayedFields, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="3">
+                    <ItemsControl  ItemsSource="{x:Bind OriginRelationshipViewModel.PopupManager.DisplayedFields, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Field.Label, Mode=OneWay}" FontWeight="Bold" Margin="10, 0, 0, 0" />
-                                    <TextBox IsEnabled="False" Text="{Binding FormattedValue, Mode=OneWay}" TextWrapping="Wrap" BorderThickness="0" Margin="10, 0, 0, 0" />
+                                    <TextBlock Text="{Binding Field.Label, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}"  Margin=" 10,5,0,0"/>
+                                    <TextBlock Text="{Binding FormattedValue, Mode=OneWay}" TextWrapping="Wrap" Style="{StaticResource BaseTextBlockStyle}" Margin="12,5,0,5" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
