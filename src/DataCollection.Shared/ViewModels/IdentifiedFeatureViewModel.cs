@@ -208,13 +208,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _setSelectedOriginRelationshipCommand ?? (_setSelectedOriginRelationshipCommand = new DelegateCommand(
                     (x) =>
                     {
-                        if (x is object[] parameterArray)
+                        if (x is PopupManager popupManager)
                         {
-                            if (parameterArray[0] is OriginRelationshipViewModel && parameterArray[1] is PopupManager)
-                            {
-                                SelectedOriginRelationship = (OriginRelationshipViewModel)parameterArray[0];
-                                SelectedOriginRelationship.PopupManager = (PopupManager)parameterArray[1];
-                            }
+                            var feature = popupManager.Popup.GeoElement as Feature;
+                            SelectedOriginRelationship = new OriginRelationshipViewModel((ArcGISFeatureTable)feature.FeatureTable, ConnectivityMode);
+                            SelectedOriginRelationship.PopupManager = popupManager;
                         }
                     }));
             }

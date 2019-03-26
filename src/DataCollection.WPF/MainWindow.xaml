@@ -10,8 +10,7 @@
         xmlns:local="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF"
         xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
         xmlns:viewModels="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Data Collection for WPF" Height="525" Width="790" MinHeight="650" MinWidth="900">
@@ -95,7 +94,7 @@
                 <Button Content="Cancel" Style="{StaticResource MenuButtonStyle}" Margin="0,0,20,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:ChangePropertyAction TargetObject="{Binding .}" PropertyName="IsNewFeatureBeingAdded" Value="False"/>
+                            <i:ChangePropertyAction TargetObject="{Binding .}" PropertyName="IsNewFeatureBeingAdded" Value="False"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -243,7 +242,7 @@
                     </StackPanel>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:ChangePropertyAction TargetObject="{Binding ElementName=toggleMenu}" PropertyName="IsChecked" Value="False"/>
+                            <i:ChangePropertyAction TargetObject="{Binding ElementName=toggleMenu}" PropertyName="IsChecked" Value="False"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -270,7 +269,7 @@
                     </StackPanel>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:ChangePropertyAction TargetObject="{Binding ElementName=toggleMenu}" PropertyName="IsChecked" Value="False"/>
+                            <i:ChangePropertyAction TargetObject="{Binding ElementName=toggleMenu}" PropertyName="IsChecked" Value="False"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -289,7 +288,7 @@
                     </StackPanel>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:ChangePropertyAction TargetObject="{Binding ElementName=toggleMenu}" PropertyName="IsChecked" Value="False"/>
+                            <i:ChangePropertyAction TargetObject="{Binding ElementName=toggleMenu}" PropertyName="IsChecked" Value="False"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -305,7 +304,7 @@
                     </StackPanel>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:ChangePropertyAction TargetObject="{Binding ElementName=toggleMenu}" PropertyName="IsChecked" Value="False"/>
+                            <i:ChangePropertyAction TargetObject="{Binding ElementName=toggleMenu}" PropertyName="IsChecked" Value="False"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>

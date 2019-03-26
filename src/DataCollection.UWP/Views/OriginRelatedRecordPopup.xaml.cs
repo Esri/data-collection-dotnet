@@ -21,42 +21,43 @@ using System.Runtime.CompilerServices;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 
+// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
 {
     /// <summary>
-    /// Interaction logic for IdentifiedFeaturePopup.xaml
+    /// Interaction logic for OriginRelatedRecordPopup.xaml
     /// </summary>
-    public sealed partial class IdentifiedFeaturePopup : UserControl, INotifyPropertyChanged
+    public sealed partial class OriginRelatedRecordPopup : UserControl, INotifyPropertyChanged
     {
-        public IdentifiedFeaturePopup()
+        public OriginRelatedRecordPopup()
         {
             InitializeComponent();
 
-            // set the IdentifiedFeatureViewModel property when DataContext changes and IdentifiedFeatureViewModel is set
+            // set the OriginRelationshipViewModel property when DataContext changes and OriginRelationshipViewModel is set
             DataContextChanged += (s, e) =>
             {
-                if (DataContext is MainViewModel mainViewModel)
+                if (DataContext is IdentifiedFeatureViewModel identifiedFeatureViewModel)
                 {
-                    mainViewModel.PropertyChanged += (o, a) =>
+                    identifiedFeatureViewModel.PropertyChanged += (o, a) =>
                     {
-                        if (a.PropertyName == nameof(IdentifiedFeatureViewModel))
-                            IdentifiedFeatureViewModel = mainViewModel.IdentifiedFeatureViewModel;
+                        if (a.PropertyName == "SelectedOriginRelationship")
+                            OriginRelationshipViewModel = identifiedFeatureViewModel.SelectedOriginRelationship;
                     };
                 }
             };
         }
-
-        private IdentifiedFeatureViewModel _identifiedFeatureViewModel;
+        private OriginRelationshipViewModel _originRelationshipViewModel;
 
         /// <summary>
-        /// Gets or sets the IdentifiedFeatureViewModel
+        /// Gets or sets the OriginRelationshipViewModel
         /// </summary>
-        public IdentifiedFeatureViewModel IdentifiedFeatureViewModel
+        public OriginRelationshipViewModel OriginRelationshipViewModel
         {
-            get => _identifiedFeatureViewModel;
+            get => _originRelationshipViewModel;
             set
             {
-                _identifiedFeatureViewModel = value;
+                _originRelationshipViewModel = value;
                 OnPropertyChanged();
             }
         }

@@ -81,7 +81,6 @@ Learn more about Esri Example Apps [here](https://developers.arcgis.com/example-
 ## Requirements
 * [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
 * [ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/downloads/apis-and-sdks?product=net)
-* [Blend SDK](https://www.microsoft.com/en-us/download/details.aspx?id=10801)
 * To edit records or take a web map offline you will need an ArcGIS Online Organizational account, an ArcGIS Online Developer account or an ArcGIS Online account authenticated using a social login.
 * To consume your own web map you will need an ArcGIS Online Organizational account.
 

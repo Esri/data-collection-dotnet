@@ -8,15 +8,17 @@
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
+    xmlns:views="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
-    
     <Page.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -27,9 +29,38 @@
             <ColumnDefinition Width="Auto" MinWidth="300" MaxWidth="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <esri:MapView x:Name="MapView" Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}" 
-                      Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
-                      utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}">
+
+        <!-- Title bar with top buttons-->
+        <CommandBar Grid.Row="0" Grid.ColumnSpan="3">
+            <CommandBar.Content>
+                <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" Style="{StaticResource SubheaderTextBlockStyle}" Margin="15,0,0,0" />
+            </CommandBar.Content>
+            <AppBarButton Label="Move to Current Location" Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}" 
+                              Visibility="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Icon="Add" Label="Add Feature"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Sign In" Command="{x:Bind AuthViewModel.LoginCommand}" 
+                            Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" >
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Label="Sign Out" Command="{x:Bind AuthViewModel.LogOutCommand}"
+                                  Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" >
+                    <AppBarButton.Icon>
+                        <BitmapIcon UriSource="{x:Bind AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+
+        <!-- MapView Control containing map-->
+        <esri:MapView x:Name="MapView" Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="3"
+                              utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}">
             <utils:MapViewExtensions.ViewpointController>
                 <utils:ViewpointController  Viewpoint="{x:Bind MainViewModel.MapViewModel.AreaOfInterest, Mode=OneWay}"/>
             </utils:MapViewExtensions.ViewpointController>
@@ -39,37 +70,24 @@
         </esri:MapView>
 
         <!-- Compass control that displays when user rotates the map -->
-        <toolkit:Compass GeoView="{Binding ElementName=MapView, Mode=OneWay}" AutoHide="True"
-                      Margin="20"  Grid.Column="2" Grid.Row="1" />
+        <toolkit:Compass GeoView="{Binding ElementName=MapView, Mode=OneWay}" AutoHide="True" Margin="20" VerticalAlignment="Bottom"
+                         Grid.Row="1" Grid.Column="2"/>
 
-        <!-- Title bar with top buttons-->
-        <CommandBar Grid.Row="0" Grid.ColumnSpan="3">
-            <CommandBar.Content>
-                <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" FontSize="25" FontWeight="SemiBold"
-                       VerticalAlignment="Center" Margin="15,5,0,0" />
-            </CommandBar.Content>
-            <AppBarButton Label="Move to Current Location" Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}" 
-                          Visibility="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton Icon="Add" Label="Add Feature"/>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Sign In" Command="{x:Bind AuthViewModel.LoginCommand}" 
-                        Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" >
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton Label="Sign Out" Command="{x:Bind AuthViewModel.LogOutCommand}"
-                              Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" >
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="{x:Bind AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-
+        <!-- BladeView control that contains the popups for identified features and related records-->
+        <controls:BladeView BladeMode="Normal" Grid.Row="1" Grid.Column="0" BladeClosed="BladeView_BladeClosed"
+                            Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+            <controls:BladeItem x:Name="IdentifiedFeatureBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}" 
+                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"/>
+            </controls:BladeItem>
+            <controls:BladeItem x:Name="OriginRelationshipBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}" 
+                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"/>
+            </controls:BladeItem>
+            <controls:BladeItem x:Name="DestinationRelationshipBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}" 
+                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"/>
+            </controls:BladeItem>
+        </controls:BladeView>
     </Grid>
 </Page>
