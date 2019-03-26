@@ -20,7 +20,7 @@
     <Grid>
         <Pivot>
             <PivotItem Header="Details">
-                <ScrollViewer>
+                <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
