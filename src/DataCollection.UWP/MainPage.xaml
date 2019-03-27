@@ -10,7 +10,6 @@
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
     xmlns:views="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:i="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>

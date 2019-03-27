@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
-             xmlns:local="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF"
+             xmlns:utils="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
              mc:Ignorable="d" 
@@ -14,7 +14,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <converters:LocalizationConverter x:Key="LocalizationConverter"/>
-            <local:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector"/>
+            <utils:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../ResourceDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>

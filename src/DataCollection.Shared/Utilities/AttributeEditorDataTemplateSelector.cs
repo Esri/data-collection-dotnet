@@ -14,17 +14,22 @@
 
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+#if WPF
 using System.Windows;
 using System.Windows.Controls;
+#elif NETFX_CORE
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+#endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
+namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
 {
     /// <summary>
     /// Helper class to select the correct DataTemplate based on the field's data type
     /// </summary>
     public class AttributeEditorDataTemplateSelector : DataTemplateSelector 
     {
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
             var element = container as FrameworkElement;
 
@@ -32,31 +37,31 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
             {
                 if (popupFieldValue.OriginalField.FieldType == FieldType.Date)
                 {
-                    return element.FindResource("DateTemplate") as DataTemplate;
+                    return element.FindName("DateTemplate") as DataTemplate;
                 }
                 else if (popupFieldValue.OriginalField.Domain != null && popupFieldValue.OriginalField.Domain is CodedValueDomain)
                 {
-                    return element.FindResource("CodedValueDomainTemplate") as DataTemplate;
+                    return element.FindName("CodedValueDomainTemplate") as DataTemplate;
                 }
                 else if (popupFieldValue.OriginalField.Domain != null && popupFieldValue.OriginalField.Domain is RangeDomain<int>)
                 {
-                    return element.FindResource("IntegerRangeDomainTemplate") as DataTemplate;
+                    return element.FindName("IntegerRangeDomainTemplate") as DataTemplate;
                 }
                 else if (popupFieldValue.OriginalField.Domain != null && popupFieldValue.OriginalField.Domain is RangeDomain<float>)
                 {
-                    return element.FindResource("DoubleRangeDomainTemplate") as DataTemplate;
+                    return element.FindName("DoubleRangeDomainTemplate") as DataTemplate;
                 }
                 else if (popupFieldValue.OriginalField.FieldType == FieldType.Float32 || popupFieldValue.OriginalField.FieldType == FieldType.Float64)
                 {
-                    return element.FindResource("DoubleTemplate") as DataTemplate;
+                    return element.FindName("DoubleTemplate") as DataTemplate;
                 }
                 else if (popupFieldValue.OriginalField.FieldType == FieldType.Int16 || popupFieldValue.OriginalField.FieldType == FieldType.Int32)
                 {
-                    return element.FindResource("IntTemplate") as DataTemplate;
+                    return element.FindName("IntTemplate") as DataTemplate;
                 }
                 else
                 {
-                    return element.FindResource("StringTemplate") as DataTemplate;
+                    return element.FindName("StringTemplate") as DataTemplate;
                 }
             }
             return null;

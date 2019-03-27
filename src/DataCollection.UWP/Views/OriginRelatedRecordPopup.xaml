@@ -5,16 +5,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
+    xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-    <Grid>
-        <Pivot>
+    <Grid x:Name="OriginRelatedRecordGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Pivot Grid.Row="0">
             <PivotItem Header="Details">
                 <StackPanel Orientation="Vertical">
                     <!-- Origin related record in View mode -->
-                    <ItemsControl  ItemsSource="{x:Bind OriginRelationshipViewModel.PopupManager.DisplayedFields, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl  ItemsSource="{x:Bind OriginRelationshipViewModel.PopupManager.DisplayedFields, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                   Visibility="{x:Bind OriginRelationshipViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
@@ -24,6 +35,9 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <!-- Origin related record in Edit mode -->
+                    <ItemsControl ItemsSource="{x:Bind OriginRelationshipViewModel.Fields, Mode=OneWay}" ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}"
+                                  Visibility="{x:Bind OriginRelationshipViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Attachments">
@@ -31,5 +45,17 @@
                 <local:AttachmentsView DataContext="{x:Bind OriginRelationshipViewModel, Mode=OneWay}"/>
             </PivotItem>
         </Pivot>
+        
+        <!-- Buttons to edit and delete record -->
+        <CommandBar Grid.Row="1" Visibility="{x:Bind OriginRelationshipViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+            <AppBarButton Icon="Edit" Command="{x:Bind OriginRelationshipViewModel.EditRelatedRecordCommand, Mode=OneWay}"/>
+            <AppBarButton Icon="Delete" Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}" CommandParameter="{Binding}"/>
+        </CommandBar>
+
+        <!-- Buttons to save and discard changes to record -->
+        <CommandBar Grid.Row="1" Visibility="{x:Bind OriginRelationshipViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+            <AppBarButton Icon="Save" Command="{x:Bind OriginRelationshipViewModel.SaveEditsCommand, Mode=OneWay}"/>
+            <AppBarButton Icon="Cancel" Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}" CommandParameter="{Binding}"/>
+        </CommandBar>
     </Grid>
 </UserControl>
