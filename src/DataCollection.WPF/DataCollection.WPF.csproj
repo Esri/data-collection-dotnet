@@ -172,16 +172,24 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\GenericPin.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\PinShadow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\AttachmentDocument.png" />
-    <Resource Include="Images\AttachmentImage.png" />
-    <Resource Include="Images\AttachmentOther.png" />
-    <Resource Include="Images\AttachmentVideo.png" />
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentDocument.png">
+      <Link>Images\AttachmentDocument.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentImage.png">
+      <Link>Images\AttachmentImage.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentOther.png">
+      <Link>Images\AttachmentOther.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentVideo.png">
+      <Link>Images\AttachmentVideo.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\GenericPin.png">
+      <Link>Images\GenericPin.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\PinShadow.png">
+      <Link>Images\PinShadow.png</Link>
+    </Resource>
   </ItemGroup>
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

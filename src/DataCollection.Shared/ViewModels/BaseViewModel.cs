@@ -34,13 +34,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <param name="propertyName">The name of the property that has changed</param>
         protected async void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-#if WPF
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-#elif NETFX_CORE
+#if NETFX_CORE
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             });
+#else
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 #endif
         }
 

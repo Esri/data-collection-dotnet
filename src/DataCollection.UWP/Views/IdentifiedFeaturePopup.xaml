@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
+    xmlns:local="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -19,7 +20,7 @@
     <Grid>
         <Pivot>
             <PivotItem Header="Details">
-                <ScrollViewer>
+                <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -115,7 +116,8 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Attachments">
-                <TextBlock Text="Not yet implemented"/>
+                <!-- Attachments view -->
+                <local:AttachmentsView DataContext="{x:Bind IdentifiedFeatureViewModel, Mode=OneWay}"/>
             </PivotItem>
         </Pivot>
     </Grid>

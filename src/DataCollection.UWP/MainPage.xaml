@@ -10,6 +10,7 @@
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
     xmlns:views="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:i="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -77,15 +78,18 @@
         <controls:BladeView BladeMode="Normal" Grid.Row="1" Grid.Column="0" BladeClosed="BladeView_BladeClosed"
                             Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
             <controls:BladeItem x:Name="IdentifiedFeatureBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}" 
-                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}" 
+                                Collapsed="BladeItem_Collapsed" Expanded="BladeItem_Expanded">
                 <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"/>
             </controls:BladeItem>
             <controls:BladeItem x:Name="OriginRelationshipBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}" 
-                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                                Collapsed="BladeItem_Collapsed" Expanded="BladeItem_Expanded">
                 <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"/>
             </controls:BladeItem>
             <controls:BladeItem x:Name="DestinationRelationshipBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}" 
-                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                                Collapsed="BladeItem_Collapsed" Expanded="BladeItem_Expanded">
                 <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"/>
             </controls:BladeItem>
         </controls:BladeView>
