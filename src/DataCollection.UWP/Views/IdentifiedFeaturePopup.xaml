@@ -18,6 +18,10 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
         <Pivot>
             <PivotItem Header="Details">
                 <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
@@ -27,8 +31,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <!--List of attributes from identified feature-->
-                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.PopupManager.DisplayedFields, Mode=OneWay}" Grid.Row="0">
+                        <!--List of attributes from identified feature in View Mode-->
+                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.PopupManager.DisplayedFields, Mode=OneWay}" Grid.Row="0"
+                                      Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter},ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
@@ -40,7 +45,8 @@
                         </ItemsControl>
 
                         <!--List of relationships where identified feature is destination-->
-                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships, Mode=OneWay}" HorizontalContentAlignment="Stretch" Grid.Row="1">
+                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships, Mode=OneWay}" HorizontalContentAlignment="Stretch" Grid.Row="1"
+                                      Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter},ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Visibility="{Binding PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
@@ -69,7 +75,8 @@
                         </ItemsControl>
 
                         <!--List of relationships where identified feature is origin-->
-                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.OriginRelationships, Mode=OneWay}" HorizontalContentAlignment="Stretch" Grid.Row="2">
+                        <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.OriginRelationships, Mode=OneWay}" HorizontalContentAlignment="Stretch" Grid.Row="2"
+                                      Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter},ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
@@ -112,6 +119,11 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+
+                        <!--List of attributes from identified feature in View Mode-->
+                        <local:FeatureEditorView DataContext="{x:Bind IdentifiedFeatureViewModel}"
+                                                 Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay,Converter={StaticResource NullToVisibilityConverter}}"/>
+
                     </Grid>
                 </ScrollViewer>
             </PivotItem>
@@ -120,5 +132,17 @@
                 <local:AttachmentsView DataContext="{x:Bind IdentifiedFeatureViewModel, Mode=OneWay}"/>
             </PivotItem>
         </Pivot>
+
+        <!-- Buttons to edit and delete record -->
+        <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter},ConverterParameter=Inverse}">
+            <AppBarButton Icon="Edit" Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"/>
+            <AppBarButton Icon="Delete" Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}" CommandParameter="{x:Bind IdentifiedFeatureViewModel}"/>
+        </CommandBar>
+
+        <!-- Buttons to save and discard changes to record -->
+        <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay,Converter={StaticResource NullToVisibilityConverter}}">
+            <AppBarButton Icon="Save" Command="{x:Bind IdentifiedFeatureViewModel.SaveEditsCommand, Mode=OneWay}"/>
+            <AppBarButton Icon="Cancel" Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.CancelEditsCommand}" CommandParameter="{x:Bind IdentifiedFeatureViewModel}"/>
+        </CommandBar>
     </Grid>
 </UserControl>

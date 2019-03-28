@@ -45,17 +45,17 @@
                 <local:AttachmentsView DataContext="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}"/>
             </PivotItem>
         </Pivot>
-        
+
         <!-- Buttons to edit and delete record -->
         <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
             <AppBarButton Icon="Edit" Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"/>
-            <AppBarButton Icon="Delete" Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}" CommandParameter="{Binding}"/>
+            <AppBarButton Icon="Delete" Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}" CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"/>
         </CommandBar>
 
         <!-- Buttons to save and discard changes to record -->
         <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
             <AppBarButton Icon="Save" Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}"/>
-            <AppBarButton Icon="Cancel" Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}" CommandParameter="{Binding}"/>
+            <AppBarButton Icon="Cancel" Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}" CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"/>
         </CommandBar>
     </Grid>
 </UserControl>
