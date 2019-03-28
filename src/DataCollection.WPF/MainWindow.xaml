@@ -7,7 +7,6 @@
         xmlns:utils="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
         xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
         xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters"
-        xmlns:local="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF"
         xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
         xmlns:viewModels="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -23,7 +22,6 @@
             <converters:LocalizationConverter x:Key="LocalizationConverter"/>
             <localconverters:MapTitleConverter x:Key="MapTitleConverter"/>
             <viewModels:MainViewModel x:Key="MainViewModel"/>
-            <local:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector"/>
             <System:Boolean x:Key="TrueValue">True</System:Boolean>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ResourceDictionary.xaml"/>

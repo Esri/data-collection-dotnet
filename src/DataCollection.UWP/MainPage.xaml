@@ -84,7 +84,7 @@
             <controls:BladeItem x:Name="OriginRelationshipBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}" 
                                 IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
                                 Collapsed="BladeItem_Collapsed" Expanded="BladeItem_Expanded">
-                <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"/>
+                <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"/>
             </controls:BladeItem>
             <controls:BladeItem x:Name="DestinationRelationshipBlade" Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}" 
                                 IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"

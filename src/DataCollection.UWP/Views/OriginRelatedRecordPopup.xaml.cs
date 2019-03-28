@@ -35,27 +35,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
             // set the OriginRelationshipViewModel property when DataContext changes and OriginRelationshipViewModel is set
             DataContextChanged += (s, e) =>
             {
-                if (DataContext is IdentifiedFeatureViewModel identifiedFeatureViewModel)
+                if (DataContext is MainViewModel mainViewModel)
                 {
-                    identifiedFeatureViewModel.PropertyChanged += (o, a) =>
+                    mainViewModel.PropertyChanged += (o, a) =>
                     {
-                        if (a.PropertyName == "SelectedOriginRelationship")
-                            OriginRelationshipViewModel = identifiedFeatureViewModel.SelectedOriginRelationship;
+                        if (a.PropertyName == nameof(IdentifiedFeatureViewModel))
+                            IdentifiedFeatureViewModel = mainViewModel.IdentifiedFeatureViewModel;
                     };
                 }
             };
         }
-        private OriginRelationshipViewModel _originRelationshipViewModel;
+
+        private IdentifiedFeatureViewModel _identifiedFeatureViewModel;
 
         /// <summary>
-        /// Gets or sets the OriginRelationshipViewModel
+        /// Gets or sets the IdentifiedFeatureViewModel
         /// </summary>
-        public OriginRelationshipViewModel OriginRelationshipViewModel
+        public IdentifiedFeatureViewModel IdentifiedFeatureViewModel
         {
-            get => _originRelationshipViewModel;
+            get => _identifiedFeatureViewModel;
             set
             {
-                _originRelationshipViewModel = value;
+                _identifiedFeatureViewModel = value;
                 OnPropertyChanged();
             }
         }
