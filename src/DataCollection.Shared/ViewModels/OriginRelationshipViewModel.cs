@@ -21,10 +21,8 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,14 +30,14 @@ using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    public class OriginRelationshipViewModel : BaseViewModel
+    public class OriginRelationshipViewModel : EditableFeatureViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DestinationRelationshipViewModel"/> class.
         /// </summary>
         public OriginRelationshipViewModel(ArcGISFeatureTable relatedTable, ConnectivityMode connectivityMode)
         {
-            RelatedTable = relatedTable;
+            FeatureTable = relatedTable;
             ConnectivityMode = connectivityMode;
         }
 
@@ -96,16 +94,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the RelatedTable 
-        /// </summary>
-        public ArcGISFeatureTable RelatedTable { get; }
-
-        /// <summary>
-        /// Gets or sets the ConnectivityMode
-        /// </summary>
-        public ConnectivityMode ConnectivityMode { get; }
-
-        /// <summary>
         /// Gets or sets the RelationshipInfo which keeps track of information about the relationship for editing purposes
         /// </summary>
         public RelationshipInfo RelationshipInfo { get; private set; }
@@ -121,83 +109,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             set
             {
                 _originRelatedRecords = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private EditViewModel _editViewModel;
-
-        /// <summary>
-        /// Gets or sets the viewmodel for the current edit session
-        /// </summary>
-        public EditViewModel EditViewModel
-        {
-            get => _editViewModel;
-            set
-            {
-                if (_editViewModel != value)
-                {
-                    _editViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private IEnumerable<FieldContainer> _fields;
-
-        /// <summary>
-        /// Gets the underlying Field property for the PopupField in order to retrieve FieldType and Domain
-        /// This is a workaroud until Domain and FieldType are exposed on the PopupManager
-        /// </summary>
-        public IEnumerable<FieldContainer> Fields
-        {
-            get => _fields;
-            set
-            {
-                _fields = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private PopupManager _popupManager;
-
-        /// <summary>
-        /// Gets or sets the active related record for the origin relationship
-        /// </summary>
-        public PopupManager PopupManager
-        {
-            get { return _popupManager; }
-            set
-            {
-                if (_popupManager != value)
-                {
-                    _popupManager = value;
-                    if (value != null)
-                    {
-                        Fields = FieldContainer.GetFields(value);
-
-                        // If the selected related record changes, fetch the attachments and create a new AttachmentsViewModel
-                        PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t =>
-                        {
-                            AttachmentsViewModel = new AttachmentsViewModel(PopupManager, RelatedTable);
-                        });
-                    }
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private AttachmentsViewModel _attachmentsViewModel;
-
-        /// <summary>
-        /// Gets or sets the AttachmentViewModel to handle viewing and editing attachments 
-        /// </summary>
-        public AttachmentsViewModel AttachmentsViewModel
-        {
-            get { return _attachmentsViewModel; }
-            set
-            {
-                _attachmentsViewModel = value;
                 OnPropertyChanged();
             }
         }
@@ -232,7 +143,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _saveEditsCommand ?? (_saveEditsCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        var feature = await EditViewModel.SaveEdits(PopupManager, RelatedTable, null);
+                        var feature = await EditViewModel.SaveEdits(PopupManager, FeatureTable, null);
 
                         if (feature != null)
                         {
@@ -278,50 +189,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Discards edits performed on a related record 
-        /// </summary>
-        internal async Task<bool> DiscardChanges()
-        {
-            if (PopupManager.HasEdits())
-            {
-                bool confirmCancelEdits = false;
-                // wait for response from the user if the truly want to cancel the edit operation
-                UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                    Resources.GetString("DiscardEditsConfirmation_Title"),
-                    Resources.GetString("DiscardEditsConfirmation_Message"),
-                    false,
-                    null,
-                    Resources.GetString("DiscardButton_Content"));
-
-                void handler(object o, UserPromptResponseChangedEventArgs e)
-                {
-                    {
-                        UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                        if (e.Response)
-                        {
-                            confirmCancelEdits = true;
-                        }
-                    }
-                }
-
-                if (!confirmCancelEdits)
-                {
-                    return false;
-                }
-            }
-
-            // cancel the edits if the PopupManager doesn't have any edits or if the user chooses to
-            EditViewModel.CancelEdits(PopupManager);
-            EditViewModel = null;
-
-            // reload the attachments to discard any changes that the user may have done to the Attachments list
-            await AttachmentsViewModel.LoadAttachments();
-            return true;
         }
 
         /// <summary>

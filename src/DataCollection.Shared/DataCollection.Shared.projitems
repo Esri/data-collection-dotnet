@@ -47,6 +47,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DownloadViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\EditableFeatureViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeatureViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SyncViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\TreeSurveyWorkflows.cs" />
