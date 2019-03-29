@@ -23,7 +23,6 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +30,7 @@ using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    public class IdentifiedFeatureViewModel : BaseViewModel
+    public class IdentifiedFeatureViewModel : EditableFeatureViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentifiedFeatureViewModel"/> class.
@@ -43,17 +42,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 Feature = feature;
                 FeatureTable = feature.FeatureTable;
                 PopupManager = new PopupManager(new Popup(feature, FeatureTable.PopupDefinition));
-                Fields = FieldContainer.GetFields(PopupManager);
                 ConnectivityMode = connectivityMode;
-
-                // fetch attachments
-                PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t =>
-                {
-                    // create a new AttachmentsViewModel to display the attachments to the user
-                    AttachmentsViewModel = new AttachmentsViewModel(PopupManager, Feature.FeatureTable);
-                });
             }
         }
+
+        /// <summary>
+        /// Gets the feature currently selected
+        /// </summary>
+        public Feature Feature { get; }
 
         private DestinationRelationshipViewModel _selectedDestinationRelationship;
 
@@ -110,62 +106,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private EditViewModel _editViewModel;
-
-        /// <summary>
-        /// Gets or sets the viewmodel for the current edit session
-        /// </summary>
-        public EditViewModel EditViewModel
-        {
-            get => _editViewModel;
-            set
-            {
-                if (_editViewModel != value)
-                {
-                    _editViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private AttachmentsViewModel _attachmentsViewModel;
-
-        /// <summary>
-        /// Gets or sets the AttachmentViewModel to handle viewing and editing attachments 
-        /// </summary>
-        public AttachmentsViewModel AttachmentsViewModel
-        {
-            get { return _attachmentsViewModel; }
-            set
-            {
-                _attachmentsViewModel = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets the feature currently selected
-        /// </summary>
-        public Feature Feature { get; }
-
-        /// <summary>
-        /// Gets the feature table for the layer
-        /// </summary>
-        public FeatureTable FeatureTable { get; }
-
-        /// <summary>
-        /// Gets the PopupManager for the selected feature
-        /// </summary>
-        public PopupManager PopupManager { get; }
-
-        /// <summary>
-        /// Gets the underlying Field property for the PopupField in order to retrieve FieldType and Domain
-        /// This is a workaround until Domain and FieldType are exposed on the PopupManager
-        /// </summary>
-        public IEnumerable<FieldContainer> Fields { get; }
-
-        public ConnectivityMode ConnectivityMode { get; }
-
         /// <summary>
         /// Gets or sets the collection of view models that handle the related features to which the identified feature is Destination
         /// </summary>
@@ -211,7 +151,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         if (x is PopupManager popupManager)
                         {
                             var feature = popupManager.Popup.GeoElement as Feature;
-                            SelectedOriginRelationship = new OriginRelationshipViewModel((ArcGISFeatureTable)feature.FeatureTable, ConnectivityMode);
+                            var  = OriginRelationships;
+                            //SelectedOriginRelationship = new OriginRelationshipViewModel((ArcGISFeatureTable)feature.FeatureTable, ConnectivityMode);
+                            SelectedOriginRelationship = OriginRelationships.Where(o => ((Feature)o.PopupManager.Popup.GeoElement).Attributes.Values == feature.Attributes.Values).FirstOrDefault();
+                            //SelectedOriginRelationship = from o in OriginRelationships where o.PopupManager == popupManager select o;
                             SelectedOriginRelationship.PopupManager = popupManager;
                         }
                     }));
@@ -228,35 +171,20 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _editFeatureCommand ?? (_editFeatureCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // clear the related records user may have open
                         SelectedDestinationRelationship = null;
                         if (SelectedOriginRelationship != null && SelectedOriginRelationship.EditViewModel != null)
                         {
-                            bool exitWithoutSaving = false;
-
                             // if user had edits, wait for response from the user if they truly want to exit editing the related record
-                            UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                            bool exitWithoutSaving = await UserPromptMessenger.Instance.AwaitConfirmation(
                                 Resources.GetString("DiscardEditsConfirmation_Title"),
                                 Resources.GetString("DiscardEditsConfirmation_Message"),
                                 false,
                                 null,
                                 Resources.GetString("DiscardButton_Content"));
-
-                            void handler(object o, UserPromptResponseChangedEventArgs e)
-                            {
-                                {
-                                    UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                                    if (e.Response)
-                                    {
-                                        exitWithoutSaving = true;
-                                    }
-                                }
-                            }
-
+                                                       
                             if (!exitWithoutSaving)
                                 return;
                         }
@@ -330,14 +258,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             try
                             {
                                 // create a new record and load it
-                                var feature = SelectedOriginRelationship.RelatedTable.CreateFeature();
+                                var feature = SelectedOriginRelationship.FeatureTable.CreateFeature();
 
                                 if (feature != null && feature is ArcGISFeature)
                                 {
                                     await ((ArcGISFeature)feature).LoadAsync();
 
                                     // get the corresponding PopupManager
-                                    SelectedOriginRelationship.PopupManager = new PopupManager(new Popup(feature, SelectedOriginRelationship.RelatedTable.PopupDefinition));
+                                    SelectedOriginRelationship.PopupManager = new PopupManager(new Popup(feature, SelectedOriginRelationship.FeatureTable.PopupDefinition));
 
                                     // related new record to the feature
                                     ((ArcGISFeature)feature).RelateFeature((ArcGISFeature)Feature, SelectedOriginRelationship.RelationshipInfo);
@@ -354,6 +282,29 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         }
                     }));
             }
+        }
+
+        /// <summary>
+        /// Deletes identified feature
+        /// </summary>
+        internal async Task<bool> DeleteFeature()
+        {
+            if (Feature != null)
+            {
+                try
+                {
+                    await FeatureTable?.DeleteFeature(Feature);
+                    await FeatureTable?.ApplyEdits();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                    return false;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -413,72 +364,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Deletes identified feature
-        /// </summary>
-        internal async Task<bool> DeleteFeature()
-        {
-            if (Feature != null)
-            {
-                try
-                {
-                    await FeatureTable?.DeleteFeature(Feature);
-                    await FeatureTable?.ApplyEdits();
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Discards edits performed on a feature 
-        /// </summary>
-        internal async Task<bool> DiscardChanges()
-        {
-            if (PopupManager.HasEdits())
-            {
-                bool cancelEdits = false;
-
-                // wait for response from the user if the truly want to cancel the edit operation
-                UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                    Resources.GetString("DiscardEditsConfirmation_Title"),
-                    Resources.GetString("DiscardEditsConfirmation_Message"),
-                    false,
-                    null,
-                    Resources.GetString("DiscardButton_Content"));
-
-                void handler(object o, UserPromptResponseChangedEventArgs e)
-                {
-                    {
-                        UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                        if (e.Response)
-                        {
-                            cancelEdits = true;
-                        }
-                    }
-                }
-
-                if (!cancelEdits)
-                {
-                    return false;
-                }
-            }
-
-            // cancel the edits if the PopupManager doesn't have any edits or if the user chooses to
-            EditViewModel.CancelEdits(PopupManager);
-            EditViewModel = null;
-            await AttachmentsViewModel.LoadAttachments();
-            return true;
         }
 
         /// <summary>

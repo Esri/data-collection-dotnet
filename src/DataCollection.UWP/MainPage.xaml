@@ -43,7 +43,7 @@
             </AppBarButton>
             <AppBarButton Icon="Add" Label="Add Feature"/>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Sign In" Command="{x:Bind AuthViewModel.LoginCommand}" 
+                <AppBarButton Label="Sign In" Command="{x:Bind AuthViewModel.LoginCommand}"
                             Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" >
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;"/>

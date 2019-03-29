@@ -68,7 +68,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             GetMap().ContinueWith(t =>
             {
                 if (t.Result != null)
+                {
                     MapViewModel = new MapViewModel(t.Result, ConnectivityMode, _defaultZoomScale);
+                }
             });
         }
 
@@ -407,7 +409,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _deleteOfflineMapCommand ?? (_deleteOfflineMapCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // if online map is unreachable, do not proceed
                         if (!IsWebmapAccessible())
@@ -437,26 +439,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             }
                         }
 
-                        // wait for response from the user if the truly want to delete the offline map
-                        UserPromptMessenger.Instance.ResponseValueChanged += handler;
-                        UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                        // wait for response from the user if they truly want to delete the offline map
+                        bool response = await UserPromptMessenger.Instance.AwaitConfirmation(
                             Resources.GetString("DeleteMap_Title"),
                             deleteOfflineMapMessage,
                             false,
                             null,
                             Resources.GetString("DeleteButton_Content"));
 
-                        void handler(object o, UserPromptResponseChangedEventArgs e)
+                        if (response)
                         {
-                            {
-                                UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-
-                                // call method to delete map if user chooses so
-                                if (e.Response)
-                                {
-                                    DeleteOfflineMap();
-                                }
-                            }
+                            DeleteOfflineMap();
                         }
                     }));
             }
@@ -476,7 +469,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         // if there is no offline map, there is nothing to sync
                         if (OfflineMap == null)
+                        {
                             return;
+                        }
 
                         // if online map is unreachable, do not proceed
                         if (!IsWebmapAccessible())
@@ -618,28 +613,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _deleteFeatureCommand ?? (_deleteFeatureCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        bool deleteConfirmed = false;
-
                         // wait for response from the user if they truly want to delete the feature
-                        UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                        UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                        bool deleteConfirmed = await UserPromptMessenger.Instance.AwaitConfirmation(
                             Resources.GetString("DeleteConfirmation_Title"),
                             Resources.GetString("DeleteConfirmation_Message"),
                             false,
                             null,
                             Resources.GetString("DeleteButton_Content"));
-
-                        void handler(object o, UserPromptResponseChangedEventArgs e)
-                        {
-                            {
-                                UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                                if (e.Response)
-                                {
-                                    deleteConfirmed = true;
-                                }
-                            }
-                        }
 
                         if (deleteConfirmed)
                         {
@@ -689,7 +669,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             {
                                 IdentifiedFeatureViewModel = null;
                             }
-                        }                      
+                        }
                         else if (x is OriginRelationshipViewModel)
                         {
                             var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
@@ -751,7 +731,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         // Call method to set up relationship info
                         await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                     }

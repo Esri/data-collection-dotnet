@@ -15,6 +15,7 @@
 ******************************************************************************/
 
 using System;
+using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
 {
@@ -66,6 +67,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
             {
                 Response = response
             });
+        }
+
+        public Task<bool> AwaitConfirmation(string messageTitle, string message, bool isError, string stackTrace = null,
+            string affirmativeActionButtonContent = null, string negativeActionButtonContent = null)
+        {
+            var taskCompletionSource = new TaskCompletionSource<bool>();
+
+            Instance.ResponseValueChanged += handler;
+
+            Instance.RaiseMessageValueChanged(messageTitle, message, isError, stackTrace, affirmativeActionButtonContent, negativeActionButtonContent);
+
+            void handler(object o, UserPromptResponseChangedEventArgs e)
+            {
+                {
+                    Instance.ResponseValueChanged -= handler;
+                    if (e.Response)
+                    {
+                        taskCompletionSource.TrySetResult(e.Response);
+                    }
+                }
+            }
+            return taskCompletionSource.Task;
         }
     }
 }
