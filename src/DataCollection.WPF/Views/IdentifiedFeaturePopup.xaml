@@ -123,15 +123,15 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="40"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding RelatedTable.TableName}" FontSize="17" Background="Green" Foreground="White" Padding="10" Grid.Column="0"/>
+                                    <TextBlock Text="{Binding RelatedTable.PopupDefinition.Title}" FontSize="17" Background="Green" Foreground="White" Padding="10" Grid.Column="0"/>
                                     <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
                                             ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}"
-                                            Grid.Column="1" Margin="0, 0, 10, 0" Command="{Binding DataContext.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding .}"/>
+                                            Grid.Column="1" Margin="0, 0, 10, 0" Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding .}"/>
                                 </Grid>
-                                <ItemsControl ItemsSource="{Binding OriginRelatedRecords}" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="3">
+                                <ItemsControl ItemsSource="{Binding OriginRelationshipViewModelCollection}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid>
+                                            <Grid DataContext="{Binding PopupManager}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="40"/>
@@ -149,16 +149,18 @@
                                                     <TextBlock Text="{Binding DisplayedFields[2].FormattedValue}" FontSize="12" Foreground="Gray" Margin="7,0,0,10"/>
                                                 </StackPanel>
                                                 <Button Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="30" Height="30" VerticalAlignment="Center" Style="{StaticResource MenuButtonStyle}" 
-                                                        Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0" 
-                                                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"
-                                                        Command="{Binding DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                        CommandParameter="{Binding}">
+                                                    Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0" 
+                                                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"
+                                                    Command="{Binding DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}">
                                                 </Button>
                                                 <Separator Background="Green" Margin="5,-5,5,0" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Top"/>
                                             </Grid>
+
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
+
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -168,7 +170,7 @@
                 <!--List of attributes from identified feature-->
                 <ItemsControl ItemsSource="{Binding Fields}" ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" 
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Margin="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"/>
-                
+
                 <!-- Edit Mode -->
                 <!--List of relationships where identified feature is destination-->
                 <ItemsControl ItemsSource="{Binding DestinationRelationships}" Grid.Row="1" Margin="3" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
@@ -209,7 +211,7 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
-            
+
             <!-- Bottom buttons to edit or delete record -->
             <Button Content="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="18" Width="30" Height="30" Style="{StaticResource MenuButtonStyle}" 
                             HorizontalAlignment="Right" Margin="0, 0, 10, 0" Grid.Column="1" Command="{Binding EditFeatureCommand}" 

@@ -653,14 +653,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             }
                             else
                             {
-                                if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteRelatedRecord())
+                                if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteFeature())
                                 {
 
                                     // call method to update tree condition and dbh
-                                    await TreeSurveyWorkflows.UpdateIdentifiedFeature(
-                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.OriginRelatedRecords,
-                                        IdentifiedFeatureViewModel.Feature,
-                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager);
+                                    //await TreeSurveyWorkflows.UpdateIdentifiedFeature(
+                                    //    IdentifiedFeatureViewModel.SelectedOriginRelationship.OriginRelatedRecords,
+                                    //    IdentifiedFeatureViewModel.Feature,
+                                    //    IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager);
 
                                     IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                                 }
