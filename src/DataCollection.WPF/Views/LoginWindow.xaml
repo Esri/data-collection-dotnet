@@ -1,26 +1,31 @@
-﻿<UserControl x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views.LoginWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:utils="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Utils"
-             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
-             xmlns:wpfViewModels="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.ViewModels"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="600">
+﻿<UserControl
+    x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views.LoginWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utils="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Utils"
+    xmlns:wpfViewModels="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.ViewModels"
+    d:DesignHeight="800"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <wpfViewModels:LoginWindowViewModel x:Key="LoginWindowViewModel"/>
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <wpfViewModels:LoginWindowViewModel x:Key="LoginWindowViewModel" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="MainGrid" DataContext="{StaticResource LoginWindowViewModel}" Visibility="{Binding WebAddress, Converter={StaticResource NullToVisibilityConverter}}" >
-        <Rectangle  Fill="Black" Opacity=".5"/>
+    <Grid
+        x:Name="MainGrid"
+        DataContext="{StaticResource LoginWindowViewModel}"
+        Visibility="{Binding WebAddress, Converter={StaticResource NullToVisibilityConverter}}">
+        <Rectangle Fill="Black" Opacity=".5" />
         <WebBrowser x:Name="WebBrowser">
             <utils:WebBrowserExtensions.SourceController>
-                <utils:SourceController UriSource="{Binding WebAddress, Mode=TwoWay, Source={StaticResource LoginWindowViewModel}}"/>
+                <utils:SourceController UriSource="{Binding WebAddress, Mode=TwoWay, Source={StaticResource LoginWindowViewModel}}" />
             </utils:WebBrowserExtensions.SourceController>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Navigating">

@@ -79,7 +79,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _saveEditsCommand ?? (_saveEditsCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        var feature = await EditViewModel.SaveEdits(PopupManager, FeatureTable, null);
+                        Feature = await EditViewModel.SaveEdits(PopupManager, FeatureTable, null);
                         RaiseFeatureCRUDOperationCompleted(CRUDOperation.Edit);
                         EditViewModel = null;
                     }));
