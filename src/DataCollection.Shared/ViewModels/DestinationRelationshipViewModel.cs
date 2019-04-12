@@ -32,7 +32,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="DestinationRelationshipViewModel"/> class.
         /// </summary>
-        public DestinationRelationshipViewModel(RelationshipInfo relationshipInfo, FeatureTable relatedTable, ConnectivityMode connectivityMode)
+        public DestinationRelationshipViewModel(RelationshipInfo relationshipInfo, ArcGISFeatureTable relatedTable, ConnectivityMode connectivityMode)
         {
             RelationshipInfo = relationshipInfo;
             FeatureTable = relatedTable;

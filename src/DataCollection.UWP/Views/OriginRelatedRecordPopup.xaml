@@ -2,60 +2,71 @@
     x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views.OriginRelatedRecordPopup"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
-    mc:Ignorable="d"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid x:Name="OriginRelatedRecordGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Pivot Grid.Row="0">
             <PivotItem Header="Details">
                 <StackPanel Orientation="Vertical">
-                    <!-- Origin related record in View mode -->
-                    <ItemsControl  ItemsSource="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.DisplayedFields, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                   Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <!--  Origin related record in View mode  -->
+                    <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.DisplayedFields, Mode=OneWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Field.Label, Mode=OneWay}" Margin=" 10,5,0,0"/>
-                                    <TextBlock Text="{Binding FormattedValue, Mode=OneWay}" TextWrapping="Wrap" Style="{StaticResource BaseTextBlockStyle}" Margin="12,5,0,5" />
+                                    <TextBlock
+                                        Margin="10,5,0,0"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{Binding Field.Label, Mode=OneWay}" />
+                                    <TextBlock
+                                        Margin="12,5,0,5"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{Binding FormattedValue, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <!-- Origin related record in Edit mode -->
-                    <local:FeatureEditorView DataContext="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
-                                             Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"/>
+                    <!--  Origin related record in Edit mode  -->
+                    <local:FeatureEditorView DataContext="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Attachments">
-                <!-- Attachments view -->
-                <local:AttachmentsView DataContext="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}"/>
+                <!--  Attachments view  -->
+                <local:AttachmentsView DataContext="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}" />
             </PivotItem>
         </Pivot>
 
-        <!-- Buttons to edit and delete record -->
+        <!--  Buttons to edit and delete record  -->
         <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-            <AppBarButton Icon="Edit" Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"/>
-            <AppBarButton Icon="Delete" Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}" CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"/>
+            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" Icon="Edit" />
+            <AppBarButton
+                Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}"
+                CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
+                Icon="Delete" />
         </CommandBar>
 
-        <!-- Buttons to save and discard changes to record -->
+        <!--  Buttons to save and discard changes to record  -->
         <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-            <AppBarButton Icon="Save" Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}"/>
-            <AppBarButton Icon="Cancel" Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}" CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"/>
+            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}" Icon="Save" />
+            <AppBarButton
+                Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}"
+                CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
+                Icon="Cancel" />
         </CommandBar>
     </Grid>
 </UserControl>

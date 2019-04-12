@@ -24,7 +24,7 @@ The project also demonstrates some patterns for building real-world apps around 
 * Model-View-ViewModel pattern
 
 ## Get Started
-You will need [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) and the [ArcGIS Runtime SDK](https://developers.arcgis.com/downloads/apis-and-sdks?product=net) (v100.4 or later) installed locally.
+You will need [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) and the [ArcGIS Runtime SDK](https://developers.arcgis.com/downloads/apis-and-sdks?product=net) (v100.5 or later) installed locally.
 
 ### Fork the repo
 **Fork** the [Data Collection](https://github.com/Esri/data-collection-dotnet/fork) repo
