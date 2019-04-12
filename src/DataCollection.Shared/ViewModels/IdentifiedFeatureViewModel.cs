@@ -177,7 +177,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 Resources.GetString("DiscardButton_Content"));
                                                        
                             if (!exitWithoutSaving)
+                            {
                                 return;
+                            }
                         }
 
                         SelectedOriginRelationship = null;
@@ -272,29 +274,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         }
                     }));
             }
-        }
-
-        /// <summary>
-        /// Deletes identified feature
-        /// </summary>
-        internal async Task<bool> DeleteFeature()
-        {
-            if (Feature != null)
-            {
-                try
-                {
-                    await FeatureTable?.DeleteFeature(Feature);
-                    await FeatureTable?.ApplyEdits();
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                    return false;
-                }
-            }
-            return false;
         }
 
         /// <summary>

@@ -23,6 +23,9 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.Mapping.Popups;
+using System.Collections.Generic;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
