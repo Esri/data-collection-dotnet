@@ -15,7 +15,6 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.Data;
-using System;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
 {

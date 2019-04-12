@@ -105,29 +105,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private bool _isNewFeatureBeingAdded;
-
-        /// <summary>
-        /// Gets or sets the flag whether a new feature creation is currently in progress
-        /// </summary>
-        public bool IsNewFeatureBeingAdded
-        {
-            get => _isNewFeatureBeingAdded;
-            set
-            {
-                _isNewFeatureBeingAdded = value;
-                if (value)
-                {
-                    IsLocationOnlyMode = true;
-                }
-                else
-                {
-                    IsLocationOnlyMode = false;
-                }
-                OnPropertyChanged();
-            }
-        }
-
         private MapViewModel _mapViewModel;
 
         /// <summary>
@@ -528,25 +505,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private ICommand _createFeatureCommand;
-
-        /// <summary>
-        /// Gets the command to begin adding a feature
-        /// </summary>
-        public ICommand CreateFeatureCommand
-        {
-            get
-            {
-                return _createFeatureCommand ?? (_createFeatureCommand = new DelegateCommand(
-                    (x) =>
-                    {
-                        // clear any selected features
-                        IdentifiedFeatureViewModel = null;
-                        IsNewFeatureBeingAdded = true;
-                    }));
-            }
-        }
-
         private ICommand _saveNewFeatureCommand;
 
         /// <summary>
@@ -591,14 +549,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     // select the new feature
                                     MapViewModel.SelectFeature(feature);
 
-                                    IsNewFeatureBeingAdded = false;
                                     break;
                                 }
                                 catch (Exception ex)
                                 {
                                     UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-
-                                    IsNewFeatureBeingAdded = false;
                                 }
                             }
                         }
@@ -653,15 +608,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             }
                             else
                             {
-                                if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteRelatedRecord())
+                                if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteFeature())
                                 {
-
-                                    // call method to update tree condition and dbh
-                                    await TreeSurveyWorkflows.UpdateIdentifiedFeature(
-                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.OriginRelatedRecords,
-                                        IdentifiedFeatureViewModel.Feature,
-                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager);
-
                                     IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                                 }
                             }
@@ -690,13 +638,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 IdentifiedFeatureViewModel = null;
                             }
                         }                      
-                        else if (x is OriginRelationshipViewModel)
+                        else if (x is OriginRelationshipViewModel originRelationshipVM)
                         {
-                            var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
+                            var feature = originRelationshipVM?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
 
                             if (feature != null && await IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
                             {
                                 IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
+                                // remove viewmodel from collection
+                                var originRelationshipVMCollection = (IdentifiedFeatureViewModel.OriginRelationships.FirstOrDefault(o => o.RelationshipInfo == originRelationshipVM.RelationshipInfo)).OriginRelationshipViewModelCollection;
+                                originRelationshipVMCollection.Remove(originRelationshipVM);
                             }
                         }
                     }));
