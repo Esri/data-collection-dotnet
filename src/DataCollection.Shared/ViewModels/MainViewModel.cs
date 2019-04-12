@@ -665,13 +665,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 IdentifiedFeatureViewModel = null;
                             }
                         }                      
-                        else if (x is OriginRelationshipViewModel)
+                        else if (x is OriginRelationshipViewModel originRelationshipVM)
                         {
-                            var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
+                            var feature = originRelationshipVM?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
 
                             if (feature != null && await IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
                             {
                                 IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
+                                // remove viewmodel from collection
+                                var originRelationshipVMCollection = (IdentifiedFeatureViewModel.OriginRelationships.FirstOrDefault(o => o.RelationshipInfo == originRelationshipVM.RelationshipInfo)).OriginRelationshipViewModelCollection;
+                                originRelationshipVMCollection.Remove(originRelationshipVM);
                             }
                         }
                     }));

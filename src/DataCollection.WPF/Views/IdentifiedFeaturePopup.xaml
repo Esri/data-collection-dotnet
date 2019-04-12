@@ -178,7 +178,7 @@
                         <DataTemplate>
                             <Grid>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding RelatedTable.TableName}" FontSize="12" FontWeight="Bold" Margin=" 10,0,0,0"/>
+                                    <TextBlock Text="{Binding FeatureTable.TableName}" FontSize="12" FontWeight="Bold" Margin=" 10,0,0,0"/>
                                     <ComboBox ItemsSource="{Binding OrderedAvailableValues}" SelectedItem="{Binding DataContext.PopupManager, 
                                         RelativeSource={RelativeSource AncestorType=StackPanel}}" Width="230"  Margin="10,0,0,5" HorizontalAlignment="Left">
                                         <ComboBox.ItemTemplate>
@@ -197,7 +197,6 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
             </Grid>
         </ScrollViewer>
 

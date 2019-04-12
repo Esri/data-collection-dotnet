@@ -20,8 +20,10 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -62,7 +64,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         if (SelectedOriginRelationship != null)
                         {
-                            SelectedOriginRelationship.PropertyChanged -= SelectedOriginRelationship_PropertyChanged;
                             SelectedOriginRelationship = null;
                         }
                     }
@@ -91,10 +92,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     if (value != null)
                     {
                         SelectedDestinationRelationship = null;
+                        SelectedOriginRelationship.FeatureCRUDOperationCompleted += OriginRelatedFeature_FeatureCRUDOperationCompleted;
 
-                        // Set PropertyChanged event handler
-                        // This is only used for the Update tree condition custom workflow 
-                        SelectedOriginRelationship.PropertyChanged += SelectedOriginRelationship_PropertyChanged;
                     }
                 }
             }
@@ -353,20 +352,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        /// <summary>
-        /// Event handler for property changed on the VM
-        /// This is only used for the Update tree condition custom workflow 
-        /// </summary>
-        private async void SelectedOriginRelationship_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void OriginRelatedFeature_FeatureCRUDOperationCompleted(object sender, FeatureOperationEventArgs e)
         {
-            if (e.PropertyName == nameof(OriginRelationshipViewModel.EditViewModel))
+            var originRelationshipVM = sender as OriginRelationshipViewModel;
+            var originRelationshipVMCollection = (OriginRelationships.FirstOrDefault(o => o.RelationshipInfo == originRelationshipVM.RelationshipInfo)).OriginRelationshipViewModelCollection;
+
+            if (e.Args == CRUDOperation.Delete)
             {
-                if (SelectedOriginRelationship.EditViewModel == null && OriginRelationships != null)
-                {
-                    // call method to update tree condition and dbh
-                   //await TreeSurveyWorkflows.UpdateIdentifiedFeature(OriginRelationships, Feature, PopupManager);
-                }
+                // remove viewmodel from collection
+                originRelationshipVMCollection.Remove(originRelationshipVM);
             }
+            else
+            {
+                //sort collection
+                List<OriginRelationshipViewModel> sorted = originRelationshipVMCollection.OrderByDescending(x => x.PopupManager.DisplayedFields.FirstOrDefault().Value).ToList();
+                for (int i = 0; i < sorted.Count(); i++)
+                    originRelationshipVMCollection.Move(originRelationshipVMCollection.IndexOf(sorted[i]), i);
+            }
+
+            // call method to update tree condition and dbh
+            await TreeSurveyWorkflows.UpdateIdentifiedFeature(originRelationshipVMCollection, Feature, PopupManager);
         }
     }
 }

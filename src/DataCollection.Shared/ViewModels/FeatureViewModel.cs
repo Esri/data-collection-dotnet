@@ -1,4 +1,20 @@
-﻿using Esri.ArcGISRuntime.Data;
+﻿/*******************************************************************************
+  * Copyright 2019 Esri
+  *
+  *  Licensed under the Apache License, Version 2.0 (the "License");
+  *  you may not use this file except in compliance with the License.
+  *  You may obtain a copy of the License at
+  *
+  *  http://www.apache.org/licenses/LICENSE-2.0
+  *
+  *   Unless required by applicable law or agreed to in writing, software
+  *   distributed under the License is distributed on an "AS IS" BASIS,
+  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  *   See the License for the specific language governing permissions and
+  *   limitations under the License.
+******************************************************************************/
+
+using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
@@ -10,10 +26,8 @@ using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    public class FeatureViewModel : BaseViewModel
+    public abstract class FeatureViewModel : BaseViewModel
     {
-
-
         private PopupManager _popupManager;
 
         /// <summary>
@@ -107,7 +121,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         private bool _isNewFeature;
 
         /// <summary>
-        /// Gets or sets the feature currently selected
+        /// Gets or sets the property designating if current feature is new and has not been commited
         /// </summary>
         public bool IsNewFeature
         {
@@ -165,7 +179,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     await FeatureTable?.DeleteFeature(Feature);
                     await FeatureTable?.ApplyEdits();
-
+                    RaiseFeatureCRUDOperationCompleted(CRUDOperation.Delete);
                     return true;
                 }
                 catch (Exception ex)
@@ -220,5 +234,37 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             return true;
         }
 
+        public event EventHandler<FeatureOperationEventArgs> FeatureCRUDOperationCompleted;
+
+
+        /// <summary>
+        /// Event handler called when feature is modified
+        /// </summary>
+        /// <param name="operation"></param>
+        internal void RaiseFeatureCRUDOperationCompleted(CRUDOperation operation)
+        {
+            FeatureCRUDOperationCompleted?.Invoke(this, new FeatureOperationEventArgs()
+            {
+                Args = operation
+            });
+        }
+    }
+
+    /// <summary>
+    /// Event args for CRUD feature operation event handler
+    /// </summary>
+    public class FeatureOperationEventArgs : EventArgs
+    {
+        public CRUDOperation Args { get; set; }
+    }
+
+    /// <summary>
+    /// Enum of edit types done on feature
+    /// </summary>
+    public enum CRUDOperation
+    {
+        Add,
+        Edit,
+        Delete
     }
 }
