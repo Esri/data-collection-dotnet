@@ -20,10 +20,8 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -146,17 +144,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         if (x is PopupManager popupManager)
                         {
-                            foreach (var rels in OriginRelationships)
-                            {
-                                foreach(var r in rels.OriginRelationshipViewModelCollection)
-                                {
-                                    if (r.PopupManager == popupManager)
-                                    {
-                                        SelectedOriginRelationship = r;
-                                    }
-                                }
-                            }
-                            //SelectedOriginRelationship = OriginRelationships.Where(o => o.Where(r => r.PopupManager == popupManager)).FirstOrDefault();
+                            SelectedOriginRelationship = OriginRelationships.First(
+                                rels => rels.OriginRelationshipViewModelCollection.FirstOrDefault(
+                                    r => r.PopupManager == popupManager) !=
+                                    default(OriginRelationshipViewModel)).OriginRelationshipViewModelCollection.FirstOrDefault(r => r.PopupManager == popupManager);
                         }
                     }));
             }
@@ -372,7 +363,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 if (SelectedOriginRelationship.EditViewModel == null && OriginRelationships != null)
                 {
-                    
                     // call method to update tree condition and dbh
                    //await TreeSurveyWorkflows.UpdateIdentifiedFeature(OriginRelationships, Feature, PopupManager);
                 }

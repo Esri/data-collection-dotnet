@@ -131,7 +131,7 @@
                                 <ItemsControl ItemsSource="{Binding OriginRelationshipViewModelCollection}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid DataContext="{Binding PopupManager}">
+                                            <Grid Visibility="{Binding IsNewFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="40"/>
@@ -140,7 +140,7 @@
                                                     <RowDefinition Height="5"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-                                                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+                                                <StackPanel DataContext="{Binding PopupManager}" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
                                                     <TextBlock Text="{Binding DisplayedFields[0].Field.Label}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"/>
                                                     <TextBlock Text="{Binding DisplayedFields[0].FormattedValue}" FontSize="12" Foreground="Gray" Margin="7,0,0,0"/>
                                                     <TextBlock Text="{Binding DisplayedFields[1].Field.Label}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"/>
@@ -152,7 +152,7 @@
                                                     Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0" 
                                                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"
                                                     Command="{Binding DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}">
+                                                    CommandParameter="{Binding PopupManager}">
                                                 </Button>
                                                 <Separator Background="Green" Margin="5,-5,5,0" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Top"/>
                                             </Grid>

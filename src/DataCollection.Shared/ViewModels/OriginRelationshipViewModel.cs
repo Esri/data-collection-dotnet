@@ -18,16 +18,8 @@
 using Esri.ArcGISRuntime.ArcGISServices;
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Mapping.Popups;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
@@ -52,49 +44,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 });
             }
         }
-
-        //private TaskCompletionSource<bool> _initTcs;
-
-        ///// <summary>
-        ///// Initialization code for the OriginRelationshipViewModel
-        ///// </summary>
-        //public Task InitializeAsync()
-        //{
-        //    if (_initTcs == null)
-        //    {
-        //        _initTcs = new TaskCompletionSource<bool>();
-        //        // Run initialization
-        //        LoadViewModel(relatedFeatureQueryResult, relationshipInfo).ContinueWith(t =>
-        //        {
-        //            // When init completes, set the task to complete
-        //            _initTcs.TrySetResult(true);
-        //        });
-        //    }
-
-        //    return _initTcs.Task;
-        //}
-
-        /// <summary>
-        /// Loads the necessary prerequisites for OriginRelationshipViewModel
-        /// </summary>
-        //public async Task LoadViewModel(RelatedFeatureQueryResult relatedFeatureQueryResult, RelationshipInfo relationshipInfo)
-        //{
-        //    if (relatedFeatureQueryResult.Count() > 0)
-        //    {
-        //        foreach (var relatedRecord in relatedFeatureQueryResult)
-        //        {
-        //            // load feature to be able to access popup
-        //            if (relatedRecord is ArcGISFeature loadableFeature)
-        //            {
-        //                await loadableFeature.LoadAsync();
-        //            }
-
-        //            PopupManager = new PopupManager(new Popup(relatedRecord, relatedRecord.FeatureTable.PopupDefinition));
-
-        //            RelationshipInfo = relationshipInfo;
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Gets or sets the RelationshipInfo which keeps track of information about the relationship for editing purposes
@@ -131,21 +80,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _saveEditsCommand ?? (_saveEditsCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        var feature = await EditViewModel.SaveEdits(PopupManager, FeatureTable, null);
-
-                        //if (feature != null)
-                        //{
-                        //    // if a new record was added, we want to refresh the list so it shows up in the UI
-                        //    GetAddedRecordAndRefresh(feature);
-                        //}
-           
+                        var feature = await EditViewModel.SaveEdits(PopupManager, FeatureTable, null);          
                         EditViewModel = null;
-
-                        //// re-sort the records to account for any edits
-                        //if (OriginRelatedRecords.Count > 1)
-                        //{
-                        //    OriginRelatedRecords = new ObservableCollection<PopupManager>(OriginRelatedRecords.OrderByDescending(o => o.DisplayedFields.First().Value));
-                        //}
                     }));
             }
         }

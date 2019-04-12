@@ -6,7 +6,6 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
@@ -99,6 +98,23 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             set
             {
                 _feature = value;
+                if (value.IsNewFeature())
+                    IsNewFeature = true;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isNewFeature;
+
+        /// <summary>
+        /// Gets or sets the feature currently selected
+        /// </summary>
+        public bool IsNewFeature
+        {
+            get => _isNewFeature;
+            set
+            {
+                _isNewFeature = value;
                 OnPropertyChanged();
             }
         }
@@ -131,6 +147,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 if (_editViewModel != value)
                 {
                     _editViewModel = value;
+                    if (value == null)
+                        IsNewFeature = false;
                     OnPropertyChanged();
                 }
             }

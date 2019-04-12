@@ -105,28 +105,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private bool _isNewFeatureBeingAdded;
-
-        /// <summary>
-        /// Gets or sets the flag whether a new feature creation is currently in progress
-        /// </summary>
-        public bool IsNewFeatureBeingAdded
-        {
-            get => _isNewFeatureBeingAdded;
-            set
-            {
-                _isNewFeatureBeingAdded = value;
-                if (value)
-                {
-                    IsLocationOnlyMode = true;
-                }
-                else
-                {
-                    IsLocationOnlyMode = false;
-                }
-                OnPropertyChanged();
-            }
-        }
+       
 
         private MapViewModel _mapViewModel;
 
@@ -528,24 +507,23 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private ICommand _createFeatureCommand;
+        //private ICommand _createFeatureCommand;
 
-        /// <summary>
-        /// Gets the command to begin adding a feature
-        /// </summary>
-        public ICommand CreateFeatureCommand
-        {
-            get
-            {
-                return _createFeatureCommand ?? (_createFeatureCommand = new DelegateCommand(
-                    (x) =>
-                    {
-                        // clear any selected features
-                        IdentifiedFeatureViewModel = null;
-                        IsNewFeatureBeingAdded = true;
-                    }));
-            }
-        }
+        ///// <summary>
+        ///// Gets the command to begin adding a feature
+        ///// </summary>
+        //public ICommand CreateFeatureCommand
+        //{
+        //    get
+        //    {
+        //        return _createFeatureCommand ?? (_createFeatureCommand = new DelegateCommand(
+        //            (x) =>
+        //            {
+        //                // clear any selected features
+        //                IdentifiedFeatureViewModel = null;
+        //            }));
+        //    }
+        //}
 
         private ICommand _saveNewFeatureCommand;
 
@@ -591,14 +569,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     // select the new feature
                                     MapViewModel.SelectFeature(feature);
 
-                                    IsNewFeatureBeingAdded = false;
                                     break;
                                 }
                                 catch (Exception ex)
                                 {
                                     UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-
-                                    IsNewFeatureBeingAdded = false;
                                 }
                             }
                         }
