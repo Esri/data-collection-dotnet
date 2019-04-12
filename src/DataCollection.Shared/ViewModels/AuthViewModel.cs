@@ -325,6 +325,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 return null;
             }
+#else
+            // will throw if another platform is added without handling this 
+            throw new NotImplementedException();
 #endif
         }
 
@@ -359,7 +362,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             finally
             {
                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(AuthenticatedUser.UserName, BroadcastMessageKey.OAuthRefreshToken);
-            }        
+            }
+#else
+            // will throw if another platform is added without handling this 
+            throw new NotImplementedException();
 #endif
         }
     }

@@ -10,6 +10,8 @@
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
     xmlns:views="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:i="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>

@@ -39,6 +39,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
 #elif NETFX_CORE
         private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#else
+        // will throw if another platform is added without handling this 
+        throw new NotImplementedException();
 #endif
 
         private static string _settingsPath = Path.Combine(_localFolder,
@@ -66,6 +69,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                         var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Configuration.xml";
 #elif NETFX_CORE
                         var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Properties.Configuration.xml";
+#else
+                        // will throw if another platform is added without handling this 
+                        throw new NotImplementedException();
 #endif
                         // create stream and deserialize into a Settings object
                         var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath);

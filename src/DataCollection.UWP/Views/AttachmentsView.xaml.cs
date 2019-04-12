@@ -24,38 +24,46 @@ using Windows.UI.Xaml.Controls;
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
 {
     /// <summary>
-    /// Interaction logic for OriginRelatedRecordPopup.xaml
+    /// Interaction logic for AttachmentsView.xaml
     /// </summary>
-    public sealed partial class OriginRelatedRecordPopup : UserControl, INotifyPropertyChanged
+    public sealed partial class AttachmentsView : UserControl, INotifyPropertyChanged
     {
-        public OriginRelatedRecordPopup()
+        public AttachmentsView()
         {
             InitializeComponent();
 
-            // set the OriginRelationshipViewModel property when DataContext changes and OriginRelationshipViewModel is set
+            // set the AttachmentsViewModel property when DataContext changes and AttachmentsViewModel is set
             DataContextChanged += (s, e) =>
             {
                 if (DataContext is IdentifiedFeatureViewModel identifiedFeatureViewModel)
                 {
                     identifiedFeatureViewModel.PropertyChanged += (o, a) =>
                     {
-                        if (a.PropertyName == "SelectedOriginRelationship")
-                            OriginRelationshipViewModel = identifiedFeatureViewModel.SelectedOriginRelationship;
+                        if (a.PropertyName == "AttachmentsViewModel")
+                            AttachmentsViewModel = identifiedFeatureViewModel.AttachmentsViewModel;
+                    };
+                }
+                else if (DataContext is OriginRelationshipViewModel originRelationshipViewModel)
+                {
+                    originRelationshipViewModel.PropertyChanged += (o, a) =>
+                    {
+                        if (a.PropertyName == "AttachmentsViewModel")
+                            AttachmentsViewModel = originRelationshipViewModel.AttachmentsViewModel;
                     };
                 }
             };
         }
-        private OriginRelationshipViewModel _originRelationshipViewModel;
+        private AttachmentsViewModel _attachmentsViewModel;
 
         /// <summary>
-        /// Gets or sets the OriginRelationshipViewModel
+        /// Gets or sets the AttachmentsViewModel
         /// </summary>
-        public OriginRelationshipViewModel OriginRelationshipViewModel
+        public AttachmentsViewModel AttachmentsViewModel
         {
-            get => _originRelationshipViewModel;
+            get => _attachmentsViewModel;
             set
             {
-                _originRelationshipViewModel = value;
+                _attachmentsViewModel = value;
                 OnPropertyChanged();
             }
         }

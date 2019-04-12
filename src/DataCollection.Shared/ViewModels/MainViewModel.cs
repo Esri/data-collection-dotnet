@@ -823,6 +823,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                         Application.Current.Shutdown();
                     });
+#else
+                    // will throw if another platform is added without handling this 
+                    throw new NotImplementedException();
 #endif
                 }
             }
