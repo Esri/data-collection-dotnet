@@ -14,7 +14,6 @@
   *   limitations under the License.
 ******************************************************************************/
 
-
 using Esri.ArcGISRuntime.ArcGISServices;
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
@@ -86,41 +85,5 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     }));
             }
         }
-
-        ///// <summary>
-        ///// Once a new record is added successfully, query for it and add it to the list of records in the viewmodel
-        ///// </summary>
-        //private void GetAddedRecordAndRefresh(Feature feature)
-        //{
-        //    var popupManager = new PopupManager(new Popup(feature, feature.FeatureTable.PopupDefinition));
-
-        //    try
-        //    {
-        //        // if there are no records present, add the feature
-        //        // if records are present, check to see if feature is already there, if not, add it
-        //        if (OriginRelatedRecords == null)
-        //        {
-        //            OriginRelatedRecords = new ObservableCollection<PopupManager>();
-        //        }
-        //        else
-        //        {
-        //            foreach (var relatedRecord in OriginRelatedRecords)
-        //            {
-        //                if (relatedRecord.Popup.GeoElement.Attributes["OBJECTID"] == feature.Attributes["OBJECTID"])
-        //                {
-        //                    return;
-        //                }
-        //            }
-        //        }
-        //        OriginRelatedRecords.Add(popupManager);
-
-        //        // set the selected record to the new popup manager
-        //        PopupManager = popupManager;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-        //    }
-        //}
     }
 }

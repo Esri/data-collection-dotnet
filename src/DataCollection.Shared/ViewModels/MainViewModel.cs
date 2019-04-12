@@ -105,8 +105,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-       
-
         private MapViewModel _mapViewModel;
 
         /// <summary>
@@ -507,24 +505,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        //private ICommand _createFeatureCommand;
-
-        ///// <summary>
-        ///// Gets the command to begin adding a feature
-        ///// </summary>
-        //public ICommand CreateFeatureCommand
-        //{
-        //    get
-        //    {
-        //        return _createFeatureCommand ?? (_createFeatureCommand = new DelegateCommand(
-        //            (x) =>
-        //            {
-        //                // clear any selected features
-        //                IdentifiedFeatureViewModel = null;
-        //            }));
-        //    }
-        //}
-
         private ICommand _saveNewFeatureCommand;
 
         /// <summary>
@@ -630,13 +610,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             {
                                 if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteFeature())
                                 {
-
-                                    // call method to update tree condition and dbh
-                                    //await TreeSurveyWorkflows.UpdateIdentifiedFeature(
-                                    //    IdentifiedFeatureViewModel.SelectedOriginRelationship.OriginRelatedRecords,
-                                    //    IdentifiedFeatureViewModel.Feature,
-                                    //    IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager);
-
                                     IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                                 }
                             }

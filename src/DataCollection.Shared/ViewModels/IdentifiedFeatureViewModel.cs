@@ -352,6 +352,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
+        /// <summary>
+        /// Event handler fires when the SelectedOriginRelationship is modified
+        /// </summary>
         private async void OriginRelatedFeature_FeatureCRUDOperationCompleted(object sender, FeatureOperationEventArgs e)
         {
             var originRelationshipVM = sender as OriginRelationshipViewModel;
@@ -370,7 +373,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     originRelationshipVMCollection.Move(originRelationshipVMCollection.IndexOf(sorted[i]), i);
             }
 
-            // call method to update tree condition and dbh
+            // call method to update tree condition and dbh in custom tree workflow
             await TreeSurveyWorkflows.UpdateIdentifiedFeature(originRelationshipVMCollection, Feature, PopupManager);
         }
     }
