@@ -16,6 +16,7 @@
 
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
@@ -34,6 +35,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
 
             // create event handler for when receiving a message to display to the user
             UserPromptMessenger.Instance.MessageValueChanged += UserPrompt_MessageValueChanged;
+
+            // load settings for the custom tree survey dataset
+            LoadTreeSurveySettings();
         }
 
         /// <summary>
@@ -116,6 +120,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
             };
 
             await contentDialog.ShowAsync();
+        }
+
+        /// <summary>
+        /// Loads the settings for the custom workflows required bu the tree survey sample dataset
+        /// </summary>
+        private void LoadTreeSurveySettings()
+        {
+            // retrieve settings for the tree dataset specific workflows
+            TreeSurveyWorkflows.NeighborhoodNameField = Settings.Default.NeighborhoodNameField;
+            TreeSurveyWorkflows.GeocodeUrl = Settings.Default.GeocodeUrl;
+            TreeSurveyWorkflows.WebmapURL = Settings.Default.WebmapURL;
+            TreeSurveyWorkflows.TreeDatasetWebmapUrl = Settings.Default.TreeDatasetWebmapUrl;
+            TreeSurveyWorkflows.OfflineLocatorPath = Settings.Default.OfflineLocatorPath;
+            TreeSurveyWorkflows.TreeConditionAttribute = Settings.Default.TreeConditionAttribute;
+            TreeSurveyWorkflows.TreeDBHAttribute = Settings.Default.TreeDBHAttribute;
+            TreeSurveyWorkflows.InspectionConditionAttribute = Settings.Default.InspectionConditionAttribute;
+            TreeSurveyWorkflows.InspectionDBHAttribute = Settings.Default.InspectionDBHAttribute;
+            TreeSurveyWorkflows.NeighborhoodOperationalLayerId = Settings.Default.NeighborhoodOperationalLayerId;
+            TreeSurveyWorkflows.NeighborhoodAttribute = Settings.Default.NeighborhoodAttribute;
+            TreeSurveyWorkflows.AddressAttribute = Settings.Default.AddressAttribute;
         }
     }
 }

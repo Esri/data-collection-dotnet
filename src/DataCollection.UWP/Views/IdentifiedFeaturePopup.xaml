@@ -131,12 +131,12 @@
                                                 Grid.Column="0"
                                                 Padding="10"
                                                 Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{Binding RelatedTable.TableName, Mode=OneWay}" />
+                                                Text="{Binding RelatedTable.PopupDefinition.Title, Mode=OneWay}" />
                                         </Grid>
-                                        <ItemsControl HorizontalContentAlignment="Stretch" ItemsSource="{Binding OriginRelatedRecords, Mode=OneWay}">
+                                        <ItemsControl HorizontalContentAlignment="Stretch" ItemsSource="{Binding OriginRelationshipViewModelCollection, Mode=OneWay}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Grid>
+                                                    <Grid Visibility="{Binding IsNewFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
                                                             <ColumnDefinition Width="40" />
@@ -149,6 +149,7 @@
                                                             x:Name="OriginRecordGrid"
                                                             Grid.Row="1"
                                                             Grid.Column="0"
+                                                            DataContext="{Binding PopupManager}"
                                                             Orientation="Vertical">
                                                             <TextBlock
                                                                 Margin="10,5,0,0"
@@ -184,7 +185,7 @@
                                                             HorizontalAlignment="Right"
                                                             VerticalAlignment="Center"
                                                             Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand}"
-                                                            CommandParameter="{Binding}"
+                                                            CommandParameter="{Binding PopupManager}"
                                                             Content="&#xE76C;"
                                                             FontFamily="Segoe MDL2 Assets"
                                                             Style="{StaticResource TextBlockButtonStyle}" />
@@ -198,7 +199,7 @@
                         </ItemsControl>
 
                         <!--  List of attributes from identified feature in View Mode  -->
-                        <local:FeatureEditorView DataContext="{x:Bind IdentifiedFeatureViewModel}" Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <local:FeatureEditorView DataContext="{x:Bind IdentifiedFeatureViewModel, Mode=OneWay}" Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
                     </Grid>
                 </ScrollViewer>
