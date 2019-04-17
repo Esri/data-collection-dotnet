@@ -198,28 +198,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         {
             if (PopupManager.HasEdits())
             {
-                bool cancelEdits = false;
-
                 // wait for response from the user if the truly want to cancel the edit operation
-                UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                bool cancelEdits = await UserPromptMessenger.Instance.AwaitConfirmation(
                     Resources.GetString("DiscardEditsConfirmation_Title"),
                     Resources.GetString("DiscardEditsConfirmation_Message"),
                     false,
                     null,
                     Resources.GetString("DiscardButton_Content"));
-
-                void handler(object o, UserPromptResponseChangedEventArgs e)
-                {
-                    {
-                        UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                        if (e.Response)
-                        {
-                            cancelEdits = true;
-                        }
-                    }
-                }
 
                 if (!cancelEdits)
                 {
