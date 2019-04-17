@@ -107,10 +107,10 @@
                             PropertyName="Visibility"
                             TargetObject="{Binding ElementName=AddFeatureUserControl, Mode=OneWay}"
                             Value="Collapsed" />
-                        <!--<core:ChangePropertyAction
+                        <core:ChangePropertyAction
                             PropertyName="IsLocationOnlyMode"
-                            TargetObject="{Binding ., Mode=OneWay}"
-                            Value="false" />-->
+                            TargetObject="{Binding ElementName=AddFeatureUserControl, Path=DataContext, Mode=OneWay}"
+                            Value="false" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Button>
@@ -124,10 +124,10 @@
                             PropertyName="Visibility"
                             TargetObject="{Binding ElementName=AddFeatureUserControl, Mode=OneWay}"
                             Value="Collapsed" />
-                        <!--<core:ChangePropertyAction
+                        <core:ChangePropertyAction
                             PropertyName="IsLocationOnlyMode"
-                            TargetObject="{Binding ., Mode=OneWay}"
-                            Value="false" />-->
+                            TargetObject="{Binding ElementName=AddFeatureUserControl, Path=DataContext, Mode=OneWay}"
+                            Value="false" />
                     </core:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Button>

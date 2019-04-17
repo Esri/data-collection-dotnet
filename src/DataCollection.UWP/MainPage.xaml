@@ -55,7 +55,10 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton Icon="Add" Label="Add Feature">
+            <AppBarButton
+                Icon="Add"
+                Label="Add Feature"
+                Visibility="{x:Bind MainViewModel.IsLocationOnlyMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">
                         <core:ChangePropertyAction
