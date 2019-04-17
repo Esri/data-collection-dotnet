@@ -37,7 +37,10 @@
                 <DataTemplate x:Key="DateTemplate" x:Name="DateTemplate">
                     <StackPanel>
                         <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
-                        <CalendarDatePicker Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}" PlaceholderText="Select date" />
+                        <CalendarDatePicker
+                            Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
+                            Loaded="CalendarDatePicker_Loaded"
+                            PlaceholderText="Select date" />
                         <TextBlock
                             Foreground="Red"
                             Text="{Binding PopupFieldValue.ValidationError.Message}"

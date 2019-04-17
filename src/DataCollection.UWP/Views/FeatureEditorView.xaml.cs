@@ -54,5 +54,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
                 comboBox.SelectedItem = selectedItem;
             }
         }
+
+        /// <summary>
+        /// Event handler gets the date and sets it to null if it is equal to the MinDate
+        /// This is a workaround due to a bug in the CalendarDatePicker control that doesn't set the Placeholder text
+        /// Instead it sets the date equal to the MinDate
+        /// </summary>
+        private void CalendarDatePicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            var datePicker = sender as CalendarDatePicker;
+            if (datePicker.Date == datePicker.MinDate)
+                datePicker.Date = null;
+        }
     }
 }
