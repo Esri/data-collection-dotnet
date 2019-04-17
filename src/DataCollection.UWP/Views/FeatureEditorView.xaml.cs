@@ -37,7 +37,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = sender as ComboBox;
-            if (((CodedValue)comboBox.SelectedItem).Code.ToString() != comboBox.Tag.ToString())
+            if (((CodedValue)comboBox.SelectedItem).Code.ToString() != comboBox.Tag?.ToString())
                 comboBox.Tag = ((CodedValue)comboBox.SelectedItem).Code;
         }
 

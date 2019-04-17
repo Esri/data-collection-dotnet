@@ -27,8 +27,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
+#if WPF
+using System.Windows;
+#elif NETFX_CORE
+using Windows.UI.Core;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -176,7 +180,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 false,
                                 null,
                                 Resources.GetString("DiscardButton_Content"));
-                                                       
+
                             if (!exitWithoutSaving)
                             {
                                 return;
@@ -256,13 +260,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 if (feature != null && feature is ArcGISFeature)
                                 {
                                     // create viewmodel for the feature and set it as selected 
-                                    var originRelationshipViewModel = new OriginRelationshipViewModel( originRelationship.RelationshipInfo, ConnectivityMode);
+                                    var originRelationshipViewModel = new OriginRelationshipViewModel(originRelationship.RelationshipInfo, ConnectivityMode);
                                     await originRelationshipViewModel.LoadViewModel(feature).ContinueWith(t =>
                                     {
                                         SelectedOriginRelationship = originRelationshipViewModel;
 #if WPF
                                         Application.Current.Dispatcher.Invoke(new Action(() => {
                                             originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel); }));
+#elif NETFX_CORE
+                                        Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                                        {
+                                            originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel);
+                                        });
 #else
                                         originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel);
 #endif
@@ -386,7 +395,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         {
             List<OriginRelationshipViewModel> sorted = originRelationshipVMCollection.OrderByDescending(x => x.PopupManager?.DisplayedFields?.FirstOrDefault()?.Value).ToList();
             for (int i = 0; i < sorted.Count(); i++)
+            {
                 originRelationshipVMCollection.Move(originRelationshipVMCollection.IndexOf(sorted[i]), i);
+            }
         }
     }
 }
