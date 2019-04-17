@@ -198,9 +198,44 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
-                        <!--  List of attributes from identified feature in View Mode  -->
-                        <local:FeatureEditorView DataContext="{x:Bind IdentifiedFeatureViewModel, Mode=OneWay}" Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <!--  Edit Mode  -->
+                        <!--  List of attributes from identified feature  -->
+                        <local:FeatureEditorView
+                            Grid.Row="0"
+                            DataContext="{x:Bind IdentifiedFeatureViewModel, Mode=OneWay}"
+                            Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
+                        <!--  Edit Mode  -->
+                        <!--  List of relationships where identified feature is destination  -->
+                        <ItemsControl
+                            Grid.Row="1"
+                            ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships}"
+                            Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <StackPanel x:Name="DestinationRelationshipsStackPanel" DataContext="{Binding}">
+                                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
+                                            <ComboBox
+                                                HorizontalAlignment="Left"
+                                                ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
+                                                SelectedItem="{Binding ElementName=DestinationRelationshipsStackPanel, Path=DataContext.PopupManager, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Grid.Column="0">
+                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[0].Field.Label, Mode=OneWay}" />
+                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[0].FormattedValue, Mode=OneWay}" />
+                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[1].Field.Label, Mode=OneWay}" />
+                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[1].FormattedValue, Mode=OneWay}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </Grid>
                 </ScrollViewer>
             </PivotItem>

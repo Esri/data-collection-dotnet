@@ -48,8 +48,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
         private void ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             var comboBox = sender as ComboBox;
-            var selectedItem = comboBox.Items.FirstOrDefault(i => ((CodedValue)i).Code.ToString() == comboBox.Tag.ToString());
-            comboBox.SelectedItem = selectedItem;
+            if (comboBox.Tag != null)
+            {
+                var selectedItem = comboBox.Items.FirstOrDefault(i => ((CodedValue)i).Code.ToString() == comboBox.Tag.ToString());
+                comboBox.SelectedItem = selectedItem;
+            }
         }
     }
 }
