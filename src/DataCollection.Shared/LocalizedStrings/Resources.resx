@@ -210,10 +210,10 @@
   <data name="SerializationError_Title" xml:space="preserve">
     <value>Error saving application settings</value>
   </data>
-  <data name="AddFeatureLabel_Line1" xml:space="preserve">
+  <data name="AddFeatureLabel_Line1.Text" xml:space="preserve">
     <value>Choose the location where you would like to add a feature</value>
   </data>
-  <data name="AddFeatureLabel_Line2" xml:space="preserve">
+  <data name="AddFeatureLabel_Line2.Text" xml:space="preserve">
     <value>Pan and zoom map under pin</value>
   </data>
   <data name="AddFeature_Tooltip" xml:space="preserve">
@@ -258,7 +258,7 @@
   <data name="MoreTools_Tooltip" xml:space="preserve">
     <value>More Tools</value>
   </data>
-  <data name="SaveButton_Text" xml:space="preserve">
+  <data name="SaveButton.Content" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="SaveEdits_Tooltip" xml:space="preserve">
@@ -311,5 +311,8 @@
   </data>
   <data name="OpenAttachment_Tooltip" xml:space="preserve">
     <value>Open attachment</value>
+  </data>
+  <data name="CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
   </data>
 </root>

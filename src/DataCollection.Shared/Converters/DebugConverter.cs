@@ -22,7 +22,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-            throw new NotImplementedException();
+            var y = value;
+            return y;
         }
     }
 }
