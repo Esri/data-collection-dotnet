@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities"
     xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
+    Uid="IndentifyUserControl"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -416,6 +417,7 @@
 
             <!--  Bottom buttons to edit or delete record  -->
             <Button
+                x:Uid="EditFeatureButton"
                 Grid.Column="1"
                 Width="30"
                 Height="30"
@@ -429,6 +431,7 @@
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
             <Button
+                x:Uid="DeleteFeatureButton"
                 Grid.Column="2"
                 Width="30"
                 Height="30"
@@ -445,6 +448,7 @@
 
             <!--  Bottom buttons to save or discard changes to record  -->
             <Button
+                x:Uid="SaveFeatureEditsButton"
                 Grid.Column="1"
                 Width="30"
                 Height="30"
@@ -458,6 +462,7 @@
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
             <Button
+                x:Uid="CancelFeatureEditsButton"
                 Grid.Column="2"
                 Width="30"
                 Height="30"

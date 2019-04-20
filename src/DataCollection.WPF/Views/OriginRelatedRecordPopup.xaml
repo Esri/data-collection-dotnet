@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities"
     xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
+    x:Uid="OriginRelationshipUserControl"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">

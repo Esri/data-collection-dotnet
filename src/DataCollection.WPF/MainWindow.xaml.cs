@@ -147,5 +147,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
             TreeSurveyWorkflows.NeighborhoodAttribute = Settings.Default.NeighborhoodAttribute;
             TreeSurveyWorkflows.AddressAttribute = Settings.Default.AddressAttribute;
         }
+
+        /// <summary>
+        /// Right click event handler to zoom to map's initial extent
+        /// This method is mostly here to reset UI tests
+        /// </summary>
+        private void Button_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MapView.SetViewpointAsync(MapView.Map.InitialViewpoint);
+        }
     }
 }

@@ -12,6 +12,7 @@
     xmlns:utils="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
     xmlns:viewModels="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels"
     xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
+    x:Uid="DataCollectionMainWindow"
     Title="Data Collection for WPF"
     Width="790"
     Height="525"
@@ -69,6 +70,7 @@
 
         <!--  Compass control that displays when user rotates the map  -->
         <esri:Compass
+            x:Uid="CompassControl"
             Grid.Row="1"
             Grid.Column="2"
             Margin="20"
@@ -179,10 +181,12 @@
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <!--  Current Location Button  -->
                 <Button
+                    x:Uid="CurrentLocationButton"
                     Width="60"
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Command="{Binding MapViewModel.MoveToCurrentLocationCommand}"
+                    MouseRightButtonDown="Button_MouseRightButtonDown"
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ZoomButton_Tooltip}">
                     <Button.Content>
@@ -202,6 +206,7 @@
                 </Button>
                 <!--  Add Feature Button  -->
                 <Button
+                    x:Uid="AddFeatureButton"
                     Width="60"
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
@@ -547,6 +552,7 @@
                     Foreground="White"
                     Text="{Binding IdentifiedFeatureViewModel.PopupManager.Title}" />
                 <Button
+                    x:Uid="CloseIdentifyButton"
                     Grid.Row="0"
                     Padding="10,10,10,5"
                     HorizontalAlignment="Right"
@@ -582,6 +588,7 @@
                     Foreground="White"
                     Text="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title}" />
                 <Button
+                    x:Uid="CloseOriginRelationshipButton"
                     Grid.Row="0"
                     Padding="10,10,10,5"
                     HorizontalAlignment="Right"
@@ -619,6 +626,7 @@
                     Foreground="White"
                     Text="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title}" />
                 <Button
+                    x:Uid="CloseDestinationRelationshipButton"
                     Grid.Row="0"
                     Padding="10,10,10,5"
                     HorizontalAlignment="Right"

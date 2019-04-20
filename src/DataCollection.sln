@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollection.WPF", "DataC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollection.UWP", "DataCollection.UWP\DataCollection.UWP.csproj", "{67CA0718-9C7A-4EC9-84C0-2FCB7CA922B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollection.Tests", "DataCollection.Tests\DataCollection.Tests.csproj", "{7ED65B38-DA20-4CA2-842B-68BDFA56D244}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DataCollection.Shared\DataCollection.Shared.projitems*{0e4a590d-8ccc-44ca-9127-10ed36dd02e9}*SharedItemsImports = 13
@@ -64,6 +66,22 @@ Global
 		{67CA0718-9C7A-4EC9-84C0-2FCB7CA922B0}.Release|x86.ActiveCfg = Release|x86
 		{67CA0718-9C7A-4EC9-84C0-2FCB7CA922B0}.Release|x86.Build.0 = Release|x86
 		{67CA0718-9C7A-4EC9-84C0-2FCB7CA922B0}.Release|x86.Deploy.0 = Release|x86
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Debug|x64.Build.0 = Debug|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Debug|x86.Build.0 = Debug|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Release|ARM.Build.0 = Release|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Release|x64.ActiveCfg = Release|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Release|x64.Build.0 = Release|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Release|x86.ActiveCfg = Release|Any CPU
+		{7ED65B38-DA20-4CA2-842B-68BDFA56D244}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
