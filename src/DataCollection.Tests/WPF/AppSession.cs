@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
+using System.Threading;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
 {
@@ -38,12 +39,46 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
             }
         }
 
+        protected static void ConfirmDiscardDialog()
+        {
+            var windowHandles = session.WindowHandles;
+            session.SwitchTo().Window(windowHandles[0]);
+            session.FindElementByName("Discard").Click();
+            session.SwitchTo().Window(windowHandles[1]);
+        }
+
+
         protected static void ConfirmDeleteDialog()
         {
             var windowHandles= session.WindowHandles;
             session.SwitchTo().Window(windowHandles[0]);
             session.FindElementByName("Delete").Click();
             session.SwitchTo().Window(windowHandles[1]);
+        }
+
+        protected void ZoomToAddTreeTestArea()
+        {
+            var mapView = session.FindElementByAccessibilityId("MapView");
+            session.Mouse.MouseMove(mapView.Coordinates, 470, 314);
+            Thread.Sleep(5000);
+            session.Mouse.DoubleClick(null);
+            session.Mouse.DoubleClick(null);
+            session.Mouse.DoubleClick(null);
+            session.Mouse.DoubleClick(null);
+            session.Mouse.DoubleClick(null);
+            Thread.Sleep(5000);
+        }
+
+        protected static void ZoomAndIdentifyFeature()
+        {
+            // zoom to tree and click
+            var mapView = session.FindElementByAccessibilityId("MapView");
+            session.Mouse.MouseMove(mapView.Coordinates, 435, 314);
+            Thread.Sleep(5000);
+            session.Mouse.DoubleClick(null);
+            session.Mouse.DoubleClick(null);
+            session.Mouse.Click(null);
+            Thread.Sleep(5000);
         }
     }
 }

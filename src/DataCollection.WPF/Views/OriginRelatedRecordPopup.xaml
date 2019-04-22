@@ -170,6 +170,7 @@
 
             <!--  Buttons to edit and delete record  -->
             <Button
+                x:Uid="EditRelatedRecordButton"
                 Grid.Column="1"
                 Width="30"
                 Height="30"
@@ -183,6 +184,7 @@
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
             <Button
+                x:Uid="DeleteRelatedRecordButton"
                 Grid.Column="2"
                 Width="30"
                 Height="30"
@@ -199,6 +201,7 @@
 
             <!--  Buttons to save and discard changes to record  -->
             <Button
+                x:Uid="SaveRelatedRecordEditsButton"
                 Grid.Column="1"
                 Width="30"
                 Height="30"
@@ -212,6 +215,7 @@
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
             <Button
+                x:Uid="CancelRelatedRecordEditsButton"
                 Grid.Column="2"
                 Width="30"
                 Height="30"

@@ -14,10 +14,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
         [TestMethod]
         public void TestIdentifyAttributesPresent()
         {
+            ZoomAndIdentifyFeature();
+
             var detailsView = session.FindElementByAccessibilityId("DetailsView");
             var textBoxes = detailsView.FindElementsByClassName("TextBox");
 
-            Assert.IsTrue(textBoxes.Count == 9);
             Assert.AreEqual("DOWNTOWN", textBoxes[0].Text);
             Assert.AreEqual("Fair", textBoxes[2].Text);
             Assert.AreEqual("9.00", textBoxes[3].Text);
@@ -33,6 +34,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
             Assert.IsTrue(detailsView.FindElementByName("Site Width").Displayed);
             Assert.IsTrue(detailsView.FindElementByName("Site Type").Displayed);
             Assert.IsTrue(detailsView.FindElementByName("Wires").Displayed);
+
+            //clean up
+            session.Mouse.Click(session.FindElementByAccessibilityId("CloseIdentifyButton")?.Coordinates);
+            session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
         }
 
         /// <summary>
@@ -42,11 +47,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
         [TestMethod]
         public void TestIdentifyDestinationRelationshipsPresent()
         {
+            ZoomAndIdentifyFeature();
+
             var container = session.FindElementByAccessibilityId("DetailsView");
             Assert.IsTrue(container.FindElementByName("Common Name").Displayed);
             Assert.IsTrue(container.FindElementByName("maple, red").Displayed);
             Assert.IsTrue(container.FindElementByName("Scientific Name").Displayed);
             Assert.IsTrue(container.FindElementByName("Acer rubrum").Displayed);
+
+            //clean up
+            session.Mouse.Click(session.FindElementByAccessibilityId("CloseIdentifyButton")?.Coordinates);
+            session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
+
         }
         
         /// <summary>
@@ -56,9 +68,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
         [TestMethod]
         public void TestDestinationRelationshipsDetailsPresent()
         {
+            ZoomAndIdentifyFeature();
+            Thread.Sleep(5000);
             var container = session.FindElementByAccessibilityId("DetailsView");
             var buttons = container.FindElementsByClassName("Button");
+
+            // click > button to bring up relationship 
             session.Mouse.Click(buttons[0].Coordinates);
+
             var relationshipContainer = session.FindElementByAccessibilityId("DestinationRelationshipUserControl");
             var textBoxes = relationshipContainer.FindElementsByClassName("TextBox");
 
@@ -78,7 +95,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
             Assert.AreEqual("Acer", textBoxes[4].Text);
             Assert.AreEqual("no", textBoxes[5].Text);
 
-            session.Mouse.Click(session.FindElementByAccessibilityId("CloseDestinationRelationshipButton").Coordinates);
+            //clean up
+            session.Mouse.Click(session.FindElementByAccessibilityId("CloseIdentifyButton")?.Coordinates);
+            session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
         }
 
         /// <summary>
@@ -88,6 +107,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
         [TestMethod]
         public void TestIdentifyOriginRelationshipsPresent()
         {
+            ZoomAndIdentifyFeature();
+            
             var container = session.FindElementByAccessibilityId("DetailsView");
 
             Assert.IsTrue(container.FindElementByName("Inspection").Displayed);
@@ -103,6 +124,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
             Assert.IsTrue(container.FindElementByName("Poor").Displayed);
             Assert.IsTrue(container.FindElementByName("DBH").Displayed);
             Assert.IsTrue(container.FindElementByName("6.00").Displayed);
+
+            //clean up
+            session.Mouse.Click(session.FindElementByAccessibilityId("CloseIdentifyButton")?.Coordinates);
+            session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
         }
 
         /// <summary>
@@ -112,6 +137,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
         [TestMethod]
         public void TestOriginRelationshipsDetailsPresent()
         {
+            ZoomAndIdentifyFeature();
+            Thread.Sleep(5000);
+
             // get identify popup and expand the first Inspection
             var container = session.FindElementByAccessibilityId("DetailsView");
             session.Mouse.MouseMove(container.Coordinates);
@@ -152,7 +180,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
             Assert.AreEqual("Poor", textBoxes[1].Text);
             Assert.AreEqual("6.00", textBoxes[2].Text);
 
-            session.Mouse.Click(session.FindElementByAccessibilityId("CloseOriginRelationshipButton").Coordinates);
+            // clean up
+            session.Mouse.MouseMove(container.Coordinates);
+            session.Mouse.Click(null);
+            for (int i = 0; i < 16; i++)
+                session.Keyboard.SendKeys(Keys.ArrowUp);
+            session.Mouse.Click(session.FindElementByAccessibilityId("CloseIdentifyButton")?.Coordinates);
+            session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
         }
 
         /// <summary>
@@ -162,35 +196,27 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
         [TestMethod]
         public void TestLastInspectionInformsTree()
         {
+            ZoomAndIdentifyFeature();
+
             var detailsView = session.FindElementByAccessibilityId("DetailsView");
             var textBoxes = detailsView.FindElementsByClassName("TextBox");
             var textBlocks = detailsView.FindElementsByClassName("TextBlock");
             Assert.AreEqual(textBlocks[17].Text, textBoxes[2].Text); // "Fair"
             Assert.AreEqual(textBlocks[19].Text, textBoxes[3].Text); // "9.00"
+
+            session.Mouse.Click(session.FindElementByAccessibilityId("CloseIdentifyButton")?.Coordinates);
+            session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
         }
-
-
-
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Setup(context);
-
-            var mapView = session.FindElementByAccessibilityId("MapView");
-            session.Mouse.MouseMove(mapView.Coordinates, 435, 314);
-            Thread.Sleep(5000);
-            session.Mouse.DoubleClick(null);
-            session.Mouse.DoubleClick(null);
-            session.Mouse.Click(null);
-            Thread.Sleep(3000);
         }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            session.Mouse.Click(session.FindElementByAccessibilityId("CloseIdentifyButton")?.Coordinates);
-            session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
             TearDown();
         }
     }

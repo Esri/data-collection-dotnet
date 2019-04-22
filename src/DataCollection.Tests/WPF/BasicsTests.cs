@@ -6,12 +6,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
     [TestClass]
     public class BasicsTests : AppSession
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            Setup(context);
-        }
-
         /// <summary>
         /// Test case 1.1
         /// App should open be open and MapView control should be present
@@ -42,6 +36,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
         [TestMethod]
         public void TestMapClickNoTree()
         {
+            // zoom to area with no trees and click
             var mapView = session.FindElementByAccessibilityId("MapView");
             session.Mouse.MouseMove(mapView.Coordinates, 435, 10);
             Thread.Sleep(5000);
@@ -59,25 +54,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Tests.WPF
         [TestMethod]
         public void TestMapClickOnTree()
         {
-            var mapView = session.FindElementByAccessibilityId("MapView");
-            session.Mouse.MouseMove(mapView.Coordinates, 435, 314);
-            Thread.Sleep(5000);
-            session.Mouse.DoubleClick(null);
-            session.Mouse.DoubleClick(null);
-            session.Mouse.Click(null);
-            Thread.Sleep(5000);
+            ZoomAndIdentifyFeature();
 
             Assert.IsTrue(session.FindElementByAccessibilityId("IndentifyUserControl").Displayed);
 
+            // clean up
             session.Mouse.Click(session.FindElementByAccessibilityId("CloseIdentifyButton")?.Coordinates);
             session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
         }
 
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            Setup(context);
+        }
 
         [ClassCleanup]
         public static void ClassCleanup()
         {
-            session.Mouse.ContextClick(session.FindElementByAccessibilityId("CurrentLocationButton")?.Coordinates);
             TearDown();
         }
     }
