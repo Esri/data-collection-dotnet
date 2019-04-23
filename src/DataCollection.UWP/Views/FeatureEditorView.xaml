@@ -38,6 +38,7 @@
                     <StackPanel>
                         <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <CalendarDatePicker
+                            HorizontalAlignment="Stretch"
                             Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
                             Loaded="CalendarDatePicker_Loaded"
                             PlaceholderText="Select date" />
@@ -74,6 +75,7 @@
                     <StackPanel>
                         <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <ComboBox
+                            HorizontalAlignment="Stretch"
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding OriginalField.Domain.CodedValues, Mode=OneWay}"
                             Loaded="ComboBox_Loaded"

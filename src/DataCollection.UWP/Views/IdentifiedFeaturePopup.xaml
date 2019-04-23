@@ -227,7 +227,7 @@
                                         <StackPanel x:Name="DestinationRelationshipsStackPanel" DataContext="{Binding}">
                                             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
                                             <ComboBox
-                                                HorizontalAlignment="Left"
+                                                HorizontalAlignment="Stretch"
                                                 ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
                                                 SelectedItem="{Binding ElementName=DestinationRelationshipsStackPanel, Path=DataContext.PopupManager, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
