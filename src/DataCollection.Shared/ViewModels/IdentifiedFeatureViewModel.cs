@@ -28,6 +28,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+#if WPF
+using System.Windows;
+#elif NETFX_CORE
+using Windows.UI.Core;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -162,37 +167,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _editFeatureCommand ?? (_editFeatureCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // clear the related records user may have open
                         SelectedDestinationRelationship = null;
                         if (SelectedOriginRelationship != null && SelectedOriginRelationship.EditViewModel != null)
                         {
-                            bool exitWithoutSaving = false;
-
                             // if user had edits, wait for response from the user if they truly want to exit editing the related record
-                            UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                            bool exitWithoutSaving = await UserPromptMessenger.Instance.AwaitConfirmation(
                                 Resources.GetString("DiscardEditsConfirmation_Title"),
                                 Resources.GetString("DiscardEditsConfirmation_Message"),
                                 false,
                                 null,
                                 Resources.GetString("DiscardButton_Content"));
 
-                            void handler(object o, UserPromptResponseChangedEventArgs e)
-                            {
-                                {
-                                    UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                                    if (e.Response)
-                                    {
-                                        exitWithoutSaving = true;
-                                    }
-                                }
-                            }
-
                             if (!exitWithoutSaving)
+                            {
                                 return;
+                            }
                         }
 
                         SelectedOriginRelationship = null;
@@ -256,7 +248,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _addOriginRelatedFeatureCommand ?? (_addOriginRelatedFeatureCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         if (x is OriginRelationship originRelationship)
                         {
@@ -268,9 +260,22 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 if (feature != null && feature is ArcGISFeature)
                                 {
                                     // create viewmodel for the feature and set it as selected 
-                                    var originRelationshipViewModel = new OriginRelationshipViewModel(feature, originRelationship.RelationshipInfo, ConnectivityMode);
-                                    SelectedOriginRelationship = originRelationshipViewModel;
-                                    originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel);
+                                    var originRelationshipViewModel = new OriginRelationshipViewModel(originRelationship.RelationshipInfo, ConnectivityMode);
+                                    await originRelationshipViewModel.LoadViewModel(feature).ContinueWith(t =>
+                                    {
+                                        SelectedOriginRelationship = originRelationshipViewModel;
+#if WPF
+                                        Application.Current.Dispatcher.Invoke(new Action(() => {
+                                            originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel); }));
+#elif NETFX_CORE
+                                        Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                                        {
+                                            originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel);
+                                        });
+#else
+                                        originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel);
+#endif
+                                    });
 
                                     // related new record to the feature
                                     ((ArcGISFeature)feature).RelateFeature((ArcGISFeature)Feature, SelectedOriginRelationship.RelationshipInfo);
@@ -338,9 +343,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
                             foreach (var relatedFeature in relatedFeatureQueryResult)
                             {
-                                var originRelatedFeature = new OriginRelationshipViewModel(relatedFeature, relationshipInfo, ConnectivityMode);
-                                originRelationshipsCollection.Add(originRelatedFeature);
+                                var originRelatedFeature = new OriginRelationshipViewModel(relationshipInfo, ConnectivityMode);
+                                await originRelatedFeature.LoadViewModel(relatedFeature).ContinueWith(t =>
+                                {
+                                    originRelationshipsCollection.Add(originRelatedFeature);
+                                });
                             }
+
+                            //sort collection
+                            SortCollection(originRelationshipsCollection);
+
                             OriginRelationships.Add(new OriginRelationship(relatedTable, relationshipInfo, originRelationshipsCollection));
                         }
                     }
@@ -368,13 +380,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             else
             {
                 //sort collection
-                List<OriginRelationshipViewModel> sorted = originRelationshipVMCollection.OrderByDescending(x => x.PopupManager.DisplayedFields.FirstOrDefault().Value).ToList();
-                for (int i = 0; i < sorted.Count(); i++)
-                    originRelationshipVMCollection.Move(originRelationshipVMCollection.IndexOf(sorted[i]), i);
+                SortCollection(originRelationshipVMCollection);
             }
 
             // call method to update tree condition and dbh in custom tree workflow
             await TreeSurveyWorkflows.UpdateIdentifiedFeature(originRelationshipVMCollection, Feature, PopupManager);
+        }
+
+        /// <summary>
+        /// Sorts the collection of origin relationships so it is displayed in order of the first field
+        /// </summary>
+        /// <param name="originRelationshipVMCollection"></param>
+        private void SortCollection(ObservableCollection<OriginRelationshipViewModel> originRelationshipVMCollection)
+        {
+            List<OriginRelationshipViewModel> sorted = originRelationshipVMCollection.OrderByDescending(x => x.PopupManager?.DisplayedFields?.FirstOrDefault()?.Value).ToList();
+            for (int i = 0; i < sorted.Count(); i++)
+            {
+                originRelationshipVMCollection.Move(originRelationshipVMCollection.IndexOf(sorted[i]), i);
+            }
         }
     }
 }

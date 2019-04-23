@@ -10,8 +10,6 @@
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
     xmlns:views="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:i="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -114,9 +112,11 @@
             </controls:BladeItem>
             <controls:BladeItem
                 x:Name="OriginRelationshipBlade"
+                Collapsed="BladeItem_Collapsed"
+                Expanded="BladeItem_Expanded"
                 Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
                 IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
-                <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
+                <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
             </controls:BladeItem>
             <controls:BladeItem
                 x:Name="DestinationRelationshipBlade"

@@ -14,9 +14,12 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using Windows.UI.Xaml.Controls;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
@@ -29,6 +32,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
         public MainPage()
 	    {
             InitializeComponent();
+
+            // create event handler for when receiving a message to display to the user
+            UserPromptMessenger.Instance.MessageValueChanged += UserPrompt_MessageValueChanged;
+
+            // load settings for the custom tree survey dataset
+            LoadTreeSurveySettings();
         }
 
         /// <summary>
@@ -72,6 +81,65 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
         {
             var bladeItem = sender as BladeItem;
             bladeItem.BorderThickness = new Windows.UI.Xaml.Thickness(1);
+        }
+
+        /// <summary>
+        /// Event handler for displaying a message to the user
+        /// </summary>
+        private async void UserPrompt_MessageValueChanged(object sender, UserPromptMessageChangedEventArgs e)
+        {
+            var contentDialog = new ContentDialog()
+            {
+                Title = e.MessageTitle,
+                Content = e.Message,
+            };
+
+            if (e.IsError)
+            {
+                contentDialog.PrimaryButtonText = Shared.Properties.Resources.GetString("GenericAffirmativeButton_Content");
+            }
+            else
+            {
+                contentDialog.PrimaryButtonText = string.IsNullOrEmpty(e.AffirmativeActionButtonContent) ? 
+                    Shared.Properties.Resources.GetString("GenericAffirmativeButton_Content") : 
+                    e.AffirmativeActionButtonContent;
+
+                contentDialog.SecondaryButtonText = string.IsNullOrEmpty(e.NegativeActionButtonContent) ?
+                    Shared.Properties.Resources.GetString("GenericNegativeButton_Content") :
+                    e.NegativeActionButtonContent;
+
+                contentDialog.DefaultButton = ContentDialogButton.Primary;
+            }
+
+            contentDialog.Closed += (s, ea) =>
+            {
+                if (ea.Result == ContentDialogResult.Primary)
+                    UserPromptMessenger.Instance.RaiseResponseValueChanged(true);
+                else
+                    UserPromptMessenger.Instance.RaiseResponseValueChanged(false);
+            };
+
+            await contentDialog.ShowAsync();
+        }
+
+        /// <summary>
+        /// Loads the settings for the custom workflows required bu the tree survey sample dataset
+        /// </summary>
+        private void LoadTreeSurveySettings()
+        {
+            // retrieve settings for the tree dataset specific workflows
+            TreeSurveyWorkflows.NeighborhoodNameField = Settings.Default.NeighborhoodNameField;
+            TreeSurveyWorkflows.GeocodeUrl = Settings.Default.GeocodeUrl;
+            TreeSurveyWorkflows.WebmapURL = Settings.Default.WebmapURL;
+            TreeSurveyWorkflows.TreeDatasetWebmapUrl = Settings.Default.TreeDatasetWebmapUrl;
+            TreeSurveyWorkflows.OfflineLocatorPath = Settings.Default.OfflineLocatorPath;
+            TreeSurveyWorkflows.TreeConditionAttribute = Settings.Default.TreeConditionAttribute;
+            TreeSurveyWorkflows.TreeDBHAttribute = Settings.Default.TreeDBHAttribute;
+            TreeSurveyWorkflows.InspectionConditionAttribute = Settings.Default.InspectionConditionAttribute;
+            TreeSurveyWorkflows.InspectionDBHAttribute = Settings.Default.InspectionDBHAttribute;
+            TreeSurveyWorkflows.NeighborhoodOperationalLayerId = Settings.Default.NeighborhoodOperationalLayerId;
+            TreeSurveyWorkflows.NeighborhoodAttribute = Settings.Default.NeighborhoodAttribute;
+            TreeSurveyWorkflows.AddressAttribute = Settings.Default.AddressAttribute;
         }
     }
 }

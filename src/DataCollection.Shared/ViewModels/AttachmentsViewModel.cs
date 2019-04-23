@@ -187,28 +187,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         if (x != null && x is PopupAttachment attachment)
                         {
-                            bool deleteConfirmed = false;
-
                             // wait for response from the user if they truly want to delete the attachment
-                            UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                            bool deleteConfirmed = await UserPromptMessenger.Instance.AwaitConfirmation(
                                 Resources.GetString("DeleteConfirmationAttachment_Title"),
                                 Resources.GetString("DeleteConfirmationAttachment_Message"),
                                 false,
                                 null,
                                 Resources.GetString("DeleteButton_Content"));
-
-                            void handler(object o, UserPromptResponseChangedEventArgs e)
-                            {
-                                {
-                                    UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                                    if (e.Response)
-                                    {
-                                        deleteConfirmed = true;
-                                    }
-                                }
-                            }
 
                             if (deleteConfirmed)
                             {

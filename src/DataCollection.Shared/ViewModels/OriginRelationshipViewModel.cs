@@ -19,6 +19,7 @@ using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.Mapping.Popups;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
@@ -28,19 +29,23 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="DestinationRelationshipViewModel"/> class.
         /// </summary>
-        public OriginRelationshipViewModel(Feature feature, RelationshipInfo relationshipInfo, ConnectivityMode connectivityMode)
+        public OriginRelationshipViewModel(RelationshipInfo relationshipInfo, ConnectivityMode connectivityMode)
         {
             RelationshipInfo = relationshipInfo;
             ConnectivityMode = connectivityMode;
+        }
 
+        /// <summary>
+        /// Loads the necessary prerequisites for OriginRelationshipViewModel
+        /// </summary>
+        public async Task LoadViewModel(Feature feature)
+        {
             if (feature is ArcGISFeature loadableFeature)
             {
-                loadableFeature.LoadAsync().ContinueWith(t =>
-                {
-                    Feature = loadableFeature;
-                    FeatureTable = Feature.FeatureTable as ArcGISFeatureTable;
-                    PopupManager = new PopupManager(new Popup(Feature, Feature.FeatureTable.PopupDefinition));
-                });
+                await loadableFeature.LoadAsync();
+                Feature = loadableFeature;
+                FeatureTable = Feature.FeatureTable as ArcGISFeatureTable;
+                PopupManager = new PopupManager(new Popup(Feature, Feature.FeatureTable.PopupDefinition));
             }
         }
 
