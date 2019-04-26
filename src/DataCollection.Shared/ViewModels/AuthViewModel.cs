@@ -41,16 +41,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         private string _arcGISOnlineURL;
         private string _appClientID;
         private string _redirectURL;
+        private string _userName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthViewModel"/> class.
         /// </summary>
-        public AuthViewModel(string webmapURL, string arcGISOnlineURL, string appClientID, string redirectURL, string oAuthRefreshToken)
+        public AuthViewModel(string webmapURL, string arcGISOnlineURL, string appClientID, string redirectURL, string userName, string oAuthRefreshToken)
         {
             _WebmapURL = webmapURL;
             _arcGISOnlineURL = arcGISOnlineURL;
             _appClientID = appClientID;
             _redirectURL = redirectURL;
+            _userName = userName;
             _oAuthRefreshToken = oAuthRefreshToken;
 
             // Set up authentication manager to handle logins
@@ -88,8 +90,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get { return _authenticatedUser; }
             set
             {
-                _authenticatedUser = value;
-                OnPropertyChanged();
+                if (_authenticatedUser != value)
+                {
+                    _authenticatedUser = value;
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(AuthenticatedUser, BroadcastMessageKey.AuthenticatedUser);
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -113,8 +119,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
                         // clear authenticated user property
                         AuthenticatedUser = null;
-
-                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(AuthenticatedUser, BroadcastMessageKey.AuthenticatedUser);
 
                         // clear the refresh token
                         _oAuthRefreshToken = null;
@@ -214,7 +218,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 if (!string.IsNullOrEmpty(credential.OAuthRefreshToken))
                 {
-                    StoreToken(credential.OAuthRefreshToken);
+                    StoreToken(credential.OAuthRefreshToken, credential.UserName);
                 }
                 else
                 {
@@ -235,6 +239,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 var credential = new OAuthTokenCredential()
                 {
+                    UserName = _userName,
                     ServiceUri = info.ServiceUri,
                     OAuthRefreshToken = GetToken(_oAuthRefreshToken),
                     GenerateTokenOptions = info.GenerateTokenOptions
@@ -243,8 +248,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 await credential.RefreshTokenAsync();
                 return credential;
             }
-            catch
+            catch (Exception ex)
             {
+                var y = ex.Message;
                 // if using the refresh token fails, clear the token 
                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.OAuthRefreshToken);
             }
@@ -300,7 +306,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
-        /// Retrieve refresh token from the appropriate password storage 
+        /// Retrieve refresh token from the appropriate password storage I
         /// This varies based on platform
         /// </summary>
         private string GetToken(string tokenFromSettings)
@@ -319,7 +325,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             try
             {
                 // throws if no match found
-                return vault.Retrieve(Package.Current.DisplayName, tokenFromSettings).Password;
+                return vault.Retrieve(Package.Current.DisplayName, _userName).Password;
             }
             catch
             {
@@ -335,7 +341,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// Store refresh token in the appropriate password storage 
         /// This varies based on platform
         /// </summary>
-        private void StoreToken(string refreshToken)
+        private void StoreToken(string refreshToken, string userName)
         {
 #if WPF
             // encrypt refresh token to be stored in the app's config file
@@ -352,16 +358,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             try
             {
                 // throws if no match found
-                vault.Retrieve(Package.Current.DisplayName, AuthenticatedUser.UserName).Password = refreshToken; 
+                vault.Retrieve(Package.Current.DisplayName, userName).Password = refreshToken; 
             }
             catch
             {
                 vault.Add(new PasswordCredential(
-                    Package.Current.DisplayName, AuthenticatedUser.UserName, refreshToken));
+                    Package.Current.DisplayName, userName, refreshToken));
             }
             finally
             {
-                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(AuthenticatedUser.UserName, BroadcastMessageKey.OAuthRefreshToken);
+                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged("Stored in vault", BroadcastMessageKey.OAuthRefreshToken);
             }
 #else
             // will throw if another platform is added without handling this 

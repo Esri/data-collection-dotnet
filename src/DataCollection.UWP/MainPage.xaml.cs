@@ -50,6 +50,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
                                                         Settings.Default.ArcGISOnlineURL,
                                                         Settings.Default.AppClientID,
                                                         Settings.Default.RedirectURL,
+                                                        Settings.Default.AuthenticatedUserName,
                                                         Settings.Default.OAuthRefreshToken);
 
         /// <summary>
