@@ -21,6 +21,7 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Portal;
 using Esri.ArcGISRuntime.Security;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -239,7 +240,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 var credential = new OAuthTokenCredential()
                 {
-                    UserName = _userName,
                     ServiceUri = info.ServiceUri,
                     OAuthRefreshToken = GetToken(_oAuthRefreshToken),
                     GenerateTokenOptions = info.GenerateTokenOptions
@@ -248,9 +248,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 await credential.RefreshTokenAsync();
                 return credential;
             }
-            catch (Exception ex)
-            {
-                var y = ex.Message;
+            catch
+            { 
                 // if using the refresh token fails, clear the token 
                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.OAuthRefreshToken);
             }
@@ -325,7 +324,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             try
             {
                 // throws if no match found
-                return vault.Retrieve(Package.Current.DisplayName, _userName).Password;
+                var credential = vault.Retrieve(Package.Current.DisplayName, _userName);
+                credential.RetrievePassword();
+                return credential.Password;
             }
             catch
             {
@@ -358,7 +359,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             try
             {
                 // throws if no match found
-                vault.Retrieve(Package.Current.DisplayName, userName).Password = refreshToken; 
+                var credential = vault.Retrieve(Package.Current.DisplayName, userName);
+                credential.RetrievePassword();
+
+                // remove and re-add credential if the password has changed
+                // just changing the password doesn't work, changes are not persisted between app sessions
+                if (credential.Password != refreshToken)
+                {
+                    vault.Remove(credential);
+                    vault.Add(new PasswordCredential(
+                        Package.Current.DisplayName, userName, refreshToken));
+                }
             }
             catch
             {
