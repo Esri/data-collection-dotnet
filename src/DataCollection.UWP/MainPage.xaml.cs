@@ -30,7 +30,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
     public sealed partial class MainPage : Page
     {
         public MainPage()
-	    {
+        {
             InitializeComponent();
 
             // create event handler for when receiving a message to display to the user
@@ -59,11 +59,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
         private void BladeView_BladeClosed(object sender, BladeItem e)
         {
             if (e.Name == "IdentifiedFeatureBlade")
+            {
                 MainViewModel.IdentifiedFeatureViewModel = null;
+            }
             else if (e.Name == "OriginRelationshipBlade")
+            {
                 MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
+            }
             else if (e.Name == "DestinationRelationshipBlade")
+            {
                 MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship = null;
+            }
         }
 
         /// <summary>
@@ -101,8 +107,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
             }
             else
             {
-                contentDialog.PrimaryButtonText = string.IsNullOrEmpty(e.AffirmativeActionButtonContent) ? 
-                    Shared.Properties.Resources.GetString("GenericAffirmativeButton_Content") : 
+                contentDialog.PrimaryButtonText = string.IsNullOrEmpty(e.AffirmativeActionButtonContent) ?
+                    Shared.Properties.Resources.GetString("GenericAffirmativeButton_Content") :
                     e.AffirmativeActionButtonContent;
 
                 contentDialog.SecondaryButtonText = string.IsNullOrEmpty(e.NegativeActionButtonContent) ?
@@ -115,9 +121,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
             contentDialog.Closed += (s, ea) =>
             {
                 if (ea.Result == ContentDialogResult.Primary)
+                {
                     UserPromptMessenger.Instance.RaiseResponseValueChanged(true);
+                }
                 else
+                {
                     UserPromptMessenger.Instance.RaiseResponseValueChanged(false);
+                }
             };
 
             await contentDialog.ShowAsync();

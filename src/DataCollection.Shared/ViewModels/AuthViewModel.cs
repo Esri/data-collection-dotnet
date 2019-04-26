@@ -305,7 +305,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
-        /// Retrieve refresh token from the appropriate password storage I
+        /// Retrieve refresh token from the appropriate password storage
         /// This varies based on platform
         /// </summary>
         private string GetToken(string tokenFromSettings)
