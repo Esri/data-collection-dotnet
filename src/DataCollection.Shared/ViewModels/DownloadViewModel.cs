@@ -31,31 +31,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
     public class DownloadViewModel : BaseViewModel
     {
+        private string _downloadPath;
+        private Map _map;
+
         public DownloadViewModel(Map map, string downloadPath)
         {
-            // set the download path as it changes
-            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += (s, l) =>
-            {
-                if (l.Args.Key == BroadcastMessageKey.DownloadPath && DownloadPath != l.Args.Value?.ToString())
-                {
-                    DownloadPath = l.Args.Value?.ToString();
-                }
-            };
-
-            Map = map;
-            DownloadPath = downloadPath;
+            _map = map;
+            _downloadPath = downloadPath;
             IsAwaitingDownload = true;
         }
-
-        /// <summary>
-        /// Gets or sets the map 
-        /// </summary>
-        internal Map Map { get; }
-
-        /// <summary>
-        /// Gets or sets the download path for the mmpk
-        /// </summary>
-        public string DownloadPath { get; private set; }
 
         /// <summary>
         /// Gets or sets the GenerateOfflineMapJob
@@ -72,7 +56,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get { return _progress; }
             set
             {
-                if (value != _progress && Enumerable.Range(1,100).Contains(value))
+                if (value != _progress && Enumerable.Range(1, 100).Contains(value))
                 {
                     _progress = value;
                     OnPropertyChanged();
@@ -137,7 +121,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         private async Task DownloadPackageAsync(Envelope extent)
         {
-            var syncTask = await OfflineMapTask.CreateAsync(Map);
+            var syncTask = await OfflineMapTask.CreateAsync(_map);
 
             try
             {
@@ -145,7 +129,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 var parameters = await syncTask.CreateDefaultGenerateOfflineMapParametersAsync(extent);
 
                 // set the job to generate the offline map
-                GenerateOfflineMapJob = syncTask.GenerateOfflineMap(parameters, DownloadPath);
+                GenerateOfflineMapJob = syncTask.GenerateOfflineMap(parameters, _downloadPath);
 
                 // update the progress property when progress changes
                 GenerateOfflineMapJob.ProgressChanged +=
@@ -155,53 +139,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     };
 
                 // listen for job changed events
-                GenerateOfflineMapJob.JobChanged +=
-                    async (sender, args) =>
-                    {
-                        // If the job succeeded, check for layer and table errors
-                        // if job fails, get the error
-                        if (GenerateOfflineMapJob.Status == JobStatus.Succeeded)
-                        {
-                            var result = await GenerateOfflineMapJob.GetResultAsync();
-
-                            // download has succeeded and there were no errors, return
-                            if (result.LayerErrors.Count == 0 && result.TableErrors.Count == 0)
-                            {
-                                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(true, BroadcastMessageKey.SyncSucceeded);
-                            }
-                            else
-                            {
-                                // if there were errors, create the error message to display to the user
-                                var stringBuilder = new StringBuilder();
-
-                                foreach (var error in result.LayerErrors)
-                                {
-                                    stringBuilder.AppendLine(error.Value.Message);
-                                }
-
-                                foreach (var error in result.TableErrors)
-                                {
-                                    stringBuilder.AppendLine(error.Value.Message);
-                                }
-
-                                UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                    Properties.Resources.GetString("DownloadWithErrors_Title"), stringBuilder.ToString()
-                                    , true, null);
-                                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(true, BroadcastMessageKey.SyncSucceeded);
-                            }
-                        }
-                        else if (GenerateOfflineMapJob.Status == JobStatus.Failed)
-                        {
-                            // if the job failed but not due to user cancellation, display the error 
-                            if (GenerateOfflineMapJob.Error != null &&
-                            GenerateOfflineMapJob.Error.Message != "User canceled: Job canceled.")
-                            {
-                                UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                Properties.Resources.GetString("DownloadFailed_Title"), GenerateOfflineMapJob.Error.Message, true, GenerateOfflineMapJob.Error.StackTrace);
-                            }
-                            BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(false, BroadcastMessageKey.SyncSucceeded);
-                        }
-                    };
+                GenerateOfflineMapJob.JobChanged += GenerateOfflineMapJob_JobChanged;
 
                 // begin download job
                 GenerateOfflineMapJob.Start();
@@ -210,6 +148,62 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(
                            null, ex.Message, true, ex.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// Handles download job status changes when download succeeds or fails
+        /// </summary>
+        private async void GenerateOfflineMapJob_JobChanged(object sender, EventArgs e)
+        {
+            // If the job succeeded, check for layer and table errors
+            // if job fails, get the error
+            if (GenerateOfflineMapJob.Status == JobStatus.Succeeded)
+            {
+                // remove event handler so it doesn't fire multiple times
+                GenerateOfflineMapJob.JobChanged -= GenerateOfflineMapJob_JobChanged;
+
+                var result = await GenerateOfflineMapJob.GetResultAsync();
+
+                // download has succeeded and there were no errors, return
+                if (result.LayerErrors.Count == 0 && result.TableErrors.Count == 0)
+                {
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(true, BroadcastMessageKey.SyncSucceeded);
+                }
+                else
+                {
+                    // if there were errors, create the error message to display to the user
+                    var stringBuilder = new StringBuilder();
+
+                    foreach (var error in result.LayerErrors)
+                    {
+                        stringBuilder.AppendLine(error.Value.Message);
+                    }
+
+                    foreach (var error in result.TableErrors)
+                    {
+                        stringBuilder.AppendLine(error.Value.Message);
+                    }
+
+                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                        Properties.Resources.GetString("DownloadWithErrors_Title"), stringBuilder.ToString()
+                        , true, null);
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(true, BroadcastMessageKey.SyncSucceeded);
+                }
+            }
+            else if (GenerateOfflineMapJob.Status == JobStatus.Failed)
+            {
+                // remove event handler so it doesn't fire multiple times
+                GenerateOfflineMapJob.JobChanged -= GenerateOfflineMapJob_JobChanged;
+
+                // if the job failed but not due to user cancellation, display the error 
+                if (GenerateOfflineMapJob.Error != null &&
+                GenerateOfflineMapJob.Error.Message != "User canceled: Job canceled.")
+                {
+                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Properties.Resources.GetString("DownloadFailed_Title"), GenerateOfflineMapJob.Error.Message, true, GenerateOfflineMapJob.Error.StackTrace);
+                }
+                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(false, BroadcastMessageKey.SyncSucceeded);
             }
         }
     }

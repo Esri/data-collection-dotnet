@@ -17,6 +17,7 @@
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
 {
@@ -49,6 +50,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
             {
                 Args = new KeyValuePair<BroadcastMessageKey, object>(broadcastMessageKey, o)
             });
+        }
+
+        /// <summary>
+        /// Awaitable task that handles the need for a response
+        /// </summary>
+        public Task<object> AwaitMessageValueChanged(BroadcastMessageKey key)
+        {
+            var taskCompletionSource = new TaskCompletionSource<object>();
+
+            Instance.BroadcastMessengerValueChanged += handler;
+
+            void handler(object o, BroadcastMessengerEventArgs e)
+            {
+                if (e.Args.Key == key)
+                {
+                    Instance.BroadcastMessengerValueChanged -= handler;
+                    Instance.RaiseBroadcastMessengerValueChanged(o, key);
+                    taskCompletionSource.TrySetResult(e.Args.Value);
+                }
+            }
+
+            return taskCompletionSource.Task;
         }
     }
 }

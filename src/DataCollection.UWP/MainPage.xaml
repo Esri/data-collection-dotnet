@@ -19,6 +19,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <converters:DebugConverter x:Key="DebugConverter" />
+            <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -89,6 +90,41 @@
                         <BitmapIcon UriSource="{x:Bind AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
                     </AppBarButton.Icon>
                 </AppBarButton>
+
+                <!--  Working online button  -->
+                <AppBarButton Label="Working Online" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC3F;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <!--  Work online button  -->
+                <AppBarButton
+                    Command="{x:Bind MainViewModel.WorkOnlineCommand, Mode=OneWay}"
+                    CommandParameter="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}"
+                    Label="Work Online"
+                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC3F;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <!--  Working offline button  -->
+                <AppBarButton Label="Working Offline" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB5E;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <!--  Work offline button  -->
+                <AppBarButton
+                    Command="{x:Bind MainViewModel.WorkOfflineCommand, Mode=OneWay}"
+                    Label="Work Offline"
+                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB5E;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
@@ -126,6 +162,17 @@
             Grid.ColumnSpan="3"
             DataContext="{x:Bind MainViewModel, Mode=OneWay}"
             Visibility="Collapsed" />
+
+        <!--  Download view  -->
+        <views:DownloadView
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            DataContext="{x:Bind MainViewModel, Mode=OneWay}"
+            Visibility="{x:Bind MainViewModel.DownloadViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+            VisibleArea="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}" />
+
 
         <!--  BladeView control that contains the popups for identified features and related records  -->
         <controls:BladeView

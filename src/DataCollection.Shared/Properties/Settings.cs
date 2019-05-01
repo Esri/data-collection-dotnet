@@ -20,10 +20,10 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
-using static System.Environment;
 using Esri.ArcGISRuntime.Portal;
-
-#if NETFX_CORE
+#if WPF
+using static System.Environment;
+#elif NETFX_CORE
 using Windows.Storage;
 #endif
 
@@ -107,10 +107,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                 {
                     _instance.ConnectivityMode = l.Args.Value?.ToString();
                 }
-                else if (l.Args.Key == BroadcastMessageKey.DownloadPath)
-                {
-                    _instance.DownloadPath = l.Args.Value?.ToString();
-                }
                 else if (l.Args.Key == BroadcastMessageKey.OAuthRefreshToken)
                 {
                     _instance.OAuthRefreshToken = l.Args.Value?.ToString();
@@ -186,9 +182,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
 
         [XmlElement("ConnectivityMode")]
         public string ConnectivityMode { get; set; }
-
-        [XmlElement("DownloadPath")]
-        public string DownloadPath { get; set; }
 
         [XmlElement("SyncDate")]
         public string SyncDate { get; set; }

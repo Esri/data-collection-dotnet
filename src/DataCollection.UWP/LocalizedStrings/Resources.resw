@@ -234,16 +234,16 @@
   <data name="DeleteRecord_Tooltip" xml:space="preserve">
     <value>Delete Record</value>
   </data>
-  <data name="DownloadButton_Text" xml:space="preserve">
+  <data name="DownloadButton.Content" xml:space="preserve">
     <value>Download</value>
   </data>
-  <data name="DownloadingMessage_Text" xml:space="preserve">
+  <data name="DownloadingMessage.Text" xml:space="preserve">
     <value>Preparing map for offline use. Please wait.</value>
   </data>
-  <data name="DownloadLabel_Line1" xml:space="preserve">
+  <data name="DownloadLabel_Line1.Text" xml:space="preserve">
     <value>Select the region of the map to take offline</value>
   </data>
-  <data name="DownloadLabel_Line2" xml:space="preserve">
+  <data name="DownloadLabel_Line2.Text" xml:space="preserve">
     <value>Pan and zoom map within rectangle</value>
   </data>
   <data name="EditRecord_Tooltip" xml:space="preserve">

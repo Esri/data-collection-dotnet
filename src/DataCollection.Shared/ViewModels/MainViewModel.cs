@@ -28,9 +28,15 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+#if WPF
+using static System.Environment;
+#elif NETFX_CORE
+using Windows.Storage;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -38,11 +44,32 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
     {
         private string _webMapURL;
         private int _defaultZoomScale;
+        private string _downloadPath;
+#if WPF
+        private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
+#elif NETFX_CORE
+        private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#else
+        // will throw if another platform is added without handling this 
+        throw new NotImplementedException();
+#endif
 
         public MainViewModel()
         {
             _webMapURL = Settings.Default.WebmapURL;
-            DownloadPath = Directory.Exists(Settings.Default.DownloadPath) ? Settings.Default.DownloadPath : null;
+
+
+            _downloadPath = Path.Combine(_localFolder,
+                typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
+                typeof(Settings).Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
+                "MMPK");
+
+            // create download directory if it doesn't exist
+            if (!Directory.Exists(_downloadPath))
+            {
+                Directory.CreateDirectory(_downloadPath);
+            }
+
             ConnectivityMode = Settings.Default.ConnectivityMode == "Online" ? ConnectivityMode.Online : ConnectivityMode.Offline;
             SyncDate = DateTime.TryParse(Settings.Default.SyncDate, out DateTime syncDate) ? syncDate : DateTime.MinValue;
             _defaultZoomScale = Settings.Default.DefaultZoomScale;
@@ -53,10 +80,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 if (l.Args.Key == BroadcastMessageKey.ConnectivityMode && ConnectivityMode != (ConnectivityMode)l.Args.Value)
                 {
                     ConnectivityMode = (ConnectivityMode)l.Args.Value;
-                }
-                else if (l.Args.Key == BroadcastMessageKey.DownloadPath && DownloadPath != l.Args.Value?.ToString())
-                {
-                    DownloadPath = l.Args.Value?.ToString();
                 }
             };
 
@@ -254,8 +277,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         public IdentifyController IdentifyController { get; private set; }
 
-        internal string DownloadPath { get; set; }
-
         private ICommand _workOfflineCommand;
 
         /// <summary>
@@ -266,7 +287,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _workOfflineCommand ?? (_workOfflineCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // reset the identify view model so the feature selected is deselected
                         IdentifiedFeatureViewModel = null;
@@ -285,44 +306,34 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             DeleteOfflineMap();
 
                             // set up a new DownloadViewModel
-                            DownloadViewModel = new DownloadViewModel(MapViewModel.Map, DownloadPath);
+                            DownloadViewModel = new DownloadViewModel(MapViewModel.Map, _downloadPath);
 
-                            // set up event handler to retrieve messages from the DownloadViewModel
-                            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += handler;
+                            var taskResult = await BroadcastMessenger.Instance.AwaitMessageValueChanged(BroadcastMessageKey.SyncSucceeded);
 
-                            async void handler(object o, BroadcastMessengerEventArgs e)
+                            if ((bool)taskResult)
                             {
-                                BroadcastMessenger.Instance.BroadcastMessengerValueChanged -= handler;
+                                // set and save download date 
+                                SyncDate = DateTime.Now;
+                                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(SyncDate, BroadcastMessageKey.SyncDate);
 
-                                // if message is received that sync (download) has succeeded, load the map and create a new MapViewModel
-                                // otherwise clean up the directory
-                                if (e.Args.Key == BroadcastMessageKey.SyncSucceeded)
+                                // set app mode to offline and load the offline map
+                                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(ConnectivityMode.Offline, BroadcastMessageKey.ConnectivityMode);
+
+                                var map = await GetMap();
+
+                                if (map != null)
                                 {
-                                    if ((bool)e.Args.Value)
-                                    {
-                                        // set and save download date 
-                                        SyncDate = DateTime.Now;
-                                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(SyncDate, BroadcastMessageKey.SyncDate);
-
-                                        // set app mode to offline and load the offline map
-                                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(ConnectivityMode.Offline, BroadcastMessageKey.ConnectivityMode);
-
-                                        var map = await GetMap();
-
-                                        if (map != null)
-                                        {
-                                            MapViewModel = new MapViewModel(map, ConnectivityMode, _defaultZoomScale);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // call method to delete the mmpk
-                                        DeleteOfflineMap();
-                                    }
-
-                                    DownloadViewModel = null;
+                                    MapViewModel = new MapViewModel(map, ConnectivityMode, _defaultZoomScale);
                                 }
                             }
+                            else
+                            {
+                                // call method to delete the mmpk
+                                DeleteOfflineMap();
+                            }
+
+                            // reset DownloadViewModel
+                            DownloadViewModel = null;
                         }
                     }));
             }
@@ -743,7 +754,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 try
                 {
-                    Mmpk = await MobileMapPackage.OpenAsync(DownloadPath);
+                    Mmpk = await MobileMapPackage.OpenAsync(_downloadPath);
                     OfflineMap = Mmpk.Maps.FirstOrDefault();
                 }
                 catch
@@ -782,11 +793,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             // try deleting the folder
             // if deleting the folder doesn't work, restart the application
-            if (Directory.Exists(DownloadPath))
+            if (Directory.Exists(_downloadPath))
             {
                 try
                 {
-                    var directoryInfo = new DirectoryInfo(DownloadPath);
+                    var directoryInfo = new DirectoryInfo(_downloadPath);
                     directoryInfo.ClearDirectory();
                 }
                 catch

@@ -297,9 +297,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Download.
         /// </summary>
-        internal static string DownloadButton_Text {
+        internal static string DownloadButton_Content {
             get {
-                return ResourceManager.GetString("DownloadButton_Text", resourceCulture);
+                return ResourceManager.GetString("DownloadButton.Content", resourceCulture);
             }
         }
         
@@ -317,25 +317,25 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// </summary>
         internal static string DownloadingMessage_Text {
             get {
-                return ResourceManager.GetString("DownloadingMessage_Text", resourceCulture);
+                return ResourceManager.GetString("DownloadingMessage.Text", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Select the region of the map to take offline.
         /// </summary>
-        internal static string DownloadLabel_Line1 {
+        internal static string DownloadLabel_Line1_Text {
             get {
-                return ResourceManager.GetString("DownloadLabel_Line1", resourceCulture);
+                return ResourceManager.GetString("DownloadLabel_Line1.Text", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Pan and zoom map within rectangle.
         /// </summary>
-        internal static string DownloadLabel_Line2 {
+        internal static string DownloadLabel_Line2_Text {
             get {
-                return ResourceManager.GetString("DownloadLabel_Line2", resourceCulture);
+                return ResourceManager.GetString("DownloadLabel_Line2.Text", resourceCulture);
             }
         }
         
