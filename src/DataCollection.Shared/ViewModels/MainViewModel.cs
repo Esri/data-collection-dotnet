@@ -30,11 +30,13 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 #if WPF
+using System.Windows;
 using static System.Environment;
 #elif NETFX_CORE
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.Storage;
 #endif
 
@@ -303,7 +305,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         {
                             // first delete any leftover files in the download directory
                             // this happens if the previous delete method failed due to locks on the vtpk
-                            DeleteOfflineMap();
+                            await DeleteOfflineMap();
 
                             // set up a new DownloadViewModel
                             DownloadViewModel = new DownloadViewModel(MapViewModel.Map, _downloadPath);
@@ -329,7 +331,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             else
                             {
                                 // call method to delete the mmpk
-                                DeleteOfflineMap();
+                                await DeleteOfflineMap();
                             }
 
                             // reset DownloadViewModel
@@ -437,7 +439,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
                         if (response)
                         {
-                            DeleteOfflineMap();
+                            await DeleteOfflineMap();
                         }
                     }));
             }
@@ -773,7 +775,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Method to delete the mmpk that contails the offline map
         /// </summary>
-        private void DeleteOfflineMap()
+        private async Task DeleteOfflineMap()
         {
             // switch app to Online mode
             if (ConnectivityMode == ConnectivityMode.Offline)
@@ -813,6 +815,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                         Application.Current.Shutdown();
+                    });
+#elif NETFX_CORE
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        CoreApplication.Exit();
                     });
 #else
                     // will throw if another platform is added without handling this 

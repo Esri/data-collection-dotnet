@@ -133,6 +133,7 @@
                     x:Uid="CancelButton"
                     Grid.Row="2"
                     Width="70"
+                    HorizontalAlignment="Center"
                     Command="{Binding DownloadViewModel.CancelDownloadCommand}" />
             </Grid>
         </StackPanel>

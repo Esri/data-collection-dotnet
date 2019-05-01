@@ -66,7 +66,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
                 if (e.Args.Key == key)
                 {
                     Instance.BroadcastMessengerValueChanged -= handler;
-                    Instance.RaiseBroadcastMessengerValueChanged(o, key);
+                    Instance.RaiseBroadcastMessengerValueChanged(e.Args.Value, key);
                     taskCompletionSource.TrySetResult(e.Args.Value);
                 }
             }

@@ -111,7 +111,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     (x) =>
                     {
                         GenerateOfflineMapJob.Cancel();
-                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(false, Models.BroadcastMessageKey.SyncSucceeded);
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(false, BroadcastMessageKey.SyncSucceeded);
                     }));
             }
         }

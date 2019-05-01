@@ -225,9 +225,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Delete Offline Map.
         /// </summary>
-        internal static string DeleteMapButton_Text {
+        internal static string DeleteMapButton_Label {
             get {
-                return ResourceManager.GetString("DeleteMapButton_Text", resourceCulture);
+                return ResourceManager.GetString("DeleteMapButton.Label", resourceCulture);
             }
         }
         
@@ -459,9 +459,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Log In.
         /// </summary>
-        internal static string LogInButton_Text {
+        internal static string LogInButton_Label {
             get {
-                return ResourceManager.GetString("LogInButton_Text", resourceCulture);
+                return ResourceManager.GetString("LogInButton.Label", resourceCulture);
             }
         }
         
@@ -477,9 +477,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Log Out.
         /// </summary>
-        internal static string LogOutButton_Text {
+        internal static string LogOutButton_Label {
             get {
-                return ResourceManager.GetString("LogOutButton_Text", resourceCulture);
+                return ResourceManager.GetString("LogOutButton.Label", resourceCulture);
             }
         }
         
@@ -594,9 +594,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Synchronize Map.
         /// </summary>
-        internal static string SyncButton_Text {
+        internal static string SyncButton_Label {
             get {
-                return ResourceManager.GetString("SyncButton_Text", resourceCulture);
+                return ResourceManager.GetString("SyncButton.Label", resourceCulture);
             }
         }
         
@@ -605,43 +605,43 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// </summary>
         internal static string SynchingMessage_Text {
             get {
-                return ResourceManager.GetString("SynchingMessage_Text", resourceCulture);
+                return ResourceManager.GetString("SynchingMessage.Text", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Working Offline.
         /// </summary>
-        internal static string WorkingOffline_Label {
+        internal static string WorkingOfflineButton_Label {
             get {
-                return ResourceManager.GetString("WorkingOffline_Label", resourceCulture);
+                return ResourceManager.GetString("WorkingOfflineButton.Label", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Working Online.
         /// </summary>
-        internal static string WorkingOnline_Label {
+        internal static string WorkingOnlineButton_Label {
             get {
-                return ResourceManager.GetString("WorkingOnline_Label", resourceCulture);
+                return ResourceManager.GetString("WorkingOnlineButton.Label", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Work Offline.
         /// </summary>
-        internal static string WorkOffline_Button {
+        internal static string WorkOfflineButton_Label {
             get {
-                return ResourceManager.GetString("WorkOffline_Button", resourceCulture);
+                return ResourceManager.GetString("WorkOfflineButton.Label", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Work Online.
         /// </summary>
-        internal static string WorkOnline_Button {
+        internal static string WorkOnlineButton_Label {
             get {
-                return ResourceManager.GetString("WorkOnline_Button", resourceCulture);
+                return ResourceManager.GetString("WorkOnlineButton.Label", resourceCulture);
             }
         }
         

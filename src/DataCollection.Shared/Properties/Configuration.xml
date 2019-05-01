@@ -24,6 +24,5 @@
   <OAuthRefreshToken />
   <AuthenticatedUserName />
   <ConnectivityMode>Online</ConnectivityMode>
-  <DownloadPath />
   <SyncDate />
 </Settings>

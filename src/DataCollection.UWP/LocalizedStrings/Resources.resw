@@ -228,7 +228,7 @@
   <data name="CloseButton_Tooltip" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="DeleteMapButton_Text" xml:space="preserve">
+  <data name="DeleteMapButton.Label" xml:space="preserve">
     <value>Delete Offline Map</value>
   </data>
   <data name="DeleteRecord_Tooltip" xml:space="preserve">
@@ -249,10 +249,10 @@
   <data name="EditRecord_Tooltip" xml:space="preserve">
     <value>Edit Record</value>
   </data>
-  <data name="LogInButton_Text" xml:space="preserve">
+  <data name="LogInButton.Label" xml:space="preserve">
     <value>Log In</value>
   </data>
-  <data name="LogOutButton_Text" xml:space="preserve">
+  <data name="LogOutButton.Label" xml:space="preserve">
     <value>Log Out</value>
   </data>
   <data name="MoreTools_Tooltip" xml:space="preserve">
@@ -267,22 +267,22 @@
   <data name="ShowDetailButton_Tooltip" xml:space="preserve">
     <value>Show Detail</value>
   </data>
-  <data name="SyncButton_Text" xml:space="preserve">
+  <data name="SyncButton.Label" xml:space="preserve">
     <value>Synchronize Map</value>
   </data>
-  <data name="SynchingMessage_Text" xml:space="preserve">
+  <data name="SynchingMessage.Text" xml:space="preserve">
     <value>Synchronizing map. Please wait.</value>
   </data>
-  <data name="WorkingOffline_Label" xml:space="preserve">
+  <data name="WorkingOfflineButton.Label" xml:space="preserve">
     <value>Working Offline</value>
   </data>
-  <data name="WorkingOnline_Label" xml:space="preserve">
+  <data name="WorkingOnlineButton.Label" xml:space="preserve">
     <value>Working Online</value>
   </data>
-  <data name="WorkOffline_Button" xml:space="preserve">
+  <data name="WorkOfflineButton.Label" xml:space="preserve">
     <value>Work Offline</value>
   </data>
-  <data name="WorkOnline_Button" xml:space="preserve">
+  <data name="WorkOnlineButton.Label" xml:space="preserve">
     <value>Work Online</value>
   </data>
   <data name="ZoomButton_Tooltip" xml:space="preserve">

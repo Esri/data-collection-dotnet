@@ -75,16 +75,16 @@
             </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton
+                    x:Uid="LogInButton"
                     Command="{x:Bind AuthViewModel.LoginCommand}"
-                    Label="Sign In"
                     Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
+                    x:Uid="LogOutButton"
                     Command="{x:Bind AuthViewModel.LogOutCommand}"
-                    Label="Sign Out"
                     Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Icon>
                         <BitmapIcon UriSource="{x:Bind AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
@@ -92,7 +92,7 @@
                 </AppBarButton>
 
                 <!--  Working online button  -->
-                <AppBarButton Label="Working Online" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
+                <AppBarButton x:Uid="WorkingOnlineButton" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC3F;" />
                     </AppBarButton.Icon>
@@ -100,9 +100,9 @@
 
                 <!--  Work online button  -->
                 <AppBarButton
+                    x:Uid="WorkOnlineButton"
                     Command="{x:Bind MainViewModel.WorkOnlineCommand, Mode=OneWay}"
                     CommandParameter="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}"
-                    Label="Work Online"
                     Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC3F;" />
@@ -110,7 +110,7 @@
                 </AppBarButton>
 
                 <!--  Working offline button  -->
-                <AppBarButton Label="Working Offline" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
+                <AppBarButton x:Uid="WorkingOfflineButton" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB5E;" />
                     </AppBarButton.Icon>
@@ -118,11 +118,31 @@
 
                 <!--  Work offline button  -->
                 <AppBarButton
+                    x:Uid="WorkOfflineButton"
                     Command="{x:Bind MainViewModel.WorkOfflineCommand, Mode=OneWay}"
-                    Label="Work Offline"
                     Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB5E;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <!--  Synchronize button  -->
+                <AppBarButton
+                    x:Uid="SyncButton"
+                    Command="{x:Bind MainViewModel.SyncMapCommand, Mode=OneWay}"
+                    Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE895;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <!--  Delete offline map button  -->
+                <AppBarButton
+                    x:Uid="DeleteMapButton"
+                    Command="{x:Bind MainViewModel.DeleteOfflineMapCommand, Mode=OneWay}"
+                    Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74D;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </CommandBar.SecondaryCommands>
@@ -172,6 +192,44 @@
             DataContext="{x:Bind MainViewModel, Mode=OneWay}"
             Visibility="{x:Bind MainViewModel.DownloadViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
             VisibleArea="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}" />
+
+        <!--  Sync View  -->
+        <StackPanel
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Center"
+            Orientation="Vertical"
+            Visibility="{x:Bind MainViewModel.SyncViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+            <Grid MaxWidth="350" MaxHeight="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <ProgressBar
+                    Grid.Row="0"
+                    Width="300"
+                    Height="20"
+                    Margin="20"
+                    Maximum="100"
+                    Minimum="0"
+                    Value="{x:Bind MainViewModel.SyncViewModel.Progress, Mode=OneWay}" />
+                <TextBlock
+                    x:Uid="SynchingMessage"
+                    Grid.Row="1"
+                    Margin="0,0,0,20"
+                    HorizontalAlignment="Center" />
+                <Button
+                    Grid.Row="2"
+                    Width="70"
+                    HorizontalAlignment="Center"
+                    Command="{x:Bind MainViewModel.SyncViewModel.CancelSyncCommand}"
+                    Content="Cancel" />
+            </Grid>
+        </StackPanel>
+
 
 
         <!--  BladeView control that contains the popups for identified features and related records  -->

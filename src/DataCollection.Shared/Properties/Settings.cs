@@ -77,17 +77,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                         // create stream and deserialize into a Settings object
                         var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath);
                         _instance = DeserializeSettings(stream);
+                        stream.Dispose();
 
                         // serialize to save the new settings xml file
                         SerializeSettings(_instance);
                     }
                     else
                     {
-                        // open settins file 
+                        // open settings file and deserialize into AppSettings object
                         var settingsFile = File.Open(_settingsPath, FileMode.Open);
-
-                        // deserialize settings file into AppSettings object
                         _instance = DeserializeSettings(settingsFile);
+                        settingsFile.Close();
                     }
                 }
 
@@ -192,17 +192,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         private static void SerializeSettings(Settings instance)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-
-            // open settings file for edit
-            var fileinfo = new FileInfo(_settingsPath);
-            if (!fileinfo.Directory.Exists)
-                fileinfo.Directory.Create();
-            var settingsFile = fileinfo.Exists ?
-                File.Open(_settingsPath, FileMode.Truncate) :
-                File.Create(_settingsPath);
+            FileStream settingsFile = null;
 
             try
             {
+                // open settings file for edit
+                var fileinfo = new FileInfo(_settingsPath);
+                if (!fileinfo.Directory.Exists)
+                    fileinfo.Directory.Create();
+                settingsFile = fileinfo.Exists ?
+                    File.Open(_settingsPath, FileMode.Truncate) :
+                    File.Create(_settingsPath);
+
                 // serialize file
                 serializer.Serialize(settingsFile, instance);
             }

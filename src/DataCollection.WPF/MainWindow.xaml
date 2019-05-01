@@ -27,7 +27,6 @@
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <localconverters:MapTitleConverter x:Key="MapTitleConverter" />
             <viewModels:MainViewModel x:Key="MainViewModel" />
-            <System:Boolean x:Key="TrueValue">True</System:Boolean>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -129,7 +128,7 @@
                     HorizontalAlignment="Center"
                     FontSize="16"
                     Foreground="White"
-                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SynchingMessage_Text}" />
+                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SynchingMessage.Text}" />
                 <Separator
                     Grid.Row="1"
                     VerticalAlignment="Bottom"
@@ -286,7 +285,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Command="{Binding LoginCommand}"
-                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=LogInButton_Text}"
+                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=LogInButton.Label}"
                     FontSize="25"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
@@ -305,7 +304,7 @@
                             Padding="5"
                             VerticalAlignment="Center"
                             FontSize="25"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=LogOutButton_Text}" />
+                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=LogOutButton.Label}" />
                         <TextBlock
                             Padding="15,0,15,5"
                             VerticalAlignment="Center"
@@ -340,7 +339,7 @@
                             Padding="5"
                             VerticalAlignment="Center"
                             FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOnline_Label}" />
+                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOnlineButton.Label}" />
                     </StackPanel>
                 </Button>
 
@@ -367,7 +366,7 @@
                             Padding="5"
                             VerticalAlignment="Center"
                             FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnline_Button}" />
+                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton.Label}" />
                     </StackPanel>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -400,7 +399,7 @@
                             Padding="5"
                             VerticalAlignment="Center"
                             FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOffline_Label}" />
+                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOfflineButton.Label}" />
                     </StackPanel>
                 </Button>
 
@@ -426,7 +425,7 @@
                             Padding="5"
                             VerticalAlignment="Center"
                             FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOffline_Button}" />
+                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton.Label}" />
                     </StackPanel>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -462,7 +461,7 @@
                                 Padding="5"
                                 VerticalAlignment="Center"
                                 FontSize="19"
-                                Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton_Text}" />
+                                Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton.Label}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontSize="10"
@@ -485,7 +484,6 @@
                     HorizontalAlignment="Left"
                     Background="White"
                     Command="{Binding DeleteOfflineMapCommand}"
-                    CommandParameter="{StaticResource TrueValue}"
                     Foreground="Black"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
@@ -502,7 +500,7 @@
                             Padding="5"
                             VerticalAlignment="Center"
                             FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton_Text}" />
+                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton.Label}" />
                     </StackPanel>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
