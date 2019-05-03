@@ -2,7 +2,6 @@
     x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
@@ -25,6 +24,7 @@
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <converters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
+            <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <localconverters:MapTitleConverter x:Key="MapTitleConverter" />
             <viewModels:MainViewModel x:Key="MainViewModel" />
             <ResourceDictionary.MergedDictionaries>
@@ -182,21 +182,14 @@
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Command="{Binding MapViewModel.MoveToCurrentLocationCommand}"
+                    IsEnabled="{Binding MapViewModel.IsLocationStarted}"
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ZoomButton_Tooltip}">
                     <Button.Content>
-                        <Grid>
-                            <!--  Show button as disabled if IsLocationStarted is false  -->
-                            <TextBlock
-                                FontFamily="Segoe MDL2 Assets"
-                                FontSize="25"
-                                Text="&#xE81D;" />
-                            <TextBlock
-                                FontFamily="Segoe MDL2 Assets"
-                                FontSize="25"
-                                Text="&#xE894;"
-                                Visibility="{Binding MapViewModel.IsLocationStarted, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
-                        </Grid>
+                        <TextBlock
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="25"
+                            Text="&#xE81D;" />
                     </Button.Content>
                 </Button>
                 <!--  Add Feature Button  -->
@@ -207,6 +200,7 @@
                     Content="&#xE710;"
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="25"
+                    IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeature_Tooltip}"
                     Visibility="{Binding IsLocationOnlyMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">

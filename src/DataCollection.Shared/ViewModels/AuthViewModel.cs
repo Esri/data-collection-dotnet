@@ -21,10 +21,9 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Portal;
 using Esri.ArcGISRuntime.Security;
 using System;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 #if NETFX_CORE
 using Windows.ApplicationModel;
 using Windows.Security.Credentials;
@@ -38,7 +37,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
     public class AuthViewModel : BaseViewModel
     {
         private string _oAuthRefreshToken;
-        private string _WebmapURL;
+        private string _webmapURL;
         private string _arcGISOnlineURL;
         private string _appClientID;
         private string _redirectURL;
@@ -49,7 +48,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         public AuthViewModel(string webmapURL, string arcGISOnlineURL, string appClientID, string redirectURL, string userName, string oAuthRefreshToken)
         {
-            _WebmapURL = webmapURL;
+            _webmapURL = webmapURL;
             _arcGISOnlineURL = arcGISOnlineURL;
             _appClientID = appClientID;
             _redirectURL = redirectURL;
@@ -62,22 +61,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // test if refresh token is available and login user
             if (!string.IsNullOrEmpty(_oAuthRefreshToken))
             {
-                // test that the device is online
-                try
-                {
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_WebmapURL);
-                    HttpWebResponse response;
-
-                    using (response = (HttpWebResponse)request.GetResponse())
-                    {
-                        // login user if the status code for the web map is OK
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            LoginCommand.Execute(null);
-                        }
-                    }
-                }
-                catch { /* Leave the user logged off if device is offline */ }
+                // if device is online, login user automatically
+                ConnectivityHelper.IsWebmapAccessible(_webmapURL).ContinueWith(t =>
+               {
+                   if (t.Result)
+                   {
+                       LoginCommand.Execute(null);
+                   }
+               });
             }
         }
 
@@ -113,9 +104,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     (x) =>
                     {
                         // clear credentials
-                        foreach (var credential in Security.AuthenticationManager.Current.Credentials)
+                        foreach (var credential in AuthenticationManager.Current.Credentials)
                         {
-                            Security.AuthenticationManager.Current.RemoveCredential(credential);
+                            AuthenticationManager.Current.RemoveCredential(credential);
                         }
 
                         // clear authenticated user property
@@ -140,6 +131,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _loginCommand ?? (_loginCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        // if device is not online, do not proceed
+                        if (!await ConnectivityHelper.IsWebmapAccessible(_webmapURL))
+                        {
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                                Resources.GetString("DeviceOffline_Title"),
+                                Resources.GetString("NoLogin_DeviceOffline_Message"),
+                                true);
+                            return;
+                        }
+
                         // Create connection to Portal and provide credential
                         try
                         {
@@ -174,7 +175,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         private async Task<Credential> CreateCredentialAsync(CredentialRequestInfo info)
         {
             // if credentials are already set, return set values
-            foreach (var cred in Security.AuthenticationManager.Current.Credentials)
+            foreach (var cred in AuthenticationManager.Current.Credentials)
             {
                 if (cred.ServiceUri == new Uri(_arcGISOnlineURL))
                 {
@@ -195,7 +196,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 await CreateCredentialFromRefreshToken(info);
 
             // add credential to the authentication manager singleton instance to be used in the app
-            Security.AuthenticationManager.Current.AddCredential(credential);
+            AuthenticationManager.Current.AddCredential(credential);
 
             try
             {
@@ -249,7 +250,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return credential;
             }
             catch
-            { 
+            {
                 // if using the refresh token fails, clear the token 
                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.OAuthRefreshToken);
             }
@@ -267,7 +268,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             var serviceUri = info.ServiceUri.ToString().Contains("sharing/rest") ? info.ServiceUri : new Uri(_arcGISOnlineURL);
 
             // AuthenticationManager will handle challenging the user for credentials
-            var credential = await Security.AuthenticationManager.Current.GenerateCredentialAsync(
+            var credential = await AuthenticationManager.Current.GenerateCredentialAsync(
             serviceUri,
             info.GenerateTokenOptions) as OAuthTokenCredential;
             return credential;
@@ -293,10 +294,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             try
             {
                 // Register the ArcGIS Online server information with the AuthenticationManager
-                Security.AuthenticationManager.Current.RegisterServer(portalServerInfo);
+                AuthenticationManager.Current.RegisterServer(portalServerInfo);
 
                 // Create a new ChallengeHandler that uses a method in this class to challenge for credentials
-                Security.AuthenticationManager.Current.ChallengeHandler = new ChallengeHandler(CreateCredentialAsync);
+                AuthenticationManager.Current.ChallengeHandler = new ChallengeHandler(CreateCredentialAsync);
             }
             catch (Exception ex)
             {

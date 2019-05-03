@@ -193,7 +193,7 @@
     <value>Your device must be connected to a network to delete the offline map.</value>
   </data>
   <data name="NoMap_DeviceOffline_Message" xml:space="preserve">
-    <value>Your device must be connected to a network to work online.</value>
+    <value>Your device is not connected to a network and you do not have an offline map downloaded. Please connect to a network to load map. </value>
   </data>
   <data name="NoSync_DeviceOffline_Message" xml:space="preserve">
     <value>Your device must be connected to a network to synchronize the offline map.</value>
@@ -314,5 +314,11 @@
   </data>
   <data name="CancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="NoLogin_DeviceOffline_Message" xml:space="preserve">
+    <value>Your device must be connected to a network to login.</value>
+  </data>
+  <data name="NoOnlineMode_DeviceOffline_Message" xml:space="preserve">
+    <value>Your device must be connected to a network to work online.</value>
   </data>
 </root>

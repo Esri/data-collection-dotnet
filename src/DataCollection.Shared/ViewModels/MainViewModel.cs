@@ -27,7 +27,6 @@ using Esri.ArcGISRuntime.Mapping;
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -129,7 +128,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 _isLocationOnlyMode = value;
                 if (_isLocationOnlyMode)
+                {
                     IdentifiedFeatureViewModel = null;
+                }
+
                 OnPropertyChanged();
             }
         }
@@ -362,11 +364,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         IdentifiedFeatureViewModel = null;
 
                         // if online map is unreachable, do not proceed
-                        if (!IsWebmapAccessible())
+                        if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
                             UserPromptMessenger.Instance.RaiseMessageValueChanged(
                                 Resources.GetString("DeviceOffline_Title"),
-                                Resources.GetString("NoMap_DeviceOffline_Message"),
+                                Resources.GetString("NoOnlineMode_DeviceOffline_Message"),
                                 true);
                             return;
                         }
@@ -404,7 +406,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     async (x) =>
                     {
                         // if online map is unreachable, do not proceed
-                        if (!IsWebmapAccessible())
+                        if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
                             UserPromptMessenger.Instance.RaiseMessageValueChanged(
                                 Resources.GetString("DeviceOffline_Title"),
@@ -457,7 +459,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _syncMapCommand ?? (_syncMapCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // if there is no offline map, there is nothing to sync
                         if (OfflineMap == null)
@@ -466,7 +468,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         }
 
                         // if online map is unreachable, do not proceed
-                        if (!IsWebmapAccessible())
+                        if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
                             UserPromptMessenger.Instance.RaiseMessageValueChanged(
                                 Resources.GetString("DeviceOffline_Title"),
@@ -732,27 +734,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         private async Task<Map> GetMap()
         {
-            // test connectivity to online webmap
-            // if the device is fully offline, this will throw
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_webMapURL);
-                HttpWebResponse response;
-
-                using (response = (HttpWebResponse)request.GetResponse())
-                {
-                    // force app state to offline if the app cannot find the webmap
-                    if (response.StatusCode == HttpStatusCode.NotFound)
-                    {
-                        ConnectivityMode = ConnectivityMode.Offline;
-                    }
-                }
-            }
-            catch
-            {
-                ConnectivityMode = ConnectivityMode.Offline;
-            }
-
             // get mmpk if it exists and if not already loaded
             if (Mmpk == null)
             {
@@ -768,10 +749,34 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 }
             }
 
-            // Choose online or offline map based on app state         
-            return (ConnectivityMode == ConnectivityMode.Online) ?
-                new Map(new Uri(_webMapURL)) :
-                OfflineMap;
+            if (ConnectivityMode == ConnectivityMode.Online)
+            {
+                if (await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
+                {
+                    return new Map(new Uri(_webMapURL));
+                }
+                else
+                {
+                    ConnectivityMode = ConnectivityMode.Offline;
+                }
+            }
+
+            if (ConnectivityMode == ConnectivityMode.Offline)
+            {
+                if (OfflineMap != null)
+                {
+                    return OfflineMap;
+                }
+                else
+                {
+                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("DeviceOffline_Title"),
+                    Resources.GetString("NoMap_DeviceOffline_Message"),
+                    true);
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -828,31 +833,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     throw new NotImplementedException();
 #endif
                 }
-            }
-        }
-
-        /// <summary>
-        /// Test that the web map used for the app is online and accessible 
-        /// </summary>
-        private bool IsWebmapAccessible()
-        {
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_webMapURL);
-                HttpWebResponse response;
-
-                using (response = (HttpWebResponse)request.GetResponse())
-                {
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
             }
         }
     }

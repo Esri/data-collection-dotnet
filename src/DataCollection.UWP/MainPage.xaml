@@ -51,7 +51,7 @@
             <AppBarButton
                 Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}"
                 Label="Center on Location"
-                Visibility="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
                 </AppBarButton.Icon>
@@ -59,6 +59,7 @@
             <AppBarButton
                 Icon="Add"
                 Label="Add Feature"
+                IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
                 Visibility="{x:Bind MainViewModel.IsLocationOnlyMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Click">

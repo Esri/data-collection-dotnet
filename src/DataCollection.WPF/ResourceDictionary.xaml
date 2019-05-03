@@ -29,9 +29,7 @@
     <SolidColorBrush x:Key="Button.MouseOver.Border" Color="DarkGreen" />
     <SolidColorBrush x:Key="Button.Pressed.Background" Color="#C37534" />
     <SolidColorBrush x:Key="Button.Pressed.Border" Color="DarkGreen" />
-    <SolidColorBrush x:Key="Button.Disabled.Background" Color="LightGreen" />
-    <SolidColorBrush x:Key="Button.Disabled.Border" Color="LightGreen" />
-    <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="White" />
+    <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="LightGray" />
 
     <Style x:Key="MenuButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />

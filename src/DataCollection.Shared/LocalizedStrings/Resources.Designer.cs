@@ -511,11 +511,29 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your device must be connected to a network to work online..
+        ///   Looks up a localized string similar to Your device must be connected to a network to login..
+        /// </summary>
+        internal static string NoLogin_DeviceOffline_Message {
+            get {
+                return ResourceManager.GetString("NoLogin_DeviceOffline_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device is not connected to a network and you do not have an offline map downloaded. Please connect to a network to load map. .
         /// </summary>
         internal static string NoMap_DeviceOffline_Message {
             get {
                 return ResourceManager.GetString("NoMap_DeviceOffline_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device must be connected to a network to work online..
+        /// </summary>
+        internal static string NoOnlineMode_DeviceOffline_Message {
+            get {
+                return ResourceManager.GetString("NoOnlineMode_DeviceOffline_Message", resourceCulture);
             }
         }
         
