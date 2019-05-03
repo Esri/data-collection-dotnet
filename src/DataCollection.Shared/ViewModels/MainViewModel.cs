@@ -128,6 +128,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             set
             {
                 _isLocationOnlyMode = value;
+                if (_isLocationOnlyMode)
+                    IdentifiedFeatureViewModel = null;
                 OnPropertyChanged();
             }
         }
