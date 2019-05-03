@@ -50,7 +50,7 @@
             </CommandBar.Content>
             <AppBarButton
                 Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}"
-                Label="Move to Current Location"
+                Label="Center on Location"
                 Visibility="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
@@ -74,28 +74,24 @@
                 </interactivity:Interaction.Behaviors>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-
-                <!-- Log in button -->
-                <AppBarButton
-                    x:Uid="LogInButton"
-                    Command="{x:Bind AuthViewModel.LoginCommand}"
-                    Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;" />
-                    </AppBarButton.Icon>
+                <AppBarButton DataContext="{x:Bind AuthViewModel}" Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                    <AppBarButton.Template>
+                        <ControlTemplate>
+                            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                                <Image
+                                    MaxHeight="35"
+                                    Margin="14,10,11,10"
+                                    Source="{Binding AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
+                                <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="You are logged in as" />
+                                    <TextBlock Text="{Binding AuthenticatedUser.FullName, Mode=OneWay}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </AppBarButton.Template>
                 </AppBarButton>
 
-                <!-- Log out button -->
-                <AppBarButton
-                    x:Uid="LogOutButton"
-                    Command="{x:Bind AuthViewModel.LogOutCommand}"
-                    Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F8;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <AppBarSeparator/>
+                <AppBarSeparator Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
                 <!--  Working online button  -->
                 <AppBarButton x:Uid="WorkingOnlineButton" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
@@ -115,7 +111,7 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-                <AppBarSeparator/>
+                <AppBarSeparator Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
                 <!--  Working offline button  -->
                 <AppBarButton x:Uid="WorkingOfflineButton" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
@@ -137,8 +133,8 @@
                 <!--  Synchronize button  -->
                 <AppBarButton
                     x:Uid="SyncButton"
-                    DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                     Command="{x:Bind MainViewModel.SyncMapCommand, Mode=OneWay}"
+                    DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                     Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE895;" />
@@ -155,36 +151,47 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-                <AppBarSeparator/>
+
 
                 <AppBarButton
-                    DataContext="{x:Bind AuthViewModel}"
-                    Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                    <AppBarButton.Template>
-                        <ControlTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                <Image Source="{Binding AuthenticatedUser.ThumbnailUri, Mode=OneWay}" MaxHeight="40"  Margin="14, 10, 11, 10"/>
-                                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                                    <TextBlock Text="Logged In User"/>
-                                    <TextBlock Text="{Binding AuthenticatedUser.FullName, Mode=OneWay}" Style="{StaticResource CaptionTextBlockStyle}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </AppBarButton.Template>
-                </AppBarButton>
-                
-                <AppBarButton
+                    Margin="12,0,0,0"
                     DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                     Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Template>
                         <ControlTemplate>
-                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                                <TextBlock Text="Last Synchronized"/>
-                                <TextBlock Text="{Binding SyncDate, Mode=OneWay}" Style="{StaticResource CaptionTextBlockStyle}" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="Last Sync:" />
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding SyncDate, Mode=OneWay}" />
                             </StackPanel>
                         </ControlTemplate>
                     </AppBarButton.Template>
                 </AppBarButton>
+
+                <AppBarSeparator />
+
+                <!--  Log in button  -->
+                <AppBarButton
+                    x:Uid="LogInButton"
+                    Command="{x:Bind AuthViewModel.LoginCommand}"
+                    Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
+                <!--  Log out button  -->
+                <AppBarButton
+                    x:Uid="LogOutButton"
+                    Command="{x:Bind AuthViewModel.LogOutCommand}"
+                    Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F8;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+
             </CommandBar.SecondaryCommands>
         </CommandBar>
 

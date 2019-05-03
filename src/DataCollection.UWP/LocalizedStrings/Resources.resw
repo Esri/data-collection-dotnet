@@ -268,7 +268,7 @@
     <value>Show Detail</value>
   </data>
   <data name="SyncButton.Label" xml:space="preserve">
-    <value>Synchronize Map</value>
+    <value>Synchronize Offline Map</value>
   </data>
   <data name="SynchingMessage.Text" xml:space="preserve">
     <value>Synchronizing map. Please wait.</value>

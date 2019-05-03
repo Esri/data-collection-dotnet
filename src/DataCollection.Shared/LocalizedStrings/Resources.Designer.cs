@@ -592,7 +592,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synchronize Map.
+        ///   Looks up a localized string similar to Synchronize Offline Map.
         /// </summary>
         internal static string SyncButton_Label {
             get {
