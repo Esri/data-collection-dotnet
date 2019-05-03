@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:esri="using:Esri.ArcGISRuntime.UI.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
@@ -16,6 +18,7 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+            <converters:DebugConverter x:Key="DebugConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -52,7 +55,23 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton Icon="Add" Label="Add Feature" />
+            <AppBarButton
+                Icon="Add"
+                Label="Add Feature"
+                Visibility="{x:Bind MainViewModel.IsLocationOnlyMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Click">
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=AddFeatureView, Mode=OneWay}"
+                            Value="Visible" />
+                        <core:ChangePropertyAction
+                            PropertyName="IsLocationOnlyMode"
+                            TargetObject="{x:Bind MainViewModel, Mode=OneWay}"
+                            Value="true" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <AppBarButton
                     Command="{x:Bind AuthViewModel.LoginCommand}"
@@ -79,9 +98,10 @@
             Grid.Row="1"
             Grid.ColumnSpan="3"
             utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
+            DataContext="{x:Bind MainViewModel}"
             Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}">
             <utils:MapViewExtensions.ViewpointController>
-                <utils:ViewpointController Viewpoint="{x:Bind MainViewModel.MapViewModel.AreaOfInterest, Mode=OneWay}" />
+                <utils:ViewpointController Viewpoint="{Binding MapViewModel.AreaOfInterest, Mode=TwoWay}" />
             </utils:MapViewExtensions.ViewpointController>
             <utils:MapViewExtensions.LocationDisplayController>
                 <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}" />
@@ -96,6 +116,16 @@
             VerticalAlignment="Bottom"
             AutoHide="True"
             GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
+
+        <!--  New feature overlay  -->
+        <views:AddFeatureView
+            x:Name="AddFeatureView"
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            DataContext="{x:Bind MainViewModel, Mode=OneWay}"
+            Visibility="Collapsed" />
 
         <!--  BladeView control that contains the popups for identified features and related records  -->
         <controls:BladeView

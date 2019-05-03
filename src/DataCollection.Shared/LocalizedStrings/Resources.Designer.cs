@@ -81,18 +81,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Choose the location where you would like to add a feature.
         /// </summary>
-        internal static string AddFeatureLabel_Line1 {
+        internal static string AddFeatureLabel_Line1_Text {
             get {
-                return ResourceManager.GetString("AddFeatureLabel_Line1", resourceCulture);
+                return ResourceManager.GetString("AddFeatureLabel_Line1.Text", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Pan and zoom map under pin.
         /// </summary>
-        internal static string AddFeatureLabel_Line2 {
+        internal static string AddFeatureLabel_Line2_Text {
             get {
-                return ResourceManager.GetString("AddFeatureLabel_Line2", resourceCulture);
+                return ResourceManager.GetString("AddFeatureLabel_Line2.Text", resourceCulture);
             }
         }
         
@@ -111,6 +111,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string AuthError_Title {
             get {
                 return ResourceManager.GetString("AuthError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string CancelButton_Content {
+            get {
+                return ResourceManager.GetString("CancelButton.Content", resourceCulture);
             }
         }
         
@@ -549,9 +558,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        internal static string SaveButton_Text {
+        internal static string SaveButton_Content {
             get {
-                return ResourceManager.GetString("SaveButton_Text", resourceCulture);
+                return ResourceManager.GetString("SaveButton.Content", resourceCulture);
             }
         }
         

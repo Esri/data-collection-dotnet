@@ -43,11 +43,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
 
             // load settings for the authentication viewmodel
             AuthStackPanel.DataContext = new AuthViewModel(
-                Settings.Default.WebmapURL,
-                Settings.Default.ArcGISOnlineURL,
-                Settings.Default.AppClientID,
-                Settings.Default.RedirectURL,
-                Settings.Default.OAuthRefreshToken);
+                                                Settings.Default.WebmapURL,
+                                                Settings.Default.ArcGISOnlineURL,
+                                                Settings.Default.AppClientID,
+                                                Settings.Default.RedirectURL,
+                                                Settings.Default.AuthenticatedUserName,
+                                                Settings.Default.OAuthRefreshToken);
 
             _mainViewModel = TryFindResource("MainViewModel") as MainViewModel;
 

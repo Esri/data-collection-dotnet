@@ -85,8 +85,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     async (x) =>
                     {
                         Feature = await EditViewModel.SaveEdits(PopupManager, FeatureTable, null);
-                        RaiseFeatureCRUDOperationCompleted(CRUDOperation.Edit);
-                        EditViewModel = null;
+                        if (Feature != null)
+                        {
+                            RaiseFeatureCRUDOperationCompleted(CRUDOperation.Edit);
+                            EditViewModel = null;
+                        }
                     }));
             }
         }

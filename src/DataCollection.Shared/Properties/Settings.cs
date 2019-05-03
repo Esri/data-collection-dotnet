@@ -21,6 +21,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 using static System.Environment;
+using Esri.ArcGISRuntime.Portal;
 
 #if NETFX_CORE
 using Windows.Storage;
@@ -114,6 +115,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                 {
                     _instance.OAuthRefreshToken = l.Args.Value?.ToString();
                 }
+                else if (l.Args.Key == BroadcastMessageKey.AuthenticatedUser)
+                {
+                    _instance.AuthenticatedUserName = ((PortalUser)l.Args.Value)?.UserName;
+                }
                 else if (l.Args.Key == BroadcastMessageKey.SyncDate)
                 {
                     _instance.SyncDate = l.Args.Value?.ToString();
@@ -175,6 +180,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         // The settings below are set by the app and should not be changed manually
         [XmlElement("OAuthRefreshToken")]
         public string OAuthRefreshToken { get; set; }
+
+        [XmlElement("AuthenticatedUserName")]
+        public string AuthenticatedUserName { get; set; }
 
         [XmlElement("ConnectivityMode")]
         public string ConnectivityMode { get; set; }

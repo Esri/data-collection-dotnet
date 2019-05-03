@@ -112,8 +112,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             set
             {
                 _feature = value;
-                if (value.IsNewFeature())
-                    IsNewFeature = true;
+                if (value != null)
+                {
+                    if (value.IsNewFeature())
+                        IsNewFeature = true;
+                }
                 OnPropertyChanged();
             }
         }
