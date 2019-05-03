@@ -175,7 +175,7 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <!--  TODO: Replace button text with icons when received from Creative  -->
+            <!--  TODO: Replace buttons text with icons if app is used on Windows versions < 10  -->
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <!--  Current Location Button  -->
                 <Button
