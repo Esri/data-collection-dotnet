@@ -58,8 +58,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         public MainViewModel()
         {
             _webMapURL = Settings.Default.WebmapURL;
-
-
             _downloadPath = Path.Combine(_localFolder,
                 typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
                 typeof(Settings).Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,

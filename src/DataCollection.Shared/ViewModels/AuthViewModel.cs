@@ -63,12 +63,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 // if device is online, login user automatically
                 ConnectivityHelper.IsWebmapAccessible(_webmapURL).ContinueWith(t =>
-               {
-                   if (t.Result)
-                   {
-                       LoginCommand.Execute(null);
-                   }
-               });
+                {
+                    if (t.Result)
+                    {
+                        LoginCommand.Execute(null);
+                    }
+                });
             }
         }
 

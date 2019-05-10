@@ -75,9 +75,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                         throw new NotImplementedException();
 #endif
                         // create stream and deserialize into a Settings object
-                        var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath);
-                        _instance = DeserializeSettings(stream);
-                        stream.Dispose();
+                        using (var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath))
+                        {
+                            _instance = DeserializeSettings(stream);
+                        }
 
                         // serialize to save the new settings xml file
                         SerializeSettings(_instance);
@@ -85,9 +86,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                     else
                     {
                         // open settings file and deserialize into AppSettings object
-                        var settingsFile = File.Open(_settingsPath, FileMode.Open);
-                        _instance = DeserializeSettings(settingsFile);
-                        settingsFile.Close();
+                        using (var settingsFile = File.Open(_settingsPath, FileMode.Open))
+                        {
+                            _instance = DeserializeSettings(settingsFile);
+                        }
                     }
                 }
 

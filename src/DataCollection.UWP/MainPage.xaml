@@ -49,16 +49,16 @@
                     Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
             </CommandBar.Content>
             <AppBarButton
+                x:Uid="CurrentLocationButton"
                 Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}"
-                Label="Center on Location"
                 IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
+                x:Uid="AddFeatureButton"
                 Icon="Add"
-                Label="Add Feature"
                 IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
                 Visibility="{x:Bind MainViewModel.IsLocationOnlyMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                 <interactivity:Interaction.Behaviors>
@@ -75,6 +75,8 @@
                 </interactivity:Interaction.Behaviors>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
+
+                <!--  Inactive button displaying logged in user info  -->
                 <AppBarButton DataContext="{x:Bind AuthViewModel}" Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Template>
                         <ControlTemplate>
@@ -84,7 +86,7 @@
                                     Margin="14,10,11,10"
                                     Source="{Binding AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
                                 <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="You are logged in as" />
+                                    <TextBlock x:Uid="LoggedInTextBlock" Style="{StaticResource CaptionTextBlockStyle}" />
                                     <TextBlock Text="{Binding AuthenticatedUser.FullName, Mode=OneWay}" />
                                 </StackPanel>
                             </StackPanel>
@@ -152,8 +154,7 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-
-
+                <!--  Inactive button displaying last sync date  -->
                 <AppBarButton
                     Margin="12,0,0,0"
                     DataContext="{x:Bind MainViewModel, Mode=OneWay}"
@@ -192,7 +193,6 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F8;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
@@ -270,15 +270,13 @@
                     Margin="0,0,0,20"
                     HorizontalAlignment="Center" />
                 <Button
+                    x:Uid="CancelSyncButton"
                     Grid.Row="2"
                     Width="70"
                     HorizontalAlignment="Center"
-                    Command="{x:Bind MainViewModel.SyncViewModel.CancelSyncCommand}"
-                    Content="Cancel" />
+                    Command="{x:Bind MainViewModel.SyncViewModel.CancelSyncCommand}" />
             </Grid>
         </StackPanel>
-
-
 
         <!--  BladeView control that contains the popups for identified features and related records  -->
         <controls:BladeView
