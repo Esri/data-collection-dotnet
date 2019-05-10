@@ -35,43 +35,21 @@
             <Rectangle
                 Grid.Row="0"
                 Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
+                Grid.ColumnSpan="3"
+                Fill="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
             <Rectangle
                 Grid.Row="1"
                 Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="2"
-                Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="0"
-                Grid.Column="1"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="2"
-                Grid.Column="1"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="0"
-                Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
+                Fill="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
             <Rectangle
                 Grid.Row="1"
                 Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
+                Fill="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
             <Rectangle
                 Grid.Row="2"
-                Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Fill="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="1"
@@ -110,19 +88,22 @@
             VerticalAlignment="Center"
             Orientation="Vertical"
             Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
-            <Grid MaxWidth="350" MaxHeight="200" Background="{ThemeResource SystemAltHighColor}">
+            <Grid
+                MaxWidth="350"
+                MaxHeight="200"
+                Background="{ThemeResource SystemAltHighColor}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <ProgressBar
-                    Foreground="{ThemeResource SystemListLowColor}"
-                    Background="{ThemeResource SystemChromeLowColor}"
                     Grid.Row="0"
                     Width="300"
                     Height="20"
                     Margin="20"
+                    Background="{ThemeResource SystemChromeLowColor}"
+                    Foreground="{ThemeResource SystemListLowColor}"
                     Maximum="100"
                     Minimum="0"
                     Value="{Binding DownloadViewModel.Progress}" />
@@ -134,8 +115,8 @@
                 <Button
                     x:Uid="CancelButton"
                     Grid.Row="2"
-                    Margin="0,0,0,20"
                     Width="70"
+                    Margin="0,0,0,20"
                     HorizontalAlignment="Center"
                     Command="{Binding DownloadViewModel.CancelDownloadCommand}" />
             </Grid>

@@ -32,43 +32,21 @@
         <Rectangle
             Grid.Row="0"
             Grid.Column="0"
-            Fill="Black"
-            Opacity=".5" />
+            Grid.ColumnSpan="3"
+            Fill="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
         <Rectangle
             Grid.Row="1"
             Grid.Column="0"
-            Fill="Black"
-            Opacity=".5" />
-        <Rectangle
-            Grid.Row="2"
-            Grid.Column="0"
-            Fill="Black"
-            Opacity=".5" />
-        <Rectangle
-            Grid.Row="0"
-            Grid.Column="1"
-            Fill="Black"
-            Opacity=".5" />
-        <Rectangle
-            Grid.Row="2"
-            Grid.Column="1"
-            Fill="Black"
-            Opacity=".5" />
-        <Rectangle
-            Grid.Row="0"
-            Grid.Column="2"
-            Fill="Black"
-            Opacity=".5" />
+            Fill="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
         <Rectangle
             Grid.Row="1"
             Grid.Column="2"
-            Fill="Black"
-            Opacity=".5" />
+            Fill="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
         <Rectangle
             Grid.Row="2"
-            Grid.Column="2"
-            Fill="Black"
-            Opacity=".5" />
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Fill="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
         <StackPanel
             Grid.Row="0"
             Grid.Column="1"
