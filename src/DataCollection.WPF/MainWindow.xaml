@@ -22,7 +22,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-            <converters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
+            <localconverters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <localconverters:MapTitleConverter x:Key="MapTitleConverter" />

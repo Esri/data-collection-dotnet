@@ -16,18 +16,11 @@
 
 using System;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
-#if NETFX_CORE
-using Windows.UI;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
-using CustomCultureInfo = System.String;
-#else
 using System.Windows.Data;
 using System.Windows.Media;
-using CustomCultureInfo = System.Globalization.CultureInfo;
-#endif
+using System.Globalization;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
+namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters
 {
     /// <summary>
     /// Converts ConnectivityMode to color to be used for the app banner
@@ -37,7 +30,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
         /// <summary>
         /// Handle the conversion from a boolean value to a color value
         /// </summary>
-        object IValueConverter.Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is ConnectivityMode)
             {
@@ -51,12 +44,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
         /// <summary>
         /// Handle the conversion from a color value to a ConnectivityMode value
         /// </summary>
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CustomCultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Color)
             {
-                    //if color is gray return ConnectivityMode.Offline
-                    return ((Color)value == Colors.Gray)? ConnectivityMode.Offline : ConnectivityMode.Online;
+                //if color is gray return ConnectivityMode.Offline
+                return ((Color)value == Colors.Gray) ? ConnectivityMode.Offline : ConnectivityMode.Online;
             }
             else
                 return null;
