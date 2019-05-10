@@ -72,9 +72,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Add Feature.
         /// </summary>
-        internal static string AddFeature_Tooltip {
+        internal static string AddFeatureButton_Label {
             get {
-                return ResourceManager.GetString("AddFeature_Tooltip", resourceCulture);
+                return ResourceManager.GetString("AddFeatureButton.Label", resourceCulture);
             }
         }
         
@@ -133,6 +133,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string CancelSyncButton_Content {
+            get {
+                return ResourceManager.GetString("CancelSyncButton.Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string CloseButton_Tooltip {
@@ -147,6 +156,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string ConditionDBH_UpdateError_Title {
             get {
                 return ResourceManager.GetString("ConditionDBH_UpdateError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Center on Location.
+        /// </summary>
+        internal static string CurrentLocationButton_Label {
+            get {
+                return ResourceManager.GetString("CurrentLocationButton.Label", resourceCulture);
             }
         }
         
@@ -457,6 +475,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are logged in as.
+        /// </summary>
+        internal static string LoggedInTextBlock_Text {
+            get {
+                return ResourceManager.GetString("LoggedInTextBlock.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log In.
         /// </summary>
         internal static string LogInButton_Label {
@@ -660,15 +687,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string WorkOnlineButton_Label {
             get {
                 return ResourceManager.GetString("WorkOnlineButton.Label", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Zoom to current location.
-        /// </summary>
-        internal static string ZoomButton_Tooltip {
-            get {
-                return ResourceManager.GetString("ZoomButton_Tooltip", resourceCulture);
             }
         }
     }

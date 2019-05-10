@@ -158,7 +158,6 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <!--  Application Title coming from the title of the webmap  -->
-            <!--  This is a workaround for bug in Runtime: OnPropertyChnaged doesn't fire on Map properties  -->
             <TextBlock
                 Grid.Column="0"
                 Margin="15,0,0,0"
@@ -184,7 +183,7 @@
                     Command="{Binding MapViewModel.MoveToCurrentLocationCommand}"
                     IsEnabled="{Binding MapViewModel.IsLocationStarted}"
                     Style="{StaticResource MenuButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ZoomButton_Tooltip}">
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CurrentLocationButton.Label}">
                     <Button.Content>
                         <TextBlock
                             FontFamily="Segoe MDL2 Assets"
@@ -202,7 +201,7 @@
                     FontSize="25"
                     IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
                     Style="{StaticResource MenuButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeature_Tooltip}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureButton.Label}"
                     Visibility="{Binding IsLocationOnlyMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
