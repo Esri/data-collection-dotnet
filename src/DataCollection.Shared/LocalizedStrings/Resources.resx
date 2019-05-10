@@ -193,7 +193,7 @@
     <value>Your device must be connected to a network to delete the offline map.</value>
   </data>
   <data name="NoMap_DeviceOffline_Message" xml:space="preserve">
-    <value>Your device must be connected to a network to work online.</value>
+    <value>Your device is not connected to a network and you do not have an offline map downloaded. Please connect to a network to load map. </value>
   </data>
   <data name="NoSync_DeviceOffline_Message" xml:space="preserve">
     <value>Your device must be connected to a network to synchronize the offline map.</value>
@@ -216,7 +216,7 @@
   <data name="AddFeatureLabel_Line2.Text" xml:space="preserve">
     <value>Pan and zoom map under pin</value>
   </data>
-  <data name="AddFeature_Tooltip" xml:space="preserve">
+  <data name="AddFeatureButton.Label" xml:space="preserve">
     <value>Add Feature</value>
   </data>
   <data name="AddRelatedRecord_Tooltip" xml:space="preserve">
@@ -228,31 +228,31 @@
   <data name="CloseButton_Tooltip" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="DeleteMapButton_Text" xml:space="preserve">
+  <data name="DeleteMapButton.Label" xml:space="preserve">
     <value>Delete Offline Map</value>
   </data>
   <data name="DeleteRecord_Tooltip" xml:space="preserve">
     <value>Delete Record</value>
   </data>
-  <data name="DownloadButton_Text" xml:space="preserve">
+  <data name="DownloadButton.Content" xml:space="preserve">
     <value>Download</value>
   </data>
-  <data name="DownloadingMessage_Text" xml:space="preserve">
+  <data name="DownloadingMessage.Text" xml:space="preserve">
     <value>Preparing map for offline use. Please wait.</value>
   </data>
-  <data name="DownloadLabel_Line1" xml:space="preserve">
+  <data name="DownloadLabel_Line1.Text" xml:space="preserve">
     <value>Select the region of the map to take offline</value>
   </data>
-  <data name="DownloadLabel_Line2" xml:space="preserve">
+  <data name="DownloadLabel_Line2.Text" xml:space="preserve">
     <value>Pan and zoom map within rectangle</value>
   </data>
   <data name="EditRecord_Tooltip" xml:space="preserve">
     <value>Edit Record</value>
   </data>
-  <data name="LogInButton_Text" xml:space="preserve">
+  <data name="LogInButton.Label" xml:space="preserve">
     <value>Log In</value>
   </data>
-  <data name="LogOutButton_Text" xml:space="preserve">
+  <data name="LogOutButton.Label" xml:space="preserve">
     <value>Log Out</value>
   </data>
   <data name="MoreTools_Tooltip" xml:space="preserve">
@@ -267,26 +267,26 @@
   <data name="ShowDetailButton_Tooltip" xml:space="preserve">
     <value>Show Detail</value>
   </data>
-  <data name="SyncButton_Text" xml:space="preserve">
-    <value>Synchronize Map</value>
+  <data name="SyncButton.Label" xml:space="preserve">
+    <value>Synchronize Offline Map</value>
   </data>
-  <data name="SynchingMessage_Text" xml:space="preserve">
+  <data name="SynchingMessage.Text" xml:space="preserve">
     <value>Synchronizing map. Please wait.</value>
   </data>
-  <data name="WorkingOffline_Label" xml:space="preserve">
+  <data name="WorkingOfflineButton.Label" xml:space="preserve">
     <value>Working Offline</value>
   </data>
-  <data name="WorkingOnline_Label" xml:space="preserve">
+  <data name="WorkingOnlineButton.Label" xml:space="preserve">
     <value>Working Online</value>
   </data>
-  <data name="WorkOffline_Button" xml:space="preserve">
+  <data name="WorkOfflineButton.Label" xml:space="preserve">
     <value>Work Offline</value>
   </data>
-  <data name="WorkOnline_Button" xml:space="preserve">
+  <data name="WorkOnlineButton.Label" xml:space="preserve">
     <value>Work Online</value>
   </data>
-  <data name="ZoomButton_Tooltip" xml:space="preserve">
-    <value>Zoom to current location</value>
+  <data name="CurrentLocationButton.Label" xml:space="preserve">
+    <value>Center on Location</value>
   </data>
   <data name="MapLoadingError_Title" xml:space="preserve">
     <value>Map failed to load</value>
@@ -314,5 +314,17 @@
   </data>
   <data name="CancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="CancelSyncButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LoggedInTextBlock.Text" xml:space="preserve">
+    <value>You are logged in as</value>
+  </data>
+  <data name="NoLogin_DeviceOffline_Message" xml:space="preserve">
+    <value>Your device must be connected to a network to login.</value>
+  </data>
+  <data name="NoOnlineMode_DeviceOffline_Message" xml:space="preserve">
+    <value>Your device must be connected to a network to work online.</value>
   </data>
 </root>

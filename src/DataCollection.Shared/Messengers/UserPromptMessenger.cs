@@ -69,6 +69,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
             });
         }
 
+        /// <summary>
+        /// Awaitable task that handles the need for a user response
+        /// </summary>
         public Task<bool> AwaitConfirmation(string messageTitle, string message, bool isError, string stackTrace = null,
             string affirmativeActionButtonContent = null, string negativeActionButtonContent = null)
         {
