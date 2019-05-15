@@ -27,54 +27,13 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height=".1*" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".1*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width=".1*" />
-            </Grid.ColumnDefinitions>
-            <Rectangle
+            <Border
                 Grid.Row="0"
-                Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="1"
-                Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="2"
-                Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="0"
-                Grid.Column="1"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="2"
-                Grid.Column="1"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="0"
-                Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="1"
-                Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="2"
-                Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
+                Grid.RowSpan="3"
+                BorderBrush="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}"
+                BorderThickness="100" />
             <StackPanel
                 Grid.Row="0"
-                Grid.Column="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
@@ -83,7 +42,6 @@
             </StackPanel>
             <StackPanel
                 Grid.Row="2"
-                Grid.Column="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
@@ -110,7 +68,10 @@
             VerticalAlignment="Center"
             Orientation="Vertical"
             Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
-            <Grid MaxWidth="350" MaxHeight="200">
+            <Grid
+                MaxWidth="350"
+                MaxHeight="200"
+                Background="{ThemeResource SystemAltHighColor}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
@@ -121,6 +82,8 @@
                     Width="300"
                     Height="20"
                     Margin="20"
+                    Background="{ThemeResource SystemChromeLowColor}"
+                    Foreground="{ThemeResource SystemListLowColor}"
                     Maximum="100"
                     Minimum="0"
                     Value="{Binding DownloadViewModel.Progress}" />
@@ -133,6 +96,7 @@
                     x:Uid="CancelButton"
                     Grid.Row="2"
                     Width="70"
+                    Margin="0,0,0,20"
                     HorizontalAlignment="Center"
                     Command="{Binding DownloadViewModel.CancelDownloadCommand}" />
             </Grid>

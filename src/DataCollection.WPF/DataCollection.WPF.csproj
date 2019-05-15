@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="Binding Support\SourceController.cs" />
     <Compile Include="Binding Support\WebBrowserExtensions.cs" />
+    <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
     <Compile Include="Converters\MapTitleConverter.cs" />
     <Compile Include="Helpers\BrowseHelper.cs" />

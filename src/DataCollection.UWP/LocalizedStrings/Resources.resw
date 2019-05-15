@@ -216,7 +216,7 @@
   <data name="AddFeatureLabel_Line2.Text" xml:space="preserve">
     <value>Pan and zoom map under pin</value>
   </data>
-  <data name="AddFeature_Tooltip" xml:space="preserve">
+  <data name="AddFeatureButton.Label" xml:space="preserve">
     <value>Add Feature</value>
   </data>
   <data name="AddRelatedRecord_Tooltip" xml:space="preserve">
@@ -285,8 +285,8 @@
   <data name="WorkOnlineButton.Label" xml:space="preserve">
     <value>Work Online</value>
   </data>
-  <data name="ZoomButton_Tooltip" xml:space="preserve">
-    <value>Zoom to current location</value>
+  <data name="CurrentLocationButton.Label" xml:space="preserve">
+    <value>Center on Location</value>
   </data>
   <data name="MapLoadingError_Title" xml:space="preserve">
     <value>Map failed to load</value>
@@ -314,6 +314,12 @@
   </data>
   <data name="CancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="CancelSyncButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LoggedInTextBlock.Text" xml:space="preserve">
+    <value>You are logged in as</value>
   </data>
   <data name="NoLogin_DeviceOffline_Message" xml:space="preserve">
     <value>Your device must be connected to a network to login.</value>

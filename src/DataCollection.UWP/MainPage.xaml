@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:esri="using:Esri.ArcGISRuntime.UI.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:localConverters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
@@ -20,6 +21,7 @@
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <converters:DebugConverter x:Key="DebugConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+            <localConverters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -41,7 +43,10 @@
         </Grid.ColumnDefinitions>
 
         <!--  Title bar with top buttons  -->
-        <CommandBar Grid.Row="0" Grid.ColumnSpan="3">
+        <CommandBar
+            Grid.Row="0"
+            Grid.ColumnSpan="3"
+            Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}">
             <CommandBar.Content>
                 <TextBlock
                     Margin="15,0,0,0"
@@ -75,7 +80,6 @@
                 </interactivity:Interaction.Behaviors>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-
                 <!--  Inactive button displaying logged in user info  -->
                 <AppBarButton DataContext="{x:Bind AuthViewModel}" Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Template>
@@ -86,7 +90,10 @@
                                     Margin="14,10,11,10"
                                     Source="{Binding AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
                                 <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                    <TextBlock x:Uid="LoggedInTextBlock" Style="{StaticResource CaptionTextBlockStyle}" />
+                                    <TextBlock
+                                        x:Uid="LoggedInTextBlock"
+                                        Margin="0,0,10,0"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
                                     <TextBlock Text="{Binding AuthenticatedUser.FullName, Mode=OneWay}" />
                                 </StackPanel>
                             </StackPanel>
@@ -97,7 +104,10 @@
                 <AppBarSeparator Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
                 <!--  Working online button  -->
-                <AppBarButton x:Uid="WorkingOnlineButton" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
+                <AppBarButton
+                    x:Uid="WorkingOnlineButton"
+                    IsEnabled="False"
+                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC3F;" />
                     </AppBarButton.Icon>
@@ -117,7 +127,10 @@
                 <AppBarSeparator Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
                 <!--  Working offline button  -->
-                <AppBarButton x:Uid="WorkingOfflineButton" Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
+                <AppBarButton
+                    x:Uid="WorkingOfflineButton"
+                    IsEnabled="False"
+                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB5E;" />
                     </AppBarButton.Icon>
@@ -250,7 +263,10 @@
             VerticalAlignment="Center"
             Orientation="Vertical"
             Visibility="{x:Bind MainViewModel.SyncViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-            <Grid MaxWidth="350" MaxHeight="200">
+            <Grid
+                MaxWidth="350"
+                MaxHeight="250"
+                Background="{ThemeResource SystemAltHighColor}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
@@ -261,6 +277,8 @@
                     Width="300"
                     Height="20"
                     Margin="20"
+                    Background="{ThemeResource SystemChromeLowColor}"
+                    Foreground="{ThemeResource SystemListLowColor}"
                     Maximum="100"
                     Minimum="0"
                     Value="{x:Bind MainViewModel.SyncViewModel.Progress, Mode=OneWay}" />
@@ -273,6 +291,7 @@
                     x:Uid="CancelSyncButton"
                     Grid.Row="2"
                     Width="70"
+                    Margin="0,0,0,20"
                     HorizontalAlignment="Center"
                     Command="{x:Bind MainViewModel.SyncViewModel.CancelSyncCommand}" />
             </Grid>
