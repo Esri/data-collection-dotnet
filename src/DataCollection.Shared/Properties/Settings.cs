@@ -20,7 +20,12 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
+using Esri.ArcGISRuntime.Portal;
+#if WPF
 using static System.Environment;
+#elif NETFX_CORE
+using Windows.Storage;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
 {
@@ -31,10 +36,20 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         private static Settings _instance;
 
         // set the path on disk for the settings file
-        private static string _settingsPath = Path.Combine(GetFolderPath(SpecialFolder.LocalApplicationData),
+#if WPF
+        private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
+#elif NETFX_CORE
+        private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#else
+        // will throw if another platform is added without handling this 
+        throw new NotImplementedException();
+#endif
+
+        private static string _settingsPath = Path.Combine(_localFolder,
             typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
             typeof(Settings).Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
             "Settings.xml");
+
 
         /// <summary>
         /// Default instance of the <see cref="Settings"/> class
@@ -53,21 +68,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                         // get settings file shipped with the app
 #if WPF
                         var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Configuration.xml";
+#elif NETFX_CORE
+                        var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Properties.Configuration.xml";
+#else
+                        // will throw if another platform is added without handling this 
+                        throw new NotImplementedException();
 #endif
                         // create stream and deserialize into a Settings object
-                        var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath);
-                        _instance = DeserializeSettings(stream);
+                        using (var stream = typeof(Settings).Assembly.GetManifestResourceStream(streamPath))
+                        {
+                            _instance = DeserializeSettings(stream);
+                        }
 
                         // serialize to save the new settings xml file
                         SerializeSettings(_instance);
                     }
                     else
                     {
-                        // open settins file 
-                        var settingsFile = File.Open(_settingsPath, FileMode.Open);
-
-                        // deserialize settings file into AppSettings object
-                        _instance = DeserializeSettings(settingsFile);
+                        // open settings file and deserialize into AppSettings object
+                        using (var settingsFile = File.Open(_settingsPath, FileMode.Open))
+                        {
+                            _instance = DeserializeSettings(settingsFile);
+                        }
                     }
                 }
 
@@ -85,19 +107,19 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
             {
                 if (l.Args.Key == BroadcastMessageKey.ConnectivityMode)
                 {
-                    ConnectivityMode = l.Args.Value?.ToString();
-                }
-                else if (l.Args.Key == BroadcastMessageKey.DownloadPath)
-                {
-                    DownloadPath = l.Args.Value?.ToString();
+                    _instance.ConnectivityMode = l.Args.Value?.ToString();
                 }
                 else if (l.Args.Key == BroadcastMessageKey.OAuthRefreshToken)
                 {
-                    OAuthRefreshToken = l.Args.Value?.ToString();
+                    _instance.OAuthRefreshToken = l.Args.Value?.ToString();
+                }
+                else if (l.Args.Key == BroadcastMessageKey.AuthenticatedUser)
+                {
+                    _instance.AuthenticatedUserName = ((PortalUser)l.Args.Value)?.UserName;
                 }
                 else if (l.Args.Key == BroadcastMessageKey.SyncDate)
                 {
-                    SyncDate = l.Args.Value?.ToString();
+                    _instance.SyncDate = l.Args.Value?.ToString();
                 }
 
                 SerializeSettings(_instance);
@@ -157,11 +179,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         [XmlElement("OAuthRefreshToken")]
         public string OAuthRefreshToken { get; set; }
 
+        [XmlElement("AuthenticatedUserName")]
+        public string AuthenticatedUserName { get; set; }
+
         [XmlElement("ConnectivityMode")]
         public string ConnectivityMode { get; set; }
-
-        [XmlElement("DownloadPath")]
-        public string DownloadPath { get; set; }
 
         [XmlElement("SyncDate")]
         public string SyncDate { get; set; }
@@ -172,17 +194,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         private static void SerializeSettings(Settings instance)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-
-            // open settings file for edit
-            var fileinfo = new FileInfo(_settingsPath);
-            if (!fileinfo.Directory.Exists)
-                fileinfo.Directory.Create();
-            var settingsFile = fileinfo.Exists ?
-                File.Open(_settingsPath, FileMode.Truncate) :
-                File.Create(_settingsPath);
+            FileStream settingsFile = null;
 
             try
             {
+                // open settings file for edit
+                var fileinfo = new FileInfo(_settingsPath);
+                if (!fileinfo.Directory.Exists)
+                    fileinfo.Directory.Create();
+                settingsFile = fileinfo.Exists ?
+                    File.Open(_settingsPath, FileMode.Truncate) :
+                    File.Create(_settingsPath);
+
                 // serialize file
                 serializer.Serialize(settingsFile, instance);
             }

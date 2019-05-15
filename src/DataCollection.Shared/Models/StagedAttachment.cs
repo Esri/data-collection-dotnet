@@ -21,8 +21,14 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+#if WPF
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+#elif NETFX_CORE
+using Windows.UI.Core;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 {
@@ -33,7 +39,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
         /// <summary>
         /// Gets the Thumbnail image for the attachment 
         /// </summary>
-        public ImageSource Thumbnail {
+        public ImageSource Thumbnail
+        {
             get => _thumbnail;
             private set
             {
@@ -51,6 +58,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
         {
             Attachment = attachment;
 
+            // this workflow is dependent on image location so it's fully segregated per platform
+
+#if WPF
             switch (Attachment.Type)
             {
                 // create thumbnail for the image attachments
@@ -64,7 +74,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                     {
                         // API currently does not support generating thumbnails for GIFs 
                         if (ex.Message == "Conversion failed exception: Unsupported image file format.")
-                            Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentVideo.png"));
+                            Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentImage.png"));
                         else
                             UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                     }
@@ -81,7 +91,61 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                     Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentOther.png"));
                     break;
             }
+
             Thumbnail?.Freeze();
+
+#elif NETFX_CORE
+            switch (Attachment.Type)
+            {
+                // create thumbnail for the image attachments
+                // must do this on UI thread due to bindings 
+                case PopupAttachmentType.Image:
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    {
+                        try
+                        {
+                            var rtImage = await attachment.CreateThumbnailAsync(50, 50);
+                            Thumbnail = await rtImage.ToImageSourceAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            // API currently does not support generating thumbnails for GIFs 
+                            if (ex.Message == "Conversion failed exception: Unsupported image file format.")
+                            {
+                                Thumbnail = new BitmapImage(new Uri("ms-appx:///Assets/AttachmentImage.png"));
+                            }
+                            else
+                            {
+                                UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                            }
+                        }
+                    });
+                    break;
+
+                // use placeholder images for the rest of the attachments
+                case PopupAttachmentType.Video:
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        Thumbnail = new BitmapImage(new Uri("ms-appx:///Assets/AttachmentVideo.png"));
+                    });
+                    break;
+                case PopupAttachmentType.Document:
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        Thumbnail = new BitmapImage(new Uri("ms-appx:///Assets/AttachmentDocument.png"));
+                    });
+                    break;
+                default:
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        Thumbnail = new BitmapImage(new Uri("ms-appx:///Assets/AttachmentOther.png"));
+                    });
+                    break;
+            }
+#else
+                    // will throw if another platform is added without handling this 
+                    throw new NotImplementedException();
+#endif
         }
 
         /// <summary>
@@ -94,6 +158,5 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
     }
 }

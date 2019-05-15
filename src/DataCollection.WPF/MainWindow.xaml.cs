@@ -15,15 +15,12 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views;
 using System.ComponentModel;
-using System.IO;
 using System.Windows;
-using System.Windows.Forms;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
 {
@@ -43,35 +40,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
 
             // load settings for the authentication viewmodel
             AuthStackPanel.DataContext = new AuthViewModel(
-                Settings.Default.WebmapURL,
-                Settings.Default.ArcGISOnlineURL,
-                Settings.Default.AppClientID,
-                Settings.Default.RedirectURL,
-                Settings.Default.OAuthRefreshToken);
+                                                Settings.Default.WebmapURL,
+                                                Settings.Default.ArcGISOnlineURL,
+                                                Settings.Default.AppClientID,
+                                                Settings.Default.RedirectURL,
+                                                Settings.Default.AuthenticatedUserName,
+                                                Settings.Default.OAuthRefreshToken);
 
             _mainViewModel = TryFindResource("MainViewModel") as MainViewModel;
 
             // load settings for the custom tree survey dataset
             LoadTreeSurveySettings();
-
-            // create event handler for property changed to determine when user chooses to work offline
-            // this only needs to run if there is no DownloadPath already set or it's invalid
-            if (string.IsNullOrEmpty(_mainViewModel.DownloadPath) || !Directory.Exists(_mainViewModel.DownloadPath))
-            {
-                _mainViewModel.PropertyChanged += MainViewModel_PropertyChanged;
-            }
-        }
-
-        /// <summary>
-        /// Handles the property changed event for the MainViewModel
-        /// </summary>
-        private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            // When the IsMapDownloading property becomes true, prompt user to choose folder
-            if (e.PropertyName == nameof(MainViewModel.DownloadViewModel) && ((MainViewModel)sender).DownloadViewModel != null)
-            {
-                PromptUserForDownloadDirectory();
-            }
         }
 
         /// <summary>
@@ -94,38 +73,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
         private void DialogBox_Closing(object sender, CancelEventArgs e)
         {
             UserPromptMessenger.Instance.RaiseResponseValueChanged(((DialogBoxWindow)sender).Response);
-        }
-
-        /// <summary>
-        /// Prompt user to select where the offline version of the map should be saved
-        /// This fires only the first time the user selects to download a map
-
-        /// </summary>
-        private void PromptUserForDownloadDirectory()
-        {
-            using (var dialog = new FolderBrowserDialog())
-            {
-                dialog.ShowNewFolderButton = true;
-                dialog.Description = "Data Collection app needs to download the map on your device. Please select the folder where the map can be stored.";
-                var result = dialog.ShowDialog();
-
-                // TODO: Test that user has write permissions to the directory
-                // TODO: Test that the user selected a valid directory
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(Path.Combine(dialog.SelectedPath, "Mmpk"), BroadcastMessageKey.DownloadPath);
-
-                    // double check that path was set before removing the event handler
-                    if (!string.IsNullOrEmpty(Settings.Default.DownloadPath))
-                    {
-                        _mainViewModel.PropertyChanged -= MainViewModel_PropertyChanged;
-                    }
-                }
-                else
-                {
-                    _mainViewModel.DownloadViewModel = null;
-                }
-            }
         }
 
         /// <summary>

@@ -25,10 +25,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
+#if WPF
+using System.Windows;
+#elif NETFX_CORE
+using Windows.Storage;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -141,6 +144,19 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 #if WPF
                                 // in WPF, let Windows open the file with the application the user has set as default
                                 System.Diagnostics.Process.Start(attachmentLocalPath);
+#elif NETFX_CORE
+                                try
+                                {
+                                    var storageFile = await StorageFile.GetFileFromPathAsync(attachmentLocalPath);
+                                    await Windows.System.Launcher.LaunchFileAsync(storageFile);
+                                }
+                                catch(Exception ex)
+                                {
+                                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                                }
+#else
+                                // will throw if another platform is added without handling this 
+                                throw new NotImplementedException();
 #endif
                             }
                             else
@@ -171,28 +187,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         if (x != null && x is PopupAttachment attachment)
                         {
-                            bool deleteConfirmed = false;
-
                             // wait for response from the user if they truly want to delete the attachment
-                            UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                            bool deleteConfirmed = await UserPromptMessenger.Instance.AwaitConfirmation(
                                 Resources.GetString("DeleteConfirmationAttachment_Title"),
                                 Resources.GetString("DeleteConfirmationAttachment_Message"),
                                 false,
                                 null,
                                 Resources.GetString("DeleteButton_Content"));
-
-                            void handler(object o, UserPromptResponseChangedEventArgs e)
-                            {
-                                {
-                                    UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                                    if (e.Response)
-                                    {
-                                        deleteConfirmed = true;
-                                    }
-                                }
-                            }
 
                             if (deleteConfirmed)
                             {
@@ -231,8 +232,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 var stagedAttachment = new StagedAttachment();
                 var loadTask = stagedAttachment.LoadAsync(attachment);
 
+
+#if WPF
                 // add attachment to collection using the UI thread (for the binding to work)
                 Application.Current.Dispatcher.Invoke(new Action(() => { Attachments.Add(stagedAttachment); }));
+#else
+                // add attachment to collection
+                Attachments.Add(stagedAttachment);
+#endif
 
                 tasks.Add(loadTask);
             }

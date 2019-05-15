@@ -15,24 +15,22 @@
 ******************************************************************************/
 
 using System;
-using System.Globalization;
-using System.Windows.Data;
+using Windows.UI.Xaml.Data;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters
+namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters
 {
-    /// <summary>
-    /// Converter used to pass multiple parameters from a command
-    /// </summary>
-    class MultivalueCommandParameterConverter : IMultiValueConverter
+    class ObjectToDateTimeOffsetConverter : IValueConverter
     {
-        object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        // Converts (casts) an type object to a DateTimeOffset type
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return values.Clone();
+            return (DateTimeOffset?)value;
         }
 
-        object[] IMultiValueConverter.ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        // Converting back isn't necessary as DateTimeOffset is an object
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            return value;
         }
     }
 }

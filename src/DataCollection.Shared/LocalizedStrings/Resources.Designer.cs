@@ -72,27 +72,27 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Add Feature.
         /// </summary>
-        internal static string AddFeature_Tooltip {
+        internal static string AddFeatureButton_Label {
             get {
-                return ResourceManager.GetString("AddFeature_Tooltip", resourceCulture);
+                return ResourceManager.GetString("AddFeatureButton.Label", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Choose the location where you would like to add a feature.
         /// </summary>
-        internal static string AddFeatureLabel_Line1 {
+        internal static string AddFeatureLabel_Line1_Text {
             get {
-                return ResourceManager.GetString("AddFeatureLabel_Line1", resourceCulture);
+                return ResourceManager.GetString("AddFeatureLabel_Line1.Text", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Pan and zoom map under pin.
         /// </summary>
-        internal static string AddFeatureLabel_Line2 {
+        internal static string AddFeatureLabel_Line2_Text {
             get {
-                return ResourceManager.GetString("AddFeatureLabel_Line2", resourceCulture);
+                return ResourceManager.GetString("AddFeatureLabel_Line2.Text", resourceCulture);
             }
         }
         
@@ -115,11 +115,29 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string CancelButton_Content {
+            get {
+                return ResourceManager.GetString("CancelButton.Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel Edits.
         /// </summary>
         internal static string CancelEdits_Tooltip {
             get {
                 return ResourceManager.GetString("CancelEdits_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string CancelSyncButton_Content {
+            get {
+                return ResourceManager.GetString("CancelSyncButton.Content", resourceCulture);
             }
         }
         
@@ -138,6 +156,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string ConditionDBH_UpdateError_Title {
             get {
                 return ResourceManager.GetString("ConditionDBH_UpdateError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Center on Location.
+        /// </summary>
+        internal static string CurrentLocationButton_Label {
+            get {
+                return ResourceManager.GetString("CurrentLocationButton.Label", resourceCulture);
             }
         }
         
@@ -216,9 +243,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Delete Offline Map.
         /// </summary>
-        internal static string DeleteMapButton_Text {
+        internal static string DeleteMapButton_Label {
             get {
-                return ResourceManager.GetString("DeleteMapButton_Text", resourceCulture);
+                return ResourceManager.GetString("DeleteMapButton.Label", resourceCulture);
             }
         }
         
@@ -288,9 +315,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Download.
         /// </summary>
-        internal static string DownloadButton_Text {
+        internal static string DownloadButton_Content {
             get {
-                return ResourceManager.GetString("DownloadButton_Text", resourceCulture);
+                return ResourceManager.GetString("DownloadButton.Content", resourceCulture);
             }
         }
         
@@ -308,25 +335,25 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// </summary>
         internal static string DownloadingMessage_Text {
             get {
-                return ResourceManager.GetString("DownloadingMessage_Text", resourceCulture);
+                return ResourceManager.GetString("DownloadingMessage.Text", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Select the region of the map to take offline.
         /// </summary>
-        internal static string DownloadLabel_Line1 {
+        internal static string DownloadLabel_Line1_Text {
             get {
-                return ResourceManager.GetString("DownloadLabel_Line1", resourceCulture);
+                return ResourceManager.GetString("DownloadLabel_Line1.Text", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Pan and zoom map within rectangle.
         /// </summary>
-        internal static string DownloadLabel_Line2 {
+        internal static string DownloadLabel_Line2_Text {
             get {
-                return ResourceManager.GetString("DownloadLabel_Line2", resourceCulture);
+                return ResourceManager.GetString("DownloadLabel_Line2.Text", resourceCulture);
             }
         }
         
@@ -448,11 +475,20 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are logged in as.
+        /// </summary>
+        internal static string LoggedInTextBlock_Text {
+            get {
+                return ResourceManager.GetString("LoggedInTextBlock.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log In.
         /// </summary>
-        internal static string LogInButton_Text {
+        internal static string LogInButton_Label {
             get {
-                return ResourceManager.GetString("LogInButton_Text", resourceCulture);
+                return ResourceManager.GetString("LogInButton.Label", resourceCulture);
             }
         }
         
@@ -468,9 +504,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Log Out.
         /// </summary>
-        internal static string LogOutButton_Text {
+        internal static string LogOutButton_Label {
             get {
-                return ResourceManager.GetString("LogOutButton_Text", resourceCulture);
+                return ResourceManager.GetString("LogOutButton.Label", resourceCulture);
             }
         }
         
@@ -502,11 +538,29 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your device must be connected to a network to work online..
+        ///   Looks up a localized string similar to Your device must be connected to a network to login..
+        /// </summary>
+        internal static string NoLogin_DeviceOffline_Message {
+            get {
+                return ResourceManager.GetString("NoLogin_DeviceOffline_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device is not connected to a network and you do not have an offline map downloaded. Please connect to a network to load map. .
         /// </summary>
         internal static string NoMap_DeviceOffline_Message {
             get {
                 return ResourceManager.GetString("NoMap_DeviceOffline_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device must be connected to a network to work online..
+        /// </summary>
+        internal static string NoOnlineMode_DeviceOffline_Message {
+            get {
+                return ResourceManager.GetString("NoOnlineMode_DeviceOffline_Message", resourceCulture);
             }
         }
         
@@ -549,9 +603,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        internal static string SaveButton_Text {
+        internal static string SaveButton_Content {
             get {
-                return ResourceManager.GetString("SaveButton_Text", resourceCulture);
+                return ResourceManager.GetString("SaveButton.Content", resourceCulture);
             }
         }
         
@@ -583,11 +637,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Synchronize Map.
+        ///   Looks up a localized string similar to Synchronize Offline Map.
         /// </summary>
-        internal static string SyncButton_Text {
+        internal static string SyncButton_Label {
             get {
-                return ResourceManager.GetString("SyncButton_Text", resourceCulture);
+                return ResourceManager.GetString("SyncButton.Label", resourceCulture);
             }
         }
         
@@ -596,52 +650,43 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         /// </summary>
         internal static string SynchingMessage_Text {
             get {
-                return ResourceManager.GetString("SynchingMessage_Text", resourceCulture);
+                return ResourceManager.GetString("SynchingMessage.Text", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Working Offline.
         /// </summary>
-        internal static string WorkingOffline_Label {
+        internal static string WorkingOfflineButton_Label {
             get {
-                return ResourceManager.GetString("WorkingOffline_Label", resourceCulture);
+                return ResourceManager.GetString("WorkingOfflineButton.Label", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Working Online.
         /// </summary>
-        internal static string WorkingOnline_Label {
+        internal static string WorkingOnlineButton_Label {
             get {
-                return ResourceManager.GetString("WorkingOnline_Label", resourceCulture);
+                return ResourceManager.GetString("WorkingOnlineButton.Label", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Work Offline.
         /// </summary>
-        internal static string WorkOffline_Button {
+        internal static string WorkOfflineButton_Label {
             get {
-                return ResourceManager.GetString("WorkOffline_Button", resourceCulture);
+                return ResourceManager.GetString("WorkOfflineButton.Label", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Work Online.
         /// </summary>
-        internal static string WorkOnline_Button {
+        internal static string WorkOnlineButton_Label {
             get {
-                return ResourceManager.GetString("WorkOnline_Button", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Zoom to current location.
-        /// </summary>
-        internal static string ZoomButton_Tooltip {
-            get {
-                return ResourceManager.GetString("ZoomButton_Tooltip", resourceCulture);
+                return ResourceManager.GetString("WorkOnlineButton.Label", resourceCulture);
             }
         }
     }

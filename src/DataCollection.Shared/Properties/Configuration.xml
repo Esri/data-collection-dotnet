@@ -22,7 +22,7 @@
   
   <!-- The following settings are modified by the app and should not be manually edited. Do not modify -->
   <OAuthRefreshToken />
+  <AuthenticatedUserName />
   <ConnectivityMode>Online</ConnectivityMode>
-  <DownloadPath />
   <SyncDate />
 </Settings>

@@ -22,5 +22,5 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
     class BroadcastMessengerEventArgs
     {
         public KeyValuePair<BroadcastMessageKey, object> Args { get; set; }
-}
+    }
 }

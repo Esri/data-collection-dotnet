@@ -27,37 +27,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
     public class MapViewExtensions : DependencyObject
     {
         /// <summary>
-        ///  Identifies the <see cref="ViewpointControllerProperty"/> property
-        /// </summary>
-        public static readonly DependencyProperty ViewpointControllerProperty =
-            DependencyProperty.Register(nameof(ViewpointController), typeof(ViewpointController), typeof(MapView), new PropertyMetadata(null, OnViewpointControllerChanged));
-
-        /// <summary>
-        /// Invoked when the ViewpointController's value has changed
-        /// </summary>
-        private static void OnViewpointControllerChanged(DependencyObject dependency, DependencyPropertyChangedEventArgs args)
-        {
-            if (args.NewValue is ViewpointController)
-                ((ViewpointController)args.NewValue).SetMapView(dependency as MapView);
-        }
-
-        /// <summary>
-        /// ViewpointController getter method
-        /// </summary>
-        public static ViewpointController GetViewpointControllerController(DependencyObject mapView)
-        {
-            return (mapView as MapView)?.GetValue(ViewpointControllerProperty) as ViewpointController;
-        }
-
-        /// <summary>
-        /// ViewpointController setter method
-        /// </summary>
-        public static void SetViewpointController(DependencyObject mapView, ViewpointController viewpointController)
-        {
-            (mapView as MapView)?.SetValue(ViewpointControllerProperty, viewpointController);
-        }
-
-        /// <summary>
         ///  Identifies the <see cref="LocationDisplayControllerProperty"/> property
         /// </summary>
         public static readonly DependencyProperty LocationDisplayControllerProperty =
@@ -69,7 +38,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         private static void OnLocationDisplayControllerChanged(DependencyObject dependency, DependencyPropertyChangedEventArgs args)
         {
             if (args.NewValue is LocationDisplayController)
+            {
                 ((LocationDisplayController)args.NewValue).SetMapView(dependency as MapView);
+            }
         }
 
         /// <summary>
@@ -103,7 +74,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         private static void OnIdentifyControllerChanged(DependencyObject dependency, DependencyPropertyChangedEventArgs args)
         {
             if (args.NewValue is IdentifyController)
+            {
                 ((IdentifyController)args.NewValue).MapView = dependency as MapView;
+            }
         }
 
         /// <summary>
@@ -121,5 +94,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         {
             (mapView as MapView)?.SetValue(IdentifyControllerProperty, identifyController);
         }
+
+        public static readonly DependencyProperty ViewpointControllerProperty =
+            DependencyProperty.Register(nameof(ViewpointController), typeof(ViewpointController), typeof(MapView), new PropertyMetadata(null, OnViewpointControllerChanged));
+
+        
+        private static void OnViewpointControllerChanged(DependencyObject dependency, DependencyPropertyChangedEventArgs args)
+        {
+            if (args.NewValue is ViewpointController)
+            {
+                ((ViewpointController)args.NewValue).SetMapView(dependency as MapView);
+            }
+        }
+
+        public static ViewpointController GetViewpointController(DependencyObject mapView)
+        {
+            return (mapView as MapView)?.GetValue(ViewpointControllerProperty) as ViewpointController;
+        }
+
+        public static void SetViewpointController(DependencyObject mapView, ViewpointController viewpointController)
+        {
+            (mapView as MapView)?.SetValue(ViewpointControllerProperty, viewpointController);
+        }
+
     }
 }

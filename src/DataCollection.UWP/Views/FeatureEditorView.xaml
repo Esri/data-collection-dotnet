@@ -1,0 +1,94 @@
+﻿<UserControl
+    x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views.FeatureEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:localConverters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utilities="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <localConverters:ObjectToDateTimeOffsetConverter x:Key="ObjectToDateTimeOffsetConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <ItemsControl ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" ItemsSource="{Binding Fields, Mode=OneWay}">
+            <ItemsControl.Resources>
+                <!--  Data templates for all the field types used in editing features  -->
+                <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBox
+                            AcceptsReturn="True"
+                            Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="Red"
+                            Text="{Binding PopupFieldValue.ValidationError.Message}"
+                            TextWrapping="Wrap"
+                            Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Key="DateTemplate" x:Name="DateTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <CalendarDatePicker
+                            HorizontalAlignment="Stretch"
+                            Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
+                            Loaded="CalendarDatePicker_Loaded"
+                            PlaceholderText="Select date" />
+                        <TextBlock
+                            Foreground="Red"
+                            Text="{Binding PopupFieldValue.ValidationError.Message}"
+                            TextWrapping="Wrap"
+                            Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Key="NumberTemplate" x:Name="NumberTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBox InputScope="Digits" Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock
+                            Foreground="Red"
+                            Text="{Binding PopupFieldValue.ValidationError.Message}"
+                            TextWrapping="Wrap"
+                            Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Key="RangeDomainTemplate" x:Name="RangeDomainTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBox InputScope="Digits" Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock
+                            Foreground="Red"
+                            Text="{Binding PopupFieldValue.ValidationError.Message}"
+                            TextWrapping="Wrap"
+                            Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Key="CodedValueDomainTemplate" x:Name="CodedValueDomainTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <ComboBox
+                            HorizontalAlignment="Stretch"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding OriginalField.Domain.CodedValues, Mode=OneWay}"
+                            Loaded="ComboBox_Loaded"
+                            SelectionChanged="ComboBox_SelectionChanged"
+                            Tag="{Binding PopupFieldValue.Value, Mode=TwoWay}" />
+                        <TextBlock
+                            Foreground="Red"
+                            Text="{Binding PopupFieldValue.ValidationError.Message}"
+                            TextWrapping="Wrap"
+                            Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.Resources>
+        </ItemsControl>
+    </Grid>
+</UserControl>

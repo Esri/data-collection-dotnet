@@ -15,10 +15,8 @@
 ******************************************************************************/
 
 using System;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
-using System.Windows.Media;
+using System.Globalization;
 #if NETFX_CORE
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using CustomCultureInfo = System.String;
 #else
@@ -26,41 +24,31 @@ using System.Windows.Data;
 using System.Windows;
 using CustomCultureInfo = System.Globalization.CultureInfo;
 #endif
-
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
 {
     /// <summary>
-    /// Converts ConnectivityMode to color to be used for the app banner
+    /// Converts null to boolean
     /// </summary>
-    class ConnectivityModeToColorConverter : IValueConverter
+    class NullToBoolConverter : IValueConverter
     {
-        /// <summary>
-        /// Handle the conversion from a boolean value to a color value
-        /// </summary>
         object IValueConverter.Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-            if (value is ConnectivityMode)
+            // Handle null to bool and not null (inverse) to bool
+            if (parameter != null && parameter.ToString() == "Inverse")
             {
-                //if value is ConnectivityMode.Offline, color = gray
-                return ((ConnectivityMode)value == ConnectivityMode.Offline) ? new SolidColorBrush(Colors.Gray) : new SolidColorBrush(Colors.Green);
+                //if value is null, bool = true (inverse)
+                return (value == null) ? true : false;
             }
             else
-                return null;
+            {
+                //if value is null, bool is false 
+                return (value == null) ? false : true;
+            }
         }
 
-        /// <summary>
-        /// Handle the conversion from a color value to a ConnectivityMode value
-        /// </summary>
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-            if (value is Color)
-            {
-                    //if color is gray return ConnectivityMode.Offline
-                    return ((Color)value == Colors.Gray)? ConnectivityMode.Offline : ConnectivityMode.Online;
-            }
-            else
-                return null;
+            throw new NotSupportedException();
         }
     }
 }
-
