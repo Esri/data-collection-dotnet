@@ -90,7 +90,10 @@
                                     Margin="14,10,11,10"
                                     Source="{Binding AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
                                 <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                    <TextBlock x:Uid="LoggedInTextBlock" Style="{StaticResource CaptionTextBlockStyle}" />
+                                    <TextBlock
+                                        x:Uid="LoggedInTextBlock"
+                                        Margin="0,0,10,0"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
                                     <TextBlock Text="{Binding AuthenticatedUser.FullName, Mode=OneWay}" />
                                 </StackPanel>
                             </StackPanel>
