@@ -20,7 +20,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Pivot Grid.Row="0">
+        <Pivot x:Name="OriginRelatedRecordPivot" Grid.Row="0">
             <PivotItem Header="Details">
                 <StackPanel Orientation="Vertical">
                     <!--  Origin related record in View mode  -->
@@ -56,6 +56,12 @@
 
         <!--  Buttons to edit and delete record  -->
         <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+            <CommandBar.Content>
+                <AppBarButton
+                    Click="AddAttachmentButton_Click"
+                    Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
+                    Icon="Add" />
+            </CommandBar.Content>
             <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" Icon="Edit" />
             <AppBarButton
                 Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}"
@@ -65,6 +71,12 @@
 
         <!--  Buttons to save and discard changes to record  -->
         <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+            <CommandBar.Content>
+                <AppBarButton
+                    Click="AddAttachmentButton_Click"
+                    Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
+                    Icon="Add" />
+            </CommandBar.Content>
             <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}" Icon="Save" />
             <AppBarButton
                 Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}"

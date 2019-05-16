@@ -74,5 +74,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void AddAttachmentButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            IdentifiedFeaturePivot.SelectedIndex = 1;
+        }
     }
 }

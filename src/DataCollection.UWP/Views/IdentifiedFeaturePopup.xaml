@@ -23,7 +23,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Pivot>
+        <Pivot x:Name="IdentifiedFeaturePivot">
             <PivotItem Header="Details">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
                     <Grid>
@@ -263,6 +263,12 @@
 
         <!--  Buttons to edit and delete record  -->
         <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+            <CommandBar.Content>
+                <AppBarButton
+                    Click="AddAttachmentButton_Click"
+                    Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
+                    Icon="Add" />
+            </CommandBar.Content>
             <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}" Icon="Edit" />
             <AppBarButton
                 Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}"
@@ -272,6 +278,12 @@
 
         <!--  Buttons to save and discard changes to record  -->
         <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+            <CommandBar.Content>
+                <AppBarButton
+                    Click="AddAttachmentButton_Click"
+                    Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
+                    Icon="Add" />
+            </CommandBar.Content>
             <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SaveEditsCommand, Mode=OneWay}" Icon="Save" />
             <AppBarButton
                 Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.CancelEditsCommand}"
