@@ -15,9 +15,13 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 
@@ -40,7 +44,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
                     mainViewModel.PropertyChanged += (o, a) =>
                     {
                         if (a.PropertyName == nameof(IdentifiedFeatureViewModel))
+                        {
                             IdentifiedFeatureViewModel = mainViewModel.IdentifiedFeatureViewModel;
+                        }
                     };
                 }
             };
@@ -75,9 +81,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void AddAttachmentButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void CaptureMediaButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            IdentifiedFeaturePivot.SelectedIndex = 1;
+            _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync(); ;
+        }
+
+        private async void BrowseFilesButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();
         }
     }
 }

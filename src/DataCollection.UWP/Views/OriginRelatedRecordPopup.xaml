@@ -3,7 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
@@ -54,34 +56,47 @@
             </PivotItem>
         </Pivot>
 
-        <!--  Buttons to edit and delete record  -->
-        <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+        <!--  Bottom buttons  -->
+        <CommandBar Grid.Row="1">
             <CommandBar.Content>
-                <AppBarButton
-                    Click="AddAttachmentButton_Click"
-                    Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
-                    Icon="Add" />
+                <!--  Add Attachment Button  -->
+                <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" Icon="Add">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Click">
+                            <core:ChangePropertyAction
+                                PropertyName="SelectedIndex"
+                                TargetObject="{Binding ElementName=OriginRelatedRecordPivot, Mode=OneWay}"
+                                Value="1" />
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Icon="Camera" Text="Capture Media" />
+                            <MenuFlyoutItem Icon="OpenFile" Text="Browse Files" />
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
             </CommandBar.Content>
-            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" Icon="Edit" />
+            <!--  Buttons to edit and delete record  -->
+            <AppBarButton
+                Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
+                Icon="Edit"
+                Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
             <AppBarButton
                 Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}"
                 CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
-                Icon="Delete" />
-        </CommandBar>
-
-        <!--  Buttons to save and discard changes to record  -->
-        <CommandBar Grid.Row="1" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-            <CommandBar.Content>
-                <AppBarButton
-                    Click="AddAttachmentButton_Click"
-                    Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
-                    Icon="Add" />
-            </CommandBar.Content>
-            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}" Icon="Save" />
+                Icon="Delete"
+                Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+            <!--  Buttons to save and discard changes to record  -->
+            <AppBarButton
+                Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}"
+                Icon="Save"
+                Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
             <AppBarButton
                 Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}"
                 CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
-                Icon="Cancel" />
+                Icon="Cancel"
+                Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
         </CommandBar>
     </Grid>
 </UserControl>

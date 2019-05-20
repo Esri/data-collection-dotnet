@@ -325,5 +325,6 @@
                 <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
             </controls:BladeItem>
         </controls:BladeView>
+
     </Grid>
 </Page>

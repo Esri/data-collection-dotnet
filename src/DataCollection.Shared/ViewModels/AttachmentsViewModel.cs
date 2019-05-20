@@ -31,6 +31,8 @@ using System.Windows.Input;
 using System.Windows;
 #elif NETFX_CORE
 using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.UI.Core;
 #endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
@@ -69,6 +71,41 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 }
             }
         }
+
+#if NETFX_CORE
+        private StorageFile _newAttachmentFile;
+
+        public StorageFile NewAttachmentFile 
+        {
+            get => _newAttachmentFile;
+            set
+            {
+                _newAttachmentFile = value;
+                if (_newAttachmentFile != null)
+                {
+                    try
+                    {
+                        GetBytesAsync(_newAttachmentFile).ContinueWith(async t =>
+                        {
+                            var newAttachment = PopupManager.AttachmentManager.AddAttachment(_newAttachmentFile.Name, _newAttachmentFile.ContentType, t.Result);
+                            // load the new attachment into a StagedAttachment and add it to Attachments list to display
+                            var stagedAttachment = new StagedAttachment();
+                            await stagedAttachment.LoadAsync(newAttachment);
+
+                            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                            {
+                                Attachments.Add(stagedAttachment);
+                            });
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                    }
+                }
+            }
+        }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AttachmentsViewModel"/> class.
@@ -267,5 +304,25 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             await stagedAttachment.LoadAsync(newAttachment);
             Attachments.Add(stagedAttachment);
         }
+
+#if NETFX_CORE
+        /// <summary>
+        /// Converts a StorageFile to byte array
+        /// </summary>
+        public static async Task<byte[]> GetBytesAsync(StorageFile file)
+        {
+            if (file == null) return null;
+            using (var stream = await file.OpenReadAsync())
+            {
+                var fileBytes = new byte[stream.Size];
+                using (var reader = new DataReader(stream))
+                {
+                    await reader.LoadAsync((uint)stream.Size);
+                    reader.ReadBytes(fileBytes);
+                }
+                return fileBytes;
+            }
+        }
+#endif
     }
 }
