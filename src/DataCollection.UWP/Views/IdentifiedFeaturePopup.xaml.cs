@@ -19,9 +19,6 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 
@@ -81,11 +78,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Event handler for user selecting to add a new attachment by capturing new media
+        /// </summary>
         private async void CaptureMediaButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync(); ;
+            _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync();
         }
 
+        /// <summary>
+        /// Event handler for user selecting to add a new attachment by browsing for a file
+        /// </summary>
         private async void BrowseFilesButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();

@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Choose file name"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="OK"
     mc:Ignorable="d">
 
@@ -12,7 +13,7 @@
         <StackPanel Orientation="Vertical">
             <TextBox
                 x:Name="FileNameTextBox"
-                Text="Photo1"
+                Text="Attachment"
                 TextChanged="FileNameTextBox_TextChanged" />
             <TextBlock x:Name="ValidationTextBlock" Foreground="Red" />
         </StackPanel>

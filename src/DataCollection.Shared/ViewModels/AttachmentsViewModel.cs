@@ -75,7 +75,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 #if NETFX_CORE
         private StorageFile _newAttachmentFile;
 
-        public StorageFile NewAttachmentFile 
+        /// <summary>
+        /// Gets or sets the new attachment to be added to layer
+        /// This is necessary in UWP as files cannot be referenced by path due to security issues
+        /// </summary>
+        public StorageFile NewAttachmentFile
         {
             get => _newAttachmentFile;
             set
@@ -171,12 +175,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     var directory = Path.Combine(fileInfo.DirectoryName, fileInfo.Name.Replace(".", ""));
 
                                     if (!Directory.Exists(directory))
+                                    {
                                         Directory.CreateDirectory(directory);
+                                    }
 
                                     // place file into the newly created temp directory
                                     attachmentLocalPath = Path.Combine(directory, attachment.Name);
                                     if (!File.Exists(attachmentLocalPath))
+                                    {
                                         File.Copy(attachment.Filename, attachmentLocalPath);
+                                    }
                                 }
 #if WPF
                                 // in WPF, let Windows open the file with the application the user has set as default
@@ -187,7 +195,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     var storageFile = await StorageFile.GetFileFromPathAsync(attachmentLocalPath);
                                     await Windows.System.Launcher.LaunchFileAsync(storageFile);
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                                 }
@@ -312,6 +320,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         public static async Task<byte[]> GetBytesAsync(StorageFile file)
         {
             if (file == null) return null;
+
             using (var stream = await file.OpenReadAsync())
             {
                 var fileBytes = new byte[stream.Size];

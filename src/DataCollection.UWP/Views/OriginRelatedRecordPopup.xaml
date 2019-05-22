@@ -60,7 +60,7 @@
         <CommandBar Grid.Row="1">
             <CommandBar.Content>
                 <!--  Add Attachment Button  -->
-                <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" Icon="Add">
+                <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" Icon="Attach">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Click">
                             <core:ChangePropertyAction
@@ -71,8 +71,14 @@
                     </interactivity:Interaction.Behaviors>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Icon="Camera" Text="Capture Media" />
-                            <MenuFlyoutItem Icon="OpenFile" Text="Browse Files" />
+                            <MenuFlyoutItem
+                                Click="CaptureMediaButton_Click"
+                                Icon="Camera"
+                                Text="Capture Media" />
+                            <MenuFlyoutItem
+                                Click="BrowseFilesButton_Click"
+                                Icon="OpenFile"
+                                Text="Browse Files" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

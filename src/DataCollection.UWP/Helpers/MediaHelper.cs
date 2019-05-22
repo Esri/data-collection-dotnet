@@ -1,18 +1,36 @@
-﻿using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
+﻿/*******************************************************************************
+  * Copyright 2019 Esri
+  *
+  *  Licensed under the Apache License, Version 2.0 (the "License");
+  *  you may not use this file except in compliance with the License.
+  *  You may obtain a copy of the License at
+  *
+  *  http://www.apache.org/licenses/LICENSE-2.0
+  *
+  *   Unless required by applicable law or agreed to in writing, software
+  *   distributed under the License is distributed on an "AS IS" BASIS,
+  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  *   See the License for the specific language governing permissions and
+  *   limitations under the License.
+******************************************************************************/
+
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Media.Capture;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers
 {
+    /// <summary>
+    /// Helper class to process media inputs from both camera and file browsing
+    /// </summary>
     class MediaHelper
     {
+        /// <summary>
+        /// Calls camera API to capute photo pr video
+        /// </summary>
         public static async Task<StorageFile> RecordMediaAsync()
         {
             CameraCaptureUI captureUI = new CameraCaptureUI();
@@ -23,25 +41,22 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers
 
             if (storageFile == null)
             {
-                // User cancelled photo capture
+                // User cancelled capture
                 return null;
             }
+            
+            // prompt user to enter file name for the new attachment
+            FileNameDialog fnd = new FileNameDialog();
+            await fnd.ShowAsync();
 
-            //var textBox = new TextBox();
-            //textBox.Text = "Photo1";
-            //textBox.SelectAll();
-
-            //ContentDialog cd = new ContentDialog();
-            //cd.Title = "File name";
-            //cd.PrimaryButtonText = "OK";
-            ////cd.PrimaryButtonClick += Cd_PrimaryButtonClick;
-            //cd.Content = textBox;
-            //await cd.ShowAsync();
-
-            //await storageFile.RenameAsync(textBox.Text);
+            // rename file
+            await storageFile.RenameAsync(fnd.FileName + storageFile.FileType);
             return storageFile;
         }
 
+        /// <summary>
+        /// Prompts user to choose a file from a list of supported files
+        /// </summary>
         public static async Task<StorageFile> GetFileFromUser()
         {
             var picker = new Windows.Storage.Pickers.FileOpenPicker();

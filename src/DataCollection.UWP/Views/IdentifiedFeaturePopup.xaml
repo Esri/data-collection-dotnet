@@ -267,7 +267,7 @@
         <CommandBar Grid.Row="1">
             <CommandBar.Content>
                 <!--  Add Attachment Button  -->
-                <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}" Icon="Add">
+                <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}" Icon="Attach">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Click">
                             <core:ChangePropertyAction
