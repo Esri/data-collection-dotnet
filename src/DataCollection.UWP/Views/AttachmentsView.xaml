@@ -10,7 +10,6 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:DebugConverter x:Key="DebugConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>

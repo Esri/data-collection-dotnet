@@ -14,7 +14,6 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:DebugConverter x:Key="DebugConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         </ResourceDictionary>

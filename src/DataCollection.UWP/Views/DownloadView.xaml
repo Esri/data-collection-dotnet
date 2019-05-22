@@ -15,7 +15,6 @@
         <ResourceDictionary>
             <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <converters:DebugConverter x:Key="DebugConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
