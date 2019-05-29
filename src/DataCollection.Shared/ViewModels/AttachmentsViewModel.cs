@@ -89,18 +89,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     try
                     {
-                        GetBytesAsync(_newAttachmentFile).ContinueWith(async t =>
-                        {
-                            var newAttachment = PopupManager.AttachmentManager.AddAttachment(_newAttachmentFile.Name, _newAttachmentFile.ContentType, t.Result);
-                            // load the new attachment into a StagedAttachment and add it to Attachments list to display
-                            var stagedAttachment = new StagedAttachment();
-                            await stagedAttachment.LoadAsync(newAttachment);
-
-                            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                            {
-                                Attachments.Add(stagedAttachment);
-                            });
-                        });
+                        AddNewAttachment(_newAttachmentFile);
                     }
                     catch (Exception ex)
                     {
@@ -154,10 +143,31 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 await attachment.LoadAsync();
                             }
 
+                            // HACK: Because of how files work on UWP, attachments can't be added directly by file path.
+                            // Instead, attachments are added by their data, accessed through a UWP StorageFile.
+                            // It isn't possible to access that data or the original path for the added file.
+                            // To work around that, a dictionary associates PopupAttachment objects with the original storagefile.
+                            // That original storagefile can then be used to launch it directly when needed.
+                            #if NETFX_CORE
+                            if (attachment.Filename == null)
+                            {
+                                var localAttachmentFile = _attachmentToFile[attachment];
+                                await Windows.System.Launcher.LaunchFileAsync(localAttachmentFile);
+                                return;
+                            }
+                            #endif
+                            if (attachment.Filename == null)
+                            {
+                                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                                    Resources.GetString("FileNotFound_Title"),
+                                    Resources.GetString("FileNotFound_Message"),
+                                    true);
+                                return;
+                            }
+
                             // HACK: This workflow is in place until API changes occur to save the attachment with its proper name and extension
                             // when an attachment is downloaded, the API generates a random temp file name that cannot be opened unless renamed to have a proper extension
-                            // when an attachment is newly added, the API points to the file the user selected, so the name and extension are valid and the file can be opened directly 
-
+                            // when an attachment is newly added, the API points to the file the user selected, so the name and extension are valid and the file can be opened directly
                             var fileInfo = new FileInfo(attachment.Filename);
                             var attachmentLocalPath = "";
 
@@ -314,6 +324,32 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         }
 
 #if NETFX_CORE
+        // HACK: works around issues with attachment management in the UWP sandbox. See OpenAttachment above for details.
+        private Dictionary<PopupAttachment, IStorageFile> _attachmentToFile = new Dictionary<PopupAttachment, IStorageFile>();
+
+        /// <summary>
+        /// Add new attachment file to the attachment manager
+        /// </summary>
+        private async void AddNewAttachment(StorageFile windowsStorageFile)
+        {
+            //retrieve file extension
+            var extension = windowsStorageFile.FileType;
+
+            // determine type based on extension
+            var contentType = windowsStorageFile.ContentType;
+
+            var data = await GetBytesAsync(windowsStorageFile);
+
+            // add new attachment to layer
+            var newAttachment = AttachmentManager.AddAttachment(windowsStorageFile.Name, contentType, data);
+
+            // load the new attachment into a StagedAttachment and add it to Attachments list to display
+            var stagedAttachment = new StagedAttachment();
+            await stagedAttachment.LoadAsync(newAttachment);
+            Attachments.Add(stagedAttachment);
+            _attachmentToFile[newAttachment] = windowsStorageFile;
+        }
+
         /// <summary>
         /// Converts a StorageFile to byte array
         /// </summary>
