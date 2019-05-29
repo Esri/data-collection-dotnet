@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
 {
@@ -83,7 +84,21 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
         /// </summary>
         private async void CaptureMediaButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync();
+            try
+            {
+                _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync();
+            }
+            catch (Exception ex)
+            {
+                var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                string popupText = resourceLoader.GetString("GenericError_Title");
+
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    popupText,
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+            }
         }
 
         /// <summary>
@@ -91,7 +106,21 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
         /// </summary>
         private async void BrowseFilesButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();
+            try
+            {
+                _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();
+            }
+            catch (Exception ex)
+            {
+                var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                string popupText = resourceLoader.GetString("GenericError_Title");
+
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    popupText,
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+            }
         }
     }
 }
