@@ -24,7 +24,7 @@ using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.ViewModels
 {
-    public class LoginWindowViewModel : BaseViewModel, IOAuthAuthorizeHandler
+    public class SignInWindowViewModel : BaseViewModel, IOAuthAuthorizeHandler
     {
         // Use a TaskCompletionSource to track the completion of the authorization
         private TaskCompletionSource<IDictionary<string, string>> _tcs;

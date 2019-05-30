@@ -277,8 +277,8 @@
                     Margin="0,0,10,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Command="{Binding LoginCommand}"
-                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=LogInButton.Label}"
+                    Command="{Binding SignInCommand}"
+                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignInButton.Label}"
                     FontSize="25"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
@@ -287,7 +287,7 @@
                 <Button
                     Margin="0,0,10,0"
                     HorizontalAlignment="Center"
-                    Command="{Binding LogOutCommand}"
+                    Command="{Binding SignOutCommand}"
                     FontSize="25"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
@@ -297,7 +297,7 @@
                             Padding="5"
                             VerticalAlignment="Center"
                             FontSize="25"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=LogOutButton.Label}" />
+                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
                         <TextBlock
                             Padding="15,0,15,5"
                             VerticalAlignment="Center"
@@ -623,8 +623,8 @@
             </Grid>
         </Grid>
 
-        <!--  Login Window  -->
-        <views:LoginWindow
+        <!--  Sign In Window  -->
+        <views:SignInWindow
             Grid.Row="0"
             Grid.RowSpan="3"
             Grid.Column="0"

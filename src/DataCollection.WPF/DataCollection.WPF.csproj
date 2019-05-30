@@ -76,7 +76,7 @@
     <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
     <Compile Include="Converters\MapTitleConverter.cs" />
     <Compile Include="Helpers\BrowseHelper.cs" />
-    <Compile Include="ViewModels\LoginWindowViewModel.cs" />
+    <Compile Include="ViewModels\SignInWindowViewModel.cs" />
     <Compile Include="Views\AddFeatureView.xaml.cs">
       <DependentUpon>AddFeatureView.xaml</DependentUpon>
     </Compile>
@@ -95,8 +95,8 @@
     <Compile Include="Views\IdentifiedFeaturePopup.xaml.cs">
       <DependentUpon>IdentifiedFeaturePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    <Compile Include="Views\SignInWindow.xaml.cs">
+      <DependentUpon>SignInWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OriginRelatedRecordPopup.xaml.cs">
       <DependentUpon>OriginRelatedRecordPopup.xaml</DependentUpon>
@@ -141,7 +141,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoginWindow.xaml">
+    <Page Include="Views\SignInWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
