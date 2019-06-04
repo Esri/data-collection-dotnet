@@ -264,7 +264,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         private async Task<OAuthTokenCredential> CreateNewCredential(CredentialRequestInfo info)
         {
             // HACK: portal endpoints that do not contain "sharing/rest" generate ArcGISTokenCredential instead of OAuthTokenCredential
-            // Forcing sing in into ArcGIS online if "sharing/rest" not in the service uri
+            // Forcing sign in into ArcGIS online if "sharing/rest" not in the service uri
             var serviceUri = info.ServiceUri.ToString().Contains("sharing/rest") ? info.ServiceUri : new Uri(_arcGISOnlineURL);
 
             // AuthenticationManager will handle challenging the user for credentials
