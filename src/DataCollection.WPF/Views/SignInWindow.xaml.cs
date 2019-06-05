@@ -25,16 +25,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : UserControl
+    public partial class SignInWindow : UserControl
     {
         private const int ProportionalityConstant = 48000; // constant of inverse proportionality between dpi and browser height
         private const double WidthHeightRatio = 1.4; // calculated ideal ratio of width to height
-        public LoginWindow()
+        public SignInWindow()
         {
             InitializeComponent();
 
             // set the AuthorizeHandler for the authentication manager
-            AuthenticationManager.Current.OAuthAuthorizeHandler = Resources["LoginWindowViewModel"] as LoginWindowViewModel;
+            AuthenticationManager.Current.OAuthAuthorizeHandler = Resources["SignInWindowViewModel"] as SignInWindowViewModel;
             
             // Calculate and set browser size based on dpi
             SetBrowserSize();
@@ -42,7 +42,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
 
         /// <summary>
         /// Method to calculate the browser size based on the screen dpi
-        /// This ensures that the login screen always displays in the correct proportions
+        /// This ensures that the sign in screen always displays in the correct proportions
         /// </summary>
         private void SetBrowserSize()
         {

@@ -19,7 +19,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -475,42 +475,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are logged in as.
-        /// </summary>
-        internal static string LoggedInTextBlock_Text {
-            get {
-                return ResourceManager.GetString("LoggedInTextBlock.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Log In.
-        /// </summary>
-        internal static string LogInButton_Label {
-            get {
-                return ResourceManager.GetString("LogInButton.Label", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Login unsuccessful.
-        /// </summary>
-        internal static string LoginUnsuccessful_Title {
-            get {
-                return ResourceManager.GetString("LoginUnsuccessful_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Log Out.
-        /// </summary>
-        internal static string LogOutButton_Label {
-            get {
-                return ResourceManager.GetString("LogOutButton.Label", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Map failed to load.
         /// </summary>
         internal static string MapLoadingError_Title {
@@ -538,15 +502,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your device must be connected to a network to login..
-        /// </summary>
-        internal static string NoLogin_DeviceOffline_Message {
-            get {
-                return ResourceManager.GetString("NoLogin_DeviceOffline_Message", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Your device is not connected to a network and you do not have an offline map downloaded. Please connect to a network to load map. .
         /// </summary>
         internal static string NoMap_DeviceOffline_Message {
@@ -561,6 +516,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string NoOnlineMode_DeviceOffline_Message {
             get {
                 return ResourceManager.GetString("NoOnlineMode_DeviceOffline_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device must be connected to a network to sign in..
+        /// </summary>
+        internal static string NoSignIn_DeviceOffline_Message {
+            get {
+                return ResourceManager.GetString("NoSignIn_DeviceOffline_Message", resourceCulture);
             }
         }
         
@@ -633,6 +597,42 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static string ShowDetailButton_Tooltip {
             get {
                 return ResourceManager.GetString("ShowDetailButton_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are signed in as.
+        /// </summary>
+        internal static string SignedInTextBlock_Text {
+            get {
+                return ResourceManager.GetString("SignedInTextBlock.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign In.
+        /// </summary>
+        internal static string SignInButton_Label {
+            get {
+                return ResourceManager.GetString("SignInButton.Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in unsuccessful.
+        /// </summary>
+        internal static string SignInUnsuccessful_Title {
+            get {
+                return ResourceManager.GetString("SignInUnsuccessful_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign Out.
+        /// </summary>
+        internal static string SignOutButton_Label {
+            get {
+                return ResourceManager.GetString("SignOutButton.Label", resourceCulture);
             }
         }
         

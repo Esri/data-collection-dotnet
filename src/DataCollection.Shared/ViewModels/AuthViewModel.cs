@@ -55,18 +55,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             _userName = userName;
             _oAuthRefreshToken = oAuthRefreshToken;
 
-            // Set up authentication manager to handle logins
+            // Set up authentication manager to handle signing in
             UpdateAuthenticationManager();
 
-            // test if refresh token is available and login user
+            // test if refresh token is available and sign the user in
             if (!string.IsNullOrEmpty(_oAuthRefreshToken))
             {
-                // if device is online, login user automatically
+                // if device is online, sign user in automatically
                 ConnectivityHelper.IsWebmapAccessible(_webmapURL).ContinueWith(t =>
                 {
                     if (t.Result)
                     {
-                        LoginCommand.Execute(null);
+                        SignInCommand.Execute(null);
                     }
                 });
             }
@@ -91,16 +91,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private ICommand _logOutCommand;
+        private ICommand _signOutCommand;
 
         /// <summary>
-        /// Gets the command to log out the user
+        /// Gets the command to sign the user out
         /// </summary>
-        public ICommand LogOutCommand
+        public ICommand SignOutCommand
         {
             get
             {
-                return _logOutCommand ?? (_logOutCommand = new DelegateCommand(
+                return _signOutCommand ?? (_signOutCommand = new DelegateCommand(
                     (x) =>
                     {
                         // clear credentials
@@ -119,16 +119,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private ICommand _loginCommand;
+        private ICommand _signInCommand;
 
         /// <summary>
-        /// Gets the command to log in the user
+        /// Gets the command to sign the user in
         /// </summary>
-        public ICommand LoginCommand
+        public ICommand SignInCommand
         {
             get
             {
-                return _loginCommand ?? (_loginCommand = new DelegateCommand(
+                return _signInCommand ?? (_signInCommand = new DelegateCommand(
                     async (x) =>
                     {
                         // if device is not online, do not proceed
@@ -136,7 +136,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         {
                             UserPromptMessenger.Instance.RaiseMessageValueChanged(
                                 Resources.GetString("DeviceOffline_Title"),
-                                Resources.GetString("NoLogin_DeviceOffline_Message"),
+                                Resources.GetString("NoSignIn_DeviceOffline_Message"),
                                 true);
                             return;
                         }
@@ -148,7 +148,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            // if the token has expired, delete it and leave the user logged out
+                            // if the token has expired, delete it and leave the user signed out
                             if (ex.Message == "refresh_token expired")
                             {
                                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.OAuthRefreshToken);
@@ -158,7 +158,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             else if (ex.Message != Resources.GetString("OperationCancelled"))
                             {
                                 UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                    Resources.GetString("LoginUnsuccessful_Title"),
+                                    Resources.GetString("SignInUnsuccessful_Title"),
                                     ex.Message,
                                     true,
                                     ex.StackTrace);
@@ -190,7 +190,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
 
             // if no refresh token, call to generate credentials
-            // otherwise if a refresh token exists, login user using the refresh token
+            // otherwise if a refresh token exists, sign user in using the refresh token
             var credential = string.IsNullOrEmpty(_oAuthRefreshToken) ?
                 await CreateNewCredential(info) :
                 await CreateCredentialFromRefreshToken(info);
@@ -209,7 +209,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             catch (Exception ex)
             {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                Resources.GetString("LoginUnsuccessful_Title"),
+                                Resources.GetString("SignInUnsuccessful_Title"),
                                 ex.Message,
                                 true,
                                 ex.StackTrace);
@@ -264,7 +264,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         private async Task<OAuthTokenCredential> CreateNewCredential(CredentialRequestInfo info)
         {
             // HACK: portal endpoints that do not contain "sharing/rest" generate ArcGISTokenCredential instead of OAuthTokenCredential
-            // Forcing login into ArcGIS online if "sharing/rest" not in the service uri
+            // Forcing sign in into ArcGIS online if "sharing/rest" not in the service uri
             var serviceUri = info.ServiceUri.ToString().Contains("sharing/rest") ? info.ServiceUri : new Uri(_arcGISOnlineURL);
 
             // AuthenticationManager will handle challenging the user for credentials

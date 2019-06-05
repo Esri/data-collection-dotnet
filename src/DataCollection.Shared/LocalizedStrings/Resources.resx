@@ -144,8 +144,8 @@
   <data name="InvalidInput_Title" xml:space="preserve">
     <value>Invalid input detected</value>
   </data>
-  <data name="LoginUnsuccessful_Title" xml:space="preserve">
-    <value>Login unsuccessful</value>
+  <data name="SignInUnsuccessful_Title" xml:space="preserve">
+    <value>Sign in unsuccessful</value>
   </data>
   <data name="OperationCancelled" xml:space="preserve">
     <value>The operation was canceled.</value>
@@ -249,11 +249,11 @@
   <data name="EditRecord_Tooltip" xml:space="preserve">
     <value>Edit Record</value>
   </data>
-  <data name="LogInButton.Label" xml:space="preserve">
-    <value>Log In</value>
+  <data name="SignInButton.Label" xml:space="preserve">
+    <value>Sign In</value>
   </data>
-  <data name="LogOutButton.Label" xml:space="preserve">
-    <value>Log Out</value>
+  <data name="SignOutButton.Label" xml:space="preserve">
+    <value>Sign Out</value>
   </data>
   <data name="MoreTools_Tooltip" xml:space="preserve">
     <value>More Tools</value>
@@ -318,11 +318,11 @@
   <data name="CancelSyncButton.Content" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="LoggedInTextBlock.Text" xml:space="preserve">
-    <value>You are logged in as</value>
+  <data name="SignedInTextBlock.Text" xml:space="preserve">
+    <value>You are signed in as</value>
   </data>
-  <data name="NoLogin_DeviceOffline_Message" xml:space="preserve">
-    <value>Your device must be connected to a network to login.</value>
+  <data name="NoSignIn_DeviceOffline_Message" xml:space="preserve">
+    <value>Your device must be connected to a network to sign in.</value>
   </data>
   <data name="NoOnlineMode_DeviceOffline_Message" xml:space="preserve">
     <value>Your device must be connected to a network to work online.</value>

@@ -80,7 +80,7 @@
                 </interactivity:Interaction.Behaviors>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <!--  Inactive button displaying logged in user info  -->
+                <!--  Inactive button displaying signed in user info  -->
                 <AppBarButton DataContext="{x:Bind AuthViewModel}" Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Template>
                         <ControlTemplate>
@@ -91,7 +91,7 @@
                                     Source="{Binding AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
                                 <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                     <TextBlock
-                                        x:Uid="LoggedInTextBlock"
+                                        x:Uid="SignedInTextBlock"
                                         Margin="0,0,10,0"
                                         Style="{StaticResource CaptionTextBlockStyle}" />
                                     <TextBlock Text="{Binding AuthenticatedUser.FullName, Mode=OneWay}" />
@@ -187,20 +187,20 @@
 
                 <AppBarSeparator />
 
-                <!--  Log in button  -->
+                <!--  Sign in button  -->
                 <AppBarButton
-                    x:Uid="LogInButton"
-                    Command="{x:Bind AuthViewModel.LoginCommand}"
+                    x:Uid="SignInButton"
+                    Command="{x:Bind AuthViewModel.SignInCommand}"
                     Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
-                <!--  Log out button  -->
+                <!--  Sign out button  -->
                 <AppBarButton
-                    x:Uid="LogOutButton"
-                    Command="{x:Bind AuthViewModel.LogOutCommand}"
+                    x:Uid="SignOutButton"
+                    Command="{x:Bind AuthViewModel.SignOutCommand}"
                     Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F8;" />

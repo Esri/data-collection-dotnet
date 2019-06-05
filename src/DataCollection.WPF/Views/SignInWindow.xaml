@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views.LoginWindow"
+    x:Class="Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views.SignInWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
@@ -13,19 +13,19 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <wpfViewModels:LoginWindowViewModel x:Key="LoginWindowViewModel" />
+            <wpfViewModels:SignInWindowViewModel x:Key="SignInWindowViewModel" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid
         x:Name="MainGrid"
-        DataContext="{StaticResource LoginWindowViewModel}"
+        DataContext="{StaticResource SignInWindowViewModel}"
         Visibility="{Binding WebAddress, Converter={StaticResource NullToVisibilityConverter}}">
         <Rectangle Fill="Black" Opacity=".5" />
         <WebBrowser x:Name="WebBrowser">
             <utils:WebBrowserExtensions.SourceController>
-                <utils:SourceController UriSource="{Binding WebAddress, Mode=TwoWay, Source={StaticResource LoginWindowViewModel}}" />
+                <utils:SourceController UriSource="{Binding WebAddress, Mode=TwoWay, Source={StaticResource SignInWindowViewModel}}" />
             </utils:WebBrowserExtensions.SourceController>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Navigating">
