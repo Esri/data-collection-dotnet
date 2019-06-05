@@ -29,7 +29,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers
     class MediaHelper
     {
         /// <summary>
-        /// Calls camera API to capute photo pr video
+        /// Calls camera API to capture photo or video
         /// </summary>
         public static async Task<StorageFile> RecordMediaAsync()
         {

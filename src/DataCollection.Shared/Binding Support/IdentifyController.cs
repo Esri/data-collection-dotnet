@@ -112,37 +112,37 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
             var mapView = (MapView)sender;
             var target = Target;
 
-            // Wait for double tap to fire
-            // Identify is only peformed on single tap. The delay is used to detect and ignore double taps
-            await Task.Delay(500);
+            try
+            {
+                // Wait for double tap to fire
+                // Identify is only peformed on single tap. The delay is used to detect and ignore double taps
+                await Task.Delay(500);
 
-            // If view has been double tapped, set tapped to handled and flag back to false
-            // If view has been tapped just once, perform identify
-            if (_wasMapViewDoubleTapped == true)
-            {
-                e.Handled = true;
-                _wasMapViewDoubleTapped = false;
-            }
-            else
-            {
-                if (target is ILoadable loadable && loadable.LoadStatus == LoadStatus.NotLoaded)
+                // If view has been double tapped, set tapped to handled and flag back to false
+                // If view has been tapped just once, perform identify
+                if (_wasMapViewDoubleTapped == true)
                 {
-                    await loadable.LoadAsync();
+                    e.Handled = true;
+                    _wasMapViewDoubleTapped = false;
                 }
-
-                // get the tap location in screen units and geographic coordinates
-                var tapScreenPoint = e.Position;
-                _tappedLocation = e.Location;
-
-                // set identify parameters
-                var pixelTolerance = 10;
-                var returnPopupsOnly = false;
-                var maxResultCount = 5;
-
-                IReadOnlyList<IdentifyLayerResult> layerResults = null;
-                IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults = null;
-                try
+                else
                 {
+                    if (target is ILoadable loadable && loadable.LoadStatus == LoadStatus.NotLoaded)
+                    {
+                        await loadable.LoadAsync();
+                    }
+
+                    // get the tap location in screen units and geographic coordinates
+                    var tapScreenPoint = e.Position;
+                    _tappedLocation = e.Location;
+
+                    // set identify parameters
+                    var pixelTolerance = 10;
+                    var returnPopupsOnly = false;
+                    var maxResultCount = 5;
+
+                    IReadOnlyList<IdentifyLayerResult> layerResults = null;
+                    IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults = null;
                     if (target == null)
                     {
                         // An identify target is not specified, so identify all layers and overlays
@@ -178,17 +178,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
                             layerResults = new List<IdentifyLayerResult> { sublayerIdentifyResult }.AsReadOnly();
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                        Resources.GetString("IdentifyError_Title"),
-                        ex.Message,
-                        true,
-                        ex.StackTrace);
-                }
 
-                OnIdentifyCompleted(layerResults, graphicsOverlayResults);
+                    OnIdentifyCompleted(layerResults, graphicsOverlayResults);
+                }
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("IdentifyError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
             }
 
             _isIdentifyInProgress = false;

@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -163,32 +164,43 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 // remove event handler so it doesn't fire multiple times
                 GenerateOfflineMapJob.JobChanged -= GenerateOfflineMapJob_JobChanged;
 
-                var result = await GenerateOfflineMapJob.GetResultAsync();
-
-                // download has succeeded and there were no errors, return
-                if (result.LayerErrors.Count == 0 && result.TableErrors.Count == 0)
+                try
                 {
-                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(true, BroadcastMessageKey.SyncSucceeded);
+                    var result = await GenerateOfflineMapJob.GetResultAsync();
+
+                    // download has succeeded and there were no errors, return
+                    if (result.LayerErrors.Count == 0 && result.TableErrors.Count == 0)
+                    {
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(true, BroadcastMessageKey.SyncSucceeded);
+                    }
+                    else
+                    {
+                        // if there were errors, create the error message to display to the user
+                        var stringBuilder = new StringBuilder();
+
+                        foreach (var error in result.LayerErrors)
+                        {
+                            stringBuilder.AppendLine(error.Value.Message);
+                        }
+
+                        foreach (var error in result.TableErrors)
+                        {
+                            stringBuilder.AppendLine(error.Value.Message);
+                        }
+
+                        UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                            Resources.GetString("DownloadWithErrors_Title"), stringBuilder.ToString()
+                            , true, null);
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(true, BroadcastMessageKey.SyncSucceeded);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    // if there were errors, create the error message to display to the user
-                    var stringBuilder = new StringBuilder();
-
-                    foreach (var error in result.LayerErrors)
-                    {
-                        stringBuilder.AppendLine(error.Value.Message);
-                    }
-
-                    foreach (var error in result.TableErrors)
-                    {
-                        stringBuilder.AppendLine(error.Value.Message);
-                    }
-
                     UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                        Properties.Resources.GetString("DownloadWithErrors_Title"), stringBuilder.ToString()
-                        , true, null);
-                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(true, BroadcastMessageKey.SyncSucceeded);
+                        Resources.GetString("GenericError_Title"),
+                        ex.Message,
+                        true,
+                        ex.StackTrace);
                 }
             }
             else if (GenerateOfflineMapJob.Status == JobStatus.Failed)

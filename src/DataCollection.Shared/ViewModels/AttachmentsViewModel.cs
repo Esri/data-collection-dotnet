@@ -143,19 +143,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 await attachment.LoadAsync();
                             }
 
-                            // HACK: Because of how files work on UWP, attachments can't be added directly by file path.
-                            // Instead, attachments are added by their data, accessed through a UWP StorageFile.
-                            // It isn't possible to access that data or the original path for the added file.
-                            // To work around that, a dictionary associates PopupAttachment objects with the original storagefile.
-                            // That original storagefile can then be used to launch it directly when needed.
-                            #if NETFX_CORE
-                            if (attachment.Filename == null)
-                            {
-                                var localAttachmentFile = _attachmentToFile[attachment];
-                                await Windows.System.Launcher.LaunchFileAsync(localAttachmentFile);
-                                return;
-                            }
-                            #endif
                             if (attachment.Filename == null)
                             {
                                 UserPromptMessenger.Instance.RaiseMessageValueChanged(
@@ -164,7 +151,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     true);
                                 return;
                             }
-
                             // HACK: This workflow is in place until API changes occur to save the attachment with its proper name and extension
                             // when an attachment is downloaded, the API generates a random temp file name that cannot be opened unless renamed to have a proper extension
                             // when an attachment is newly added, the API points to the file the user selected, so the name and extension are valid and the file can be opened directly
@@ -317,55 +303,80 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // add new attachment to layer
             var newAttachment = AttachmentManager.AddAttachment(filePath, contentType);
 
-            // load the new attachment into a StagedAttachment and add it to Attachments list to display
-            var stagedAttachment = new StagedAttachment();
-            await stagedAttachment.LoadAsync(newAttachment);
-            Attachments.Add(stagedAttachment);
+            try
+            {
+                // load the new attachment into a StagedAttachment and add it to Attachments list to display
+                var stagedAttachment = new StagedAttachment();
+                await stagedAttachment.LoadAsync(newAttachment);
+                Attachments.Add(stagedAttachment);
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+            }
         }
 
 #if NETFX_CORE
-        // HACK: works around issues with attachment management in the UWP sandbox. See OpenAttachment above for details.
-        private Dictionary<PopupAttachment, IStorageFile> _attachmentToFile = new Dictionary<PopupAttachment, IStorageFile>();
-
         /// <summary>
         /// Add new attachment file to the attachment manager
         /// </summary>
         private async void AddNewAttachment(StorageFile windowsStorageFile)
         {
-            //retrieve file extension
-            var extension = windowsStorageFile.FileType;
+            try
+            {
+                // determine type based on extension
+                var contentType = windowsStorageFile.ContentType;
 
-            // determine type based on extension
-            var contentType = windowsStorageFile.ContentType;
+                // copy the file to a readable location and get that new path
+                string newPath = await CopyFileAndReturnNewPath(windowsStorageFile);
 
-            var data = await GetBytesAsync(windowsStorageFile);
+                // add new attachment to layer
+                var newAttachment = AttachmentManager.AddAttachment(newPath, contentType);
 
-            // add new attachment to layer
-            var newAttachment = AttachmentManager.AddAttachment(windowsStorageFile.Name, contentType, data);
-
-            // load the new attachment into a StagedAttachment and add it to Attachments list to display
-            var stagedAttachment = new StagedAttachment();
-            await stagedAttachment.LoadAsync(newAttachment);
-            Attachments.Add(stagedAttachment);
-            _attachmentToFile[newAttachment] = windowsStorageFile;
+                // load the new attachment into a StagedAttachment and add it to Attachments list to display
+                var stagedAttachment = new StagedAttachment();
+                await stagedAttachment.LoadAsync(newAttachment);
+                Attachments.Add(stagedAttachment);
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+            }
         }
 
-        /// <summary>
-        /// Converts a StorageFile to byte array
-        /// </summary>
-        public static async Task<byte[]> GetBytesAsync(StorageFile file)
+        private async Task<string> CopyFileAndReturnNewPath(StorageFile windowsStorageFile)
         {
-            if (file == null) return null;
-
-            using (var stream = await file.OpenReadAsync())
+            try
             {
-                var fileBytes = new byte[stream.Size];
-                using (var reader = new DataReader(stream))
-                {
-                    await reader.LoadAsync((uint)stream.Size);
-                    reader.ReadBytes(fileBytes);
-                }
-                return fileBytes;
+                if (windowsStorageFile == null) return null;
+
+                // get a suitable temp folder; this location is readable through .NET file APIs
+                StorageFolder tempFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(Guid.NewGuid().ToString());
+
+                // create the temp file
+                StorageFile tempFile = await tempFolder.CreateFileAsync(windowsStorageFile.Name);
+
+                // copy the contents of the input file into the temp file
+                await windowsStorageFile.CopyAndReplaceAsync(tempFile);
+
+                return tempFile.Path;
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+                return null;
             }
         }
 #endif
