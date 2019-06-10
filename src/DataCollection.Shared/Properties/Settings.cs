@@ -220,7 +220,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
             finally
             {
                 // close settings file once it's been written 
-                settingsFile.Close();
+                settingsFile?.Close();
             }
         }
 
