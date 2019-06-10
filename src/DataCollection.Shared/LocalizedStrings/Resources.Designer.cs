@@ -205,7 +205,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This will remove the attachment from the database permanently and cannot be undone..
+        ///   Looks up a localized string similar to This will remove the attachment from the database permanently and cannot be undone once the changes are saved..
         /// </summary>
         internal static string DeleteConfirmationAttachment_Message {
             get {

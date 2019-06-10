@@ -383,8 +383,19 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 SortCollection(originRelationshipVMCollection);
             }
 
-            // call method to update tree condition and dbh in custom tree workflow
-            await TreeSurveyWorkflows.UpdateIdentifiedFeature(originRelationshipVMCollection, Feature, PopupManager);
+            try
+            {
+                // call method to update tree condition and dbh in custom tree workflow
+                await TreeSurveyWorkflows.UpdateIdentifiedFeature(originRelationshipVMCollection, Feature, PopupManager);
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+            }
         }
 
         /// <summary>

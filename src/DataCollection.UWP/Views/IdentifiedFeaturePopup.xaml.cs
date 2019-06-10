@@ -15,11 +15,14 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
 {
@@ -40,7 +43,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
                     mainViewModel.PropertyChanged += (o, a) =>
                     {
                         if (a.PropertyName == nameof(IdentifiedFeatureViewModel))
+                        {
                             IdentifiedFeatureViewModel = mainViewModel.IdentifiedFeatureViewModel;
+                        }
                     };
                 }
             };
@@ -67,12 +72,64 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
         /// <param name="propertyName">The name of the property that has changed</param>
         private async void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            try
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            });
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                });
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Shared.Properties.Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+
+                // This exception should never happen; if it does, the app is in an unknown state and should terminate.
+                Environment.FailFast("Error invoking property change event handler.", ex);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Event handler for user selecting to add a new attachment by capturing new media
+        /// </summary>
+        private async void CaptureMediaButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            try
+            {
+                _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync();
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Shared.Properties.Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// Event handler for user selecting to add a new attachment by browsing for a file
+        /// </summary>
+        private async void BrowseFilesButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            try
+            {
+                _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Shared.Properties.Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+            }
+        }
     }
 }

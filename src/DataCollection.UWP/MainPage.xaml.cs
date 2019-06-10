@@ -20,6 +20,7 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 
@@ -96,45 +97,61 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
         /// </summary>
         private async void UserPrompt_MessageValueChanged(object sender, UserPromptMessageChangedEventArgs e)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+            try
             {
-                var contentDialog = new ContentDialog()
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                 {
-                    Title = e.MessageTitle,
-                    Content = e.Message,
-                };
-
-                if (e.IsError)
-                {
-                    contentDialog.PrimaryButtonText = Shared.Properties.Resources.GetString("GenericAffirmativeButton_Content");
-                }
-                else
-                {
-                    contentDialog.PrimaryButtonText = string.IsNullOrEmpty(e.AffirmativeActionButtonContent) ?
-                        Shared.Properties.Resources.GetString("GenericAffirmativeButton_Content") :
-                        e.AffirmativeActionButtonContent;
-
-                    contentDialog.SecondaryButtonText = string.IsNullOrEmpty(e.NegativeActionButtonContent) ?
-                        Shared.Properties.Resources.GetString("GenericNegativeButton_Content") :
-                        e.NegativeActionButtonContent;
-
-                    contentDialog.DefaultButton = ContentDialogButton.Primary;
-                }
-
-                contentDialog.Closed += (s, ea) =>
-                {
-                    if (ea.Result == ContentDialogResult.Primary)
+                    var contentDialog = new ContentDialog()
                     {
-                        UserPromptMessenger.Instance.RaiseResponseValueChanged(true);
+                        Title = e.MessageTitle,
+                        Content = e.Message,
+                    };
+
+                    if (e.IsError)
+                    {
+                        contentDialog.PrimaryButtonText = Shared.Properties.Resources.GetString("GenericAffirmativeButton_Content");
                     }
                     else
                     {
-                        UserPromptMessenger.Instance.RaiseResponseValueChanged(false);
-                    }
-                };
+                        contentDialog.PrimaryButtonText = string.IsNullOrEmpty(e.AffirmativeActionButtonContent) ?
+                            Shared.Properties.Resources.GetString("GenericAffirmativeButton_Content") :
+                            e.AffirmativeActionButtonContent;
 
-                await contentDialog.ShowAsync();
-            });
+                        contentDialog.SecondaryButtonText = string.IsNullOrEmpty(e.NegativeActionButtonContent) ?
+                            Shared.Properties.Resources.GetString("GenericNegativeButton_Content") :
+                            e.NegativeActionButtonContent;
+
+                        contentDialog.DefaultButton = ContentDialogButton.Primary;
+                    }
+
+                    contentDialog.Closed += (s, ea) =>
+                    {
+                        if (ea.Result == ContentDialogResult.Primary)
+                        {
+                            UserPromptMessenger.Instance.RaiseResponseValueChanged(true);
+                        }
+                        else
+                        {
+                            UserPromptMessenger.Instance.RaiseResponseValueChanged(false);
+                        }
+                    };
+
+                    try
+                    {
+                        await contentDialog.ShowAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+
+                Environment.FailFast("Couldn't display error message.", ex);
+            }
         }
 
         /// <summary>

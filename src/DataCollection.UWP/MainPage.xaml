@@ -19,7 +19,6 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
-            <converters:DebugConverter x:Key="DebugConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <localConverters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
         </ResourceDictionary>

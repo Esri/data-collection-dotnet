@@ -686,7 +686,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     // load feature to access its relationship info
                     if (feature.LoadStatus != LoadStatus.Loaded)
                     {
-                        await feature.LoadAsync();
+                        try
+                        {
+                            await feature.LoadAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                                Resources.GetString("GenericError_Title"),
+                                ex.Message,
+                                true,
+                                ex.StackTrace);
+                        }
                     }
 
                     // set the viewmodel for the feature
@@ -710,15 +721,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         private async void Instance_BroadcastMessengerValueChanged(object sender, BroadcastMessengerEventArgs e)
         {
-            // Reload map when AuthenticatedUser is reset to null
-            if (e.Args.Key == BroadcastMessageKey.AuthenticatedUser && e.Args.Value == null)
+            try
             {
-                var map = await GetMap();
-
-                if (map != null)
+                // Reload map when AuthenticatedUser is reset to null
+                if (e.Args.Key == BroadcastMessageKey.AuthenticatedUser && e.Args.Value == null)
                 {
-                    MapViewModel = new MapViewModel(map, ConnectivityMode, _defaultZoomScale);
+                    var map = await GetMap();
+
+                    if (map != null)
+                    {
+                        MapViewModel = new MapViewModel(map, ConnectivityMode, _defaultZoomScale);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
             }
         }
 
