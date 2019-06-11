@@ -15,46 +15,48 @@
     </UserControl.Resources>
 
     <Grid>
-        <!--  Wrap panel containing attachment thumbnails and names  -->
-        <ItemsControl x:Name="AttachmentsItemsControl" ItemsSource="{x:Bind AttachmentsViewModel.Attachments, Mode=OneWay}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Button
-                            Grid.Column="0"
-                            Width="50"
-                            Height="50"
-                            Margin="10"
-                            Padding="0"
-                            Command="{Binding ElementName=AttachmentsItemsControl, Path=DataContext.AttachmentsViewModel.OpenAttachmentCommand, Mode=OneWay}"
-                            CommandParameter="{Binding Attachment, Mode=OneWay}">
-                            <Button.Content>
-                                <Image Source="{Binding Thumbnail, Mode=OneWay}" />
-                            </Button.Content>
-                        </Button>
-                        <TextBlock
-                            Grid.Column="1"
-                            Width="150"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            Text="{Binding Attachment.Name, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <Button
-                            Grid.Column="2"
-                            HorizontalAlignment="Right"
-                            Command="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.AttachmentsViewModel.DeleteAttachmentCommand}"
-                            CommandParameter="{Binding Attachment}"
-                            Content="&#xE74D;"
-                            FontFamily="Segoe MDL2 Assets"
-                            Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+            <!--  Wrap panel containing attachment thumbnails and names  -->
+            <ItemsControl x:Name="AttachmentsItemsControl"
+                          ItemsSource="{x:Bind AttachmentsViewModel.Attachments, Mode=OneWay}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Grid.Column="0"
+                                Width="50"
+                                Height="50"
+                                Margin="10"
+                                Padding="0"
+                                Command="{Binding ElementName=AttachmentsItemsControl, Path=DataContext.AttachmentsViewModel.OpenAttachmentCommand, Mode=OneWay}"
+                                CommandParameter="{Binding Attachment, Mode=OneWay}">
+                                <Button.Content>
+                                    <Image Source="{Binding Thumbnail, Mode=OneWay}" />
+                                </Button.Content>
+                            </Button>
+                            <TextBlock
+                                Grid.Column="1"
+                                Padding="5"
+                                VerticalAlignment="Center"
+                                Text="{Binding Attachment.Name, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                            <Button
+                                Grid.Column="2"
+                                HorizontalAlignment="Right"
+                                Command="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.AttachmentsViewModel.DeleteAttachmentCommand}"
+                                CommandParameter="{Binding Attachment}"
+                                Content="&#xE74D;"
+                                FontFamily="Segoe MDL2 Assets"
+                                Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>
