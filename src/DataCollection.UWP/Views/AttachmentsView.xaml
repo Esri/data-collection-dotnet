@@ -18,7 +18,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
             <!--  Wrap panel containing attachment thumbnails and names  -->
             <ItemsControl x:Name="AttachmentsItemsControl"
-                          ItemsSource="{x:Bind AttachmentsViewModel.Attachments, Mode=OneWay}">
+                          ItemsSource="{Binding AttachmentsViewModel.Attachments, Mode=OneWay}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
