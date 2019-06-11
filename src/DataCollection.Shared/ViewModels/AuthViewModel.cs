@@ -146,6 +146,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         {
                             var portal = await ArcGISPortal.CreateAsync(new Uri(_arcGISOnlineURL), true);
                         }
+                        catch (TaskCanceledException)
+                        {
+                            // Ignore, not really an error
+                            // The user chose to not proceed with sign in
+                        }
                         catch (Exception ex)
                         {
                             // if the token has expired, delete it and leave the user signed out

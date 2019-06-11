@@ -22,8 +22,21 @@
         x:Name="MainGrid"
         DataContext="{StaticResource SignInWindowViewModel}"
         Visibility="{Binding WebAddress, Converter={StaticResource NullToVisibilityConverter}}">
-        <Rectangle Fill="Black" Opacity=".5" />
-        <WebBrowser x:Name="WebBrowser">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="Black" Opacity=".5"
+                   Grid.Row="0" Grid.RowSpan="3" 
+                   Grid.Column="0" Grid.ColumnSpan="3"/>
+        <WebBrowser x:Name="WebBrowser"
+                    Grid.Row="1" Grid.Column="1">
             <utils:WebBrowserExtensions.SourceController>
                 <utils:SourceController UriSource="{Binding WebAddress, Mode=TwoWay, Source={StaticResource SignInWindowViewModel}}" />
             </utils:WebBrowserExtensions.SourceController>
@@ -33,5 +46,9 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </WebBrowser>
+        <Button Content="Cancel"
+                Grid.Row="2" Grid.Column="1"
+                HorizontalAlignment="Center" VerticalAlignment="Top"
+                Margin="5" Padding="5" Command="{Binding CancelCommand}" />
     </Grid>
 </UserControl>
