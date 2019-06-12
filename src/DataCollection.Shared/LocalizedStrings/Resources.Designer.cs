@@ -439,6 +439,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to That attachment can&apos;t be added because the file type is unsupported..
+        /// </summary>
+        internal static string InvalidAttachmentExtension_Message {
+            get {
+                return ResourceManager.GetString("InvalidAttachmentExtension_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes to this record are invalid. Please correct and retry saving..
         /// </summary>
         internal static string InvalidInput_Message {

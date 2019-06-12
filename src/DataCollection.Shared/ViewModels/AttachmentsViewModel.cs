@@ -300,6 +300,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // determine type based on extension
             var contentType = FileExtensionHelper.GetTypeFromExtension(extension);
 
+            if (String.IsNullOrEmpty(extension) || !FileExtensionHelper.AllowedExtensions.ContainsKey(extension))
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("GenericError_Title"),
+                    Resources.GetString("InvalidAttachmentExtension_Message"),
+                    true);
+                return;
+            }
+
             // add new attachment to layer
             var newAttachment = AttachmentManager.AddAttachment(filePath, contentType);
 
