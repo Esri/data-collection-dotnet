@@ -713,6 +713,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                     }
                 }
+                else
+                {
+                    // Reset selection
+                    IdentifiedFeatureViewModel = null;
+                }
+            }
+            else
+            {
+                // Reset selection
+                IdentifiedFeatureViewModel = null;
             }
         }
 
