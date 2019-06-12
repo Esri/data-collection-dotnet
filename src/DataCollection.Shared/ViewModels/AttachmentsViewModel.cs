@@ -309,6 +309,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return;
             }
 
+            // Truncate the file name if it is too long
+            filePath = TruncateAndCopyFile(filePath);
+
             // add new attachment to layer
             var newAttachment = AttachmentManager.AddAttachment(filePath, contentType);
 
@@ -329,6 +332,44 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
+        private string TruncateAndCopyFile(string filePath)
+        {
+            // Copy the attachment to a temp directory with a name less than 40 chars
+            // Do nothing if attachment name is already 40 or fewer chars
+
+            // Truncate early if name is longer than 40 chars
+            var filename = Path.GetFileNameWithoutExtension(filePath);
+
+            if (filename.Length > 40)
+            {
+                var filebase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "AttachmentTemp", Guid.NewGuid().ToString());
+
+                if (!Directory.Exists(filebase))
+                {
+                    Directory.CreateDirectory(filebase);
+                }
+
+                filename = filename.Substring(0, 40);
+
+                var extension = Path.GetExtension(filePath);
+
+                var newfilePath = Path.Combine(filebase, filename + extension);
+
+                File.Copy(filePath, newfilePath, true);
+
+                filePath = newfilePath;
+
+                // Tell the user
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("AttachmentRenamedForLength_Title"),
+                    Resources.GetString("AttachmentRenamedForLength_Message"),
+                    false);
+            }
+
+            return filePath;
+        }
+
 #if NETFX_CORE
         /// <summary>
         /// Add new attachment file to the attachment manager
@@ -339,6 +380,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 // determine type based on extension
                 var contentType = windowsStorageFile.ContentType;
+
+                var extension = Path.GetExtension(windowsStorageFile.Path);
+
+                if (String.IsNullOrEmpty(extension) || !FileExtensionHelper.AllowedExtensions.ContainsKey(extension))
+                {
+                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                        Resources.GetString("GenericError_Title"),
+                        Resources.GetString("InvalidAttachmentExtension_Message"),
+                        true);
+                    return;
+                }
 
                 // copy the file to a readable location and get that new path
                 string newPath = await CopyFileAndReturnNewPath(windowsStorageFile);
@@ -376,7 +428,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 // copy the contents of the input file into the temp file
                 await windowsStorageFile.CopyAndReplaceAsync(tempFile);
 
-                return tempFile.Path;
+                string newFilePath = TruncateAndCopyFile(tempFile.Path);
+
+                return newFilePath;
             }
             catch (Exception ex)
             {

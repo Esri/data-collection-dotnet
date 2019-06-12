@@ -106,6 +106,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The attachment name has been truncated to 40 characters..
+        /// </summary>
+        internal static string AttachmentRenamedForLength_Message {
+            get {
+                return ResourceManager.GetString("AttachmentRenamedForLength_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attachment name too long.
+        /// </summary>
+        internal static string AttachmentRenamedForLength_Title {
+            get {
+                return ResourceManager.GetString("AttachmentRenamedForLength_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentication error.
         /// </summary>
         internal static string AuthError_Title {
