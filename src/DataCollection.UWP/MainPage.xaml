@@ -324,5 +324,30 @@
                 <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
             </controls:BladeItem>
         </controls:BladeView>
+
+        <!--  Busy Waiting View  -->
+        <Grid
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
+            Visibility="{x:Bind MainViewModel.IsBusyWaiting, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center">
+                <ProgressBar
+                    Width="300"
+                    Margin="20"
+                    IsIndeterminate="True">
+                    <ProgressBar.Foreground>
+                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
+                    </ProgressBar.Foreground>
+                </ProgressBar>
+                <TextBlock
+                    Text="{x:Bind MainViewModel.BusyWaitingMessage, Mode=OneWay}"
+                    Style="{ThemeResource HeaderTextBlockStyle}"
+                    Margin="0,0,0,20"
+                    HorizontalAlignment="Center" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

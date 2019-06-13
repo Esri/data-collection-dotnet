@@ -37,9 +37,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
 
             // create event handler for when receiving a message to display to the user
             UserPromptMessenger.Instance.MessageValueChanged += UserPrompt_MessageValueChanged;
+            BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
 
             // load settings for the custom tree survey dataset
             LoadTreeSurveySettings();
+        }
+
+        private void OnWaitStatusChanged(object sender, WaitStatusChangedEventArgs e)
+        {
+            MainViewModel.BusyWaitingMessage = e.Message;
+            MainViewModel.IsBusyWaiting = e.IsBusy;
         }
 
         /// <summary>

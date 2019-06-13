@@ -23,6 +23,7 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.Resources;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
@@ -99,6 +100,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             try
             {
+                BusyWaitingMessenger.Instance.SetBusy(true,
+                    Properties.Resources.GetString("SavingEditsWait_Message"));
+
                 // exit the PopupManager edit session
                 await popupManager.FinishEditingAsync();
 
@@ -109,7 +113,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         try
                         {
-                            editedFeature.RelateFeature((ArcGISFeature)destinationRelationship.PopupManager.Popup.GeoElement, destinationRelationship.RelationshipInfo);
+                            editedFeature.RelateFeature((ArcGISFeature) destinationRelationship.PopupManager.Popup.GeoElement, destinationRelationship.RelationshipInfo);
                         }
                         catch (Exception ex)
                         {
@@ -141,6 +145,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                 return null;
+            }
+            finally
+            {
+                BusyWaitingMessenger.Instance.SetBusy(false, "");
             }
         }
     }

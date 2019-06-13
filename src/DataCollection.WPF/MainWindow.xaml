@@ -626,8 +626,24 @@
         <!--  Sign In Window  -->
         <views:SignInWindow
             Grid.Row="0"
-            Grid.RowSpan="3"
+            Grid.RowSpan="2"
             Grid.Column="0"
             Grid.ColumnSpan="3" />
+
+        <Grid Grid.Row="0"
+              Grid.RowSpan="2"
+              Grid.Column="0"
+              Grid.ColumnSpan="3"
+              Visibility="{Binding IsBusyWaiting, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <Rectangle Fill="Black" Opacity=".5" />
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding BusyWaitingMessage, Mode=OneWay}" 
+                           HorizontalAlignment="Center"
+                           FontWeight="SemiBold" FontSize="36"
+                           Foreground="White"/>
+                <ProgressBar IsIndeterminate="True" Margin="5" HorizontalAlignment="Stretch"
+                             Height="10"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
