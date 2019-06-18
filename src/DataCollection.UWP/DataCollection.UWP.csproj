@@ -154,6 +154,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="DataCollection.UWP_TemporaryKey.pfx" />
+    <None Include="LocalizedStrings\readme.md" />
     <PRIResource Include="LocalizedStrings\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
@@ -253,7 +254,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>SET SRCPATH=$(SolutionDir)DataCollection.Shared\LocalizedStrings
+    <PreBuildEvent>SET SRCPATH=$(SolutionDir)DataCollection.WPF\LocalizedStrings
 SET DESTPATH=$(ProjectDir)LocalizedStrings
 
 copy /Y %25SRCPATH%25\Resources.resx %25DESTPATH%25\Resources.resw</PreBuildEvent>
