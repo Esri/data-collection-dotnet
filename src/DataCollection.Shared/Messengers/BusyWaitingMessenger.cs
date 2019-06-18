@@ -22,7 +22,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
     /// <summary>
     /// Messenger class to handle communication between the viewmodels and the dialog box displayed when app requires user input
     /// </summary>
-    class BusyWaitingMessenger
+    internal class BusyWaitingMessenger
     {
         private static BusyWaitingMessenger _instance;
 

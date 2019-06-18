@@ -40,6 +40,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
             UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
             BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
 
+            this.Unloaded += OnUnloaded;
+
             // load settings for the authentication viewmodel
             AuthStackPanel.DataContext = new AuthViewModel(
                                                 Settings.Default.WebmapURL,
@@ -112,6 +114,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
             TreeSurveyWorkflows.NeighborhoodOperationalLayerId = Settings.Default.NeighborhoodOperationalLayerId;
             TreeSurveyWorkflows.NeighborhoodAttribute = Settings.Default.NeighborhoodAttribute;
             TreeSurveyWorkflows.AddressAttribute = Settings.Default.AddressAttribute;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            // Unsubscribe from events.
+            this.Unloaded += OnUnloaded;
+            UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
+            BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
         }
     }
 }
