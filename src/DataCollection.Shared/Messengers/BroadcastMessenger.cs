@@ -24,7 +24,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
     /// <summary>
     /// Messenger class to handle communication between classes when app settings change
     /// </summary>
-    class BroadcastMessenger
+    internal class BroadcastMessenger
     {
         private static BroadcastMessenger _instance;
 

@@ -583,6 +583,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saving edits, please wait.
+        /// </summary>
+        internal static string SavingEditsWait_Message {
+            get {
+                return ResourceManager.GetString("SavingEditsWait_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error saving application settings.
         /// </summary>
         internal static string SerializationError_Title {

@@ -46,6 +46,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         private string _webMapURL;
         private int _defaultZoomScale;
         private string _downloadPath;
+        private bool _isBusyWaiting = false;
+        private string _busyWaitingMessage;
 #if WPF
         private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
 #elif NETFX_CORE
@@ -234,6 +236,32 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 _offlineMap = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public bool IsBusyWaiting
+        {
+            get => _isBusyWaiting;
+            set
+            {
+                if (_isBusyWaiting != value)
+                {
+                    _isBusyWaiting = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string BusyWaitingMessage
+        {
+            get => _busyWaitingMessage;
+            set
+            {
+                if (_busyWaitingMessage != value)
+                {
+                    _busyWaitingMessage = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
