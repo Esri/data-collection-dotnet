@@ -43,11 +43,10 @@
                                 <DataTemplate>
                                     <StackPanel>
                                         <TextBlock
-                                            Margin="10,5,10,0"
                                             Style="{StaticResource BaseTextBlockStyle}"
                                             Text="{Binding Field.Label, Mode=OneWay}" />
                                         <TextBlock
-                                            Margin="12,5,10,5"
+                                            Margin="5"
                                             Style="{StaticResource BodyTextBlockStyle}"
                                             Text="{Binding FormattedValue, Mode=OneWay}"
                                             TextWrapping="Wrap" />

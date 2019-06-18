@@ -16,11 +16,11 @@
                     <StackPanel>
                         <TextBlock
                             Margin="10,5,0,0"
-                            Style="{StaticResource BodyTextBlockStyle}"
+                            Style="{StaticResource BaseTextBlockStyle}"
                             Text="{Binding Field.Label, Mode=OneWay}" />
                         <TextBlock
                             Margin="12,5,0,5"
-                            Style="{StaticResource BaseTextBlockStyle}"
+                            Style="{StaticResource BodyTextBlockStyle}"
                             Text="{Binding FormattedValue, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
