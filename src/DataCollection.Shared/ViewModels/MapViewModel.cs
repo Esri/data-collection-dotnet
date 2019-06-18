@@ -203,9 +203,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
             else if (e.Status == LoadStatus.Loaded)
             {
-                // HACK: set app title to the title of the map
-                // This is a workaround for bug in Runtime: OnPropertyChanged isn't called when Map properties change
-
                 // try starting location services
                 try
                 {
