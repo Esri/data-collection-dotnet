@@ -29,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\StagedAttachment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BroadcastMessageKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConnectivityMode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)LocalizedStrings\Resources.Designer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptMessageChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\DelegateCommand.cs" />
@@ -56,9 +55,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IdentifiedFeatureViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\OriginRelationshipViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MapViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)LocalizedStrings\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Properties\Configuration.xml">

@@ -64,18 +64,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\DataCollection.Shared\LocalizedStrings\Resources.Designer.cs">
-      <Link>Properties\Resources.Designer.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Binding Support\SourceController.cs" />
     <Compile Include="Binding Support\WebBrowserExtensions.cs" />
     <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
     <Compile Include="Converters\MapTitleConverter.cs" />
     <Compile Include="Helpers\BrowseHelper.cs" />
+    <Compile Include="LocalizedStrings\Resources.Designer.cs" />
     <Compile Include="ViewModels\SignInWindowViewModel.cs" />
     <Compile Include="Views\AddFeatureView.xaml.cs">
       <DependentUpon>AddFeatureView.xaml</DependentUpon>
@@ -172,12 +167,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\DataCollection.Shared\LocalizedStrings\Resources.resx">
-      <Link>Properties\Resources.resx</Link>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.Resources</CustomToolNamespace>
-    </EmbeddedResource>
+    <EmbeddedResource Include="LocalizedStrings\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentDocument.png">
