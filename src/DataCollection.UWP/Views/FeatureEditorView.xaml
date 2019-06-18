@@ -22,7 +22,7 @@
                 <!--  Data templates for all the field types used in editing features  -->
                 <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <TextBox
                             AcceptsReturn="True"
                             Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -36,7 +36,7 @@
                 </DataTemplate>
                 <DataTemplate x:Key="DateTemplate" x:Name="DateTemplate">
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <CalendarDatePicker
                             HorizontalAlignment="Stretch"
                             Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
@@ -51,7 +51,7 @@
                 </DataTemplate>
                 <DataTemplate x:Key="NumberTemplate" x:Name="NumberTemplate">
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <TextBox InputScope="Digits" Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             Foreground="Red"
@@ -62,7 +62,7 @@
                 </DataTemplate>
                 <DataTemplate x:Key="RangeDomainTemplate" x:Name="RangeDomainTemplate">
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <TextBox InputScope="Digits" Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             Foreground="Red"
@@ -73,7 +73,7 @@
                 </DataTemplate>
                 <DataTemplate x:Key="CodedValueDomainTemplate" x:Name="CodedValueDomainTemplate">
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <ComboBox
                             HorizontalAlignment="Stretch"
                             DisplayMemberPath="Name"

@@ -25,7 +25,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                 if (s_resourceManager == null)
                 {
 #if WPF
-                    s_resourceManager = new ResourceManager("Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Resources", typeof(Resources).Assembly);
+                    s_resourceManager = new ResourceManager("Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.LocalizedStrings.Resources", typeof(Resources).Assembly);
 #endif
                 }
 

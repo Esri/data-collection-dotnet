@@ -336,4 +336,7 @@
   <data name="InvalidAttachmentExtension_Message" xml:space="preserve">
     <value>That attachment can't be added because the file type is unsupported.</value>
   </data>
+  <data name="SavingEditsWait_Message" xml:space="preserve">
+    <value>Saving edits, please wait</value>
+  </data>
 </root>

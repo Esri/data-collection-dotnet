@@ -51,6 +51,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.ViewModels
         }
 
         private ICommand _navigateCommand;
+        private ICommand _cancelCommand;
 
         /// <summary>
         /// Gets the command fired when the browser navigates
@@ -84,17 +85,31 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.ViewModels
                                 var authResponse = DecodeParameters(uri);
 
                                 // Set the result for the task completion source
-                                _tcs.SetResult(authResponse);
+                                _tcs.TrySetResult(authResponse);
                             }
                             catch (Exception ex)
                             {
-                                _tcs.SetException(ex);
+                                _tcs.TrySetException(ex);
                             }
 
                             // remove the web address
                             WebAddress = null;
                         }
                     }));
+            }
+        }
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return _cancelCommand ?? (_cancelCommand = new DelegateCommand(
+                           (x) =>
+                           {
+                               _tcs.TrySetCanceled();
+                               // Setting web address to null will hide the sign in window.
+                               WebAddress = null;
+                           }));
             }
         }
 

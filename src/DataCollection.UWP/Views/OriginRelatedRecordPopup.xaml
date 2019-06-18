@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:LocalizationConverter x:Key="LocalizationConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -34,12 +35,11 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <TextBlock
-                                        Margin="10,5,0,0"
-                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{Binding Field.Label, Mode=OneWay}" />
                                     <TextBlock
-                                        Margin="12,5,0,5"
-                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Margin="5"
+                                        Style="{StaticResource BodyTextBlockStyle}"
                                         Text="{Binding FormattedValue, Mode=OneWay}"
                                         TextWrapping="Wrap" />
                                 </StackPanel>
@@ -60,7 +60,9 @@
         <CommandBar Grid.Row="1">
             <CommandBar.Content>
                 <!--  Add Attachment Button  -->
-                <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" Icon="Attach">
+                <AppBarButton Icon="Attach"
+                              ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
+                              Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" >
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Click">
                             <core:ChangePropertyAction
@@ -87,21 +89,25 @@
             <AppBarButton
                 Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
                 Icon="Edit"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
                 Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
             <AppBarButton
                 Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}"
                 CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
                 Icon="Delete"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
                 Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
             <!--  Buttons to save and discard changes to record  -->
             <AppBarButton
                 Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}"
                 Icon="Save"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
                 Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
             <AppBarButton
                 Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}"
                 CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
                 Icon="Cancel"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
                 Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
         </CommandBar>
     </Grid>

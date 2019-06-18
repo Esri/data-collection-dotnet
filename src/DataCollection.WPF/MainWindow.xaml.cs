@@ -14,6 +14,7 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using System;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
@@ -37,6 +38,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
 
             // create event handler for when the message from the viewmodel changes
             UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
+            BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
+
+            this.Unloaded += OnUnloaded;
 
             // load settings for the authentication viewmodel
             AuthStackPanel.DataContext = new AuthViewModel(
@@ -51,6 +55,23 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
 
             // load settings for the custom tree survey dataset
             LoadTreeSurveySettings();
+        }
+
+        private void OnWaitStatusChanged(object sender, WaitStatusChangedEventArgs e)
+        {
+            if (_mainViewModel != null)
+            {
+                _mainViewModel.IsBusyWaiting = e.IsBusy;
+                _mainViewModel.BusyWaitingMessage = e.Message;
+            }
+        }
+
+        private void InstanceOnBecameBusyWaiting(object sender, EventArgs e)
+        {
+            if (_mainViewModel != null)
+            {
+                _mainViewModel.IsBusyWaiting = true;
+            }
         }
 
         /// <summary>
@@ -93,6 +114,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
             TreeSurveyWorkflows.NeighborhoodOperationalLayerId = Settings.Default.NeighborhoodOperationalLayerId;
             TreeSurveyWorkflows.NeighborhoodAttribute = Settings.Default.NeighborhoodAttribute;
             TreeSurveyWorkflows.AddressAttribute = Settings.Default.AddressAttribute;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            // Unsubscribe from events.
+            this.Unloaded += OnUnloaded;
+            UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
+            BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
         }
     }
 }

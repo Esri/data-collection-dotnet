@@ -151,24 +151,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private string _applicationTitle;
-
-        /// <summary>
-        /// Gets or sets the title of the application
-        /// </summary>
-        public string ApplicationTitle
-        {
-            get { return _applicationTitle; }
-            set
-            {
-                if (_applicationTitle != value && value != null)
-                {
-                    _applicationTitle = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         /// <summary>
         /// Perform feature selection 
         /// </summary>
@@ -223,7 +205,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 // HACK: set app title to the title of the map
                 // This is a workaround for bug in Runtime: OnPropertyChanged isn't called when Map properties change
-                ApplicationTitle = Map.Item.Title;
 
                 // try starting location services
                 try
