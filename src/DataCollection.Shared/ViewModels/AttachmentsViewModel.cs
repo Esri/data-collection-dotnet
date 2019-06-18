@@ -24,6 +24,7 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -184,7 +185,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 }
 #if WPF
                                 // in WPF, let Windows open the file with the application the user has set as default
-                                System.Diagnostics.Process.Start(attachmentLocalPath);
+                                try
+                                {
+                                    Process.Start(attachmentLocalPath);
+                                }
+                                catch (System.ComponentModel.Win32Exception e)
+                                {
+                                    // This happens when the user cancels opening (e.g. the user got a security prompt and chose to cancel instead of opening).
+                                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, e.Message, true, e.StackTrace);
+                                }
 #elif NETFX_CORE
                                 try
                                 {
