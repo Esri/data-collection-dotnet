@@ -50,7 +50,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers
             await fnd.ShowAsync();
 
             // rename file
-            await storageFile.RenameAsync(fnd.FileName + storageFile.FileType);
+            await storageFile.RenameAsync(fnd.FileName + storageFile.FileType, NameCollisionOption.ReplaceExisting);
             return storageFile;
         }
 

@@ -327,6 +327,15 @@
   <data name="NoOnlineMode_DeviceOffline_Message" xml:space="preserve">
     <value>Your device must be connected to a network to work online.</value>
   </data>
+  <data name="AttachmentRenamedForLength_Message" xml:space="preserve">
+    <value>The attachment name has been truncated to 40 characters.</value>
+  </data>
+  <data name="AttachmentRenamedForLength_Title" xml:space="preserve">
+    <value>Attachment name too long</value>
+  </data>
+  <data name="InvalidAttachmentExtension_Message" xml:space="preserve">
+    <value>That attachment can't be added because the file type is unsupported.</value>
+  </data>
   <data name="SavingEditsWait_Message" xml:space="preserve">
     <value>Saving edits, please wait</value>
   </data>
