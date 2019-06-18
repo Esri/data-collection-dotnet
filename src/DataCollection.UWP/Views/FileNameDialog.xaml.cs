@@ -42,6 +42,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
             {
                 IsPrimaryButtonEnabled = true;
                 ValidationTextBlock.Text = "";
+
+                if (FileNameTextBox.Text.Length > 40)
+                {
+                    ValidationTextBlock.Text = "File names longer than 40 characters will be truncated";
+                }
             }
             else
             {
