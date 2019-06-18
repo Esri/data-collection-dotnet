@@ -23,7 +23,6 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.Resources;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
