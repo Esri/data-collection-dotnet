@@ -157,22 +157,14 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <!--  Application Title coming from the title of the webmap  -->
-            <TextBlock
+            <TextBlock Text="{Binding MapViewModel.Map.Item.Title}"
                 Grid.Column="0"
                 Margin="15,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 FontSize="25"
                 FontWeight="DemiBold"
-                Foreground="White">
-                <TextBlock.Text>
-                    <MultiBinding Converter="{StaticResource MapTitleConverter}">
-                        <Binding Path="MapViewModel.Map.Item.Title" />
-                        <Binding Path="MapViewModel.ApplicationTitle" />
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
+                Foreground="White" />
             <!--  TODO: Replace buttons text with icons if app is used on Windows versions < 10  -->
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <!--  Current Location Button  -->
