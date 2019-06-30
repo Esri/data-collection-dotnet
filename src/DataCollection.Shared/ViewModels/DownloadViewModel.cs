@@ -75,8 +75,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get { return _isAwaitingDownload; }
             set
             {
-                _isAwaitingDownload = value;
-                OnPropertyChanged();
+                if (_isAwaitingDownload != value)
+                {
+                    _isAwaitingDownload = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
