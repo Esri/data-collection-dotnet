@@ -23,7 +23,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="45" />
         </Grid.RowDefinitions>
         <Pivot x:Name="IdentifiedFeaturePivot">
             <PivotItem Header="Details">
@@ -111,7 +111,8 @@
                                             CommandParameter="{Binding}"
                                             Content="&#xE76C;"
                                             FontFamily="Segoe MDL2 Assets"
-                                            Style="{StaticResource TextBlockButtonStyle}" />
+                                            Style="{StaticResource TextBlockButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"/>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -143,12 +144,13 @@
                                                 Grid.Column="1"
                                                 Width="30"
                                                 Height="30"
-                                                Margin="0,0,15,0"
+                                                Margin="0,10,15,5"
                                                 Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, Mode=OneWay, ElementName=IdentifiedFeatureUserControl}"
                                                 CommandParameter="{Binding}"
                                                 Content="&#xE710;"
                                                 FontFamily="Segoe MDL2 Assets"
-                                                Style="{StaticResource TextBlockButtonStyle}" />
+                                                Style="{StaticResource TextBlockButtonStyle}"
+                                                ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}"/>
                                         </Grid>
                                         <ItemsControl HorizontalContentAlignment="Stretch" ItemsSource="{Binding OriginRelationshipViewModelCollection, Mode=OneWay}">
                                             <ItemsControl.ItemTemplate>
@@ -205,7 +207,8 @@
                                                             CommandParameter="{Binding PopupManager}"
                                                             Content="&#xE76C;"
                                                             FontFamily="Segoe MDL2 Assets"
-                                                            Style="{StaticResource TextBlockButtonStyle}" />
+                                                            Style="{StaticResource TextBlockButtonStyle}"
+                                                            ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"/>
                                                     </Grid>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
@@ -232,9 +235,10 @@
                                 <DataTemplate>
                                     <Grid>
                                         <StackPanel x:Name="DestinationRelationshipsStackPanel" DataContext="{Binding}">
-                                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
+                                            <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
                                             <ComboBox
                                                 HorizontalAlignment="Stretch"
+                                                Margin="0,5,0,5"
                                                 ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
                                                 SelectedItem="{Binding ElementName=DestinationRelationshipsStackPanel, Path=DataContext.PopupManager, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>

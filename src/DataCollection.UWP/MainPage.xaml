@@ -21,6 +21,65 @@
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <localConverters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
+            <ControlTemplate x:Key="BladeItemTemplate" TargetType="controls:BladeItem">
+                <!-- Template modified from source found at https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/e29e20ae3726dc68ea97921bb3762042301b9760/Microsoft.Toolkit.Uwp.UI.Controls/BladeView/BladeView.xaml -->
+                <Grid BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Width="{TemplateBinding Width}">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="ExpandedStates">
+                            <VisualState x:Name="Expanded"/>
+                            <VisualState x:Name="Collapsed">
+                                <VisualState.Setters>
+                                    <Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+                                    <Setter Target="EnlargeButton.Content" Value="&#xE740;" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Background="{TemplateBinding TitleBarBackground}"
+                              Visibility="{TemplateBinding TitleBarVisibility}"
+                              Height="32">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <ContentPresenter x:Name="TitleBar"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"/>
+                        <!-- Have to keep this around per contract -->
+                        <Button x:Name="EnlargeButton"
+                                    Visibility="Collapsed" />
+                        <Button x:Name="CloseButton"
+                                    Grid.Column="2"
+                                    TabIndex="0"
+                                    HorizontalAlignment="Right"
+                                    AutomationProperties.Name="Cancel"
+                                    Background="{TemplateBinding CloseButtonBackground}"
+                                    BorderThickness="0"
+                                    Width="32"
+                                    Height="32"
+                                    Content="&#xE711;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="12"
+                                    Foreground="{TemplateBinding CloseButtonForeground}"
+                                    ToolTipService.ToolTip="Close"/>
+                    </Grid>
+                    <ContentPresenter x:Name="ContentPresenter"
+                                          Grid.Row="1"
+                                          VerticalAlignment="Stretch"
+                                          Background="{TemplateBinding Background}"
+                                          Visibility="{TemplateBinding IsOpen}" />
+                </Grid>
+            </ControlTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -306,7 +365,8 @@
             <controls:BladeItem
                 x:Name="IdentifiedFeatureBlade"
                 Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
-                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                Template="{StaticResource BladeItemTemplate}">
                 <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
             </controls:BladeItem>
             <controls:BladeItem
@@ -314,13 +374,15 @@
                 Collapsed="BladeItem_Collapsed"
                 Expanded="BladeItem_Expanded"
                 Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
-                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                Template="{StaticResource BladeItemTemplate}">
                 <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
             </controls:BladeItem>
             <controls:BladeItem
                 x:Name="DestinationRelationshipBlade"
                 Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
-                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}">
+                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                Template="{StaticResource BladeItemTemplate}">
                 <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
             </controls:BladeItem>
         </controls:BladeView>
