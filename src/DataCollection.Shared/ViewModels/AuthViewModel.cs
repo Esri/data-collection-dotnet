@@ -55,6 +55,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             _userName = userName;
             _oAuthRefreshToken = oAuthRefreshToken;
 
+            // Watch for oAuth token changes
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += (o, args) =>
+            {
+                if (args.Args.Key == BroadcastMessageKey.OAuthRefreshToken && args.Args.Value == null)
+                {
+                    _oAuthRefreshToken = null;
+                }
+            };
+
             // Set up authentication manager to handle signing in
             UpdateAuthenticationManager();
 
@@ -113,7 +122,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         AuthenticatedUser = null;
 
                         // clear the refresh token
-                        _oAuthRefreshToken = null;
                         BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.OAuthRefreshToken);
                     }));
             }
@@ -196,9 +204,35 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             // if no refresh token, call to generate credentials
             // otherwise if a refresh token exists, sign user in using the refresh token
-            var credential = string.IsNullOrEmpty(_oAuthRefreshToken) ?
-                await CreateNewCredential(info) :
-                await CreateCredentialFromRefreshToken(info);
+            OAuthTokenCredential credential = null;
+
+            if (string.IsNullOrEmpty(_oAuthRefreshToken))
+            {
+                credential = await CreateNewCredential(info);
+            }
+            else
+            {
+                credential = await CreateCredentialFromRefreshToken(info);
+
+                if (credential == null)
+                {
+                    // Wait for the user to acknowledge that they need to sign in
+                    try
+                    {
+                        await UserPromptMessenger.Instance.AwaitConfirmation(
+                                    Resources.GetString("ExpiredSignInToken_Title"),
+                                    Resources.GetString("ExpiredSignInToken_Message"),
+                                    false,
+                                    null, null, null, true);
+                        // Try again, without token
+                        credential = await CreateNewCredential(info);
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // Ignore - user pressed cancel.
+                    }
+                }
+            }
 
             // add credential to the authentication manager singleton instance to be used in the app
             AuthenticationManager.Current.AddCredential(credential);
