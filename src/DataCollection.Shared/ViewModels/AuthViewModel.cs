@@ -58,9 +58,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // Watch for oAuth token changes
             BroadcastMessenger.Instance.BroadcastMessengerValueChanged += (o, args) =>
             {
-                if (args.Args.Key == BroadcastMessageKey.OAuthRefreshToken && args.Args.Value == null)
+                if (args.Args.Key == BroadcastMessageKey.OAuthRefreshToken)
                 {
-                    _oAuthRefreshToken = null;
+                    _oAuthRefreshToken = args.Args.Value?.ToString();
                 }
             };
 
@@ -220,10 +220,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     try
                     {
                         await UserPromptMessenger.Instance.AwaitConfirmation(
-                                    Resources.GetString("ExpiredSignInToken_Title"),
-                                    Resources.GetString("ExpiredSignInToken_Message"),
-                                    false,
-                                    null, null, null, true);
+                                    messageTitle: Resources.GetString("ExpiredSignInToken_Title"),
+                                    message: Resources.GetString("ExpiredSignInToken_Message"),
+                                    isError: false,
+                                    stackTrace: null,
+                                    affirmativeActionButtonContent: null,
+                                    negativeActionButtonContent: null,
+                                    shouldCancel: true);
                         // Try again, without token
                         credential = await CreateNewCredential(info);
                     }
@@ -248,10 +251,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             catch (Exception ex)
             {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                Resources.GetString("SignInUnsuccessful_Title"),
-                                ex.Message,
-                                true,
-                                ex.StackTrace);
+                                messageTitle: Resources.GetString(name: "SignInUnsuccessful_Title"),
+                                message: ex.Message,
+                                isError: true,
+                                stackTrace: ex.StackTrace);
             }
 
             // Save refresh token if it has changed. Encrypt if necessary
