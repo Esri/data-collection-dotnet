@@ -47,7 +47,7 @@
                                             Style="{StaticResource BaseTextBlockStyle}"
                                             Text="{Binding Field.Label, Mode=OneWay}" />
                                         <TextBlock
-                                            Margin="5"
+                                            Margin="{StaticResource FieldMarginIndented}"
                                             Style="{StaticResource BodyTextBlockStyle}"
                                             Text="{Binding FormattedValue, Mode=OneWay}"
                                             TextWrapping="Wrap" />
@@ -238,7 +238,7 @@
                                             <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
                                             <ComboBox
                                                 HorizontalAlignment="Stretch"
-                                                Margin="0,5,0,5"
+                                                Margin="{StaticResource FieldMargin}"
                                                 ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
                                                 SelectedItem="{Binding ElementName=DestinationRelationshipsStackPanel, Path=DataContext.PopupManager, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
