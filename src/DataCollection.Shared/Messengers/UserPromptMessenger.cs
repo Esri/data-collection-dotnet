@@ -73,7 +73,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
         /// Awaitable task that handles the need for a user response
         /// </summary>
         public Task<bool> AwaitConfirmation(string messageTitle, string message, bool isError, string stackTrace = null,
-            string affirmativeActionButtonContent = null, string negativeActionButtonContent = null)
+            string affirmativeActionButtonContent = null, string negativeActionButtonContent = null, bool shouldCancel = false)
         {
             var taskCompletionSource = new TaskCompletionSource<bool>();
 
@@ -88,6 +88,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
                     if (e.Response)
                     {
                         taskCompletionSource.TrySetResult(e.Response);
+                    }
+                    else if (shouldCancel)
+                    {
+                        taskCompletionSource.TrySetCanceled();
                     }
                 }
             }
