@@ -229,7 +229,7 @@
                         <!--  List of relationships where identified feature is destination  -->
                         <ItemsControl
                             Grid.Row="1"
-                            ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships}"
+                            ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships,Mode=OneWay}"
                             Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

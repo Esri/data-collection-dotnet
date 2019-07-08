@@ -55,6 +55,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             _userName = userName;
             _oAuthRefreshToken = oAuthRefreshToken;
 
+            // Watch for oAuth token changes
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += (o, args) =>
+            {
+                if (args.Args.Key == BroadcastMessageKey.OAuthRefreshToken)
+                {
+                    _oAuthRefreshToken = args.Args.Value?.ToString();
+                }
+            };
+
             // Set up authentication manager to handle signing in
             UpdateAuthenticationManager();
 
@@ -113,7 +122,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         AuthenticatedUser = null;
 
                         // clear the refresh token
-                        _oAuthRefreshToken = null;
                         BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.OAuthRefreshToken);
                     }));
             }
@@ -196,9 +204,38 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             // if no refresh token, call to generate credentials
             // otherwise if a refresh token exists, sign user in using the refresh token
-            var credential = string.IsNullOrEmpty(_oAuthRefreshToken) ?
-                await CreateNewCredential(info) :
-                await CreateCredentialFromRefreshToken(info);
+            OAuthTokenCredential credential = null;
+
+            if (string.IsNullOrEmpty(_oAuthRefreshToken))
+            {
+                credential = await CreateNewCredential(info);
+            }
+            else
+            {
+                credential = await CreateCredentialFromRefreshToken(info);
+
+                if (credential == null)
+                {
+                    // Wait for the user to acknowledge that they need to sign in
+                    try
+                    {
+                        await UserPromptMessenger.Instance.AwaitConfirmation(
+                                    messageTitle: Resources.GetString("ExpiredSignInToken_Title"),
+                                    message: Resources.GetString("ExpiredSignInToken_Message"),
+                                    isError: false,
+                                    stackTrace: null,
+                                    affirmativeActionButtonContent: null,
+                                    negativeActionButtonContent: null,
+                                    shouldCancel: true);
+                        // Try again, without token
+                        credential = await CreateNewCredential(info);
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // Ignore - user pressed cancel.
+                    }
+                }
+            }
 
             // add credential to the authentication manager singleton instance to be used in the app
             AuthenticationManager.Current.AddCredential(credential);
@@ -214,10 +251,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             catch (Exception ex)
             {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                Resources.GetString("SignInUnsuccessful_Title"),
-                                ex.Message,
-                                true,
-                                ex.StackTrace);
+                                messageTitle: Resources.GetString(name: "SignInUnsuccessful_Title"),
+                                message: ex.Message,
+                                isError: true,
+                                stackTrace: ex.StackTrace);
             }
 
             // Save refresh token if it has changed. Encrypt if necessary

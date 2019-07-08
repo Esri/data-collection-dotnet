@@ -339,4 +339,10 @@
   <data name="SavingEditsWait_Message" xml:space="preserve">
     <value>Saving edits, please wait</value>
   </data>
+  <data name="ExpiredSignInToken_Message" xml:space="preserve">
+    <value>Your login has expired. Please sign in again when prompted.</value>
+  </data>
+  <data name="ExpiredSignInToken_Title" xml:space="preserve">
+    <value>Login Expired</value>
+  </data>
 </root>

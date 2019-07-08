@@ -126,13 +126,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _isLocationOnlyMode;
             set
             {
-                _isLocationOnlyMode = value;
-                if (_isLocationOnlyMode)
+                if (_isLocationOnlyMode != value)
                 {
-                    IdentifiedFeatureViewModel = null;
+                    _isLocationOnlyMode = value;
+                    if (_isLocationOnlyMode)
+                    {
+                        IdentifiedFeatureViewModel = null;
+                    }
+                    OnPropertyChanged();
                 }
-
-                OnPropertyChanged();
             }
         }
 
@@ -234,8 +236,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get { return _offlineMap; }
             set
             {
-                _offlineMap = value;
-                OnPropertyChanged();
+                if (_offlineMap != value)
+                {
+                    _offlineMap = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -275,8 +280,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get { return _syncDate; }
             set
             {
-                _syncDate = value;
-                OnPropertyChanged();
+                if (_syncDate != value)
+                {
+                    _syncDate = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
