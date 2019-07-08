@@ -66,8 +66,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _attachmentsViewModel;
             set
             {
-                _attachmentsViewModel = value;
-                OnPropertyChanged();
+                if (_attachmentsViewModel != value)
+                {
+                    _attachmentsViewModel = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -81,8 +84,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _featureTable;
             set
             {
-                _featureTable = value;
-                OnPropertyChanged();
+                if (_featureTable != value)
+                {
+                    _featureTable = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -97,8 +103,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _fields;
             set
             {
-                _fields = value;
-                OnPropertyChanged();
+                if (_fields != value)
+                {
+                    _fields = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -111,13 +120,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _feature;
             set
             {
-                _feature = value;
-                if (value != null)
+                if (_feature != value)
                 {
-                    if (value.IsNewFeature())
-                        IsNewFeature = true;
+                    _feature = value;
+                    if (value != null)
+                    {
+                        if (value.IsNewFeature())
+                            IsNewFeature = true;
+                    }
+                    OnPropertyChanged();
                 }
-                OnPropertyChanged();
             }
         }
 
@@ -131,8 +143,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _isNewFeature;
             set
             {
-                _isNewFeature = value;
-                OnPropertyChanged();
+                if (_isNewFeature != value)
+                {
+                    _isNewFeature = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -146,8 +161,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             set
             {
-                _connectivityMode = value;
-                OnPropertyChanged();
+                if (_connectivityMode != value)
+                {
+                    _connectivityMode = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

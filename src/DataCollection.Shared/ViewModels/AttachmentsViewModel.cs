@@ -50,8 +50,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _popupManager;
             set
             {
-                _popupManager = value;
-                OnPropertyChanged();
+                if (_popupManager != value)
+                {
+                    _popupManager = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -65,10 +68,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _newAttachmentPath;
             set
             {
-                _newAttachmentPath = value;
-                if (_newAttachmentPath != null && File.Exists(_newAttachmentPath))
+                if (_newAttachmentPath != value)
                 {
-                    AddNewAttachment(_newAttachmentPath);
+                    _newAttachmentPath = value;
+                    if (_newAttachmentPath != null && File.Exists(_newAttachmentPath))
+                    {
+                        AddNewAttachment(_newAttachmentPath);
+                    }
                 }
             }
         }
@@ -85,16 +91,19 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _newAttachmentFile;
             set
             {
-                _newAttachmentFile = value;
-                if (_newAttachmentFile != null)
+                if (_newAttachmentFile != value)
                 {
-                    try
+                    _newAttachmentFile = value;
+                    if (_newAttachmentFile != null)
                     {
-                        AddNewAttachment(_newAttachmentFile);
-                    }
-                    catch (Exception ex)
-                    {
-                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                        try
+                        {
+                            AddNewAttachment(_newAttachmentFile);
+                        }
+                        catch (Exception ex)
+                        {
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                        }
                     }
                 }
             }
