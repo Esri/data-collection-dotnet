@@ -21,7 +21,7 @@
     <Grid x:Name="OriginRelatedRecordGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="45" />
         </Grid.RowDefinitions>
         <Pivot x:Name="OriginRelatedRecordPivot" Grid.Row="0">
             <PivotItem Header="Details">

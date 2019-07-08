@@ -15,7 +15,6 @@
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <localConverters:ObjectToDateTimeOffsetConverter x:Key="ObjectToDateTimeOffsetConverter" />
     </UserControl.Resources>
-
     <Grid>
         <ItemsControl ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" ItemsSource="{Binding Fields, Mode=OneWay}">
             <ItemsControl.Resources>
@@ -25,6 +24,7 @@
                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <TextBox
                             AcceptsReturn="True"
+                            Margin="{StaticResource FieldMargin}"
                             Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             TextWrapping="Wrap" />
                         <TextBlock
@@ -41,6 +41,7 @@
                             HorizontalAlignment="Stretch"
                             Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
                             Loaded="CalendarDatePicker_Loaded"
+                            Margin="{StaticResource FieldMargin}"
                             PlaceholderText="Select date" />
                         <TextBlock
                             Foreground="Red"
@@ -52,7 +53,9 @@
                 <DataTemplate x:Key="NumberTemplate" x:Name="NumberTemplate">
                     <StackPanel>
                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
-                        <TextBox InputScope="Digits" Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox InputScope="Digits" 
+                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="{StaticResource FieldMargin}"/>
                         <TextBlock
                             Foreground="Red"
                             Text="{Binding PopupFieldValue.ValidationError.Message}"
@@ -62,8 +65,11 @@
                 </DataTemplate>
                 <DataTemplate x:Key="RangeDomainTemplate" x:Name="RangeDomainTemplate">
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
-                        <TextBox InputScope="Digits" Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" 
+                                   Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBox InputScope="Digits" 
+                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="{StaticResource FieldMargin}" />
                         <TextBlock
                             Foreground="Red"
                             Text="{Binding PopupFieldValue.ValidationError.Message}"
@@ -73,12 +79,14 @@
                 </DataTemplate>
                 <DataTemplate x:Key="CodedValueDomainTemplate" x:Name="CodedValueDomainTemplate">
                     <StackPanel>
-                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" 
+                                   Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <ComboBox
                             HorizontalAlignment="Stretch"
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding OriginalField.Domain.CodedValues, Mode=OneWay}"
                             Loaded="ComboBox_Loaded"
+                            Margin="{StaticResource FieldMargin}"
                             SelectionChanged="ComboBox_SelectionChanged"
                             Tag="{Binding PopupFieldValue.Value, Mode=TwoWay}" />
                         <TextBlock
