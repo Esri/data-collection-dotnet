@@ -21,6 +21,7 @@ using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Location;
 using Esri.ArcGISRuntime.Mapping;
+using Esri.ArcGISRuntime.Portal;
 using System;
 using System.Linq;
 using System.Windows;
@@ -221,10 +222,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
             else if (e.Status == LoadStatus.Loaded)
             {
-                // HACK: set app title to the title of the map
-                // This is a workaround for bug in Runtime: OnPropertyChanged isn't called when Map properties change
-                ApplicationTitle = Map.Item.Title;
-
                 // try starting location services
                 try
                 {
