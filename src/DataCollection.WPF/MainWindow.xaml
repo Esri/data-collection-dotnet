@@ -13,7 +13,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Data Collection for WPF" Height="525" Width="790" MinHeight="650" MinWidth="900">
+        Title="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.ApplicationTitle}" Height="525" Width="790" MinHeight="650" MinWidth="900">
     <Window.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
@@ -21,8 +21,7 @@
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter"/>
             <converters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter"/>
             <converters:LocalizationConverter x:Key="LocalizationConverter"/>
-            <localconverters:MapTitleConverter x:Key="MapTitleConverter"/>
-            <viewModels:MainViewModel x:Key="MainViewModel"/>
+            <localconverters:MapTitleConverter x:Key="MapTitleConverter"/>            
             <local:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector"/>
             <System:Boolean x:Key="TrueValue">True</System:Boolean>
             <ResourceDictionary.MergedDictionaries>

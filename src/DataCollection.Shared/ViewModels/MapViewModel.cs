@@ -222,6 +222,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
             else if (e.Status == LoadStatus.Loaded)
             {
+                // Set the title
+                ApplicationTitle = $"{Map.Item.Title} - Data Collection";
+
                 // try starting location services
                 try
                 {
