@@ -16,6 +16,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:PopupFieldToFormattedValueConverter x:Key="PopupFieldFormatConverter" />
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../ResourceDictionary.xaml" />
@@ -134,7 +135,7 @@
                                     Margin="10,0,0,0"
                                     BorderThickness="0"
                                     IsEnabled="False"
-                                    Text="{Binding FormattedValue, Mode=OneWay}"
+                                    Text="{Binding Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </DataTemplate>
