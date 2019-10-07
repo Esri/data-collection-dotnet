@@ -117,7 +117,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
+    <Compile Include="Converters\TitleBarConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ObjectToDateTimeOffsetConverter.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
