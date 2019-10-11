@@ -34,7 +34,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
         // For DateTimes, the value is represented in the local time zone.
         public object Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-            if (value is PopupFieldValue fieldValue)
+            if (parameter is PopupFieldValue fieldValue)
             {
                 if (fieldValue.Value is DateTimeOffset dateTimeValue)
                 {

@@ -50,7 +50,7 @@
                                         <TextBlock
                                             Margin="{StaticResource FieldMarginIndented}"
                                             Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{Binding Converter={StaticResource PopupFieldFormatConverter},Mode=OneWay}"
+                                            Text="{Binding FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=.}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
                                 </DataTemplate>
@@ -91,7 +91,7 @@
                                             <TextBlock
                                                 Margin="12,5,0,5"
                                                 Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{Binding PopupManager.DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                                                Text="{Binding PopupManager.DisplayedFields[0].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=PopupManager.DisplayedFields[0]}" />
                                             <TextBlock
                                                 Margin="10,5,0,0"
                                                 Style="{StaticResource BaseTextBlockStyle}"
@@ -99,7 +99,7 @@
                                             <TextBlock
                                                 Margin="12,5,0,5"
                                                 Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{Binding PopupManager.DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                                                Text="{Binding PopupManager.DisplayedFields[1].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=PopupManager.DisplayedFields[1]}" />
                                         </StackPanel>
                                         <Button
                                             Grid.Row="1"
@@ -178,7 +178,7 @@
                                                             <TextBlock
                                                                 Margin="12,5,0,5"
                                                                 Style="{StaticResource BodyTextBlockStyle}"
-                                                                Text="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                                                                Text="{Binding PopupManager.DisplayedFields[0].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=PopupManager.DisplayedFields[0]}" />
                                                             <TextBlock
                                                                 Margin="10,5,0,0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
@@ -186,7 +186,7 @@
                                                             <TextBlock
                                                                 Margin="12,5,0,5"
                                                                 Style="{StaticResource BodyTextBlockStyle}"
-                                                                Text="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                                                                Text="{Binding PopupManager.DisplayedFields[1].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=PopupManager.DisplayedFields[1]}" />
                                                             <TextBlock
                                                                 Margin="10,5,0,0"
                                                                 Style="{StaticResource BaseTextBlockStyle}"
@@ -194,7 +194,7 @@
                                                             <TextBlock
                                                                 Margin="12,5,0,5"
                                                                 Style="{StaticResource BodyTextBlockStyle}"
-                                                                Text="{Binding DisplayedFields[2], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                                                                Text="{Binding PopupManager.DisplayedFields[2].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=PopupManager.DisplayedFields[2]}" />
                                                         </StackPanel>
                                                         <Button
                                                             Grid.Row="1"
@@ -246,9 +246,9 @@
                                                     <DataTemplate>
                                                         <StackPanel Grid.Column="0">
                                                             <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[0].Field.Label, Mode=OneWay}" />
-                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[0].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=DisplayedFields[0]}" />
                                                             <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[1].Field.Label, Mode=OneWay}" />
-                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                                                            <TextBlock HorizontalAlignment="Left" Text="{Binding DisplayedFields[1].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=DisplayedFields[1]}" />
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>

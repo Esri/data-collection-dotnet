@@ -143,7 +143,7 @@
                                     Margin="10,0,0,0"
                                     BorderThickness="0"
                                     IsEnabled="false"
-                                    Text="{Binding Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
+                                    Text="{Binding FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=.}"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </DataTemplate>
@@ -185,7 +185,7 @@
                                         Margin="12,0,0,0"
                                         FontSize="12"
                                         Foreground="Gray"
-                                        Text="{Binding PopupManager.DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}" />
+                                        Text="{Binding PopupManager.DisplayedFields[0].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, ConverterParameter=PopupManager.DisplayedFields[0]}" />
                                     <TextBlock
                                         Margin="10,0,0,0"
                                         FontSize="12"
@@ -195,7 +195,7 @@
                                         Margin="12,0,0,0"
                                         FontSize="12"
                                         Foreground="Gray"
-                                        Text="{Binding PopupManager.DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}" />
+                                        Text="{Binding PopupManager.DisplayedFields[1].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, ConverterParameter=PopupManager.DisplayedFields[1]}" />
                                 </StackPanel>
                                 <Button
                                     Grid.Row="1"
@@ -278,7 +278,7 @@
                                                         Margin="7,0,0,0"
                                                         FontSize="12"
                                                         Foreground="Gray"
-                                                        Text="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}" />
+                                                        Text="{Binding DisplayedFields[0].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, ConverterParameter=DisplayedFields[0]}" />
                                                     <TextBlock
                                                         Margin="5,0,0,0"
                                                         FontSize="12"
@@ -288,7 +288,7 @@
                                                         Margin="7,0,0,0"
                                                         FontSize="12"
                                                         Foreground="Gray"
-                                                        Text="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}" />
+                                                        Text="{Binding DisplayedFields[1].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, ConverterParameter=DisplayedFields[1]}" />
                                                     <TextBlock
                                                         Margin="5,0,0,0"
                                                         FontSize="12"
@@ -298,7 +298,7 @@
                                                         Margin="7,0,0,10"
                                                         FontSize="12"
                                                         Foreground="Gray"
-                                                        Text="{Binding DisplayedFields[2], Converter={StaticResource PopupFieldFormatConverter}}" />
+                                                        Text="{Binding DisplayedFields[2].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, ConverterParameter=DisplayedFields[2]}" />
                                                 </StackPanel>
                                                 <Button
                                                     Grid.Row="1"
@@ -377,7 +377,7 @@
                                                         HorizontalAlignment="Left"
                                                         FontSize="12"
                                                         Foreground="Gray"
-                                                        Text="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}" />
+                                                        Text="{Binding DisplayedFields[0].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, ConverterParameter=DisplayedFields[0]}" />
                                                     <TextBlock
                                                         HorizontalAlignment="Left"
                                                         FontSize="12"
@@ -387,7 +387,7 @@
                                                         HorizontalAlignment="Left"
                                                         FontSize="12"
                                                         Foreground="Gray"
-                                                        Text="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}" />
+                                                        Text="{Binding DisplayedFields[1].FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, ConverterParameter=DisplayedFields[1]}" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>

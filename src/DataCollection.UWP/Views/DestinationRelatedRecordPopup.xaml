@@ -24,7 +24,7 @@
                         <TextBlock
                             Margin="12,5,0,5"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{Binding Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                            Text="{Binding Value,Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=.}" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
