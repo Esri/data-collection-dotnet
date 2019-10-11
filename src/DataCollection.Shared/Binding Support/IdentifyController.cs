@@ -43,19 +43,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         private bool _wasMapViewDoubleTapped;
         private CancellationTokenSource _canellationTokenSource = new CancellationTokenSource();
 
-        public bool IsIdentifyInProgress
-        {
-            get => _isIdentifyInProgress;
-            set
-            {
-                if (_isIdentifyInProgress != value)
-                {
-                    _isIdentifyInProgress = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIdentifyInProgress)));
-                }
-            }
-        }
-
         /// <summary>
         /// Gets or sets the MapView on which to perform identify operations
         /// </summary>
@@ -258,6 +245,22 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
             IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults)
         {
             IdentifyCompleted?.Invoke(this, new IdentifyEventArgs(layerResults, graphicsOverlayResults));
+        }
+
+        /// <summary>
+        /// Property so that identify work in progress can be shown in the UI.
+        /// </summary>
+        public bool IsIdentifyInProgress
+        {
+            get => _isIdentifyInProgress;
+            set
+            {
+                if (_isIdentifyInProgress != value)
+                {
+                    _isIdentifyInProgress = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIdentifyInProgress)));
+                }
+            }
         }
     }
 }

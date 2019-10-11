@@ -14,6 +14,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
+            <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -29,8 +30,9 @@
         <!--  Wrap panel containing attachment thumbnails and names  -->
         <ListView x:Name="AttachmentsItemsControl"
                   Grid.Row="1"
-                      ItemsSource="{Binding AttachmentsViewModel.Attachments, Mode=OneWay}"
-                      SelectionMode="None">
+                  ItemsSource="{Binding AttachmentsViewModel.Attachments, Mode=OneWay}"
+                  Visibility="{Binding AttachmentsViewModel.Attachments, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter},ConverterParameter='Inverse'}"
+                  SelectionMode="None">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -85,5 +87,12 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <TextBlock Grid.Row="0"
+                   Grid.RowSpan="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=NoAttachmentsFound_Message}" 
+                   Style="{ThemeResource SubtitleTextBlockStyle}"
+                   Visibility="{Binding AttachmentsViewModel.Attachments, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter}}" />
     </Grid>
 </UserControl>
