@@ -119,7 +119,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 AttachmentManager = popupManager.AttachmentManager;
                 _popupManager = popupManager;
-
                 LoadAttachments();
             }
         }
@@ -146,6 +145,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _openAttachmentCommand ?? (_openAttachmentCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        IsLoadingAttachments = true;
                         if (x != null && x is PopupAttachment attachment)
                         {
                             if (attachment.LoadStatus != LoadStatus.Loaded)
@@ -227,7 +227,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 return;
                             }
                         }
-
+                        IsLoadingAttachments = false;
                     }));
             }
         }
@@ -279,11 +279,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         internal async Task LoadAttachments()
         {
+            IsLoadingAttachments = true;
             // clear any existing attachments in the collection
             Attachments.Clear();
 
             // create list of tasks to run in parallel
             List<Task> tasks = new List<Task>();
+
+            if (AttachmentManager.Attachments == null)
+            {
+                return;
+            }
 
             // loop through attachments and add them to the collection
             foreach (var attachment in AttachmentManager.Attachments)
@@ -294,7 +300,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
 #if WPF
                 // add attachment to collection using the UI thread (for the binding to work)
-                Application.Current.Dispatcher.Invoke(new Action(() => { Attachments.Add(stagedAttachment); }));
+                Application.Current.Dispatcher.Invoke(new Action(() => Attachments.Add(stagedAttachment)));
 #else
                 // add attachment to collection
                 Attachments.Add(stagedAttachment);
@@ -305,6 +311,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             // run parallel tasks
             await Task.WhenAll(tasks);
+
+            IsLoadingAttachments = false;
         }
 
         /// <summary>
@@ -388,6 +396,19 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             return filePath;
         }
 
+        private bool _isLoadingAttachments;
+        public bool IsLoadingAttachments
+        {
+            get => _isLoadingAttachments;
+            set
+            {
+                if (_isLoadingAttachments != value)
+                {
+                    _isLoadingAttachments = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 #if NETFX_CORE
         /// <summary>
         /// Add new attachment file to the attachment manager
