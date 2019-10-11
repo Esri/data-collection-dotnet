@@ -6,20 +6,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignWidth="200"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../ResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ProgressBar
+            Grid.Row="0"
+            Visibility="{Binding AttachmentsViewModel.IsLoadingAttachments,Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+            Grid.Column="0" Grid.ColumnSpan="2"
+            Height="8"
+            IsIndeterminate="True" />
+
         <!--  Wrap panel containing attachment thumbnails and names  -->
         <ListView Background="White"
                   Padding="0,0,10,0"
+                  Grid.Row="1"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemsSource="{Binding AttachmentsViewModel.Attachments}">
             <ListView.ItemContainerStyle>
@@ -40,19 +53,13 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Button
-                            Grid.Column="0"
-                            Width="50"
-                            Height="50"
-                            Margin="10"
-                            Command="{Binding DataContext.AttachmentsViewModel.OpenAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                            CommandParameter="{Binding Attachment}"
-                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}">
-                            <Button.Content>
-                                <Image Source="{Binding Thumbnail}" />
-                            </Button.Content>
-                        </Button>
+                        <Image Grid.Column="0"
+                               Width="20" Height="20"
+                               Margin="10"
+                               Source="{Binding Thumbnail}"
+                               />
                         <TextBlock
                             Grid.Column="1"
                             Padding="5"
@@ -72,6 +79,20 @@
                             Style="{StaticResource MenuButtonStyle}"
                             ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}"
                             Visibility="{Binding DataContext.EditViewModel, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <Button
+                            Grid.Column="3"
+                            Command="{Binding DataContext.AttachmentsViewModel.OpenAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding Attachment}"
+                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}"
+                            Width="30"
+                            Height="30"
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Right"
+                            Content="&#xE8A7;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="15"
+                            Style="{StaticResource MenuButtonStyle}">
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
