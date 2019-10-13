@@ -15,6 +15,7 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
+            <converters:BytesToHumanReadableSizeConverter x:Key="BytesToHumanReadableSizeConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -55,18 +56,30 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
                         <Image 
                             Grid.Column="0"
-                            Height="25" Width="25"
-                            Source="{Binding Thumbnail, Mode=OneWay}" />
-                        
+                            Grid.Row="0" Grid.RowSpan="2"
+                            Height="40" Width="40"
+                            Source="{Binding Thumbnail, Mode=OneWay}" />                        
                         <TextBlock
                             Grid.Column="1"
+                            Grid.Row="0"
                             VerticalAlignment="Center"
                             Text="{Binding Attachment.Name, Mode=OneWay}"
-                            TextWrapping="Wrap" />
+                            FontWeight="SemiBold"
+                            TextWrapping="NoWrap" />
+                        <TextBlock 
+                            Grid.Row="1" Grid.Column="1"
+                            Text="{Binding Attachment.Size, Converter={StaticResource BytesToHumanReadableSizeConverter}}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Opacity="0.6"/>
                         <Button
                             Grid.Column="2"
+                            Grid.Row="0" Grid.RowSpan="2"
                             HorizontalAlignment="Right"
                             Command="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.AttachmentsViewModel.DeleteAttachmentCommand}"
                             CommandParameter="{Binding Attachment}"
@@ -76,6 +89,7 @@
                             ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}"/>
                         <Button
                             Grid.Column="3"
+                            Grid.Row="0" Grid.RowSpan="2"
                             HorizontalAlignment="Right"
                             Content="&#xE8A7;"
                             FontFamily="Segoe MDL2 Assets"
