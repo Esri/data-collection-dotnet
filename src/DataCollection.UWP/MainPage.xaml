@@ -20,7 +20,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-            <localConverters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
+            <localConverters:TitleBarConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
             <ControlTemplate x:Key="BladeItemTemplate" TargetType="controls:BladeItem">
                 <!-- Template modified from source found at https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/e29e20ae3726dc68ea97921bb3762042301b9760/Microsoft.Toolkit.Uwp.UI.Controls/BladeView/BladeView.xaml -->
                 <Grid BorderBrush="{TemplateBinding BorderBrush}"
@@ -104,7 +104,8 @@
         <CommandBar
             Grid.Row="0"
             Grid.ColumnSpan="3"
-            Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}">
+            Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}"
+            Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
             <CommandBar.Content>
                 <TextBlock
                     Margin="15,0,0,0"
@@ -114,7 +115,8 @@
             <AppBarButton
                 x:Uid="CurrentLocationButton"
                 Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}"
-                IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}">
+                IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}"
+                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
                 </AppBarButton.Icon>
@@ -122,6 +124,7 @@
             <AppBarButton
                 x:Uid="AddFeatureButton"
                 Icon="Add"
+                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                 IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
                 Visibility="{x:Bind MainViewModel.IsLocationOnlyMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                 <interactivity:Interaction.Behaviors>

@@ -26,7 +26,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters
     /// <summary>
     /// Converts ConnectivityMode to color to be used for the app banner
     /// </summary>
-    class ConnectivityModeToColorConverter : IValueConverter
+    class TitleBarConnectivityModeToColorConverter : IValueConverter
     {
         /// <summary>
         /// Handle the conversion from a boolean value to a color value
@@ -35,11 +35,18 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters
         {
             if (value is ConnectivityMode)
             {
-                
-                //if value is ConnectivityMode.Offline, color = gray
-                return ((ConnectivityMode)value == ConnectivityMode.Offline) ?
-                    (SolidColorBrush)Application.Current.Resources["TitleBarColorOffline"] :
-                    (SolidColorBrush)Application.Current.Resources["TitleBarColorOnline"];
+                if (parameter is string inverse && inverse == "Inverse")
+                {
+                    return ((ConnectivityMode)value == ConnectivityMode.Offline) ?
+                        (SolidColorBrush)Application.Current.Resources["TitleBarForegroundOffline"] :
+                        (SolidColorBrush)Application.Current.Resources["TitleBarForegroundOnline"];
+                } 
+                else
+                {
+                    return ((ConnectivityMode)value == ConnectivityMode.Offline) ?
+                        (SolidColorBrush)Application.Current.Resources["TitleBarBackgroundOffline"] :
+                        (SolidColorBrush)Application.Current.Resources["TitleBarBackgroundOnline"];
+                }                
             }
             else
                 return null;
@@ -53,7 +60,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters
             if (value is Color)
             {
                 //if color is gray return ConnectivityMode.Offline
-                return ((Color)value == ((SolidColorBrush)Application.Current.Resources["TitleBarColorOffline"]).Color) 
+                return ((Color)value == ((SolidColorBrush)Application.Current.Resources["TitleBarBackgroundOffline"]).Color) 
                     ? ConnectivityMode.Offline : 
                     ConnectivityMode.Online;
             }
