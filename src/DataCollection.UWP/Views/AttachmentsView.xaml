@@ -27,6 +27,7 @@
         <ProgressBar
             Grid.Row="0"
             IsIndeterminate="True"
+            Margin="0,0,0,10"
             Visibility="{Binding AttachmentsViewModel.IsLoadingAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
         <!--  Wrap panel containing attachment thumbnails and names  -->
         <ListView x:Name="AttachmentsItemsControl"
