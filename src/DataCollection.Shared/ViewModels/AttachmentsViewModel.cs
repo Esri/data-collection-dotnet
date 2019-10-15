@@ -146,63 +146,65 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     async (x) =>
                     {
                         IsLoadingAttachments = true;
-                        if (x != null && x is PopupAttachment attachment)
+                        try
                         {
-                            if (attachment.LoadStatus != LoadStatus.Loaded)
+                            if (x != null && x is PopupAttachment attachment)
                             {
-                                await attachment.LoadAsync();
-                            }
-
-                            if (attachment.Filename == null)
-                            {
-                                UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                    Resources.GetString("FileNotFound_Title"),
-                                    Resources.GetString("FileNotFound_Message"),
-                                    true);
-                                return;
-                            }
-                            // HACK: This workflow is in place until API changes occur to save the attachment with its proper name and extension
-                            // when an attachment is downloaded, the API generates a random temp file name that cannot be opened unless renamed to have a proper extension
-                            // when an attachment is newly added, the API points to the file the user selected, so the name and extension are valid and the file can be opened directly
-                            var fileInfo = new FileInfo(attachment.Filename);
-                            var attachmentLocalPath = "";
-
-                            // if attachment was just added, its path still points to the location on disk, so open from there
-                            // otherwise, use dowload path 
-                            if (fileInfo.Exists)
-                            {
-                                if (fileInfo.Name == attachment.Name)
+                                if (attachment.LoadStatus != LoadStatus.Loaded)
                                 {
-                                    attachmentLocalPath = attachment.Filename;
+                                    await attachment.LoadAsync();
                                 }
-                                else
+
+                                if (attachment.Filename == null)
                                 {
-                                    // create temp directory from the random attachment file name 
-                                    var directory = Path.Combine(fileInfo.DirectoryName, fileInfo.Name.Replace(".", ""));
-
-                                    if (!Directory.Exists(directory))
-                                    {
-                                        Directory.CreateDirectory(directory);
-                                    }
-
-                                    // place file into the newly created temp directory
-                                    attachmentLocalPath = Path.Combine(directory, attachment.Name);
-                                    if (!File.Exists(attachmentLocalPath))
-                                    {
-                                        File.Copy(attachment.Filename, attachmentLocalPath);
-                                    }
+                                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                                        Resources.GetString("FileNotFound_Title"),
+                                        Resources.GetString("FileNotFound_Message"),
+                                        true);
+                                    return;
                                 }
+                                // HACK: This workflow is in place until API changes occur to save the attachment with its proper name and extension
+                                // when an attachment is downloaded, the API generates a random temp file name that cannot be opened unless renamed to have a proper extension
+                                // when an attachment is newly added, the API points to the file the user selected, so the name and extension are valid and the file can be opened directly
+                                var fileInfo = new FileInfo(attachment.Filename);
+                                var attachmentLocalPath = "";
+
+                                // if attachment was just added, its path still points to the location on disk, so open from there
+                                // otherwise, use dowload path 
+                                if (fileInfo.Exists)
+                                {
+                                    if (fileInfo.Name == attachment.Name)
+                                    {
+                                        attachmentLocalPath = attachment.Filename;
+                                    }
+                                    else
+                                    {
+                                        // create temp directory from the random attachment file name 
+                                        var directory = Path.Combine(fileInfo.DirectoryName, fileInfo.Name.Replace(".", ""));
+
+                                        if (!Directory.Exists(directory))
+                                        {
+                                            Directory.CreateDirectory(directory);
+                                        }
+
+                                        // place file into the newly created temp directory
+                                        attachmentLocalPath = Path.Combine(directory, attachment.Name);
+                                        if (!File.Exists(attachmentLocalPath))
+                                        {
+                                            File.Copy(attachment.Filename, attachmentLocalPath);
+                                        }
+                                    }
 #if WPF
-                                // in WPF, let Windows open the file with the application the user has set as default
-                                try
-                                {
-                                    Process.Start(attachmentLocalPath);
-                                }
-                                catch (System.ComponentModel.Win32Exception e)
-                                {
-                                    // This happens when the user cancels opening (e.g. the user got a security prompt and chose to cancel instead of opening).
-                                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, e.Message, true, e.StackTrace);
-                                }
+                                    // in WPF, let Windows open the file with the application the user has set as default
+                                    try
+                                    {
+                                        Process.Start(attachmentLocalPath);
+                                    }
+                                    catch (System.ComponentModel.Win32Exception e)
+                                    {
+                                        // This happens when the user cancels opening (e.g. the user got a security prompt and chose to cancel instead of opening).
+                                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, e.Message, true, e.StackTrace);
+                                    }
 #elif NETFX_CORE
                                 try
                                 {
@@ -217,17 +219,25 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                 // will throw if another platform is added without handling this 
                                 throw new NotImplementedException();
 #endif
-                            }
-                            else
-                            {
-                                UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                     Resources.GetString("FileNotFound_Title"),
-                                     Resources.GetString("FileNotFound_Message"),
-                                     true);
-                                return;
+                                }
+                                else
+                                {
+                                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                                         Resources.GetString("FileNotFound_Title"),
+                                         Resources.GetString("FileNotFound_Message"),
+                                         true);
+                                    return;
+                                }
                             }
                         }
-                        IsLoadingAttachments = false;
+                        catch (Exception e)
+                        {
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(null, e.Message, true, e.StackTrace);
+                        }
+                        finally
+                        {
+                            IsLoadingAttachments = false;
+                        }
                     }));
             }
         }
@@ -279,40 +289,49 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         internal async Task LoadAttachments()
         {
-            IsLoadingAttachments = true;
-            // clear any existing attachments in the collection
-            Attachments.Clear();
-
-            // create list of tasks to run in parallel
-            List<Task> tasks = new List<Task>();
-
-            if (AttachmentManager.Attachments == null)
+            try
             {
-                return;
-            }
+                IsLoadingAttachments = true;
+                // clear any existing attachments in the collection
+                Attachments.Clear();
 
-            // loop through attachments and add them to the collection
-            foreach (var attachment in AttachmentManager.Attachments)
-            {
-                var stagedAttachment = new StagedAttachment();
-                var loadTask = stagedAttachment.LoadAsync(attachment);
+                // create list of tasks to run in parallel
+                List<Task> tasks = new List<Task>();
+
+                if (AttachmentManager.Attachments == null)
+                {
+                    return;
+                }
+
+                // loop through attachments and add them to the collection
+                foreach (var attachment in AttachmentManager.Attachments)
+                {
+                    var stagedAttachment = new StagedAttachment();
+                    var loadTask = stagedAttachment.LoadAsync(attachment);
 
 
 #if WPF
-                // add attachment to collection using the UI thread (for the binding to work)
-                Application.Current.Dispatcher.Invoke(new Action(() => Attachments.Add(stagedAttachment)));
+                    // add attachment to collection using the UI thread (for the binding to work)
+                    Application.Current.Dispatcher.Invoke(new Action(() => Attachments.Add(stagedAttachment)));
 #else
                 // add attachment to collection
                 Attachments.Add(stagedAttachment);
 #endif
 
-                tasks.Add(loadTask);
+                    tasks.Add(loadTask);
+                }
+
+                // run parallel tasks
+                await Task.WhenAll(tasks);
             }
-
-            // run parallel tasks
-            await Task.WhenAll(tasks);
-
-            IsLoadingAttachments = false;
+            catch (Exception e)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(null, e.Message, true, e.StackTrace);
+            }
+            finally
+            {
+                IsLoadingAttachments = false;
+            }
         }
 
         /// <summary>

@@ -41,7 +41,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         private WeakReference<MapView> _mapViewWeakRef;
         private bool _isIdentifyInProgress;
         private bool _wasMapViewDoubleTapped;
-        private CancellationTokenSource _canellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         /// <summary>
         /// Gets or sets the MapView on which to perform identify operations
@@ -121,8 +121,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
 
                 if (IsIdentifyInProgress)
                 {
-                    _canellationTokenSource.Cancel();
-                    _canellationTokenSource = new CancellationTokenSource();
+                    _cancellationTokenSource.Cancel();
+                    _cancellationTokenSource = new CancellationTokenSource();
                 }
 
                 IsIdentifyInProgress = true;
@@ -146,17 +146,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
 
                 IReadOnlyList<IdentifyLayerResult> layerResults = null;
                 IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults = null;
-                CancellationTokenSource _currentSource = _canellationTokenSource;
+                CancellationTokenSource _currentSource = _cancellationTokenSource;
                 if (target == null)
                 {
                     // An identify target is not specified, so identify all layers and overlays
                     var identifyLayersTask = mapView.IdentifyLayersAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
                     var identifyOverlaysTask = mapView.IdentifyGraphicsOverlaysAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
                     await Task.WhenAll(identifyLayersTask, identifyOverlaysTask);
-                    if (_currentSource.IsCancellationRequested)
-                    {
-                        return;
-                    }
                     layerResults = identifyLayersTask.Result;
                     graphicsOverlayResults = identifyOverlaysTask.Result;
                 }
@@ -170,10 +166,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
                 {
                     // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
                     var identifyResult = await mapView.IdentifyGraphicsOverlayAsync(targetOverlay, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
-                    if (_currentSource.IsCancellationRequested)
-                    {
-                        return;
-                    }
                     graphicsOverlayResults = new List<IdentifyGraphicsOverlayResult> { identifyResult }.AsReadOnly();
                 }
                 else if (target is ArcGISSublayer sublayer)
@@ -189,6 +181,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
 
                         layerResults = new List<IdentifyLayerResult> { sublayerIdentifyResult }.AsReadOnly();
                     }
+                }
+
+                // This check is needed because IdentifyGraphicsOverlay doesn't support cancellation.
+                if (_currentSource.IsCancellationRequested)
+                {
+                    return;
                 }
                 OnIdentifyCompleted(layerResults, graphicsOverlayResults);
             }
