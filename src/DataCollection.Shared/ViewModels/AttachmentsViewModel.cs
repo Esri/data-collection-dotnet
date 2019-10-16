@@ -163,69 +163,43 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                         true);
                                     return;
                                 }
-                                // HACK: This workflow is in place until API changes occur to save the attachment with its proper name and extension
-                                // when an attachment is downloaded, the API generates a random temp file name that cannot be opened unless renamed to have a proper extension
-                                // when an attachment is newly added, the API points to the file the user selected, so the name and extension are valid and the file can be opened directly
-                                var fileInfo = new FileInfo(attachment.Filename);
-                                var attachmentLocalPath = "";
 
-                                // if attachment was just added, its path still points to the location on disk, so open from there
-                                // otherwise, use dowload path 
+                                var fileInfo = new FileInfo(attachment.Filename);
+
                                 if (fileInfo.Exists)
                                 {
-                                    if (fileInfo.Name == attachment.Name)
-                                    {
-                                        attachmentLocalPath = attachment.Filename;
-                                    }
-                                    else
-                                    {
-                                        // create temp directory from the random attachment file name 
-                                        var directory = Path.Combine(fileInfo.DirectoryName, fileInfo.Name.Replace(".", ""));
-
-                                        if (!Directory.Exists(directory))
-                                        {
-                                            Directory.CreateDirectory(directory);
-                                        }
-
-                                        // place file into the newly created temp directory
-                                        attachmentLocalPath = Path.Combine(directory, attachment.Name);
-                                        if (!File.Exists(attachmentLocalPath))
-                                        {
-                                            File.Copy(attachment.Filename, attachmentLocalPath);
-                                        }
-                                    }
-#if WPF
+    #if WPF
                                     // in WPF, let Windows open the file with the application the user has set as default
                                     try
                                     {
-                                        Process.Start(attachmentLocalPath);
+                                        Process.Start(attachment.Filename);
                                     }
                                     catch (System.ComponentModel.Win32Exception e)
                                     {
                                         // This happens when the user cancels opening (e.g. the user got a security prompt and chose to cancel instead of opening).
                                         UserPromptMessenger.Instance.RaiseMessageValueChanged(null, e.Message, true, e.StackTrace);
                                     }
-#elif NETFX_CORE
-                                try
-                                {
-                                    var storageFile = await StorageFile.GetFileFromPathAsync(attachmentLocalPath);
-                                    await Windows.System.Launcher.LaunchFileAsync(storageFile);
-                                }
-                                catch (Exception ex)
-                                {
-                                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                                }
-#else
-                                // will throw if another platform is added without handling this 
-                                throw new NotImplementedException();
-#endif
+    #elif NETFX_CORE
+                                    try
+                                    {
+                                        var storageFile = await StorageFile.GetFileFromPathAsync(attachment.Filename);
+                                        await Windows.System.Launcher.LaunchFileAsync(storageFile);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                                    }
+    #else
+                                    // will throw if another platform is added without handling this 
+                                    throw new NotImplementedException();
+    #endif
                                 }
                                 else
                                 {
                                     UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                         Resources.GetString("FileNotFound_Title"),
-                                         Resources.GetString("FileNotFound_Message"),
-                                         true);
+                                        Resources.GetString("FileNotFound_Title"),
+                                        Resources.GetString("FileNotFound_Message"),
+                                        true);
                                     return;
                                 }
                             }
