@@ -9,11 +9,11 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <converters:PopupFieldToFormattedValueConverter x:Key="PopupFieldFormatConverter" />
+        <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
     </UserControl.Resources>
     <Grid>
         <!--  Attribute information for the destination relationship selected  -->
-        <ItemsControl ItemsSource="{x:Bind DestinationRelationshipViewModel.PopupManager.DisplayedFields, Mode=OneWay}">
+        <ItemsControl ItemsSource="{x:Bind DestinationRelationshipViewModel.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -24,7 +24,7 @@
                         <TextBlock
                             Margin="12,5,0,5"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{Binding Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                            Text="{Binding ReformattedValue, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BusyWaitingMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\WaitStatusChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OriginRelationship.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\RealPopupFieldValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StagedAttachment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BroadcastMessageKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConnectivityMode.cs" />

@@ -16,74 +16,32 @@
 
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
-using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
+using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 #if NETFX_CORE
 using Windows.UI.Xaml.Data;
 using CustomCultureInfo = System.String;
 #else
 using System.Windows.Data;
-using System.Windows;
 using CustomCultureInfo = System.Globalization.CultureInfo;
 #endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
 {
-    class PopupFieldToFormattedValueConverter : IValueConverter
+    class DisplayedFieldsToRealDisplayedFieldsConverter : IValueConverter
     {
         // Gets the FormattedValue for PopupFieldValue; uses popup manager for everything but dates.
         // For DateTimes, the value is represented in the local time zone.
         public object Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-            if (value is PopupFieldValue fieldValue)
+            if (value is IEnumerable<PopupFieldValue> displayedFields)
             {
-                if (fieldValue.Value is DateTimeOffset dateTimeValue)
-                {
-                    var localDateTime = dateTimeValue.ToLocalTime().DateTime;
-
-                    if (fieldValue.Field.Format?.DateFormat != null)
-                    {
-                        switch (fieldValue.Field.Format.DateFormat)
-                        {
-                            case PopupDateFormat.DayShortMonthYear:
-                                return localDateTime.ToString("d MMM yyyy");
-                            case PopupDateFormat.LongDate:
-                                return localDateTime.ToString("dddd, MMMM d, yyyy");
-                            case PopupDateFormat.LongMonthDayYear:
-                                return localDateTime.ToString("MMMM d, yyyy");
-                            case PopupDateFormat.LongMonthYear:
-                                return localDateTime.ToString("MMMM yyyy");
-                            case PopupDateFormat.ShortDate:
-                                return localDateTime.ToString("M/d/yyyy");
-                            case PopupDateFormat.ShortDateLE:
-                                return localDateTime.ToString("d/M/yyyy");
-                            case PopupDateFormat.ShortDateLELongTime:
-                                return localDateTime.ToString("d/M/yyyy h:mm:ss tt");
-                            case PopupDateFormat.ShortDateLELongTime24:
-                                return localDateTime.ToString("d/M/yyyy H:mm:ss");
-                            case PopupDateFormat.ShortDateLEShortTime:
-                                return localDateTime.ToString("d/M/yyyy h:mm tt");
-                            case PopupDateFormat.ShortDateLEShortTime24:
-                                return localDateTime.ToString("d/M/yyyy H:mm");
-                            case PopupDateFormat.ShortDateLongTime:
-                                return localDateTime.ToString("M/d/yyyy h:mm:ss tt");
-                            case PopupDateFormat.ShortDateLongTime24:
-                                return localDateTime.ToString("M/d/yyyy H:mm:ss");
-                            case PopupDateFormat.ShortDateShortTime:
-                                return localDateTime.ToString("M/d/yyyy h:mm tt");
-                            case PopupDateFormat.ShortDateShortTime24:
-                                return localDateTime.ToString("M/d/yyyy H:mm");
-                            case PopupDateFormat.ShortMonthYear:
-                                return localDateTime.ToString("MMM yyyy");
-                            case PopupDateFormat.Year:
-                                return localDateTime.ToString();
-                        }
-                    }
-                    return localDateTime.ToString();
-                }
-                else
-                {
-                    return fieldValue.FormattedValue;
-                }
+                return displayedFields.Select(field => new RealPopupFieldValue(field));
+            }
+            else if (value is PopupFieldValue displayedField)
+            {
+                return new RealPopupFieldValue(displayedField);
             }
             return value;
         }

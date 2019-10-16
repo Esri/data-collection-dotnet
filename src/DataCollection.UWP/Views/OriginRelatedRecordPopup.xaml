@@ -15,7 +15,7 @@
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <converters:PopupFieldToFormattedValueConverter x:Key="PopupFieldFormatConverter" />
+            <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -29,7 +29,7 @@
                 <StackPanel Orientation="Vertical">
                     <!--  Origin related record in View mode  -->
                     <ItemsControl
-                        ItemsSource="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.DisplayedFields, Mode=OneWay}"
+                        ItemsSource="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                         <ItemsControl.ItemTemplate>
@@ -41,7 +41,7 @@
                                     <TextBlock
                                         Margin="5"
                                         Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
+                                        Text="{Binding ReformattedValue, Mode=OneWay}"
                                         TextWrapping="Wrap" />
                                 </StackPanel>
                             </DataTemplate>
