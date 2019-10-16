@@ -86,6 +86,8 @@ Tapping or clicking the map performs an identify function on the map. The closes
 
 ![Identified Map Feature](/Documentation/img/anatomy-identified-feature.png)
 
+If a feature has attachments, you can switch to the attachments tab to view them. The name and size of each attachment is displayed.
+
 ### Add map feature
 
 If the map contains a spatial feature layer that adheres to the rules specified in the section entitled [_Add Feature Rules_](#add-feature-rules), the add feature button is enabled. Tapping this button begins the process of adding a new record to the map.
@@ -116,7 +118,9 @@ The pop-up's attributes configured as editable can be edited and validated inlin
 
 As values for fields are updated, the app informs the user of invalid changes and why they are invalid. The pop-up won't save if there are invalid fields.
 
-Edits can be discarded by tapping X button next to the save button. Saving the changes requires every field to pass validation and can be committed by tapping the save button
+When editing, you can add attachments. On UWP, you can take a picture if the device has a webcam. Both UWP and WPF implementations allow you to browse the file system to add a file attachment.
+
+Edits can be discarded by tapping X button next to the save button. Saving the changes requires every field to pass validation and can be committed by tapping the save button.
 
 **Editing a Pop-up's Related Records**
 
@@ -682,7 +686,13 @@ Because the *Trees of Portland* web map stores the results of a geocode operatio
 
 ### Solution overview
 
-The Data Collection app is built with cross platform adaptability in mind. While the current implementation only contains WPF, the app's code is separated into a WPF project which contains all the WPF specific code, and a Shared project which contains all the code that can be used cross platform if a UWP or Xamarin project was to be added to the solution.
+The Data Collection app is built with cross platform adaptability in mind. The app's code is separated into three projects:
+
+* **DataCollection.Shared** - contains shared code that applies to both platforms.
+* **DataCollection.UWP** - UWP UI.
+* **DataCollection.WPF** - WPF UI.
+
+Just as the UWP and WPF projects refer to the shared code project, Xamarin projects can be added to support mobile platforms.
 
 ### Model-View-ViewModel pattern
 
@@ -738,7 +748,7 @@ private void MapView_ViewpointChanged(object sender, EventArgs e)
 
 ### General application organization
 
-The app has one main view (`MainWindow` in WPF) and several smaller views that are driven by actions in the main view. The `MainViewModel` is the entry point into the app and acts as both a viewmodel and a viewmodel manager for several smaller, limited lifespan viewmodels. See the [_viewModels organization_](#viewModels-organization) section for more details. Communication of changed properties within the app is performed mostly through bindings and the use of the `INotifyPropertyChanged` implementation. However, there is some communication that occurs which is not served well by these methods. The app uses `Messenger` classes to raise and retrieve changed values. One example of such a property is the app's `ConnectivityMode` property which has multiple instances which all need to be kept in sync throughout the app.
+The app has one main view (`MainWindow` in WPF and `MainPage` in UWP) and several smaller views that are driven by actions in the main view. The `MainViewModel` is the entry point into the app and acts as both a viewmodel and a viewmodel manager for several smaller, limited lifespan viewmodels. See the [_viewModels organization_](#viewModels-organization) section for more details. Communication of changed properties within the app is performed mostly through bindings and the use of the `INotifyPropertyChanged` implementation. However, there is some communication that occurs which is not served well by these methods. The app uses `Messenger` classes to raise and retrieve changed values. One example of such a property is the app's `ConnectivityMode` property which has multiple instances which all need to be kept in sync throughout the app.
 
 ### App modes
 
