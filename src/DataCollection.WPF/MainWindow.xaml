@@ -11,7 +11,7 @@
     xmlns:utils="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils"
     xmlns:viewModels="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels"
     xmlns:views="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views"
-    Title="Data Collection for WPF"
+    Title="Data Collection for .NET (WPF)"
     Width="790"
     Height="525"
     MinWidth="900"
