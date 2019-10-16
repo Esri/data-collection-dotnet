@@ -65,21 +65,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
             {
                 // create thumbnail for the image attachments
                 case PopupAttachmentType.Image:
-                    try
-                    {
-                        var rtImage = await attachment.CreateThumbnailAsync(50, 50);
-                        Thumbnail = await rtImage.ToImageSourceAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        // API currently does not support generating thumbnails for GIFs 
-                        if (ex.Message == "Conversion failed exception: Unsupported image file format.")
-                            Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentImage.png"));
-                        else
-                            UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                    }
+                    Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentImage.png"));
                     break;
-
                 // use placeholder images for the rest of the attachments
                 case PopupAttachmentType.Video:
                     Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentVideo.png"));
@@ -100,25 +87,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                 // create thumbnail for the image attachments
                 // must do this on UI thread due to bindings 
                 case PopupAttachmentType.Image:
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
-                        try
-                        {
-                            var rtImage = await attachment.CreateThumbnailAsync(50, 50);
-                            Thumbnail = await rtImage.ToImageSourceAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            // API currently does not support generating thumbnails for GIFs 
-                            if (ex.Message == "Conversion failed exception: Unsupported image file format.")
-                            {
-                                Thumbnail = new BitmapImage(new Uri("ms-appx:///Assets/AttachmentImage.png"));
-                            }
-                            else
-                            {
-                                UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                            }
-                        }
+                        Thumbnail = new BitmapImage(new Uri("ms-appx:///Assets/AttachmentImage.png"));
                     });
                     break;
 
