@@ -37,11 +37,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
         {
             if (value is IEnumerable<PopupFieldValue> displayedFields)
             {
-                return displayedFields.Select(field => new RealPopupFieldValue(field));
+                return displayedFields.Select(field => new WrappedPopupFieldValue(field));
             }
             else if (value is PopupFieldValue displayedField)
             {
-                return new RealPopupFieldValue(displayedField);
+                return new WrappedPopupFieldValue(displayedField);
             }
             return value;
         }

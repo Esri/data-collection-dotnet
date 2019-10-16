@@ -25,11 +25,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
     /// Needed because FormattedValue formats dates in UTC, which causes awkward behavior when editing, since users expect local time zone.
     /// A converter would work, but then you'd need to bind to the PopupField itself, which breaks property change notification for the FormattedValue property.
     /// </summary>
-    public class RealPopupFieldValue : INotifyPropertyChanged
+    public class WrappedPopupFieldValue : INotifyPropertyChanged
     {
         private PopupFieldValue _wrappedValue;
 
-        public RealPopupFieldValue(PopupFieldValue baseValue)
+        public WrappedPopupFieldValue(PopupFieldValue baseValue)
         {
             _wrappedValue = baseValue;
             _wrappedValue.PropertyChanged += wrappedValue_propertyChanged;
@@ -37,10 +37,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
 
         private void wrappedValue_propertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.PropertyChanged?.Invoke(this, e);
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReformattedValue)));
+            PropertyChanged?.Invoke(this, e);
+
+            // Also raise property change events for Formatted Value, because it may have changed.
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReformattedValue)));
         }
 
+        /// <summary>
+        /// Converts dates before formatting the way <see cref="FormattedValue"/> would.
+        /// If you want times in UTC, bind to <see cref="FormattedValue"/> directly.
+        /// </summary>
         public string ReformattedValue
         {
             get
@@ -93,18 +99,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
             }
         }
 
+        // Wrap PopupFieldValue properties for binding convenience.
         public PopupField Field => _wrappedValue.Field;
-
         public object Value => _wrappedValue.Value;
-
         public string FormattedValue => _wrappedValue.FormattedValue;
-
         public Exception ValidationError => _wrappedValue.ValidationError;
-
         public object OriginalValue => _wrappedValue.OriginalValue;
-
         public bool HasChanges => _wrappedValue.HasChanges;
-
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
