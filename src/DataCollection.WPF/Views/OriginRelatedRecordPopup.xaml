@@ -135,7 +135,7 @@
                                     Margin="10,0,0,0"
                                     BorderThickness="0"
                                     IsEnabled="False"
-                                    Text="{Binding FormattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay, ConverterParameter=.}"
+                                    Text="{Binding Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </DataTemplate>
