@@ -55,45 +55,43 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                 {
                     var localDateTime = dateValue.ToLocalTime().DateTime;
 
-                    if (Field.Format?.DateFormat != null)
+                    switch (Field.Format?.DateFormat)
                     {
-                        switch (Field.Format.DateFormat)
-                        {
-                            case PopupDateFormat.DayShortMonthYear:
-                                return localDateTime.ToString("d MMM yyyy");
-                            case PopupDateFormat.LongDate:
-                                return localDateTime.ToString("dddd, MMMM d, yyyy");
-                            case PopupDateFormat.LongMonthDayYear:
-                                return localDateTime.ToString("MMMM d, yyyy");
-                            case PopupDateFormat.LongMonthYear:
-                                return localDateTime.ToString("MMMM yyyy");
-                            case PopupDateFormat.ShortDate:
-                                return localDateTime.ToString("M/d/yyyy");
-                            case PopupDateFormat.ShortDateLE:
-                                return localDateTime.ToString("d/M/yyyy");
-                            case PopupDateFormat.ShortDateLELongTime:
-                                return localDateTime.ToString("d/M/yyyy h:mm:ss tt");
-                            case PopupDateFormat.ShortDateLELongTime24:
-                                return localDateTime.ToString("d/M/yyyy H:mm:ss");
-                            case PopupDateFormat.ShortDateLEShortTime:
-                                return localDateTime.ToString("d/M/yyyy h:mm tt");
-                            case PopupDateFormat.ShortDateLEShortTime24:
-                                return localDateTime.ToString("d/M/yyyy H:mm");
-                            case PopupDateFormat.ShortDateLongTime:
-                                return localDateTime.ToString("M/d/yyyy h:mm:ss tt");
-                            case PopupDateFormat.ShortDateLongTime24:
-                                return localDateTime.ToString("M/d/yyyy H:mm:ss");
-                            case PopupDateFormat.ShortDateShortTime:
-                                return localDateTime.ToString("M/d/yyyy h:mm tt");
-                            case PopupDateFormat.ShortDateShortTime24:
-                                return localDateTime.ToString("M/d/yyyy H:mm");
-                            case PopupDateFormat.ShortMonthYear:
-                                return localDateTime.ToString("MMM yyyy");
-                            case PopupDateFormat.Year:
-                                return localDateTime.ToString();
-                        }
+                        case PopupDateFormat.DayShortMonthYear:
+                            return localDateTime.ToString("d MMM yyyy");
+                        case PopupDateFormat.LongDate:
+                            return localDateTime.ToString("dddd, MMMM d, yyyy");
+                        case PopupDateFormat.LongMonthDayYear:
+                            return localDateTime.ToString("MMMM d, yyyy");
+                        case PopupDateFormat.LongMonthYear:
+                            return localDateTime.ToString("MMMM yyyy");
+                        case PopupDateFormat.ShortDate:
+                            return localDateTime.ToString("M/d/yyyy");
+                        case PopupDateFormat.ShortDateLE:
+                            return localDateTime.ToString("d/M/yyyy");
+                        case PopupDateFormat.ShortDateLELongTime:
+                            return localDateTime.ToString("d/M/yyyy h:mm:ss tt");
+                        case PopupDateFormat.ShortDateLELongTime24:
+                            return localDateTime.ToString("d/M/yyyy H:mm:ss");
+                        case PopupDateFormat.ShortDateLEShortTime:
+                            return localDateTime.ToString("d/M/yyyy h:mm tt");
+                        case PopupDateFormat.ShortDateLEShortTime24:
+                            return localDateTime.ToString("d/M/yyyy H:mm");
+                        case PopupDateFormat.ShortDateLongTime:
+                            return localDateTime.ToString("M/d/yyyy h:mm:ss tt");
+                        case PopupDateFormat.ShortDateLongTime24:
+                            return localDateTime.ToString("M/d/yyyy H:mm:ss");
+                        case PopupDateFormat.ShortDateShortTime:
+                            return localDateTime.ToString("M/d/yyyy h:mm tt");
+                        case PopupDateFormat.ShortDateShortTime24:
+                            return localDateTime.ToString("M/d/yyyy H:mm");
+                        case PopupDateFormat.ShortMonthYear:
+                            return localDateTime.ToString("MMM yyyy");
+                        case PopupDateFormat.Year:
+                        case null:
+                        default:
+                            return localDateTime.ToString();
                     }
-                    return localDateTime.ToString();
                 }
                 return FormattedValue;
             }
