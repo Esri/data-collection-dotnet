@@ -70,7 +70,7 @@ A user may need to collect data in a location where they are disconnected from t
 
 ![Download Map Offline Extent](/Documentation/img/anatomy-offline-extent.png)
 
-When taking the web map offline, the app asks the user to specify the area of the web map they want to take offline. The app makes use of the offline map creation [on-demand workflow](/net/latest/wpf/guide/offline.htm#ESRI_SECTION1_AAADEDF10BF24FDF88DBF6EF04DF8579). After the generate offline map job finishes, the app enters offline work mode and loads the offline mobile map package.
+When taking the web map offline, the app asks the user to specify the area of the web map they want to take offline. The app makes use of the offline map creation [on-demand workflow](https://developers.arcgis.com/net/latest/wpf/guide/offline.htm#ESRI_SECTION1_AAADEDF10BF24FDF88DBF6EF04DF8579). After the generate offline map job finishes, the app enters offline work mode and loads the offline mobile map package.
 
 > If you perform this behavior using *Trees of Portland* you should expect the download job to take 10 minutes or so to complete.
 
@@ -126,7 +126,7 @@ For related records where the pop-up is the parent in the related record relatio
 
 ## Using web maps
 
-You can author your own web maps in [Portal/ArcGIS Online](http://enterprise.arcgis.com/en/portal/latest/use/what-is-web-map.htm) or [ArcGIS Desktop](http://desktop.arcgis.com/en/maps/) and share them in your app via your Portal; this is the central power of the Web GIS model built into ArcGIS. Building an app which uses a web map allows the cartography and map configuration to be completed in Portal rather than in code. This then allows the map to change over time, without any code changes or app updates. Learn more about the benefits of developing with web maps [here](/web-map-specification/). Also, learn about authoring web maps in [Portal/ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm) and [ArcGIS Pro](http://pro.arcgis.com/en/pro-app/help/mapping/map-authoring/author-a-basemap.htm).
+You can author your own web maps in [Portal/ArcGIS Online](http://enterprise.arcgis.com/en/portal/latest/use/what-is-web-map.htm) or [ArcGIS Desktop](http://desktop.arcgis.com/en/maps/) and share them in your app via your Portal; this is the central power of the Web GIS model built into ArcGIS. Building an app which uses a web map allows the cartography and map configuration to be completed in Portal rather than in code. This then allows the map to change over time, without any code changes or app updates. Learn more about the benefits of developing with web maps [here](https://developers.arcgis.com/web-map-specification/). Also, learn about authoring web maps in [Portal/ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm) and [ArcGIS Pro](http://pro.arcgis.com/en/pro-app/help/mapping/map-authoring/author-a-basemap.htm).
 
 Loading web maps in code is easy; the app loads a web map from a Portal (which may require the user to sign in, see the [_identity model_](#identity-model) section) with the following code:
 
@@ -186,11 +186,11 @@ These attributes' values are accompanied by a title label, which is configured b
 
 ## Identity model
 
-The app leverages the ArcGIS [identity](/authentication/) model to provide access to resources via the [named user](/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured webmaps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
+The app leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured webmaps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
-![ArcGIS Identity Model](/Documentation/img/identity.png)
+![ArcGIS Identity Model](https://developers.arcgis.com/Documentation/img/identity.png)
 
 1. A request is made to a secured resource.
 2. The portal responds with an unauthorized access error.
@@ -199,7 +199,7 @@ The process of accessing token secured services with a challenge handler is illu
 5. If the user is successfully authenticated, a credential (token) is included in requests to the secured service.
 6. The identity manager stores the credential for this portal and all requests for secured content includes the token in the request.
 
-For an application to use this pattern, follow these [guides](/authentication/signing-in-arcgis-online-users/) to register your app.
+For an application to use this pattern, follow these [guides](https://developers.arcgis.com/authentication/signing-in-arcgis-online-users/) to register your app.
 
 The `AutenticationManager` is set up when the app starts and a challenge handler is configured. A challenge by the authentication manager occurs when a request is made to access a secured resource for which the authentication manager has no credential.
 
@@ -244,7 +244,7 @@ public Task<IDictionary<string, string>> AuthorizeAsync(Uri serviceUri, Uri auth
 
 When the user successfully authenticates, a URI is passed from the web browser control. The URI is decoded and passed back to the `AuthenticationManager` to retrieve the token. The .NET app retrieves all the necessary information (`AppClientID` and `RedirectURL`) to set up the `AuthenticationManager` from the [Configuration](#configuration-and-customization) file.
 
-Note the value for `RedirectURL`. Combined with the text `auth` to make `data-collection://auth`, this is the [redirect URI](/authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app on your [developer dashboard](/applications). For more details on the user authorization flow, see the [Authorize REST API](/rest/users-groups-and-items/authorize.htm).
+Note the value for `RedirectURL`. Combined with the text `auth` to make `data-collection://auth`, this is the [redirect URI](https://developers.arcgis.com/authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app on your [developer dashboard](https://developers.arcgis.com/applications). For more details on the user authorization flow, see the [Authorize REST API](https://developers.arcgis.com/rest/users-groups-and-items/authorize.htm).
 
 For more details on configuring the app for OAuth, see [the main README.md](https://github.com/esri/data-collection-dotnet).
 
@@ -296,7 +296,7 @@ An `IdentifiedFeaturePopup` view was designed to view and edit a pop-up. The vie
 
 The title of the pop-up view reflects the title of the pop-up as configured in portal. The `IdentifiedFeaturePopup` view is tabled-based and populates itself with attribute and related record content in the following ways.
 
-![Pop-up View Anatomy Relationships](/Documentation/img/anatomy-popup-view-relationships.png)
+![Pop-up View Anatomy Relationships](https://developers.arcgis.com/Documentation/img/anatomy-popup-view-relationships.png)
 
 **Pop-up Attributes**
 
@@ -579,7 +579,7 @@ internal static async Task<string> GetNeighborhoodForAddedFeature(FeatureTable n
 
 The app's base data model object, `Popup`, can be broken down generally into two parts. The first is the pop-up's `GeoElement` which in our case is always an instance of an `ArcGISFeature`. The second is the web map's configuration of that feature as a `Popup`, defined by a `PopupDefinition`.
 
-Editing of a `Popup` is facilitated by the [`PopupManager`](/net/latest/wpf/api-reference/html/T_Esri_ArcGISRuntime_Mapping_Popups_PopupManager.htm).
+Editing of a `Popup` is facilitated by the [`PopupManager`](https://developers.arcgis.com/net/latest/wpf/api-reference/html/T_Esri_ArcGISRuntime_Mapping_Popups_PopupManager.htm).
 
 #### Creating features
 
@@ -674,7 +674,7 @@ catch
 }
 ```
 
-Because the *Trees of Portland* web map stores the results of a geocode operation, the reverse geocode parameters must have set `IsForStorage = true`. For more on the world geocoding service visit the [developers website](/rest/geocode/api-reference/overview-world-geocoding-service.htm).
+Because the *Trees of Portland* web map stores the results of a geocode operation, the reverse geocode parameters must have set `IsForStorage = true`. For more on the world geocoding service visit the [developers website](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm).
 
 > The side-loaded geocoder was generated statically whereas the world geocoder service remains current. You might notice a difference in the results between geocoders.
 
