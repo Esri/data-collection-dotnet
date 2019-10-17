@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\LocalizationConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\PopupFieldToFormattedValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BytesToHumanReadableSizeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ProgressToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FeatureExtensions.cs" />
@@ -30,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BusyWaitingMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\WaitStatusChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OriginRelationship.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\WrappedPopupFieldValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StagedAttachment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BroadcastMessageKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ConnectivityMode.cs" />

@@ -4,13 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
-
+    <UserControl.Resources>
+        <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
+    </UserControl.Resources>
     <Grid>
         <!--  Attribute information for the destination relationship selected  -->
-        <ItemsControl ItemsSource="{x:Bind DestinationRelationshipViewModel.PopupManager.DisplayedFields, Mode=OneWay}">
+        <ItemsControl ItemsSource="{x:Bind DestinationRelationshipViewModel.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -21,7 +24,7 @@
                         <TextBlock
                             Margin="12,5,0,5"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{Binding FormattedValue, Mode=OneWay}" />
+                            Text="{Binding ReformattedValue, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
