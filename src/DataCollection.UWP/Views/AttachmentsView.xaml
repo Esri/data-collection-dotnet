@@ -5,20 +5,36 @@
     xmlns:converters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:LocalizationConverter x:Key="LocalizationConverter" />
+            <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
+            <converters:BytesToHumanReadableSizeConverter x:Key="BytesToHumanReadableSizeConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ProgressBar
+            Grid.Row="0"
+            IsIndeterminate="True"
+            Margin="0,0,0,10"
+            Visibility="{Binding AttachmentsViewModel.IsLoadingAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
         <!--  Wrap panel containing attachment thumbnails and names  -->
         <ListView x:Name="AttachmentsItemsControl"
-                      ItemsSource="{Binding AttachmentsViewModel.Attachments, Mode=OneWay}"
-                      SelectionMode="None">
+                  Grid.Row="1"
+                  ItemsSource="{Binding AttachmentsViewModel.Attachments, Mode=OneWay}"
+                  Visibility="{Binding AttachmentsViewModel.Attachments, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter},ConverterParameter='Inverse'}"
+                  SelectionMode="None">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -33,42 +49,65 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid HorizontalAlignment="Stretch">
+                <DataTemplate x:DataType="models:StagedAttachment">
+                    <Grid HorizontalAlignment="Stretch" ColumnSpacing="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Button
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image 
                             Grid.Column="0"
-                            Width="50"
-                            Height="50"
-                            Margin="0,5,5,5"
-                            Padding="0"
-                            Command="{Binding ElementName=AttachmentsItemsControl, Path=DataContext.AttachmentsViewModel.OpenAttachmentCommand, Mode=OneWay}"
-                            CommandParameter="{Binding Attachment, Mode=OneWay}">
-                            <Button.Content>
-                                <Image Source="{Binding Thumbnail, Mode=OneWay}" />
-                            </Button.Content>
-                        </Button>
+                            Grid.Row="0" Grid.RowSpan="2"
+                            Height="40" Width="40"
+                            Source="{Binding Thumbnail, Mode=OneWay}" />                        
                         <TextBlock
                             Grid.Column="1"
-                            Padding="5"
+                            Grid.Row="0"
                             VerticalAlignment="Center"
                             Text="{Binding Attachment.Name, Mode=OneWay}"
-                            TextWrapping="Wrap" />
+                            FontWeight="SemiBold"
+                            TextWrapping="NoWrap" />
+                        <TextBlock 
+                            Grid.Row="1" Grid.Column="1"
+                            Text="{Binding Attachment.Size, Converter={StaticResource BytesToHumanReadableSizeConverter}}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Opacity="0.6"/>
                         <Button
                             Grid.Column="2"
+                            Grid.Row="0" Grid.RowSpan="2"
                             HorizontalAlignment="Right"
                             Command="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.AttachmentsViewModel.DeleteAttachmentCommand}"
                             CommandParameter="{Binding Attachment}"
                             Content="&#xE74D;"
                             FontFamily="Segoe MDL2 Assets"
-                            Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
+                            Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}"/>
+                        <Button
+                            Grid.Column="3"
+                            Grid.Row="0" Grid.RowSpan="2"
+                            HorizontalAlignment="Right"
+                            Content="&#xE8A7;"
+                            FontFamily="Segoe MDL2 Assets"
+                            Command="{Binding ElementName=AttachmentsItemsControl, Path=DataContext.AttachmentsViewModel.OpenAttachmentCommand, Mode=OneWay}"
+                            CommandParameter="{Binding Attachment, Mode=OneWay}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}">
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <TextBlock Grid.Row="0"
+                   Grid.RowSpan="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=NoAttachmentsFound_Message}" 
+                   Style="{ThemeResource SubtitleTextBlockStyle}"
+                   Visibility="{Binding AttachmentsViewModel.Attachments, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter}}" />
     </Grid>
 </UserControl>

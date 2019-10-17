@@ -16,6 +16,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../ResourceDictionary.xaml" />
@@ -120,7 +121,7 @@
                 <!--  Origin related record in View mode  -->
                 <ItemsControl
                     Margin="3"
-                    ItemsSource="{Binding PopupManager.DisplayedFields}"
+                    ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                     <ItemsControl.ItemTemplate>
@@ -134,7 +135,7 @@
                                     Margin="10,0,0,0"
                                     BorderThickness="0"
                                     IsEnabled="False"
-                                    Text="{Binding FormattedValue, Mode=OneWay}"
+                                    Text="{Binding ReformattedValue, Mode=OneWay}"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </DataTemplate>
