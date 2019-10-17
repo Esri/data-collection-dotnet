@@ -7,6 +7,8 @@
     xmlns:localConverters="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:utilities="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities"
+    xmlns:controls="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Controls"
+    xmlns:models="using:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -34,13 +36,12 @@
                             Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
                     </StackPanel>
                 </DataTemplate>
-                <DataTemplate x:Key="DateTemplate" x:Name="DateTemplate">
+                <DataTemplate x:Key="DateTemplate" x:Name="DateTemplate" x:DataType="models:FieldContainer">
                     <StackPanel>
                         <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
-                        <CalendarDatePicker
+                        <controls:NullReadyCalendarDatePicker
                             HorizontalAlignment="Stretch"
                             Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
-                            Loaded="CalendarDatePicker_Loaded"
                             Margin="{StaticResource FieldMargin}"
                             PlaceholderText="Select date" />
                         <TextBlock

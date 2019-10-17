@@ -20,7 +20,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-            <localConverters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
+            <localConverters:TitleBarConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
             <ControlTemplate x:Key="BladeItemTemplate" TargetType="controls:BladeItem">
                 <!-- Template modified from source found at https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/e29e20ae3726dc68ea97921bb3762042301b9760/Microsoft.Toolkit.Uwp.UI.Controls/BladeView/BladeView.xaml -->
                 <Grid BorderBrush="{TemplateBinding BorderBrush}"
@@ -86,6 +86,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -104,7 +105,8 @@
         <CommandBar
             Grid.Row="0"
             Grid.ColumnSpan="3"
-            Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}">
+            Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}"
+            Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
             <CommandBar.Content>
                 <TextBlock
                     Margin="15,0,0,0"
@@ -114,7 +116,8 @@
             <AppBarButton
                 x:Uid="CurrentLocationButton"
                 Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}"
-                IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}">
+                IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}"
+                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
                 </AppBarButton.Icon>
@@ -122,6 +125,7 @@
             <AppBarButton
                 x:Uid="AddFeatureButton"
                 Icon="Add"
+                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                 IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
                 Visibility="{x:Bind MainViewModel.IsLocationOnlyMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                 <interactivity:Interaction.Behaviors>
@@ -271,6 +275,7 @@
         <esri:MapView
             x:Name="MapView"
             Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.ColumnSpan="3"
             utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
             DataContext="{x:Bind MainViewModel}"
@@ -283,9 +288,11 @@
             </utils:MapViewExtensions.LocationDisplayController>
         </esri:MapView>
 
+        
+
         <!--  Compass control that displays when user rotates the map  -->
         <toolkit:Compass
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="2"
             Margin="20"
             VerticalAlignment="Bottom"
@@ -358,6 +365,7 @@
         <!--  BladeView control that contains the popups for identified features and related records  -->
         <controls:BladeView
             Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.Column="0"
             BladeClosed="BladeView_BladeClosed"
             BladeMode="Normal"
@@ -387,10 +395,18 @@
             </controls:BladeItem>
         </controls:BladeView>
 
+        <!-- Progress indicator for when identify is in progress -->
+        <ProgressBar 
+            IsIndeterminate="True" 
+            Visibility="{x:Bind MainViewModel.IdentifyController.IsIdentifyInProgress, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+            Grid.Row="1" 
+            Grid.Column="0"
+            Grid.ColumnSpan="3" />
+
         <!--  Busy Waiting View  -->
         <Grid
             Grid.Row="0"
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
