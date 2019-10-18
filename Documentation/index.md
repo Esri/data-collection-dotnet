@@ -1,10 +1,12 @@
+# Data Collection for .NET documentation
+
 ## Description
 
 This is a data collection app that uses your organization's web maps and the ArcGIS Web GIS information model. Use the example _Trees of Portland_ web map and dataset to get started.
 
 ### Generic application
 
-The app was designed to work in a generic context and thus your organization can configure the app to consume your own web map, out of the box. To accomplish this, the web map is configured by a set of rules that the app adheres to, driving the app's behavior. These rules are defined by the map's definition and by the map's layers' pop-up configurations. To learn more about what drives the app's behavior, read the section entitled [_Using Map Definition & Pop-up Configurations to Drive App Behavior_](#using-map-definition-pop-up-configurations-to-drive-app-behavior).
+The app was designed to work in a generic context and thus your organization can configure the app to consume your own web map, out of the box. To accomplish this, the web map is configured by a set of rules that the app adheres to, driving the app's behavior. These rules are defined by the map's definition and by the map's layers' popup configurations. To learn more about what drives the app's behavior, read the section entitled [_Using Map Definition & Popup Configurations to Drive App Behavior_](#using-map-definition-popup-configurations-to-drive-app-behavior).
 
 ### Trees of Portland
 
@@ -14,11 +16,11 @@ Users can identify existing or create new street trees of a certain species on a
 
 The _Trees of Portland_ dataset schema is simple.
 
-![](/Documentation/img/general-ui.png)
+![Diagram showing the relationship between layers](/Documentation/img/data-model.png)
 
 A street tree can be one of many species and a street tree can contain zero to many inspection records. A neighborhood is a spatial feature symbolized on the map that does not relate to other tables.
 
-_The neighborhood layer is not related to the other layers and provides the map with a visual context through the use of symbology. The neighborhood layer is queried to populate an attribute of the tree layer._
+> The neighborhood layer is not related to the other layers and provides the map with a visual context through the use of symbology. The neighborhood layer is queried to populate an attribute of the tree layer.
 
 ### Custom behavior
 
@@ -26,15 +28,17 @@ There are a select few custom behaviors displayed in this example application th
 
 * Upon the creation of a new street tree feature, the app reverse geocodes the tree's location for an address to populate the tree feature's attributes.
 * Upon the creation of a new street tree feature, the app queries the neighborhood feature layer for features where the new tree's location falls within the neighborhood's polygon.
-* A third customization addresses a current limitation in the platform. As noted earlier, the symbology in the web map reflects a tree's last reported condition. Representing symbology based on a related record is not yet a supported at the webmap level. In this app, custom logic is applied whenever a tree inspection is updated or added. All inspections for the given tree are sorted in descending order by inspection date. The condition and DBH (diameter at breast height) of the most recent inspection are used to update the corresponding fields in the tree feature table. In this way, the symbology in the web map reflects the latest inspection.
+* A third customization addresses a current limitation in the platform. As noted earlier, the symbology in the web map reflects a tree's last reported condition. Representing symbology based on a related record is not yet a supported at the web map level. In this app, custom logic is applied whenever a tree inspection is updated or added. All inspections for the given tree are sorted in descending order by inspection date. The condition and DBH (diameter at breast height) of the most recent inspection are used to update the corresponding fields in the tree feature table. In this way, the symbology in the web map reflects the latest inspection.
 
 While these custom behaviors may not work with your web map, they illustrate best practices for using the ArcGIS Runtime SDK. You can remove this custom behavior logic altogether, if you prefer.
 
 ## Using the app
 
-The app launches a map view containing the pre-configured webmap.
+The app launches a map view containing the pre-configured web map.
 
-![Main Map View](/Documentation/img/anatomy-map-view.png)
+| UWP | WPF |
+|-----|-----|
+| ![Main Map View](/Documentation/img/anatomy-map-view-uwp.png) | ![Main Map View](/Documentation/img/anatomy-map-view.png) |
 
 The navigation bar's title reflects the name of the web map and the navigation bar button items are as follows:
 
@@ -48,7 +52,9 @@ The navigation bar's title reflects the name of the web map and the navigation b
 
 Tapping the navigation bar's ellipsis button reveals the app context drawer view.
 
-![App Context Drawer View](/Documentation/img/anatomy-app-context-drawer.png)
+| UWP | WPF |
+|-----|-----|
+| ![App Context Drawer View](/Documentation/img/anatomy-app-context-drawer-uwp.png) | ![App Context Drawer View](/Documentation/img/anatomy-app-context-drawer.png) |
 
 #### Sign in and out of Portal
 
@@ -60,15 +66,17 @@ Upon successfully signing in, the button that previously read 'Sign in' now read
 
 The app supports a workflow for users in the field with the requirement to work both in connected (online) and disconnected (offline) environments.
 
-**Online Work Mode**
+##### _Online Work Mode_
 
 At initial launch the app loads the configured portal's public web map. A user does not need to authenticate to use the app provided that the web map and all of its layers are not private. The map can identify features and make edits. Edits can be made to the web map including adding new, updating existing and deleting records.
 
-**Offline Work Mode**
+##### _Offline Work Mode_
 
 A user may need to collect data in a location where they are disconnected from the network. The app allows the user to take a web map offline. Because Trees of Portland uses a premium content basemap, a user must be authenticated to fully take the web map offline.
 
-![Download Map Offline Extent](/Documentation/img/anatomy-offline-extent.png)
+| UWP | WPF |
+|-----|-----|
+| ![Download Map Offline Extent](/Documentation/img/anatomy-offline-extent-uwp.png) | ![Download Map Offline Extent](/Documentation/img/anatomy-offline-extent.png) |
 
 When taking the web map offline, the app asks the user to specify the area of the web map they want to take offline. The app makes use of the offline map creation [on-demand workflow](/net/latest/wpf/guide/offline.htm#ESRI_SECTION1_AAADEDF10BF24FDF88DBF6EF04DF8579). After the generate offline map job finishes, the app enters offline work mode and loads the offline mobile map package.
 
@@ -82,9 +90,11 @@ If a user elects to delete the offline map, the app deletes the offline mobile m
 
 ### Identify map features
 
-Tapping or clicking the map performs an identify function on the map. The closest result to the clicked location is chosen, the feature is selected on the map, and a  pop-up view is revealed containing the feature's attributes and information from any related tables.
+Tapping or clicking the map performs an identify function on the map. The closest result to the clicked location is chosen, the feature is selected on the map, and a  popup view is revealed containing the feature's attributes and information from any related tables.
 
-![Identified Map Feature](/Documentation/img/anatomy-identified-feature.png)
+| UWP | WPF |
+|-----|-----|
+| ![Identified Map Feature](/Documentation/img/anatomy-identified-feature-uwp.png) | ![Identified Map Feature](/Documentation/img/anatomy-identified-feature.png) |
 
 If a feature has attachments, you can switch to the attachments tab to view them. The name and size of each attachment is displayed.
 
@@ -92,15 +102,19 @@ If a feature has attachments, you can switch to the attachments tab to view them
 
 If the map contains a spatial feature layer that adheres to the rules specified in the section entitled [_Add Feature Rules_](#add-feature-rules), the add feature button is enabled. Tapping this button begins the process of adding a new record to the map.
 
-![Add New Feature](/Documentation/img/anatomy-new-feature.png)
+| UWP | WPF |
+|-----|-----|
+| ![Add New Feature](/Documentation/img/anatomy-new-feature-uwp.png) | ![Add New Feature](/Documentation/img/anatomy-new-feature.png)
 
 An action banner appears and a pin drops to the center of the map view. The action banner contains a Save and a Cancel button. The pin remains fixed to the center of the map view as the map is panned and zoomed beneath it. If the user taps the Save button, a new feature is created using the fixed map view's center point translated to a spatial coordinate.
 
-#### View a pop-up
+#### View a popup
 
-A pop-up view allows the user to interrogate the map view's selected feature in greater detail. The table-based view is broken down into a number of sub-components.
+A popup view allows the user to interrogate the map view's selected feature in greater detail. The table-based view is broken down into a number of sub-components.
 
-![View A Pop-up](/Documentation/img/anatomy-popup-view.png)
+| UWP | WPF |
+|-----|-----|
+| ![View A Popup](/Documentation/img/anatomy-popup-view-uwp.png) | ![View A Popup](/Documentation/img/anatomy-popup-view.png) |
 
 The first section displays each attribute configured for display. Following the display attributes are each many-to-one related records. In the *Trees of Portland* web map the trees table has one many-to-one relationship, the Species table.
 
@@ -110,23 +124,25 @@ Related record rows can be tapped and allows the user to interrogate the related
 
 Edit and Delete buttons are present at the bottom of the view if the feature is editable.
 
-#### Edit a pop-up
+#### Edit a popup
 
-The pop-up's attributes configured as editable can be edited and validated inline within the same pop-up view.
+The popup's attributes configured as editable can be edited and validated inline within the same popup view.
 
-![Edit A Pop-up](/Documentation/img/anatomy-popup-edit.png)
+| UWP | WPF |
+|-----|-----|
+| ![Edit A Popup](/Documentation/img/anatomy-popup-edit-uwp.png) | ![Edit A Popup](/Documentation/img/anatomy-popup-edit.png) |
 
-As values for fields are updated, the app informs the user of invalid changes and why they are invalid. The pop-up won't save if there are invalid fields.
+As values for fields are updated, the app informs the user of invalid changes and why they are invalid. The popup won't save if there are invalid fields.
 
 When editing, you can add attachments. On UWP, you can take a picture if the device has a webcam. Both UWP and WPF implementations allow you to browse the file system to add a file attachment.
 
 Edits can be discarded by tapping X button next to the save button. Saving the changes requires every field to pass validation and can be committed by tapping the save button.
 
-**Editing a Pop-up's Related Records**
+##### _Editing a Popup's Related Records_
 
-For related records where the pop-up is the child in the related record relationship (a many-to-one related record) the app allows the user to update to which parent record is related. In the *Trees of Portland* web map this means a user can update the tree's species related record.
+For related records where the popup is the child in the related record relationship (a many-to-one related record) the app allows the user to update to which parent record is related. In the *Trees of Portland* web map this means a user can update the tree's species related record.
 
-For related records where the pop-up is the parent in the related record relationship (a one-to-many related record), the user has to save the current pop-up before making edits. In the *Trees of Portland* web map this means a user won't be able to add/update/delete an Inspection before the tree is finished editing.
+For related records where the popup is the parent in the related record relationship (a one-to-many related record), the user has to save the current popup before making edits. In the *Trees of Portland* web map this means a user won't be able to add/update/delete an Inspection before the tree is finished editing.
 
 ## Using web maps
 
@@ -160,37 +176,37 @@ It is generally recommended to consider the [visibility range](http://doc.arcgis
 
 You'll want to consider whether to enable or disable [editing](http://doc.arcgis.com/en/arcgis-online/manage-data/edit-features.htm) of your feature layers and tables. Specifically, a user is only able to edit features or records on layers whose backing table has editing enabled. This includes related records for features. For instance, if a feature whose backing table does permit editing has a related record backed by a table that does not have editing enabled, that related record layer cannot be edited by the app.
 
-#### Enable pop-up on feature layers and tables
+#### Enable popup on feature layers and tables
 
-The app relies on pop-up configurations to identify, view, and edit features and records. You'll want to consider whether to enable or disable [pop-ups](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-pop-ups.htm#ESRI_SECTION1_9E13E02AABA74D5DA2DF1A34F7FB3C63) of your feature layers and tables. Only feature layers and tables that are pop-up-enabled can be identified or edited. Please note, you can have a scenario where you've enabled editing on a layer (as described above) but have disabled pop-ups for the same layer and thus a user will not be able to edit this layer.
+The app relies on popup configurations to identify, view, and edit features and records. You'll want to consider whether to enable or disable [popups](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-popups.htm#ESRI_SECTION1_9E13E02AABA74D5DA2DF1A34F7FB3C63) of your feature layers and tables. Only feature layers and tables that are popup-enabled can be identified or edited. Please note, you can have a scenario where you've enabled editing on a layer (as described above) but have disabled popups for the same layer and thus a user will not be able to edit this layer.
 
-#### Configure pop-up on feature layers and tables
+#### Configure popup on feature layers and tables
 
-For all layers with pop-ups enabled, you'll want to consider how that pop-up is [configured](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-pop-ups.htm#ESRI_SECTION1_0505720B006E43C5B14837A353FFF9EC) for display and editing.
+For all layers with popups enabled, you'll want to consider how that popup is [configured](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-popups.htm#ESRI_SECTION1_0505720B006E43C5B14837A353FFF9EC) for display and editing.
 
-**Pop-up Title**
+**Popup Title**
 
-You can configure the pop-up title with a static string or formatted with attributes. The pop-up's title becomes the title of the pop-up containing view controller's navigation bar. A succinct, descriptive title is recommended because some screen sizes are quite small.
+You can configure the popup title with a static string or formatted with attributes. The popup's title becomes the title of the popup containing view controller's navigation bar. A succinct, descriptive title is recommended because some screen sizes are quite small.
 
-**Pop-up Display**
+**Popup Display**
 
-It is recommended to configure your pop-ups such that their content's [display property](https://doc.arcgis.com/en/arcgis-online/get-started/view-pop-ups.htm) is set to **a list of field attributes**. Using this configuration allows you to designate the display order of that table's attributes. This is important because various visual representations of pop-ups in the app are driven by the attributes display order.
+It is recommended to configure your popups such that their content's [display property](https://doc.arcgis.com/en/arcgis-online/get-started/view-popups.htm) is set to **a list of field attributes**. Using this configuration allows you to designate the display order of that table's attributes. This is important because various visual representations of popups in the app are driven by the attributes display order.
 
-> With the Configure Pop-up pane open, under Pop-up Contents the display property provides a drop down list of options, select **a list of field attributes**.
+> With the Configure Popup pane open, under Popup Contents the display property provides a drop down list of options, select **a list of field attributes**.
 
-**Pop-up Attributes**
+**Popup Attributes**
 
 Precedence is assigned to top-most attributes first (index 0) with the next precedence assigned to the subsequent attributes. Individual attributes can be configured as display, edit, both, or neither.
 
 > With the Configure Attributes window open, attributes can be re-ordered using the up and down arrows.
 
-Within the app, a pop-up view can be in display mode or edit mode and attributes configured as such are made available for display or edit.
+Within the app, a popup view can be in display mode or edit mode and attributes configured as such are made available for display or edit.
 
 These attributes' values are accompanied by a title label, which is configured by the attribute's field alias. It is recommended to configure the field alias with a label that is easily understood to represent what is contained by that field.
 
 ## Identity model
 
-The app leverages the ArcGIS [identity](/authentication/) model to provide access to resources via the [named user](/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured webmaps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
+The app leverages the ArcGIS [identity](/authentication/) model to provide access to resources via the [named user](/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured web maps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -252,19 +268,19 @@ Note the value for `RedirectURL`. Combined with the text `auth` to make `data-co
 
 For more details on configuring the app for OAuth, see [the main README.md](https://github.com/esri/data-collection-dotnet).
 
-#### Public map, social login
+### Public map, social login
 
 The app allows a user to authenticate against a portal as well as use social credentials. If a user chooses to authenticate with social credentials and an account is not associated to those credentials, [ArcGIS online](http://doc.arcgis.com/en/arcgis-online/reference/sign-in.htm) creates an account for them.
 
 > There might be additional logic to implement if your portal's web map is configured differently.
 
-## Using map definition & pop-up configurations to drive app behavior
+## Using map definition & popup configurations to drive app behavior
 
-The app operates on a set of rules driven by map definitions and pop-up configurations. To learn how to configure your web map, see the section entitled [_Configure Web Map & Feature Services for Data Collection_](#configure-web-map-feature-services-for-data-collection).
+The app operates on a set of rules driven by map definitions and popup configurations. To learn how to configure your web map, see the section entitled [_Configure Web Map & Feature Services for Data Collection_](#configure-web-map-feature-services-for-data-collection).
 
 ### Map identify rules
 
-A tap gesture or click on the map view performs an identify function where only results for layers that adhere to certain rules are considered. These rules ask that the layer is visible, is of point type geometry and pop-ups are enabled.
+A tap gesture or click on the map view performs an identify function where only results for layers that adhere to certain rules are considered. These rules ask that the layer is visible, is of point type geometry and popups are enabled.
 
 These rules are wrapped conveniently as extensions into a static class named `AppRules`.
 
@@ -290,19 +306,21 @@ A user can add new spatial features to the map given those feature layers adhere
 * the layer is editable
 * the layer can add a feature
 * the layer is a spatial layer of geometry type: point
-* the layer has enabled pop-ups
+* the layer has enabled popups
 
-### Pop-up view rules
+### Popup view rules
 
-An `IdentifiedFeaturePopup` view was designed to view and edit a pop-up. The view state can be either view mode or edit mode, each permitting certain user interaction. The logic for the `IdentifiedFeaturePopup` is contained in the `IdentifiedFeatureViewModel`. To learn more about the `IdentifiedFeatureViewModel`, see the section entitled [_Editing Features_](#editing-features).
+An `IdentifiedFeaturePopup` view was designed to view and edit a popup. The view state can be either view mode or edit mode, each permitting certain user interaction. The logic for the `IdentifiedFeaturePopup` is contained in the `IdentifiedFeatureViewModel`. To learn more about the `IdentifiedFeatureViewModel`, see the section entitled [_Editing Features_](#editing-features).
 
 #### View mode
 
-The title of the pop-up view reflects the title of the pop-up as configured in portal. The `IdentifiedFeaturePopup` view is tabled-based and populates itself with attribute and related record content in the following ways.
+The title of the popup view reflects the title of the popup as configured in portal. The `IdentifiedFeaturePopup` view is tabled-based and populates itself with attribute and related record content in the following ways.
 
-![Pop-up View Anatomy Relationships](/Documentation/img/anatomy-popup-view-relationships.png)
+| UWP | WPF |
+|-----|-----|
+| ![Popup View Anatomy Relationships](/Documentation/img/anatomy-popup-view-relationships-uwp.png) | ![Popup View Anatomy Relationships](/Documentation/img/anatomy-popup-view-relationships.png) |
 
-**Pop-up Attributes**
+##### _Popup Attributes_
 
 The first section *(highlighted in purple)* is the Attributes section. A `ListView` is bound to the `DisplayFields` property of the `PopupManager` and a `DataTemplate` is set up to display the `Field`'s `Label` and `FormattedValue`.
 
@@ -320,19 +338,19 @@ The first section *(highlighted in purple)* is the Attributes section. A `ListVi
 </ListView>
 ```
 
-**Many-To-One Records**
+##### _Many-To-One Records_
 
 Following the attributes, a second `ListView` represents each many-to-one related record *(highlighted in blue)* associated with the popup. The row displays the first two display attributes of the related record.
 
 A user can tap the related record row (indicated by a green button with an arrow). Doing so reveals a new `DestinationRelatedRecordPopup` containing the related record.
 
-**One-To-Many Records**
+##### _One-To-Many Records_
 
 The subsequent section *(highlighted in orange)* represents a collection of one-to-many related records, one section for every one-to-many related record type. The header label for that section reflects the table name of the related record's feature table. If the section's table permits adding new features, there will be a plus sign in the header next to the table name. Every subsequent row represents a single one-to-many record and displays the first three display attributes of the related record.
 
 A user can tap the related record row (indicated by a green button with an arrow). Doing so reveals a new `OriginRelatedRecordPopup` containing the related record. A user can also swipe the table cell to the left revealing update and delete actions for the related record, if the containing feature table permits it.
 
-**Delete Pop-up**
+##### _Delete Popup_
 
 The footer bar contains buttons to edit or delete the feature. These buttons are revealed only if the table permits edit and delete.
 
@@ -340,7 +358,7 @@ The footer bar contains buttons to edit or delete the feature. These buttons are
 
 Starting an editing session requires that the `PopupManager` allows editing.
 
-**Pop-up Attributes**
+##### Popup Attributes
 
 Every field determined by the manager's `EditableDisplayFields` is represented by its own row inside a `ListView`. The `ListView` is bound to the `Fields` property of the `PopupManager` and the `DataTemplate` is dynamically created based on the field's data type using a `DataTemplateSelector`.
 
@@ -381,11 +399,11 @@ Each data template resource can be found in the `ResourceDictionary` file. Below
 </DataTemplate>
 ```
 
-**Many-To-One Related Records**
+##### _Many-To-One Related Records_
 
 Editing a many-to-one related record is permitted and follows certain rules. To edit a many-to-one related record, the user can tap or click the arrow in the related record row. The app runs a query for all of the relationship's related records and presents the options in a `ComboBox`. Selecting a new related record stages that record to be saved, should the user save their changes.
 
-If the related record has not been selected and the many-to-one relationship is composite, the pop-up will not validate. Conversely, if the relationship is not composite, the related record can be kept empty. If the related record has been selected, the app does allow the user to change the related record to a different one. Note, the combo box does not allow a user to deselect a many-to-one related record once it has been selected.
+If the related record has not been selected and the many-to-one relationship is composite, the popup will not validate. Conversely, if the relationship is not composite, the related record can be kept empty. If the related record has been selected, the app does allow the user to change the related record to a different one. Note, the combo box does not allow a user to deselect a many-to-one related record once it has been selected.
 
 ## Leveraging ArcGIS
 
@@ -549,11 +567,11 @@ internal static async Task<IReadOnlyList<RelatedFeatureQueryResult>> GetRelatedR
 
 Once related records have been retrieved, the app creates corresponding viewmodels to handle the viewing and editing of related records.
 
-A `DestinationRelationshipViewModel` is created for every many-to-one relationship returned in the above query. The `DestinationRelationshipViewModel` is responsible for creating a pop-up for the related record in the relationship and for retrieving all of the available related records for when the user choses to edit the many-to-one relationship.
+A `DestinationRelationshipViewModel` is created for every many-to-one relationship returned in the above query. The `DestinationRelationshipViewModel` is responsible for creating a popup for the related record in the relationship and for retrieving all of the available related records for when the user choses to edit the many-to-one relationship.
 
-An `OriginRelationshipViewModel` is created for every one-to-many relationship returned in the above query. The `OriginRelationshipViewModel` is responsible for creating pop-ups for all related records involved in the relationship and to handle adding and editing of one-to-many related records.
+An `OriginRelationshipViewModel` is created for every one-to-many relationship returned in the above query. The `OriginRelationshipViewModel` is responsible for creating popups for all related records involved in the relationship and to handle adding and editing of one-to-many related records.
 
-The pop-ups in the viewmodels are then bound to the views in order to display information about the selected related record.
+The popups in the viewmodels are then bound to the views in order to display information about the selected related record.
 
 #### Spatial query
 
@@ -581,13 +599,13 @@ internal static async Task<string> GetNeighborhoodForAddedFeature(FeatureTable n
 
 ### Editing features
 
-The app's base data model object, `Popup`, can be broken down generally into two parts. The first is the pop-up's `GeoElement` which in our case is always an instance of an `ArcGISFeature`. The second is the web map's configuration of that feature as a `Popup`, defined by a `PopupDefinition`.
+The app's base data model object, `Popup`, can be broken down generally into two parts. The first is the popup's `GeoElement` which in our case is always an instance of an `ArcGISFeature`. The second is the web map's configuration of that feature as a `Popup`, defined by a `PopupDefinition`.
 
 Editing of a `Popup` is facilitated by the [`PopupManager`](/net/latest/wpf/api-reference/html/T_Esri_ArcGISRuntime_Mapping_Popups_PopupManager.htm).
 
 #### Creating features
 
-When creating a new feature, the app must also take the next step and builds a pop-up using the newly-created feature and its feature table's pop-up definition.
+When creating a new feature, the app must also take the next step and builds a popup using the newly-created feature and its feature table's popup definition.
 
 ```csharp
 // create new feature 
@@ -809,11 +827,11 @@ UserPromptMessenger.Instance.RaiseMessageValueChanged(
 
 The shared `Configuration.xml` contains a series of static configuration resources. Modify these configurations to suit your needs. They include:
 
-* WebmapURL: the url for the webmap that will populate the app. The app can only work with one webmap at a time
-* ArcGISOnlineURL: used for OAuth authentication https://www.arcgis.com/sharing/rest
-* DefaultZoomScale: integer that sets how far the current location button will zoom in when pushed
-* AppClientID: Used for OAuth authentication
-* RedirectURL: Used for OAuth authentication
+* **WebmapURL**: the url for the webmap that will populate the app. The app can only work with one webmap at a time
+* **ArcGISOnlineURL**: used for OAuth authentication `https://www.arcgis.com/sharing/rest`
+* **DefaultZoomScale**: integer that sets how far the current location button will zoom in when pushed
+* **AppClientID**: Used for OAuth authentication
+* **RedirectURL**: Used for OAuth authentication
 
 Settings used specifically and only with the *Tree Survey* dataset. These should not be modified.
 
