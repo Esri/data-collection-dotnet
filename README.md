@@ -1,6 +1,8 @@
 # Data Collection .NET
 
-[Data Collection for .NET](https://developers.arcgis.com/example-apps/data-collection-dotnet/) shows how a robust application can be built with the ArcGIS Platform using the ArcGIS Runtime SDK for .NET, WPF, and UWP. It demonstrates best practices around some simple but key functionality of the ArcGIS Runtime. Using your organization's web maps, you can use Data Collection as-is, or extend it to meet your specific needs.
+Data Collection for .NET shows how a robust application can be built with the ArcGIS Platform using the ArcGIS Runtime SDK for .NET, WPF, and UWP. It demonstrates best practices around some simple but key functionality of the ArcGIS Runtime. Using your organization's web maps, you can use Data Collection as-is, or extend it to meet your specific needs.
+
+![Screenshot of the data collection app for WPF, showing the Portland Tree Survey dataset with an identified feature popup](Documentation/img/anatomy-identified-feature.png)
 
 ## Features
 
@@ -93,7 +95,7 @@ Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/exam
 * To edit records or take a web map offline you will need an ArcGIS Online Organizational account, an ArcGIS Online Developer account or an ArcGIS Online account authenticated using a social login.
 * To consume your own web map you will need an ArcGIS Online Organizational account.
 
-## Contributing
+## Contribute
 
 Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pull requests.
 
@@ -102,7 +104,7 @@ Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pu
 3. Contribute code
 4. Improve documentation
 
-## Licensing
+## License
 
 Copyright 2019 Esri
 
@@ -118,7 +120,7 @@ For information about licensing your deployed app, see [License your app](https:
 
 ### 3rd-party component licensing
 
-This project uses 3rd-party components to 
+This project uses the following 3rd-party components:
 
 * [Extended WPF Toolkit by XCeed](https://github.com/xceedsoftware/wpftoolkit) is licensed under the [Microsoft Public License](https://github.com/xceedsoftware/wpftoolkit/blob/master/license.md)
 * [Humanizer](https://github.com/Humanizr/Humanizer) - [MIT License](https://github.com/Humanizr/Humanizer/blob/master/LICENSE)
