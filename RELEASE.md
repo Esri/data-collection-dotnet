@@ -1,5 +1,13 @@
 # Release notes
 
+## 1.1.0
+
+This release adds a fully-featured UWP UI to complement the existing WPF implementation.
+
+Additionally, this release adds support for viewing, adding, and deleting feature attachments.
+
+Finally, this release includes several bug fixes and performance improvements.
+
 ## 1.0.0
 
 This is the first release of the Data Collection app for .NET. This app is designed to be cross-platform, with a shared core and a separate UI project supporting WPF.
