@@ -33,6 +33,7 @@ using System.Windows;
 #elif NETFX_CORE
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System;
 using Windows.UI.Core;
 #endif
 
@@ -182,8 +183,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
     #elif NETFX_CORE
                                     try
                                     {
+                                        // Try to launch the file with the default app
                                         var storageFile = await StorageFile.GetFileFromPathAsync(attachment.Filename);
-                                        await Windows.System.Launcher.LaunchFileAsync(storageFile);
+                                        bool attachmentOpened = await Launcher.LaunchFileAsync(storageFile);
+
+                                        // If that fails, show the app chooser/find app in Store dialog
+                                        if (!attachmentOpened)
+                                        {
+                                            LauncherOptions launcherOptions = new LauncherOptions();
+                                            launcherOptions.DisplayApplicationPicker = true;
+                                            await Launcher.LaunchFileAsync(storageFile, launcherOptions);
+                                        }
                                     }
                                     catch (Exception ex)
                                     {
