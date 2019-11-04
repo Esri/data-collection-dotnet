@@ -73,7 +73,7 @@
                             Grid.Row="0"
                             FontWeight="SemiBold"
                             Text="{Binding Attachment.Name}"
-                            TextWrapping="NoWrap" />
+                            TextWrapping="Wrap" />
                         <TextBlock
                             Grid.Column="1"
                             Grid.Row="1"
