@@ -61,9 +61,18 @@
         <CommandBar Grid.Row="1">
             <CommandBar.Content>
                 <!--  Add Attachment Button  -->
-                <AppBarButton Icon="Attach"
-                              ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
+                <AppBarButton ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
                               Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" >
+                    <AppBarButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       FontSize="20"
+                                       Text="&#xE723;" />
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       FontSize="10"
+                                       Text="&#xE710;" />
+                        </StackPanel>
+                    </AppBarButton.Content>
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="Click">
                             <core:ChangePropertyAction
