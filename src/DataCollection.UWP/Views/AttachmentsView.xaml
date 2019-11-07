@@ -33,7 +33,7 @@
         <ListView x:Name="AttachmentsItemsControl"
                   Grid.Row="1"
                   ItemsSource="{Binding AttachmentsViewModel.Attachments, Mode=OneWay}"
-                  Visibility="{Binding AttachmentsViewModel.Attachments, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter},ConverterParameter='Inverse'}"
+                  Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                   SelectionMode="None">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -108,6 +108,6 @@
                    VerticalAlignment="Center"
                    Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=NoAttachmentsFound_Message}" 
                    Style="{ThemeResource SubtitleTextBlockStyle}"
-                   Visibility="{Binding AttachmentsViewModel.Attachments, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter}}" />
+                   Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}" />
     </Grid>
 </UserControl>

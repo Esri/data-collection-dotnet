@@ -37,7 +37,7 @@
                   Grid.Row="1"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemsSource="{Binding AttachmentsViewModel.Attachments}"
-                  Visibility="{Binding AttachmentsViewModel.Attachments, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter='Inverse'}">
+                  Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Template">
@@ -118,7 +118,7 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=NoAttachmentsFound_Message}" 
-                   Visibility="{Binding AttachmentsViewModel.Attachments, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"
+                   Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}"
                    FontWeight="SemiBold"
                    Margin="15" />
     </Grid>
