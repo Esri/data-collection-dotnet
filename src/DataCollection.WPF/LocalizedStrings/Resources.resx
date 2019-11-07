@@ -208,7 +208,7 @@
     <value>Error Retrieving Application Settings</value>
   </data>
   <data name="SerializationError_Title" xml:space="preserve">
-    <value>Error While Saving Application Settings</value>
+    <value>Error Saving Application Settings</value>
   </data>
   <data name="AddFeatureLabel_Line1.Text" xml:space="preserve">
     <value>Choose the location where you would like to add a feature.</value>
@@ -337,7 +337,7 @@
     <value>That attachment can't be added because the file type is unsupported.</value>
   </data>
   <data name="SavingEditsWait_Message" xml:space="preserve">
-    <value>Saving Edits, Please Wait</value>
+    <value>Saving edits, please wait.</value>
   </data>
   <data name="ExpiredSignInToken_Message" xml:space="preserve">
     <value>Your login has expired. Please sign in again when prompted.</value>
