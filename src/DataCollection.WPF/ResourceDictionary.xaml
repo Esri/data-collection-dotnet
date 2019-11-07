@@ -82,6 +82,12 @@
         </Setter>
         <Setter Property="BorderThickness" Value="0" />
     </Style>
+    <Style x:Key="MenuButtonIconStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,0,5,0" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontSize" Value="25" />
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+    </Style>
 
     <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
