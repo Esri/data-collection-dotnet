@@ -348,4 +348,7 @@
   <data name="NoAttachmentsFound_Message" xml:space="preserve">
     <value>No Attachments</value>
   </data>
+  <data name="UnsupportedAttachment_Message" xml:space="preserve">
+    <value>Couldn't open that attachment because it isn't supported.</value>
+  </data>
 </root>

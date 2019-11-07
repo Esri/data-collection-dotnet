@@ -188,11 +188,22 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                         bool attachmentOpened = await Launcher.LaunchFileAsync(storageFile);
 
                                         // If that fails, show the app chooser/find app in Store dialog
+                                        LauncherOptions launcherOptions = new LauncherOptions { DisplayApplicationPicker = true };
                                         if (!attachmentOpened)
                                         {
-                                            LauncherOptions launcherOptions = new LauncherOptions();
-                                            launcherOptions.DisplayApplicationPicker = true;
-                                            await Launcher.LaunchFileAsync(storageFile, launcherOptions);
+                                            attachmentOpened = await Launcher.LaunchFileAsync(storageFile, launcherOptions);
+                                        }
+
+                                        // If that fails again, try with a new extension
+                                        if (!attachmentOpened && !Path.HasExtension(attachment.Filename))
+                                        {
+                                            var newStorageFile = await storageFile.CopyAsync(ApplicationData.Current.TemporaryFolder, $"{Path.GetFileName(attachment.Filename)}.attachment", NameCollisionOption.GenerateUniqueName);
+                                            attachmentOpened = await Launcher.LaunchFileAsync(newStorageFile, launcherOptions);
+                                        }
+
+                                        if (!attachmentOpened)
+                                        {
+                                            throw new InvalidOperationException(Resources.GetString("UnsupportedAttachment_Message"));
                                         }
                                     }
                                     catch (Exception ex)
