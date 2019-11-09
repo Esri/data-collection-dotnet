@@ -45,7 +45,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
     {
         private string _webMapURL;
         private int _defaultZoomScale;
-        private string _downloadPath;
+        private string _downloadPathRoot;
         private bool _isBusyWaiting = false;
         private string _busyWaitingMessage;
 #if WPF
@@ -57,19 +57,27 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         throw new NotImplementedException();
 #endif
 
+        // Needed for workaround that prevents deleting maps taken offline.
+        private string _currentOfflineSubdirectory;
+
         public MainViewModel()
         {
             _webMapURL = Settings.Default.WebmapURL;
-            _downloadPath = Path.Combine(_localFolder,
+            _downloadPathRoot = Path.Combine(_localFolder,
                 typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
                 typeof(Settings).Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
                 "MMPK");
 
+            _currentOfflineSubdirectory = Settings.Default.CurrentOfflineSubdirectory;
+
             // create download directory if it doesn't exist
-            if (!Directory.Exists(_downloadPath))
+            if (!Directory.Exists(_downloadPathRoot))
             {
-                Directory.CreateDirectory(_downloadPath);
+                Directory.CreateDirectory(_downloadPathRoot);
             }
+
+            // TODO - set _currentOfflineSubdirectory
+            DeleteOldMapPackages();
 
             ConnectivityMode = Settings.Default.ConnectivityMode == "Online" ? ConnectivityMode.Online : ConnectivityMode.Offline;
             SyncDate = DateTime.TryParse(Settings.Default.SyncDate, out DateTime syncDate) ? syncDate : DateTime.MinValue;
@@ -96,6 +104,25 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     MapViewModel = new MapViewModel(t.Result, ConnectivityMode, _defaultZoomScale);
                 }
             });
+        }
+
+        private void DeleteOldMapPackages()
+        {
+            // Delete all of the non-current map packages from previous runs.
+            foreach(var directory in new DirectoryInfo(_downloadPathRoot).GetDirectories())
+            {
+                try
+                {
+                    if (_currentOfflineSubdirectory == null || directory.FullName != Path.Combine(_downloadPathRoot, _currentOfflineSubdirectory))
+                    {
+                        directory.Delete(true);
+                    }
+                }
+                catch
+                {
+                    // Ignore, sometimes there will be old locks/handles
+                }
+            }
         }
 
         private ConnectivityMode _connectivityMode;
@@ -341,12 +368,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         }
                         else
                         {
-                            // first delete any leftover files in the download directory
-                            // this happens if the previous delete method failed due to locks on the vtpk
-                            await DeleteOfflineMap();
+                            // Remove reference to any existing offline map
+                            await ReleaseOfflineMap();
+
+                            Settings.Default.CurrentOfflineSubdirectory = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).TrimEnd('=').Replace('/', '+').Replace('\\', '+');
+                            _currentOfflineSubdirectory = Settings.Default.CurrentOfflineSubdirectory;
 
                             // set up a new DownloadViewModel
-                            DownloadViewModel = new DownloadViewModel(MapViewModel.Map, _downloadPath);
+                            DownloadViewModel = new DownloadViewModel(MapViewModel.Map, Path.Combine(_downloadPathRoot, _currentOfflineSubdirectory));
 
                             var taskResult = await BroadcastMessenger.Instance.AwaitMessageValueChanged(BroadcastMessageKey.SyncSucceeded);
 
@@ -369,7 +398,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             else
                             {
                                 // call method to delete the mmpk
-                                await DeleteOfflineMap();
+                                await ReleaseOfflineMap();
                             }
 
                             // reset DownloadViewModel
@@ -477,7 +506,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
                         if (response)
                         {
-                            await DeleteOfflineMap();
+                            await ReleaseOfflineMap();
                         }
                     }));
             }
@@ -805,7 +834,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 try
                 {
-                    Mmpk = await MobileMapPackage.OpenAsync(_downloadPath);
+                    Mmpk = await MobileMapPackage.OpenAsync(Path.Combine(_downloadPathRoot, _currentOfflineSubdirectory));
                     OfflineMap = Mmpk.Maps.FirstOrDefault();
                 }
                 catch
@@ -846,9 +875,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
-        /// Method to delete the mmpk that contails the offline map
+        /// Method to prepare the offline map package for future deletion
         /// </summary>
-        private async Task DeleteOfflineMap()
+        private async Task ReleaseOfflineMap()
         {
             // switch app to Online mode
             if (ConnectivityMode == ConnectivityMode.Offline)
@@ -867,38 +896,22 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
 
             // try deleting the folder
-            // if deleting the folder doesn't work, restart the application
-            if (Directory.Exists(_downloadPath))
+            try
             {
-                try
+                if (_currentOfflineSubdirectory != null)
                 {
-                    var directoryInfo = new DirectoryInfo(_downloadPath);
-                    directoryInfo.ClearDirectory();
+                    string currentPath = Path.Combine(_downloadPathRoot, _currentOfflineSubdirectory);
+                    Directory.Delete(currentPath, true);
                 }
-                catch
-                {
-                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                        Resources.GetString("IOException_Title"),
-                        Resources.GetString("IOException_Message"),
-                        true);
-
-                    // restart the app
-#if WPF
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                        Application.Current.Shutdown();
-                    });
-#elif NETFX_CORE
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                    {
-                        CoreApplication.Exit();
-                    });
-#else
-                    // will throw if another platform is added without handling this 
-                    throw new NotImplementedException();
-#endif
-                }
+            }
+            catch 
+            { 
+                // Ignore, it will be deleted later.
+            }
+            finally
+            {
+                _currentOfflineSubdirectory = null;
+                Settings.Default.CurrentOfflineSubdirectory = null;
             }
         }
     }

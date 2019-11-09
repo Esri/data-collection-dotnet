@@ -188,6 +188,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         [XmlElement("SyncDate")]
         public string SyncDate { get; set; }
 
+        [XmlElement("CurrentOfflineSubdirectory")]
+        public string CurrentOfflineSubdirectory { get; set; }
+
         /// <summary>
         /// Serializes Settings object and saves it to the settings file
         /// </summary>
