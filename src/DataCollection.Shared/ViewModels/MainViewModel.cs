@@ -371,7 +371,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             // Remove reference to any existing offline map
                             await ReleaseOfflineMap();
 
-                            Settings.Default.CurrentOfflineSubdirectory = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).TrimEnd('=').Replace('/', '+').Replace('\\', '+');
+                            string newPath = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).TrimEnd('=').Replace('/', '+').Replace('\\', '+');
+                            BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(newPath, BroadcastMessageKey.DownloadPath);
                             _currentOfflineSubdirectory = Settings.Default.CurrentOfflineSubdirectory;
 
                             // set up a new DownloadViewModel
@@ -911,7 +912,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             finally
             {
                 _currentOfflineSubdirectory = null;
-                Settings.Default.CurrentOfflineSubdirectory = null;
+                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.DownloadPath);
             }
         }
     }

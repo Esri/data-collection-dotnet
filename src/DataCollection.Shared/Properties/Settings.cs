@@ -121,6 +121,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                 {
                     _instance.SyncDate = l.Args.Value?.ToString();
                 }
+                else if (l.Args.Key == BroadcastMessageKey.DownloadPath)
+                {
+                    _instance.CurrentOfflineSubdirectory = l.Args.Value?.ToString();
+                }
 
                 SerializeSettings(_instance);
             };
