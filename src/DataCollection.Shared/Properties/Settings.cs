@@ -60,8 +60,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
             {
                 if (_instance == null)
                 {
-                    _instance = new Settings();
-
                     // if settings file doesn't exist on disk, make a new one and save it
                     if (!File.Exists(_settingsPath))
                     {
@@ -103,31 +101,34 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
         private Settings()
         {
             // fires when any of the specified settings values change
-            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += (s, l) =>
-            {
-                if (l.Args.Key == BroadcastMessageKey.ConnectivityMode)
-                {
-                    _instance.ConnectivityMode = l.Args.Value?.ToString();
-                }
-                else if (l.Args.Key == BroadcastMessageKey.OAuthRefreshToken)
-                {
-                    _instance.OAuthRefreshToken = l.Args.Value?.ToString();
-                }
-                else if (l.Args.Key == BroadcastMessageKey.AuthenticatedUser)
-                {
-                    _instance.AuthenticatedUserName = ((PortalUser)l.Args.Value)?.UserName;
-                }
-                else if (l.Args.Key == BroadcastMessageKey.SyncDate)
-                {
-                    _instance.SyncDate = l.Args.Value?.ToString();
-                }
-                else if (l.Args.Key == BroadcastMessageKey.DownloadPath)
-                {
-                    _instance.CurrentOfflineSubdirectory = l.Args.Value?.ToString();
-                }
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged -= HandleSettingsChange;
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += HandleSettingsChange;
+        }
 
-                SerializeSettings(_instance);
-            };
+        private void HandleSettingsChange(object sender, BroadcastMessengerEventArgs l)
+        {
+            if (l.Args.Key == BroadcastMessageKey.ConnectivityMode)
+            {
+                _instance.ConnectivityMode = l.Args.Value?.ToString();
+            }
+            else if (l.Args.Key == BroadcastMessageKey.OAuthRefreshToken)
+            {
+                _instance.OAuthRefreshToken = l.Args.Value?.ToString();
+            }
+            else if (l.Args.Key == BroadcastMessageKey.AuthenticatedUser)
+            {
+                _instance.AuthenticatedUserName = ((PortalUser)l.Args.Value)?.UserName;
+            }
+            else if (l.Args.Key == BroadcastMessageKey.SyncDate)
+            {
+                _instance.SyncDate = l.Args.Value?.ToString();
+            }
+            else if (l.Args.Key == BroadcastMessageKey.DownloadPath)
+            {
+                _instance.CurrentOfflineSubdirectory = l.Args.Value?.ToString();
+            }
+
+            SerializeSettings(_instance);
         }
 
         [XmlElement("ArcGISOnlineURL")]
