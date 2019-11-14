@@ -70,6 +70,7 @@
                                     Content="&#xE711;"
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="12"
+                                    Visibility="{TemplateBinding Tag}"
                                     Foreground="{TemplateBinding CloseButtonForeground}"
                                     ToolTipService.ToolTip="Close"/>
                     </Grid>
@@ -374,6 +375,7 @@
                 x:Name="IdentifiedFeatureBlade"
                 Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
                 IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
                 Template="{StaticResource BladeItemTemplate}">
                 <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
             </controls:BladeItem>
@@ -383,6 +385,7 @@
                 Expanded="BladeItem_Expanded"
                 Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
                 IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
                 Template="{StaticResource BladeItemTemplate}">
                 <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
             </controls:BladeItem>
@@ -390,6 +393,7 @@
                 x:Name="DestinationRelationshipBlade"
                 Header="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
                 IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
                 Template="{StaticResource BladeItemTemplate}">
                 <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
             </controls:BladeItem>

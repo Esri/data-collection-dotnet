@@ -30,6 +30,7 @@
     <SolidColorBrush x:Key="Button.Pressed.Background" Color="#C37534" />
     <SolidColorBrush x:Key="Button.Pressed.Border" Color="DarkGreen" />
     <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="LightGray" />
+    <SolidColorBrush x:Key="Window.Background" Color="White" />
 
     <Style x:Key="MenuButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
@@ -80,6 +81,12 @@
             </Setter.Value>
         </Setter>
         <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style x:Key="MenuButtonIconStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,0,5,0" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontSize" Value="25" />
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
     </Style>
 
     <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ToggleButton}">

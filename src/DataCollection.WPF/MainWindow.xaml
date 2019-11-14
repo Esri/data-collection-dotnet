@@ -253,64 +253,61 @@
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Grid.Effect>
-            <StackPanel
+            <Grid
                 x:Name="AuthStackPanel"
                 Grid.Row="0"
-                Background="Green"
-                Orientation="Horizontal">
-                <Ellipse
-                    Width="50"
-                    Height="50"
+                Background="Green">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Ellipse Grid.Column="0"
+                    Width="40"
+                    Height="40"
                     Margin="10"
-                    Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+                    Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="{Binding AuthenticatedUser.ThumbnailUri}" />
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock
-                    Margin="10,0,10,0"
-                    VerticalAlignment="Center"
+                <TextBlock Grid.Column="0"
+                    Margin="10"
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="25"
                     Foreground="White"
                     Text="&#xE77B;"
-                    Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                    Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
 
                 <!--  Sign In Button  -->
-                <Button
-                    Margin="0,0,10,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
+                <Button Grid.Column="1" Padding="10"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                     Command="{Binding SignInCommand}"
                     Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignInButton.Label}"
                     FontSize="25"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
 
-                <!--  Sing Out Button  -->
-                <Button
-                    Margin="0,0,10,0"
-                    HorizontalAlignment="Center"
+                <!--  Sign Out Button  -->
+                <Button Grid.Column="1" Padding="10"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                     Command="{Binding SignOutCommand}"
                     FontSize="25"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
                     <StackPanel Orientation="Vertical">
                         <TextBlock
-                            Margin="0,0,10,0"
-                            Padding="5"
                             VerticalAlignment="Center"
                             FontSize="25"
                             Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
                         <TextBlock
-                            Padding="15,0,15,5"
-                            VerticalAlignment="Center"
-                            FontSize="10"
+                            Margin="0,5,0,0"
+                            FontSize="12"
                             Foreground="White"
                             Text="{Binding AuthenticatedUser.FullName}" />
                     </StackPanel>
                 </Button>
-            </StackPanel>
+            </Grid>
 
             <StackPanel
                 Grid.Row="1"
@@ -318,53 +315,49 @@
                 Orientation="Vertical">
                 <!--  Working online button and text  -->
                 <Button
-                    Margin="15,5,15,5"
-                    HorizontalAlignment="Left"
-                    Background="#C37534"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Padding="10"
+                    Background="{StaticResource Button.Pressed.Background}"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="25"
-                            Text="&#xEC3F;" />
-                        <TextBlock
-                            Margin="0,0,10,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOnlineButton.Label}" />
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
+                                   Grid.Column="0"
+                                   Text="&#xEC3F;" />
+                        <TextBlock VerticalAlignment="Center"
+                                   Grid.Column="1"
+                                   FontSize="19"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOnlineButton.Label}" />
+                    </Grid>
                 </Button>
 
                 <!--  Work online button and text  -->
                 <Button
-                    Margin="15,5,15,5"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Padding="10"
                     Background="White"
                     Command="{Binding WorkOnlineCommand}"
                     CommandParameter="{Binding ElementName=MapView, Path=VisibleArea}"
                     Foreground="Black"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="25"
-                            Text="&#xEC3F;" />
-                        <TextBlock
-                            Margin="0,0,10,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton.Label}" />
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
+                                   Grid.Column="0"
+                                   Text="&#xEC3F;" />
+                        <TextBlock VerticalAlignment="Center"
+                                   Grid.Column="1"
+                                   FontSize="19"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton.Label}" />
+                    </Grid>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:ChangePropertyAction
@@ -378,52 +371,48 @@
 
                 <!--  Working offline button and text  -->
                 <Button
-                    Margin="15,5,15,5"
-                    HorizontalAlignment="Left"
-                    Background="#C37534"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Padding="10"
+                    Background="{StaticResource Button.Pressed.Background}"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="25"
-                            Text="&#xEB5E;" />
-                        <TextBlock
-                            Margin="0,0,10,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOfflineButton.Label}" />
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
+                                   Grid.Column="0"
+                                   Text="&#xEB5E;" />
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   FontSize="19"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOfflineButton.Label}" />
+                    </Grid>
                 </Button>
 
                 <!--  Work offline button and text  -->
                 <Button
-                    Margin="15,5,15,5"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Padding="10"
                     Background="White"
                     Command="{Binding WorkOfflineCommand}"
                     Foreground="Black"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="25"
-                            Text="&#xEB5E;" />
-                        <TextBlock
-                            Margin="0,0,10,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton.Label}" />
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
+                                   Grid.Column="0"
+                                   Text="&#xEB5E;" />
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   FontSize="19"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton.Label}" />
+                    </Grid>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:ChangePropertyAction
@@ -436,35 +425,34 @@
 
                 <!--  Synchronize button and text  -->
                 <Button
-                    Margin="15,5,15,5"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Padding="10"
                     Background="White"
                     Command="{Binding SyncMapCommand}"
                     Foreground="Black"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="25"
-                            Foreground="Black"
-                            Text="&#xE895;" />
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock
-                                Margin="0,0,10,0"
-                                Padding="5"
-                                VerticalAlignment="Center"
-                                FontSize="19"
-                                Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton.Label}" />
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontSize="10"
-                                Text="{Binding SyncDate}" />
-                        </StackPanel>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
+                                   Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+                                   Text="&#xE895;" />
+                        <TextBlock Grid.Row="0" Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   FontSize="19"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton.Label}" />
+                        <TextBlock Grid.Row="1" Grid.Column="1"
+                                   HorizontalAlignment="Right"
+                                   FontSize="12"
+                                   Text="{Binding SyncDate}" />
+                    </Grid>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:ChangePropertyAction
@@ -477,28 +465,26 @@
 
                 <!--  Delete offline map button and text  -->
                 <Button
-                    Margin="15,5,15,5"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Padding="10"
                     Background="White"
                     Command="{Binding DeleteOfflineMapCommand}"
                     Foreground="Black"
                     Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="25"
-                            Text="&#xE74D;" />
-                        <TextBlock
-                            Margin="0,0,10,0"
-                            Padding="5"
-                            VerticalAlignment="Center"
-                            FontSize="19"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton.Label}" />
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
+                                   Grid.Column="0"
+                                   Text="&#xE74D;" />
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   FontSize="19"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton.Label}" />
+                    </Grid>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:ChangePropertyAction

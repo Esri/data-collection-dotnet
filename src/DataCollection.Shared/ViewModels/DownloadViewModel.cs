@@ -39,6 +39,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         {
             _map = map;
             _downloadPath = downloadPath;
+            if (!System.IO.Directory.Exists(_downloadPath))
+            {
+                System.IO.Directory.CreateDirectory(_downloadPath);
+            }
             IsAwaitingDownload = true;
         }
 

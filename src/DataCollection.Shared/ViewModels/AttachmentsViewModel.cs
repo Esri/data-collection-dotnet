@@ -33,6 +33,7 @@ using System.Windows;
 #elif NETFX_CORE
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System;
 using Windows.UI.Core;
 #endif
 
@@ -68,13 +69,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _newAttachmentPath;
             set
             {
-                if (_newAttachmentPath != value)
+                _newAttachmentPath = value;
+                if (_newAttachmentPath != null && File.Exists(_newAttachmentPath))
                 {
-                    _newAttachmentPath = value;
-                    if (_newAttachmentPath != null && File.Exists(_newAttachmentPath))
-                    {
-                        AddNewAttachment(_newAttachmentPath);
-                    }
+                    AddNewAttachment(_newAttachmentPath);
                 }
             }
         }
@@ -182,8 +180,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
     #elif NETFX_CORE
                                     try
                                     {
+                                        // Try to launch the file with the default app
                                         var storageFile = await StorageFile.GetFileFromPathAsync(attachment.Filename);
-                                        await Windows.System.Launcher.LaunchFileAsync(storageFile);
+                                        bool attachmentOpened = await Launcher.LaunchFileAsync(storageFile);
+
+                                        // If that fails, show the app chooser/find app in Store dialog
+                                        LauncherOptions launcherOptions = new LauncherOptions { DisplayApplicationPicker = true };
+                                        if (!attachmentOpened)
+                                        {
+                                            attachmentOpened = await Launcher.LaunchFileAsync(storageFile, launcherOptions);
+                                        }
+
+                                        // If that fails again, try with a new extension
+                                        if (!attachmentOpened && !Path.HasExtension(attachment.Filename))
+                                        {
+                                            var newStorageFile = await storageFile.CopyAsync(ApplicationData.Current.TemporaryFolder, $"{Path.GetFileName(attachment.Filename)}.attachment", NameCollisionOption.GenerateUniqueName);
+                                            attachmentOpened = await Launcher.LaunchFileAsync(newStorageFile, launcherOptions);
+                                        }
+
+                                        if (!attachmentOpened)
+                                        {
+                                            throw new InvalidOperationException(Resources.GetString("UnsupportedAttachment_Message"));
+                                        }
                                     }
                                     catch (Exception ex)
                                     {
@@ -288,12 +306,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     // add attachment to collection using the UI thread (for the binding to work)
                     Application.Current.Dispatcher.Invoke(new Action(() => Attachments.Add(stagedAttachment)));
 #else
-                // add attachment to collection
-                Attachments.Add(stagedAttachment);
+                    // add attachment to collection
+                    Attachments.Add(stagedAttachment);
 #endif
 
                     tasks.Add(loadTask);
                 }
+
+                OnPropertyChanged(nameof(HasAttachments));
 
                 // run parallel tasks
                 await Task.WhenAll(tasks);
@@ -340,6 +360,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 var stagedAttachment = new StagedAttachment();
                 await stagedAttachment.LoadAsync(newAttachment);
                 Attachments.Add(stagedAttachment);
+                OnPropertyChanged(nameof(HasAttachments));
             }
             catch (Exception ex)
             {
@@ -402,6 +423,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 }
             }
         }
+
+        public bool HasAttachments => Attachments.Count > 0;
+
 #if NETFX_CORE
         /// <summary>
         /// Add new attachment file to the attachment manager
@@ -434,6 +458,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 var stagedAttachment = new StagedAttachment();
                 await stagedAttachment.LoadAsync(newAttachment);
                 Attachments.Add(stagedAttachment);
+                OnPropertyChanged(nameof(HasAttachments));
             }
             catch (Exception ex)
             {

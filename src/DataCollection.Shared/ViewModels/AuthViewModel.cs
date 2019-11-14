@@ -199,7 +199,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             // Create generate token options if necessary
             if (info.GenerateTokenOptions == null)
             {
-                info.GenerateTokenOptions = new GenerateTokenOptions();
+                info.GenerateTokenOptions = new GenerateTokenOptions { TokenValidity = -1 };
             }
 
             // if no refresh token, call to generate credentials

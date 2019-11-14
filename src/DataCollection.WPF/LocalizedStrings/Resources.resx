@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AuthError_Title" xml:space="preserve">
-    <value>Authentication error</value>
+    <value>Authentication Error</value>
   </data>
   <data name="DiscardEditsConfirmation_Message" xml:space="preserve">
     <value>This will quit your edit sessions and will cause all of your unsaved changes to be lost.</value>
@@ -127,7 +127,7 @@
     <value>Are you sure you want to discard changes?</value>
   </data>
   <data name="ConditionDBH_UpdateError_Title" xml:space="preserve">
-    <value>Unable to update Condition &amp; DBH</value>
+    <value>Unable to Update Condition &amp; DBH</value>
   </data>
   <data name="DeleteConfirmation_Message" xml:space="preserve">
     <value>This will remove the feature from the database permanently and cannot be undone.</value>
@@ -136,16 +136,16 @@
     <value>Are you sure you want to delete this feature?</value>
   </data>
   <data name="GetFeatureRelationshipError_Message" xml:space="preserve">
-    <value>An error occured when attempting to retrieve relationships for the feature.</value>
+    <value>An error occurred when attempting to retrieve relationships for the feature.</value>
   </data>
   <data name="InvalidInput_Message" xml:space="preserve">
     <value>Changes to this record are invalid. Please correct and retry saving.</value>
   </data>
   <data name="InvalidInput_Title" xml:space="preserve">
-    <value>Invalid input detected</value>
+    <value>Invalid Input Detected</value>
   </data>
   <data name="SignInUnsuccessful_Title" xml:space="preserve">
-    <value>Sign in unsuccessful</value>
+    <value>Sign In Unsuccessful</value>
   </data>
   <data name="OperationCancelled" xml:space="preserve">
     <value>The operation was canceled.</value>
@@ -154,7 +154,7 @@
     <value>An error occured when attempting to retrieve related records for the feature.</value>
   </data>
   <data name="GenericError_Title" xml:space="preserve">
-    <value>An error has occured</value>
+    <value>An Error Occurred</value>
   </data>
   <data name="DeleteMap_Message" xml:space="preserve">
     <value>You will no longer have a map if you are in offline mode. </value>
@@ -163,13 +163,13 @@
     <value>Are you sure you want to delete the offline map?</value>
   </data>
   <data name="DownloadFailed_Title" xml:space="preserve">
-    <value>Download failed</value>
+    <value>Download Failed</value>
   </data>
   <data name="DownloadWithErrors_Title" xml:space="preserve">
-    <value>Download completed with errors</value>
+    <value>Download Completed with Errors</value>
   </data>
   <data name="IOException_Title" xml:space="preserve">
-    <value>IO exception</value>
+    <value>IO Exception</value>
   </data>
   <data name="DeleteMapWithUnsyncedChanges_Message" xml:space="preserve">
     <value>The offline map contains un-synchronized changes. You will no longer have a map when you are in offline mode and will lose your existing changes. </value>
@@ -187,7 +187,7 @@
     <value>Discard</value>
   </data>
   <data name="DeviceOffline_Title" xml:space="preserve">
-    <value>Device is offline</value>
+    <value>Device is Offline</value>
   </data>
   <data name="NoDelete_DeviceOffline_Message" xml:space="preserve">
     <value>Your device must be connected to a network to delete the offline map.</value>
@@ -202,19 +202,19 @@
     <value>The application was unable to delete the offline map and needs to restart. </value>
   </data>
   <data name="IdentifyError_Title" xml:space="preserve">
-    <value>Error while identifying feature</value>
+    <value>Error Occurred While Identifying Feature</value>
   </data>
   <data name="DeserializationError_Title" xml:space="preserve">
-    <value>Error retrieving application settings</value>
+    <value>Error Retrieving Application Settings</value>
   </data>
   <data name="SerializationError_Title" xml:space="preserve">
-    <value>Error saving application settings</value>
+    <value>Error Saving Application Settings</value>
   </data>
   <data name="AddFeatureLabel_Line1.Text" xml:space="preserve">
-    <value>Choose the location where you would like to add a feature</value>
+    <value>Choose the location where you would like to add a feature.</value>
   </data>
   <data name="AddFeatureLabel_Line2.Text" xml:space="preserve">
-    <value>Pan and zoom map under pin</value>
+    <value>Pan and zoom map under pin.</value>
   </data>
   <data name="AddFeatureButton.Label" xml:space="preserve">
     <value>Add Feature</value>
@@ -241,10 +241,10 @@
     <value>Preparing map for offline use. Please wait.</value>
   </data>
   <data name="DownloadLabel_Line1.Text" xml:space="preserve">
-    <value>Select the region of the map to take offline</value>
+    <value>Select the region of the map to take offline.</value>
   </data>
   <data name="DownloadLabel_Line2.Text" xml:space="preserve">
-    <value>Pan and zoom map within rectangle</value>
+    <value>Pan and zoom map within the rectangle.</value>
   </data>
   <data name="EditRecord_Tooltip" xml:space="preserve">
     <value>Edit Record</value>
@@ -289,7 +289,7 @@
     <value>Center on Location</value>
   </data>
   <data name="MapLoadingError_Title" xml:space="preserve">
-    <value>Map failed to load</value>
+    <value>Map Failed to Load</value>
   </data>
   <data name="DeleteConfirmationAttachment_Message" xml:space="preserve">
     <value>This will remove the attachment from the database permanently and cannot be undone once the changes are saved.</value>
@@ -298,19 +298,19 @@
     <value>Are you sure you want to delete this attachment?</value>
   </data>
   <data name="AddAttachment_Tooltip" xml:space="preserve">
-    <value>Add attchment</value>
+    <value>Add Attachment</value>
   </data>
   <data name="DeleteAttachment_Tooltip" xml:space="preserve">
-    <value>Delete attachment</value>
+    <value>Delete Attachment</value>
   </data>
   <data name="FileNotFound_Message" xml:space="preserve">
     <value>The attachment file you are trying to open could not be located. Please try restarting the application.</value>
   </data>
   <data name="FileNotFound_Title" xml:space="preserve">
-    <value>File not found</value>
+    <value>File Not Found</value>
   </data>
   <data name="OpenAttachment_Tooltip" xml:space="preserve">
-    <value>Open attachment</value>
+    <value>Open Attachment</value>
   </data>
   <data name="CancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
@@ -331,13 +331,13 @@
     <value>The attachment name has been truncated to 40 characters.</value>
   </data>
   <data name="AttachmentRenamedForLength_Title" xml:space="preserve">
-    <value>Attachment name too long</value>
+    <value>Attachment Name Too Long</value>
   </data>
   <data name="InvalidAttachmentExtension_Message" xml:space="preserve">
     <value>That attachment can't be added because the file type is unsupported.</value>
   </data>
   <data name="SavingEditsWait_Message" xml:space="preserve">
-    <value>Saving edits, please wait</value>
+    <value>Saving edits, please wait.</value>
   </data>
   <data name="ExpiredSignInToken_Message" xml:space="preserve">
     <value>Your login has expired. Please sign in again when prompted.</value>
@@ -346,6 +346,9 @@
     <value>Login Expired</value>
   </data>
   <data name="NoAttachmentsFound_Message" xml:space="preserve">
-    <value>No attachments found.</value>
+    <value>No Attachments</value>
+  </data>
+  <data name="UnsupportedAttachment_Message" xml:space="preserve">
+    <value>Couldn't open that attachment because it isn't supported.</value>
   </data>
 </root>
