@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.0.1
+
+- Comprehensive [app documentation](/docs/index.md) from the ArcGIS for Developers site.
+
 ## 1.0.0
 
 This is the first release of the Data Collection app for .NET. This app is designed to be cross-platform, with a shared core and a separate UI project supporting WPF.
