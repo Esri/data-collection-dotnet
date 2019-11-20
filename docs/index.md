@@ -186,11 +186,11 @@ These attributes' values are accompanied by a title label, which is configured b
 
 ## Identity model
 
-The app leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the [named user](https://developers.arcgis.com/docs/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured webmaps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
+The app leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured webmaps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
-![ArcGIS Identity Model](https://developers.arcgis.com/docs/img/identity.png)
+![ArcGIS Identity Model](/docs/img/identity.png)
 
 1. A request is made to a secured resource.
 2. The portal responds with an unauthorized access error.
@@ -296,7 +296,7 @@ An `IdentifiedFeaturePopup` view was designed to view and edit a pop-up. The vie
 
 The title of the pop-up view reflects the title of the pop-up as configured in portal. The `IdentifiedFeaturePopup` view is tabled-based and populates itself with attribute and related record content in the following ways.
 
-![Pop-up View Anatomy Relationships](https://developers.arcgis.com/docs/img/anatomy-popup-view-relationships.png)
+![Pop-up View Anatomy Relationships](/docs/img/anatomy-popup-view-relationships.png)
 
 **Pop-up Attributes**
 
@@ -658,7 +658,7 @@ internal async Task<Feature> SaveEdits(PopupManager popupManager, FeatureTable t
 
 ### Reverse geocoding
 
-The *Trees of Portland* story contains a custom behavior that reverse geocodes a point into an address which is populated into a tree's attributes. In order to support both an online and an offline work flow, the app uses the [world geocoder web service](https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer) to perform reverse geocoding while online, and a custom offline locator that is included in the app's shared `Resources` folder for offline reverse geocoding tasks.
+The *Trees of Portland* story contains a custom behavior that reverse geocodes a point into an address which is populated into a tree's attributes. In order to support both an online and an offline work flow, the app uses the [world geocoder web service](https://developers.arcgis.com/features/geocoding/) to perform reverse geocoding while online, and a custom offline locator that is included in the app's shared `Resources` folder for offline reverse geocoding tasks.
 
 ```csharp
 // try using the online geocoder
