@@ -14,7 +14,7 @@ Users can identify existing or create new street trees of a certain species on a
 
 The _Trees of Portland_ dataset schema is simple.
 
-![](/docs/img/general-ui.png)
+![](/docs/images/general-ui.png)
 
 A street tree can be one of many species and a street tree can contain zero to many inspection records. A neighborhood is a spatial feature symbolized on the map that does not relate to other tables.
 
@@ -34,21 +34,21 @@ While these custom behaviors may not work with your web map, they illustrate bes
 
 The app launches a map view containing the pre-configured webmap.
 
-![Main Map View](/docs/img/anatomy-map-view.png)
+![Main Map View](/docs/images/anatomy-map-view.png)
 
 The navigation bar's title reflects the name of the web map and the navigation bar button items are as follows:
 
 | Icon | Description |
 | ---- | ----------- |
-| ![Hamburger Drawer View](/docs/img/hamburger.png) | Ellipsis button to reveal or hide the app context drawer view. |
-| ![Zoom To Location](/docs/img/zoom-to-location.png) | Zoom to user's location. |
-| ![Add Feature](/docs/img/add-feature.png) | Add a new spatial feature to map. |
+| ![Hamburger Drawer View](/docs/images/hamburger.png) | Ellipsis button to reveal or hide the app context drawer view. |
+| ![Zoom To Location](/docs/images/zoom-to-location.png) | Zoom to user's location. |
+| ![Add Feature](/docs/images/add-feature.png) | Add a new spatial feature to map. |
 
 ### Manage the app's context
 
 Tapping the navigation bar's ellipsis button reveals the app context drawer view.
 
-![App Context Drawer View](/docs/img/anatomy-app-context-drawer.png)
+![App Context Drawer View](/docs/images/anatomy-app-context-drawer.png)
 
 #### Sign in and out of Portal
 
@@ -68,7 +68,7 @@ At initial launch the app loads the configured portal's public web map. A user d
 
 A user may need to collect data in a location where they are disconnected from the network. The app allows the user to take a web map offline. Because Trees of Portland uses a premium content basemap, a user must be authenticated to fully take the web map offline.
 
-![Download Map Offline Extent](/docs/img/anatomy-offline-extent.png)
+![Download Map Offline Extent](/docs/images/anatomy-offline-extent.png)
 
 When taking the web map offline, the app asks the user to specify the area of the web map they want to take offline. The app makes use of the offline map creation [on-demand workflow](https://developers.arcgis.com/net/latest/wpf/guide/offline.htm#ESRI_SECTION1_AAADEDF10BF24FDF88DBF6EF04DF8579). After the generate offline map job finishes, the app enters offline work mode and loads the offline mobile map package.
 
@@ -84,13 +84,13 @@ If a user elects to delete the offline map, the app deletes the offline mobile m
 
 Tapping or clicking the map performs an identify function on the map. The closest result to the clicked location is chosen, the feature is selected on the map, and a  pop-up view is revealed containing the feature's attributes and information from any related tables.
 
-![Identified Map Feature](/docs/img/anatomy-identified-feature.png)
+![Identified Map Feature](/docs/images/anatomy-identified-feature.png)
 
 ### Add map feature
 
 If the map contains a spatial feature layer that adheres to the rules specified in the section entitled [_Add Feature Rules_](#add-feature-rules), the add feature button is enabled. Tapping this button begins the process of adding a new record to the map.
 
-![Add New Feature](/docs/img/anatomy-new-feature.png)
+![Add New Feature](/docs/images/anatomy-new-feature.png)
 
 An action banner appears and a pin drops to the center of the map view. The action banner contains a Save and a Cancel button. The pin remains fixed to the center of the map view as the map is panned and zoomed beneath it. If the user taps the Save button, a new feature is created using the fixed map view's center point translated to a spatial coordinate.
 
@@ -98,7 +98,7 @@ An action banner appears and a pin drops to the center of the map view. The acti
 
 A pop-up view allows the user to interrogate the map view's selected feature in greater detail. The table-based view is broken down into a number of sub-components.
 
-![View A Pop-up](/docs/img/anatomy-popup-view.png)
+![View A Pop-up](/docs/images/anatomy-popup-view.png)
 
 The first section displays each attribute configured for display. Following the display attributes are each many-to-one related records. In the *Trees of Portland* web map the trees table has one many-to-one relationship, the Species table.
 
@@ -112,7 +112,7 @@ Edit and Delete buttons are present at the bottom of the view if the feature is 
 
 The pop-up's attributes configured as editable can be edited and validated inline within the same pop-up view.
 
-![Edit A Pop-up](/docs/img/anatomy-popup-edit.png)
+![Edit A Pop-up](/docs/images/anatomy-popup-edit.png)
 
 As values for fields are updated, the app informs the user of invalid changes and why they are invalid. The pop-up won't save if there are invalid fields.
 
@@ -190,7 +190,7 @@ The app leverages the ArcGIS [identity](https://developers.arcgis.com/authentica
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
-![ArcGIS Identity Model](/docs/img/identity.png)
+![ArcGIS Identity Model](/docs/images/identity.png)
 
 1. A request is made to a secured resource.
 2. The portal responds with an unauthorized access error.
@@ -296,7 +296,7 @@ An `IdentifiedFeaturePopup` view was designed to view and edit a pop-up. The vie
 
 The title of the pop-up view reflects the title of the pop-up as configured in portal. The `IdentifiedFeaturePopup` view is tabled-based and populates itself with attribute and related record content in the following ways.
 
-![Pop-up View Anatomy Relationships](/docs/img/anatomy-popup-view-relationships.png)
+![Pop-up View Anatomy Relationships](/docs/images/anatomy-popup-view-relationships.png)
 
 **Pop-up Attributes**
 
