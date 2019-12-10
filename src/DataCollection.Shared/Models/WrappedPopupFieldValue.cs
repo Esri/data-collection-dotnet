@@ -39,8 +39,14 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
         {
             PropertyChanged?.Invoke(this, e);
 
-            // Also raise property change events for Formatted Value, because it may have changed.
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReformattedValue)));
+            // Re-raise any property change events
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(e.PropertyName));
+
+            if (e.PropertyName == nameof(_wrappedValue.FormattedValue))
+            {
+                // Also raise property change events for Formatted Value, because it may have changed.
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReformattedValue)));
+            }
         }
 
         /// <summary>
@@ -93,14 +99,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
                             return localDateTime.ToString();
                     }
                 }
+
                 return FormattedValue;
             }
         }
 
         // Wrap PopupFieldValue properties for binding convenience.
         public PopupField Field => _wrappedValue.Field;
-        public object Value => _wrappedValue.Value;
-        public string FormattedValue => _wrappedValue.FormattedValue;
+        public object Value { get { try { return _wrappedValue.Value; } catch (Exception) { return null; } } }
+        public string FormattedValue { get { try { return _wrappedValue.FormattedValue; } catch (Exception) { return null; } } }
         public Exception ValidationError => _wrappedValue.ValidationError;
         public object OriginalValue => _wrappedValue.OriginalValue;
         public bool HasChanges => _wrappedValue.HasChanges;
