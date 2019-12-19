@@ -6,7 +6,7 @@ This is a data collection app that uses your organization's web maps and the Arc
 
 ### Generic application
 
-The app was designed to work in a generic context and thus your organization can configure the app to consume your own web map, out of the box. To accomplish this, the web map is configured by a set of rules that the app adheres to, driving the app's behavior. These rules are defined by the map's definition and by the map's layers' pop-up configurations. To learn more about what drives the app's behavior, read the section entitled [_Using Map Definition & Pop-up Configurations to Drive App Behavior_](#using-map-definition-popup-configurations-to-drive-app-behavior).
+The app was designed to work in a generic context and thus your organization can configure the app to consume your own web map, out of the box. To accomplish this, the web map is configured by a set of rules that the app adheres to, driving the app's behavior. These rules are defined by the map's definition and by the map's layers' pop-up configurations. To learn more about what drives the app's behavior, read the section entitled [_Using Map Definition & Pop-up Configurations to Drive App Behavior_](#using-map-definition--pop-up-configurations-to-drive-app-behavior).
 
 ### Trees of Portland
 
@@ -78,7 +78,7 @@ A user may need to collect data in a location where they are disconnected from t
 |-----|-----|
 | ![Download Map Offline Extent](/docs/images/anatomy-offline-extent-uwp.png) | ![Download Map Offline Extent](/docs/images/anatomy-offline-extent.png) |
 
-When taking the web map offline, the app asks the user to specify the area of the web map they want to take offline. The app makes use of the offline map creation [on-demand workflow](/net/latest/wpf/guide/offline.htm#ESRI_SECTION1_AAADEDF10BF24FDF88DBF6EF04DF8579). After the generate offline map job finishes, the app enters offline work mode and loads the offline mobile map package.
+When taking the web map offline, the app asks the user to specify the area of the web map they want to take offline. The app makes use of the offline map creation [on-demand workflow](https://developers.arcgis.com/net/latest/wpf/guide/offline.htm#ESRI_SECTION1_AAADEDF10BF24FDF88DBF6EF04DF8579). After the generate offline map job finishes, the app enters offline work mode and loads the offline mobile map package.
 
 > If you perform this behavior using *Trees of Portland* you should expect the download job to take 10 minutes or so to complete.
 
@@ -146,7 +146,7 @@ For related records where the pop-up is the parent in the related record relatio
 
 ## Using web maps
 
-You can author your own web maps in [Portal/ArcGIS Online](http://enterprise.arcgis.com/en/portal/latest/use/what-is-web-map.htm) or [ArcGIS Desktop](http://desktop.arcgis.com/en/maps/) and share them in your app via your Portal; this is the central power of the Web GIS model built into ArcGIS. Building an app which uses a web map allows the cartography and map configuration to be completed in Portal rather than in code. This then allows the map to change over time, without any code changes or app updates. Learn more about the benefits of developing with web maps [here](/web-map-specification/). Also, learn about authoring web maps in [Portal/ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm) and [ArcGIS Pro](http://pro.arcgis.com/en/pro-app/help/mapping/map-authoring/author-a-basemap.htm).
+You can author your own web maps in [Portal/ArcGIS Online](http://enterprise.arcgis.com/en/portal/latest/use/what-is-web-map.htm) or [ArcGIS Desktop](http://desktop.arcgis.com/en/maps/) and share them in your app via your Portal; this is the central power of the Web GIS model built into ArcGIS. Building an app which uses a web map allows the cartography and map configuration to be completed in Portal rather than in code. This then allows the map to change over time, without any code changes or app updates. Learn more about the benefits of developing with web maps [here](https://developers.arcgis.com/web-map-specification/). Also, learn about authoring web maps in [Portal/ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm) and [ArcGIS Pro](http://pro.arcgis.com/en/pro-app/help/mapping/map-authoring/author-a-basemap.htm).
 
 Loading web maps in code is easy; the app loads a web map from a Portal (which may require the user to sign in, see the [_identity model_](#identity-model) section) with the following code:
 
@@ -178,11 +178,11 @@ You'll want to consider whether to enable or disable [editing](http://doc.arcgis
 
 #### Enable pop-up on feature layers and tables
 
-The app relies on pop-up configurations to identify, view, and edit features and records. You'll want to consider whether to enable or disable [pop-ups](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-popups.htm#ESRI_SECTION1_9E13E02AABA74D5DA2DF1A34F7FB3C63) of your feature layers and tables. Only feature layers and tables that are pop-up-enabled can be identified or edited. Please note, you can have a scenario where you've enabled editing on a layer (as described above) but have disabled pop-ups for the same layer and thus a user will not be able to edit this layer.
+The app relies on pop-up configurations to identify, view, and edit features and records. You'll want to consider whether to enable or disable [pop-ups](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-pop-ups.htm#ESRI_SECTION1_9E13E02AABA74D5DA2DF1A34F7FB3C63) of your feature layers and tables. Only feature layers and tables that are pop-up-enabled can be identified or edited. Please note, you can have a scenario where you've enabled editing on a layer (as described above) but have disabled pop-ups for the same layer and thus a user will not be able to edit this layer.
 
 #### Configure pop-up on feature layers and tables
 
-For all layers with pop-ups enabled, you'll want to consider how that pop-up is [configured](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-popups.htm#ESRI_SECTION1_0505720B006E43C5B14837A353FFF9EC) for display and editing.
+For all layers with pop-ups enabled, you'll want to consider how that pop-up is [configured](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-pop-ups.htm#ESRI_SECTION1_0505720B006E43C5B14837A353FFF9EC) for display and editing.
 
 **Pop-up Title**
 
@@ -190,7 +190,7 @@ You can configure the pop-up title with a static string or formatted with attrib
 
 **Pop-up Display**
 
-It is recommended to configure your pop-ups such that their content's [display property](https://doc.arcgis.com/en/arcgis-online/get-started/view-popups.htm) is set to **a list of field attributes**. Using this configuration allows you to designate the display order of that table's attributes. This is important because various visual representations of pop-ups in the app are driven by the attributes display order.
+It is recommended to configure your pop-ups such that their content's [display property](https://doc.arcgis.com/en/arcgis-online/get-started/view-pop-ups.htm) is set to **a list of field attributes**. Using this configuration allows you to designate the display order of that table's attributes. This is important because various visual representations of pop-ups in the app are driven by the attributes display order.
 
 > With the Configure Pop-up pane open, under Pop-up Contents the display property provides a drop down list of options, select **a list of field attributes**.
 
@@ -264,7 +264,7 @@ public Task<IDictionary<string, string>> AuthorizeAsync(Uri serviceUri, Uri auth
 
 When the user successfully authenticates, a URI is passed from the web browser control. The URI is decoded and passed back to the `AuthenticationManager` to retrieve the token. The .NET app retrieves all the necessary information (`AppClientID` and `RedirectURL`) to set up the `AuthenticationManager` from the [Configuration](#configuration-and-customization) file.
 
-Note the value for `RedirectURL`. Combined with the text `auth` to make `data-collection://auth`, this is the [redirect URI](/authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app on your [developer dashboard](https://developers.arcgis.com/applications). For more details on the user authorization flow, see the [Authorize REST API](https://developers.arcgis.com/rest/users-groups-and-items/authorize.htm).
+Note the value for `RedirectURL`. Combined with the text `auth` to make `data-collection://auth`, this is the [redirect URI](https://developers.arcgis.com/authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app on your [developer dashboard](https://developers.arcgis.com/applications). For more details on the user authorization flow, see the [Authorize REST API](https://developers.arcgis.com/rest/users-groups-and-items/authorize.htm).
 
 For more details on configuring the app for OAuth, see [the main README.md](https://github.com/esri/data-collection-dotnet).
 
