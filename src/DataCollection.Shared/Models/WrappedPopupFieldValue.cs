@@ -27,20 +27,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
     /// </summary>
     public class WrappedPopupFieldValue : INotifyPropertyChanged
     {
-        private PopupFieldValue _wrappedValue;
+        private readonly PopupFieldValue _wrappedValue;
 
         public WrappedPopupFieldValue(PopupFieldValue baseValue)
         {
             _wrappedValue = baseValue;
-            _wrappedValue.PropertyChanged += wrappedValue_propertyChanged;
+            _wrappedValue.PropertyChanged += WrappedValue_propertyChanged;
         }
 
-        private void wrappedValue_propertyChanged(object sender, PropertyChangedEventArgs e)
+        private void WrappedValue_propertyChanged(object sender, PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(this, e);
-
-            // Re-raise any property change events
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(e.PropertyName));
 
             if (e.PropertyName == nameof(_wrappedValue.FormattedValue))
             {
