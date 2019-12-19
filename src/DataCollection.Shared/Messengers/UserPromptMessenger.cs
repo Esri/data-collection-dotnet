@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
 ******************************************************************************/
 
 using System;
+using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
 {
     /// <summary>
     /// Messenger class to handle communication between the viewmodels and the dialog box displayed when app requires user input
     /// </summary>
-    class UserPromptMessenger
+    internal class UserPromptMessenger
     {
         private static UserPromptMessenger _instance;
 
@@ -66,6 +67,35 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
             {
                 Response = response
             });
+        }
+
+        /// <summary>
+        /// Awaitable task that handles the need for a user response
+        /// </summary>
+        public Task<bool> AwaitConfirmation(string messageTitle, string message, bool isError, string stackTrace = null,
+            string affirmativeActionButtonContent = null, string negativeActionButtonContent = null, bool shouldCancel = false)
+        {
+            var taskCompletionSource = new TaskCompletionSource<bool>();
+
+            Instance.ResponseValueChanged += handler;
+
+            Instance.RaiseMessageValueChanged(messageTitle, message, isError, stackTrace, affirmativeActionButtonContent, negativeActionButtonContent);
+
+            void handler(object o, UserPromptResponseChangedEventArgs e)
+            {
+                {
+                    Instance.ResponseValueChanged -= handler;
+                    if (e.Response)
+                    {
+                        taskCompletionSource.TrySetResult(e.Response);
+                    }
+                    else if (shouldCancel)
+                    {
+                        taskCompletionSource.TrySetCanceled();
+                    }
+                }
+            }
+            return taskCompletionSource.Task;
         }
     }
 }

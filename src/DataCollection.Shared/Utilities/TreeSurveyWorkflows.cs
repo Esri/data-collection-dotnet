@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -210,7 +210,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
         /// Updates the condition and DBH for the selected tree
         /// This is only used for the Update tree condition custom workflow
         /// </summary>
-        internal static async Task UpdateIdentifiedFeature(ObservableCollection<PopupManager> originRelatedRecords, Feature feature, PopupManager popupManager)
+        internal static async Task UpdateIdentifiedFeature(ObservableCollection<OriginRelationshipViewModel> originRelatedRecords, Feature feature, PopupManager popupManager)
         {
             // if the webmap used in the app is not the tree dataset map, this method will not work
             if (WebmapURL != TreeDatasetWebmapUrl)
@@ -240,13 +240,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
                 return;
             }
 
-            var OrderedOriginRelationshipCollection = originRelatedRecords.OrderByDescending(PopupManager => PopupManager.DisplayedFields.First().Value);
+            var OrderedOriginRelationshipCollection = originRelatedRecords.OrderByDescending(x => x.PopupManager.DisplayedFields.First().Value);
             var lastInspection = OrderedOriginRelationshipCollection.First();
 
             // if the condition and dbh are still the same, do not update feature
-            if (lastInspection.DisplayedFields.Where(x => x.Field.FieldName == InspectionConditionAttribute) ==
+            if (lastInspection.PopupManager.DisplayedFields.Where(x => x.Field.FieldName == InspectionConditionAttribute) ==
                 popupManager.DisplayedFields.Where(x => x.Field.FieldName == TreeConditionAttribute) &&
-                lastInspection.DisplayedFields.Where(x => x.Field.FieldName == InspectionDBHAttribute) ==
+                lastInspection.PopupManager.DisplayedFields.Where(x => x.Field.FieldName == InspectionDBHAttribute) ==
                 popupManager.DisplayedFields.Where(x => x.Field.FieldName == TreeDBHAttribute))
             {
                 return;
@@ -257,9 +257,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
                 // set the condition to empty string if user left it blank
                 // set the dbh to 0 if user left it blank
                 feature.Attributes[TreeConditionAttribute] =
-                    lastInspection.DisplayedFields.Where(x => x.Field.FieldName == InspectionConditionAttribute).First().Value ?? "";
+                    lastInspection.PopupManager.DisplayedFields.Where(x => x.Field.FieldName == InspectionConditionAttribute).First().Value ?? "";
                 feature.Attributes[TreeDBHAttribute] =
-                    lastInspection.DisplayedFields.Where(x => x.Field.FieldName == InspectionDBHAttribute).First().Value ?? 0f;
+                    lastInspection.PopupManager.DisplayedFields.Where(x => x.Field.FieldName == InspectionDBHAttribute).First().Value ?? 0f;
 
                 try
                 {

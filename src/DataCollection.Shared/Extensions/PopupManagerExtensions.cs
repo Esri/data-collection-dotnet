@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -43,14 +43,23 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
         /// </summary>
         internal static bool HasEdits(this PopupManager popupManager)
         {
-            foreach (var field in popupManager.EditableDisplayFields)
+            try
             {
-                if (field.HasChanges)
+                foreach (var field in popupManager.EditableDisplayFields)
                 {
-                    return true;
+                    if (field.HasChanges)
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            // HasChanges throws if an invalid value is added by the user
+            // Bug has been filed and this workaround should be removed when issue is resolved
+            catch
+            {
+                return true;
+            }
         }
     }
 }

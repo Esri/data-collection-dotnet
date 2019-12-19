@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -152,24 +152,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private string _applicationTitle;
-
-        /// <summary>
-        /// Gets or sets the title of the application
-        /// </summary>
-        public string ApplicationTitle
-        {
-            get { return _applicationTitle; }
-            set
-            {
-                if (_applicationTitle != value && value != null)
-                {
-                    _applicationTitle = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         /// <summary>
         /// Perform feature selection 
         /// </summary>
@@ -222,9 +204,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
             else if (e.Status == LoadStatus.Loaded)
             {
-                // Set the title
-                ApplicationTitle = $"{Map.Item.Title} - Data Collection";
-
                 // try starting location services
                 try
                 {

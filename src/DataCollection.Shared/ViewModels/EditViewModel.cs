@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -42,6 +42,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         {
             try
             {
+                // the API throws a System.FormatException when an invalid value is present rather than discarding the value
+                // this is a workaround to clear all values before canceling, until the issue is resolved in the API
+                foreach (var field in popupManager.EditableDisplayFields)
+                {
+                    if (field.ValidationError != null)
+                        field.Value = field.OriginalValue;
+                }
                 popupManager.CancelEditing();
             }
             catch (Exception ex)
@@ -92,6 +99,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 
             try
             {
+                BusyWaitingMessenger.Instance.SetBusy(true,
+                    Properties.Resources.GetString("SavingEditsWait_Message"));
+
                 // exit the PopupManager edit session
                 await popupManager.FinishEditingAsync();
 
@@ -102,7 +112,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         try
                         {
-                            editedFeature.RelateFeature((ArcGISFeature)destinationRelationship.PopupManager.Popup.GeoElement, destinationRelationship.RelationshipInfo);
+                            editedFeature.RelateFeature((ArcGISFeature) destinationRelationship.PopupManager.Popup.GeoElement, destinationRelationship.RelationshipInfo);
                         }
                         catch (Exception ex)
                         {
@@ -134,6 +144,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
                 return null;
+            }
+            finally
+            {
+                BusyWaitingMessenger.Instance.SetBusy(false, "");
             }
         }
     }

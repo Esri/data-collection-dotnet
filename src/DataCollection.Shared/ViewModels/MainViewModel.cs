@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -27,22 +27,58 @@ using Esri.ArcGISRuntime.Mapping;
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
+#if WPF
+using System.Windows;
+using static System.Environment;
+#elif NETFX_CORE
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Windows.Storage;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    class MainViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
         private string _webMapURL;
         private int _defaultZoomScale;
+        private string _downloadPathRoot;
+        private bool _isBusyWaiting = false;
+        private string _busyWaitingMessage;
+#if WPF
+        private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
+#elif NETFX_CORE
+        private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#else
+        // will throw if another platform is added without handling this 
+        throw new NotImplementedException();
+#endif
+
+        // Needed for workaround that prevents deleting maps taken offline.
+        private string _currentOfflineSubdirectory;
 
         public MainViewModel()
         {
             _webMapURL = Settings.Default.WebmapURL;
-            DownloadPath = Directory.Exists(Settings.Default.DownloadPath) ? Settings.Default.DownloadPath : null;
+            _downloadPathRoot = Path.Combine(_localFolder,
+                typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
+                typeof(Settings).Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
+                "MMPK");
+
+            _currentOfflineSubdirectory = Settings.Default.CurrentOfflineSubdirectory;
+
+            // create download directory if it doesn't exist
+            if (!Directory.Exists(_downloadPathRoot))
+            {
+                Directory.CreateDirectory(_downloadPathRoot);
+            }
+
+            // TODO - set _currentOfflineSubdirectory
+            DeleteOldMapPackages();
+
             ConnectivityMode = Settings.Default.ConnectivityMode == "Online" ? ConnectivityMode.Online : ConnectivityMode.Offline;
             SyncDate = DateTime.TryParse(Settings.Default.SyncDate, out DateTime syncDate) ? syncDate : DateTime.MinValue;
             _defaultZoomScale = Settings.Default.DefaultZoomScale;
@@ -54,10 +90,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     ConnectivityMode = (ConnectivityMode)l.Args.Value;
                 }
-                else if (l.Args.Key == BroadcastMessageKey.DownloadPath && DownloadPath != l.Args.Value?.ToString())
-                {
-                    DownloadPath = l.Args.Value?.ToString();
-                }
             };
 
             // Initialize the identify controller
@@ -68,8 +100,29 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             GetMap().ContinueWith(t =>
             {
                 if (t.Result != null)
+                {
                     MapViewModel = new MapViewModel(t.Result, ConnectivityMode, _defaultZoomScale);
+                }
             });
+        }
+
+        private void DeleteOldMapPackages()
+        {
+            // Delete all of the non-current map packages from previous runs.
+            foreach(var directory in new DirectoryInfo(_downloadPathRoot).GetDirectories())
+            {
+                try
+                {
+                    if (_currentOfflineSubdirectory == null || directory.FullName != Path.Combine(_downloadPathRoot, _currentOfflineSubdirectory))
+                    {
+                        directory.Delete(true);
+                    }
+                }
+                catch
+                {
+                    // Ignore, sometimes there will be old locks/handles
+                }
+            }
         }
 
         private ConnectivityMode _connectivityMode;
@@ -100,31 +153,15 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get => _isLocationOnlyMode;
             set
             {
-                _isLocationOnlyMode = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool _isNewFeatureBeingAdded;
-
-        /// <summary>
-        /// Gets or sets the flag whether a new feature creation is currently in progress
-        /// </summary>
-        public bool IsNewFeatureBeingAdded
-        {
-            get => _isNewFeatureBeingAdded;
-            set
-            {
-                _isNewFeatureBeingAdded = value;
-                if (value)
+                if (_isLocationOnlyMode != value)
                 {
-                    IsLocationOnlyMode = true;
+                    _isLocationOnlyMode = value;
+                    if (_isLocationOnlyMode)
+                    {
+                        IdentifiedFeatureViewModel = null;
+                    }
+                    OnPropertyChanged();
                 }
-                else
-                {
-                    IsLocationOnlyMode = false;
-                }
-                OnPropertyChanged();
             }
         }
 
@@ -226,8 +263,37 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get { return _offlineMap; }
             set
             {
-                _offlineMap = value;
-                OnPropertyChanged();
+                if (_offlineMap != value)
+                {
+                    _offlineMap = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsBusyWaiting
+        {
+            get => _isBusyWaiting;
+            set
+            {
+                if (_isBusyWaiting != value)
+                {
+                    _isBusyWaiting = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string BusyWaitingMessage
+        {
+            get => _busyWaitingMessage;
+            set
+            {
+                if (_busyWaitingMessage != value)
+                {
+                    _busyWaitingMessage = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -241,8 +307,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get { return _syncDate; }
             set
             {
-                _syncDate = value;
-                OnPropertyChanged();
+                if (_syncDate != value)
+                {
+                    _syncDate = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -275,8 +344,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         public IdentifyController IdentifyController { get; private set; }
 
-        internal string DownloadPath { get; set; }
-
         private ICommand _workOfflineCommand;
 
         /// <summary>
@@ -287,7 +354,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _workOfflineCommand ?? (_workOfflineCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // reset the identify view model so the feature selected is deselected
                         IdentifiedFeatureViewModel = null;
@@ -301,49 +368,42 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         }
                         else
                         {
-                            // first delete any leftover files in the download directory
-                            // this happens if the previous delete method failed due to locks on the vtpk
-                            DeleteOfflineMap();
+                            // Remove reference to any existing offline map
+                            await ReleaseOfflineMap();
+
+                            string newPath = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).TrimEnd('=').Replace('/', '+').Replace('\\', '+');
+                            BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(newPath, BroadcastMessageKey.DownloadPath);
+                            _currentOfflineSubdirectory = Settings.Default.CurrentOfflineSubdirectory;
 
                             // set up a new DownloadViewModel
-                            DownloadViewModel = new DownloadViewModel(MapViewModel.Map, DownloadPath);
+                            DownloadViewModel = new DownloadViewModel(MapViewModel.Map, Path.Combine(_downloadPathRoot, _currentOfflineSubdirectory));
 
-                            // set up event handler to retrieve messages from the DownloadViewModel
-                            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += handler;
+                            var taskResult = await BroadcastMessenger.Instance.AwaitMessageValueChanged(BroadcastMessageKey.SyncSucceeded);
 
-                            async void handler(object o, BroadcastMessengerEventArgs e)
+                            if ((bool)taskResult)
                             {
-                                BroadcastMessenger.Instance.BroadcastMessengerValueChanged -= handler;
+                                // set and save download date 
+                                SyncDate = DateTime.Now;
+                                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(SyncDate, BroadcastMessageKey.SyncDate);
 
-                                // if message is received that sync (download) has succeeded, load the map and create a new MapViewModel
-                                // otherwise clean up the directory
-                                if (e.Args.Key == BroadcastMessageKey.SyncSucceeded)
+                                // set app mode to offline and load the offline map
+                                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(ConnectivityMode.Offline, BroadcastMessageKey.ConnectivityMode);
+
+                                var map = await GetMap();
+
+                                if (map != null)
                                 {
-                                    if ((bool)e.Args.Value)
-                                    {
-                                        // set and save download date 
-                                        SyncDate = DateTime.Now;
-                                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(SyncDate, BroadcastMessageKey.SyncDate);
-
-                                        // set app mode to offline and load the offline map
-                                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(ConnectivityMode.Offline, BroadcastMessageKey.ConnectivityMode);
-
-                                        var map = await GetMap();
-
-                                        if (map != null)
-                                        {
-                                            MapViewModel = new MapViewModel(map, ConnectivityMode, _defaultZoomScale);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // call method to delete the mmpk
-                                        DeleteOfflineMap();
-                                    }
-
-                                    DownloadViewModel = null;
+                                    MapViewModel = new MapViewModel(map, ConnectivityMode, _defaultZoomScale);
                                 }
                             }
+                            else
+                            {
+                                // call method to delete the mmpk
+                                await ReleaseOfflineMap();
+                            }
+
+                            // reset DownloadViewModel
+                            DownloadViewModel = null;
                         }
                     }));
             }
@@ -368,11 +428,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                         IdentifiedFeatureViewModel = null;
 
                         // if online map is unreachable, do not proceed
-                        if (!IsWebmapAccessible())
+                        if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
                             UserPromptMessenger.Instance.RaiseMessageValueChanged(
                                 Resources.GetString("DeviceOffline_Title"),
-                                Resources.GetString("NoMap_DeviceOffline_Message"),
+                                Resources.GetString("NoOnlineMode_DeviceOffline_Message"),
                                 true);
                             return;
                         }
@@ -407,10 +467,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _deleteOfflineMapCommand ?? (_deleteOfflineMapCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // if online map is unreachable, do not proceed
-                        if (!IsWebmapAccessible())
+                        if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
                             UserPromptMessenger.Instance.RaiseMessageValueChanged(
                                 Resources.GetString("DeviceOffline_Title"),
@@ -437,26 +497,17 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             }
                         }
 
-                        // wait for response from the user if the truly want to delete the offline map
-                        UserPromptMessenger.Instance.ResponseValueChanged += handler;
-                        UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                        // wait for response from the user if they truly want to delete the offline map
+                        bool response = await UserPromptMessenger.Instance.AwaitConfirmation(
                             Resources.GetString("DeleteMap_Title"),
                             deleteOfflineMapMessage,
                             false,
                             null,
                             Resources.GetString("DeleteButton_Content"));
 
-                        void handler(object o, UserPromptResponseChangedEventArgs e)
+                        if (response)
                         {
-                            {
-                                UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-
-                                // call method to delete map if user chooses so
-                                if (e.Response)
-                                {
-                                    DeleteOfflineMap();
-                                }
-                            }
+                            await ReleaseOfflineMap();
                         }
                     }));
             }
@@ -472,14 +523,16 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _syncMapCommand ?? (_syncMapCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // if there is no offline map, there is nothing to sync
                         if (OfflineMap == null)
+                        {
                             return;
+                        }
 
                         // if online map is unreachable, do not proceed
-                        if (!IsWebmapAccessible())
+                        if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
                             UserPromptMessenger.Instance.RaiseMessageValueChanged(
                                 Resources.GetString("DeviceOffline_Title"),
@@ -528,25 +581,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private ICommand _createFeatureCommand;
-
-        /// <summary>
-        /// Gets the command to begin adding a feature
-        /// </summary>
-        public ICommand CreateFeatureCommand
-        {
-            get
-            {
-                return _createFeatureCommand ?? (_createFeatureCommand = new DelegateCommand(
-                    (x) =>
-                    {
-                        // clear any selected features
-                        IdentifiedFeatureViewModel = null;
-                        IsNewFeatureBeingAdded = true;
-                    }));
-            }
-        }
-
         private ICommand _saveNewFeatureCommand;
 
         /// <summary>
@@ -579,7 +613,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);
 
                                     // create the feature and its corresponding viewmodel
-                                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ((FeatureLayer)layer).FeatureTable, ConnectivityMode)
+                                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode)
                                     {
                                         EditViewModel = new EditViewModel(ConnectivityMode)
                                     };
@@ -591,14 +625,11 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                                     // select the new feature
                                     MapViewModel.SelectFeature(feature);
 
-                                    IsNewFeatureBeingAdded = false;
                                     break;
                                 }
                                 catch (Exception ex)
                                 {
                                     UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-
-                                    IsNewFeatureBeingAdded = false;
                                 }
                             }
                         }
@@ -618,28 +649,13 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _deleteFeatureCommand ?? (_deleteFeatureCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        bool deleteConfirmed = false;
-
                         // wait for response from the user if they truly want to delete the feature
-                        UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                        UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                        bool deleteConfirmed = await UserPromptMessenger.Instance.AwaitConfirmation(
                             Resources.GetString("DeleteConfirmation_Title"),
                             Resources.GetString("DeleteConfirmation_Message"),
                             false,
                             null,
                             Resources.GetString("DeleteButton_Content"));
-
-                        void handler(object o, UserPromptResponseChangedEventArgs e)
-                        {
-                            {
-                                UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                                if (e.Response)
-                                {
-                                    deleteConfirmed = true;
-                                }
-                            }
-                        }
 
                         if (deleteConfirmed)
                         {
@@ -653,15 +669,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                             }
                             else
                             {
-                                if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteRelatedRecord())
+                                if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteFeature())
                                 {
-
-                                    // call method to update tree condition and dbh
-                                    await TreeSurveyWorkflows.UpdateIdentifiedFeature(
-                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.OriginRelatedRecords,
-                                        IdentifiedFeatureViewModel.Feature,
-                                        IdentifiedFeatureViewModel.SelectedOriginRelationship.SelectedRecordPopupManager);
-
                                     IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                                 }
                             }
@@ -680,23 +689,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _cancelEditsCommand ?? (_cancelEditsCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         if (x is IdentifiedFeatureViewModel)
                         {
-                            if (IdentifiedFeatureViewModel.DiscardChanges() &&
+                            if (await IdentifiedFeatureViewModel.DiscardChanges() &&
                             IdentifiedFeatureViewModel.Feature.IsNewFeature())
                             {
                                 IdentifiedFeatureViewModel = null;
                             }
-                        }                      
-                        else if (x is OriginRelationshipViewModel)
+                        }
+                        else if (x is OriginRelationshipViewModel originRelationshipVM)
                         {
-                            var feature = IdentifiedFeatureViewModel?.SelectedOriginRelationship?.SelectedRecordPopupManager?.Popup?.GeoElement as ArcGISFeature;
+                            var feature = originRelationshipVM?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
 
-                            if (feature != null && IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
+                            if (feature != null && await IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
                             {
                                 IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
+                                // remove viewmodel from collection
+                                var originRelationshipVMCollection = (IdentifiedFeatureViewModel.OriginRelationships.FirstOrDefault(o => o.RelationshipInfo == originRelationshipVM.RelationshipInfo)).OriginRelationshipViewModelCollection;
+                                originRelationshipVMCollection.Remove(originRelationshipVM);
                             }
                         }
                     }));
@@ -740,15 +752,43 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     // load feature to access its relationship info
                     if (feature.LoadStatus != LoadStatus.Loaded)
                     {
-                        await feature.LoadAsync();
+                        try
+                        {
+                            await feature.LoadAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                                Resources.GetString("GenericError_Title"),
+                                ex.Message,
+                                true,
+                                ex.StackTrace);
+                        }
                     }
 
                     // set the viewmodel for the feature
-                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, feature.FeatureTable, ConnectivityMode);
+                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode);
 
-                    // Call method to set up relationship info
-                    await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature);
+                    try
+                    {
+                        // Call method to set up relationship info
+                        await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature);
+                    }
+                    catch (Exception ex)
+                    {
+                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                    }
                 }
+                else
+                {
+                    // Reset selection
+                    IdentifiedFeatureViewModel = null;
+                }
+            }
+            else
+            {
+                // Reset selection
+                IdentifiedFeatureViewModel = null;
             }
         }
 
@@ -757,15 +797,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         private async void Instance_BroadcastMessengerValueChanged(object sender, BroadcastMessengerEventArgs e)
         {
-            // Reload map when AuthenticatedUser is reset to null
-            if (e.Args.Key == BroadcastMessageKey.AuthenticatedUser && e.Args.Value == null)
+            try
             {
-                var map = await GetMap();
-
-                if (map != null)
+                // Reload map when AuthenticatedUser is reset to null
+                if (e.Args.Key == BroadcastMessageKey.AuthenticatedUser && e.Args.Value == null)
                 {
-                    MapViewModel = new MapViewModel(map, ConnectivityMode, _defaultZoomScale);
+                    var map = await GetMap();
+
+                    if (map != null)
+                    {
+                        MapViewModel = new MapViewModel(map, ConnectivityMode, _defaultZoomScale);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
             }
         }
 
@@ -779,33 +830,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         /// </summary>
         private async Task<Map> GetMap()
         {
-            // test connectivity to online webmap
-            // if the device is fully offline, this will throw
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_webMapURL);
-                HttpWebResponse response;
-
-                using (response = (HttpWebResponse)request.GetResponse())
-                {
-                    // force app state to offline if the app cannot find the webmap
-                    if (response.StatusCode == HttpStatusCode.NotFound)
-                    {
-                        ConnectivityMode = ConnectivityMode.Offline;
-                    }
-                }
-            }
-            catch
-            {
-                ConnectivityMode = ConnectivityMode.Offline;
-            }
-
             // get mmpk if it exists and if not already loaded
             if (Mmpk == null)
             {
                 try
                 {
-                    Mmpk = await MobileMapPackage.OpenAsync(DownloadPath);
+                    Mmpk = await MobileMapPackage.OpenAsync(Path.Combine(_downloadPathRoot, _currentOfflineSubdirectory));
                     OfflineMap = Mmpk.Maps.FirstOrDefault();
                 }
                 catch
@@ -815,16 +845,40 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 }
             }
 
-            // Choose online or offline map based on app state         
-            return (ConnectivityMode == ConnectivityMode.Online) ?
-                new Map(new Uri(_webMapURL)) :
-                OfflineMap;
+            if (ConnectivityMode == ConnectivityMode.Online)
+            {
+                if (await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
+                {
+                    return new Map(new Uri(_webMapURL));
+                }
+                else
+                {
+                    ConnectivityMode = ConnectivityMode.Offline;
+                }
+            }
+
+            if (ConnectivityMode == ConnectivityMode.Offline)
+            {
+                if (OfflineMap != null)
+                {
+                    return OfflineMap;
+                }
+                else
+                {
+                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("DeviceOffline_Title"),
+                    Resources.GetString("NoMap_DeviceOffline_Message"),
+                    true);
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
-        /// Method to delete the mmpk that contails the offline map
+        /// Method to prepare the offline map package for future deletion
         /// </summary>
-        private void DeleteOfflineMap()
+        private async Task ReleaseOfflineMap()
         {
             // switch app to Online mode
             if (ConnectivityMode == ConnectivityMode.Offline)
@@ -843,55 +897,22 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
 
             // try deleting the folder
-            // if deleting the folder doesn't work, restart the application
-            if (Directory.Exists(DownloadPath))
-            {
-                try
-                {
-                    var directoryInfo = new DirectoryInfo(DownloadPath);
-                    directoryInfo.ClearDirectory();
-                }
-                catch
-                {
-                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                        Resources.GetString("IOException_Title"),
-                        Resources.GetString("IOException_Message"),
-                        true);
-
-                    // restart the app
-#if WPF
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                        Application.Current.Shutdown();
-                    });
-#endif
-                }
-            }
-        }
-
-        /// <summary>
-        /// Test that the web map used for the app is online and accessible 
-        /// </summary>
-        private bool IsWebmapAccessible()
-        {
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_webMapURL);
-                HttpWebResponse response;
-
-                using (response = (HttpWebResponse)request.GetResponse())
+                if (_currentOfflineSubdirectory != null)
                 {
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        return true;
-                    }
+                    string currentPath = Path.Combine(_downloadPathRoot, _currentOfflineSubdirectory);
+                    Directory.Delete(currentPath, true);
                 }
-                return false;
             }
-            catch
+            catch 
+            { 
+                // Ignore, it will be deleted later.
+            }
+            finally
             {
-                return false;
+                _currentOfflineSubdirectory = null;
+                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.DownloadPath);
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ using Esri.ArcGISRuntime.UI;
 using Esri.ArcGISRuntime.UI.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 #if NETFX_CORE
 using Windows.UI.Xaml;
@@ -34,18 +36,12 @@ using System.Windows;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
 {
-    public sealed class IdentifyController
+    public sealed class IdentifyController : INotifyPropertyChanged
     {
         private WeakReference<MapView> _mapViewWeakRef;
         private bool _isIdentifyInProgress;
         private bool _wasMapViewDoubleTapped;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IdentifyController"/> class.
-        /// </summary>
-        public IdentifyController()
-        {
-        }
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         /// <summary>
         /// Gets or sets the MapView on which to perform identify operations
@@ -108,23 +104,32 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         /// </summary>
         private async void MapView_Tapped(object sender, GeoViewInputEventArgs e)
         {
-            _isIdentifyInProgress = true;
-            var mapView = (MapView)sender;
-            var target = Target;
-
-            // Wait for double tap to fire
-            // Identify is only peformed on single tap. The delay is used to detect and ignore double taps
-            await Task.Delay(500);
-
-            // If view has been double tapped, set tapped to handled and flag back to false
-            // If view has been tapped just once, perform identify
-            if (_wasMapViewDoubleTapped == true)
+            try
             {
-                e.Handled = true;
-                _wasMapViewDoubleTapped = false;
-            }
-            else
-            {
+                // Wait for double tap to fire
+                // Identify is only peformed on single tap. The delay is used to detect and ignore double taps
+                await Task.Delay(300);
+
+                // If view has been double tapped, set tapped to handled and flag back to false
+                // If view has been tapped just once, perform identify
+                if (_wasMapViewDoubleTapped)
+                {
+                    e.Handled = true;
+                    _wasMapViewDoubleTapped = false;
+                    return;
+                }
+
+                if (IsIdentifyInProgress)
+                {
+                    _cancellationTokenSource.Cancel();
+                    _cancellationTokenSource = new CancellationTokenSource();
+                }
+
+                IsIdentifyInProgress = true;
+                var mapView = (MapView)sender;
+                var target = Target;
+
+
                 if (target is ILoadable loadable && loadable.LoadStatus == LoadStatus.NotLoaded)
                 {
                     await loadable.LoadAsync();
@@ -141,57 +146,66 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
 
                 IReadOnlyList<IdentifyLayerResult> layerResults = null;
                 IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults = null;
-                try
+                CancellationTokenSource _currentSource = _cancellationTokenSource;
+                if (target == null)
                 {
-                    if (target == null)
+                    // An identify target is not specified, so identify all layers and overlays
+                    var identifyLayersTask = mapView.IdentifyLayersAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                    var identifyOverlaysTask = mapView.IdentifyGraphicsOverlaysAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
+                    await Task.WhenAll(identifyLayersTask, identifyOverlaysTask);
+                    layerResults = identifyLayersTask.Result;
+                    graphicsOverlayResults = identifyOverlaysTask.Result;
+                }
+                else if (target is Layer targetLayer && mapView.Map.OperationalLayers.Contains(target as Layer))
+                {
+                    // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
+                    var identifyResult = await mapView.IdentifyLayerAsync(targetLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                    layerResults = new List<IdentifyLayerResult> { identifyResult }.AsReadOnly();
+                }
+                else if (target is GraphicsOverlay targetOverlay && mapView.GraphicsOverlays.Contains(target as GraphicsOverlay))
+                {
+                    // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
+                    var identifyResult = await mapView.IdentifyGraphicsOverlayAsync(targetOverlay, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
+                    graphicsOverlayResults = new List<IdentifyGraphicsOverlayResult> { identifyResult }.AsReadOnly();
+                }
+                else if (target is ArcGISSublayer sublayer)
+                {
+                    var layer = mapView?.Map?.AllLayers?.OfType<ArcGISMapImageLayer>()?.Where(l => l.Sublayers.Contains(sublayer))?.FirstOrDefault();
+
+                    if (layer != null)
                     {
-                        // An identify target is not specified, so identify all layers and overlays
-                        var identifyLayersTask = mapView.IdentifyLayersAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
-                        var identifyOverlaysTask = mapView.IdentifyGraphicsOverlaysAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
-                        await Task.WhenAll(identifyLayersTask, identifyOverlaysTask);
-                        layerResults = identifyLayersTask.Result;
-                        graphicsOverlayResults = identifyOverlaysTask.Result;
-                    }
-                    else if (target is Layer targetLayer && mapView.Map.OperationalLayers.Contains(target as Layer))
-                    {
+
                         // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                        var identifyResult = await mapView.IdentifyLayerAsync(targetLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
-                        layerResults = new List<IdentifyLayerResult> { identifyResult }.AsReadOnly();
-                    }
-                    else if (target is GraphicsOverlay targetOverlay && mapView.GraphicsOverlays.Contains(target as GraphicsOverlay))
-                    {
-                        // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                        var identifyResult = await mapView.IdentifyGraphicsOverlayAsync(targetOverlay, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
-                        graphicsOverlayResults = new List<IdentifyGraphicsOverlayResult> { identifyResult }.AsReadOnly();
-                    }
-                    else if (target is ArcGISSublayer sublayer)
-                    {
-                        var layer = mapView?.Map?.AllLayers?.OfType<ArcGISMapImageLayer>()?.Where(l => l.Sublayers.Contains(sublayer))?.FirstOrDefault();
+                        var topLevelIdentifyResult = await mapView.IdentifyLayerAsync(layer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                        var sublayerIdentifyResult = topLevelIdentifyResult?.SublayerResults?.Where(r => r.LayerContent.Equals(sublayer)).FirstOrDefault();
 
-                        if (layer != null)
-                        {
-
-                            // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                            var topLevelIdentifyResult = await mapView.IdentifyLayerAsync(layer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
-                            var sublayerIdentifyResult = topLevelIdentifyResult?.SublayerResults?.Where(r => r.LayerContent.Equals(sublayer)).FirstOrDefault();
-
-                            layerResults = new List<IdentifyLayerResult> { sublayerIdentifyResult }.AsReadOnly();
-                        }
+                        layerResults = new List<IdentifyLayerResult> { sublayerIdentifyResult }.AsReadOnly();
                     }
                 }
-                catch (Exception ex)
-                {
-                    UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                        Resources.GetString("IdentifyError_Title"),
-                        ex.Message,
-                        true,
-                        ex.StackTrace);
-                }
 
+                // This check is needed because IdentifyGraphicsOverlay doesn't support cancellation.
+                if (_currentSource.IsCancellationRequested)
+                {
+                    return;
+                }
                 OnIdentifyCompleted(layerResults, graphicsOverlayResults);
             }
-
-            _isIdentifyInProgress = false;
+            catch (TaskCanceledException)
+            {
+                // Ignore, not really an error.
+            }
+            catch (Exception ex)
+            {
+                UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                    Resources.GetString("IdentifyError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
+            } 
+            finally
+            {
+                IsIdentifyInProgress = false;
+            }
         }
 
         /// <summary>
@@ -223,11 +237,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
         }
 
         public event EventHandler<IdentifyEventArgs> IdentifyCompleted;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnIdentifyCompleted(IReadOnlyList<IdentifyLayerResult> layerResults,
             IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults)
         {
             IdentifyCompleted?.Invoke(this, new IdentifyEventArgs(layerResults, graphicsOverlayResults));
+        }
+
+        /// <summary>
+        /// Property so that identify work in progress can be shown in the UI.
+        /// </summary>
+        public bool IsIdentifyInProgress
+        {
+            get => _isIdentifyInProgress;
+            set
+            {
+                if (_isIdentifyInProgress != value)
+                {
+                    _isIdentifyInProgress = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIdentifyInProgress)));
+                }
+            }
         }
     }
 }

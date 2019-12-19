@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -17,13 +17,14 @@
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
 {
     /// <summary>
     /// Messenger class to handle communication between classes when app settings change
     /// </summary>
-    class BroadcastMessenger
+    internal class BroadcastMessenger
     {
         private static BroadcastMessenger _instance;
 
@@ -49,6 +50,28 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
             {
                 Args = new KeyValuePair<BroadcastMessageKey, object>(broadcastMessageKey, o)
             });
+        }
+
+        /// <summary>
+        /// Awaitable task that handles the need for a response
+        /// </summary>
+        public Task<object> AwaitMessageValueChanged(BroadcastMessageKey key)
+        {
+            var taskCompletionSource = new TaskCompletionSource<object>();
+
+            Instance.BroadcastMessengerValueChanged += handler;
+
+            void handler(object o, BroadcastMessengerEventArgs e)
+            {
+                if (e.Args.Key == key)
+                {
+                    Instance.BroadcastMessengerValueChanged -= handler;
+                    Instance.RaiseBroadcastMessengerValueChanged(e.Args.Value, key);
+                    taskCompletionSource.TrySetResult(e.Args.Value);
+                }
+            }
+
+            return taskCompletionSource.Task;
         }
     }
 }

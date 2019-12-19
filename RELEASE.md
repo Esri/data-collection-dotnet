@@ -1,8 +1,21 @@
 # Release notes
 
+## 1.1.0
+
+This is the third release of the Data Collection app for .NET, built on ArcGIS Runtime 100.7.
+
+New features at 1.1.0 include:
+
+* Upgraded to the latest 100.7 ArcGIS Runtime
+* Support for viewing, adding, and deleting feature attachments
+* UWP implementation of the app, built on the same shared foundation
+* Bug fixes and performance improvements
+
 ## 1.0.1
 
-- Comprehensive [app documentation](/docs/index.md) from the ArcGIS for Developers site.
+New features at 1.0.1 include:
+
+* Comprehensive [app documentation](/docs/index.md) from the ArcGIS for Developers site.
 
 ## 1.0.0
 

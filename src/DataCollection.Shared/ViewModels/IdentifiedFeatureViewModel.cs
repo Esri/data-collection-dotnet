@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -28,22 +28,26 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+#if WPF
+using System.Windows;
+#elif NETFX_CORE
+using Windows.UI.Core;
+#endif
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    public class IdentifiedFeatureViewModel : BaseViewModel
+    public class IdentifiedFeatureViewModel : FeatureViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentifiedFeatureViewModel"/> class.
         /// </summary>
-        public IdentifiedFeatureViewModel(Feature feature, FeatureTable featureTable, ConnectivityMode connectivityMode)
+        public IdentifiedFeatureViewModel(Feature feature, ConnectivityMode connectivityMode)
         {
             if (feature != null)
             {
                 Feature = feature;
-                PopupManager = new PopupManager(new Popup(feature, featureTable.PopupDefinition));
-                Fields = FieldContainer.GetFields(PopupManager);
-                FeatureTable = featureTable;
+                FeatureTable = feature.FeatureTable as ArcGISFeatureTable;
+                PopupManager = new PopupManager(new Popup(feature, FeatureTable.PopupDefinition));
                 ConnectivityMode = connectivityMode;
             }
         }
@@ -65,7 +69,6 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     {
                         if (SelectedOriginRelationship != null)
                         {
-                            SelectedOriginRelationship.PropertyChanged -= SelectedOriginRelationship_PropertyChanged;
                             SelectedOriginRelationship = null;
                         }
                     }
@@ -94,55 +97,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                     if (value != null)
                     {
                         SelectedDestinationRelationship = null;
+                        SelectedOriginRelationship.FeatureCRUDOperationCompleted += OriginRelatedFeature_FeatureCRUDOperationCompleted;
 
-                        // Set PropertyChanged event handler
-                        // This is only used for the Update tree condition custom workflow 
-                        SelectedOriginRelationship.PropertyChanged += SelectedOriginRelationship_PropertyChanged;
                     }
                 }
             }
         }
-
-        private EditViewModel _editViewModel;
-
-        /// <summary>
-        /// Gets or sets the viewmodel for the current edit session
-        /// </summary>
-        public EditViewModel EditViewModel
-        {
-            get => _editViewModel;
-            set
-            {
-                if (_editViewModel != value)
-                {
-                    _editViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the feature currently selected
-        /// </summary>
-        public Feature Feature { get; }
-
-        /// <summary>
-        /// Gets the feature table for the layer
-        /// </summary>
-        public FeatureTable FeatureTable { get; }
-
-        /// <summary>
-        /// Gets the PopupManager for the selected feature
-        /// </summary>
-        public PopupManager PopupManager { get; }
-
-        /// <summary>
-        /// Gets the underlying Field property for the PopupField in order to retrieve FieldType and Domain
-        /// This is a workaround until Domain and FieldType are exposed on the PopupManager
-        /// </summary>
-        public IEnumerable<FieldContainer> Fields { get; }
-
-        public ConnectivityMode ConnectivityMode { get; }
 
         /// <summary>
         /// Gets or sets the collection of view models that handle the related features to which the identified feature is Destination
@@ -150,9 +110,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         public ObservableCollection<DestinationRelationshipViewModel> DestinationRelationships { get; } = new ObservableCollection<DestinationRelationshipViewModel>();
 
         /// <summary>
-        /// Gets or sets the collection of view models that handle the related features to which the identified feature is Origin
+        /// Gets or sets the collection of collections of table and view model key value pairs that handle the related features to which the identified feature is Origin
         /// </summary>
-        public ObservableCollection<OriginRelationshipViewModel> OriginRelationships { get; } = new ObservableCollection<OriginRelationshipViewModel>();
+        public ObservableCollection<OriginRelationship> OriginRelationships { get; } = new ObservableCollection<OriginRelationship>();
 
         private ICommand _setSelectedDestinationRelationshipCommand;
 
@@ -166,11 +126,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _setSelectedDestinationRelationshipCommand ?? (_setSelectedDestinationRelationshipCommand = new DelegateCommand(
                     (x) =>
                     {
-                        if (x is DestinationRelationshipViewModel)
+                        if (x is DestinationRelationshipViewModel destinationRelationshipViewModel)
                         {
-                            SelectedDestinationRelationship = (DestinationRelationshipViewModel)x;
+                            SelectedDestinationRelationship = destinationRelationshipViewModel;
                         }
-
                     }));
             }
         }
@@ -187,13 +146,12 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _setSelectedOriginRelationshipCommand ?? (_setSelectedOriginRelationshipCommand = new DelegateCommand(
                     (x) =>
                     {
-                        if (x is object[] parameterArray)
+                        if (x is PopupManager popupManager)
                         {
-                            if (parameterArray[0] is OriginRelationshipViewModel && parameterArray[1] is PopupManager)
-                            {
-                                SelectedOriginRelationship = (OriginRelationshipViewModel)parameterArray[0];
-                                SelectedOriginRelationship.SelectedRecordPopupManager = (PopupManager)parameterArray[1];
-                            }
+                            SelectedOriginRelationship = OriginRelationships.First(
+                                rels => rels.OriginRelationshipViewModelCollection.FirstOrDefault(
+                                    r => r.PopupManager == popupManager) !=
+                                    default(OriginRelationshipViewModel)).OriginRelationshipViewModelCollection.FirstOrDefault(r => r.PopupManager == popupManager);
                         }
                     }));
             }
@@ -209,37 +167,24 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             get
             {
                 return _editFeatureCommand ?? (_editFeatureCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // clear the related records user may have open
                         SelectedDestinationRelationship = null;
                         if (SelectedOriginRelationship != null && SelectedOriginRelationship.EditViewModel != null)
                         {
-                            bool exitWithoutSaving = false;
-
                             // if user had edits, wait for response from the user if they truly want to exit editing the related record
-                            UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
-                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
+                            bool exitWithoutSaving = await UserPromptMessenger.Instance.AwaitConfirmation(
                                 Resources.GetString("DiscardEditsConfirmation_Title"),
                                 Resources.GetString("DiscardEditsConfirmation_Message"),
                                 false,
                                 null,
                                 Resources.GetString("DiscardButton_Content"));
 
-                            void handler(object o, UserPromptResponseChangedEventArgs e)
-                            {
-                                {
-                                    UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                                    if (e.Response)
-                                    {
-                                        exitWithoutSaving = true;
-                                    }
-                                }
-                            }
-
                             if (!exitWithoutSaving)
+                            {
                                 return;
+                            }
                         }
 
                         SelectedOriginRelationship = null;
@@ -305,27 +250,39 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 return _addOriginRelatedFeatureCommand ?? (_addOriginRelatedFeatureCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        if (x is OriginRelationshipViewModel)
+                        if (x is OriginRelationship originRelationship)
                         {
-                            SelectedOriginRelationship = x as OriginRelationshipViewModel;
                             try
                             {
                                 // create a new record and load it
-                                var feature = SelectedOriginRelationship.RelatedTable.CreateFeature();
+                                var feature = originRelationship.RelatedTable.CreateFeature();
 
                                 if (feature != null && feature is ArcGISFeature)
                                 {
-                                    await ((ArcGISFeature)feature).LoadAsync();
-
-                                    // get the corresponding PopupManager
-                                    SelectedOriginRelationship.SelectedRecordPopupManager = new PopupManager(new Popup(feature, SelectedOriginRelationship.RelatedTable.PopupDefinition));
+                                    // create viewmodel for the feature and set it as selected 
+                                    var originRelationshipViewModel = new OriginRelationshipViewModel(originRelationship.RelationshipInfo, ConnectivityMode);
+                                    await originRelationshipViewModel.LoadViewModel(feature).ContinueWith(t =>
+                                    {
+                                        SelectedOriginRelationship = originRelationshipViewModel;
+#if WPF
+                                        Application.Current.Dispatcher.Invoke(new Action(() => {
+                                            originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel); }));
+#elif NETFX_CORE
+                                        Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                                        {
+                                            originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel);
+                                        });
+#else
+                                        originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel);
+#endif
+                                    });
 
                                     // related new record to the feature
                                     ((ArcGISFeature)feature).RelateFeature((ArcGISFeature)Feature, SelectedOriginRelationship.RelationshipInfo);
 
                                     // open editor and finish creating the feature
                                     SelectedOriginRelationship.EditViewModel = new EditViewModel(ConnectivityMode);
-                                    SelectedOriginRelationship.EditViewModel.CreateFeature(null, (ArcGISFeature)feature, SelectedOriginRelationship.SelectedRecordPopupManager);
+                                    SelectedOriginRelationship.EditViewModel.CreateFeature(null, (ArcGISFeature)feature, SelectedOriginRelationship.PopupManager);
                                 }
                             }
                             catch (Exception ex)
@@ -347,7 +304,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             OriginRelationships.Clear();
 
             // get RelationshipInfos from the table
-            var relationshipInfos = feature.FeatureTable.GetRelationshipInfos(feature);
+            var relationshipInfos = feature.FeatureTable.GetRelationshipInfos();
 
             // query only the related tables which match the application rules
             // save destination and origin type relationships separately as origin relates features are editable in the app
@@ -380,12 +337,23 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
                 {
                     try
                     {
-                        var originRelationshipViewModel = new OriginRelationshipViewModel(relatedTable, ConnectivityMode);
-
                         foreach (var relatedFeatureQueryResult in relationships.Where(r => r.IsValidRelationship()))
                         {
-                            await originRelationshipViewModel.InitializeAsync(relatedFeatureQueryResult, relationshipInfo);
-                            OriginRelationships.Add(originRelationshipViewModel);
+                            var originRelationshipsCollection = new ObservableCollection<OriginRelationshipViewModel>();
+
+                            foreach (var relatedFeature in relatedFeatureQueryResult)
+                            {
+                                var originRelatedFeature = new OriginRelationshipViewModel(relationshipInfo, ConnectivityMode);
+                                await originRelatedFeature.LoadViewModel(relatedFeature).ContinueWith(t =>
+                                {
+                                    originRelationshipsCollection.Add(originRelatedFeature);
+                                });
+                            }
+
+                            //sort collection
+                            SortCollection(originRelationshipsCollection);
+
+                            OriginRelationships.Add(new OriginRelationship(relatedTable, relationshipInfo, originRelationshipsCollection));
                         }
                     }
                     catch (Exception ex)
@@ -397,83 +365,49 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
-        /// Deletes identified feature
+        /// Event handler fires when the SelectedOriginRelationship is modified
         /// </summary>
-        internal async Task<bool> DeleteFeature()
+        private async void OriginRelatedFeature_FeatureCRUDOperationCompleted(object sender, FeatureOperationEventArgs e)
         {
-            if (Feature != null)
-            {
-                try
-                {
-                    await FeatureTable?.DeleteFeature(Feature);
-                    await FeatureTable?.ApplyEdits();
+            var originRelationshipVM = sender as OriginRelationshipViewModel;
+            var originRelationshipVMCollection = (OriginRelationships.FirstOrDefault(o => o.RelationshipInfo == originRelationshipVM.RelationshipInfo)).OriginRelationshipViewModelCollection;
 
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                    return false;
-                }
+            if (e.Args == CRUDOperation.Delete)
+            {
+                // remove viewmodel from collection
+                originRelationshipVMCollection.Remove(originRelationshipVM);
             }
-            return false;
-        }
-
-        /// <summary>
-        /// Discards edits performed on a feature 
-        /// </summary>
-        internal bool DiscardChanges()
-        {
-            if (PopupManager.HasEdits())
+            else
             {
-                bool cancelEdits = false;
+                //sort collection
+                SortCollection(originRelationshipVMCollection);
+            }
 
-                // wait for response from the user if the truly want to cancel the edit operation
-                UserPromptMessenger.Instance.ResponseValueChanged += handler;
-
+            try
+            {
+                // call method to update tree condition and dbh in custom tree workflow
+                await TreeSurveyWorkflows.UpdateIdentifiedFeature(originRelationshipVMCollection, Feature, PopupManager);
+            }
+            catch (Exception ex)
+            {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                    Resources.GetString("DiscardEditsConfirmation_Title"),
-                    Resources.GetString("DiscardEditsConfirmation_Message"),
-                    false,
-                    null,
-                    Resources.GetString("DiscardButton_Content"));
-
-                void handler(object o, UserPromptResponseChangedEventArgs e)
-                {
-                    {
-                        UserPromptMessenger.Instance.ResponseValueChanged -= handler;
-                        if (e.Response)
-                        {
-                            cancelEdits = true;
-                        }
-                    }
-                }
-
-                if (!cancelEdits)
-                {
-                    return false;
-                }
+                    Resources.GetString("GenericError_Title"),
+                    ex.Message,
+                    true,
+                    ex.StackTrace);
             }
-
-            // cancel the edits if the PopupManager doesn't have any edits or if the user chooses to
-            EditViewModel.CancelEdits(PopupManager);
-            EditViewModel = null;
-            return true;
         }
 
         /// <summary>
-        /// Event handler for property changed on the VM
-        /// This is only used for the Update tree condition custom workflow 
+        /// Sorts the collection of origin relationships so it is displayed in order of the first field
         /// </summary>
-        private async void SelectedOriginRelationship_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        /// <param name="originRelationshipVMCollection"></param>
+        private void SortCollection(ObservableCollection<OriginRelationshipViewModel> originRelationshipVMCollection)
         {
-            if (e.PropertyName == nameof(OriginRelationshipViewModel.EditViewModel))
+            List<OriginRelationshipViewModel> sorted = originRelationshipVMCollection.OrderByDescending(x => x.PopupManager?.DisplayedFields?.FirstOrDefault()?.Value).ToList();
+            for (int i = 0; i < sorted.Count(); i++)
             {
-                if (SelectedOriginRelationship.EditViewModel == null && SelectedOriginRelationship.OriginRelatedRecords != null)
-                {
-                    // call method to update tree condition and dbh
-                    await TreeSurveyWorkflows.UpdateIdentifiedFeature(SelectedOriginRelationship.OriginRelatedRecords, Feature, PopupManager);
-                }
+                originRelationshipVMCollection.Move(originRelationshipVMCollection.IndexOf(sorted[i]), i);
             }
         }
     }

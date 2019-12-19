@@ -8,7 +8,8 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
     internal static class Resources
     {
 #if NETFX_CORE
-        private static readonly Windows.ApplicationModel.Resources.ResourceLoader s_resource = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse("Esri.ArcGISRuntime.ExampleApps/Resources");
+        private static readonly Windows.ApplicationModel.Resources.ResourceLoader s_resource =
+            Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse("Resources");
 
         public static string GetString(string name)
         {
@@ -24,7 +25,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                 if (s_resourceManager == null)
                 {
 #if WPF
-                    s_resourceManager = new ResourceManager("Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Resources", typeof(Resources).Assembly);
+                    s_resourceManager = new ResourceManager("Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.LocalizedStrings.Resources", typeof(Resources).Assembly);
 #endif
                 }
 

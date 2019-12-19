@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.Data;
-using System;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
 {

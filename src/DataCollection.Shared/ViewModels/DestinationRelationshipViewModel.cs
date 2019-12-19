@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2018 Esri
+  * Copyright 2019 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
 {
-    public class DestinationRelationshipViewModel : BaseViewModel
+    public class DestinationRelationshipViewModel : FeatureViewModel
     { 
         /// <summary>
         /// Initializes a new instance of the <see cref="DestinationRelationshipViewModel"/> class.
         /// </summary>
-        public DestinationRelationshipViewModel(RelationshipInfo relationshipInfo, FeatureTable relatedTable, ConnectivityMode connectivityMode)
+        public DestinationRelationshipViewModel(RelationshipInfo relationshipInfo, ArcGISFeatureTable relatedTable, ConnectivityMode connectivityMode)
         {
             RelationshipInfo = relationshipInfo;
-            RelatedTable = relatedTable;
+            FeatureTable = relatedTable;
             ConnectivityMode = connectivityMode;
         }
 
@@ -89,30 +89,10 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private PopupManager _popupManager;
-
-        /// <summary>
-        /// Gets or sets the PopupManager for the selected feature
-        /// </summary>
-        public PopupManager PopupManager
-        {
-            get => _popupManager;
-            set { _popupManager = value;
-                OnPropertyChanged();
-            }
-        }
-
         /// <summary>
         /// Gets the RelationshipInfo which keeps track of information about the relationship for editing purposes
         /// </summary>
         public RelationshipInfo RelationshipInfo { get; }
-
-        /// <summary>
-        /// Gets the RelatedTable 
-        /// </summary>
-        public FeatureTable RelatedTable { get; }
-
-        public ConnectivityMode ConnectivityMode { get; }
 
         /// <summary>
         /// Gets or sets the collection of available values to select from for the related record
@@ -133,7 +113,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
             try
             {
                 // Query and load all related records
-                var featureQueryResult = await RelatedTable.QueryFeatures(queryParams);
+                var featureQueryResult = await FeatureTable.QueryFeatures(queryParams);
                 var availableValues = new ObservableCollection<PopupManager>();
 
                 foreach (ArcGISFeature result in featureQueryResult)
