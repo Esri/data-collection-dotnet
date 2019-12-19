@@ -206,7 +206,7 @@ These attributes' values are accompanied by a title label, which is configured b
 
 ## Identity model
 
-The app leverages the ArcGIS [identity](/authentication/) model to provide access to resources via the [named user](/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured web maps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
+The app leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured web maps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
@@ -219,7 +219,7 @@ The process of accessing token secured services with a challenge handler is illu
 5. If the user is successfully authenticated, a credential (token) is included in requests to the secured service.
 6. The identity manager stores the credential for this portal and all requests for secured content includes the token in the request.
 
-For an application to use this pattern, follow these [guides](/authentication/signing-in-arcgis-online-users/) to register your app.
+For an application to use this pattern, follow these [guides](https://developers.arcgis.com/authentication/signing-in-arcgis-online-users/) to register your app.
 
 The `AuthenticationManager` is set up when the app starts and a challenge handler is configured. A challenge by the authentication manager occurs when a request is made to access a secured resource for which the authentication manager has no credential.
 
@@ -264,7 +264,7 @@ public Task<IDictionary<string, string>> AuthorizeAsync(Uri serviceUri, Uri auth
 
 When the user successfully authenticates, a URI is passed from the web browser control. The URI is decoded and passed back to the `AuthenticationManager` to retrieve the token. The .NET app retrieves all the necessary information (`AppClientID` and `RedirectURL`) to set up the `AuthenticationManager` from the [Configuration](#configuration-and-customization) file.
 
-Note the value for `RedirectURL`. Combined with the text `auth` to make `data-collection://auth`, this is the [redirect URI](/authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app on your [developer dashboard](/applications). For more details on the user authorization flow, see the [Authorize REST API](/rest/users-groups-and-items/authorize.htm).
+Note the value for `RedirectURL`. Combined with the text `auth` to make `data-collection://auth`, this is the [redirect URI](/authentication/browser-based-user-logins/#configuring-a-redirect-uri) that you configured when you registered your app on your [developer dashboard](https://developers.arcgis.com/applications). For more details on the user authorization flow, see the [Authorize REST API](https://developers.arcgis.com/rest/users-groups-and-items/authorize.htm).
 
 For more details on configuring the app for OAuth, see [the main README.md](https://github.com/esri/data-collection-dotnet).
 
@@ -601,7 +601,7 @@ internal static async Task<string> GetNeighborhoodForAddedFeature(FeatureTable n
 
 The app's base data model object, `Popup`, can be broken down generally into two parts. The first is the popup's `GeoElement` which in our case is always an instance of an `ArcGISFeature`. The second is the web map's configuration of that feature as a `Popup`, defined by a `PopupDefinition`.
 
-Editing of a `Popup` is facilitated by the [`PopupManager`](/net/latest/wpf/api-reference/html/T_Esri_ArcGISRuntime_Mapping_Popups_PopupManager.htm).
+Editing of a `Popup` is facilitated by the [`PopupManager`](https://developers.arcgis.com/net/latest/wpf/api-reference/html/T_Esri_ArcGISRuntime_Mapping_Popups_PopupManager.htm).
 
 #### Creating features
 
@@ -696,7 +696,7 @@ catch
 }
 ```
 
-Because the *Trees of Portland* web map stores the results of a geocode operation, the reverse geocode parameters must have set `IsForStorage = true`. For more on the world geocoding service visit the [developers website](/rest/geocode/api-reference/overview-world-geocoding-service.htm).
+Because the *Trees of Portland* web map stores the results of a geocode operation, the reverse geocode parameters must have set `IsForStorage = true`. For more on the world geocoding service visit the [developers website](https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm).
 
 > The side-loaded geocoder was generated statically whereas the world geocoder service remains current. You might notice a difference in the results between geocoders.
 
