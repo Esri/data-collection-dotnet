@@ -29,7 +29,7 @@ The project also demonstrates some patterns for building real-world apps around 
 
 ## Get started
 
-You will need [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later. You can use the [ArcGIS Runtime SDK](https://developers.arcgis.com/downloads/apis-and-sdks?product=net) extension (v100.6 or later) installed locally or install the Runtime packages from Nuget.org.
+You will need [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later. You can use the [ArcGIS Runtime SDK](https://developers.arcgis.com/downloads/apis-and-sdks?product=net) extension (v100.7 or later) installed locally or install the Runtime packages from Nuget.org.
 
 ### Fork the repo
 

@@ -2,11 +2,14 @@
 
 ## 1.1.0
 
-This release adds a fully-featured UWP UI to complement the existing WPF implementation.
+This is the second release of the Data Collection app for .NET, built on ArcGIS Runtime 100.7.
 
-Additionally, this release adds support for viewing, adding, and deleting feature attachments.
+New features at 1.1.0 include:
 
-Finally, this release includes several bug fixes and performance improvements.
+* Upgraded to the latest 100.7 ArcGIS Runtime
+* Support for viewing, adding, and deleting feature attachments.
+* UWP implementation of the app, built on the same shared foundation
+* Bug fixes and performance improvements
 
 ## 1.0.0
 
