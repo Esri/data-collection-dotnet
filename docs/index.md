@@ -16,7 +16,7 @@ Users can identify existing or create new street trees of a certain species on a
 
 The _Trees of Portland_ dataset schema is simple.
 
-![Diagram showing the relationship between layers](/Documentation/img/data-model.png)
+![Architecure diagram showing the Trees of Portland database schema](/docs/images/general-ui.png)
 
 A street tree can be one of many species and a street tree can contain zero to many inspection records. A neighborhood is a spatial feature symbolized on the map that does not relate to other tables.
 
@@ -38,15 +38,15 @@ The app launches a map view containing the pre-configured web map.
 
 | UWP | WPF |
 |-----|-----|
-| ![Main Map View](/Documentation/img/anatomy-map-view-uwp.png) | ![Main Map View](/Documentation/img/anatomy-map-view.png) |
+| ![Main Map View](/docs/images/anatomy-map-view-uwp.png) | ![Main Map View](/docs/images/anatomy-map-view.png) |
 
 The navigation bar's title reflects the name of the web map and the navigation bar button items are as follows:
 
 | Icon | Description |
 | ---- | ----------- |
-| ![Hamburger Drawer View](/Documentation/img/hamburger.png) | Ellipsis button to reveal or hide the app context drawer view. |
-| ![Zoom To Location](/Documentation/img/zoom-to-location.png) | Zoom to user's location. |
-| ![Add Feature](/Documentation/img/add-feature.png) | Add a new spatial feature to map. |
+| ![Hamburger Drawer View](/docs/images/hamburger.png) | Ellipsis button to reveal or hide the app context drawer view. |
+| ![Zoom To Location](/docs/images/zoom-to-location.png) | Zoom to user's location. |
+| ![Add Feature](/docs/images/add-feature.png) | Add a new spatial feature to map. |
 
 ### Manage the app's context
 
@@ -54,7 +54,7 @@ Tapping the navigation bar's ellipsis button reveals the app context drawer view
 
 | UWP | WPF |
 |-----|-----|
-| ![App Context Drawer View](/Documentation/img/anatomy-app-context-drawer-uwp.png) | ![App Context Drawer View](/Documentation/img/anatomy-app-context-drawer.png) |
+| ![App Context Drawer View](/docs/images/anatomy-app-context-drawer-uwp.png) | ![App Context Drawer View](/docs/images/anatomy-app-context-drawer.png) |
 
 #### Sign in and out of Portal
 
@@ -76,7 +76,7 @@ A user may need to collect data in a location where they are disconnected from t
 
 | UWP | WPF |
 |-----|-----|
-| ![Download Map Offline Extent](/Documentation/img/anatomy-offline-extent-uwp.png) | ![Download Map Offline Extent](/Documentation/img/anatomy-offline-extent.png) |
+| ![Download Map Offline Extent](/docs/images/anatomy-offline-extent-uwp.png) | ![Download Map Offline Extent](/docs/images/anatomy-offline-extent.png) |
 
 When taking the web map offline, the app asks the user to specify the area of the web map they want to take offline. The app makes use of the offline map creation [on-demand workflow](/net/latest/wpf/guide/offline.htm#ESRI_SECTION1_AAADEDF10BF24FDF88DBF6EF04DF8579). After the generate offline map job finishes, the app enters offline work mode and loads the offline mobile map package.
 
@@ -94,7 +94,7 @@ Tapping or clicking the map performs an identify function on the map. The closes
 
 | UWP | WPF |
 |-----|-----|
-| ![Identified Map Feature](/Documentation/img/anatomy-identified-feature-uwp.png) | ![Identified Map Feature](/Documentation/img/anatomy-identified-feature.png) |
+| ![Identified Map Feature](/docs/images/anatomy-identified-feature-uwp.png) | ![Identified Map Feature](/docs/images/anatomy-identified-feature.png) |
 
 If a feature has attachments, you can switch to the attachments tab to view them. The name and size of each attachment is displayed.
 
@@ -104,7 +104,7 @@ If the map contains a spatial feature layer that adheres to the rules specified 
 
 | UWP | WPF |
 |-----|-----|
-| ![Add New Feature](/Documentation/img/anatomy-new-feature-uwp.png) | ![Add New Feature](/Documentation/img/anatomy-new-feature.png)
+| ![Add New Feature](/docs/images/anatomy-new-feature-uwp.png) | ![Add New Feature](/docs/images/anatomy-new-feature.png)
 
 An action banner appears and a pin drops to the center of the map view. The action banner contains a Save and a Cancel button. The pin remains fixed to the center of the map view as the map is panned and zoomed beneath it. If the user taps the Save button, a new feature is created using the fixed map view's center point translated to a spatial coordinate.
 
@@ -114,7 +114,7 @@ A popup view allows the user to interrogate the map view's selected feature in g
 
 | UWP | WPF |
 |-----|-----|
-| ![View A Popup](/Documentation/img/anatomy-popup-view-uwp.png) | ![View A Popup](/Documentation/img/anatomy-popup-view.png) |
+| ![View A Popup](/docs/images/anatomy-popup-view-uwp.png) | ![View A Popup](/docs/images/anatomy-popup-view.png) |
 
 The first section displays each attribute configured for display. Following the display attributes are each many-to-one related records. In the *Trees of Portland* web map the trees table has one many-to-one relationship, the Species table.
 
@@ -130,7 +130,7 @@ The popup's attributes configured as editable can be edited and validated inline
 
 | UWP | WPF |
 |-----|-----|
-| ![Edit A Popup](/Documentation/img/anatomy-popup-edit-uwp.png) | ![Edit A Popup](/Documentation/img/anatomy-popup-edit.png) |
+| ![Edit A Popup](/docs/images/anatomy-popup-edit-uwp.png) | ![Edit A Popup](/docs/images/anatomy-popup-edit.png) |
 
 As values for fields are updated, the app informs the user of invalid changes and why they are invalid. The popup won't save if there are invalid fields.
 
@@ -210,7 +210,7 @@ The app leverages the ArcGIS [identity](/authentication/) model to provide acces
 
 The process of accessing token secured services with a challenge handler is illustrated in the following diagram.
 
-![ArcGIS Identity Model](/Documentation/img/identity.png)
+![ArcGIS Identity Model](/docs/images/identity.png)
 
 1. A request is made to a secured resource.
 2. The portal responds with an unauthorized access error.
@@ -221,7 +221,7 @@ The process of accessing token secured services with a challenge handler is illu
 
 For an application to use this pattern, follow these [guides](/authentication/signing-in-arcgis-online-users/) to register your app.
 
-The `AutenticationManager` is set up when the app starts and a challenge handler is configured. A challenge by the authentication manager occurs when a request is made to access a secured resource for which the authentication manager has no credential.
+The `AuthenticationManager` is set up when the app starts and a challenge handler is configured. A challenge by the authentication manager occurs when a request is made to access a secured resource for which the authentication manager has no credential.
 
 ``` csharp
 // Define the server information for ArcGIS Online
@@ -318,7 +318,7 @@ The title of the popup view reflects the title of the popup as configured in por
 
 | UWP | WPF |
 |-----|-----|
-| ![Popup View Anatomy Relationships](/Documentation/img/anatomy-popup-view-relationships-uwp.png) | ![Popup View Anatomy Relationships](/Documentation/img/anatomy-popup-view-relationships.png) |
+| ![Popup View Anatomy Relationships](/docs/images/anatomy-popup-view-relationships-uwp.png) | ![Popup View Anatomy Relationships](/docs/images/anatomy-popup-view-relationships.png) |
 
 ##### _Popup Attributes_
 
@@ -608,7 +608,7 @@ Editing of a `Popup` is facilitated by the [`PopupManager`](/net/latest/wpf/api-
 When creating a new feature, the app must also take the next step and builds a popup using the newly-created feature and its feature table's popup definition.
 
 ```csharp
-// create new feature 
+// create new feature
 var feature = ((FeatureLayer)layer).FeatureTable.CreateFeature();
 
 // set feature geometry as the mapview's center
@@ -680,7 +680,7 @@ internal async Task<Feature> SaveEdits(PopupManager popupManager, FeatureTable t
 
 ### Reverse geocoding
 
-The *Trees of Portland* story contains a custom behavior that reverse geocodes a point into an address which is populated into a tree's attributes. In order to support both an online and an offline work flow, the app uses the [world geocoder web service](https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer) to perform reverse geocoding while online, and a custom offline locator that is included in the app's shared `Resources` folder for offline reverse geocoding tasks.
+The *Trees of Portland* story contains a custom behavior that reverse geocodes a point into an address which is populated into a tree's attributes. In order to support both an online and an offline work flow, the app uses the [world geocoder web service](https://developers.arcgis.com/features/geocoding/) to perform reverse geocoding while online, and a custom offline locator that is included in the app's shared `Resources` folder for offline reverse geocoding tasks.
 
 ```csharp
 // try using the online geocoder
