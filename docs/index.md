@@ -96,7 +96,7 @@ Tapping or clicking the map performs an identify function on the map. The closes
 |-----|-----|
 | ![Identified Map Feature](/docs/images/anatomy-identified-feature-uwp.png) | ![Identified Map Feature](/docs/images/anatomy-identified-feature.png) |
 
-If a feature has attachments, you can switch to the attachments tab to view them. The name and size of each attachment is displayed.
+If a feature has attachments enabled, you can switch to the attachments tab to view them. The name and size of each attachment is displayed.
 
 ### Add map feature
 
