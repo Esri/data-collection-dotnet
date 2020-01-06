@@ -56,7 +56,7 @@ Tapping the navigation bar's ellipsis button reveals the app context drawer view
 |-----|-----|
 | ![App Context Drawer View](/docs/images/anatomy-app-context-drawer-uwp.png) | ![App Context Drawer View](/docs/images/anatomy-app-context-drawer.png) |
 
-#### Sign in and out of Portal
+#### Sign in and out of ArcGIS
 
 Upon first launch the user is not authenticated and the app does not prompt for authentication. To sign in, the user can tap the navigation bar's ellipsis button to reveal the app context drawer view. Once revealed, the user can tap 'Sign in'. A modal sign-in view presents, prompting for the user's portal username and password. If valid credentials are provided, an authenticated user is associated with the portal and a refresh token is encrypted and stored locally.
 
@@ -146,9 +146,9 @@ For related records where the pop-up is the parent in the related record relatio
 
 ## Using web maps
 
-You can author your own web maps in [Portal/ArcGIS Online](http://enterprise.arcgis.com/en/portal/latest/use/what-is-web-map.htm) or [ArcGIS Desktop](http://desktop.arcgis.com/en/maps/) and share them in your app via your Portal; this is the central power of the Web GIS model built into ArcGIS. Building an app which uses a web map allows the cartography and map configuration to be completed in Portal rather than in code. This then allows the map to change over time, without any code changes or app updates. Learn more about the benefits of developing with web maps [here](https://developers.arcgis.com/web-map-specification/). Also, learn about authoring web maps in [Portal/ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm) and [ArcGIS Pro](http://pro.arcgis.com/en/pro-app/help/mapping/map-authoring/author-a-basemap.htm).
+You can author your own web maps in [ArcGIS Online and ArcGIS Enterprise](http://enterprise.arcgis.com/en/portal/latest/use/what-is-web-map.htm) or [ArcGIS Desktop](http://desktop.arcgis.com/en/maps/) and share them in your app via your portal; this is the central power of the Web GIS model built into ArcGIS. Building an app which uses a web map allows the cartography and map configuration to be completed in ArcGIS Online and ArcGIS Enterprise rather than in code. This then allows the map to change over time, without any code changes or app updates. Learn more about the benefits of developing with web maps [here](https://developers.arcgis.com/web-map-specification/). Also, learn about authoring web maps in [ArcGIS Online and ArcGIS Portal](http://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm) and [ArcGIS Pro](http://pro.arcgis.com/en/pro-app/help/mapping/map-authoring/author-a-basemap.htm).
 
-Loading web maps in code is easy; the app loads a web map from a Portal (which may require the user to sign in, see the [_identity model_](#identity-model) section) with the following code:
+Loading web maps in code is easy; the app loads a web map from a portal (which may require the user to sign in, see the [_identity model_](#identity-model) section) with the following code:
 
 ``` csharp
 new Map(new Uri(Settings.Default.AppSettings.WebmapURL))
