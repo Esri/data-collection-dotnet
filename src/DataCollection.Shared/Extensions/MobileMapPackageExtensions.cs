@@ -19,7 +19,7 @@ using Esri.ArcGISRuntime.Mapping;
 using System;
 using System.Linq;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions
 {
     /// <summary>
     /// Class containing extension methods for handling mobile map packages

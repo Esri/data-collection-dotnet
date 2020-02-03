@@ -19,7 +19,7 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
 {
     public struct FieldContainer
     {

@@ -14,14 +14,14 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views;
 using System;
 using System.Threading.Tasks;
 using Windows.Media.Capture;
 using Windows.Storage;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Helpers
 {
     /// <summary>
     /// Helper class to process media inputs from both camera and file browsing

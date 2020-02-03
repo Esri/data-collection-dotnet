@@ -17,7 +17,7 @@
 using System;
 using System.Windows.Input;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands
 {
     /// <summary>
     /// Generic delegate command

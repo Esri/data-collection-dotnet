@@ -17,7 +17,7 @@
 using System;
 using System.Windows;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml

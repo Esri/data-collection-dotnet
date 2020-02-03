@@ -24,7 +24,7 @@ using System.Windows.Data;
 using System.Windows;
 using CustomCultureInfo = System.Globalization.CultureInfo;
 #endif
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
 {
     /// <summary>
     /// Converts null to boolean

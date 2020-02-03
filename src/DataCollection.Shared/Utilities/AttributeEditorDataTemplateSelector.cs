@@ -13,7 +13,7 @@
 //  ******************************************************************************/
 
 using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 #if WPF
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +22,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities
 {
     /// <summary>
     /// Helper class to select the correct DataTemplate based on the field's data type

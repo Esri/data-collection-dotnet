@@ -15,8 +15,8 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.Mapping.Popups;
@@ -34,7 +34,7 @@ using Windows.UI.Xaml;
 using System.Windows;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
 {
     public sealed class IdentifyController : INotifyPropertyChanged
     {

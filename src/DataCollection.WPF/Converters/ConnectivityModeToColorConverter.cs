@@ -15,12 +15,12 @@
 ******************************************************************************/
 
 using System;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Globalization;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters
 {
     /// <summary>
     /// Converts ConnectivityMode to color to be used for the app banner

@@ -16,13 +16,13 @@
 
 using Esri.ArcGISRuntime.ArcGISServices;
 using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
     public class OriginRelationshipViewModel : FeatureViewModel
     {

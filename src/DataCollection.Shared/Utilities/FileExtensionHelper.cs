@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities
 {
     public static class FileExtensionHelper
     {

@@ -14,12 +14,12 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers
 {
     /// <summary>
     /// Messenger class to handle communication between classes when app settings change

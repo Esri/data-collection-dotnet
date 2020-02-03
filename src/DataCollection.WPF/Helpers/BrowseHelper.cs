@@ -14,10 +14,10 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities;
 using System.Text;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Helpers
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Helpers
 {
     /// <summary>
     /// Class contains helper methods to avoid code duplication in code behind when prompting user to browse for new attachment

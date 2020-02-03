@@ -15,11 +15,11 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ using Windows.System;
 using Windows.UI.Core;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
     public class AttachmentsViewModel : BaseViewModel
     {

@@ -14,10 +14,10 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using System.Collections.Generic;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers
 {
     class BroadcastMessengerEventArgs
     {

@@ -17,14 +17,14 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
 #if NETFX_CORE
 using System;
 using Windows.UI.Core;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
     /// <summary>
     /// Base View Model that all View Models inherit

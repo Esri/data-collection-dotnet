@@ -14,13 +14,13 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.ViewModels;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.ViewModels;
 using Esri.ArcGISRuntime.Security;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 {
     /// <summary>
     /// Interaction logic for LoginWindow.xaml

@@ -14,15 +14,15 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.Security;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.ViewModels
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.ViewModels
 {
     public class SignInWindowViewModel : BaseViewModel, IOAuthAuthorizeHandler
     {

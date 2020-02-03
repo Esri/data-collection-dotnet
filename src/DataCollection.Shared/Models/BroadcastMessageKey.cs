@@ -14,7 +14,7 @@
   *   limitations under the License.
 ******************************************************************************/
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
 {
     /// <summary>
     /// Represents the types of BroadcastMessages the app supports. These are used in conjunction with BroadcastMessenger

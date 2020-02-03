@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters"
-    xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters"
+    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+    xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters"
     xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit">
 
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
