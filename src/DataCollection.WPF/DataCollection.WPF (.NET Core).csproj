@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF</RootNamespace>
+    <RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF</RootNamespace>
     <UseWPF>true</UseWPF>
     <DefineConstants>WPF;NET_CORE</DefineConstants>
     <DefaultItemExcludes>$(DefaultItemExcludes);netframework\**;obj\**;netcore\**;out\**</DefaultItemExcludes>
