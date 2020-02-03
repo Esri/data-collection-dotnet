@@ -14,7 +14,7 @@
   *   limitations under the License.
 ******************************************************************************/
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
 {
     /// <summary>
     /// Represents the status of the application, whether it's in Online mode or Offline mode. 

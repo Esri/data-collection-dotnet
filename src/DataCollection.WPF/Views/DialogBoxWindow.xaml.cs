@@ -14,11 +14,11 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 {
     /// <summary>
     /// Interaction logic for DialogBoxWindow.xaml

@@ -5,7 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

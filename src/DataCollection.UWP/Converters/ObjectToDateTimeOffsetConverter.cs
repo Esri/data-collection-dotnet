@@ -17,7 +17,7 @@
 using System;
 using Windows.UI.Xaml.Data;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
 {
     class ObjectToDateTimeOffsetConverter : IValueConverter
     {

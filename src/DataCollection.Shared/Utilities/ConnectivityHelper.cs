@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities
 {
     /// <summary>
     /// Helper class used in multiple parts of the app to test device connectivity

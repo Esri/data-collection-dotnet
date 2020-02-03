@@ -15,15 +15,15 @@
 ******************************************************************************/
 
 using System;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views;
 using System.ComponentModel;
 using System.Windows;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -28,7 +28,7 @@ using CustomCultureInfo = System.Globalization.CultureInfo;
 #endif
 
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
 {
 
     /// <summary>

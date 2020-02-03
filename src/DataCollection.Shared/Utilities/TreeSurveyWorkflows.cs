@@ -15,10 +15,10 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.Data;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.Mapping.Popups;
@@ -30,7 +30,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities
 {
     /// <summary>
     /// This class contains workflows that are specific to the Tree Survey dataset used as sample dataset for the app

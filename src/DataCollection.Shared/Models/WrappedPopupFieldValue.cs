@@ -18,7 +18,7 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.ComponentModel;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
 {
     /// <summary>
     /// Class wraps PopupFieldValue to enable proper data binding support with localized formatted date values.

@@ -17,7 +17,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers
 {
     /// <summary>
     /// Messenger class to handle communication between the viewmodels and the dialog box displayed when app requires user input

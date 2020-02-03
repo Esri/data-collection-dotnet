@@ -14,17 +14,17 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Helpers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Helpers;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 {
     /// <summary>
     /// Interaction logic for OriginRelatedRecordPopup.xaml

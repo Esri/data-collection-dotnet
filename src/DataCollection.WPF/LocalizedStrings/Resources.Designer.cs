@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.Resources {
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.LocalizedStrings.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.LocalizedStrings.
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

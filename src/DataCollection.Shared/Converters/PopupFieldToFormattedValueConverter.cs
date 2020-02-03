@@ -18,7 +18,7 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 #if NETFX_CORE
 using Windows.UI.Xaml.Data;
 using CustomCultureInfo = System.String;
@@ -27,7 +27,7 @@ using System.Windows.Data;
 using CustomCultureInfo = System.Globalization.CultureInfo;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
 {
     class DisplayedFieldsToRealDisplayedFieldsConverter : IValueConverter
     {

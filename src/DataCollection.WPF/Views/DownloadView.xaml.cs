@@ -18,7 +18,7 @@ using Esri.ArcGISRuntime.Geometry;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 {
     /// <summary>
     /// Interaction logic for DownloadView.xaml

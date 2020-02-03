@@ -6,7 +6,7 @@
     <SharedGUID>0e4a590d-8ccc-44ca-9127-10ed36dd02e9</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared</Import_RootNamespace>
+    <Import_RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyEventArgs.cs" />

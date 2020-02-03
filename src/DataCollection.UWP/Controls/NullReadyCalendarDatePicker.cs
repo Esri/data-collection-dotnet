@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Controls
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Controls
 {
     /// <summary>
     /// Custom calendar date picker works around issue with null date binding in native control.
