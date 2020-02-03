@@ -15,6 +15,7 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
+using Microsoft.Win32;
 using System.Text;
 
 namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Helpers
@@ -30,28 +31,26 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Helpers
         /// </summary>
         internal static string GetFileFromUser()
         {
-            using (var dialog = new System.Windows.Forms.OpenFileDialog())
+            var dialog = new OpenFileDialog();
+            var extensionStringBuilder = new StringBuilder("Supported files() |");
+
+            // create list of supported file for the dialog filter
+            foreach (var extension in FileExtensionHelper.AllowedExtensions)
             {
-                var extensionStringBuilder = new StringBuilder("Supported files() |");
+                extensionStringBuilder.Replace(") |", string.Format(" *{0},) |", extension.Key));
+                extensionStringBuilder.Append(string.Format(" *{0};", extension.Key));
+            }
 
-                // create list of supported file for the dialog filter
-                foreach (var extension in FileExtensionHelper.AllowedExtensions)
-                {
-                    extensionStringBuilder.Replace(") |", string.Format(" *{0},) |", extension.Key));
-                    extensionStringBuilder.Append(string.Format(" *{0};", extension.Key));
-                }
+            // list of file types supported as attachments
+            // https://developers.arcgis.com/rest/services-reference/query-attachments-feature-service-layer-.htm
 
-                // list of file types supported as attachments
-                // https://developers.arcgis.com/rest/services-reference/query-attachments-feature-service-layer-.htm
+            dialog.Filter = extensionStringBuilder.ToString();
+            dialog.Title = "Please select a file to add as attachment.";
+            var result = dialog.ShowDialog();
 
-                dialog.Filter = extensionStringBuilder.ToString();
-                dialog.Title = "Please select a file to add as attachment.";
-                var result = dialog.ShowDialog();
-
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    return dialog.FileName;
-                }
+            if (result == true)
+            {
+                return dialog.FileName;
             }
 
             return null;
