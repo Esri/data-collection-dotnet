@@ -16,7 +16,7 @@
 
 using System;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers
 {
     /// <summary>
     /// EventArgs class for the UserPromptMessenger

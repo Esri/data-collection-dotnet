@@ -7,7 +7,7 @@
     <ProjectGuid>{13B49C7E-E8AD-4085-B6D5-69EE6711FE2E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF</RootNamespace>
+    <RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF</RootNamespace>
     <AssemblyName>DataCollection.WPF</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

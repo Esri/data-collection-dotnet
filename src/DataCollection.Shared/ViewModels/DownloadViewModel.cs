@@ -14,9 +14,9 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Commands;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.Tasks;
@@ -26,9 +26,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
     public class DownloadViewModel : BaseViewModel
     {

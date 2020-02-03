@@ -15,7 +15,7 @@
 ******************************************************************************/
 
 using System;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 #if NETFX_CORE
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -26,7 +26,7 @@ using System.Windows;
 using CustomCultureInfo = System.Globalization.CultureInfo;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
 {
     /// <summary>
     /// Converts ConnectivityMode to visibility

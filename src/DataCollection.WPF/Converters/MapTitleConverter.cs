@@ -19,7 +19,7 @@ using System.Globalization;
 using System.Windows.Data;
 
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters
 {
     /// <summary>
     /// Converter to choose MapTitle binding based on which value is available

@@ -18,7 +18,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Utils
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Utils
 {
     public class SourceController : DependencyObject
     {

@@ -14,7 +14,7 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using Esri.ArcGISRuntime.UI;
 using System;
@@ -30,7 +30,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
 {
     public class StagedAttachment : INotifyPropertyChanged
     {

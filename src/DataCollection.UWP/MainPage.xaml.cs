@@ -14,10 +14,10 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utilities;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using Windows.ApplicationModel.Core;
@@ -26,7 +26,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
 {
     /// <summary>
     /// A map page that can be used on its own or navigated to within a Frame.

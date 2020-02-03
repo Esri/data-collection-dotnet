@@ -7,7 +7,7 @@
     <ProjectGuid>{67CA0718-9C7A-4EC9-84C0-2FCB7CA922B0}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP</RootNamespace>
+    <RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP</RootNamespace>
     <AssemblyName>DataCollection.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
@@ -154,7 +154,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="DataCollection.UWP_TemporaryKey.pfx" />
     <None Include="LocalizedStrings\readme.md" />
     <PRIResource Include="LocalizedStrings\Resources.resw">
       <SubType>Designer</SubType>

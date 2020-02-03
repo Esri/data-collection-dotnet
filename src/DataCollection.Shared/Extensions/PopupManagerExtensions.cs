@@ -16,7 +16,7 @@
 
 using Esri.ArcGISRuntime.Mapping.Popups;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions
 {
     /// <summary>
     /// Extension methods for the PopupManager

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions
 {
     internal static class FeatureTableExtensions
     {

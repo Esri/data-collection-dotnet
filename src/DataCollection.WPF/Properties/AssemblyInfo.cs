@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Esri")]
 [assembly: AssemblyProduct("Open Source Apps")]
-[assembly: AssemblyCopyright("Copyright © Esri 2019")]
+[assembly: AssemblyCopyright("Copyright © Esri 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -16,7 +16,7 @@
 
 using Esri.ArcGISRuntime.Data;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions
 {
     internal static class FeatureExtensions
     {

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters
 {
     /// <summary>
     /// Converts a field value representing a coded value domain value to and from a CodedValue object.

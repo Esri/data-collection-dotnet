@@ -1,6 +1,6 @@
 ﻿using System.Resources;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
 {
     /// <summary>
     /// Resources class handles getting resources from the Resources files
@@ -25,7 +25,7 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                 if (s_resourceManager == null)
                 {
 #if WPF
-                    s_resourceManager = new ResourceManager("Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.LocalizedStrings.Resources", typeof(Resources).Assembly);
+                    s_resourceManager = new ResourceManager("Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.LocalizedStrings.Resources", typeof(Resources).Assembly);
 #endif
                 }
 

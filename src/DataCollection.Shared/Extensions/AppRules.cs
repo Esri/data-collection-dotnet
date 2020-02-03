@@ -18,7 +18,7 @@ using Esri.ArcGISRuntime.ArcGISServices;
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.Mapping;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Extensions
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions
 {
     /// <summary>
     /// Application rules for determining identifiable layers and valid relationships. 

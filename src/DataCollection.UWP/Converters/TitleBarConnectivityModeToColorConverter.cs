@@ -14,14 +14,14 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
 {
     /// <summary>
     /// Converts ConnectivityMode to color to be used for the app banner

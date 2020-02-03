@@ -23,7 +23,7 @@ using Windows.UI.Xaml;
 using System.Windows;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
 {
     public class LocationDisplayController : DependencyObject
     {

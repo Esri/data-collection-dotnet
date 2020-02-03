@@ -18,7 +18,7 @@ using Esri.ArcGISRuntime.Data;
 using System;
 using System.Collections.Generic;
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Utils
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
 {
     public class IdentifyEventArgs : EventArgs
     {

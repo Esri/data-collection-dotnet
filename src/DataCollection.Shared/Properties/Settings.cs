@@ -14,8 +14,8 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Models;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using System;
 using System.IO;
 using System.Reflection;
@@ -27,7 +27,7 @@ using static System.Environment;
 using Windows.Storage;
 #endif
 
-namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
 {
     // Singleton class to provide access to settings from Configuration.xml
     [Serializable()]
@@ -65,9 +65,9 @@ namespace Esri.ArcGISRuntime.ExampleApps.DataCollection.Shared.Properties
                     {
                         // get settings file shipped with the app
 #if WPF
-                        var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.WPF.Properties.Configuration.xml";
+                        var streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Properties.Configuration.xml";
 #elif NETFX_CORE
-                        var streamPath = "Esri.ArcGISRuntime.ExampleApps.DataCollection.UWP.Properties.Configuration.xml";
+                        var streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Properties.Configuration.xml";
 #else
                         // will throw if another platform is added without handling this 
                         throw new NotImplementedException();
