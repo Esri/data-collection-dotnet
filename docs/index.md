@@ -704,13 +704,14 @@ Because the *Trees of Portland* web map stores the results of a geocode operatio
 
 ### Solution overview
 
-The Data Collection app is built with cross platform adaptability in mind. The app's code is separated into three projects:
+The Data Collection app is built with cross platform adaptability in mind. The app's code is separated into four projects:
 
 * **DataCollection.Shared** - contains shared code that applies to both platforms.
 * **DataCollection.UWP** - UWP UI.
-* **DataCollection.WPF** - WPF UI.
+* **DataCollection.WPF** - WPF UI using .NET Framework.
+* **DataCollection.WPF (.NET Core)** - WPF UI using .NET Core.
 
-Just as the UWP and WPF projects refer to the shared code project, Xamarin projects can be added to support mobile platforms.
+Just as the UWP and WPF projects refer to the shared code project, Xamarin projects can be added to support mobile platforms. There are no substantive differences between the .NET Framework and .NET Core versions of the WPF data collection projects.
 
 ### Model-View-ViewModel pattern
 
