@@ -710,6 +710,7 @@ The Data Collection app is built with cross platform adaptability in mind. The a
 * **DataCollection.UWP** - UWP UI.
 * **DataCollection.WPF** - WPF UI using .NET Framework.
 * **DataCollection.WPF (.NET Core)** - WPF UI using .NET Core.
+    * Note: requires Visual Studio 2019 or later
 
 Just as the UWP and WPF projects refer to the shared code project, Xamarin projects can be added to support mobile platforms. There are no substantive differences between the .NET Framework and .NET Core versions of the WPF data collection projects.
 
