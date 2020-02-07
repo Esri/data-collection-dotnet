@@ -91,6 +91,7 @@ Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/exam
 ## Requirements
 
 * [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later
+    * Visual Studio 2019 is required if you want to use the .NET Core version of the WPF app.
 * [ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/downloads/apis-and-sdks?product=net)
 * To edit records or take a web map offline you will need an ArcGIS Online Organizational account, an ArcGIS Online Developer account or an ArcGIS Online account authenticated using a social login.
 * To consume your own web map you will need an ArcGIS Online Organizational account.
