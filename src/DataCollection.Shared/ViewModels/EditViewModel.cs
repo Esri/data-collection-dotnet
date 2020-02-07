@@ -23,6 +23,7 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Esri.ArcGISRuntime.Mapping;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
@@ -132,9 +133,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 editedFeature.Refresh();
 
                 // re-select the feature (new features get unselected after the ObjectID is refreshed)
-                if (editedFeature.Geometry != null)
+                if (editedFeature.Geometry != null && table.Layer is FeatureLayer featureLayer)
                 {
-                    var featureLayer = table.FeatureLayer;
                     featureLayer.SelectFeature(editedFeature);
                 }
 

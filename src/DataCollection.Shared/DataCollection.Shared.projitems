@@ -25,7 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FeatureExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FeatureTableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\IOExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MobileMapPackageExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessengerEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BusyWaitingMessenger.cs" />

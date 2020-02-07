@@ -20,7 +20,6 @@ using System.Runtime.CompilerServices;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
 #if NETFX_CORE
-using System;
 using Windows.UI.Core;
 #endif
 
@@ -35,15 +34,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// Raises the <see cref="BaseViewModel.PropertyChanged" /> event
         /// </summary>
         /// <param name="propertyName">The name of the property that has changed</param>
+        #if NETFX_CORE
         protected async void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        #else
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        #endif
         {
             try
             {
 #if NETFX_CORE
-                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                });
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)));
 #else
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 #endif

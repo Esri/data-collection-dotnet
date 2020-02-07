@@ -369,7 +369,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         else
                         {
                             // Remove reference to any existing offline map
-                            await ReleaseOfflineMap();
+                            ReleaseOfflineMap();
 
                             string newPath = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).TrimEnd('=').Replace('/', '+').Replace('\\', '+');
                             BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(newPath, BroadcastMessageKey.DownloadPath);
@@ -399,7 +399,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                             else
                             {
                                 // call method to delete the mmpk
-                                await ReleaseOfflineMap();
+                                ReleaseOfflineMap();
                             }
 
                             // reset DownloadViewModel
@@ -507,7 +507,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
                         if (response)
                         {
-                            await ReleaseOfflineMap();
+                            ReleaseOfflineMap();
                         }
                     }));
             }
@@ -878,7 +878,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Method to prepare the offline map package for future deletion
         /// </summary>
-        private async Task ReleaseOfflineMap()
+        private void ReleaseOfflineMap()
         {
             // switch app to Online mode
             if (ConnectivityMode == ConnectivityMode.Offline)
