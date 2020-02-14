@@ -117,7 +117,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             {
                 AttachmentManager = popupManager.AttachmentManager;
                 _popupManager = popupManager;
-                LoadAttachments();
+                _ = LoadAttachments();
             }
         }
 

@@ -157,10 +157,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         internal void SelectFeature(Feature feature)
         {
-            if (feature != null)
+            if (feature?.FeatureTable?.Layer is FeatureLayer featureLayer)
             {
-                var featureLayer = feature.FeatureTable.FeatureLayer;
-
                 // Clear all selected features in all map feature layers
                 foreach (var layer in this.Map.OperationalLayers.OfType<FeatureLayer>())
                 {

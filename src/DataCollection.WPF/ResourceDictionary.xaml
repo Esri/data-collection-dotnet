@@ -2,8 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
-    xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters"
-    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit">
+    xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters">
 
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     <localconverters:ConvertValueToCodedValueDomainValue x:Key="ConvertValueToCodedValueDomainValue" />
@@ -354,12 +353,11 @@
                 Margin="10,0,0,0"
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
-            <toolkit:DoubleUpDown
+            <TextBox
                 Width="115"
                 Margin="10,0,0,5"
                 HorizontalAlignment="Left"
-                Increment="0.1"
-                Value="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
                 Foreground="Red"
@@ -374,12 +372,11 @@
                 Margin="10,0,0,0"
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
-            <toolkit:IntegerUpDown
+            <TextBox
                 Width="115"
                 Margin="10,0,0,5"
                 HorizontalAlignment="Left"
-                Increment="1"
-                Value="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
                 Foreground="Red"
@@ -419,15 +416,10 @@
                 Margin="10,0,0,0"
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
-            <toolkit:IntegerUpDown
+            <TextBox
                 Width="115"
                 Margin="10,0,0,5"
                 HorizontalAlignment="Left"
-                AutoSelectBehavior="Never"
-                DefaultValue="0"
-                Increment="1"
-                Maximum="{Binding OriginalField.Domain.MaxValue}"
-                Minimum="{Binding OriginalField.Domain.MinValue}"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -443,15 +435,10 @@
                 Margin="10,0,0,0"
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
-            <toolkit:DoubleUpDown
+            <TextBox
                 Width="115"
                 Margin="10,0,0,5"
                 HorizontalAlignment="Left"
-                AutoSelectBehavior="Never"
-                DefaultValue="0"
-                Increment="0.1"
-                Maximum="{Binding OriginalField.Domain.MaxValue}"
-                Minimum="{Binding OriginalField.Domain.MinValue}"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"

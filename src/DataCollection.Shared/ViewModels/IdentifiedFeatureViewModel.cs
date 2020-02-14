@@ -265,10 +265,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                     {
                                         SelectedOriginRelationship = originRelationshipViewModel;
 #if WPF
-                                        Application.Current.Dispatcher.Invoke(new Action(() => {
-                                            originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel); }));
+                                        Application.Current.Dispatcher.Invoke(new Action(() => originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel)));
 #elif NETFX_CORE
-                                        Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                                        _ = Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                                         {
                                             originRelationship.OriginRelationshipViewModelCollection.Add(originRelationshipViewModel);
                                         });

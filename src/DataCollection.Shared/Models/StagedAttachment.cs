@@ -54,7 +54,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
         /// </summary>
         public PopupAttachment Attachment { get; private set; }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         internal async Task LoadAsync(PopupAttachment attachment)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             Attachment = attachment;
 
