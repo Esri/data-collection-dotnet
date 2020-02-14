@@ -18,13 +18,11 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
 {
@@ -65,43 +63,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
                                                         Settings.Default.RedirectURL,
                                                         Settings.Default.AuthenticatedUserName,
                                                         Settings.Default.OAuthRefreshToken);
-
-        /// <summary>
-        /// Event handler clears the respective viewmodels when the user closes the blade
-        /// </summary>
-        private void BladeView_BladeClosed(object sender, BladeItem e)
-        {
-            if (e.Name == "IdentifiedFeatureBlade")
-            {
-                MainViewModel.IdentifiedFeatureViewModel = null;
-            }
-            else if (e.Name == "OriginRelationshipBlade")
-            {
-                MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
-            }
-            else if (e.Name == "DestinationRelationshipBlade")
-            {
-                MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship = null;
-            }
-        }
-
-        /// <summary>
-        /// Event handler removes the border when the user collapses the blade
-        /// </summary>
-        private void BladeItem_Collapsed(object sender, System.EventArgs e)
-        {
-            var bladeItem = sender as BladeItem;
-            bladeItem.BorderThickness = new Windows.UI.Xaml.Thickness(0);
-        }
-
-        /// <summary>
-        /// Event handler restores the border when the user expands the blade
-        /// </summary>
-        private void BladeItem_Expanded(object sender, System.EventArgs e)
-        {
-            var bladeItem = sender as BladeItem;
-            bladeItem.BorderThickness = new Windows.UI.Xaml.Thickness(1);
-        }
 
         /// <summary>
         /// Event handler for displaying a message to the user

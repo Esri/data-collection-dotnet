@@ -57,35 +57,11 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <Button x:Uid="CancelButton" Margin="0,0,20,0">
-                <i:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="Click">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl, Mode=OneWay}"
-                            Value="Collapsed" />
-                        <core:ChangePropertyAction
-                            PropertyName="IsLocationOnlyMode"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl, Path=DataContext, Mode=OneWay}"
-                            Value="false" />
-                    </core:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
             </Button>
             <Button
                 x:Uid="SaveButton"
                 Margin="20,0,0,0"
                 Command="{Binding SaveNewFeatureCommand, Mode=OneWay}">
-                <i:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="Click">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl, Mode=OneWay}"
-                            Value="Collapsed" />
-                        <core:ChangePropertyAction
-                            PropertyName="IsLocationOnlyMode"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl, Path=DataContext, Mode=OneWay}"
-                            Value="false" />
-                    </core:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
             </Button>
         </StackPanel>
     </Grid>

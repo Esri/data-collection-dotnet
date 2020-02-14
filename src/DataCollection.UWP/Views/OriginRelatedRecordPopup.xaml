@@ -73,14 +73,6 @@
                                        Text="&#xE710;" />
                         </StackPanel>
                     </AppBarButton.Content>
-                    <interactivity:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <core:ChangePropertyAction
-                                PropertyName="SelectedIndex"
-                                TargetObject="{Binding ElementName=OriginRelatedRecordPivot, Mode=OneWay}"
-                                Value="1" />
-                        </core:EventTriggerBehavior>
-                    </interactivity:Interaction.Behaviors>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem
