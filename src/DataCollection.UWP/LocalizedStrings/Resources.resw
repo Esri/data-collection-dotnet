@@ -351,4 +351,10 @@
   <data name="UnsupportedAttachment_Message" xml:space="preserve">
     <value>Couldn't open that attachment because it isn't supported.</value>
   </data>
+  <data name="BrowseAttach_Tooltip" xml:space="preserve">
+    <value>Browse for Files</value>
+  </data>
+  <data name="TakePhoto_Tooltip" xml:space="preserve">
+    <value>Capture Photo</value>
+  </data>
 </root>

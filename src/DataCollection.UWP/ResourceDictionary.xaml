@@ -20,4 +20,7 @@
     </ResourceDictionary.ThemeDictionaries>
     <Thickness x:Key="FieldMargin">0,5,0,5</Thickness>
     <Thickness x:Key="FieldMarginIndented">10,5,0,5</Thickness>
+    <Style TargetType="PivotItem">
+        <Setter Property="Margin" Value="10,5,10,0" />
+    </Style>
 </ResourceDictionary>
