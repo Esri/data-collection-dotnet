@@ -292,6 +292,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.3.200213001</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
