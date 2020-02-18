@@ -357,4 +357,10 @@
   <data name="TakePhoto_Tooltip" xml:space="preserve">
     <value>Capture Photo</value>
   </data>
+  <data name="ShowBookmarksButton.Label" xml:space="preserve">
+    <value>Bookmarks</value>
+  </data>
+  <data name="ShowTOCButton.Label" xml:space="preserve">
+    <value>Table of Contents</value>
+  </data>
 </root>

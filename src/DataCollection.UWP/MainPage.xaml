@@ -10,6 +10,7 @@
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
     xmlns:views="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
+    xmlns:mapping="using:Esri.ArcGISRuntime.Mapping"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -60,6 +61,39 @@
                     Style="{StaticResource SubheaderTextBlockStyle}" FontSize="28"
                     Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
             </CommandBar.Content>
+            <AppBarButton
+                x:Uid="ShowBookmarksButton"
+                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE728;" />
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <toolkit:BookmarksView GeoView="{x:Bind MapView, Mode=OneWay}" MaxHeight="300" MaxWidth="250" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton
+                x:Uid="ShowTOCButton"
+                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D5;" />
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <ListView SelectionMode="None"
+                            ItemsSource="{x:Bind MainViewModel.MapViewModel.Map.OperationalLayers,Mode=OneWay}" 
+                            MaxWidth="250" Height="100">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="mapping:ILayerContent">
+                                    <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}" 
+                                              Content="{x:Bind Name, Mode=OneWay}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
             <AppBarButton
                 x:Uid="CurrentLocationButton"
                 Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}"
