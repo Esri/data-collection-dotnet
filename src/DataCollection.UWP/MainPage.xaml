@@ -11,6 +11,7 @@
     xmlns:utils="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
     xmlns:views="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
     xmlns:mapping="using:Esri.ArcGISRuntime.Mapping"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -81,16 +82,22 @@
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <ListView SelectionMode="None"
+                        <muxc:TreeView
                             ItemsSource="{x:Bind MainViewModel.MapViewModel.Map.OperationalLayers,Mode=OneWay}" 
-                            MaxWidth="250" Height="100">
-                            <ListView.ItemTemplate>
+                            MaxWidth="300" MaxHeight="250">
+                            <muxc:TreeView.ItemTemplate>
                                 <DataTemplate x:DataType="mapping:ILayerContent">
-                                    <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}" 
-                                              Content="{x:Bind Name, Mode=OneWay}" />
+                                    <muxc:TreeViewItem ItemsSource="{x:Bind SublayerContents}" Padding="0">
+                                        <muxc:TreeViewItem.Content>
+                                            <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}"
+                                                      Margin="0" 
+                                                      HorizontalAlignment="Stretch"
+                                                      Content="{x:Bind Name}" />
+                                        </muxc:TreeViewItem.Content>
+                                    </muxc:TreeViewItem>
                                 </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                            </muxc:TreeView.ItemTemplate>
+                        </muxc:TreeView>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
