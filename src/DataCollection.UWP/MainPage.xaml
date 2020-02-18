@@ -21,8 +21,9 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -38,10 +39,18 @@
                 MaxWidth="300" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
+        <Grid x:Name="AppTitleBar" Background="Transparent" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="Assets/Square44x44Logo.png" 
+                   Grid.Column="0" HorizontalAlignment="Left" 
+                   Width="20" Height="20" Margin="5"/>
+        </Grid>
         <!--  Title bar with top buttons  -->
         <CommandBar
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.ColumnSpan="3"
             Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}"
             Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
@@ -201,7 +210,7 @@
         <!--  MapView Control containing map  -->
         <esri:MapView
             x:Name="MapView"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.RowSpan="2"
             Grid.ColumnSpan="3"
             utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
@@ -219,7 +228,7 @@
 
         <!--  Compass control that displays when user rotates the map  -->
         <toolkit:Compass
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.Column="2"
             Margin="20"
             VerticalAlignment="Bottom"
@@ -229,7 +238,7 @@
         <!--  New feature overlay  -->
         <views:AddFeatureView
             x:Name="AddFeatureView"
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.RowSpan="2"
             Grid.Column="0"
             Grid.ColumnSpan="3"
@@ -238,7 +247,7 @@
 
         <!--  Download view  -->
         <views:DownloadView
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.RowSpan="2"
             Grid.Column="0"
             Grid.ColumnSpan="3"
@@ -248,7 +257,7 @@
 
         <!--  Sync View  -->
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.RowSpan="2"
             Grid.Column="0"
             Grid.ColumnSpan="3"
@@ -289,8 +298,8 @@
             </Grid>
         </StackPanel>
 
-        <!--  BladeView control that contains the popups for identified features and related records  -->
-        <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" 
+        <!--  Grid control that contains the popups for identified features and related records  -->
+        <Grid Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" 
               Background="{ThemeResource SystemControlAcrylicElementBrush}"
               Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
@@ -315,7 +324,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
-                           Margin="5,5,0,0"
+                           Margin="5,5,0,0" TextAlignment="Center"
                            Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <Button Grid.Column="2" 
                         HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -347,7 +356,7 @@
                     <TextBlock Text="&#xEF2C;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
                 </Button>
                 <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
-                           Grid.Row="0" Margin="5,5,0,0"
+                           Grid.Row="0" Margin="5,5,0,0" TextAlignment="Center"
                            Style="{ThemeResource SubtitleTextBlockStyle}"/>
                 <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                                 Grid.Row="1" Grid.ColumnSpan="2" />
@@ -372,7 +381,7 @@
                     <TextBlock Text="&#xEF2C;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
                 </Button>
                 <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
-                           Grid.Row="0" Margin="5,5,0,0"
+                           Grid.Row="0" Margin="5,5,0,0" TextAlignment="Center"
                            Style="{ThemeResource SubtitleTextBlockStyle}"/>
                 <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"
                                                      Grid.Row="1" Grid.ColumnSpan="2" />
@@ -383,13 +392,13 @@
         <ProgressBar 
             IsIndeterminate="True" 
             Visibility="{x:Bind MainViewModel.IdentifyController.IsIdentifyInProgress, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-            Grid.Row="1" 
+            Grid.Row="2" 
             Grid.Column="0"
             Grid.ColumnSpan="3" />
 
         <!--  Busy Waiting View  -->
         <Grid
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.RowSpan="3"
             Grid.Column="0"
             Grid.ColumnSpan="3"

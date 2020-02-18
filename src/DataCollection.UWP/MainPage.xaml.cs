@@ -43,6 +43,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
 
             // load settings for the custom tree survey dataset
             LoadTreeSurveySettings();
+
+            // Update the draggable title bar region
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+            // Set XAML element as a draggable region.
+            Window.Current.SetTitleBar(AppTitleBar);
+        }
+
+        private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            AppTitleBar.Height = sender.Height;
         }
 
         private void OnWaitStatusChanged(object sender, WaitStatusChangedEventArgs e)
