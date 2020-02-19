@@ -178,6 +178,28 @@
                 Foreground="White" />
             <!--  TODO: Replace buttons text with icons if app is used on Windows versions < 10  -->
             <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <!--  Bookmarks Button -->
+                <ToggleButton x:Name="toggleBookmarks" Click="menuButton_Click"
+                    Width="60"
+                    HorizontalAlignment="Right"
+                    Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
+                    Style="{StaticResource ToggleButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarks.Label}">
+                    <ToggleButton.Content>
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/bookmark-16.png" Width="20" Height="20" />
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <!--  TOC Button -->
+                <ToggleButton x:Name="toggleTOC" Click="menuButton_Click"
+                    Width="60"
+                    HorizontalAlignment="Right"
+                    Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
+                    Style="{StaticResource ToggleButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOC.Label}">
+                    <ToggleButton.Content>
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/layers-16.png" Width="20" Height="20" />
+                    </ToggleButton.Content>
+                </ToggleButton>
                 <!--  Current Location Button  -->
                 <Button
                     Width="60"
@@ -190,7 +212,7 @@
                     <Button.Content>
                         <TextBlock
                             FontFamily="Segoe MDL2 Assets"
-                            FontSize="25"
+                            FontSize="20"
                             Text="&#xE81D;" />
                     </Button.Content>
                 </Button>
@@ -199,9 +221,9 @@
                     Width="60"
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
-                    Content="&#xE710;"
+                    Content="&#xE710;" Click="menuButton_Click"
                     FontFamily="Segoe MDL2 Assets"
-                    FontSize="25"
+                    FontSize="20"
                     IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureButton.Label}"
@@ -222,12 +244,12 @@
                 <!--  Open Menu Button  -->
                 <ToggleButton
                     x:Name="toggleMenu"
-                    Width="60"
+                    Width="60" Click="menuButton_Click"
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Content="&#xE712;"
                     FontFamily="Segoe MDL2 Assets"
-                    FontSize="25"
+                    FontSize="20"
                     Style="{StaticResource ToggleButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=MoreTools_Tooltip}"
                     Visibility="{Binding IsLocationOnlyMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
@@ -235,13 +257,36 @@
         </Grid>
 
         <!--  Menu Panel  -->
+        <Grid Grid.Row="1"
+              Grid.RowSpan="2"
+              Grid.Column="2"
+              MaxWidth="250"
+              MaxHeight="250"
+              Margin="0,5,5,0"
+              Background="White"
+              VerticalAlignment="Top"
+              Visibility="{Binding IsChecked, ElementName=toggleTOC, Converter={StaticResource BoolToVisibilityConverter}}">
+            <esri:TableOfContents GeoView="{Binding ElementName=MapView, Mode=OneWay}" ShowLegend="False" />
+        </Grid>
+        <Grid Grid.Row="1"
+              Grid.RowSpan="2"
+              Grid.Column="2"
+              MaxWidth="250"
+              MaxHeight="250"
+              Margin="0,5,5,0"
+              Background="White"
+              VerticalAlignment="Top"
+              Visibility="{Binding IsChecked, ElementName=toggleBookmarks, Converter={StaticResource BoolToVisibilityConverter}}">
+            <esri:BookmarksView GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
+        </Grid>
+        <!-- Menu Panel -->
         <Grid
             Grid.Row="1"
             Grid.RowSpan="2"
             Grid.Column="2"
             MinWidth="100"
             MaxWidth="300"
-            Margin="0,5,20,0"
+            Margin="0,5,5,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Background="White"

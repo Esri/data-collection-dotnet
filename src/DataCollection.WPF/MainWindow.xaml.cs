@@ -22,6 +22,7 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 {
@@ -122,6 +123,22 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             this.Unloaded += OnUnloaded;
             UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
             BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
+        }
+
+        private void menuButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (toggleMenu != sender)
+            {
+                toggleMenu.IsChecked = false;
+            }
+            if (toggleTOC != sender)
+            {
+                toggleTOC.IsChecked = false;
+            }
+            if (toggleBookmarks != sender)
+            {
+                toggleBookmarks.IsChecked = false;
+            }
         }
     }
 }
