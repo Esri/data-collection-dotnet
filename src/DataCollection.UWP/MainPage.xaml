@@ -17,6 +17,7 @@
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <localConverters:TitleBarConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
@@ -64,13 +65,15 @@
             </CommandBar.Content>
             <AppBarButton
                 x:Uid="ShowBookmarksButton"
-                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
+                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
+                Visibility="{x:Bind MapView.Map.Bookmarks, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE728;" />
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <toolkit:BookmarksView GeoView="{x:Bind MapView, Mode=OneWay}" MaxHeight="300" MaxWidth="250" />
+                        <toolkit:BookmarksView GeoView="{x:Bind MapView, Mode=OneWay}" 
+                                               MaxHeight="300" MaxWidth="250" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
