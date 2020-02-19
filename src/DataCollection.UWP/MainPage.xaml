@@ -119,10 +119,11 @@
             </AppBarButton>
             <AppBarButton
                 x:Uid="AddFeatureButton"
+                Command="{x:Bind MainViewModel.StartNewFeatureCommand, Mode=OneWay}"
                 Icon="Add"
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                 IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
-                Visibility="{x:Bind MainViewModel.IsLocationOnlyMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
             </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <!--  Inactive button displaying signed in user info  -->
@@ -291,7 +292,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-            Visibility="Collapsed" />
+            Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
         <!--  Download view  -->
         <views:DownloadView
