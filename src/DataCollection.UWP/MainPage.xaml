@@ -68,7 +68,9 @@
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                 Visibility="{x:Bind MapView.Map.Bookmarks, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE728;" />
+                    <BitmapIcon UriSource="Assets/bookmark-16.png"
+                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
+                                Width="20" Height="20"/>
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout>
@@ -81,7 +83,9 @@
                 x:Uid="ShowTOCButton"
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D5;" />
+                    <BitmapIcon UriSource="Assets/layers-16.png" ShowAsMonochrome="True"
+                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
+                                Width="20" Height="20"/>
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <Flyout>
