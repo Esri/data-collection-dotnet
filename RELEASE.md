@@ -2,6 +2,8 @@
 
 ## 1.1.1
 
+* Support for .NET Core.
+* Resolves all compiler warnings.
 * Fixes broken image link in README.
 
 ## 1.1.0
