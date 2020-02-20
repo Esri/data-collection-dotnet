@@ -2,7 +2,7 @@
 
 Data Collection for .NET shows how a robust application can be built with the ArcGIS Platform using the ArcGIS Runtime SDK for .NET, WPF, and UWP. It demonstrates best practices around some simple but key functionality of the ArcGIS Runtime. Using your organization's web maps, you can use Data Collection as-is, or extend it to meet your specific needs.
 
-![Screenshot of the data collection app for WPF, showing the Portland Tree Survey dataset with an identified feature popup](Documentation/img/anatomy-identified-feature.png)
+![Screenshot of the data collection app for WPF, showing the Portland Tree Survey dataset with an identified feature popup](docs/images/anatomy-identified-feature.png)
 
 ## Features
 
