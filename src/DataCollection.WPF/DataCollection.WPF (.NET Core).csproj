@@ -8,6 +8,12 @@
     <DefineConstants>WPF;NET_CORE</DefineConstants>
     <DefaultItemExcludes>$(DefaultItemExcludes);netframework\**;obj\**;netcore\**;out\**</DefaultItemExcludes>
     <ApplicationIcon>Images/ArcGIS_Open_Source_apps.ico</ApplicationIcon>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
+    <Version>1.1.1</Version>
+    <Authors />
+    <Company>Esri</Company>
+    <Product>Data Collection for .NET</Product>
   </PropertyGroup>
 
   <ItemGroup>

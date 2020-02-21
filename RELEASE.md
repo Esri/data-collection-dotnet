@@ -1,5 +1,11 @@
 # Release notes
 
+## 1.1.1
+
+* Support for .NET Core.
+* Resolves all compiler warnings.
+* Fixes broken image link in README.
+
 ## 1.1.0
 
 This is the third release of the Data Collection app for .NET, built on ArcGIS Runtime 100.7.
