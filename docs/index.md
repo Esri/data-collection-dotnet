@@ -44,6 +44,8 @@ The navigation bar's title reflects the name of the web map and the navigation b
 
 | Icon | Description |
 | ---- | ----------- |
+| ![Bookmarks icon](/docs/images/bookmark-icon.png) | Bookmarks button reveals list of bookmarks in the map |
+| ![Layers icon](/docs/images/layers-icon.png) | Contents button shows a list of layers, which can be toggled on and off |
 | ![Hamburger Drawer View](/docs/images/hamburger.png) | Ellipsis button to reveal or hide the app context drawer view. |
 | ![Zoom To Location](/docs/images/zoom-to-location.png) | Zoom to user's location. |
 | ![Add Feature](/docs/images/add-feature.png) | Add a new spatial feature to map. |

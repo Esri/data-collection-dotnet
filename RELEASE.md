@@ -1,5 +1,12 @@
 # Release notes
 
+## 1.2.0
+
+* Adds support for viewing and navigating to bookmarks
+* Adds support for toggling layer visibility
+* Updated design for UWP makes better use of acrylic effects
+* Added dependency on WinUI 2 to the UWP version of the app
+
 ## 1.1.1
 
 * Support for .NET Core.

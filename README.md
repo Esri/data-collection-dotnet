@@ -17,6 +17,8 @@ Data Collection for .NET shows how a robust application can be built with the Ar
 * Authenticate with Portal using OAuth
 * Use the World Geocoder service
 * Use Popup configuration to drive app behavior
+* Navigate to key map areas with support for bookmarks
+* Show and hide layers with a table of contents
 
 ## Best practices
 
