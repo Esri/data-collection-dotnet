@@ -268,16 +268,12 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
                 <TreeView.ItemTemplate>
-                    <DataTemplate DataType="mapping:ILayerContent">
-                        <TreeViewItem ItemsSource="{Binding SublayerContents}" Padding="0">
-                            <TreeViewItem.Header>
-                                <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay}"
+                    <HierarchicalDataTemplate DataType="esri:ILayerContent" ItemsSource="{Binding SublayerContents}">
+                        <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay}"
                                                       Margin="0" 
                                                       HorizontalAlignment="Stretch"
-                                                      Content="{Binding Name}" />
-                            </TreeViewItem.Header>
-                        </TreeViewItem>
-                    </DataTemplate>
+                                                      Content="{Binding Path=Name}" />
+                    </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
         </Border>
