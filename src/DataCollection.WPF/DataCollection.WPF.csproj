@@ -203,6 +203,15 @@
     <Resource Include="Images\bookmark-16.png" />
     <Resource Include="Images\layers-16.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\legend-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\gps-on-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\plus-square-64.png" />
+  </ItemGroup>
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

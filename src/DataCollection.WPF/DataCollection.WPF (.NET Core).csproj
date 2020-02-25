@@ -23,7 +23,10 @@
 
   <ItemGroup>
     <None Remove="Images\bookmark-16.png" />
+    <None Remove="Images\gps-on-64.png" />
     <None Remove="Images\layers-16.png" />
+    <None Remove="Images\legend-left.png" />
+    <None Remove="Images\plus-square-64.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,7 +64,10 @@
       <Link>Images\PinShadow.png</Link>
     </Resource>
     <Resource Include="Images\bookmark-16.png" />
+    <Resource Include="Images\gps-on-64.png" />
     <Resource Include="Images\layers-16.png" />
+    <Resource Include="Images\legend-left.png" />
+    <Resource Include="Images\plus-square-64.png" />
   </ItemGroup>
 
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />

@@ -358,9 +358,12 @@
     <value>Capture Photo</value>
   </data>
   <data name="ShowBookmarksButton.Label" xml:space="preserve">
-    <value>Bookmarks</value>
+    <value>Show Bookmarks</value>
   </data>
   <data name="ShowTOCButton.Label" xml:space="preserve">
-    <value>Table of Contents</value>
+    <value>Show Contents</value>
+  </data>
+  <data name="ShowLegendButton.Label" xml:space="preserve">
+    <value>Show Legend</value>
   </data>
 </root>

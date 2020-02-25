@@ -139,6 +139,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             {
                 toggleBookmarks.IsChecked = false;
             }
+
+            if (toggleLegend != sender)
+            {
+                toggleLegend.IsChecked = false;
+            }
         }
     }
 }

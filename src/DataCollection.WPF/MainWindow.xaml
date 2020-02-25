@@ -23,6 +23,7 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <localconverters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
+            <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <localconverters:MapTitleConverter x:Key="MapTitleConverter" />
@@ -184,9 +185,21 @@
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Style="{StaticResource ToggleButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarks.Label}">
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarks.Label}"
+                    Visibility="{Binding ElementName=MapView, Path=Map.Bookmarks, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/bookmark-16.png" Width="20" Height="20" />
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <!--  Legend Button -->
+                <ToggleButton x:Name="toggleLegend" Click="menuButton_Click"
+                              Width="60"
+                              HorizontalAlignment="Right"
+                              Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
+                              Style="{StaticResource ToggleButtonStyle}"
+                              ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOC.Label}">
+                    <ToggleButton.Content>
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/legend-left.png" Width="20" Height="20" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <!--  TOC Button -->
@@ -210,10 +223,7 @@
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CurrentLocationButton.Label}">
                     <Button.Content>
-                        <TextBlock
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="20"
-                            Text="&#xE81D;" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/gps-on-64.png" Width="20" Height="20" />
                     </Button.Content>
                 </Button>
                 <!--  Add Feature Button  -->
@@ -222,13 +232,15 @@
                     HorizontalAlignment="Right"
                     Command="{Binding StartNewFeatureCommand, Mode=OneWay}"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
-                    Content="&#xE710;" Click="menuButton_Click"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="20"
+                    Click="menuButton_Click"
                     IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureButton.Label}"
-                    Visibility="{Binding IsAddingFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+                    Visibility="{Binding IsAddingFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" >
+                    <Button.Content>
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/plus-square-64.png" Width="20" Height="20" />
+                    </Button.Content>
+                </Button>
 
                 <!--  Open Menu Button  -->
                 <ToggleButton
@@ -245,7 +257,7 @@
             </StackPanel>
         </Grid>
 
-        <!--  Menu Panel  -->
+        <!--  TOC Panel  -->
         <Border Grid.Row="1"
               Grid.RowSpan="2"
               Grid.Column="2"
@@ -277,11 +289,12 @@
                 </TreeView.ItemTemplate>
             </TreeView>
         </Border>
+        <!-- Bookmarks panel -->
         <Border Grid.Row="1"
               Grid.RowSpan="2"
               Grid.Column="2"
-              MaxWidth="250"
               MaxHeight="250"
+              MaxWidth="250"
               Margin="0,10,10,0"
               Background="White"
               VerticalAlignment="Top"
@@ -291,6 +304,22 @@
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Border.Effect>
             <esri:BookmarksView GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
+        </Border>
+        <!-- Legend panel -->
+        <Border Grid.Row="1"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                MaxHeight="250"
+                MaxWidth="250"
+                Margin="0,10,10,0"
+                Background="White"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Visibility="{Binding IsChecked, ElementName=toggleLegend, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Opacity=".5" />
+            </Border.Effect>
+            <esri:Legend GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
         </Border>
         <!-- Menu Panel -->
         <Grid

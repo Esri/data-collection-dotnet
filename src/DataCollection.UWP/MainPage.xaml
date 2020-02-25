@@ -80,6 +80,20 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton
+                x:Uid="ShowLegendButton"
+                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/legend-left.png" ShowAsMonochrome="True"
+                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
+                                Width="20" Height="20"/>
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <toolkit:Legend GeoView="{x:Bind MapView, Mode=OneWay}" MaxHeight="400" MaxWidth="250" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton
                 x:Uid="ShowTOCButton"
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
@@ -114,16 +128,22 @@
                 IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}"
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;" />
+                    <BitmapIcon UriSource="Assets/gps-on-64.png" ShowAsMonochrome="True"
+                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
+                                Width="20" Height="20"/>
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
                 x:Uid="AddFeatureButton"
                 Command="{x:Bind MainViewModel.StartNewFeatureCommand, Mode=OneWay}"
-                Icon="Add"
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                 IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
                 Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/plus-square-64.png" ShowAsMonochrome="True"
+                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
+                                Width="20" Height="20"/>
+                </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <!--  Inactive button displaying signed in user info  -->
