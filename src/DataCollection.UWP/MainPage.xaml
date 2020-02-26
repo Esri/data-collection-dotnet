@@ -363,7 +363,7 @@
                     Width="70"
                     Margin="0,0,0,20"
                     HorizontalAlignment="Center"
-                    Command="{x:Bind MainViewModel.SyncViewModel.CancelSyncCommand}" />
+                    Command="{x:Bind MainViewModel.SyncViewModel.CancelSyncCommand, Mode=OneWay}" />
             </Grid>
         </StackPanel>
 
