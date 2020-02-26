@@ -200,17 +200,33 @@
     <Resource Include="Images\ArcGIS_Open_Source_Apps.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\bookmark-16.png" />
-    <Resource Include="Images\layers-16.png" />
+    <Resource Include="Images\Calcite\bookmark-32.png" />
+    <Resource Include="Images\Calcite\camera-32.png" />
+    <Resource Include="Images\Calcite\chevron-right-32.png" />
+    <Resource Include="Images\Calcite\ellipsis-32.png" />
+    <Resource Include="Images\Calcite\folder-open-32.png" />
+    <Resource Include="Images\Calcite\gps-on-32.png" />
+    <Resource Include="Images\Calcite\launch-32.png" />
+    <Resource Include="Images\Calcite\layers-32.png" />
+    <Resource Include="Images\Calcite\legend-32.png" />
+    <Resource Include="Images\Calcite\offline-32.png" />
+    <Resource Include="Images\Calcite\online-32.png" />
+    <Resource Include="Images\Calcite\pencil-32.png" />
+    <Resource Include="Images\Calcite\plus-circle-32.png" />
+    <Resource Include="Images\Calcite\refresh-32.png" />
+    <Resource Include="Images\Calcite\save-32.png" />
+    <Resource Include="Images\Calcite\sign-in-32.png" />
+    <Resource Include="Images\Calcite\sign-out-32.png" />
+    <Resource Include="Images\Calcite\trash-32.png" />
+    <Resource Include="Images\Calcite\x-32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\legend-left.png" />
+    <Resource Include="Images\Calcite\offline-black-32.png" />
+    <Resource Include="Images\Calcite\refresh-black-32.png" />
+    <Resource Include="Images\Calcite\trash-black-32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\gps-on-64.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\plus-square-64.png" />
+    <Resource Include="Images\Calcite\online-black-32.png" />
   </ItemGroup>
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

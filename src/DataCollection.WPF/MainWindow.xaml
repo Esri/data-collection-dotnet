@@ -188,7 +188,7 @@
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarks.Label}"
                     Visibility="{Binding ElementName=MapView, Path=Map.Bookmarks, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/bookmark-16.png" Width="20" Height="20" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/bookmark-32.png" Width="20" Height="20" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <!--  Legend Button -->
@@ -199,7 +199,7 @@
                               Style="{StaticResource ToggleButtonStyle}"
                               ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOC.Label}">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/legend-left.png" Width="20" Height="20" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/legend-32.png" Width="20" Height="20" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <!--  TOC Button -->
@@ -210,7 +210,7 @@
                     Style="{StaticResource ToggleButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOC.Label}">
                     <ToggleButton.Content>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/layers-16.png" Width="20" Height="20" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/layers-32.png" Width="20" Height="20" />
                     </ToggleButton.Content>
                 </ToggleButton>
                 <!--  Current Location Button  -->
@@ -223,7 +223,7 @@
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CurrentLocationButton.Label}">
                     <Button.Content>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/gps-on-64.png" Width="20" Height="20" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/gps-on-32.png" Width="20" Height="20" />
                     </Button.Content>
                 </Button>
                 <!--  Add Feature Button  -->
@@ -238,7 +238,7 @@
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureButton.Label}"
                     Visibility="{Binding IsAddingFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" >
                     <Button.Content>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/plus-square-64.png" Width="20" Height="20" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/plus-circle-32.png" Width="20" Height="20" />
                     </Button.Content>
                 </Button>
 
@@ -248,12 +248,11 @@
                     Width="60" Click="menuButton_Click"
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
-                    Content="&#xE712;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="20"
                     Style="{StaticResource ToggleButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=MoreTools_Tooltip}"
-                    Visibility="{Binding IsLocationOnlyMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+                    Visibility="{Binding IsLocationOnlyMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/ellipsis-32.png" Width="20" Height="20" />
+                </ToggleButton>
             </StackPanel>
         </Grid>
 
@@ -357,15 +356,9 @@
                         <ImageBrush ImageSource="{Binding AuthenticatedUser.ThumbnailUri}" />
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock Grid.Column="0"
-                    Margin="10"
-                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="25"
-                    Foreground="White"
-                    Text="&#xE77B;"
-                    Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
-
+                <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/sign-in-32.png"
+                       Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
+                       Height="24" Margin="5" VerticalAlignment="Center"/>
                 <!--  Sign In Button  -->
                 <Button Grid.Column="1" Padding="10"
                     HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
@@ -412,9 +405,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
-                                   Grid.Column="0"
-                                   Text="&#xEC3F;" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/online-black-32.png"
+                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
                         <TextBlock VerticalAlignment="Center"
                                    Grid.Column="1"
                                    FontSize="19"
@@ -437,9 +429,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
-                                   Grid.Column="0"
-                                   Text="&#xEC3F;" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/online-black-32.png"
+                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
                         <TextBlock VerticalAlignment="Center"
                                    Grid.Column="1"
                                    FontSize="19"
@@ -468,9 +459,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
-                                   Grid.Column="0"
-                                   Text="&#xEB5E;" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/offline-black-32.png"
+                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
                                    FontSize="19"
@@ -492,9 +482,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
-                                   Grid.Column="0"
-                                   Text="&#xEB5E;" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/offline-black-32.png"
+                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
                                    FontSize="19"
@@ -528,9 +517,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
-                                   Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                                   Text="&#xE895;" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/refresh-black-32.png"
+                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
                         <TextBlock Grid.Row="0" Grid.Column="1"
                                    VerticalAlignment="Center"
                                    FontSize="19"
@@ -564,9 +552,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Style="{StaticResource MenuButtonIconStyle}"
-                                   Grid.Column="0"
-                                   Text="&#xE74D;" />
+                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/trash-black-32.png"
+                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
                                    FontSize="19"
@@ -620,12 +607,12 @@
                     Padding="10,10,10,5"
                     HorizontalAlignment="Right"
                     Command="{Binding ClearIdentifiedFeatureCommand}"
-                    Content="&#xE8bB;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="15"
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CloseButton_Tooltip}"
-                    Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                    Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/x-32.png"
+                               Height="24" />
+                </Button>
                 <views:IdentifiedFeaturePopup Grid.Row="1" DataContext="{Binding}" />
             </Grid>
 
@@ -655,12 +642,11 @@
                     Padding="10,10,10,5"
                     HorizontalAlignment="Right"
                     Command="{Binding IdentifiedFeatureViewModel.ClearRelationshipsCommand}"
-                    Content="&#xE8bB;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="15"
                     Style="{StaticResource MenuButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CloseButton_Tooltip}"
-                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/x-32.png" Height="24" />
+                </Button>
 
                 <!--  Detail View  -->
                 <views:OriginRelatedRecordPopup Grid.Row="1" DataContext="{Binding}" />
@@ -692,11 +678,10 @@
                     Padding="10,10,10,5"
                     HorizontalAlignment="Right"
                     Command="{Binding IdentifiedFeatureViewModel.ClearRelationshipsCommand}"
-                    Content="&#xE8bB;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="15"
                     Style="{StaticResource MenuButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CloseButton_Tooltip}" />
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CloseButton_Tooltip}">
+                    <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/x-32.png" Height="24" />
+                </Button>
                 <views:DestinationRelatedRecordPopup Grid.Row="1" DataContext="{Binding}" />
             </Grid>
         </Grid>
