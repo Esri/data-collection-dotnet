@@ -68,7 +68,7 @@
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                 Visibility="{x:Bind MapView.Map.Bookmarks, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/bookmark-16.png"
+                    <BitmapIcon UriSource="Assets/Calcite/bookmark-32.png"
                                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                                 Width="20" Height="20"/>
                 </AppBarButton.Icon>
@@ -83,7 +83,7 @@
                 x:Uid="ShowLegendButton"
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/legend-left.png" ShowAsMonochrome="True"
+                    <BitmapIcon UriSource="Assets/Calcite/legend-32.png" ShowAsMonochrome="True"
                                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                                 Width="20" Height="20"/>
                 </AppBarButton.Icon>
@@ -97,7 +97,7 @@
                 x:Uid="ShowTOCButton"
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/layers-16.png" ShowAsMonochrome="True"
+                    <BitmapIcon UriSource="Assets/Calcite/layers-32.png" ShowAsMonochrome="True"
                                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                                 Width="20" Height="20"/>
                 </AppBarButton.Icon>
@@ -128,7 +128,7 @@
                 IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}"
                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/gps-on-64.png" ShowAsMonochrome="True"
+                    <BitmapIcon UriSource="Assets/Calcite/gps-on-32.png" ShowAsMonochrome="True"
                                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                                 Width="20" Height="20"/>
                 </AppBarButton.Icon>
@@ -140,7 +140,7 @@
                 IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
                 Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                 <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/plus-square-64.png" ShowAsMonochrome="True"
+                    <BitmapIcon UriSource="Assets/Calcite/plus-circle-32.png" ShowAsMonochrome="True"
                                 Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
                                 Width="20" Height="20"/>
                 </AppBarButton.Icon>
@@ -176,7 +176,7 @@
                     IsEnabled="False"
                     Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC3F;" />
+                        <BitmapIcon UriSource="Assets/Calcite/online-32.png" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
@@ -187,7 +187,7 @@
                     CommandParameter="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}"
                     Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC3F;" />
+                        <BitmapIcon UriSource="Assets/Calcite/online-32.png" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
@@ -199,7 +199,7 @@
                     IsEnabled="False"
                     Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB5E;" />
+                        <BitmapIcon UriSource="Assets/Calcite/offline-32.png" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
@@ -209,7 +209,7 @@
                     Command="{x:Bind MainViewModel.WorkOfflineCommand, Mode=OneWay}"
                     Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB5E;" />
+                        <BitmapIcon UriSource="Assets/Calcite/offline-32.png" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
@@ -220,7 +220,7 @@
                     DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                     Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE895;" />
+                        <BitmapIcon UriSource="Assets/Calcite/refresh-32.png" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
@@ -230,7 +230,7 @@
                     Command="{x:Bind MainViewModel.DeleteOfflineMapCommand, Mode=OneWay}"
                     Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74D;" />
+                        <BitmapIcon UriSource="Assets/Calcite/trash-32.png" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
@@ -260,7 +260,7 @@
                     Command="{x:Bind AuthViewModel.SignInCommand}"
                     Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE77B;" />
+                        <BitmapIcon UriSource="Assets/Calcite/sign-in-32.png" />
                     </AppBarButton.Icon>
                 </AppBarButton>
 
@@ -270,7 +270,7 @@
                     Command="{x:Bind AuthViewModel.SignOutCommand}"
                     Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F8;" />
+                        <BitmapIcon UriSource="Assets/Calcite/sign-out-32.png" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </CommandBar.SecondaryCommands>
@@ -400,7 +400,8 @@
                         Padding="5" Width="30" Height="30"
                         Background="Transparent" 
                         Command="{x:Bind MainViewModel.ClearIdentifiedFeatureCommand}">
-                    <TextBlock Text="&#xEF2C;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
+                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
+                                Width="15" Height="15"/>
                 </Button>
                 <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                               Grid.Row="1" Grid.ColumnSpan="2"/>
@@ -422,7 +423,8 @@
                         Padding="5" Width="30" Height="30"
                         Background="Transparent" 
                         Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" >
-                    <TextBlock Text="&#xEF2C;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
+                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
+                                Width="15" Height="15"/>
                 </Button>
                 <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
                            Grid.Row="0" Margin="5,5,0,0" TextAlignment="Center"
@@ -447,7 +449,8 @@
                         Padding="5" Width="30" Height="30"
                         Background="Transparent" 
                         Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" >
-                    <TextBlock Text="&#xEF2C;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
+                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
+                                Width="15" Height="15"/>
                 </Button>
                 <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
                            Grid.Row="0" Margin="5,5,0,0" TextAlignment="Center"

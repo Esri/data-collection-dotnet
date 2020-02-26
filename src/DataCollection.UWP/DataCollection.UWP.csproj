@@ -181,16 +181,30 @@
     <Content Include="..\DataCollection.Shared\Resources\Images\PinShadow.png">
       <Link>Assets\PinShadow.png</Link>
     </Content>
-    <Content Include="Assets\bookmark-16.png" />
-    <Content Include="Assets\gps-on-64.png" />
-    <Content Include="Assets\layers-16.png" />
-    <Content Include="Assets\legend-left.png" />
+    <Content Include="Assets\Calcite\bookmark-32.png" />
+    <Content Include="Assets\Calcite\camera-32.png" />
+    <Content Include="Assets\Calcite\chevron-right-32.png" />
+    <Content Include="Assets\Calcite\ellipsis-32.png" />
+    <Content Include="Assets\Calcite\folder-open-32.png" />
+    <Content Include="Assets\Calcite\gps-on-32.png" />
+    <Content Include="Assets\Calcite\launch-32.png" />
+    <Content Include="Assets\Calcite\layers-32.png" />
+    <Content Include="Assets\Calcite\legend-32.png" />
+    <Content Include="Assets\Calcite\offline-32.png" />
+    <Content Include="Assets\Calcite\online-32.png" />
+    <Content Include="Assets\Calcite\pencil-32.png" />
+    <Content Include="Assets\Calcite\plus-circle-32.png" />
+    <Content Include="Assets\Calcite\refresh-32.png" />
+    <Content Include="Assets\Calcite\save-32.png" />
+    <Content Include="Assets\Calcite\sign-in-32.png" />
+    <Content Include="Assets\Calcite\sign-out-32.png" />
+    <Content Include="Assets\Calcite\trash-32.png" />
+    <Content Include="Assets\Calcite\x-32.png" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />
     <Content Include="Assets\LockScreenLogo.scale-150.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-400.png" />
-    <Content Include="Assets\plus-square-64.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
