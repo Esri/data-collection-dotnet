@@ -3,10 +3,11 @@
 ## 1.2.0
 
 * Adds support for viewing and navigating to bookmarks
-* Adds support for toggling layer visibility
-* Updates design for UWP makes better use of acrylic effects
+* Adds support for toggling layer visibility with a TOC
+* Updates design for UWP and makes better use of acrylic effects
+* Removes the dependency on the Windows Community Toolkit from the UWP version of the app
 * Adds dependency on WinUI 2 to the UWP version of the app
-* Adds beautiful new icons from the Calcite design system
+* Replaces most icons with beautiful new icons from the Calcite design system
 * Fixes a bug that prevented cancellation of map synchronization
 
 ## 1.1.1

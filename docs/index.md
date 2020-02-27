@@ -16,7 +16,7 @@ Users can identify existing or create new street trees of a certain species on a
 
 The _Trees of Portland_ dataset schema is simple.
 
-![Architecure diagram showing the Trees of Portland database schema](/docs/images/general-ui.png)
+![Architecture diagram showing the Trees of Portland database schema](/docs/images/general-ui.png)
 
 A street tree can be one of many species and a street tree can contain zero to many inspection records. A neighborhood is a spatial feature symbolized on the map that does not relate to other tables.
 
@@ -44,11 +44,12 @@ The navigation bar's title reflects the name of the web map and the navigation b
 
 | Icon | Description |
 | ---- | ----------- |
-| ![Bookmarks icon](/docs/images/bookmark-icon.png) | Bookmarks button reveals list of bookmarks in the map |
-| ![Layers icon](/docs/images/layers-icon.png) | Contents button shows a list of layers, which can be toggled on and off |
-| ![Hamburger Drawer View](/docs/images/hamburger.png) | Ellipsis button to reveal or hide the app context drawer view. |
-| ![Zoom To Location](/docs/images/zoom-to-location.png) | Zoom to user's location. |
-| ![Add Feature](/docs/images/add-feature.png) | Add a new spatial feature to map. |
+| ![Bookmarks icon](/src/DataCollection.UWP/Assets/Calcite/bookmark-32.png) | Bookmarks button reveals list of bookmarks in the map |
+| ![TOC icon](/src/DataCollection.UWP/Assets/Calcite/layers-32.png) | Contents button shows a list of layers, which can be toggled on and off |
+| ![Legend icon](/src/DataCollection.UWP/Assets/Calcite/legend-32.png) | Legend button shows the legend for the map |
+| ![Hamburger Drawer View](/src/DataCollection.UWP/Assets/Calcite/ellipsis-32.png) | Ellipsis button to reveal or hide the app context drawer view. |
+| ![Zoom To Location](/src/DataCollection.UWP/Assets/Calcite/gps-on-32.png) | Zoom to user's location. |
+| ![Add Feature](/src/DataCollection.UWP/Assets/Calcite/plus-circle-32.png) | Add a new spatial feature to map. |
 
 ### Manage the app's context
 

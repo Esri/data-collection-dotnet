@@ -17,8 +17,9 @@ Data Collection for .NET shows how a robust application can be built with the Ar
 * Authenticate with Portal using OAuth
 * Use the World Geocoder service
 * Use Popup configuration to drive app behavior
-* Navigate to key map areas with support for bookmarks
+* Navigate to bookmarks defined in the web map
 * Show and hide layers with a table of contents
+* View symbology for layers in the map with a legend
 
 ## Best practices
 
@@ -82,9 +83,9 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 1. Open the solution in Visual Studio and browse to the file named `Configuration.xml` located in the `Properties` directory of the  `DataCollection.Shared` project.
 2. _(Optionally)_ configure the `WebmapURL` to match your organization's webmap.
 3. Configure the OAuth Redirect URL.
-   * Set the `RedirectURL` property to match the **Redirect URL** you have set up when you registered your application (see section above).
+    * Set the `RedirectURL` property to match the **Redirect URL** you have set up when you registered your application (see section above).
 4. Configure the Client ID.
-   * Set the `ClientID` property with the **Client ID** generated when you registered your application (see section above).
+    * Set the `ClientID` property with the **Client ID** generated when you registered your application (see section above).
 
 ## Learn more
 
@@ -93,7 +94,7 @@ Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/exam
 ## Requirements
 
 * [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later
-    * Visual Studio 2019 is required if you want to use the .NET Core version of the WPF app.
+  * Visual Studio 2019 is required if you want to use the .NET Core version of the WPF app.
 * [ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/downloads/apis-and-sdks?product=net)
 * To edit records or take a web map offline you will need an ArcGIS Online Organizational account, an ArcGIS Online Developer account or an ArcGIS Online account authenticated using a social login.
 * To consume your own web map you will need an ArcGIS Online Organizational account.
