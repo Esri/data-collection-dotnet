@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="AddFeatureUserControl"
     d:DesignHeight="450"
@@ -110,39 +109,14 @@
             Orientation="Horizontal">
             <Button
                 Margin="0,0,20,0"
+                Command="{Binding CancelNewFeatureCommand}"
                 Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton.Content}"
-                Style="{StaticResource MenuButtonStyle}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl}"
-                            Value="Collapsed" />
-                        <i:ChangePropertyAction
-                            PropertyName="IsLocationOnlyMode"
-                            TargetObject="{Binding .}"
-                            Value="false" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+                Style="{StaticResource MenuButtonStyle}" />
             <Button
                 Margin="20,0,0,0"
                 Command="{Binding SaveNewFeatureCommand}"
                 Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveButton.Content}"
-                Style="{StaticResource MenuButtonStyle}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl}"
-                            Value="Collapsed" />
-                        <i:ChangePropertyAction
-                            PropertyName="IsLocationOnlyMode"
-                            TargetObject="{Binding .}"
-                            Value="false" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+                Style="{StaticResource MenuButtonStyle}" />
         </StackPanel>
     </Grid>
 </UserControl>

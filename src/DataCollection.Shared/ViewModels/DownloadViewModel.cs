@@ -118,7 +118,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _cancelDownloadCommand ?? (_cancelDownloadCommand = new DelegateCommand(
                     (x) =>
                     {
-                        GenerateOfflineMapJob.Cancel();
+                        GenerateOfflineMapJob?.Cancel();
                         BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(false, BroadcastMessageKey.SyncSucceeded);
                     }));
             }

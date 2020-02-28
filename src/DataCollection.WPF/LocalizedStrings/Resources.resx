@@ -351,4 +351,19 @@
   <data name="UnsupportedAttachment_Message" xml:space="preserve">
     <value>Couldn't open that attachment because it isn't supported.</value>
   </data>
+  <data name="BrowseAttach_Tooltip" xml:space="preserve">
+    <value>Browse for Files</value>
+  </data>
+  <data name="TakePhoto_Tooltip" xml:space="preserve">
+    <value>Capture Photo</value>
+  </data>
+  <data name="ShowBookmarksButton.Label" xml:space="preserve">
+    <value>Show Bookmarks</value>
+  </data>
+  <data name="ShowTOCButton.Label" xml:space="preserve">
+    <value>Show Contents</value>
+  </data>
+  <data name="ShowLegendButton.Label" xml:space="preserve">
+    <value>Show Legend</value>
+  </data>
 </root>

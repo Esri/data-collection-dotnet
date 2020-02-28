@@ -22,34 +22,36 @@
     <Grid x:Name="OriginRelatedRecordGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="45" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Pivot x:Name="OriginRelatedRecordPivot" Grid.Row="0">
             <PivotItem Header="Details">
-                <StackPanel Orientation="Vertical">
-                    <!--  Origin related record in View mode  -->
-                    <ItemsControl
+                <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+                    <StackPanel Orientation="Vertical">
+                        <!--  Origin related record in View mode  -->
+                        <ItemsControl
                         ItemsSource="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="{Binding Field.Label, Mode=OneWay}" />
-                                    <TextBlock
+                                        <TextBlock
                                         Margin="5"
                                         Style="{StaticResource BodyTextBlockStyle}"
                                         Text="{Binding ReformattedValue, Mode=OneWay}"
                                         TextWrapping="Wrap" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <!--  Origin related record in Edit mode  -->
-                    <local:FeatureEditorView DataContext="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
-                </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <!--  Origin related record in Edit mode  -->
+                        <local:FeatureEditorView DataContext="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}" Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Attachments">
                 <!--  Attachments view  -->
@@ -58,43 +60,17 @@
         </Pivot>
 
         <!--  Bottom buttons  -->
-        <CommandBar Grid.Row="1">
-            <CommandBar.Content>
-                <!--  Add Attachment Button  -->
-                <AppBarButton ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
-                              Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}" >
-                    <AppBarButton.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
-                                       FontSize="20"
-                                       Text="&#xE723;" />
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
-                                       FontSize="10"
-                                       Text="&#xE710;" />
-                        </StackPanel>
-                    </AppBarButton.Content>
-                    <interactivity:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <core:ChangePropertyAction
-                                PropertyName="SelectedIndex"
-                                TargetObject="{Binding ElementName=OriginRelatedRecordPivot, Mode=OneWay}"
-                                Value="1" />
-                        </core:EventTriggerBehavior>
-                    </interactivity:Interaction.Behaviors>
-                    <AppBarButton.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem
-                                Click="CaptureMediaButton_Click"
-                                Icon="Camera"
-                                Text="Capture Media" />
-                            <MenuFlyoutItem
-                                Click="BrowseFilesButton_Click"
-                                Icon="OpenFile"
-                                Text="Browse Files" />
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-            </CommandBar.Content>
+        <CommandBar Grid.Row="1" OverflowButtonVisibility="Collapsed">
+            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
+                          Click="CaptureMediaButton_Click"
+                          Icon="Camera"
+                          ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=TakePhoto_Tooltip}"
+                          Label="Capture Media" />
+            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
+                          Click="BrowseFilesButton_Click"
+                          Icon="OpenFile"
+                          ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=BrowseAttach_Tooltip}"
+                          Label="Browse Files" />
             <!--  Buttons to edit and delete record  -->
             <AppBarButton
                 Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
