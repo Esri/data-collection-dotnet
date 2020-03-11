@@ -51,7 +51,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        
+
 
         <!--  MapView control  -->
         <esri:MapView
@@ -275,15 +275,48 @@
                       BorderThickness="0" Margin="0,5,5,5">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TreeViewItem">
+                                    <StackPanel>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="ExpansionStates">
+                                                <VisualState x:Name="Expanded">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames
+                                    Storyboard.TargetProperty="(UIElement.Visibility)"
+                                    Storyboard.TargetName="ItemsHost">
+                                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                        Value="{x:Static Visibility.Visible}" />
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Collapsed" />
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <ContentPresenter ContentSource="Header" />
+                                        <ItemsPresenter Name="ItemsHost" Visibility="Collapsed" />
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                         <Setter Property="Focusable" Value="False" />
                     </Style>
                 </TreeView.ItemContainerStyle>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="esri:ILayerContent" ItemsSource="{Binding SublayerContents}">
                         <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay}"
-                                                      Margin="0" 
-                                                      HorizontalAlignment="Stretch"
-                                                      Content="{Binding Path=Name}" />
+                                  VerticalContentAlignment="Center"
+                                  HorizontalAlignment="Stretch"
+                                  HorizontalContentAlignment="Stretch"
+                                  Margin="5,0,5,0"
+                                  VerticalAlignment="Center">
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" 
+                                       FontSize="15"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Stretch"
+                                       Margin="5"/>
+                        </CheckBox>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
@@ -302,7 +335,13 @@
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Border.Effect>
-            <esri:BookmarksView GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
+            <esri:BookmarksView GeoView="{Binding ElementName=MapView, Mode=OneWay}">
+                <esri:BookmarksView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" Margin="5" FontSize="15" />
+                    </DataTemplate>
+                </esri:BookmarksView.ItemTemplate>
+            </esri:BookmarksView>
         </Border>
         <!-- Legend panel -->
         <Border Grid.Row="1"

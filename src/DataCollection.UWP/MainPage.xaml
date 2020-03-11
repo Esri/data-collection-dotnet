@@ -105,13 +105,22 @@
                     <Flyout>
                         <muxc:TreeView
                             ItemsSource="{x:Bind MainViewModel.MapViewModel.Map.OperationalLayers,Mode=OneWay}" 
+                            BorderBrush="Transparent"
                             MaxWidth="300" MaxHeight="250">
+                            <!-- Overrides style to hide expander; can be removed for maps with sublayers -->
+                            <muxc:TreeView.ItemContainerStyle>
+                                <Style TargetType="muxc:TreeViewItem">
+                                    <Style.Setters>
+                                        <Setter Property="Margin" Value="-20,0,5,0" />
+                                    </Style.Setters>
+                                </Style>
+                            </muxc:TreeView.ItemContainerStyle>
                             <muxc:TreeView.ItemTemplate>
                                 <DataTemplate x:DataType="mapping:ILayerContent">
-                                    <muxc:TreeViewItem ItemsSource="{x:Bind SublayerContents}" Padding="0">
+                                    <muxc:TreeViewItem ItemsSource="{x:Bind SublayerContents}" Padding="0,0,10,0">
                                         <muxc:TreeViewItem.Content>
                                             <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}"
-                                                      Margin="0" 
+                                                      Margin="0"
                                                       HorizontalAlignment="Stretch"
                                                       Content="{x:Bind Name}" />
                                         </muxc:TreeViewItem.Content>
