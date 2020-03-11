@@ -211,7 +211,7 @@
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Command="{Binding MapViewModel.MoveToCurrentLocationCommand}"
                     IsEnabled="{Binding MapViewModel.IsLocationStarted}"
-                    Style="{StaticResource MenuButtonStyle}"
+                    Style="{StaticResource ToggleButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CurrentLocationButton.Label}">
                     <Button.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/gps-on-32.png" Width="20" Height="20" />
@@ -219,13 +219,13 @@
                 </Button>
                 <!--  Add Feature Button  -->
                 <Button
-                    Width="60"
                     HorizontalAlignment="Right"
+                    Width="60"
                     Command="{Binding StartNewFeatureCommand, Mode=OneWay}"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Click="menuButton_Click"
                     IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
-                    Style="{StaticResource MenuButtonStyle}"
+                    Style="{StaticResource ToggleButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureButton.Label}"
                     Visibility="{Binding IsAddingFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" >
                     <Button.Content>

@@ -402,8 +402,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
-                           Margin="5,5,0,0" TextAlignment="Center"
-                           Style="{ThemeResource SubtitleTextBlockStyle}" />
+                           Margin="5,5,0,0" TextAlignment="Left"
+                           Padding="5"
+                           Style="{ThemeResource TitleTextBlockStyle}" />
                 <Button Grid.Column="2" 
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         Padding="5" Width="30" Height="30"
@@ -436,8 +437,11 @@
                                 Width="15" Height="15"/>
                 </Button>
                 <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
-                           Grid.Row="0" Margin="5,5,0,0" TextAlignment="Center"
-                           Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                           Grid.Row="0" 
+                           Margin="5,5,0,0" 
+                           TextAlignment="Left"
+                           Padding="5"
+                           Style="{ThemeResource TitleTextBlockStyle}"/>
                 <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                                 Grid.Row="1" Grid.ColumnSpan="2" />
             </Grid>
@@ -462,8 +466,11 @@
                                 Width="15" Height="15"/>
                 </Button>
                 <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
-                           Grid.Row="0" Margin="5,5,0,0" TextAlignment="Center"
-                           Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                           Grid.Row="0" 
+                           Margin="5,5,0,0" 
+                           TextAlignment="Left"
+                           Padding="5"
+                           Style="{ThemeResource TitleTextBlockStyle}"/>
                 <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"
                                                      Grid.Row="1" Grid.ColumnSpan="2" />
             </Grid>

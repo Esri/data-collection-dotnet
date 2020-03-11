@@ -40,6 +40,8 @@
                 x:Name="DetailsModeButton"
                 Grid.Column="0"
                 Content="Details"
+                HorizontalContentAlignment="Left"
+                Padding="15,5,5,5"
                 FontSize="18"
                 Style="{StaticResource MenuButtonStyle}">
                 <i:Interaction.Triggers>
@@ -76,6 +78,7 @@
                 Grid.Column="1"
                 Content="Attachments"
                 FontSize="18"
+                HorizontalContentAlignment="Left"
                 FontWeight="Light"
                 Foreground="GhostWhite"
                 Style="{StaticResource MenuButtonStyle}">
