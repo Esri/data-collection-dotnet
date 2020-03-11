@@ -314,9 +314,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="230"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 AcceptsReturn="True"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap" />
@@ -335,9 +334,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <DatePicker
-                Width="230"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -354,9 +352,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="115"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -373,9 +370,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="115"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -392,9 +388,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <ComboBox
-                Width="230"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 ItemsSource="{Binding OriginalField.Domain.CodedValues}">
                 <ComboBox.SelectedItem>
                     <MultiBinding Converter="{StaticResource ConvertValueToCodedValueDomainValue}">
@@ -417,9 +412,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="115"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -436,9 +430,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="115"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"

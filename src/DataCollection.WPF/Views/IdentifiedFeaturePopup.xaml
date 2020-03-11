@@ -369,9 +369,8 @@
                                         FontWeight="Bold"
                                         Text="{Binding FeatureTable.TableName}" />
                                     <ComboBox
-                                        Width="230"
-                                        Margin="10,0,0,5"
-                                        HorizontalAlignment="Left"
+                                        Margin="10,0,10,5"
+                                        HorizontalAlignment="Stretch"
                                         ItemsSource="{Binding OrderedAvailableValues}"
                                         SelectedItem="{Binding DataContext.PopupManager, RelativeSource={RelativeSource AncestorType=StackPanel}}">
                                         <ComboBox.ItemTemplate>
