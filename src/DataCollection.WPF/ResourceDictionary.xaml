@@ -306,6 +306,12 @@
         </Setter>
     </Style>
 
+    <Style x:Key="SidePanelContainerGrid" TargetType="Grid">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Width" Value="250" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+
     <!--  Data templates for all the field types used in editing features  -->
     <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
         <StackPanel>

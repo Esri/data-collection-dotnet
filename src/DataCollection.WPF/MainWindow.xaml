@@ -40,26 +40,17 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="Auto"
-                MinWidth="300"
-                MaxWidth="300" />
-            <ColumnDefinition
-                Width="Auto"
-                MinWidth="300"
-                MaxWidth="300" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-
 
         <!--  MapView control  -->
         <esri:MapView
             x:Name="MapView"
             Grid.Row="1"
             Grid.RowSpan="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
+            Grid.Column="2"
             utils:MapViewExtensions.IdentifyController="{Binding IdentifyController}"
             Map="{Binding MapViewModel.Map, Mode=TwoWay}">
             <utils:MapViewExtensions.ViewpointController>
@@ -618,15 +609,12 @@
             Grid.ColumnSpan="2"
             Visibility="{Binding IdentifiedFeatureViewModel, Converter={StaticResource NullToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300" />
-                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="Auto" MaxWidth="300" />
+                <ColumnDefinition Width="Auto" MaxWidth="300" />
             </Grid.ColumnDefinitions>
             <Grid
                 Grid.Column="0"
-                MaxWidth="300"
-                Margin="20"
-                VerticalAlignment="Center"
-                Background="White">
+                Style="{StaticResource SidePanelContainerGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="*" />
@@ -658,9 +646,7 @@
             <!--  Popup containing origin table information  -->
             <Grid
                 Grid.Column="1"
-                MaxWidth="300"
-                Margin="20"
-                VerticalAlignment="Center"
+                Style="{StaticResource SidePanelContainerGrid}"
                 Visibility="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToVisibilityConverter}}">
                 <Grid.Effect>
                     <DropShadowEffect BlurRadius="20" Opacity=".5" />
@@ -694,9 +680,7 @@
             <!--  Popup containing destination table information  -->
             <Grid
                 Grid.Column="1"
-                MaxWidth="300"
-                Margin="20"
-                VerticalAlignment="Center"
+                Style="{StaticResource SidePanelContainerGrid}"
                 Visibility="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship, Converter={StaticResource NullToVisibilityConverter}}">
                 <Grid.Effect>
                     <DropShadowEffect BlurRadius="20" Opacity=".5" />
