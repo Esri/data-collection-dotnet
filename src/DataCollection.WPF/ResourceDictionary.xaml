@@ -22,6 +22,14 @@
         </Setter>
     </Style>
 
+    <Style x:Key="TemporaryPanelheaderTextboxStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="Green" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
     <SolidColorBrush x:Key="Button.Static.Background" Color="Green" />
     <SolidColorBrush x:Key="Button.Static.Border" Color="Green" />
     <SolidColorBrush x:Key="Button.MouseOver.Background" Color="DarkGreen" />
