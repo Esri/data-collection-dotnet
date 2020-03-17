@@ -179,7 +179,7 @@
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Style="{StaticResource ToggleButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarks.Label}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarksButton.Label}"
                     Visibility="{Binding ElementName=MapView, Path=Map.Bookmarks, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/bookmark-32.png" Width="20" Height="20" />
@@ -191,7 +191,7 @@
                               HorizontalAlignment="Right"
                               Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                               Style="{StaticResource ToggleButtonStyle}"
-                              ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOC.Label}">
+                              ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowLegendButton.Label}">
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/legend-32.png" Width="20" Height="20" />
                     </ToggleButton.Content>
@@ -202,7 +202,7 @@
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Style="{StaticResource ToggleButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOC.Label}">
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOCButton.Label}">
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/layers-32.png" Width="20" Height="20" />
                     </ToggleButton.Content>
@@ -268,7 +268,7 @@
                 <TextBlock Text="Layers" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
                 <TreeView ItemsSource="{Binding ElementName=MapView, Path=Map.OperationalLayers, Mode=OneWay}" 
                       MaxWidth="300" MaxHeight="250"
-                      BorderThickness="0" Margin="0,5,5,5">
+                      BorderThickness="0" Margin="0,0,5,0">
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="TreeViewItem">
                             <Setter Property="Template">
