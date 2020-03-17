@@ -863,4 +863,10 @@ The following settings are modified by the app and should not be manually edited
 * DownloadPath: the download path for the mobile map package
 * SyncDate: the date the mobile map package was last downloaded or synched
 
-The first time the app runs, the config file is generated and saved locally in the user's AppData. Usually that will correspond to `C:\Users\<YourUsername>\AppData\Roaming\DataCollectionSettings.xml`. The app does not need to be rebuilt to change the configured web map. Simply update the `WebmapURL` in the local config file.
+The first time the app runs, the config file is generated and saved locally in the user's AppData. That path depends on the version of the app that is run:
+
+* WPF (.NET Framework): `C:\Users\<YourUsername>\AppData\Local\ESRI\Data Collection for .NET (WPF)\Settings.xml`
+* WPF (.NET Core): `C:\Users\<YourUsername>\AppData\Local\ESRI\DataCollection.WPF\Settings.xml`
+* UWP: `C:\Users\<YourUsername>\AppData\Local\Packages\a5fe2542-a748-4b21-8484-d65c71379b3e_5gsmk95twfe48\LocalState\Esri\Data Collection for .NET (UWP)\Settings.xml`
+
+The app does not need to be rebuilt to change the configured web map. Update the `WebmapURL` in the local config file. 
