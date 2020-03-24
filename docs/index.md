@@ -91,6 +91,32 @@ If a user elects to delete the offline map, the app deletes the offline mobile m
 
 > A user can resume work online without deleting the offline map.
 
+### View and navigate to map bookmarks
+
+Web maps can include a list of bookmarks. Each bookmark consists of a map extent (visible area) and a name. Bookmarks can be authored in ArcGIS Pro and the ArcGIS Web Map Viewer.
+
+You can click the Bookmark icon to see a list of bookmarks in the map. Selecting a bookmark will navigate to the bookmark's extent.
+
+| UWP | WPF |
+|-----|-----|
+| ![Screenshot showing bookmarks panel on UWP](/docs/images/component-bookmarks-uwp.png) | ![Screenshot showing bookmarks panel on WPF](/docs/images/component-bookmarks.png) |
+
+### View the map's legend
+
+You can click the legend icon to view the symbology for each layer.
+
+| UWP | WPF |
+|-----|-----|
+| ![Screenshot showing legend panel on UWP](/docs/images/component-legend-uwp.png) | ![Screenshot showing legend panel on WPF](/docs/images/component-legend.png) |
+
+### Hide and show layers with the TOC
+
+You can click the layer list icon to see a list of each layer in the web map. You can use the checkboxes to hide or show each layer.
+
+| UWP | WPF |
+|-----|-----|
+| ![Screenshot showing TOC panel on UWP](/docs/images/component-toc-uwp.png) | ![Screenshot showing TOC panel on WPF](/docs/images/component-toc.png) |
+
 ### Identify map features
 
 Tapping or clicking the map performs an identify function on the map. The closest result to the clicked location is chosen, the feature is selected on the map, and a pop-up view is revealed containing the feature's attributes and information from any related tables.
