@@ -46,7 +46,7 @@ The navigation bar's title reflects the name of the web map and the navigation b
 | ---- | ----------- |
 | ![Bookmarks icon](/src/DataCollection.UWP/Assets/Calcite/bookmark-32.png) | Bookmarks button reveals list of bookmarks in the map |
 | ![TOC icon](/src/DataCollection.UWP/Assets/Calcite/layers-32.png) | Contents button shows a list of layers, which can be toggled on and off |
-| ![Legend icon](/src/DataCollection.UWP/Assets/Calcite/legend-32.png) | Legend button shows the legend for the map |
+| ![Legend icon](/src/DataCollection.UWP/Assets/Calcite/legend-32.png) | Legend button shows the layer symbols for the map |
 | ![Hamburger Drawer View](/src/DataCollection.UWP/Assets/Calcite/ellipsis-32.png) | Ellipsis button to reveal or hide the app context drawer view. |
 | ![Zoom To Location](/src/DataCollection.UWP/Assets/Calcite/gps-on-32.png) | Zoom to user's location. |
 | ![Add Feature](/src/DataCollection.UWP/Assets/Calcite/plus-circle-32.png) | Add a new spatial feature to map. |
