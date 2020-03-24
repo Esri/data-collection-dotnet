@@ -265,7 +265,7 @@
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Border.Effect>
             <StackPanel>
-                <TextBlock Text="Layers" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=TOC_PanelHeader}" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
                 <TreeView ItemsSource="{Binding ElementName=MapView, Path=Map.OperationalLayers, Mode=OneWay}" 
                       MaxWidth="300" MaxHeight="250"
                       BorderThickness="0" Margin="0,0,5,0">
@@ -332,7 +332,7 @@
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Border.Effect>
             <StackPanel>
-                <TextBlock Text="Bookmarks" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=Bookmarks_PanelHeader}" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
                 <esri:BookmarksView GeoView="{Binding ElementName=MapView, Mode=OneWay}">
                     <esri:BookmarksView.ItemTemplate>
                         <DataTemplate>
@@ -357,7 +357,7 @@
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Border.Effect>
             <StackPanel>
-                <TextBlock Text="Legend" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=Legend_PanelHeader}" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
                 <esri:Legend GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
             </StackPanel>
         </Border>

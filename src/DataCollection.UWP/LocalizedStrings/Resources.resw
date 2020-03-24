@@ -361,9 +361,18 @@
     <value>Show Bookmarks</value>
   </data>
   <data name="ShowTOCButton.Label" xml:space="preserve">
-    <value>Show Contents</value>
+    <value>Show TOC</value>
   </data>
   <data name="ShowLegendButton.Label" xml:space="preserve">
     <value>Show Legend</value>
+  </data>
+  <data name="Bookmarks_PanelHeader" xml:space="preserve">
+    <value>Bookmarks</value>
+  </data>
+  <data name="Legend_PanelHeader" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="TOC_PanelHeader" xml:space="preserve">
+    <value>Table of Contents</value>
   </data>
 </root>
