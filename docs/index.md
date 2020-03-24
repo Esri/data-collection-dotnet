@@ -91,11 +91,11 @@ If a user elects to delete the offline map, the app deletes the offline mobile m
 
 > A user can resume work online without deleting the offline map.
 
-### View and navigate to map bookmarks
+### View map bookmarks
 
 Web maps can include a list of bookmarks. Each bookmark consists of a map extent (visible area) and a name. Bookmarks can be authored in ArcGIS Pro and the ArcGIS Web Map Viewer.
 
-You can click the Bookmark icon to see a list of bookmarks in the map. Selecting a bookmark will navigate to the bookmark's extent.
+You can click the Bookmark icon to see a list of bookmarks in the map. Selecting a bookmark will show that bookmark's extent.
 
 | UWP | WPF |
 |-----|-----|
