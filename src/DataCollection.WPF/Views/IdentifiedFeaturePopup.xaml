@@ -40,6 +40,8 @@
                 x:Name="DetailsModeButton"
                 Grid.Column="0"
                 Content="Details"
+                HorizontalContentAlignment="Left"
+                Padding="15,5,5,5"
                 FontSize="18"
                 Style="{StaticResource MenuButtonStyle}">
                 <i:Interaction.Triggers>
@@ -76,6 +78,7 @@
                 Grid.Column="1"
                 Content="Attachments"
                 FontSize="18"
+                HorizontalContentAlignment="Left"
                 FontWeight="Light"
                 Foreground="GhostWhite"
                 Style="{StaticResource MenuButtonStyle}">
@@ -369,9 +372,8 @@
                                         FontWeight="Bold"
                                         Text="{Binding FeatureTable.TableName}" />
                                     <ComboBox
-                                        Width="230"
-                                        Margin="10,0,0,5"
-                                        HorizontalAlignment="Left"
+                                        Margin="10,0,10,5"
+                                        HorizontalAlignment="Stretch"
                                         ItemsSource="{Binding OrderedAvailableValues}"
                                         SelectedItem="{Binding DataContext.PopupManager, RelativeSource={RelativeSource AncestorType=StackPanel}}">
                                         <ComboBox.ItemTemplate>

@@ -40,26 +40,20 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="Auto"
-                MinWidth="300"
-                MaxWidth="300" />
-            <ColumnDefinition
-                Width="Auto"
-                MinWidth="300"
-                MaxWidth="300" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        
-
         <!--  MapView control  -->
+        <!-- Margin and viewinsets lines prevent white flicker when resizing view -->
         <esri:MapView
             x:Name="MapView"
             Grid.Row="1"
             Grid.RowSpan="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
+            Grid.Column="2"
+            Margin="-600,0,-600,0"
+            ViewInsets="600,0,600,0"
             utils:MapViewExtensions.IdentifyController="{Binding IdentifyController}"
             Map="{Binding MapViewModel.Map, Mode=TwoWay}">
             <utils:MapViewExtensions.ViewpointController>
@@ -185,7 +179,7 @@
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Style="{StaticResource ToggleButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarks.Label}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarksButton.Label}"
                     Visibility="{Binding ElementName=MapView, Path=Map.Bookmarks, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/bookmark-32.png" Width="20" Height="20" />
@@ -197,7 +191,7 @@
                               HorizontalAlignment="Right"
                               Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                               Style="{StaticResource ToggleButtonStyle}"
-                              ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOC.Label}">
+                              ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowLegendButton.Label}">
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/legend-32.png" Width="20" Height="20" />
                     </ToggleButton.Content>
@@ -208,7 +202,7 @@
                     HorizontalAlignment="Right"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Style="{StaticResource ToggleButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOC.Label}">
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOCButton.Label}">
                     <ToggleButton.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/layers-32.png" Width="20" Height="20" />
                     </ToggleButton.Content>
@@ -220,7 +214,7 @@
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Command="{Binding MapViewModel.MoveToCurrentLocationCommand}"
                     IsEnabled="{Binding MapViewModel.IsLocationStarted}"
-                    Style="{StaticResource MenuButtonStyle}"
+                    Style="{StaticResource ToggleButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CurrentLocationButton.Label}">
                     <Button.Content>
                         <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/gps-on-32.png" Width="20" Height="20" />
@@ -228,13 +222,13 @@
                 </Button>
                 <!--  Add Feature Button  -->
                 <Button
-                    Width="60"
                     HorizontalAlignment="Right"
+                    Width="60"
                     Command="{Binding StartNewFeatureCommand, Mode=OneWay}"
                     Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
                     Click="menuButton_Click"
                     IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
-                    Style="{StaticResource MenuButtonStyle}"
+                    Style="{StaticResource ToggleButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureButton.Label}"
                     Visibility="{Binding IsAddingFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" >
                     <Button.Content>
@@ -270,30 +264,65 @@
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Border.Effect>
-            <TreeView ItemsSource="{Binding ElementName=MapView, Path=Map.OperationalLayers, Mode=OneWay}" 
+            <StackPanel>
+                <TextBlock Text="Layers" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
+                <TreeView ItemsSource="{Binding ElementName=MapView, Path=Map.OperationalLayers, Mode=OneWay}" 
                       MaxWidth="300" MaxHeight="250"
-                      BorderThickness="0" Margin="0,5,5,5">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="TreeViewItem">
-                        <Setter Property="Focusable" Value="False" />
-                    </Style>
-                </TreeView.ItemContainerStyle>
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="esri:ILayerContent" ItemsSource="{Binding SublayerContents}">
-                        <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay}"
-                                                      Margin="0" 
-                                                      HorizontalAlignment="Stretch"
-                                                      Content="{Binding Path=Name}" />
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
+                      BorderThickness="0" Margin="0,0,5,0">
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TreeViewItem">
+                                        <StackPanel>
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="ExpansionStates">
+                                                    <VisualState x:Name="Expanded">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames
+                                    Storyboard.TargetProperty="(UIElement.Visibility)"
+                                    Storyboard.TargetName="ItemsHost">
+                                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                        Value="{x:Static Visibility.Visible}" />
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Collapsed" />
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <ContentPresenter ContentSource="Header" />
+                                            <ItemsPresenter Name="ItemsHost" Visibility="Collapsed" />
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Focusable" Value="False" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="esri:ILayerContent" ItemsSource="{Binding SublayerContents}">
+                            <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay}"
+                                  VerticalContentAlignment="Center"
+                                  HorizontalAlignment="Stretch"
+                                  HorizontalContentAlignment="Stretch"
+                                  Margin="5,0,5,0"
+                                  VerticalAlignment="Center">
+                                <TextBlock Grid.Column="1" Text="{Binding Name}" 
+                                       FontSize="15"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Stretch"
+                                       Margin="5"/>
+                            </CheckBox>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </StackPanel>
         </Border>
         <!-- Bookmarks panel -->
         <Border Grid.Row="1"
               Grid.RowSpan="2"
               Grid.Column="2"
               MaxHeight="250"
-              MaxWidth="250"
               Margin="0,10,10,0"
               Background="White"
               VerticalAlignment="Top"
@@ -302,7 +331,16 @@
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Border.Effect>
-            <esri:BookmarksView GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
+            <StackPanel>
+                <TextBlock Text="Bookmarks" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
+                <esri:BookmarksView GeoView="{Binding ElementName=MapView, Mode=OneWay}">
+                    <esri:BookmarksView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Margin="5" FontSize="15" />
+                        </DataTemplate>
+                    </esri:BookmarksView.ItemTemplate>
+                </esri:BookmarksView>
+            </StackPanel>
         </Border>
         <!-- Legend panel -->
         <Border Grid.Row="1"
@@ -318,7 +356,10 @@
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity=".5" />
             </Border.Effect>
-            <esri:Legend GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
+            <StackPanel>
+                <TextBlock Text="Legend" Style="{StaticResource TemporaryPanelheaderTextboxStyle}" />
+                <esri:Legend GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
+            </StackPanel>
         </Border>
         <!-- Menu Panel -->
         <Grid
@@ -579,15 +620,12 @@
             Grid.ColumnSpan="2"
             Visibility="{Binding IdentifiedFeatureViewModel, Converter={StaticResource NullToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300" />
-                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="Auto" MaxWidth="300" />
+                <ColumnDefinition Width="Auto" MaxWidth="300" />
             </Grid.ColumnDefinitions>
             <Grid
                 Grid.Column="0"
-                MaxWidth="300"
-                Margin="20"
-                VerticalAlignment="Center"
-                Background="White">
+                Style="{StaticResource SidePanelContainerGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="*" />
@@ -619,9 +657,7 @@
             <!--  Popup containing origin table information  -->
             <Grid
                 Grid.Column="1"
-                MaxWidth="300"
-                Margin="20"
-                VerticalAlignment="Center"
+                Style="{StaticResource SidePanelContainerGrid}"
                 Visibility="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToVisibilityConverter}}">
                 <Grid.Effect>
                     <DropShadowEffect BlurRadius="20" Opacity=".5" />
@@ -655,9 +691,7 @@
             <!--  Popup containing destination table information  -->
             <Grid
                 Grid.Column="1"
-                MaxWidth="300"
-                Margin="20"
-                VerticalAlignment="Center"
+                Style="{StaticResource SidePanelContainerGrid}"
                 Visibility="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship, Converter={StaticResource NullToVisibilityConverter}}">
                 <Grid.Effect>
                     <DropShadowEffect BlurRadius="20" Opacity=".5" />

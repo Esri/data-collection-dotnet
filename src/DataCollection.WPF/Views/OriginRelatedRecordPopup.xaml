@@ -41,6 +41,8 @@
                 Grid.Column="0"
                 Content="Details"
                 FontSize="18"
+                HorizontalContentAlignment="Left"
+                Padding="15,5,5,5"
                 Style="{StaticResource MenuButtonStyle}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -76,6 +78,7 @@
                 Grid.Column="1"
                 Content="Attachments"
                 FontSize="18"
+                HorizontalContentAlignment="Left"
                 FontWeight="Light"
                 Foreground="GhostWhite"
                 Style="{StaticResource MenuButtonStyle}">
