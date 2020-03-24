@@ -9,6 +9,7 @@
 * Adds dependency on WinUI 2 to the UWP version of the app
 * Replaces most icons with beautiful new icons from the Calcite design system
 * Fixes a bug that prevented cancellation of map synchronization
+* Updates the design of the WPF app to more closely resemble the UWP app
 
 ## 1.1.1
 
