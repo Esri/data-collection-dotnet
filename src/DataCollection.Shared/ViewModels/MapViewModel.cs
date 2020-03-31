@@ -48,9 +48,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             // Initialize the map
             Map = map;
 
-            Map.LoadStatusChanged += Map_LoadStatusChanged;
-            Map.LoadAsync();
-
             // Initialize the location data source for device location
             LocationDataSource = new SystemLocationDataSource();
             LocationDataSource.LocationChanged += (s, l) =>
@@ -58,6 +55,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 _lastLocation = l;
                 IsLocationStarted = true;
             };
+
+            // Load the map
+            Map.LoadStatusChanged += Map_LoadStatusChanged;
+            Map.LoadAsync();
         }
 
         public ConnectivityMode ConnectivityMode { get; }

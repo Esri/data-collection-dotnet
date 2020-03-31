@@ -170,7 +170,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                     // in WPF, let Windows open the file with the application the user has set as default
                                     try
                                     {
-                                        Process.Start(attachment.Filename);
+                                        Process.Start("cmd.exe ", $"/c {attachment.Filename}");
                                     }
                                     catch (System.ComponentModel.Win32Exception e)
                                     {
