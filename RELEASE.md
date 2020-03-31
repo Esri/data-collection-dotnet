@@ -1,5 +1,10 @@
 # Release notes
 
+## 1.2.1
+
+* Updates all versions of the app to use the latest 100.8.0 release of ArcGIS Runtime.
+* Updates the UWP minimum target platform from 16299 to 17134
+
 ## 1.2.0
 
 * Adds support for viewing and navigating to bookmarks.
