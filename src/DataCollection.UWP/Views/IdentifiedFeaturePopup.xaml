@@ -3,11 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:convertersUWP="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
     x:Name="IdentifiedFeatureUserControl"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -18,13 +17,14 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
+            <convertersUWP:SelectedPivotIndexToVisibilityConverter x:Key="SelectedPivotIndexToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="45" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Pivot x:Name="IdentifiedFeaturePivot">
             <PivotItem Header="Details">
@@ -68,7 +68,7 @@
                                     <Grid Visibility="{Binding PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
@@ -108,16 +108,16 @@
                                         <Button
                                             Grid.Row="1"
                                             Grid.Column="1"
-                                            Width="30"
-                                            Height="30"
-                                            Margin="0,0,15,0"
+                                            Margin="0,0,5,0"
                                             HorizontalAlignment="Right"
                                             Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedDestinationRelationshipCommand}"
                                             CommandParameter="{Binding}"
-                                            Content="&#xE76C;"
-                                            FontFamily="Segoe MDL2 Assets"
                                             Style="{StaticResource TextBlockButtonStyle}"
-                                            ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"/>
+                                            ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
+                                            <BitmapIcon UriSource="Assets/Calcite/chevron-right-32.png" 
+                                                        ShowAsMonochrome="True" Height="28" Width="28"
+                                                        Foreground="{ThemeResource HyperlinkButtonForeground}"/>
+                                        </Button>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -152,10 +152,12 @@
                                                 Margin="0,10,15,5"
                                                 Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, Mode=OneWay, ElementName=IdentifiedFeatureUserControl}"
                                                 CommandParameter="{Binding}"
-                                                Content="&#xE710;"
-                                                FontFamily="Segoe MDL2 Assets"
                                                 Style="{StaticResource TextBlockButtonStyle}"
-                                                ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}"/>
+                                                ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}">
+                                                <BitmapIcon UriSource="Assets/Calcite/plus-circle-32.png"
+                                                            Foreground="{ThemeResource HyperlinkButtonForeground}"
+                                                            ShowAsMonochrome="True" />
+                                            </Button>
                                         </Grid>
                                         <ItemsControl HorizontalContentAlignment="Stretch" ItemsSource="{Binding OriginRelationshipViewModelCollection, Mode=OneWay}">
                                             <ItemsControl.ItemTemplate>
@@ -163,7 +165,7 @@
                                                     <Grid Visibility="{Binding IsNewFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="40" />
+                                                            <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="5" />
@@ -209,17 +211,17 @@
                                                         <Button
                                                             Grid.Row="1"
                                                             Grid.Column="1"
-                                                            Width="30"
-                                                            Height="30"
-                                                            Margin="0,0,15,0"
+                                                            Margin="0,0,5,0"
                                                             HorizontalAlignment="Right"
                                                             VerticalAlignment="Center"
                                                             Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand}"
                                                             CommandParameter="{Binding PopupManager}"
-                                                            Content="&#xE76C;"
-                                                            FontFamily="Segoe MDL2 Assets"
                                                             Style="{StaticResource TextBlockButtonStyle}"
-                                                            ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}"/>
+                                                            ToolTipService.ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
+                                                            <BitmapIcon UriSource="Assets/Calcite/chevron-right-32.png" 
+                                                                        ShowAsMonochrome="True" Height="28" Width="28"
+                                                                        Foreground="{ThemeResource HyperlinkButtonForeground}"/>
+                                                        </Button>
                                                     </Grid>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
@@ -284,68 +286,67 @@
         </Pivot>
 
         <!--  Bottom buttons  -->
-        <CommandBar Grid.Row="1">
-            <CommandBar.Content>
-                <!--  Add Attachment Button  -->
-                <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
-                              ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
-                              Label="Add Attachment" LabelPosition="Collapsed">
-                    <AppBarButton.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
-                                       FontSize="20"
-                                       Text="&#xE723;" />
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
-                                       FontSize="10"
-                                       Text="&#xE710;" />
-                        </StackPanel>
-                    </AppBarButton.Content>
-                    <interactivity:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <core:ChangePropertyAction
-                                PropertyName="SelectedIndex"
-                                TargetObject="{Binding ElementName=IdentifiedFeaturePivot, Mode=OneWay}"
-                                Value="1" />
-                        </core:EventTriggerBehavior>
-                    </interactivity:Interaction.Behaviors>
-                    <AppBarButton.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem
-                                Click="CaptureMediaButton_Click"
-                                Icon="Camera"
-                                Text="Capture Media" />
-                            <MenuFlyoutItem
-                                Click="BrowseFilesButton_Click"
-                                Icon="OpenFile"
-                                Text="Browse Files" />
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-            </CommandBar.Content>
+        <CommandBar Grid.Row="1" OverflowButtonVisibility="Collapsed">
             <!--  Buttons to edit and delete record  -->
+            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
+                          Click="CaptureMediaButton_Click"
+                          ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=TakePhoto_Tooltip}"
+                          Visibility="{Binding ElementName=IdentifiedFeaturePivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}"
+                          Label="Capture Media">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/Calcite/camera-32.png"
+                                Width="20" Height="20"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
+                          Click="BrowseFilesButton_Click"
+                          ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=BrowseAttach_Tooltip}"
+                          Visibility="{Binding ElementName=IdentifiedFeaturePivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}"
+                          Label="Browse Files">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png"
+                                Width="20" Height="20"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <AppBarButton
                 Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
-                Icon="Edit"
                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
-                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/Calcite/pencil-32.png"
+                                Width="20" Height="20"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <AppBarButton
                 Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}"
                 CommandParameter="{x:Bind IdentifiedFeatureViewModel}"
-                Icon="Delete"
                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
-                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/Calcite/trash-32.png"
+                                Width="20" Height="20"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <!--  Buttons to save and discard changes to record  -->
             <AppBarButton
                 Command="{x:Bind IdentifiedFeatureViewModel.SaveEditsCommand, Mode=OneWay}"
-                Icon="Save"
                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
-                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/Calcite/save-32.png"
+                                Width="20" Height="20"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <AppBarButton
                 Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.CancelEditsCommand}"
                 CommandParameter="{x:Bind IdentifiedFeatureViewModel}"
-                Icon="Cancel"
                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
-                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
+                                Width="20" Height="20"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
         </CommandBar>
     </Grid>
 </UserControl>

@@ -84,19 +84,20 @@
                             HorizontalAlignment="Right"
                             Command="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.AttachmentsViewModel.DeleteAttachmentCommand}"
                             CommandParameter="{Binding Attachment}"
-                            Content="&#xE74D;"
-                            FontFamily="Segoe MDL2 Assets"
                             Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"
-                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}"/>
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}">
+                            <BitmapIcon UriSource="Assets/Calcite/trash-32.png"
+                                        Width="15" Height="15"/>
+                        </Button>
                         <Button
                             Grid.Column="3"
                             Grid.Row="0" Grid.RowSpan="2"
                             HorizontalAlignment="Right"
-                            Content="&#xE8A7;"
-                            FontFamily="Segoe MDL2 Assets"
                             Command="{Binding ElementName=AttachmentsItemsControl, Path=DataContext.AttachmentsViewModel.OpenAttachmentCommand, Mode=OneWay}"
                             CommandParameter="{Binding Attachment, Mode=OneWay}"
                             ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}">
+                            <BitmapIcon UriSource="Assets/Calcite/launch-32.png"
+                                        Width="15" Height="15"/>
                         </Button>
                     </Grid>
                 </DataTemplate>

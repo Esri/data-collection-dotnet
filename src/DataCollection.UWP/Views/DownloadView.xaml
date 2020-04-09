@@ -44,16 +44,9 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <Button Margin="0,0,20,0" Content="Cancel">
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="Click">
-                            <core:ChangePropertyAction
-                                PropertyName="DownloadViewModel"
-                                TargetObject="{Binding}"
-                                Value="{x:Null}" />
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </Button>
+                <Button Margin="0,0,20,0" 
+                        Content="Cancel" 
+                        Command="{Binding DownloadViewModel.CancelDownloadCommand}" />
                 <Button
                     x:Uid="DownloadButton"
                     Margin="20,0,0,0"

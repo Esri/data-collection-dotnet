@@ -47,6 +47,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private int _defaultZoomScale;
         private string _downloadPathRoot;
         private bool _isBusyWaiting = false;
+        private bool _isAddingFeature = false;
         private string _busyWaitingMessage;
 #if WPF
         private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
@@ -279,6 +280,19 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_isBusyWaiting != value)
                 {
                     _isBusyWaiting = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsAddingFeature
+        {
+            get => _isAddingFeature;
+            set
+            {
+                if (_isAddingFeature != value)
+                {
+                    _isAddingFeature = value;
                     OnPropertyChanged();
                 }
             }
@@ -582,6 +596,26 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         }
 
         private ICommand _saveNewFeatureCommand;
+        private ICommand _startNewFeatureCommand;
+        private ICommand _cancelNewFeatureCommand;
+
+        public ICommand StartNewFeatureCommand
+        {
+            get
+            {
+                return _startNewFeatureCommand ?? (_startNewFeatureCommand = new DelegateCommand(
+                    (x) => { IsAddingFeature = true; IsLocationOnlyMode = true; }));
+            }
+        }
+
+        public ICommand CancelNewFeatureCommand
+        {
+            get
+            {
+                return _cancelNewFeatureCommand ?? (_cancelNewFeatureCommand = new DelegateCommand(
+                    (x) => { IsAddingFeature = false; IsLocationOnlyMode = false; }));
+            }
+        }
 
         /// <summary>
         /// Gets the command to save the feature user created
@@ -593,6 +627,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _saveNewFeatureCommand ?? (_saveNewFeatureCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        IsAddingFeature = false;
+                        IsLocationOnlyMode = false;
                         // specifying the first points layer as the target of the Add operation
                         // lines and polygons are not supported in this version of the app
                         // adding to multiple layers in not supported in this version of the app

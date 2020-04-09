@@ -16,7 +16,7 @@ Users can identify existing or create new street trees of a certain species on a
 
 The _Trees of Portland_ dataset schema is simple.
 
-![Architecure diagram showing the Trees of Portland database schema](/docs/images/general-ui.png)
+![Architecture diagram showing the Trees of Portland database schema](/docs/images/general-ui.png)
 
 A street tree can be one of many species and a street tree can contain zero to many inspection records. A neighborhood is a spatial feature symbolized on the map that does not relate to other tables.
 
@@ -44,9 +44,12 @@ The navigation bar's title reflects the name of the web map and the navigation b
 
 | Icon | Description |
 | ---- | ----------- |
-| ![Hamburger Drawer View](/docs/images/hamburger.png) | Ellipsis button to reveal or hide the app context drawer view. |
-| ![Zoom To Location](/docs/images/zoom-to-location.png) | Zoom to user's location. |
-| ![Add Feature](/docs/images/add-feature.png) | Add a new spatial feature to map. |
+| ![Bookmarks icon](/src/DataCollection.UWP/Assets/Calcite/bookmark-32.png) | Bookmarks button reveals list of bookmarks in the map |
+| ![TOC icon](/src/DataCollection.UWP/Assets/Calcite/layers-32.png) | TOC button shows a list of layers, which can be toggled on and off |
+| ![Legend icon](/src/DataCollection.UWP/Assets/Calcite/legend-32.png) | Legend button shows the layer symbols for the map |
+| ![Hamburger Drawer View](/src/DataCollection.UWP/Assets/Calcite/ellipsis-32.png) | Ellipsis button to reveal or hide the app context drawer view. |
+| ![Zoom To Location](/src/DataCollection.UWP/Assets/Calcite/gps-on-32.png) | Zoom to user's location. |
+| ![Add Feature](/src/DataCollection.UWP/Assets/Calcite/plus-circle-32.png) | Add a new spatial feature to map. |
 
 ### Manage the app's context
 
@@ -87,6 +90,32 @@ Edits made to the offline mobile map's geodatabase remain offline until the user
 If a user elects to delete the offline map, the app deletes the offline mobile map package from the device and switches to online work mode.
 
 > A user can resume work online without deleting the offline map.
+
+### View map bookmarks
+
+Web maps can include a list of bookmarks. Each bookmark consists of a map extent (visible area) and a name. Bookmarks can be authored in ArcGIS Pro and the ArcGIS Web Map Viewer.
+
+You can click the Bookmark icon to see a list of bookmarks in the map. Selecting a bookmark will show that bookmark's extent.
+
+| UWP | WPF |
+|-----|-----|
+| ![Screenshot showing bookmarks panel on UWP](/docs/images/component-bookmarks-uwp.png) | ![Screenshot showing bookmarks panel on WPF](/docs/images/component-bookmarks.png) |
+
+### View the map's legend
+
+You can click the legend icon to view the symbology for each layer.
+
+| UWP | WPF |
+|-----|-----|
+| ![Screenshot showing legend panel on UWP](/docs/images/component-legend-uwp.png) | ![Screenshot showing legend panel on WPF](/docs/images/component-legend.png) |
+
+### Hide and show layers with the TOC
+
+You can click the layer list icon to see a list of each layer in the web map. You can use the checkboxes to hide or show each layer.
+
+| UWP | WPF |
+|-----|-----|
+| ![Screenshot showing TOC panel on UWP](/docs/images/component-toc-uwp.png) | ![Screenshot showing TOC panel on WPF](/docs/images/component-toc.png) |
 
 ### Identify map features
 
@@ -860,4 +889,10 @@ The following settings are modified by the app and should not be manually edited
 * DownloadPath: the download path for the mobile map package
 * SyncDate: the date the mobile map package was last downloaded or synched
 
-The first time the app runs, the config file is generated and saved locally in the user's AppData. Usually that will correspond to `C:\Users\<YourUsername>\AppData\Roaming\DataCollectionSettings.xml`. The app does not need to be rebuilt to change the configured web map. Simply update the `WebmapURL` in the local config file.
+The first time the app runs, the config file is generated and saved locally in the user's AppData. That path depends on the version of the app that is run:
+
+* WPF (.NET Framework): `C:\Users\<YourUsername>\AppData\Local\ESRI\Data Collection for .NET (WPF)\Settings.xml`
+* WPF (.NET Core): `C:\Users\<YourUsername>\AppData\Local\ESRI\DataCollection.WPF\Settings.xml`
+* UWP: `C:\Users\<YourUsername>\AppData\Local\Packages\a5fe2542-a748-4b21-8484-d65c71379b3e_5gsmk95twfe48\LocalState\Esri\Data Collection for .NET (UWP)\Settings.xml`
+
+The app does not need to be rebuilt to change the configured web map. Update the `WebmapURL` in the local config file. 

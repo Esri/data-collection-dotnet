@@ -38,14 +38,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
                 if (parameter is string inverse && inverse == "Inverse")
                 {
                     return ((ConnectivityMode)value == ConnectivityMode.Offline) ?
-                        (SolidColorBrush)Application.Current.Resources["TitleBarForegroundOffline"] :
-                        (SolidColorBrush)Application.Current.Resources["TitleBarForegroundOnline"];
+                        (Brush)Application.Current.Resources["TitleBarForegroundOffline"] :
+                        (Brush)Application.Current.Resources["TitleBarForegroundOnline"];
                 } 
                 else
                 {
                     return ((ConnectivityMode)value == ConnectivityMode.Offline) ?
-                        (SolidColorBrush)Application.Current.Resources["TitleBarBackgroundOffline"] :
-                        (SolidColorBrush)Application.Current.Resources["TitleBarBackgroundOnline"];
+                        (Brush)Application.Current.Resources["TitleBarBackgroundOffline"] :
+                        (Brush)Application.Current.Resources["TitleBarBackgroundOnline"];
                 }                
             }
             else

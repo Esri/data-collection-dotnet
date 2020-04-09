@@ -3,9 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="AddFeatureUserControl"
     d:DesignHeight="300"
@@ -56,37 +54,12 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <Button x:Uid="CancelButton" Margin="0,0,20,0">
-                <i:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="Click">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl, Mode=OneWay}"
-                            Value="Collapsed" />
-                        <core:ChangePropertyAction
-                            PropertyName="IsLocationOnlyMode"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl, Path=DataContext, Mode=OneWay}"
-                            Value="false" />
-                    </core:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </Button>
-            <Button
-                x:Uid="SaveButton"
-                Margin="20,0,0,0"
-                Command="{Binding SaveNewFeatureCommand, Mode=OneWay}">
-                <i:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="Click">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl, Mode=OneWay}"
-                            Value="Collapsed" />
-                        <core:ChangePropertyAction
-                            PropertyName="IsLocationOnlyMode"
-                            TargetObject="{Binding ElementName=AddFeatureUserControl, Path=DataContext, Mode=OneWay}"
-                            Value="false" />
-                    </core:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </Button>
+            <Button x:Uid="CancelButton" 
+                    Margin="0,0,20,0" 
+                    Command="{Binding CancelNewFeatureCommand}" />
+            <Button x:Uid="SaveButton"
+                    Margin="20,0,0,0"
+                    Command="{Binding SaveNewFeatureCommand, Mode=OneWay}" />
         </StackPanel>
     </Grid>
 </UserControl>

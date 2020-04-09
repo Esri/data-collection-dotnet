@@ -41,6 +41,8 @@
                 Grid.Column="0"
                 Content="Details"
                 FontSize="18"
+                HorizontalContentAlignment="Left"
+                Padding="15,5,5,5"
                 Style="{StaticResource MenuButtonStyle}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -76,6 +78,7 @@
                 Grid.Column="1"
                 Content="Attachments"
                 FontSize="18"
+                HorizontalContentAlignment="Left"
                 FontWeight="Light"
                 Foreground="GhostWhite"
                 Style="{StaticResource MenuButtonStyle}">
@@ -176,12 +179,11 @@
                 Margin="0,0,10,0"
                 HorizontalAlignment="Right"
                 Command="{Binding EditRelatedRecordCommand}"
-                Content="&#xE70F;"
-                FontFamily="Segoe MDL2 Assets"
-                FontSize="18"
                 Style="{StaticResource MenuButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
-                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/pencil-32.png" />
+            </Button>
             <Button
                 Grid.Column="2"
                 Width="30"
@@ -190,12 +192,11 @@
                 HorizontalAlignment="Right"
                 Command="{Binding DataContext.DeleteFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 CommandParameter="{Binding}"
-                Content="&#xE74D;"
-                FontFamily="Segoe MDL2 Assets"
-                FontSize="18"
                 Style="{StaticResource MenuButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
-                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/trash-32.png" />
+            </Button>
 
             <!--  Buttons to save and discard changes to record  -->
             <Button
@@ -205,12 +206,11 @@
                 Margin="0,0,10,0"
                 HorizontalAlignment="Right"
                 Command="{Binding SaveEditsCommand}"
-                Content="&#xE74E;"
-                FontFamily="Segoe MDL2 Assets"
-                FontSize="18"
                 Style="{StaticResource MenuButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
-                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
+                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/save-32.png" />
+            </Button>
             <Button
                 Grid.Column="2"
                 Width="30"
@@ -219,12 +219,11 @@
                 HorizontalAlignment="Right"
                 Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 CommandParameter="{Binding .}"
-                Content="&#xE8bB;"
-                FontFamily="Segoe MDL2 Assets"
-                FontSize="18"
                 Style="{StaticResource MenuButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
-                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
+                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/x-32.png" />
+            </Button>
 
             <!--  Button to add new attachment  -->
             <!--  Clicking this button switches user to Attachments tab, begins edit mode, and starts up a browse dialog  -->
@@ -240,16 +239,7 @@
                 Style="{StaticResource MenuButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}">
                 <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="20"
-                            Text="&#xE723;" />
-                        <TextBlock
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="10"
-                            Text="&#xE710;" />
-                    </StackPanel>
+                    <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/folder-open-32.png" />
                 </Button.Content>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">

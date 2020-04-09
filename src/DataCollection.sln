@@ -9,13 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollection.WPF", "DataC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollection.UWP", "DataCollection.UWP\DataCollection.UWP.csproj", "{67CA0718-9C7A-4EC9-84C0-2FCB7CA922B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollection.WPF (.NET Core)", "DataCollection.WPF\DataCollection.WPF (.NET Core).csproj", "{DEC7D55A-A63F-4F0A-9B28-179804D3AB2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollection.WPF (.NET Core)", "DataCollection.WPF\DataCollection.WPF (.NET Core).csproj", "{DEC7D55A-A63F-4F0A-9B28-179804D3AB2C}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DataCollection.Shared\DataCollection.Shared.projitems*{0e4a590d-8ccc-44ca-9127-10ed36dd02e9}*SharedItemsImports = 13
 		DataCollection.Shared\DataCollection.Shared.projitems*{13b49c7e-e8ad-4085-b6d5-69ee6711fe2e}*SharedItemsImports = 4
 		DataCollection.Shared\DataCollection.Shared.projitems*{67ca0718-9c7a-4ec9-84c0-2fcb7ca922b0}*SharedItemsImports = 4
+		DataCollection.Shared\DataCollection.Shared.projitems*{dec7d55a-a63f-4f0a-9b28-179804d3ab2c}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

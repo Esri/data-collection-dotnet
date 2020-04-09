@@ -17,6 +17,9 @@ Data Collection for .NET shows how a robust application can be built with the Ar
 * Authenticate with Portal using OAuth
 * Use the World Geocoder service
 * Use Popup configuration to drive app behavior
+* Navigate to bookmarks defined in the web map
+* Show and hide layers with a table of contents
+* View symbology for layers in the map with a legend
 
 ## Best practices
 
@@ -29,7 +32,7 @@ The project also demonstrates some patterns for building real-world apps around 
 
 ## Get started
 
-You will need [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later. You can use the [ArcGIS Runtime SDK](https://developers.arcgis.com/downloads/apis-and-sdks?product=net) extension (v100.7 or later) installed locally or install the Runtime packages from Nuget.org.
+You will need [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later (2019 or later is recommended).
 
 ### Fork the repo
 
@@ -80,9 +83,9 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 1. Open the solution in Visual Studio and browse to the file named `Configuration.xml` located in the `Properties` directory of the  `DataCollection.Shared` project.
 2. _(Optionally)_ configure the `WebmapURL` to match your organization's webmap.
 3. Configure the OAuth Redirect URL.
-   * Set the `RedirectURL` property to match the **Redirect URL** you have set up when you registered your application (see section above).
+    * Set the `RedirectURL` property to match the **Redirect URL** you have set up when you registered your application (see section above).
 4. Configure the Client ID.
-   * Set the `ClientID` property with the **Client ID** generated when you registered your application (see section above).
+    * Set the `ClientID` property with the **Client ID** generated when you registered your application (see section above).
 
 ## Learn more
 
@@ -91,9 +94,9 @@ Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/exam
 ## Requirements
 
 * [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later
-    * Visual Studio 2019 is required if you want to use the .NET Core version of the WPF app.
+  * Visual Studio 2019 is required if you want to use the .NET Core version of the WPF app.
 * [ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/downloads/apis-and-sdks?product=net)
-* To edit records or take a web map offline you will need an ArcGIS Online Organizational account, an ArcGIS Online Developer account or an ArcGIS Online account authenticated using a social login.
+* To edit records or take a web map offline you will need an ArcGIS Online Organizational account, an ArcGIS Online Developer account, or an ArcGIS Online account authenticated using a social login.
 * To consume your own web map you will need an ArcGIS Online Organizational account.
 
 ## Contribute
@@ -107,7 +110,7 @@ Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pu
 
 ## License
 
-Copyright 2019 Esri
+Copyright 2020 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
@@ -123,5 +126,6 @@ For information about licensing your deployed app, see [License your app](https:
 
 This project uses the following 3rd-party components:
 
-* [Extended WPF Toolkit by XCeed](https://github.com/xceedsoftware/wpftoolkit) is licensed under the [Microsoft Public License](https://github.com/xceedsoftware/wpftoolkit/blob/master/license.md)
 * [Humanizer](https://github.com/Humanizr/Humanizer) - [MIT License](https://github.com/Humanizr/Humanizer/blob/master/LICENSE)
+* [Windows UI Library 2](https://github.com/microsoft/microsoft-ui-xaml) - [Microsoft License](https://www.nuget.org/packages/Microsoft.UI.Xaml/2.3.200213001/license)
+* [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf) - [MIT license](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)

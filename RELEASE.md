@@ -1,5 +1,17 @@
 # Release notes
 
+## 1.2.0
+
+* Adds support for viewing and navigating to bookmarks.
+* Adds support for toggling layer visibility with a TOC.
+* Adds support for viewing the legend (layer symbols) for the map.
+* Updates design for UWP and makes better use of acrylic.
+* Removes the dependency on the Windows Community Toolkit from the UWP version of the app.
+* Adds dependency on WinUI 2 to the UWP version of the app.
+* Replaces most icons with beautiful new icons from the Calcite design system.
+* Fixes a bug that prevented cancellation of map synchronization.
+* Updates the design of the WPF app to more closely resemble the UWP app.
+
 ## 1.1.1
 
 * Support for .NET Core.

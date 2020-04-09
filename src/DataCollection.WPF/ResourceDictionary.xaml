@@ -22,6 +22,14 @@
         </Setter>
     </Style>
 
+    <Style x:Key="TemporaryPanelheaderTextboxStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="Green" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
     <SolidColorBrush x:Key="Button.Static.Background" Color="Green" />
     <SolidColorBrush x:Key="Button.Static.Border" Color="Green" />
     <SolidColorBrush x:Key="Button.MouseOver.Background" Color="DarkGreen" />
@@ -39,7 +47,7 @@
         <Setter Property="FontSize" Value="15" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="Padding" Value="5" />
         <Setter Property="FontFamily" Value="SegoeUISymbol" />
         <Setter Property="Template">
             <Setter.Value>
@@ -88,7 +96,7 @@
         <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
     </Style>
 
-    <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="ToggleButtonStyle" TargetType="{x:Type ButtonBase}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -100,7 +108,7 @@
         <Setter Property="FontFamily" Value="SegoeUISymbol" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
                     <Grid SnapsToDevicePixels="true">
                         <Rectangle x:Name="BackgroundVisual" Fill="{TemplateBinding Background}" />
                         <Rectangle
@@ -306,6 +314,12 @@
         </Setter>
     </Style>
 
+    <Style x:Key="SidePanelContainerGrid" TargetType="Grid">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Width" Value="250" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+
     <!--  Data templates for all the field types used in editing features  -->
     <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
         <StackPanel>
@@ -314,9 +328,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="230"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 AcceptsReturn="True"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap" />
@@ -335,9 +348,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <DatePicker
-                Width="230"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -354,9 +366,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="115"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -373,9 +384,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="115"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -392,9 +402,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <ComboBox
-                Width="230"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 ItemsSource="{Binding OriginalField.Domain.CodedValues}">
                 <ComboBox.SelectedItem>
                     <MultiBinding Converter="{StaticResource ConvertValueToCodedValueDomainValue}">
@@ -417,9 +426,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="115"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
@@ -436,9 +444,8 @@
                 FontWeight="Bold"
                 Text="{Binding PopupFieldValue.Field.Label}" />
             <TextBox
-                Width="115"
-                Margin="10,0,0,5"
-                HorizontalAlignment="Left"
+                Margin="10,0,10,5"
+                HorizontalAlignment="Stretch"
                 Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Margin="10,0,0,0"
