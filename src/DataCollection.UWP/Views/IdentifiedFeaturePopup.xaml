@@ -76,7 +76,7 @@
                                         </Grid.RowDefinitions>
 
                                         <StackPanel
-                                            Grid.Row="0"
+                                            Grid.Row="0" CornerRadius="8"
                                             Grid.ColumnSpan="2"
                                             Margin="0,10,10,5"
                                             Padding="10,3,0,3"
@@ -140,7 +140,7 @@
                                             <StackPanel
                                                 Grid.Row="0"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,10,10,5"
+                                                Margin="0,10,10,5" CornerRadius="8"
                                                 Padding="10,3,0,3"
                                                 Background="{ThemeResource SystemChromeMediumLowColor}">
                                                 <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding RelatedTable.PopupDefinition.Title, Mode=OneWay}" />

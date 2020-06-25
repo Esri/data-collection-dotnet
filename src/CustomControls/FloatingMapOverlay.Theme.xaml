@@ -1,0 +1,120 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:CustomControls"
+                    xmlns:controls="using:CustomControls">
+    <Style TargetType="local:FloatingMapOverlay" >
+        <!-- Default Properties -->
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <!-- TODO update value when more states added -->
+        <Setter Property="MinWidthToUndock" Value="0" />
+        
+        <!-- TODO update with different defaults when done testing -->
+        <Setter Property="CardCommandAreaVisibility" Value="Visible" />
+        <Setter Property="CardNavigationAreaVisibility" Value="Visible" />
+        
+
+        <!--<Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>-->
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:FloatingMapOverlay">
+                    <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}" 
+                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                          Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="WidthBasedStates">
+                                <VisualState x:Name="FullWidthState">
+                                    <VisualState.StateTriggers>
+                                        <!-- TODO - update with more states -->
+                                        <AdaptiveTrigger MinWindowWidth="{TemplateBinding MinWidthToUndock}" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="PrimaryCardContentHeightDefinition.Height" Value="*" />
+                                        <Setter Target="CardOuterGrid.Margin" Value="{TemplateBinding CardMargin}" />
+                                        <Setter Target="CardOuterGrid.(Grid.Row)" Value="0" />
+                                        <Setter Target="CardOuterGrid.(Grid.RowSpan)" Value="3" />
+                                        <Setter Target="CardOuterGrid.(Grid.Column)" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid.RowDefinitions>
+                            <!-- Row for horizontal accessories at the top -->
+                            <RowDefinition Height="Auto" />
+                            <!-- Row for content to stretch vertically -->
+                            <RowDefinition Height="*" />
+                            <!-- Row for bottom row of accessories -->
+                            <RowDefinition Height="Auto" />
+                            <!-- Row for bottom docked cards -->
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <!-- Column for expanded card area -->
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Card Grid -->
+                        <Grid x:Name="CardOuterGrid" 
+                              BorderBrush="{TemplateBinding CardBorderBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="{TemplateBinding BarHeight}" />
+                                <RowDefinition x:Name="PrimaryCardContentHeightDefinition" />
+                                <RowDefinition Height="{TemplateBinding BarHeight}" />
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="NavigationAreaContainer" 
+                                  Visibility="{TemplateBinding CardNavigationAreaVisibility}"
+                                  Height="{TemplateBinding BarHeight}"
+                                  Background="{TemplateBinding CardSecondaryBackgroundBrush}"
+                                  Padding="{TemplateBinding CardElementPadding}"
+                                  Grid.Row="0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Tree &lt; Inspection " />
+                                </StackPanel>
+                            </Grid>
+                            <Grid x:Name="CardTitleAreaContainer" 
+                                  Background="{TemplateBinding CardSecondaryBackgroundBrush}"
+                                  Padding="{TemplateBinding CardElementPadding}"
+                                  ColumnSpacing="5"
+                                  Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="{TemplateBinding BarHeight}" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="User" Grid.Column="0" />
+                                <Button Content="X" Grid.Column="1" />
+                            </Grid>
+                            <Grid x:Name="CardContentAreaContainer" 
+                                  Background="{TemplateBinding CardBackgroundBrush}"
+                                  Grid.Row="2">
+                                <TextBlock Text="No content found" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                            <Grid x:Name="CardCommandAreaContainer" 
+                                  Height="{TemplateBinding BarHeight}" 
+                                  Visibility="{TemplateBinding CardCommandAreaVisibility}"
+                                  Background="{TemplateBinding CardSecondaryBackgroundBrush}"
+                                  Padding="{TemplateBinding CardElementPadding}"
+                                  Grid.Row="3">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                                    <Button Content="1" />
+                                    <Button Content="2" />
+                                    <Button Content="3" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

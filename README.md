@@ -128,4 +128,5 @@ This project uses the following 3rd-party components:
 
 * [Humanizer](https://github.com/Humanizr/Humanizer) - [MIT License](https://github.com/Humanizr/Humanizer/blob/master/LICENSE)
 * [Windows UI Library 2](https://github.com/microsoft/microsoft-ui-xaml) - [Microsoft License](https://www.nuget.org/packages/Microsoft.UI.Xaml/2.3.200213001/license)
-* [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf) - [MIT license](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)
+* [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf) - [MIT License](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)
+* [WindowsStateTriggers](https://github.com/dotMorten/WindowsStateTriggers) - [MIT License](https://github.com/dotMorten/WindowsStateTriggers/blob/master/LICENSE)

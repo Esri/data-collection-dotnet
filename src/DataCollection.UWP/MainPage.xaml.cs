@@ -48,13 +48,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+
             // Set XAML element as a draggable region.
-            Window.Current.SetTitleBar(AppTitleBar);
+            Window.Current.SetTitleBar(AppTitleBarContainer);
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            AppTitleBar.Height = sender.Height;
+            AppTitleBarInner.Height = sender.Height;
         }
 
         private void OnWaitStatusChanged(object sender, WaitStatusChangedEventArgs e)
