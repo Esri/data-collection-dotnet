@@ -97,6 +97,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             IdentifyController = new IdentifyController();
             IdentifyController.IdentifyCompleted += IdentifyController_IdentifyCompleted;
 
+            AccessoryViewModel = new AccessoryViewModel();
+
             // call method to retrieve map based on app state, connection and offline file availability
             GetMap().ContinueWith(t =>
             {
@@ -179,6 +181,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_mapViewModel != value)
                 {
                     _mapViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private AccessoryViewModel _accessoryViewModel;
+
+        public AccessoryViewModel AccessoryViewModel
+        {
+            get => _accessoryViewModel;
+            set
+            {
+                if (_accessoryViewModel != value)
+                {
+                    _accessoryViewModel = value;
                     OnPropertyChanged();
                 }
             }

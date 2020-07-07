@@ -7,46 +7,70 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="CardSecondaryBackgroundBrush" Value="Gray" />
+        <Setter Property="CardBackgroundBrush" Value="Black" />
+        <Setter Property="BarHeight" Value="20" />
+        <Setter Property="CardElementPadding" Value="5" />
+        <Setter Property="CardWidth" Value="315" />
+        <Setter Property="Margin" Value="5" />
+
         <!-- TODO update value when more states added -->
-        <Setter Property="MinWidthToUndock" Value="0" />
+        <Setter Property="MinWidthToUndock" Value="900" />
         
         <!-- TODO update with different defaults when done testing -->
         <Setter Property="CardCommandAreaVisibility" Value="Visible" />
         <Setter Property="CardNavigationAreaVisibility" Value="Visible" />
-        
+        <Setter Property="AccessoryMargin" Value="5" />
 
-        <!--<Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>-->
-        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:FloatingMapOverlay">
-                    <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}" 
-                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
-                          Background="{TemplateBinding Background}">
+                    <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                          Padding="0,0,0,20"
+                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="WidthBasedStates">
-                                <VisualState x:Name="FullWidthState">
+                                <VisualState>
                                     <VisualState.StateTriggers>
                                         <!-- TODO - update with more states -->
-                                        <AdaptiveTrigger MinWindowWidth="{TemplateBinding MinWidthToUndock}" />
+                                        <AdaptiveTrigger MinWindowWidth="0" />
                                     </VisualState.StateTriggers>
                                     <VisualState.Setters>
-                                        <Setter Target="PrimaryCardContentHeightDefinition.Height" Value="*" />
-                                        <Setter Target="CardOuterGrid.Margin" Value="{TemplateBinding CardMargin}" />
-                                        <Setter Target="CardOuterGrid.(Grid.Row)" Value="0" />
-                                        <Setter Target="CardOuterGrid.(Grid.RowSpan)" Value="3" />
+                                        <Setter Target="CardOuterGrid.Height" Value="320" />
+                                        <Setter Target="CardOuterGrid.Margin" Value="0,5,0,-20" />
+                                        <Setter Target="CardOuterGrid.(Grid.Row)" Value="4" />
+                                        <Setter Target="CardOuterGrid.(Grid.RowSpan)" Value="1" />
                                         <Setter Target="CardOuterGrid.(Grid.Column)" Value="0" />
+                                        <Setter Target="CardOuterGrid.(Grid.ColumnSpan)" Value="3" />
+                                        <Setter Target="CardCommandAreaContainer.CornerRadius" Value="0" />
+                                        <Setter Target="NavigationAreaContainer.Margin" Value="0,0,0,-5" />
                                     </VisualState.Setters>
                                 </VisualState>
+                                <VisualState>
+                                    <VisualState.StateTriggers>
+                                        <!-- TODO - update with more states -->
+                                        <AdaptiveTrigger MinWindowWidth="700" />
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Target="CardOuterGrid.Margin" Value="5" />
+                                        <Setter Target="CardOuterGrid.(Grid.Row)" Value="1" />
+                                        <Setter Target="CardOuterGrid.(Grid.RowSpan)" Value="5" />
+                                        <Setter Target="CardOuterGrid.(Grid.Column)" Value="0" />
+                                        <Setter Target="CardOuterGrid.(Grid.ColumnSpan)" Value="1" />
+                                        <Setter Target="CardOuterGrid.Width" Value="315" />
+                                        <Setter Target="CardCommandAreaContainer.CornerRadius" Value="0,0,5,5" />
+                                        <Setter Target="NavigationAreaContainer.Margin" Value="0,0,0,-5" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                
+                            </VisualStateGroup>
+                            <VisualStateGroup>
+                                
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid.RowDefinitions>
+                            <!-- Row for top padding (to show command bar over map) -->
+                            <RowDefinition Height="75" />
                             <!-- Row for horizontal accessories at the top -->
                             <RowDefinition Height="Auto" />
                             <!-- Row for content to stretch vertically -->
@@ -62,56 +86,133 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+
+                        <ContentPresenter Content="{TemplateBinding GeoView}" Grid.Row="0" Grid.RowSpan="5" Grid.ColumnSpan="3" Margin="0,0,0,-20" />
                         
+                        <!-- Accessory Buttons -->
+                        <ItemsControl ItemsSource="{TemplateBinding AccessoryButtons}" Grid.Row="1" Grid.Column="2">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel Orientation="Vertical" HorizontalAlignment="Center" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{Binding Background}" 
+                                            Padding="5,0,5,5"
+                                            Margin="0,0,0,5"
+                                            CornerRadius="5">
+                                        <ItemsControl ItemsSource="{Binding Elements}">
+                                            <ItemsControl.Resources>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Margin" Value="0,5,0,0" />
+                                                    <Setter Property="CornerRadius" Value="2" />
+                                                    <Setter Property="Height" Value="30" />
+                                                    <Setter Property="Width" Value="30 "/>
+                                                </Style>
+                                            </ItemsControl.Resources>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <ItemsStackPanel Orientation="Vertical" HorizontalAlignment="Center" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
                         <!-- Card Grid -->
-                        <Grid x:Name="CardOuterGrid" 
-                              BorderBrush="{TemplateBinding CardBorderBrush}">
+                        <Grid x:Name="CardOuterGrid"
+                              BorderBrush="{TemplateBinding CardBorderBrush}"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              Visibility="{Binding CardVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="{TemplateBinding BarHeight}" />
-                                <RowDefinition x:Name="PrimaryCardContentHeightDefinition" />
-                                <RowDefinition Height="{TemplateBinding BarHeight}" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
-                            <Grid x:Name="NavigationAreaContainer" 
-                                  Visibility="{TemplateBinding CardNavigationAreaVisibility}"
-                                  Height="{TemplateBinding BarHeight}"
+
+                            <Grid x:Name="NavigationAreaContainer"
                                   Background="{TemplateBinding CardSecondaryBackgroundBrush}"
+                                  CornerRadius="5,5,0,0" Opacity="0.9" Height="40"
                                   Padding="{TemplateBinding CardElementPadding}"
+                                  Visibility="{Binding IsNavigationVisible}"
                                   Grid.Row="0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Tree &lt; Inspection " />
-                                </StackPanel>
+                                <TextBlock Text="{Binding NavigationTitle}" /> 
                             </Grid>
                             <Grid x:Name="CardTitleAreaContainer" 
                                   Background="{TemplateBinding CardSecondaryBackgroundBrush}"
                                   Padding="{TemplateBinding CardElementPadding}"
-                                  ColumnSpacing="5"
+                                  ColumnSpacing="5" CornerRadius="5,5,0,0"
                                   Grid.Row="1">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="{TemplateBinding BarHeight}" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="User" Grid.Column="0" />
-                                <Button Content="X" Grid.Column="1" />
+                                <Image Source="{Binding TopCard.Icon}" Width="15" Height="15"
+                                       Margin="5,0,5,0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                       />
+                                <TextBlock Text="{Binding TopCard.Title}" VerticalAlignment="Center" Grid.Column="1" Margin="0" />
+                                <Button Command="{Binding TopCard.CloseCommand}" Grid.Column="2" Content="{TemplateBinding CloseButtonContent}" />
                             </Grid>
                             <Grid x:Name="CardContentAreaContainer" 
                                   Background="{TemplateBinding CardBackgroundBrush}"
                                   Grid.Row="2">
-                                <TextBlock Text="No content found" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <ContentPresenter Content="{Binding TopCard.Content}" />
                             </Grid>
-                            <Grid x:Name="CardCommandAreaContainer" 
-                                  Height="{TemplateBinding BarHeight}" 
+                            <Grid x:Name="CardCommandAreaContainer"
                                   Visibility="{TemplateBinding CardCommandAreaVisibility}"
                                   Background="{TemplateBinding CardSecondaryBackgroundBrush}"
                                   Padding="{TemplateBinding CardElementPadding}"
                                   Grid.Row="3">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-                                    <Button Content="1" />
-                                    <Button Content="2" />
-                                    <Button Content="3" />
-                                </StackPanel>
+                                <ItemsControl ItemsSource="{Binding TopCard.Buttons}">
+                                    <ItemsControl.Resources>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Margin" Value="5,0,0,0" />
+                                            <Setter Property="Height" Value="35" />
+                                            <Setter Property="Width" Value="35" />
+                                            <Setter Property="CornerRadius" Value="5" />
+                                        </Style>
+                                    </ItemsControl.Resources>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsStackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
                             </Grid>
                         </Grid>
+                        
+                        <!-- Floating action button area -->
+
+                        <Border x:Name="FloatingActionButtonContainer" Background="{TemplateBinding CardBackgroundBrush}"
+                                Grid.Row="3" Grid.Column="2"
+                                Padding="5"
+                                Margin="5"
+                                CornerRadius="5">
+                            <ItemsControl ItemsSource="{TemplateBinding PrimaryActionButtons}"
+                                        Grid.Row="4" Grid.Column="2"
+                                          Padding="0"
+                                        Background="{TemplateBinding CardBackgroundBrush}">
+                                <ItemsControl.Resources>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Height" Value="30" />
+                                        <Setter Property="Width" Value="30" />
+                                        <Setter Property="CornerRadius" Value="2" />
+                                    </Style>
+                                </ItemsControl.Resources>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <ItemsStackPanel Orientation="Horizontal" HorizontalAlignment="Right" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Border>
+                        
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

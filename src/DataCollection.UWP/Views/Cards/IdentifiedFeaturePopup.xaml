@@ -21,11 +21,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+
         <Pivot x:Name="IdentifiedFeaturePivot">
             <PivotItem Header="Details">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
@@ -265,8 +261,8 @@
                                                                 <TextBlock HorizontalAlignment="Left" Text="{Binding Field.Label, Mode=OneWay}" />
                                                                 <TextBlock HorizontalAlignment="Left" Text="{Binding ReformattedValue, Mode=OneWay}" />
                                                             </StackPanel>
-                                                            
-                                                            
+
+
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
@@ -284,69 +280,4 @@
                 <local:AttachmentsView DataContext="{x:Bind IdentifiedFeatureViewModel, Mode=OneWay}" />
             </PivotItem>
         </Pivot>
-
-        <!--  Bottom buttons  -->
-        <CommandBar Grid.Row="1" OverflowButtonVisibility="Collapsed">
-            <!--  Buttons to edit and delete record  -->
-            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
-                          Click="CaptureMediaButton_Click"
-                          ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=TakePhoto_Tooltip}"
-                          Visibility="{Binding ElementName=IdentifiedFeaturePivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}"
-                          Label="Capture Media">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/camera-32.png"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
-                          Click="BrowseFilesButton_Click"
-                          ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=BrowseAttach_Tooltip}"
-                          Visibility="{Binding ElementName=IdentifiedFeaturePivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}"
-                          Label="Browse Files">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton
-                Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
-                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
-                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/pencil-32.png"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton
-                Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}"
-                CommandParameter="{x:Bind IdentifiedFeatureViewModel}"
-                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
-                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/trash-32.png"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <!--  Buttons to save and discard changes to record  -->
-            <AppBarButton
-                Command="{x:Bind IdentifiedFeatureViewModel.SaveEditsCommand, Mode=OneWay}"
-                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
-                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/save-32.png"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton
-                Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.CancelEditsCommand}"
-                CommandParameter="{x:Bind IdentifiedFeatureViewModel}"
-                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
-                Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-        </CommandBar>
-    </Grid>
 </UserControl>

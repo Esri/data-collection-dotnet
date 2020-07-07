@@ -11,7 +11,7 @@
     xmlns:utils="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
     xmlns:views="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
     xmlns:mapping="using:Esri.ArcGISRuntime.Mapping"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:windowsstatetriggers="using:WindowsStateTriggers"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:windowsstatetriggers="using:WindowsStateTriggers" xmlns:customcontrols="using:CustomControls"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -21,151 +21,11 @@
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <localConverters:TitleBarConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
-
-            <Style x:Key="FloatingPanelBase" TargetType="Grid">
-                <Setter Property="Background" Value="{ThemeResource SystemControlAcrylicElementBrush}" />
-                <Setter Property="CornerRadius" Value="5" />
-            </Style>
-
-            <Style x:Key="FloatingPanelFullWidthStyleBase" TargetType="Grid" BasedOn="{StaticResource FloatingPanelBase}">
-                <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="Margin" Value="10,10,10,25" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Width" Value="300" />
-                <Setter Property="VerticalAlignment" Value="Top" />
-            </Style>
-            <Style x:Key="FloatingPanelCompactWidthStyleBase" TargetType="Grid" BasedOn="{StaticResource FloatingPanelBase}">
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="Margin" Value="0,120,0,-8" />
-                <Setter Property="Padding" Value="0,0,0,8" />
-                <Setter Property="MaxHeight" Value="300" />
-                <Setter Property="VerticalAlignment" Value="Bottom" />
-            </Style>
-            <Style x:Key="FloatingPanelFullWidthStyleExpanded" TargetType="Grid" BasedOn="{StaticResource FloatingPanelFullWidthStyleBase}">
-                <Setter Property="VerticalAlignment" Value="Stretch" />
-            </Style>
-            <Style x:Key="FloatingPanelCompactWidthStyleExpanded" TargetType="Grid" BasedOn="{StaticResource FloatingPanelCompactWidthStyleBase}">
-                <Setter Property="MaxHeight" Value="10000" />
-                <Setter Property="VerticalAlignment" Value="Stretch" />
-                <Setter Property="Margin" Value="0,0,0,-8" />
-            </Style>
+            <converters:LocalizationConverter x:Key="LocalizationConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
-        <VisualStateManager.VisualStateGroups>
-            <!-- Width state group -->
-            <VisualStateGroup>
-                <!-- Large width, collapsed -->
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <windowsstatetriggers:CompositeStateTrigger Operator="And">
-                            <windowsstatetriggers:AdaptiveTrigger MinWindowWidth="600" />
-                        </windowsstatetriggers:CompositeStateTrigger>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        
-                        <Setter Target="BookmarksPanelGrid.Style" Value="{StaticResource FloatingPanelFullWidthStyleBase}" />
-                        <Setter Target="TreeViewPanelGrid.Style" Value="{StaticResource FloatingPanelFullWidthStyleBase}" />
-                        <Setter Target="LegendPanelGrid.Style" Value="{StaticResource FloatingPanelFullWidthStyleBase}" />
-
-                        <Setter Target="OriginRelationshipPopupPanel.Margin" Value="10,60,10,25" />
-                        <Setter Target="DestinationRelationshipGrid.Margin" Value="10,60,10,25" />
-
-                        <!-- Primary panels forced to be fully expanded -->
-                        <Setter Target="IdentifyPopupPanel.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-                        <Setter Target="OriginRelationshipPopupPanel.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-                        <Setter Target="DestinationRelationshipGrid.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-                    </VisualState.Setters>
-                </VisualState>
-                <!-- Small width, collapsed -->
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <windowsstatetriggers:CompositeStateTrigger Operator="And">
-                            <windowsstatetriggers:AdaptiveTrigger MinWindowWidth="0" />
-                            <!--<windowsstatetriggers:EqualsStateTrigger Value="{x:Bind MainViewModel.IsPanelExpanded, Mode=OneWay}" EqualTo="False" />-->
-                        </windowsstatetriggers:CompositeStateTrigger>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="IdentifyPopupPanel.Style" Value="{StaticResource FloatingPanelCompactWidthStyleBase}" />
-                        <Setter Target="OriginRelationshipPopupPanel.Style" Value="{StaticResource FloatingPanelCompactWidthStyleBase}" />
-                        <Setter Target="DestinationRelationshipGrid.Style" Value="{StaticResource FloatingPanelCompactWidthStyleBase}" />
-                        <Setter Target="BookmarksPanelGrid.Style" Value="{StaticResource FloatingPanelCompactWidthStyleBase}" />
-                        <Setter Target="TreeViewPanelGrid.Style" Value="{StaticResource FloatingPanelCompactWidthStyleBase}" />
-                        <Setter Target="LegendPanelGrid.Style" Value="{StaticResource FloatingPanelCompactWidthStyleBase}" />
-
-                        <Setter Target="OriginRelationshipPopupPanel.Margin" Value="0,50,0,-8" />
-                        <Setter Target="DestinationRelationshipGrid.Margin" Value="0,50,0,-8" />
-                    </VisualState.Setters>
-                </VisualState>
-                <!-- Large width, expanded -->
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <windowsstatetriggers:CompositeStateTrigger Operator="And">
-                            <windowsstatetriggers:AdaptiveTrigger MinWindowWidth="600" />
-                        </windowsstatetriggers:CompositeStateTrigger>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="IdentifyPopupPanel.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-                        <Setter Target="OriginRelationshipPopupPanel.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-                        <Setter Target="DestinationRelationshipGrid.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-                        <Setter Target="BookmarksPanelGrid.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-                        <Setter Target="TreeViewPanelGrid.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-                        <Setter Target="LegendPanelGrid.Style" Value="{StaticResource FloatingPanelFullWidthStyleExpanded}" />
-
-                        <Setter Target="OriginRelationshipPopupPanel.Margin" Value="10,60,10,25" />
-                        <Setter Target="DestinationRelationshipGrid.Margin" Value="10,60,10,25" />
-                    </VisualState.Setters>
-                </VisualState>
-                <!-- Small width, expanded -->
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <windowsstatetriggers:CompositeStateTrigger Operator="And">
-                            <windowsstatetriggers:AdaptiveTrigger MinWindowWidth="0" />
-                            <!--<windowsstatetriggers:EqualsStateTrigger Value="{x:Bind MainViewModel.IsPanelExpanded, Mode=OneWay}" EqualTo="True" />-->
-                        </windowsstatetriggers:CompositeStateTrigger>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="IdentifyPopupPanel.Style" Value="{StaticResource FloatingPanelCompactWidthStyleExpanded}" />
-                        <Setter Target="OriginRelationshipPopupPanel.Style" Value="{StaticResource FloatingPanelCompactWidthStyleExpanded}" />
-                        <Setter Target="DestinationRelationshipGrid.Style" Value="{StaticResource FloatingPanelCompactWidthStyleExpanded}" />
-                        <Setter Target="BookmarksPanelGrid.Style" Value="{StaticResource FloatingPanelCompactWidthStyleExpanded}" />
-                        <Setter Target="TreeViewPanelGrid.Style" Value="{StaticResource FloatingPanelCompactWidthStyleExpanded}" />
-                        <Setter Target="LegendPanelGrid.Style" Value="{StaticResource FloatingPanelCompactWidthStyleExpanded}" />
-
-                        <Setter Target="OriginRelationshipPopupPanel.Margin" Value="0,50,0,-8" />
-                        <Setter Target="DestinationRelationshipGrid.Margin" Value="0,50,0,-8" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-            <!-- height state group -->
-            <VisualStateGroup>
-                <!-- Compact height-->
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="FloatingControlsOuterStackPanel.Orientation" Value="Horizontal" />
-                        <Setter Target="FloatingNavigationControlsStackPanel.Orientation" Value="Horizontal" />
-                        <Setter Target="FloatingMapControlsStackPanel.Orientation" Value="Horizontal" />
-                        <Setter Target="FloatingControlsOuterStackPanel.VerticalAlignment" Value="Top" />
-                    </VisualState.Setters>
-                </VisualState>
-                <!-- Large height -->
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="700" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="FloatingControlsOuterStackPanel.Orientation" Value="Vertical" />
-                        <Setter Target="FloatingNavigationControlsStackPanel.Orientation" Value="Vertical" />
-                        <Setter Target="FloatingMapControlsStackPanel.Orientation" Value="Vertical" />
-                        <Setter Target="FloatingControlsOuterStackPanel.VerticalAlignment" Value="Stretch" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -174,23 +34,173 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <!--  MapView Control containing map  -->
-        <esri:MapView
-            x:Name="MapView"
-            Grid.Row="0"
-            Grid.RowSpan="4"
-            Grid.ColumnSpan="3"
-            ViewInsets="0,40,0,0"
-            utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
-            DataContext="{x:Bind MainViewModel}"
-            Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}">
-            <utils:MapViewExtensions.ViewpointController>
-                <utils:ViewpointController Viewpoint="{Binding MapViewModel.AreaOfInterest, Mode=TwoWay}" />
-            </utils:MapViewExtensions.ViewpointController>
-            <utils:MapViewExtensions.LocationDisplayController>
-                <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}" />
-            </utils:MapViewExtensions.LocationDisplayController>
-        </esri:MapView>
+
+        <customcontrols:FloatingMapOverlay Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="0"
+                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                           CardBackgroundBrush="{ThemeResource SystemControlAcrylicElementBrush}"
+                                           CardSecondaryBackgroundBrush="{ThemeResource SystemControlAcrylicElementMediumHighBrush}">
+        <customcontrols:FloatingMapOverlay.CloseButtonContent>
+                <BitmapIcon UriSource="Assets/Calcite/x-32.png" />
+        </customcontrols:FloatingMapOverlay.CloseButtonContent>
+            <customcontrols:FloatingMapOverlay.PrimaryActionButtons>
+                <Button 
+                Command="{x:Bind MainViewModel.StartNewFeatureCommand, Mode=OneWay}"
+                IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <BitmapIcon UriSource="Assets/Calcite/plus-circle-32.png" ShowAsMonochrome="True" Margin="0,0,1,1" />
+                </Button>
+            </customcontrols:FloatingMapOverlay.PrimaryActionButtons>
+        <customcontrols:FloatingMapOverlay.GeoView>
+                <!--  MapView Control containing map  -->
+                <esri:MapView
+                    x:Name="MapView" ViewInsets="0,50,0,0"
+                    utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
+                    DataContext="{x:Bind MainViewModel}"
+                    Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}">
+                    <utils:MapViewExtensions.ViewpointController>
+                        <utils:ViewpointController Viewpoint="{Binding MapViewModel.AreaOfInterest, Mode=TwoWay}" />
+                    </utils:MapViewExtensions.ViewpointController>
+                    <utils:MapViewExtensions.LocationDisplayController>
+                        <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}" />
+                    </utils:MapViewExtensions.LocationDisplayController>
+                </esri:MapView>
+            </customcontrols:FloatingMapOverlay.GeoView>
+            <customcontrols:FloatingMapOverlay.Cards>
+                <customcontrols:MapOverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}" 
+                                               Subtitle="Identify Result"
+                                               TertiarySubtitle="Tree"
+                                               Icon="{x:Bind MainViewModel.IdentifiedFeatureViewModel.IconImageSource, Mode=OneWay}"
+                                               IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
+                                               UserCloseable="True"
+                                               CloseCommand="{x:Bind MainViewModel.ClearIdentifiedFeatureCommand, Mode=OneWay}">
+                    <Grid Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                            <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Grid>
+                    <customcontrols:MapOverlayCard.Buttons>
+                        <Button Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}">
+                            <BitmapIcon UriSource="Assets/Calcite/camera-32.png" />
+                        </Button>
+                        <Button Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}">
+                            <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png" />
+                        </Button>
+                        <Button Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
+                                Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                            <BitmapIcon UriSource="Assets/Calcite/pencil-32.png" />
+                        </Button>
+                        <Button
+                            Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SaveEditsCommand, Mode=OneWay}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
+                            Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                            <BitmapIcon UriSource="Assets/Calcite/save-32.png" />
+                        </Button>
+                        <Button
+                            Command="{x:Bind MainViewModel.DeleteFeatureCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind MainViewModel.IdentifiedFeatureViewModel}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
+                            Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                            <BitmapIcon UriSource="Assets/Calcite/trash-32.png" />
+                        </Button>
+                        <Button Command="{x:Bind MainViewModel.CancelEditsCommand, Mode=OneWay}"
+                                CommandParameter="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"
+                                Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                            <BitmapIcon UriSource="Assets/Calcite/x-32.png" />
+                        </Button>
+                    </customcontrols:MapOverlayCard.Buttons>
+                </customcontrols:MapOverlayCard>
+                <customcontrols:MapOverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                                               CloseCommand="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
+                                               IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
+                    <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
+                                                Grid.Row="1" Grid.ColumnSpan="3" />
+                </customcontrols:MapOverlayCard>
+                <customcontrols:MapOverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
+                                               CloseCommand="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
+                                               IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
+                    <ScrollViewer>
+                        <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
+                    </ScrollViewer>
+                </customcontrols:MapOverlayCard>
+                <customcontrols:MapOverlayCard Title="Bookmarks"
+                                               CloseCommand="{x:Bind MainViewModel.AccessoryViewModel.CloseBookmarksCommand, Mode=OneWay}"
+                                               Icon="Assets/Calcite/bookmark-32.png"
+                                               IsOpen="{x:Bind MainViewModel.AccessoryViewModel.IsBookmarksOpen, Mode=OneWay, FallbackValue=False}">
+                    <toolkit:BookmarksView GeoView="{x:Bind MapView, Mode=OneWay}" />
+                </customcontrols:MapOverlayCard>
+                <customcontrols:MapOverlayCard Title="Basemaps"
+                                               CloseCommand="{x:Bind MainViewModel.AccessoryViewModel.CloseBasemapsCommand, Mode=OneWay}"
+                                               IsOpen="{x:Bind MainViewModel.AccessoryViewModel.IsBasemapsOpen, Mode=OneWay, FallbackValue=False}">
+                    <Grid>
+                        <TextBlock Text="Maybe later" />
+                    </Grid>
+                </customcontrols:MapOverlayCard>
+                <customcontrols:MapOverlayCard Title="Legend"
+                                               Icon="Assets/Calcite/legend-32.png"
+                                               CloseCommand="{x:Bind MainViewModel.AccessoryViewModel.CloseLegendCommand, Mode=OneWay}"
+                                               IsOpen="{x:Bind MainViewModel.AccessoryViewModel.IsLegendOpen, Mode=OneWay, FallbackValue=False}">
+                    <toolkit:Legend GeoView="{x:Bind MapView, Mode=OneWay}" Background="Transparent" />
+                </customcontrols:MapOverlayCard>
+                <customcontrols:MapOverlayCard Title="Table of Contents"
+                                               Icon="Assets/Calcite/layers-32.png"
+                                                   CloseCommand="{x:Bind MainViewModel.AccessoryViewModel.CloseTocCommand, Mode=OneWay}"
+                                                   IsOpen="{x:Bind MainViewModel.AccessoryViewModel.IsTocOpen, Mode=OneWay, FallbackValue=False}">
+                    <muxc:TreeView
+                            ItemsSource="{x:Bind MainViewModel.MapViewModel.Map.OperationalLayers,Mode=OneWay}" 
+                            BorderBrush="Transparent" SelectionMode="None">
+                        <!-- Overrides style to hide expander; can be removed for maps with sublayers -->
+
+                        <muxc:TreeView.ItemContainerStyle>
+                            <Style TargetType="muxc:TreeViewItem">
+                                <Style.Setters>
+                                    <Setter Property="Margin" Value="-20,0,5,0" />
+                                </Style.Setters>
+                            </Style>
+                        </muxc:TreeView.ItemContainerStyle>
+                        <muxc:TreeView.ItemTemplate>
+                            <DataTemplate x:DataType="mapping:ILayerContent">
+                                <muxc:TreeViewItem ItemsSource="{x:Bind SublayerContents}" Padding="0,0,10,0">
+                                    <muxc:TreeViewItem.Content>
+                                        <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}"
+                                                      Margin="0"
+                                                      HorizontalAlignment="Stretch"
+                                                      Content="{x:Bind Name}" />
+                                    </muxc:TreeViewItem.Content>
+                                </muxc:TreeViewItem>
+                            </DataTemplate>
+                        </muxc:TreeView.ItemTemplate>
+                    </muxc:TreeView>
+                </customcontrols:MapOverlayCard>
+            </customcontrols:FloatingMapOverlay.Cards>
+            <customcontrols:FloatingMapOverlay.AccessoryButtons>
+                <customcontrols:ButtonGroup Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                    <Button>
+                        <BitmapIcon UriSource="Assets/Calcite/magnifying-glass-plus-16.png" />
+                    </Button>
+
+                    <Button>
+                        <BitmapIcon UriSource="Assets/Calcite/magnifying-glass-minus-16.png" ShowAsMonochrome="True" />
+                    </Button>
+                    <Button>
+                        <BitmapIcon UriSource="Assets/Calcite/gps-on-32.png" ShowAsMonochrome="True" />
+                    </Button>
+                </customcontrols:ButtonGroup>
+                <customcontrols:ButtonGroup Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                    <Button Command="{x:Bind MainViewModel.AccessoryViewModel.ToggleBookmarksCommand, Mode=OneWay}">
+                        <BitmapIcon UriSource="Assets/Calcite/bookmark-32.png" />
+                    </Button>
+
+                    <Button Command="{x:Bind MainViewModel.AccessoryViewModel.ToggleLegendCommand, Mode=OneWay}">
+                        <BitmapIcon UriSource="Assets/Calcite/legend-32.png" ShowAsMonochrome="True" />
+                    </Button>
+                    <Button Command="{x:Bind MainViewModel.AccessoryViewModel.ToggleTocCommand, Mode=OneWay}">
+                        <BitmapIcon UriSource="Assets/Calcite/layers-32.png" ShowAsMonochrome="True" />
+                    </Button>
+
+                    <Button Command="{x:Bind MainViewModel.AccessoryViewModel.ToggleBasemapsCommand, Mode=OneWay}">
+                        <BitmapIcon UriSource="Assets/Calcite/basemap-16.png" ShowAsMonochrome="True" />
+                    </Button>
+                </customcontrols:ButtonGroup>
+            </customcontrols:FloatingMapOverlay.AccessoryButtons>
+        </customcontrols:FloatingMapOverlay>
 
         <!-- Top bar container -->
         <Grid  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
@@ -372,87 +382,6 @@
                        Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"/>
             </Grid>
         </Grid>
-        
-        <!--  Title bar with top buttons  -->
-        <StackPanel x:Name="FloatingControlsOuterStackPanel" Grid.Row="2"
-                    Margin="10"
-            Grid.Column="2" Spacing="5"
-            HorizontalAlignment="Right">
-            <StackPanel x:Name="FloatingNavigationControlsStackPanel"
-                        Spacing="5"
-                        Padding="5"
-                        CornerRadius="5"
-                        Background="{StaticResource SystemControlAcrylicElementBrush}">
-                <!--  Compass control that displays when user rotates the map  -->
-
-                <Button Grid.Row="1"
-                    Width="30"
-                    Height="30"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
-                    <BitmapIcon UriSource="Assets/Calcite/magnifying-glass-plus-16.png" />
-                </Button>
-
-                <Button Grid.Row="2"
-                    Width="30" Height="30"
-                    VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <BitmapIcon UriSource="Assets/Calcite/magnifying-glass-minus-16.png" ShowAsMonochrome="True" />
-                </Button>
-                <Button Grid.Row="3"
-                        Width="30" Height="30"
-                    VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <BitmapIcon UriSource="Assets/Calcite/gps-on-32.png" ShowAsMonochrome="True"
-                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
-                                />
-                </Button>
-            </StackPanel>
-            <StackPanel x:Name="FloatingMapControlsStackPanel"
-                        Spacing="5"
-            Padding="5"
-            CornerRadius="5"
-            Background="{StaticResource SystemControlAcrylicElementBrush}">
-                <Button Grid.Row="0"
-                    Width="30"
-                    Height="30"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
-                    <BitmapIcon UriSource="Assets/Calcite/bookmark-32.png" />
-                </Button>
-
-                <Button Grid.Row="1"
-                    Width="30" Height="30"
-                    VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <BitmapIcon UriSource="Assets/Calcite/legend-32.png" ShowAsMonochrome="True" />
-                </Button>
-                <Button Grid.Row="2"
-                    Width="30" Height="30"
-                    VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <BitmapIcon UriSource="Assets/Calcite/layers-32.png" ShowAsMonochrome="True" />
-                </Button>
-
-                <Button Grid.Row="3"
-                    Width="30" Height="30"
-                    VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <BitmapIcon UriSource="Assets/Calcite/basemap-16.png" ShowAsMonochrome="True" />
-                </Button>
-            </StackPanel>
-            <StackPanel Spacing="5"
-                        Padding="5" Margin="0,250,0,0"
-                        CornerRadius="5" VerticalAlignment="Bottom"
-                        Background="{StaticResource SystemControlAcrylicElementBrush}">
-                <!--  Compass control that displays when user rotates the map  -->
-                <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" BorderBrush="White" 
-                Command="{x:Bind MainViewModel.StartNewFeatureCommand, Mode=OneWay}"
-                IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
-                Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <BitmapIcon UriSource="Assets/Calcite/plus-circle-32.png" ShowAsMonochrome="True" Margin="0,0,1,1" 
-                                Foreground="Green"
-                                />
-                </Button>
-            </StackPanel>
-        </StackPanel>
-
-        
 
         <!--  New feature overlay  -->
         <views:AddFeatureView
@@ -516,227 +445,6 @@
                     Command="{x:Bind MainViewModel.SyncViewModel.CancelSyncCommand, Mode=OneWay}" />
             </Grid>
         </StackPanel>
-
-        <!--  Grid control that contains the popups for identified features and related records  -->
-        <Grid x:Name="IdentifyPopupPanel" Grid.Column="0" Grid.Row="2"
-              Background="{ThemeResource SystemControlAcrylicElementBrush}"
-              Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-            <Grid x:Name="IdentifiedFeatureBlade"
-                  Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
-                  Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0"
-                           Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
-                           Margin="5,5,0,0" TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}" />
-                <Button Grid.Column="1" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5">
-                    <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5">
-                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-                                              Grid.Row="1" Grid.ColumnSpan="3"/>
-            </Grid>
-        </Grid>
-
-        <Grid x:Name="OriginRelationshipPopupPanel" Grid.Row="2"
-              Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Collapsed}">
-            <Grid x:Name="OriginRelationshipBlade" ColumnSpacing="5"
-                  Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"
-                        Padding="5" Width="30" Height="30">
-                    <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="0,0,5,0"
-                        Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" >
-                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
-                           Grid.Row="0" 
-                           Margin="5,5,0,0" 
-                           TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}"/>
-                <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-                                                Grid.Row="1" Grid.ColumnSpan="3" />
-            </Grid>
-        </Grid>
-        <Grid x:Name="DestinationRelationshipGrid" Grid.Row="2"
-              Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Collapsed}">
-            <Grid x:Name="DestinationRelationshipBlade" Grid.Column="2"
-                  Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5" Visibility="Collapsed">
-                    <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="0,0,5,0"
-                        Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" >
-                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
-                           Grid.Row="0" 
-                           Margin="5,5,0,0" 
-                           TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}"/>
-                <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3">
-                    <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
-                </ScrollViewer>
-            </Grid>
-        </Grid>
-        <Grid x:Name="BookmarksPanelGrid" Grid.Column="0" Grid.Row="2" Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0"
-                           Text="Bookmarks"
-                           Margin="5,5,0,0" TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}" />
-            <Button Grid.Column="1" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5">
-                <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png" Width="15" Height="15"/>
-            </Button>
-            <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5">
-                <BitmapIcon UriSource="Assets/Calcite/x-32.png" Width="15" Height="15"/>
-            </Button>
-        </Grid>
-        <Grid x:Name="TreeViewPanelGrid" Grid.Column="0" Grid.Row="2"
-              Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0"
-                           Text="Layers"
-                           Margin="5,5,0,0" TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}" />
-            <Button Grid.Column="1" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5">
-                <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png"
-                                Width="15" Height="15"
-                            />
-            </Button>
-            <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5">
-                <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="15" Height="15"/>
-            </Button>
-            <muxc:TreeView
-                            ItemsSource="{x:Bind MainViewModel.MapViewModel.Map.OperationalLayers,Mode=OneWay}" 
-                            BorderBrush="Transparent" Grid.Row="1" Grid.ColumnSpan="3" SelectionMode="None">
-                <!-- Overrides style to hide expander; can be removed for maps with sublayers -->
-                <muxc:TreeView.ItemContainerStyle>
-                    <Style TargetType="muxc:TreeViewItem">
-                        <Style.Setters>
-                            <Setter Property="Margin" Value="-20,0,5,0" />
-                        </Style.Setters>
-                    </Style>
-                </muxc:TreeView.ItemContainerStyle>
-                <muxc:TreeView.ItemTemplate>
-                    <DataTemplate x:DataType="mapping:ILayerContent">
-                        <muxc:TreeViewItem ItemsSource="{x:Bind SublayerContents}" Padding="0,0,10,0">
-                            <muxc:TreeViewItem.Content>
-                                <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}"
-                                                      Margin="0"
-                                                      HorizontalAlignment="Stretch"
-                                                      Content="{x:Bind Name}" />
-                            </muxc:TreeViewItem.Content>
-                        </muxc:TreeViewItem>
-                    </DataTemplate>
-                </muxc:TreeView.ItemTemplate>
-            </muxc:TreeView>
-        </Grid>
-        <Grid x:Name="LegendPanelGrid" Grid.Column="0" Grid.Row="2"
-              Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0"
-                           Text="Legend"
-                           Margin="5,5,0,0" TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}" />
-            <Button Grid.Column="1" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5">
-                <BitmapIcon UriSource="Assets/Calcite/folder-open-32.png"
-                                Width="15" Height="15"/>
-            </Button>
-            <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30" Margin="5">
-                <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="15" Height="15"/>
-            </Button>
-        </Grid>
 
         <!-- Progress indicator for when identify is in progress -->
         <ProgressBar 
