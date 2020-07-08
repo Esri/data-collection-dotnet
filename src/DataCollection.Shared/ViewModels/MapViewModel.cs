@@ -26,6 +26,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Esri.ArcGISRuntime.Geometry;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
@@ -151,6 +152,28 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                             AreaOfInterest = new Viewpoint(_lastLocation?.Position, _defaultZoomScale);
                     }));
             }
+        }
+
+        private ICommand _zoomInCommand;
+
+        public ICommand ZoomInCommand
+        {
+            get => _zoomInCommand ?? (_zoomInCommand = new DelegateCommand((x) =>
+            {
+                if (AreaOfInterest != null)
+                    AreaOfInterest = new Viewpoint(AreaOfInterest.TargetGeometry.Extent.GetCenter(), AreaOfInterest.TargetScale - AreaOfInterest.TargetScale * .4);
+            }));
+        }
+
+        private ICommand _zoomOutCommand;
+
+        public ICommand ZoomOutCommand
+        {
+            get => _zoomOutCommand ?? (_zoomOutCommand = new DelegateCommand((x) =>
+            {
+                if (AreaOfInterest != null)
+                    AreaOfInterest = new Viewpoint(AreaOfInterest.TargetGeometry.Extent.GetCenter(), AreaOfInterest.TargetScale + AreaOfInterest.TargetScale * .4);
+            }));
         }
 
         /// <summary>

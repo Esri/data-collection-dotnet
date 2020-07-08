@@ -149,7 +149,10 @@
                                   Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Image Source="{Binding TopCard.Icon}" Width="15" Height="15"
@@ -157,7 +160,12 @@
                                        VerticalAlignment="Center" HorizontalAlignment="Center"
                                        />
                                 <TextBlock Text="{Binding TopCard.Title}" VerticalAlignment="Center" Grid.Column="1" Margin="0" />
-                                <Button Command="{Binding TopCard.CloseCommand}" Grid.Column="2" Content="{TemplateBinding CloseButtonContent}" />
+
+                                <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="5">
+                                    <Button Width="30" Height="30">&lt;</Button>
+                                    <Button Width="30" Height="30">&gt;</Button>
+                                </StackPanel>
+                                <Button Command="{Binding TopCard.CloseCommand}" Grid.Column="5" Content="{TemplateBinding CloseButtonContent}" />
                             </Grid>
                             <Grid x:Name="CardContentAreaContainer" 
                                   Background="{TemplateBinding CardBackgroundBrush}"

@@ -76,6 +76,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
 
                 if (value != null)
                 {
+                    SetValue(ViewpointProperty, value.GetCurrentViewpoint(ViewpointType.CenterAndScale));
                     value.ViewpointChanged += MapView_ViewpointChanged;
                 }
             }

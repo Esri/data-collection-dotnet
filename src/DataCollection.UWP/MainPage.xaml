@@ -109,12 +109,14 @@
                 </customcontrols:MapOverlayCard>
                 <customcontrols:MapOverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
                                                CloseCommand="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
+                                               Icon="Assets/Calcite/camera-32.png"
                                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
                     <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                                 Grid.Row="1" Grid.ColumnSpan="3" />
                 </customcontrols:MapOverlayCard>
                 <customcontrols:MapOverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
                                                CloseCommand="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
+                                               Icon="Assets/Calcite/camera-32.png"
                                                IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
                     <ScrollViewer>
                         <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
@@ -127,6 +129,7 @@
                     <toolkit:BookmarksView GeoView="{x:Bind MapView, Mode=OneWay}" />
                 </customcontrols:MapOverlayCard>
                 <customcontrols:MapOverlayCard Title="Basemaps"
+                                               Icon="Assets/Calcite/basemap-32.png"
                                                CloseCommand="{x:Bind MainViewModel.AccessoryViewModel.CloseBasemapsCommand, Mode=OneWay}"
                                                IsOpen="{x:Bind MainViewModel.AccessoryViewModel.IsBasemapsOpen, Mode=OneWay, FallbackValue=False}">
                     <Grid>
@@ -172,14 +175,14 @@
             </customcontrols:FloatingMapOverlay.Cards>
             <customcontrols:FloatingMapOverlay.AccessoryButtons>
                 <customcontrols:ButtonGroup Background="{ThemeResource SystemControlAcrylicElementBrush}">
-                    <Button>
+                    <toolkit:Compass GeoView="{x:Bind MapView, Mode=OneWay}" AutoHide="False" Margin="0,5,0,0" Width="25" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Button Command="{x:Bind MainViewModel.MapViewModel.ZoomInCommand, Mode=OneWay}">
                         <BitmapIcon UriSource="Assets/Calcite/magnifying-glass-plus-16.png" />
                     </Button>
-
-                    <Button>
+                    <Button Command="{x:Bind MainViewModel.MapViewModel.ZoomOutCommand, Mode=OneWay}">
                         <BitmapIcon UriSource="Assets/Calcite/magnifying-glass-minus-16.png" ShowAsMonochrome="True" />
                     </Button>
-                    <Button>
+                    <Button Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}">
                         <BitmapIcon UriSource="Assets/Calcite/gps-on-32.png" ShowAsMonochrome="True" />
                     </Button>
                 </customcontrols:ButtonGroup>
