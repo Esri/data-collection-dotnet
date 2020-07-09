@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>994d253e-4bd4-4699-8e24-d6e2ec18a74b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Cards\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Tabs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\AttachPosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\LayoutRole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\MapLayoutPanel.cs" />
+  </ItemGroup>
+</Project>
