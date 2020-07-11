@@ -9,12 +9,13 @@
     <Import_RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Cards\" />
     <Folder Include="$(MSBuildThisFileDirectory)Tabs\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cards\OverlayCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Panels\AttachPosition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Panels\LayoutRole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Panels\MapLayoutPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\ResponsiveValueConverter.cs" />
   </ItemGroup>
 </Project>

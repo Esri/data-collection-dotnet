@@ -110,39 +110,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
         public static readonly DependencyProperty AttachPositionProperty =
             DependencyProperty.RegisterAttached(nameof(AttachPosition), typeof(AttachPosition), typeof(MapLayoutPanel), new PropertyMetadata(AttachPosition.Unspecified));
 
-
-
-        public static Thickness GetMarginWhenCollapsed(DependencyObject obj)
+        public bool IsCollapsed
         {
-            return (Thickness)obj.GetValue(MarginWhenCollapsedProperty);
+            get { return (bool)GetValue(IsCollapsedProperty); }
+            set { SetValue(IsCollapsedProperty, value); }
         }
 
-        public static void SetMarginWhenCollapsed(DependencyObject obj, Thickness value)
-        {
-            obj.SetValue(MarginWhenCollapsedProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for MarginWhenCollapsed.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MarginWhenCollapsedProperty =
-            DependencyProperty.RegisterAttached("MarginWhenCollapsed", typeof(Thickness), typeof(MapLayoutPanel), new PropertyMetadata(new Thickness(0)));
-
-
-
-        public static Thickness GetMarginWhenExpanded(DependencyObject obj)
-        {
-            return (Thickness)obj.GetValue(MarginWhenExpandedProperty);
-        }
-
-        public static void SetMarginWhenExpanded(DependencyObject obj, Thickness value)
-        {
-            obj.SetValue(MarginWhenExpandedProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for MarginWhenExpanded.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MarginWhenExpandedProperty =
-            DependencyProperty.RegisterAttached("MarginWhenExpanded", typeof(Thickness), typeof(MapLayoutPanel), new PropertyMetadata(new Thickness(5)));
-
-
+        // Using a DependencyProperty as the backing store for IsCollapsed.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCollapsedProperty =
+            DependencyProperty.Register(nameof(IsCollapsed), typeof(bool), typeof(MapLayoutPanel), new PropertyMetadata(false));
 
         protected override Size MeasureOverride(Size availableSize)
         {
@@ -159,6 +135,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
             // offsets used to arrange panels when multiple children of the same type present
             Dictionary<AttachPosition, double> offsets_x = new Dictionary<AttachPosition, double>();
             Dictionary<AttachPosition, double> offsets_y = new Dictionary<AttachPosition, double>();
+
+            IsCollapsed = finalSize.Width < (double)GetValue(WidthBreakpointProperty);
 
             double totalPanelWidth = 0;
             // initial measurement round for use later
@@ -189,7 +167,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                     offsets_x[AttachPosition.BottomLeft] = 0;
                                     offsets_y[AttachPosition.BottomLeft] = 0;
                                     // TODO - account for hidden panel
-                                    if (finalSize.Width < (double)GetValue(WidthBreakpointProperty))
+                                    if (IsCollapsed)
                                     {
                                         offsets_y[AttachPosition.BottomLeft] = (double)GetValue(CollapsedPanelHeightProperty);
                                     }
@@ -207,7 +185,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                     offsets_x[AttachPosition.BottomRight] = 0;
                                     offsets_y[AttachPosition.BottomRight] = 0;
                                     // TODO - account for hidden panel
-                                    if (finalSize.Width < (double)GetValue(WidthBreakpointProperty))
+                                    if (IsCollapsed)
                                     {
                                         offsets_y[AttachPosition.BottomRight] = (double)GetValue(CollapsedPanelHeightProperty);
                                     }
@@ -221,7 +199,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                     offsets_x[AttachPosition.TopLeft] = 0;
                                     offsets_y[AttachPosition.TopLeft] = 0;
                                     // TODO - account for hidden panel
-                                    if (finalSize.Width < (double)GetValue(WidthBreakpointProperty))
+                                    if (IsCollapsed)
                                     {
                                         
                                     }
@@ -249,13 +227,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                     case LayoutRole.FloatingSheet:
                         FrameworkElement feChild = child as FrameworkElement;
 
-                        if (finalSize.Width < (double)GetValue(WidthBreakpointProperty))
+                        if (IsCollapsed)
                         {
                             if (feChild != null)
                             {
                                 feChild.HorizontalAlignment = HorizontalAlignment.Stretch;
                                 feChild.Width = double.NaN;
-                                feChild.Margin = GetMarginWhenCollapsed(feChild);
                             }
                             var collapsedHeight = (double)GetValue(CollapsedPanelHeightProperty);
                             child.Arrange(new Rect(0, finalSize.Height - collapsedHeight - child.DesiredSize.Height, finalSize.Width, collapsedHeight));
@@ -266,7 +243,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                             {
                                 feChild.HorizontalAlignment = HorizontalAlignment.Stretch;
                                 feChild.Width = (double)GetValue(FloatingSheetWidthWhenExpandedProperty);
-                                feChild.Margin = GetMarginWhenExpanded(feChild);
                             }
                             
                             child.Arrange(new Rect(0, 0, child.DesiredSize.Width, finalSize.Height));

@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Cards\" />
     <Folder Include="Tabs\" />
     <Folder Include="Panels\" />
   </ItemGroup>

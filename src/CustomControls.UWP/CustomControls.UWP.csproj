@@ -129,13 +129,16 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Cards\OverlayCard.Theme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Cards\" />
     <Folder Include="Panels\" />
     <Folder Include="Tabs\" />
   </ItemGroup>
