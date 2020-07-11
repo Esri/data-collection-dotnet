@@ -81,7 +81,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         public ObservableCollection<UIElement> BottomAccessories
         {
             get { return (ObservableCollection<UIElement>)GetValue(BottomAccessoriesProperty); }
-            private set { SetValue(BottomAccessoriesProperty, value); }
+            set { SetValue(BottomAccessoriesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for BottomAccessories.  This enables animation, styling, binding, etc...
@@ -94,7 +94,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         public ObservableCollection<UIElement> TopAccessories
         {
             get { return (ObservableCollection<UIElement>)GetValue(TopAccessoriesProperty); }
-            private set { SetValue(TopAccessoriesProperty, value); }
+            set { SetValue(TopAccessoriesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for TopAccessories.  This enables animation, styling, binding, etc...
