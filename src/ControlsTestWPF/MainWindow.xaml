@@ -26,7 +26,8 @@
         </controls:MapView>
         <cards:OverlayCard Background="White" 
                 Margin="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|5,5,5,25'}"
-                BorderBrush="Purple" BorderThickness="5" CornerRadius="5"
+                CornerRadius="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='5,5,0,0|5'}"
+                BorderBrush="Purple" BorderThickness="5"
                 panels:MapLayoutPanel.LayoutRole="FloatingSheet"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
