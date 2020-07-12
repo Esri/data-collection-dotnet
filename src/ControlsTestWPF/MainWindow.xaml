@@ -24,22 +24,30 @@
         <controls:MapView x:Name="MyMapView" panels:MapLayoutPanel.LayoutRole="BackgroundView">
 
         </controls:MapView>
-        <cards:OverlayCard Background="White" 
+        <cards:CardPresenter panels:MapLayoutPanel.LayoutRole="FloatingSheet">
+            <cards:CardPresenter.Cards>
+                <cards:OverlayCard Background="Purple" Title="Bottom" />
+                <cards:OverlayCard Background="Orange"
+                               Title="Behind">
+                    <TextBlock Text="Behind" />
+                </cards:OverlayCard>
+                <cards:OverlayCard Background="White" 
                 Margin="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|5,5,5,25'}"
                 CornerRadius="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='5,5,0,0|5'}"
                 BorderBrush="Purple" BorderThickness="5"
-                panels:MapLayoutPanel.LayoutRole="FloatingSheet"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-            <cards:OverlayCard.BottomAccessories>
-                <Button>X</Button>
-                <Button>Y</Button>
-            </cards:OverlayCard.BottomAccessories>
-            <cards:OverlayCard.TopAccessories>
-                <Button>X</Button>
-            </cards:OverlayCard.TopAccessories>
-            <TextBlock Text="Red" />
-        </cards:OverlayCard>
+                    <cards:OverlayCard.BottomAccessories>
+                        <Button>X</Button>
+                        <Button>Y</Button>
+                    </cards:OverlayCard.BottomAccessories>
+                    <cards:OverlayCard.TopAccessories>
+                        <Button>X</Button>
+                    </cards:OverlayCard.TopAccessories>
+                    <TextBlock Text="Red" />
+                </cards:OverlayCard>
+            </cards:CardPresenter.Cards>
+        </cards:CardPresenter>
         <Border Background="Orange" CornerRadius="5"
                 Margin="5"
                 panels:MapLayoutPanel.LayoutRole="FloatingAccessory"

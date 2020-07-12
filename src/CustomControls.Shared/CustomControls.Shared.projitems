@@ -12,6 +12,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Tabs\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cards\CardPresenter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cards\OverlayCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Panels\AttachPosition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Panels\LayoutRole.cs" />

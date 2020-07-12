@@ -129,6 +129,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Cards\CardPresenter.Theme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Cards\OverlayCard.Theme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
