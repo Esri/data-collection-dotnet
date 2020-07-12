@@ -235,7 +235,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                 feChild.Width = double.NaN;
                             }
                             var collapsedHeight = (double)GetValue(CollapsedPanelHeightProperty);
-                            child.Arrange(new Rect(0, finalSize.Height - collapsedHeight - child.DesiredSize.Height, finalSize.Width, collapsedHeight));
+                            child.Arrange(new Rect(0, finalSize.Height - collapsedHeight, finalSize.Width, collapsedHeight));
                         }
                         else
                         {
