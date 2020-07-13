@@ -26,7 +26,9 @@
         </controls:MapView>
         <cards:CardPresenter panels:MapLayoutPanel.LayoutRole="FloatingSheet">
             <cards:CardPresenter.Cards>
-                <cards:OverlayCard Background="Purple" Title="Bottom" />
+                <cards:OverlayCard Background="Purple" Title="Bottom">
+                    <Slider />
+                </cards:OverlayCard>
                 <cards:OverlayCard Background="Orange"
                                Title="Behind">
                     <TextBlock Text="Behind" />

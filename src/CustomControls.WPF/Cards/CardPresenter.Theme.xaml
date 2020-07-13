@@ -10,6 +10,16 @@
                 </Style>
             </Setter.Value>
         </Setter>
+        <Setter Property="NavigationItemTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type local:OverlayCard}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding IconSource}" />
+                        <TextBlock Text="{Binding Title}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -23,15 +33,8 @@
 
                         <Grid Grid.Row="0" Style="{TemplateBinding NavigationBarStyle}"
                               Visibility="{TemplateBinding NavigationVisibility}">
-                            <ItemsControl ItemsSource="{TemplateBinding NavigationStackCards}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type local:OverlayCard}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding IconSource}" />
-                                            <TextBlock Text="{Binding Title}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
+                            <ItemsControl ItemsSource="{TemplateBinding NavigationStackCards}"
+                                          ItemTemplate="{TemplateBinding NavigationItemTemplate}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal" />

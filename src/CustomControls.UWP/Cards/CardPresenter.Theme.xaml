@@ -10,6 +10,15 @@
                 </Style>
             </Setter.Value>
         </Setter>
+        <Setter Property="NavigationItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CardPresenter">
@@ -21,15 +30,8 @@
 
                         <Grid Grid.Row="0" Style="{TemplateBinding NavigationBarStyle}"
                               Visibility="{TemplateBinding NavigationVisibility}">
-                            <ItemsControl ItemsSource="{TemplateBinding NavigationStackCards}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding IconSource}" />
-                                            <TextBlock Text="{Binding Title}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
+                            <ItemsControl ItemsSource="{TemplateBinding NavigationStackCards}"
+                                          ItemTemplate="{TemplateBinding NavigationItemTemplate}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal" />

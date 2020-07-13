@@ -145,5 +145,19 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         // Using a DependencyProperty as the backing store for NavigationBarStyle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NavigationBarStyleProperty =
             DependencyProperty.Register("NavigationBarStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
+
+
+
+        public DataTemplate NavigationItemTemplate
+        {
+            get { return (DataTemplate)GetValue(NavigationItemTemplateProperty); }
+            set { SetValue(NavigationItemTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for NavigationItemTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NavigationItemTemplateProperty =
+            DependencyProperty.Register("NavigationItemTemplate", typeof(DataTemplate), typeof(CardPresenter), new PropertyMetadata(null));
+
+
     }
 }
