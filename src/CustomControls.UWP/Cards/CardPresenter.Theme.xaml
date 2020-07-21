@@ -3,44 +3,136 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards">
     <Style TargetType="local:CardPresenter">
-        <Setter Property="NavigationBarStyle">
+        <Setter Property="TopBarStyle">
             <Setter.Value>
-                <Style TargetType="Grid">
-                    <Setter Property="Background" Value="Gray" />
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="#a29bfe" />
+                    <Setter Property="CornerRadius" Value="5,5,0,0" />
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="NavigationItemTemplate">
+        <Setter Property="TitleTextStyle">
             <Setter.Value>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Title}" />
-                    </StackPanel>
-                </DataTemplate>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="FontSize" Value="18" />
+                    <Setter Property="Foreground" Value="#2d3436" />
+                </Style>
             </Setter.Value>
         </Setter>
+        <Setter Property="BottomBarStyle">
+            <Setter.Value>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="#6c5ce7" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SubtitleBarStyle">
+            <Setter.Value>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="#dfe6e9" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SubtitleTextStyle">
+            <Setter.Value>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Foreground" Value="#00b894" />
+                    <Setter Property="Margin" Value="5" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderThickness" Value="1,0,1,1" />
+        <Setter Property="BorderBrush" Value="#2d3436" />
+        <!-- default values for ease of use -->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CardPresenter">
-                    <Grid Visibility="{TemplateBinding PresenterVisibility}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                            MaxHeight="{TemplateBinding MaxHeight}" MaxWidth="{TemplateBinding MaxWidth}"
+                            DataContext="{TemplateBinding Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <!-- Title bar with accessory area -->
+                            <Border Grid.Row="0"
+                                    Style="{TemplateBinding TopBarStyle}">
+                              <Grid Grid.Row="0"
+                                  Height="40">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Title, Mode=OneWay}"
+                                           Margin="5"
+                                           Style="{TemplateBinding TitleTextStyle}"
+                                           />
+                                <ItemsControl Grid.Column="2" 
+                                              ItemsSource="{Binding TopAccessories, Mode=OneWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Grid>
+  
+                            </Border>
+                            <!-- Subtitle bar -->
+                            <Border Grid.Row="1" Style="{TemplateBinding SubtitleBarStyle}">
+                                 <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Row="0" Style="{TemplateBinding NavigationBarStyle}"
-                              Visibility="{TemplateBinding NavigationVisibility}">
-                            <ItemsControl ItemsSource="{TemplateBinding NavigationStackCards}"
-                                          ItemTemplate="{TemplateBinding NavigationItemTemplate}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
+                                    <TextBlock Grid.Column="0"
+                                               Margin="5"
+                                               Text="{Binding PrimarySubtitle, Mode=OneWay}"
+                                               Style="{TemplateBinding SubtitleTextStyle}"
+                                               />
+                                    <TextBlock Grid.Column="2"
+                                               Margin="5"
+                                               Text="{Binding SecondarySubtitle, Mode=OneWay}"
+                                               HorizontalAlignment="Right"
+                                               Style="{TemplateBinding SubtitleTextStyle}"/>
+                                </Grid>
+                                
+                            </Border>
+                           
+                            <!-- Content bar -->
+                            <Border Background="{TemplateBinding Background}" Grid.Row="2">
+                                <ContentPresenter Content="{Binding Content, Mode=OneWay}"
+                                                  Margin="{TemplateBinding Padding}" />
+                            </Border>
+                            <!-- Accessory area -->
+                            <Border Grid.Row="3" Style="{TemplateBinding BottomBarStyle}">
+                                 <Grid>
+                                    <ItemsControl ItemsSource="{Binding BottomAccessories, Mode=OneWay}">
+                                        <ItemsControl.ItemsPanel>
+                                            <!-- Todo make this customizable -->
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </Grid>
+                            </Border>
                         </Grid>
-                        <ContentPresenter Content="{TemplateBinding TopChild}" Grid.Row="1" />
-                    </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

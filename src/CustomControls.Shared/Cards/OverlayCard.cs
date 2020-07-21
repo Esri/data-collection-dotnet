@@ -8,23 +8,28 @@ using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Markup;
 #endif
 
 #if __WPF__
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Controls;
+using System.ComponentModel;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
 {
-    public class OverlayCard : ContentControl
+#if __WPF__
+    [ContentProperty(nameof(Content))]
+#elif __UWP__
+    [ContentProperty(Name = nameof(Content))]
+#endif
+    public class OverlayCard : DependencyObject
     {
-
         public OverlayCard() : base()
         {
-            DefaultStyleKey = typeof(OverlayCard);
-
             BottomAccessories = new ObservableCollection<UIElement>();
             TopAccessories = new ObservableCollection<UIElement>();
         }
@@ -37,9 +42,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
 
         // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register(nameof(Title), typeof(string), typeof(OverlayCard), new PropertyMetadata(null));
-
-
+            DependencyProperty.Register(nameof(Title), typeof(string), typeof(OverlayCard), new PropertyMetadata(string.Empty));
 
         public ImageSource IconSource
         {
@@ -51,8 +54,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         public static readonly DependencyProperty IconSourceProperty =
             DependencyProperty.Register(nameof(IconSource), typeof(ImageSource), typeof(OverlayCard), new PropertyMetadata(null));
 
-
-
         public string PrimarySubtitle
         {
             get { return (string)GetValue(PrimarySubtitleProperty); }
@@ -62,9 +63,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         // Using a DependencyProperty as the backing store for PrimarySubtitle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PrimarySubtitleProperty =
             DependencyProperty.Register(nameof(PrimarySubtitle), typeof(string), typeof(OverlayCard), new PropertyMetadata(null));
-
-
-
 
         public string SecondarySubtitle
         {
@@ -76,8 +74,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         public static readonly DependencyProperty SecondarySubtitleProperty =
             DependencyProperty.Register(nameof(SecondarySubtitle), typeof(string), typeof(OverlayCard), new PropertyMetadata(null));
 
-
-
         public ObservableCollection<UIElement> BottomAccessories
         {
             get { return (ObservableCollection<UIElement>)GetValue(BottomAccessoriesProperty); }
@@ -87,9 +83,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         // Using a DependencyProperty as the backing store for BottomAccessories.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BottomAccessoriesProperty =
             DependencyProperty.Register(nameof(BottomAccessories), typeof(ObservableCollection<UIElement>), typeof(OverlayCard), new PropertyMetadata(null));
-
-
-
 
         public ObservableCollection<UIElement> TopAccessories
         {
@@ -101,100 +94,36 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         public static readonly DependencyProperty TopAccessoriesProperty =
             DependencyProperty.Register(nameof(TopAccessories), typeof(ObservableCollection<UIElement>), typeof(OverlayCard), new PropertyMetadata(null));
 
-
-
-        public Brush BarBackground
+        public object Content
         {
-            get { return (Brush)GetValue(BarBackgroundProperty); }
-            set { SetValue(BarBackgroundProperty, value); }
+            get { return (object)GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for BarBackground.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty BarBackgroundProperty =
-            DependencyProperty.Register(nameof(BarBackground), typeof(Brush), typeof(OverlayCard), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ContentProperty =
+            DependencyProperty.Register("Content", typeof(object), typeof(OverlayCard), new PropertyMetadata(null));
 
-
-#if __WPF__
-        // TODO figure out hiding base member warning
-        public CornerRadius CornerRadius
+        public bool IsOpen
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            get { return (bool)GetValue(IsOpenProperty); }
+            set { SetValue(IsOpenProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(OverlayCard), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for IsOpIsOpen.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsOpenProperty =
+            DependencyProperty.Register("IsOpIsOpen", typeof(bool), typeof(OverlayCard), new PropertyMetadata(true, HandleIsOpenChanged));
 
-#elif __UWP__
-        // NOTE: this is primarily necessary because some supported UWP versions support corner radius, others don't.
-        // Dependency property is conditionally registered in a static constructor above
-        // TODO: test on old windows and determine if this is actually working
-
-        public CornerRadius CornerRadiusCompat
+        private static void HandleIsOpenChanged(DependencyObject overlayCard, DependencyPropertyChangedEventArgs dpcea)
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            (overlayCard as OverlayCard)?.OnStateChanged();
         }
 
-        public static readonly DependencyProperty CornerRadiusProperty;
-
-        static OverlayCard()
+        internal void OnStateChanged()
         {
-            if (!Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent(nameof(ContentControl), nameof(CornerRadius))){
-                CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(OverlayCard), new PropertyMetadata(null));
-            }
-        }
-#endif
-
-
-        public double PrimaryBarHeight
-        {
-            get { return (double)GetValue(PrimaryBarHeightProperty); }
-            set { SetValue(PrimaryBarHeightProperty, value); }
+            IsOpenChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        // Using a DependencyProperty as the backing store for PrimaryBarHeight.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PrimaryBarHeightProperty =
-            DependencyProperty.Register("PrimaryBarHeight", typeof(double), typeof(OverlayCard), new PropertyMetadata(40.0));
-
-
-
-        public double SecondaryBarHeight
-        {
-            get { return (double)GetValue(SecondaryBarHeightProperty); }
-            set { SetValue(SecondaryBarHeightProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SecondaryBarHeight.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SecondaryBarHeightProperty =
-            DependencyProperty.Register("SecondaryBarHeight", typeof(double), typeof(OverlayCard), new PropertyMetadata(30.0));
-
-
-
-        public Style TitleTextStyle
-        {
-            get { return (Style)GetValue(TitleTextStyleProperty); }
-            set { SetValue(TitleTextStyleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for TitleTextStyle.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TitleTextStyleProperty =
-            DependencyProperty.Register("TitleTextStyle", typeof(Style), typeof(OverlayCard), new PropertyMetadata(null));
-
-
-
-
-        public Style SubtitleTextStyle
-        {
-            get { return (Style)GetValue(SubtitleTextStyleProperty); }
-            set { SetValue(SubtitleTextStyleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SubtitleTextStyle.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SubtitleTextStyleProperty =
-            DependencyProperty.Register("SubtitleTextStyle", typeof(Style), typeof(OverlayCard), new PropertyMetadata(null));
-
-
+        public event EventHandler<EventArgs> IsOpenChanged;
     }
 }

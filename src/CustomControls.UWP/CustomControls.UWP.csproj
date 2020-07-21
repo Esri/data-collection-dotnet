@@ -129,11 +129,11 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Cards\CardPresenter.Theme.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Cards\CardDeck.Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Cards\OverlayCard.Theme.xaml">
+    <Page Include="Cards\CardPresenter.Theme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

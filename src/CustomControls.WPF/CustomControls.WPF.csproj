@@ -27,6 +27,12 @@
     <Folder Include="Panels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Cards\CardDeck.Theme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
   <Import Project="..\CustomControls.Shared\CustomControls.Shared.projitems" Label="Shared" />
 
 </Project>

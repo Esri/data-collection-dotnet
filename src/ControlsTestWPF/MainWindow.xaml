@@ -24,21 +24,15 @@
         <controls:MapView x:Name="MyMapView" panels:MapLayoutPanel.LayoutRole="BackgroundView">
 
         </controls:MapView>
-        <cards:CardPresenter panels:MapLayoutPanel.LayoutRole="FloatingSheet">
-            <cards:CardPresenter.Cards>
-                <cards:OverlayCard Background="Purple" Title="Bottom">
-                    <Slider />
+        <cards:CardDeck HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Margin="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|5,5,5,25'}"
+                        CardCornerRadius="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='5,5,0,0|5'}"
+                        panels:MapLayoutPanel.LayoutRole="FloatingSheet">
+            <cards:CardDeck.Cards>
+                <cards:OverlayCard Title="Behind" IsOpen="False">
+                    
                 </cards:OverlayCard>
-                <cards:OverlayCard Background="Orange"
-                               Title="Behind">
-                    <TextBlock Text="Behind" />
-                </cards:OverlayCard>
-                <cards:OverlayCard Background="White" 
-                Margin="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|5,5,5,25'}"
-                CornerRadius="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='5,5,0,0|5'}"
-                BorderBrush="Purple" BorderThickness="5"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
+                <cards:OverlayCard Title="Titlssse" IsOpen="True">
                     <cards:OverlayCard.BottomAccessories>
                         <Button>X</Button>
                         <Button>Y</Button>
@@ -46,10 +40,23 @@
                     <cards:OverlayCard.TopAccessories>
                         <Button>X</Button>
                     </cards:OverlayCard.TopAccessories>
-                    <TextBlock Text="Red" />
+                    <TextBox x:Name="MainTextBox" Text="xxxx" />
                 </cards:OverlayCard>
-            </cards:CardPresenter.Cards>
-        </cards:CardPresenter>
+                <cards:OverlayCard Title="Title" PrimarySubtitle="Subtitle 1" SecondarySubtitle="Subtitle 2">
+                    <cards:OverlayCard.BottomAccessories>
+                        <Button>X</Button>
+                        <Button>Y</Button>
+                    </cards:OverlayCard.BottomAccessories>
+                    <cards:OverlayCard.TopAccessories>
+                        <Button>X</Button>
+                    </cards:OverlayCard.TopAccessories>
+                    <cards:OverlayCard.Content>
+                        <TextBlock Text="xxx" />
+                    </cards:OverlayCard.Content>
+                </cards:OverlayCard>
+            </cards:CardDeck.Cards>
+        </cards:CardDeck>
+
         <Border Background="Orange" CornerRadius="5"
                 Margin="5"
                 panels:MapLayoutPanel.LayoutRole="FloatingAccessory"
