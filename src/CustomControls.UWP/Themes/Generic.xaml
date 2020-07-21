@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls/Cards/OverlayCard.Theme.xaml" />
         <ResourceDictionary Source="ms-appx:///Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls/Cards/CardPresenter.Theme.xaml" />
+        <ResourceDictionary Source="ms-appx:///Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls/Cards/CardDeck.Theme.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

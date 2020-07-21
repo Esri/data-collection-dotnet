@@ -20,30 +20,23 @@
 
     <panels:MapLayoutPanel x:Name="Parent" WidthBreakpoint="600">
         <controls:MapView x:Name="MyMapView" panels:MapLayoutPanel.LayoutRole="BackgroundView" />
-        <cards:CardPresenter panels:MapLayoutPanel.LayoutRole="FloatingSheet">
-            <cards:CardPresenter.Cards>
-                <cards:OverlayCard Title="Bottom">
-                    <Slider />
+        <cards:CardDeck HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Margin="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,5,0,0|5,5,5,25'}"
+                        CardCornerRadius="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='5,5,0,0|5'}"
+                        panels:MapLayoutPanel.LayoutRole="FloatingSheet">
+            <cards:CardDeck.Cards>
+                <cards:OverlayCard Title="Middle" />
+                <cards:OverlayCard Title="Title" IconSource="Assets/Square44x44Logo.scale-200.png" PrimarySubtitle="Subtitle" SecondarySubtitle="Subtitle9">
+                    <cards:OverlayCard.BottomAccessories>
+                        <Button>X</Button>
+                        <Button>Y</Button>
+                    </cards:OverlayCard.BottomAccessories>
+                    <cards:OverlayCard.TopAccessories>
+                        <Button>X</Button>
+                    </cards:OverlayCard.TopAccessories>
                 </cards:OverlayCard>
-                <cards:OverlayCard Title="Behind">
-                    <RatingControl />
-                </cards:OverlayCard>
-                <cards:OverlayCard Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" 
-                Margin="{Binding Path=IsCollapsed, ElementName=Parent, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|5,5,5,25'}"
-                BorderBrush="Purple" BorderThickness="5"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
-                <cards:OverlayCard.BottomAccessories>
-                    <Button>X</Button>
-                    <Button>Y</Button>
-                </cards:OverlayCard.BottomAccessories>
-                <cards:OverlayCard.TopAccessories>
-                    <Button>X</Button>
-                </cards:OverlayCard.TopAccessories>
-                <TextBlock Text="Red" />
-            </cards:OverlayCard>
-            </cards:CardPresenter.Cards>
-        </cards:CardPresenter>
+            </cards:CardDeck.Cards>
+        </cards:CardDeck>
         <Border Background="Orange" CornerRadius="5"
                 Margin="5"
                 panels:MapLayoutPanel.LayoutRole="FloatingAccessory"

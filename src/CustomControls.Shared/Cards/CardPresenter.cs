@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text;
-using System.Linq;
 
 
-#if __UWP__
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml;
-#elif __WPF__
-using System.Windows.Controls;
+#if __WPF__
+
 using System.Windows;
-using System.Windows.Markup;
+using System.Windows.Controls;
+#elif __UWP__
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
@@ -22,141 +19,113 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         public CardPresenter() : base()
         {
             DefaultStyleKey = typeof(CardPresenter);
-            Cards = new ObservableCollection<OverlayCard>();
-            NavigationStackCards = new ObservableCollection<OverlayCard>();
-
-            Cards.CollectionChanged += Cards_CollectionChanged;
-            this.Unloaded += CardPresenter_Unloaded;
         }
 
-        private void CardPresenter_Unloaded(object sender, RoutedEventArgs e)
+        public OverlayCard Card
         {
-            foreach(var card in Cards)
+            get { return (OverlayCard)GetValue(CardProperty); }
+            set { SetValue(CardProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Card.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CardProperty =
+            DependencyProperty.Register("Card", typeof(OverlayCard), typeof(CardPresenter), new PropertyMetadata(null));
+ #if __WPF__
+        // TODO figure out hiding base member warning
+        public CornerRadius CornerRadius
+        {
+            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CornerRadius.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(CardPresenter), new PropertyMetadata(new CornerRadius(0)));
+
+#elif __UWP__
+        // NOTE: this is primarily necessary because some supported UWP versions support corner radius, others don't.
+        // Dependency property is conditionally registered in a static constructor above
+        // TODO: test on old windows and determine if this is actually working
+
+        public CornerRadius CornerRadiusCompat
+        {
+            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
+
+        public static readonly DependencyProperty CornerRadiusProperty;
+
+        static CardPresenter()
+        {
+            if (!Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent(nameof(ContentControl), nameof(CornerRadius)))
             {
-                card.IsEnabledChanged -= Item_IsEnabledChanged;
+                CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(CardPresenter), new PropertyMetadata(null));
             }
-            Cards.CollectionChanged -= Cards_CollectionChanged;
-            // TODO - is this needed?
-            this.Unloaded -= CardPresenter_Unloaded;
         }
+#endif
 
-        private void Cards_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+
+
+        public Style TopBarStyle
         {
-            if (e.OldItems?.Count != null && e.OldItems.Count > 0)
-            {
-                foreach (var item in e.OldItems.OfType<OverlayCard>())
-                {
-                    item.IsEnabledChanged -= Item_IsEnabledChanged;
-                }
-
-            }
-            if (e.NewItems?.Count != null && e.NewItems.Count > 0)
-            {
-                foreach (var item in e.NewItems.OfType<OverlayCard>())
-                {
-                    item.IsEnabledChanged += Item_IsEnabledChanged;
-                }
-            }
-            UpdateProperties();
+            get { return (Style)GetValue(TopBarStyleProperty); }
+            set { SetValue(TopBarStyleProperty, value); }
         }
 
-        private void Item_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        // Using a DependencyProperty as the backing store for TopBarStyle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TopBarStyleProperty =
+            DependencyProperty.Register("TopBarStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
+
+
+
+        public Style SubtitleBarStyle
         {
-            UpdateProperties();
+            get { return (Style)GetValue(SubtitleBarStyleProperty); }
+            set { SetValue(SubtitleBarStyleProperty, value); }
         }
 
-        private void UpdateProperties()
+        // Using a DependencyProperty as the backing store for SubtitleBarStyle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SubtitleBarStyleProperty =
+            DependencyProperty.Register("SubtitleBarStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
+
+
+
+
+        public Style BottomBarStyle
         {
-            TopChild = Cards.Where(card => card.IsEnabled).LastOrDefault();
-            var visibleCards = Cards.Where(card => card.IsEnabled);
-            var navCards = visibleCards.Take(visibleCards.Count() - 1);
-
-            // TODO - be smarter about this.
-            NavigationStackCards.Clear();
-            foreach(var card in navCards)
-            {
-                NavigationStackCards.Add(card);
-            }
-
-            PresenterVisibility = TopChild != null ? Visibility.Visible : Visibility.Collapsed;
-            NavigationVisibility = NavigationStackCards.Any() ? Visibility.Visible : Visibility.Collapsed;
+            get { return (Style)GetValue(BottomBarStyleProperty); }
+            set { SetValue(BottomBarStyleProperty, value); }
         }
 
-        public ObservableCollection<OverlayCard> Cards
+        // Using a DependencyProperty as the backing store for BottomBarStyle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BottomBarStyleProperty =
+            DependencyProperty.Register("BottomBarStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
+
+
+
+        public Style TitleTextStyle
         {
-            get { return (ObservableCollection<OverlayCard>)GetValue(CardsProperty); }
-            set { SetValue(CardsProperty, value); }
+            get { return (Style)GetValue(TitleTextStyleProperty); }
+            set { SetValue(TitleTextStyleProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Cards.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CardsProperty =
-            DependencyProperty.Register("Cards", typeof(ObservableCollection<OverlayCard>), typeof(CardPresenter), new PropertyMetadata(new ObservableCollection<OverlayCard>()));
+        // Using a DependencyProperty as the backing store for TitleTextStyle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TitleTextStyleProperty =
+            DependencyProperty.Register("TitleTextStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
 
-        public OverlayCard TopChild
+
+
+
+        public Style SubtitleTextStyle
         {
-            get { return (OverlayCard)GetValue(TopChildProperty); }
-            set { SetValue(TopChildProperty, value); }
+            get { return (Style)GetValue(SubtitleTextStyleProperty); }
+            set { SetValue(SubtitleTextStyleProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TopChild.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TopChildProperty =
-            DependencyProperty.Register("TopChild", typeof(OverlayCard), typeof(CardPresenter), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for SubtitleTextStyle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SubtitleTextStyleProperty =
+            DependencyProperty.Register("SubtitleTextStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
 
-        public ObservableCollection<OverlayCard> NavigationStackCards
-        {
-            get { return (ObservableCollection<OverlayCard>)GetValue(NavigationStackCardsProperty); }
-            set { SetValue(NavigationStackCardsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for NavigationStackCards.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NavigationStackCardsProperty =
-            DependencyProperty.Register("NavigationStackCards", typeof(ObservableCollection<OverlayCard>), typeof(CardPresenter), new PropertyMetadata(new ObservableCollection<OverlayCard>()));
-
-        public Visibility PresenterVisibility
-        {
-            get { return (Visibility)GetValue(PresenterVisibilityProperty); }
-            set { SetValue(PresenterVisibilityProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PresenterVisibility.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PresenterVisibilityProperty =
-            DependencyProperty.Register("PresenterVisibility", typeof(Visibility), typeof(CardPresenter), new PropertyMetadata(Visibility.Collapsed));
-
-
-
-        public Visibility NavigationVisibility
-        {
-            get { return (Visibility)GetValue(NavigationVisibilityProperty); }
-            set { SetValue(NavigationVisibilityProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for NavigationVisibility.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NavigationVisibilityProperty =
-            DependencyProperty.Register("NavigationVisibility", typeof(Visibility), typeof(CardPresenter), new PropertyMetadata(Visibility.Collapsed));
-
-
-
-        public Style NavigationBarStyle
-        {
-            get { return (Style)GetValue(NavigationBarStyleProperty); }
-            set { SetValue(NavigationBarStyleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for NavigationBarStyle.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NavigationBarStyleProperty =
-            DependencyProperty.Register("NavigationBarStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
-
-
-
-        public DataTemplate NavigationItemTemplate
-        {
-            get { return (DataTemplate)GetValue(NavigationItemTemplateProperty); }
-            set { SetValue(NavigationItemTemplateProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for NavigationItemTemplate.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NavigationItemTemplateProperty =
-            DependencyProperty.Register("NavigationItemTemplate", typeof(DataTemplate), typeof(CardPresenter), new PropertyMetadata(null));
 
 
     }
