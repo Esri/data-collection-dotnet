@@ -42,13 +42,15 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:CardDeck">
                     <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                          VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                          Visibility="{TemplateBinding ComputedVisibility}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <Border Style="{TemplateBinding NavigationContainerStyle}"
+                                Visibility="{TemplateBinding ComputedNavigationVisibility}"
                                 Grid.Row="0">
                             <ItemsControl ItemsSource="{TemplateBinding NavigationCards}"
                                           ItemTemplate="{TemplateBinding NavigationItemTemplate}">

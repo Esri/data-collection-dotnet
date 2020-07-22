@@ -53,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DownloadViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeatureViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MapAccessoryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SyncViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\TreeSurveyWorkflows.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DestinationRelationshipViewModel.cs" />

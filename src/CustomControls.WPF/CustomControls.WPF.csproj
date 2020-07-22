@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <AssemblyName>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls</AssemblyName>
     <RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls</RootNamespace>

@@ -97,6 +97,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             IdentifyController = new IdentifyController();
             IdentifyController.IdentifyCompleted += IdentifyController_IdentifyCompleted;
 
+            MapAccessoryViewModel = new MapAccessoryViewModel();
+
             // call method to retrieve map based on app state, connection and offline file availability
             GetMap().ContinueWith(t =>
             {
@@ -324,6 +326,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_syncDate != value)
                 {
                     _syncDate = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private MapAccessoryViewModel _mapAccessoryViewModel;
+
+        public MapAccessoryViewModel MapAccessoryViewModel
+        {
+            get => _mapAccessoryViewModel;
+            set
+            {
+                if (_mapAccessoryViewModel != value)
+                {
+                    _mapAccessoryViewModel = value;
                     OnPropertyChanged();
                 }
             }
@@ -779,6 +796,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     {
                         // select the identified feature
                         MapViewModel.SelectFeature(feature);
+
+                        // close map accessories
+                        MapAccessoryViewModel.CloseAccessories();
                     }
                     else
                     {

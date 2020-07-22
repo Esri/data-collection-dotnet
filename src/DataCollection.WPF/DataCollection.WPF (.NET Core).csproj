@@ -68,6 +68,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CustomControls.WPF\CustomControls.WPF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentDocument.png">
       <Link>Images\AttachmentDocument.png</Link>
     </Resource>

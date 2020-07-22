@@ -112,7 +112,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
 
         // Using a DependencyProperty as the backing store for IsOpIsOpen.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsOpenProperty =
-            DependencyProperty.Register("IsOpIsOpen", typeof(bool), typeof(OverlayCard), new PropertyMetadata(true, HandleIsOpenChanged));
+            DependencyProperty.Register("IsOpen", typeof(bool), typeof(OverlayCard), new PropertyMetadata(true, HandleIsOpenChanged));
 
         private static void HandleIsOpenChanged(DependencyObject overlayCard, DependencyPropertyChangedEventArgs dpcea)
         {

@@ -131,19 +131,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             {
                 toggleMenu.IsChecked = false;
             }
-            if (toggleTOC != sender)
-            {
-                toggleTOC.IsChecked = false;
-            }
-            if (toggleBookmarks != sender)
-            {
-                toggleBookmarks.IsChecked = false;
-            }
-
-            if (toggleLegend != sender)
-            {
-                toggleLegend.IsChecked = false;
-            }
         }
     }
 }

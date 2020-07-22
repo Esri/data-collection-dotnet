@@ -30,6 +30,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         {
             TopCard = Cards.Where(card => card.IsOpen).LastOrDefault();
             NavigationCards = Cards.Where(card => card.IsOpen && card != TopCard).ToList();
+
+            ComputedVisibility = TopCard == null ? Visibility.Collapsed : Visibility.Visible;
+            ComputedNavigationVisibility = NavigationCards.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void Cards_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -138,6 +141,32 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         // Using a DependencyProperty as the backing store for CardCornerRadius.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CardCornerRadiusProperty =
             DependencyProperty.Register("CardCornerRadius", typeof(CornerRadius), typeof(CardDeck), new PropertyMetadata(new CornerRadius(0)));
+
+
+
+
+        public Visibility ComputedVisibility
+        {
+            get { return (Visibility)GetValue(ComputedVisibilityProperty); }
+            set { SetValue(ComputedVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ComputedVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ComputedVisibilityProperty =
+            DependencyProperty.Register("ComputedVisibility", typeof(Visibility), typeof(CardDeck), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+
+        public Visibility ComputedNavigationVisibility
+        {
+            get { return (Visibility)GetValue(ComputedNavigationVisibilityProperty); }
+            set { SetValue(ComputedNavigationVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ComputedNavigationVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ComputedNavigationVisibilityProperty =
+            DependencyProperty.Register("ComputedNavigationVisibility", typeof(Visibility), typeof(CardDeck), new PropertyMetadata(Visibility.Collapsed));
 
 
     }

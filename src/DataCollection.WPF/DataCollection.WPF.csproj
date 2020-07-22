@@ -82,6 +82,9 @@
     <Compile Include="Views\AttachmentsView.xaml.cs">
       <DependentUpon>AttachmentsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Cards\TocCard.xaml.cs">
+      <DependentUpon>TocCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DestinationRelatedRecordPopup.xaml.cs">
       <DependentUpon>DestinationRelatedRecordPopup.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
     <Page Include="Views\AttachmentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\TocCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DestinationRelatedRecordPopup.xaml">
       <SubType>Designer</SubType>
@@ -225,6 +232,13 @@
   <ItemGroup>
     <Resource Include="Images\Calcite\online-black-32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomControls.WPF\CustomControls.WPF.csproj">
+      <Project>{15e01828-ae26-413b-a127-684d9bd89cef}</Project>
+      <Name>CustomControls.WPF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
