@@ -33,6 +33,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
 
             ComputedVisibility = TopCard == null ? Visibility.Collapsed : Visibility.Visible;
             ComputedNavigationVisibility = NavigationCards.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            Visibility = TopCard == null ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void Cards_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

@@ -9,23 +9,24 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
+        <ResourceDictionary>
+            <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../ResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="White">
         <!--  Attribute information for the destination relationship selected  -->
-        <ItemsControl Margin="3" ItemsSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}">
+        <ItemsControl ItemsSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
+                      Margin="10">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            FontWeight="Bold"
-                            Text="{Binding Field.Label}" />
-                        <TextBox
-                            Margin="10,0,0,0"
-                            BorderThickness="0"
-                            IsEnabled="false"
-                            Text="{Binding ReformattedValue, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource FieldLabelStyle}"
+                                   Text="{Binding Field.Label}" />
+                        <TextBox Style="{StaticResource FieldValueStyle}"
+                                 Text="{Binding ReformattedValue, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

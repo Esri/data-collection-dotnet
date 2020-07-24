@@ -17,151 +17,107 @@
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../ResourceDictionary.xaml" />
+                <ResourceDictionary Source="../CalciteIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <!--  Download Overlay  -->
-        <Grid x:Name="DownloadOverlay" Visibility="{Binding DownloadViewModel.IsAwaitingDownload, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height=".1*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height=".1*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".1*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width=".1*" />
-            </Grid.ColumnDefinitions>
-            <Rectangle
-                Grid.Row="0"
-                Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="1"
-                Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="2"
-                Grid.Column="0"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="0"
-                Grid.Column="1"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="2"
-                Grid.Column="1"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="0"
-                Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="1"
-                Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
-            <Rectangle
-                Grid.Row="2"
-                Grid.Column="2"
-                Fill="Black"
-                Opacity=".5" />
-            <StackPanel
-                Grid.Row="0"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Vertical">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="16"
-                    Foreground="White"
-                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line1.Text}" />
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="16"
-                    Foreground="White"
-                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line2.Text}" />
-            </StackPanel>
-            <StackPanel
-                Grid.Row="2"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Button
-                    Margin="0,0,20,0"
-                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}"
-                    Style="{StaticResource MenuButtonStyle}">
-                    <i:Interaction.Triggers>
+    <Grid x:Name="DownloadOverlay" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="200" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="100" />
+        </Grid.ColumnDefinitions>
+        <Border Style="{StaticResource MapOverlayBorderStyle}" 
+                Visibility="{Binding DownloadViewModel.IsAwaitingDownload, Converter={StaticResource BoolToVisibilityConverter}}"
+                Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
+        </Border>
+        <Grid Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"
+                    Background="#CC000000"
+            VerticalAlignment="Stretch"
+            Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
+            <Border Style="{StaticResource StatusPanelBorderStyle}">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="20" Opacity="0.5" />
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Downloading Map" Style="{StaticResource StatusPanelTitleStyle}" />
+                    <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}"
+                                 Grid.Row="1"
+                                 Value="{Binding DownloadViewModel.Progress}" />
+                    <TextBlock Style="{StaticResource StatusPanelCaptionTextStyle}"
+                               Grid.Row="2"
+                               Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadingMessage.Text}" />
+                    <Button Style="{StaticResource StatusPanelButtonStyle}"
+                            Grid.Row="4"
+                            Command="{Binding DownloadViewModel.CancelDownloadCommand}"
+                            BorderBrush="{StaticResource calcite-color-danger}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Path Data="{StaticResource calcite-ui-undo-16}" Fill="{StaticResource calcite-color-danger}" Stretch="Uniform" Margin="0,0,10,0" />
+                            <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton.Content}"
+                                       Foreground="{StaticResource calcite-color-danger}" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+        <StackPanel HorizontalAlignment="Center"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    VerticalAlignment="Center"
+                    Visibility="{Binding DownloadViewModel.IsAwaitingDownload, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Orientation="Vertical">
+            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}"
+                       Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line1.Text}" />
+            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}"
+                       Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line2.Text}" />
+
+            <StackPanel HorizontalAlignment="Center"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                <Button Style="{StaticResource MapOverlayButtonStyle}"
+                        BorderBrush="{StaticResource calcite-color-danger}">
+                        <!-- TODO - replace with command binding -->
+                        <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:ChangePropertyAction
                                 PropertyName="DownloadViewModel"
                                 TargetObject="{Binding}"
                                 Value="{x:Null}" />
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                            </i:Interaction.Triggers>
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource calcite-ui-undo-16}" Style="{StaticResource MapOverlayButtonIconStyle}" 
+                              Fill="{StaticResource calcite-color-danger}" />
+                        <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" 
+                                   Foreground="{StaticResource calcite-color-danger}" />
+                    </StackPanel>
                 </Button>
-                <Button
-                    Margin="20,0,0,0"
-                    Command="{Binding DownloadViewModel.DownloadMapCommand}"
-                    CommandParameter="{Binding ElementName=DownloadUserControl, Path=VisibleArea}"
-                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadButton.Content}"
-                    Style="{StaticResource MenuButtonStyle}" />
+                <Button Style="{StaticResource MapOverlayButtonStyle}"
+                        BorderBrush="{StaticResource calcite-color-success}"
+                        Command="{Binding DownloadViewModel.DownloadMapCommand}"
+                        CommandParameter="{Binding ElementName=DownloadUserControl, Path=VisibleArea}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource calcite-ui-download-16}" Style="{StaticResource MapOverlayButtonIconStyle}" 
+                              Fill="{StaticResource calcite-color-success}" />
+                        <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadButton.Content}"
+                                   Foreground="{StaticResource calcite-color-success}" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
-        </Grid>
-
-        <!--  Progress bar area for download  -->
-        <StackPanel
-            VerticalAlignment="Center"
-            Orientation="Vertical"
-            Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
-            <Grid
-                MaxWidth="350"
-                MaxHeight="200"
-                Background="Green">
-                <Grid.Effect>
-                    <DropShadowEffect BlurRadius="20" Opacity=".5" />
-                </Grid.Effect>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                </Grid.RowDefinitions>
-                <ProgressBar
-                    Grid.Row="0"
-                    Width="300"
-                    Height="20"
-                    Margin="20"
-                    Foreground="#C37534"
-                    Maximum="100"
-                    Minimum="0"
-                    Value="{Binding DownloadViewModel.Progress}" />
-                <TextBlock
-                    Grid.Row="1"
-                    Margin="0,0,0,20"
-                    HorizontalAlignment="Center"
-                    FontSize="16"
-                    Foreground="White"
-                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadingMessage.Text}" />
-                <Separator
-                    Grid.Row="1"
-                    VerticalAlignment="Bottom"
-                    Background="White" />
-                <Button
-                    Grid.Row="2"
-                    Width="70"
-                    Command="{Binding DownloadViewModel.CancelDownloadCommand}"
-                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton.Content}"
-                    Style="{StaticResource MenuButtonStyle}" />
-            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

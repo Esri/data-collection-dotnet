@@ -23,6 +23,7 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 {
@@ -43,19 +44,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 
             this.Unloaded += OnUnloaded;
 
-            // load settings for the authentication viewmodel
-            AuthStackPanel.DataContext = new AuthViewModel(
-                                                Settings.Default.WebmapURL,
-                                                Settings.Default.ArcGISOnlineURL,
-                                                Settings.Default.AppClientID,
-                                                Settings.Default.RedirectURL,
-                                                Settings.Default.AuthenticatedUserName,
-                                                Settings.Default.OAuthRefreshToken);
-
             _mainViewModel = TryFindResource("MainViewModel") as MainViewModel;
 
             // load settings for the custom tree survey dataset
             LoadTreeSurveySettings();
+
+            UpdateMinizeIcon();
         }
 
         private void OnWaitStatusChanged(object sender, WaitStatusChangedEventArgs e)
@@ -125,12 +119,54 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
         }
 
-        private void menuButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (toggleMenu != sender)
+        private void OnDragMoveWindow(object sender, MouseButtonEventArgs e)
+    {
+            if (e.ButtonState == MouseButtonState.Pressed)
+                try
+                {
+                    if (this.WindowState == WindowState.Maximized)
+                    {
+                        this.WindowState = WindowState.Normal;
+                    }
+                    this.DragMove();
+                }
+                catch (Exception ex)
+                {
+                    // Ignore
+                }
+    }
+    private void OnMinimizeWindow(object sender, RoutedEventArgs e)
+    {
+        this.WindowState = WindowState.Minimized;
+    }
+    private void OnMaximizeWindow(object sender, RoutedEventArgs e)
+    {
+            if (this.WindowState == WindowState.Maximized)
             {
-                toggleMenu.IsChecked = false;
+                this.WindowState = WindowState.Normal;
+            }
+            else if (this.WindowState == WindowState.Normal)
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+            UpdateMinizeIcon();
+    }
+        private void UpdateMinizeIcon()
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                MinimizePath.Visibility = Visibility.Visible;
+                MaximizePath.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MinimizePath.Visibility = Visibility.Collapsed;
+                MaximizePath.Visibility = Visibility.Visible;
             }
         }
+    private void OnCloseWindow(object sender, RoutedEventArgs e)
+    {
+        this.Close();
+    }
     }
 }

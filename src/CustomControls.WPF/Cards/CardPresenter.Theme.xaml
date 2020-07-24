@@ -68,16 +68,19 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0"
+                                    <Image Source="{Binding IconSource}" Grid.Column="0" />
+                                    <ContentPresenter Content="{Binding IconContent, Mode=OneWay}" Grid.Column="0" />
+                                    <TextBlock Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Margin="5"
                                                Text="{Binding Title, Mode=OneWay}"
                                                Style="{TemplateBinding TitleTextStyle}"/>
                                     <ItemsControl ItemsSource="{Binding TopAccessories, Mode=OneWay}"
-                                                  Grid.Column="2">
+                                                  Grid.Column="3">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" />
@@ -110,7 +113,7 @@
                                 </Grid>
                             </Border>
                             <Grid Grid.Row="2" Background="{TemplateBinding Background}">
-                                <ContentPresenter Content="{Binding Content, Mode=OneWay}"
+                                <ContentPresenter Grid.Row="2" Content="{Binding Content, Mode=OneWay}"
                                               Margin="{TemplateBinding Padding}" />
                             </Grid>
                             <Border Grid.Row="3"

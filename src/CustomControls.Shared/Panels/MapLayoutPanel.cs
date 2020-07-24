@@ -139,12 +139,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
             IsCollapsed = finalSize.Width < (double)GetValue(WidthBreakpointProperty);
 
             double totalPanelWidth = 0;
+            UIElement floatingSheet = null;
             // initial measurement round for use later
             foreach(var child in Children.OfType<UIElement>())
             {
                 if (GetLayoutRole(child) == LayoutRole.FloatingSheet)
                 {
                     totalPanelWidth += child.DesiredSize.Width;
+                    floatingSheet = child;
+                    break;
                 }
             }
 
@@ -203,14 +206,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                     {
                                         
                                     }
-                                    else
+                                    else if (floatingSheet is UIElement element && element.Visibility == Visibility.Visible)
                                     {
                                         offsets_x[AttachPosition.TopLeft] = totalPanelWidth;
                                     }
                                 }
                                 child.Arrange(new Rect(offsets_x[AttachPosition.TopLeft], offsets_y[AttachPosition.TopLeft], child.DesiredSize.Width, child.DesiredSize.Height));
 
-                                offsets_x[AttachPosition.TopLeft] += child.DesiredSize.Width;
+                                offsets_y[AttachPosition.TopLeft] += child.DesiredSize.Height;
                                 break;
                             case AttachPosition.TopRight:
                                 if (!offsets_x.ContainsKey(AttachPosition.TopRight))

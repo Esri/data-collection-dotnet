@@ -64,7 +64,7 @@
                                              Style="{TemplateBinding CardPresenterStyle}"
                                              CornerRadius="{TemplateBinding CardCornerRadius}"
                                              Grid.Row="1"
-                                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                             HorizontalAlignment="Stretch" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

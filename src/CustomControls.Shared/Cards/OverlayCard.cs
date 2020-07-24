@@ -124,6 +124,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
             IsOpenChanged?.Invoke(this, EventArgs.Empty);
         }
 
+
+
+        public object IconContent
+        {
+            get { return (object)GetValue(IconContentProperty); }
+            set { SetValue(IconContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IconContent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IconContentProperty =
+            DependencyProperty.Register("IconContent", typeof(object), typeof(OverlayCard), new PropertyMetadata(null));
+
+
+
         public event EventHandler<EventArgs> IsOpenChanged;
     }
 }

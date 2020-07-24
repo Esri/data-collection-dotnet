@@ -1,0 +1,202 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Theming">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="./Constants.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="TabItem" x:Key="MinimalistTabItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border x:Name="ControlBorder" BorderThickness="0,0,0,3" Margin="0,0,5,0" Padding="5">
+                        <Grid Name="Panel">
+                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ControlBorder" Property="BorderBrush" Value="SlateGray" />
+                            <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="SemiBold" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter TargetName="ControlBorder" Property="BorderBrush" Value="Transparent" />
+                            <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="Normal" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="SlateGray" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="Black" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="TextBlock" x:Key="FieldLabelStyle">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="0,5,0,5" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="FieldValueReadonlyStyle">
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style TargetType="TextBox" x:Key="FieldValueStyle">
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style TargetType="TextBox" x:Key="EditableFieldValueStyle">
+        <Setter Property="IsEnabled" Value="True" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style TargetType="DatePicker" x:Key="DatePickerValueStyle">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style TargetType="ComboBox" x:Key="ComboboxValueStyle">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="ValidationErrorTextStyle">
+        <Setter Property="Foreground" Value="{StaticResource calcite-color-danger}" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style TargetType="Button" x:Key="FieldAccessoryButton">
+        <Setter Property="Background" Value="SlateGray" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="30" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Padding" Value="5" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="PopupSectionHeaderStyle">
+        <Setter Property="Foreground" Value="SlateGray" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="PopupSectionSubheaderStyle">
+        <Setter Property="Foreground" Value="SlateGray" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Margin" Value="10,5,5,5" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style TargetType="Button" x:Key="ProminentButtonStyle">
+        <Setter Property="Foreground" Value="SlateGray" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderBrush" Value="SlateGray" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="5" />
+    </Style>
+    <Style TargetType="Separator" x:Key="PopupSeparatorStyle">
+        <Setter Property="Background" Value="SlateGray" />
+        <Setter Property="Margin" Value="10,0,10,0" />
+    </Style>
+    <Style TargetType="{x:Type ListViewItem}" x:Key="UnstyledListViewItemStyle">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+    <Style TargetType="TextBlock" x:Key="MapOverlayBorderForegroundTextStyle">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style TargetType="Button" x:Key="MapOverlayButtonStyle">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Padding" Value="25,10,25,10" />
+        <Setter Property="BorderBrush" Value="SlateGray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Margin" Value="5,15,5,20" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="MapOverlayBorderStyle">
+        <Setter Property="BorderBrush" Value="#DD000000" />
+        <Setter Property="BorderThickness" Value="100,100,100,200" />
+    </Style>
+
+    <Style TargetType="Path" x:Key="MapOverlayButtonIconStyle">
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="Fill" Value="Black" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="StatusPanelTitleStyle">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="SlateGray" />
+    </Style>
+
+    <Style TargetType="Border" x:Key="StatusPanelBorderStyle">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderBrush" Value="SlateGray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="ProgressBar" x:Key="StatusPanelProgressBarStyle">
+        <Setter Property="Foreground" Value="{StaticResource calcite-color-success}" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Width" Value="300" />
+        <Setter Property="Margin" Value="0,10,0,10" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="StatusPanelCaptionTextStyle">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,0,0,5" />
+    </Style>
+    <Style TargetType="Button" x:Key="StatusPanelButtonStyle">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="SlateGray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="SlateGray" />
+    </Style>
+    <Style TargetType="Border" x:Key="RecordCardBorderStyle">
+        <Setter Property="BorderBrush" Value="SlateGray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Padding" Value="5" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="RecordCardTitle">
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style TargetType="Button" x:Key="MapAccessoryButtonStyle">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style TargetType="Path" x:Key="MapAccessoryIconStyle">
+        <Setter Property="Fill" Value="Black" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+    </Style>
+    <DropShadowEffect x:Key="StandardDropShadow" BlurRadius="20" Opacity="0.5" />
+</ResourceDictionary>

@@ -39,6 +39,63 @@
     <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="LightGray" />
     <SolidColorBrush x:Key="Window.Background" Color="White" />
 
+    <Style x:Key="TabButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="SegoeUISymbol" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="ControlBorder" BorderBrush="Transparent" BorderThickness="0,0,0,3">
+                        <Grid SnapsToDevicePixels="true" >
+                            <Rectangle x:Name="BackgroundVisual" Fill="{TemplateBinding Background}" />
+                            <Rectangle
+                            x:Name="PressedVisual"
+                            Fill="SlateGray"
+                            Opacity="0" />
+                            <Rectangle
+                            x:Name="DisabledVisual"
+                            Fill="{DynamicResource Button.Disabled.Background}"
+                            Opacity="0" />
+                            <ContentPresenter
+                            x:Name="contentPresenter"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Focusable="False"
+                            RecognizesAccessKey="True"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="SlateGray" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="false">
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="Black" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+                            <Setter TargetName="DisabledVisual" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="ControlBorder" Property="BorderBrush" Value="SlateGray" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.FontWeight" Value="SemiBold" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="ControlBorder" Property="BorderBrush" Value="Transparent" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
     <Style x:Key="MenuButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
@@ -323,88 +380,54 @@
     <!--  Data templates for all the field types used in editing features  -->
     <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
         <StackPanel>
-            <TextBlock
-                Margin="10,0,0,0"
-                FontWeight="Bold"
-                Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox
-                Margin="10,0,10,5"
-                HorizontalAlignment="Stretch"
-                AcceptsReturn="True"
-                Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="10,0,0,0"
-                Foreground="Red"
-                Text="{Binding PopupFieldValue.ValidationError.Message}"
-                TextWrapping="Wrap"
-                Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}" IsEnabled="True"
+                     Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="DateTemplate" x:Name="DateTemplate">
         <StackPanel>
-            <TextBlock
-                Margin="10,0,0,0"
-                FontWeight="Bold"
-                Text="{Binding PopupFieldValue.Field.Label}" />
-            <DatePicker
-                Margin="10,0,10,5"
-                HorizontalAlignment="Stretch"
-                Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock
-                Margin="10,0,0,0"
-                Foreground="Red"
-                Text="{Binding PopupFieldValue.ValidationError.Message}"
-                TextWrapping="Wrap"
-                Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding PopupFieldValue.Field.Label}" />
+            <DatePicker Style="{StaticResource DatePickerValueStyle}"
+                        Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="DoubleTemplate" x:Name="DoubleTemplate">
         <StackPanel>
-            <TextBlock
-                Margin="10,0,0,0"
-                FontWeight="Bold"
-                Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox
-                Margin="10,0,10,5"
-                HorizontalAlignment="Stretch"
-                Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock
-                Margin="10,0,0,0"
-                Foreground="Red"
-                Text="{Binding PopupFieldValue.ValidationError.Message}"
-                TextWrapping="Wrap"
-                Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}"
+                     Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="IntTemplate" x:Name="IntTemplate">
         <StackPanel>
-            <TextBlock
-                Margin="10,0,0,0"
-                FontWeight="Bold"
-                Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox
-                Margin="10,0,10,5"
-                HorizontalAlignment="Stretch"
-                Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock
-                Margin="10,0,0,0"
-                Foreground="Red"
-                Text="{Binding PopupFieldValue.ValidationError.Message}"
-                TextWrapping="Wrap"
-                Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}"
+                     Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="CodedValueDomainTemplate" x:Name="CodedValueDomainTemplate">
         <StackPanel>
-            <TextBlock
-                Margin="10,0,0,0"
-                FontWeight="Bold"
-                Text="{Binding PopupFieldValue.Field.Label}" />
-            <ComboBox
-                Margin="10,0,10,5"
-                HorizontalAlignment="Stretch"
-                ItemsSource="{Binding OriginalField.Domain.CodedValues}">
+            <TextBlock Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding PopupFieldValue.Field.Label}" />
+            <ComboBox Style="{StaticResource ComboboxValueStyle}"
+                      ItemsSource="{Binding OriginalField.Domain.CodedValues}">
                 <ComboBox.SelectedItem>
                     <MultiBinding Converter="{StaticResource ConvertValueToCodedValueDomainValue}">
                         <Binding Mode="OneWay" Path="OriginalField.Domain.CodedValues" />
@@ -421,38 +444,38 @@
     </DataTemplate>
     <DataTemplate x:Key="IntegerRangeDomainTemplate" x:Name="IntegerRangeDomainTemplate">
         <StackPanel>
-            <TextBlock
-                Margin="10,0,0,0"
-                FontWeight="Bold"
-                Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox
-                Margin="10,0,10,5"
-                HorizontalAlignment="Stretch"
-                Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock
-                Margin="10,0,0,0"
-                Foreground="Red"
-                Text="{Binding PopupFieldValue.ValidationError.Message}"
-                TextWrapping="Wrap"
-                Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}"
+                     Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="DoubleRangeDomainTemplate" x:Name="DoubleRangeDomainTemplate">
         <StackPanel>
-            <TextBlock
-                Margin="10,0,0,0"
-                FontWeight="Bold"
-                Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox
-                Margin="10,0,10,5"
-                HorizontalAlignment="Stretch"
-                Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock
-                Margin="10,0,0,0"
-                Foreground="Red"
-                Text="{Binding PopupFieldValue.ValidationError.Message}"
-                TextWrapping="Wrap"
-                Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}"
+                     Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
         </StackPanel>
     </DataTemplate>
+    <Style x:Key="CardControlStripStyle" TargetType="Grid">
+        <Setter Property="Background" Value="LightSlateGray" />
+    </Style>
+    <Style x:Key="CardControlStripButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="LightSlateGray" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Width" Value="40" />
+    </Style>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Theming/Constants.xaml" />
+        <ResourceDictionary Source="Theming/ControlStyle.xaml" />
+        <ResourceDictionary Source="Theming/Cards.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

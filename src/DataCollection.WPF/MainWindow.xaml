@@ -14,8 +14,15 @@
     xmlns:MapUI="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls" 
     xmlns:cards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
     xmlns:cc="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards"
+    WindowStyle="None" ResizeMode="CanResizeWithGrip"
     Title="Data Collection for .NET (WPF)"
+    BorderBrush="Green" BorderThickness="1"
     mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+    <WindowChrome GlassFrameThickness="1" CaptionHeight="0"
+            NonClientFrameEdges="None"
+            ResizeBorderThickness="3" />
+</WindowChrome.WindowChrome>
     <Window.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -29,13 +36,16 @@
             <MapUI:ResponsiveValueConverter x:Key="RVC" />
             <viewModels:MainViewModel x:Key="MainViewModel" />
             <Style x:Key="BasicCardStyle" TargetType="cards:CardPresenter">
+                <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="TitleTextStyle">
                     <Setter.Value>
                         <Style TargetType="TextBlock">
                             <Setter Property="Foreground" Value="Black" />
-                            <Setter Property="FontWeight" Value="SemiBold" />
-                            <Setter Property="FontSize" Value="14" />
+                            <Setter Property="FontSize" Value="16" />
+                            <Setter Property="FontWeight" Value="Light" />
+                            <Setter Property="VerticalAlignment" Value="Top" />
+                            <Setter Property="Margin" Value="0,0,0,0" />
                         </Style>
                     </Setter.Value>
                 </Setter>
@@ -53,58 +63,145 @@
                         </Style>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="TopBarStyle">
+                    <Setter.Value>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="BorderThickness" Value="0,3,0,0" />
+                            <Setter Property="BorderBrush" Value="LightSlateGray" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="NavContainerStyle" TargetType="Border">
+                <Setter Property="Background" Value="#CCFFFFFF" />
+                <Setter Property="Margin" Value="0,0,0,5" />
+            </Style>
+            <DataTemplate x:Key="NavItemTemplate">
+                <Border Background="White" BorderBrush="SlateGray" BorderThickness="1" Padding="5" Margin="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding IconSource}" MaxWidth="20" Grid.Row="0" Grid.Column="0" Margin="5" />
+                        <TextBlock Text="{Binding Title}" 
+                                   FontWeight="SemiBold"
+                                   Grid.Row="0"
+                                   Grid.Column="2"
+                                   VerticalAlignment="Center" />
+                        <Path Data="{StaticResource calcite-ui-chevron-right-16}" Fill="SlateGray" Height="10" Stretch="Uniform" Grid.Column="4" VerticalAlignment="Center" Margin="5" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+            <Style x:Key="CardCloseStyle" TargetType="Button">
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Padding" Value="5" />
+                <!-- TODO: redefine hover style -->
             </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ResourceDictionary.xaml" />
+                <ResourceDictionary Source="CalciteIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid
-            Grid.Row="0"
-            Height="50"
-            Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}">
-            <Grid.Effect>
-                <DropShadowEffect BlurRadius="20" Opacity=".5" />
-            </Grid.Effect>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding MapViewModel.Map.Item.Title}"
-                Grid.Column="0"
-                Margin="15,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontSize="25"
-                FontWeight="DemiBold"
-                Foreground="White" />
-            <!--  TODO: Replace buttons text with icons if app is used on Windows versions < 10  -->
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <!--  Bookmarks Button -->
-               
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+            <Style TargetType="ToggleButton">
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </Grid.Resources>
 
-                <!--  Open Menu Button  -->
-                <ToggleButton
-                    x:Name="toggleMenu"
-                    Width="60" Click="menuButton_Click"
-                    HorizontalAlignment="Right"
-                    Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
-                    Style="{StaticResource ToggleButtonStyle}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=MoreTools_Tooltip}"
-                    Visibility="{Binding IsLocationOnlyMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/ellipsis-32.png" Width="20" Height="20" />
+        <Grid Grid.Row="0" MouseLeftButtonDown="OnDragMoveWindow" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" /> <!-- Image -->
+                <ColumnDefinition Width="Auto" /> <!-- App title-->
+                <ColumnDefinition Width="*" /> <!-- Spacing -->
+                <ColumnDefinition Width="200" /> <!-- Map Status / Work offline button-->
+                <ColumnDefinition Width="*" /> <!-- Spacing -->
+                <ColumnDefinition Width="Auto" /> <!-- User/Login button -->
+                <ColumnDefinition Width="Auto" /> <!-- Separator bar -->
+                <ColumnDefinition Width="Auto" /> <!-- Minimize Button -->
+                <ColumnDefinition Width="Auto" /> <!-- Maximize button -->
+                <ColumnDefinition Width="Auto" /> <!-- Close button -->
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Grid.ColumnSpan="10" >
+                <ToggleButton x:Name="WorkOnlineButton" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" Padding="10,5,10,5"
+                              IsChecked="{Binding Source={StaticResource MainViewModel}, Path=IsOfflinePanelOpen, Mode=TwoWay}"
+                              Visibility="{Binding Source={StaticResource MainViewModel}, Path=ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource calcite-ui-online-16}" Width="16" Height="16" Fill="{StaticResource calcite-color-success}" Stretch="Uniform" />
+                        <TextBlock Text="Working Online" Margin="10,0,10,0" Foreground="{StaticResource calcite-color-success}" />
+                    </StackPanel>
                 </ToggleButton>
-            </StackPanel>
+                <ToggleButton HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" Padding="10,5,10,5"
+                              IsChecked="{Binding Source={StaticResource MainViewModel}, Path=IsMapStatusPanelOpen, Mode=TwoWay}"
+                              Visibility="{Binding Source={StaticResource MainViewModel}, Path=ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource calcite-ui-offline-16}" Width="16" Height="16" Fill="Black" Stretch="Uniform" />
+                        <TextBlock Text="Working Offline" Margin="10,0,0,0" />
+                    </StackPanel>
+                </ToggleButton>
+            </Grid>
+            <Image Grid.Column="0" Source="Images/ArcGIS_Open_Source_Apps.ico" Width="15" Height="15" VerticalAlignment="Center" Margin="5,0,5,0" />
+            <TextBlock Grid.Column="1" Text="Data Collection for .NET (WPF)" FontWeight="SemiBold" />
+            <Button Grid.Column="5"
+                    Background="White" Padding="15,5,15,5" VerticalContentAlignment="Center"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                    Command="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.SignInCommand, Mode=OneWay}"
+                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignInButton.Label}"
+                    Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+            <ToggleButton Grid.Column="5"
+                    Background="White" Padding="10,5,10,5" VerticalContentAlignment="Center"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                    IsChecked="{Binding Source={StaticResource MainViewModel}, Path=IsUserPanelOpen, Mode=TwoWay}"
+                    Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Grid.Column="0"
+                    Width="15"
+                    Height="15"
+                             Margin="0,0,5,0"
+                    Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.ThumbnailUri}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}" FontSize="11" />
+                </StackPanel>
+            </ToggleButton>
+            <TextBlock Grid.Column="6" Text="|" FontWeight="SemiBold" Margin="5,0,5,0" />
+            <Button Grid.Column="7" Click="OnMinimizeWindow" Width="30" Height="25" Background="White">_</Button>
+            <Button Grid.Column="8" Click="OnMaximizeWindow" Width="30" Height="25" Background="White">
+                <Grid>
+                    <Path x:Name="MinimizePath" Data="{StaticResource calcite-ui-minimize-16}" Fill="Black" Stretch="Uniform" Width="10" Height="10" />
+                    <Path x:Name="MaximizePath" Data="{StaticResource calcite-ui-maximize-16}" Fill="Black" Stretch="Uniform" Width="10" Height="10" Visibility="Collapsed" />
+                </Grid>
+            </Button>
+            <Button Grid.Column="9" Click="OnCloseWindow" Width="30" Height="25" Background="White">
+                <Path Data="{StaticResource calcite-ui-x-16}" Width="8" Height="8" Fill="Black" Stretch="Uniform" />
+            </Button>
         </Grid>
         
-        
-        <MapUI:MapLayoutPanel DataContext="{StaticResource MainViewModel}" Grid.Row="1"
+        <MapUI:MapLayoutPanel DataContext="{StaticResource MainViewModel}" Grid.Row="2"
+                              WidthBreakpoint="600"
                               x:Name="ParentPanel">
             <!--  MapView control  -->
             <esri:MapView
@@ -112,6 +209,7 @@
             MapUI:MapLayoutPanel.LayoutRole="BackgroundView"
             utils:MapViewExtensions.IdentifyController="{Binding IdentifyController}"
             utils:MapViewExtensions.MapAccessoryViewModel="{Binding MapAccessoryViewModel}"
+                IsAttributionTextVisible="False"
             Map="{Binding MapViewModel.Map, Mode=TwoWay}">
                 <utils:MapViewExtensions.ViewpointController>
                     <utils:ViewpointController Viewpoint="{Binding MapViewModel.AreaOfInterest, Source={StaticResource MainViewModel}, Mode=TwoWay}" />
@@ -122,41 +220,86 @@
             </esri:MapView>
 
             <StackPanel Orientation="Vertical"
+                        Background="White"
+                        Margin="10,10,10,0"
+                        MapUI:MapLayoutPanel.AttachPosition="TopLeft"
+                        MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
+                        Effect="{StaticResource StandardDropShadow}">
+                <Button Style="{StaticResource MapAccessoryButtonStyle}">
+                    <Path Data="{StaticResource calcite-ui-home-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical"
+                        Background="White"
+                        Margin="10"
+                        MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
+                        MapUI:MapLayoutPanel.AttachPosition="TopLeft"
+                        Effect="{StaticResource StandardDropShadow}">
+                <Button Style="{StaticResource MapAccessoryButtonStyle}">
+                    <Path Data="{StaticResource calcite-ui-plus-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                </Button>
+                <Button Style="{StaticResource MapAccessoryButtonStyle}">
+                    <Path Data="{StaticResource calcite-ui-minus-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical"
+                        Background="White"
+                        Margin="10"
                         MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" 
                         MapUI:MapLayoutPanel.AttachPosition="TopRight"
-                        DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}">
-                 <Button Command="{Binding ToggleBookmarksCommand, Mode=OneTime}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarksButton.Label}"
-                    Visibility="{Binding ElementName=MapView, Path=Map.Bookmarks, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/bookmark-33.png" Width="20" Height="20" />
+                        DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}"
+                        Effect="{StaticResource StandardDropShadow}">
+                 <Button Command="{Binding ToggleBookmarksCommand, Mode=OneTime}" 
+                         Style="{StaticResource MapAccessoryButtonStyle}"
+                         ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarksButton.Label}"
+                         Visibility="{Binding ElementName=MapView, Path=Map.Bookmarks, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <Path Data="{StaticResource calcite-ui-bookmark-16}" Style="{StaticResource MapAccessoryIconStyle}" />
                 </Button>
                 <!--  Legend Button -->
                 <Button Command="{Binding ToggleLayersCommand, Mode=OneTime}"
-                              ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowLegendButton.Label}">
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/legend-33.png" Width="20" Height="20" />
+                        Style="{StaticResource MapAccessoryButtonStyle}"
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowLegendButton.Label}">
+                    <Path Data="{StaticResource calcite-ui-legend-16}" Style="{StaticResource MapAccessoryIconStyle}" />
                 </Button>
                 <!--  TOC Button -->
                 <Button Command="{Binding ToggleTocCommand}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOCButton.Label}">
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/layers-33.png" Width="20" Height="20" />
+                        Style="{StaticResource MapAccessoryButtonStyle}"
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowTOCButton.Label}">
+                    <Path Data="{StaticResource calcite-ui-layers-16}" Style="{StaticResource MapAccessoryIconStyle}" />
                 </Button>
                 <!--  Current Location Button  -->
-                <Button
-                    Command="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.MoveToCurrentLocationCommand}"
-                    IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.IsLocationStarted}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CurrentLocationButton.Label}">
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/gps-on-32.png" Width="20" Height="20" />
+                <Button Style="{StaticResource MapAccessoryButtonStyle}"
+                        Command="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.MoveToCurrentLocationCommand}"
+                        IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.IsLocationStarted}"
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CurrentLocationButton.Label}">
+                    <Path Data="{StaticResource calcite-ui-gps-on-16}" Style="{StaticResource MapAccessoryIconStyle}" />
                 </Button>
                 <!--  Add Feature Button  -->
-                <Button
-                    Command="{Binding Source={StaticResource MainViewModel}, Path=StartNewFeatureCommand, Mode=OneWay}"
-                    Background="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToColorConverter}}"
-                    IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
-                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureButton.Label}"
-                    Visibility="{Binding IsAddingFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" >
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/plus-circle-32.png" Width="20" Height="20" />
+                <Button Style="{StaticResource MapAccessoryButtonStyle}"
+                        Command="{Binding Source={StaticResource MainViewModel}, Path=StartNewFeatureCommand, Mode=OneWay}"
+                        IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureButton.Label}"
+                        Visibility="{Binding IsAddingFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" >
+                    <Path Data="{StaticResource calcite-ui-plus-circle-16}" Style="{StaticResource MapAccessoryIconStyle}" />
                 </Button>
             </StackPanel>
+            <Path Height="20" Stretch="Uniform" Fill="White" 
+                  Margin="5"
+                  Data="{StaticResource calcite-ui-esri-logo}" MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" MapUI:MapLayoutPanel.AttachPosition="BottomRight">
+                <Path.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="1" />
+                </Path.Effect>
+            </Path>
+            <Border Height="20" VerticalAlignment="Center" MapUI:MapLayoutPanel.AttachPosition="BottomRight" Margin="5" MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" Background="#ffffff"
+                    MaxWidth="450" Padding="5">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="2" Opacity="1" />
+                </Border.Effect>
+                <TextBlock FontSize="9" Text="{Binding ElementName=MapView, Path=AttributionText, UpdateSourceTrigger=PropertyChanged}"
+                           ToolTipService.ToolTip="{Binding ElementName=MapView, Path=AttributionText, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
 
             <!-- TODO: improve this -->
             <ProgressBar 
@@ -168,9 +311,9 @@
 
             <!--  Compass control that displays when user rotates the map  -->
             <esri:Compass
-            MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" MapUI:MapLayoutPanel.AttachPosition="TopRight"
+            MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" MapUI:MapLayoutPanel.AttachPosition="BottomRight"
             Margin="5"
-            AutoHide="False"
+            AutoHide="True"
             GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
 
             <!--  New feature overlay  -->
@@ -234,14 +377,18 @@
 
             <cards:CardDeck MapUI:MapLayoutPanel.LayoutRole="FloatingSheet"
                             CardPresenterStyle="{StaticResource BasicCardStyle}"
+                            NavigationContainerStyle="{StaticResource NavContainerStyle}"
                             DataContext="{Binding MapAccessoryViewModel}"
+                            NavigationItemTemplate="{StaticResource NavItemTemplate}"
                             Margin="{Binding IsCollapsed, ElementName=ParentPanel, Converter={StaticResource RVC}, ConverterParameter='0,5,0,0|5,5,5,25'}">
                 <cards:CardDeck.Cards>
                     <cards:OverlayCard Title="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.PopupManager.Title}"
                                        IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}}">
                         <views:IdentifiedFeaturePopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
                         <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=ClearIdentifiedFeatureCommand, Mode=OneTime}">X</Button>
+                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=ClearIdentifiedFeatureCommand, Mode=OneTime}" Style="{StaticResource CardCloseStyle}">
+                                <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
+                            </Button>
                         </cards:OverlayCard.TopAccessories>
                     </cards:OverlayCard>
 
@@ -249,7 +396,9 @@
                                        IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
                         <views:OriginRelatedRecordPopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
                         <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}">X</Button>
+                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" Style="{StaticResource CardCloseStyle}">
+                                <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
+                            </Button>
                         </cards:OverlayCard.TopAccessories>
                     </cards:OverlayCard>
 
@@ -257,8 +406,8 @@
                                        IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedDestinationRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
                         <views:DestinationRelatedRecordPopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
                         <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}">
-                                <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/x-32.png" Height="24" />
+                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" Style="{StaticResource CardCloseStyle}">
+                                <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
                             </Button>
                         </cards:OverlayCard.TopAccessories>
                     </cards:OverlayCard>
@@ -267,24 +416,39 @@
                         Title="{Binding Source={x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=TOC_PanelHeader}"
                         IsOpen="{Binding MapAccessoryViewModel.IsTocOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
                         <cc:TocCard MapAccessoryViewModel="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel, Mode=OneWay}" />
+                        <cards:OverlayCard.IconContent>
+                            <Path Data="{StaticResource calcite-ui-layers-16}" Fill="Black" Stretch="Uniform" Margin="5" />
+                        </cards:OverlayCard.IconContent>
                         <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleTocCommand, Mode=OneTime}">X</Button>
+                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleTocCommand, Mode=OneTime}" Style="{StaticResource CardCloseStyle}">
+                                <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
+                            </Button>
                         </cards:OverlayCard.TopAccessories>
                     </cards:OverlayCard>
 
                     <cards:OverlayCard Title="{Binding Source={x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=Bookmarks_PanelHeader}"
                                        IsOpen="{Binding MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
+                        <cards:OverlayCard.IconContent>
+                            <Path Data="{StaticResource calcite-ui-bookmark-16}" Fill="Black" Stretch="Uniform" Margin="5" />
+                        </cards:OverlayCard.IconContent>
                         <esri:BookmarksView GeoView="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.MapView, Mode=OneTime}" />
                         <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneTime}">X</Button>
+                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneTime}" Style="{StaticResource CardCloseStyle}">
+                                <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
+                            </Button>
                         </cards:OverlayCard.TopAccessories>
                     </cards:OverlayCard>
 
                     <cards:OverlayCard Title="{Binding Source={x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=Legend_PanelHeader}"
                                        IsOpen="{Binding MapAccessoryViewModel.IsLayersOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
                         <esri:Legend GeoView="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.MapView, Mode=OneWay}" />
+                        <cards:OverlayCard.IconContent>
+                            <Path Data="{StaticResource calcite-ui-legend-16}" Fill="Black" Stretch="Uniform" Margin="5" />
+                        </cards:OverlayCard.IconContent>
                         <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}">X</Button>
+                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" Style="{StaticResource CardCloseStyle}">
+                                <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
+                            </Button>
                         </cards:OverlayCard.TopAccessories>
                     </cards:OverlayCard>
 
@@ -307,193 +471,132 @@
             </StackPanel>
         </Grid>
         </MapUI:MapLayoutPanel>
-        <!-- Menu Panel -->
-        <Grid
-            Grid.Row="1"
-            MinWidth="100"
-            MaxWidth="300"
-            Margin="0,5,5,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Background="White"
-            Visibility="{Binding IsChecked, ElementName=toggleMenu, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="70" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.Effect>
-                <DropShadowEffect BlurRadius="20" Opacity=".5" />
-            </Grid.Effect>
-            <Grid
-                x:Name="AuthStackPanel"
-                Grid.Row="0"
-                Background="Green">
+
+        <!-- Floating 'Working Online' Panel -->
+        <Border Grid.Row="2"
+              Width="300"
+              Margin="0,5,0,5" Padding="5"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Top" Background="White"
+              BorderBrush="Gray" BorderThickness="1"
+              Visibility="{Binding Source={StaticResource MainViewModel}, Path=IsOfflinePanelOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Opacity="0.5" />
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Ellipse Grid.Column="0"
-                    Width="40"
-                    Height="40"
-                    Margin="10"
-                    Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{Binding AuthenticatedUser.ThumbnailUri}" />
-                    </Ellipse.Fill>
-                </Ellipse>
-                <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/sign-in-32.png"
-                       Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
-                       Height="24" Margin="5" VerticalAlignment="Center"/>
-                <!--  Sign In Button  -->
-                <Button Grid.Column="1" Padding="10"
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                    Command="{Binding SignInCommand}"
-                    Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignInButton.Label}"
-                    FontSize="25"
-                    Style="{StaticResource MenuButtonStyle}"
-                    Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
-
-                <!--  Sign Out Button  -->
-                <Button Grid.Column="1" Padding="10"
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                    Command="{Binding SignOutCommand}"
-                    FontSize="25"
-                    Style="{StaticResource MenuButtonStyle}"
-                    Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            FontSize="25"
-                            Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
-                        <TextBlock
-                            Margin="0,5,0,0"
-                            FontSize="12"
-                            Foreground="White"
-                            Text="{Binding AuthenticatedUser.FullName}" />
-                    </StackPanel>
-                </Button>
-            </Grid>
-
-            <StackPanel DataContext="{StaticResource MainViewModel}"
-                Grid.Row="1"
-                Background="White"
-                Orientation="Vertical">
-                <!--  Working online button and text  -->
-                <Button
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                    Padding="10"
-                    Background="{StaticResource Button.Pressed.Background}"
-                    Style="{StaticResource MenuButtonStyle}"
-                    Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/online-black-32.png"
-                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                        <TextBlock VerticalAlignment="Center"
-                                   Grid.Column="1"
-                                   FontSize="19"
-                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOnlineButton.Label}" />
-                    </Grid>
-                </Button>
-
-                <!--  Work online button and text  -->
-                <Button
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                    Padding="10"
+                <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.Map.Item.Title}"
+                           Grid.Column="0" Grid.ColumnSpan="2"
+                           FontWeight="SemiBold" FontSize="18" />
+                <TextBlock Text="Created:" FontWeight="SemiBold" Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Top" />
+                <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.Map.Item.Created, FallbackValue='unknown'}"
+                           Grid.Row="2" Grid.Column="1" />
+                <TextBlock Text="Offline Map Available" Grid.Row="5" Grid.Column="0" Margin="0,5,0,5" FontWeight="SemiBold" Grid.ColumnSpan="2" HorizontalAlignment="Center"
+                           Visibility="{Binding Source={StaticResource MainViewModel}, Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}"
+                           />
+                <TextBlock Text="Downloaded on:" FontWeight="SemiBold" Grid.Row="3" Grid.Column="0" Margin="0,5,5,5" 
+                            Visibility="{Binding Source={StaticResource MainViewModel}, Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}"  />
+                <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=OfflineMap.Item.Modified}" Grid.Row="3" Grid.Column="1" 
+                           Visibility="{Binding Source={StaticResource MainViewModel}, Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
+                <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.Map.Item.Snippet}"
+                           TextWrapping="Wrap"
+                           Grid.Row="1" Grid.ColumnSpan="2"
+                           Margin="0,5,0,5"/>
+                <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                     Background="White"
-                    Command="{Binding WorkOnlineCommand}"
-                    CommandParameter="{Binding ElementName=MapView, Path=VisibleArea}"
-                    Foreground="Black"
-                    Style="{StaticResource MenuButtonStyle}"
-                    Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/online-black-32.png"
-                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                        <TextBlock VerticalAlignment="Center"
-                                   Grid.Column="1"
-                                   FontSize="19"
-                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton.Label}" />
-                    </Grid>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:ChangePropertyAction
-                                PropertyName="IsChecked"
-                                TargetObject="{Binding ElementName=toggleMenu}"
-                                Value="False" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-                <Separator />
-
-                <!--  Working offline button and text  -->
-                <Button
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                    Padding="10"
-                    Background="{StaticResource Button.Pressed.Background}"
-                    Style="{StaticResource MenuButtonStyle}"
-                    Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/offline-black-32.png"
-                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   FontSize="19"
-                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkingOfflineButton.Label}" />
-                    </Grid>
-                </Button>
-
-                <!--  Work offline button and text  -->
-                <Button
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                    Padding="10"
-                    Background="White"
-                    Command="{Binding WorkOfflineCommand}"
-                    Foreground="Black"
-                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding Source={StaticResource MainViewModel}, Path=WorkOfflineCommand}"
+                    Foreground="Black" BorderBrush="Gray" BorderThickness="1" Padding="15,5,15,5"
+                    Margin="0,5,0,0"
                     Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-                    <Grid>
+                    <Grid HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/offline-black-32.png"
-                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <Path Data="{StaticResource calcite-ui-offline-16}" Width="16" Height="16" Grid.Column="0" Fill="Black" Stretch="Uniform" />
                         <TextBlock Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   FontSize="19"
+                                   VerticalAlignment="Center" Margin="10,0,0,0"
                                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton.Label}" />
                     </Grid>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:ChangePropertyAction
-                                PropertyName="IsChecked"
-                                TargetObject="{Binding ElementName=toggleMenu}"
-                                Value="False" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                </Button>
+            </Grid>
+        </Border>
+        <!-- Floating 'Working Offline' Panel -->
+        <Border Grid.Row="2"
+              Width="300"
+              Margin="0,5,0,5" Padding="5"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Top" Background="White"
+              BorderBrush="Gray" BorderThickness="1"
+              Visibility="{Binding Source={StaticResource MainViewModel}, Path=IsMapStatusPanelOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Opacity="0.5" />
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.Map.Item.Title}"
+                           Grid.Column="0" Grid.ColumnSpan="2"
+                           FontWeight="SemiBold" FontSize="18" />
+                <TextBlock Text="Last Sync:" FontWeight="SemiBold" Grid.Row="2" Grid.Column="0" Margin="0,0,5,5" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=SyncDate}"
+                           Grid.Row="2" Grid.Column="1" Margin="5,0,5,5" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.Map.Item.Snippet}"
+                           TextWrapping="Wrap"
+                           Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,5" />
+                           <!--  Work online button and text  -->
+                <Button Grid.Row="6" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Background="White" BorderThickness="1" BorderBrush="Gray"
+                        Padding="15,5,15,5"
+                    Command="{Binding Source={StaticResource MainViewModel}, Path=WorkOnlineCommand }"
+                    CommandParameter="{Binding ElementName=MapView, Path=VisibleArea}"
+                    Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Path Data="{StaticResource calcite-ui-online-16}" Width="16" Height="16" Fill="Black" Stretch="Uniform" />
+                        <TextBlock VerticalAlignment="Center"
+                                   Grid.Column="1" Margin="10,0,10,0"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton.Label}" />
+                    </Grid>
                 </Button>
 
                 <!--  Synchronize button and text  -->
-                <Button
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                    Padding="10"
-                    Background="White"
-                    Command="{Binding SyncMapCommand}"
+                <Button Grid.Row="4" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="15,5,15,5"
+                    Background="White" BorderBrush="Gray" BorderThickness="1"
+                    Command="{Binding Source={StaticResource MainViewModel}, Path=SyncMapCommand}"
                     Foreground="Black"
-                    Style="{StaticResource MenuButtonStyle}"
-                    Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
-                    <Grid>
+                    Visibility="{Binding Source={StaticResource MainViewModel}, Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Grid HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -502,59 +605,90 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/refresh-black-32.png"
-                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <Path Data="{StaticResource calcite-ui-refresh-16}" Width="16" Height="16" Fill="Black" Stretch="Uniform" />
                         <TextBlock Grid.Row="0" Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   FontSize="19"
+                                   VerticalAlignment="Center" Margin="10,0,10,0"
                                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton.Label}" />
-                        <TextBlock Grid.Row="1" Grid.Column="1"
-                                   HorizontalAlignment="Right"
-                                   FontSize="12"
-                                   Text="{Binding SyncDate}" />
                     </Grid>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:ChangePropertyAction
-                                PropertyName="IsChecked"
-                                TargetObject="{Binding ElementName=toggleMenu}"
-                                Value="False" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                 </Button>
 
                 <!--  Delete offline map button and text  -->
-                <Button
+                <Button Grid.Row="5" Grid.ColumnSpan="2"
                     HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                    Padding="10"
-                    Background="White"
-                    Command="{Binding DeleteOfflineMapCommand}"
-                    Foreground="Black"
-                    Style="{StaticResource MenuButtonStyle}"
+                    Padding="15,5,15,5"
+                    Background="White" BorderBrush="Gray" BorderThickness="1"
+                    Command="{Binding Source={StaticResource MainViewModel}, Path=DeleteOfflineMapCommand}"
+                    Foreground="Black" Margin="0,5,0,5"
                     Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
-                    <Grid>
+                    <Grid HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Source="pack://application:,,,/DataCollection.WPF;component/Images/Calcite/trash-black-32.png"
-                               Height="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <Path Data="{StaticResource calcite-ui-trash-16}" Width="16" Height="16" Fill="Black" Stretch="Uniform" />
                         <TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
-                                   FontSize="19"
+                                   Margin="10,0,10,0"
                                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton.Label}" />
                     </Grid>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:ChangePropertyAction
-                                PropertyName="IsChecked"
-                                TargetObject="{Binding ElementName=toggleMenu}"
-                                Value="False" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                 </Button>
-            </StackPanel>
-        </Grid>
+            </Grid>
+        </Border>
 
+        <!-- Floating User Panel -->
+        <Border Grid.Row="2"
+              Width="250"
+              Margin="5" Padding="5"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Top" Background="White"
+              BorderBrush="Gray" BorderThickness="1"
+              Visibility="{Binding Source={StaticResource MainViewModel}, Path=IsUserPanelOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Opacity="0.5" />
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Ellipse Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                Width="40" Height="40"
+                             Margin="0,0,5,0"
+                    Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.ThumbnailUri}" />
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.FullName}"
+                           FontWeight="SemiBold" HorizontalAlignment="Center"
+                           Grid.Row="1" Grid.ColumnSpan="2" />
+
+                <Button Grid.Row="5" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Padding="15,5,15,5"
+                    Background="White" BorderBrush="Gray" BorderThickness="1"
+                    Command="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.SignOutCommand}"
+                    Foreground="Black" Margin="0,5,0,5"
+                    Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Path Data="{StaticResource calcite-ui-sign-out-16}" Width="16" Height="16" Fill="Black" Stretch="Uniform" />
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,10,0"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
+                    </Grid>
+                </Button>
+            </Grid>
+        </Border>
     </Grid> 
 </Window>

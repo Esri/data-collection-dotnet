@@ -80,6 +80,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             // TODO - set _currentOfflineSubdirectory
             DeleteOldMapPackages();
 
+            AuthViewModel = new AuthViewModel(Settings.Default.WebmapURL,
+                                                Settings.Default.ArcGISOnlineURL,
+                                                Settings.Default.AppClientID,
+                                                Settings.Default.RedirectURL,
+                                                Settings.Default.AuthenticatedUserName,
+                                                Settings.Default.OAuthRefreshToken);
+
             ConnectivityMode = Settings.Default.ConnectivityMode == "Online" ? ConnectivityMode.Online : ConnectivityMode.Offline;
             SyncDate = DateTime.TryParse(Settings.Default.SyncDate, out DateTime syncDate) ? syncDate : DateTime.MinValue;
             _defaultZoomScale = Settings.Default.DefaultZoomScale;
@@ -256,6 +263,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
         }
 
+        private AuthViewModel _authViewModel;
+
+        public AuthViewModel AuthViewModel
+        {
+            get => _authViewModel;
+            set
+            {
+                if (_authViewModel != value)
+                {
+                    _authViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private Map _offlineMap;
 
         /// <summary>
@@ -387,6 +409,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _workOfflineCommand ?? (_workOfflineCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        IsOfflinePanelOpen = false;
+
                         // reset the identify view model so the feature selected is deselected
                         IdentifiedFeatureViewModel = null;
 
@@ -452,6 +476,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _workOnlineCommand ?? (_workOnlineCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        IsMapStatusPanelOpen = false;
+
                         // retrieve active viewpoint from offline map to pass to online map 
                         var activeViewpoint = ((x is Polygon) ? new Viewpoint((Polygon)x) : (Viewpoint)x) ?? null;
 
@@ -500,6 +526,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _deleteOfflineMapCommand ?? (_deleteOfflineMapCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        IsMapStatusPanelOpen = false;
+
                         // if online map is unreachable, do not proceed
                         if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
@@ -561,6 +589,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         {
                             return;
                         }
+
+                        IsMapStatusPanelOpen = false;
 
                         // if online map is unreachable, do not proceed
                         if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
@@ -969,6 +999,48 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             {
                 _currentOfflineSubdirectory = null;
                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.DownloadPath);
+            }
+        }
+
+        private bool _isOfflinePanelOpen;
+        public bool IsOfflinePanelOpen
+        {
+            get => _isOfflinePanelOpen;
+            set
+            {
+                if (_isOfflinePanelOpen != value)
+                {
+                    _isOfflinePanelOpen = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isMapStatusPanelOpen;
+        public bool IsMapStatusPanelOpen
+        {
+            get => _isMapStatusPanelOpen;
+            set
+            {
+                if (_isMapStatusPanelOpen != value)
+                {
+                    _isMapStatusPanelOpen = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isUserPanelOpen;
+        public bool IsUserPanelOpen
+        {
+            get => _isUserPanelOpen;
+            set
+            {
+                if (_isUserPanelOpen != value)
+                {
+                    _isUserPanelOpen = value;
+                    OnPropertyChanged();
+                }
             }
         }
     }

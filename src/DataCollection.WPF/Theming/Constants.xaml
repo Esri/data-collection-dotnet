@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Theming">
+    <Color x:Key="dc-accent-color">Red</Color>
+    <Color x:Key="dc-button-foreground-color">black</Color>
+    <Color x:Key="dc-button-background-color">white</Color>
+    <CornerRadius x:Key="dc-corner-radius">0</CornerRadius>
+    <CornerRadius x:Key="dc-corner-radius-bottom-only">0</CornerRadius>
+    <CornerRadius x:Key="dc-corner-radius-top-only">0</CornerRadius>
+    <Brush x:Key="dc-chrome-background-brush">white</Brush>
+    <Brush x:Key="dc-content-ui-background-brush">white</Brush>
+
+
+    <SolidColorBrush x:Key="calcite-color-success">#35AC46</SolidColorBrush>
+    <SolidColorBrush x:Key="calcite-color-danger">#DE2900</SolidColorBrush>
+    
+</ResourceDictionary>

@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Theming">
+    <Style TargetType="Path" x:Key="CardButtonIconStyle">
+        <Setter Property="Fill" Value="White" />
+        <Setter Property="Stretch" Value="Uniform" />
+    </Style>
+</ResourceDictionary>
