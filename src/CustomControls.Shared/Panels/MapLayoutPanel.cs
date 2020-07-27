@@ -122,9 +122,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
 
         protected override Size MeasureOverride(Size availableSize)
         {
+            IsCollapsed = availableSize.Width < WidthBreakpoint;
+
             foreach(var child in Children.OfType<UIElement>())
             {
-                child.Measure(availableSize);
+                if (GetLayoutRole(child) == LayoutRole.FloatingSheet && IsCollapsed)
+                {
+                    child.Measure(new Size(availableSize.Width, CollapsedPanelHeight));
+                }
+                else
+                {
+                    child.Measure(availableSize);
+                }
             }
             // Using default implementation for now
             return base.MeasureOverride(availableSize);
@@ -136,7 +145,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
             Dictionary<AttachPosition, double> offsets_x = new Dictionary<AttachPosition, double>();
             Dictionary<AttachPosition, double> offsets_y = new Dictionary<AttachPosition, double>();
 
-            IsCollapsed = finalSize.Width < (double)GetValue(WidthBreakpointProperty);
+            IsCollapsed = finalSize.Width < WidthBreakpoint;
 
             double totalPanelWidth = 0;
             UIElement floatingSheet = null;
@@ -170,7 +179,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                     offsets_x[AttachPosition.BottomLeft] = 0;
                                     offsets_y[AttachPosition.BottomLeft] = 0;
                                     // TODO - account for hidden panel
-                                    if (IsCollapsed)
+                                    if (IsCollapsed && floatingSheet?.Visibility == Visibility.Visible)
                                     {
                                         offsets_y[AttachPosition.BottomLeft] = (double)GetValue(CollapsedPanelHeightProperty);
                                     }
@@ -188,7 +197,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                     offsets_x[AttachPosition.BottomRight] = 0;
                                     offsets_y[AttachPosition.BottomRight] = 0;
                                     // TODO - account for hidden panel
-                                    if (IsCollapsed)
+                                    if (IsCollapsed && floatingSheet?.Visibility == Visibility.Visible)
                                     {
                                         offsets_y[AttachPosition.BottomRight] = (double)GetValue(CollapsedPanelHeightProperty);
                                     }
@@ -236,6 +245,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                             {
                                 feChild.HorizontalAlignment = HorizontalAlignment.Stretch;
                                 feChild.Width = double.NaN;
+                                feChild.Height = double.NaN;
                             }
                             var collapsedHeight = (double)GetValue(CollapsedPanelHeightProperty);
                             child.Arrange(new Rect(0, finalSize.Height - collapsedHeight, finalSize.Width, collapsedHeight));

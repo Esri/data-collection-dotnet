@@ -13,8 +13,8 @@
         <ResourceDictionary>
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../CalciteIcons.xaml" />
+                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
+                <ResourceDictionary Source="../../CalciteIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -30,9 +30,7 @@
             <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
         <Border Style="{StaticResource MapOverlayBorderStyle}"
-                Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
-
-        </Border>
+                Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3" />
         <StackPanel HorizontalAlignment="Center"
                     Grid.Row="2"
                     Grid.Column="0"
@@ -45,8 +43,7 @@
                        Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureLabel_Line2.Text}" />
 
             <StackPanel HorizontalAlignment="Center"
-                        Grid.Row="2"
-                        Grid.Column="1"
+                        Grid.Row="2" Grid.Column="1"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
                 <Button Style="{StaticResource MapOverlayButtonStyle}"
@@ -54,7 +51,8 @@
                         Command="{Binding CancelNewFeatureCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource calcite-ui-undo-16}" Style="{StaticResource MapOverlayButtonIconStyle}" Fill="{StaticResource calcite-color-danger}" />
-                        <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton.Content}" Foreground="{StaticResource calcite-color-danger}" />
+                        <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton.Content}" 
+                                   Foreground="{StaticResource calcite-color-danger}" />
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource MapOverlayButtonStyle}"

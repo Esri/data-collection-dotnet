@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 {
@@ -42,6 +43,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
             BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
 
+            this.StateChanged += MainWindow_StateChanged;
             this.Unloaded += OnUnloaded;
 
             _mainViewModel = TryFindResource("MainViewModel") as MainViewModel;
@@ -49,6 +51,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             // load settings for the custom tree survey dataset
             LoadTreeSurveySettings();
 
+            UpdateMinizeIcon();
+        }
+
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
             UpdateMinizeIcon();
         }
 
@@ -135,6 +142,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
                     // Ignore
                 }
     }
+
     private void OnMinimizeWindow(object sender, RoutedEventArgs e)
     {
         this.WindowState = WindowState.Minimized;
@@ -149,7 +157,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             {
                 this.WindowState = WindowState.Maximized;
             }
-            UpdateMinizeIcon();
     }
         private void UpdateMinizeIcon()
         {

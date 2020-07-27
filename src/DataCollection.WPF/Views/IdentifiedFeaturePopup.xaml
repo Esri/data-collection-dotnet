@@ -36,7 +36,6 @@
                 <ScrollViewer
             x:Name="DetailsView"
             Grid.Row="1" Padding="5"
-            CanContentScroll="True"
             HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Stretch"
             PanningMode="VerticalOnly"
             VerticalScrollBarVisibility="Auto">

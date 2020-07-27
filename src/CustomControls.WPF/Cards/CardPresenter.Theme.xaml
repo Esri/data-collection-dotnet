@@ -51,7 +51,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CardPresenter}">
                     <Border CornerRadius="{TemplateBinding CornerRadius}"
-                            ClipToBounds="True"
                             DataContext="{TemplateBinding Card}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"

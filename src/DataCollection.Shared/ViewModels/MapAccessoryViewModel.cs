@@ -54,6 +54,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private ICommand _toggleTOCCommand;
         private ICommand _toggleLayersCommand;
 
+        private ICommand _goHomeCommand;
+        private ICommand _zoomInCommand;
+        private ICommand _zoomOutCommand;
+
         private bool _bookmarksOpen;
         private bool _tocOpen;
         private bool _layersOpen;
@@ -128,6 +132,31 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         public ICommand ToggleLayersCommand => _toggleLayersCommand ?? (_toggleLayersCommand = new DelegateCommand((parm) =>
         {
             IsLayersOpen = !IsLayersOpen;
+        }));
+
+
+        public ICommand GoHomeCommand => _goHomeCommand ?? (_goHomeCommand = new DelegateCommand((parm) =>
+        {
+            if (MapView?.Map?.InitialViewpoint is Esri.ArcGISRuntime.Mapping.Viewpoint initialViewpoint)
+            {
+                MapView.SetViewpoint(initialViewpoint);
+            }
+        }));
+
+        public ICommand ZoomInCommand => _zoomInCommand ?? (_zoomInCommand = new DelegateCommand((parm) =>
+        {
+            if (MapView?.GetCurrentViewpoint(Mapping.ViewpointType.CenterAndScale) is Esri.ArcGISRuntime.Mapping.Viewpoint currentViewpoint)
+            {
+                MapView.SetViewpointScaleAsync(currentViewpoint.TargetScale * 0.6);
+            }
+        }));
+
+        public ICommand ZoomOutCommand => _zoomOutCommand ?? (_zoomOutCommand = new DelegateCommand((parm) =>
+        {
+            if (MapView?.GetCurrentViewpoint(Mapping.ViewpointType.CenterAndScale) is Mapping.Viewpoint currentViewpoint)
+            {
+                MapView.SetViewpointScaleAsync(currentViewpoint.TargetScale * 1.4);
+            }
         }));
 
         public void CloseAccessories()

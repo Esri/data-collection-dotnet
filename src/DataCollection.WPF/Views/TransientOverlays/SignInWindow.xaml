@@ -16,6 +16,10 @@
             <wpfViewModels:SignInWindowViewModel x:Key="SignInWindowViewModel" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
+                <ResourceDictionary Source="../../CalciteIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -24,20 +28,13 @@
         DataContext="{StaticResource SignInWindowViewModel}"
         Visibility="{Binding WebAddress, Converter={StaticResource NullToVisibilityConverter}}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Rectangle Fill="Black" Opacity=".5"
-                   Grid.Row="0" Grid.RowSpan="3" 
-                   Grid.Column="0" Grid.ColumnSpan="3"/>
-        <WebBrowser x:Name="WebBrowser"
-                    Grid.Row="1" Grid.Column="1">
+        <Rectangle Fill="{StaticResource dc-dark-transparent-overlay}" Grid.RowSpan="3" />
+        <WebBrowser x:Name="WebBrowser" MinWidth="300" MinHeight="300"
+                    Grid.Row="1">
             <utils:WebBrowserExtensions.SourceController>
                 <utils:SourceController UriSource="{Binding WebAddress, Mode=TwoWay, Source={StaticResource SignInWindowViewModel}}" />
             </utils:WebBrowserExtensions.SourceController>
@@ -47,9 +44,13 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </WebBrowser>
-        <Button Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}"
-                Grid.Row="2" Grid.Column="1"
-                HorizontalAlignment="Center" VerticalAlignment="Top"
-                Margin="5" Padding="5" Command="{Binding CancelCommand}" />
+        <Button Command="{Binding CancelCommand}"
+                Style="{StaticResource MapOverlayButtonStyle}"
+                Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
+                <Path Data="{StaticResource calcite-ui-undo-16}" Fill="{StaticResource calcite-color-danger}" Style="{StaticResource MapOverlayButtonIconStyle}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" Foreground="{StaticResource calcite-color-danger}" />
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

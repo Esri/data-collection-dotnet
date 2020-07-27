@@ -81,6 +81,7 @@
         <Setter Property="Width" Value="30" />
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="Padding" Value="5" />
+        <Setter Property="Cursor" Value="Hand" />
     </Style>
     <Style TargetType="TextBlock" x:Key="PopupSectionHeaderStyle">
         <Setter Property="Foreground" Value="SlateGray" />
@@ -103,6 +104,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="5" />
+        <Setter Property="Cursor" Value="Hand" />
     </Style>
     <Style TargetType="Separator" x:Key="PopupSeparatorStyle">
         <Setter Property="Background" Value="SlateGray" />
@@ -130,10 +132,11 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="White" />
         <Setter Property="Margin" Value="5,15,5,20" />
+        <Setter Property="Cursor" Value="Hand" />
     </Style>
 
     <Style TargetType="Border" x:Key="MapOverlayBorderStyle">
-        <Setter Property="BorderBrush" Value="#DD000000" />
+        <Setter Property="BorderBrush" Value="{StaticResource dc-dark-transparent-overlay}" />
         <Setter Property="BorderThickness" Value="100,100,100,200" />
     </Style>
 
@@ -190,13 +193,88 @@
     <Style TargetType="Button" x:Key="MapAccessoryButtonStyle">
         <Setter Property="Background" Value="White" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="BorderBrush" Value="LightGray" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="{x:Type Button}">
+                <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                    <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                </Border>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+            <Setter Property="Background" Value="#F3F3F3"/>
+        </Trigger>
+    </Style.Triggers>
     </Style>
     <Style TargetType="Path" x:Key="MapAccessoryIconStyle">
         <Setter Property="Fill" Value="Black" />
         <Setter Property="Stretch" Value="Uniform" />
         <Setter Property="Width" Value="20" />
         <Setter Property="Height" Value="20" />
+        
     </Style>
     <DropShadowEffect x:Key="StandardDropShadow" BlurRadius="20" Opacity="0.5" />
-</ResourceDictionary>
+    
+    <Style TargetType="{x:Type Button}" x:Key="TitleBarBlueButtonStyle">
+    <Setter Property="Background" Value="White"/>
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="{x:Type Button}">
+                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+            <Setter Property="Background" Value="#D0E2F0"/>
+        </Trigger>
+    </Style.Triggers>
+</Style>
+    <Style TargetType="Button" x:Key="TitleBarRedButtonStyle" BasedOn="{StaticResource TitleBarBlueButtonStyle}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#E81123" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Border" x:Key="TitleBarPopoverBorderStyle">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="MaxWidth" Value="300" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="BorderBrush" Value="SlateGray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="TitleBarPopoverLabelStyle">
+        <Setter Property="Foreground" Value="#202020" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style TargetType="TextBlock" x:Key="TitleBarPopoverProminentLabelStyle" BasedOn="{StaticResource TitleBarPopoverLabelStyle}">
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style TargetType="Path" x:Key="AnimatedSpinnerPathStyle">
+        <Setter Property="Fill" Value="Black" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    
+</ResourceDictionary> 

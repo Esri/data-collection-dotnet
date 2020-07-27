@@ -76,7 +76,7 @@
     <Compile Include="Helpers\BrowseHelper.cs" />
     <Compile Include="LocalizedStrings\Resources.Designer.cs" />
     <Compile Include="ViewModels\SignInWindowViewModel.cs" />
-    <Compile Include="Views\AddFeatureView.xaml.cs">
+    <Compile Include="Views\TransientOverlays\AddFeatureView.xaml.cs">
       <DependentUpon>AddFeatureView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AttachmentsView.xaml.cs">
@@ -91,17 +91,29 @@
     <Compile Include="Views\DialogBoxWindow.xaml.cs">
       <DependentUpon>DialogBoxWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DownloadView.xaml.cs">
+    <Compile Include="Views\TransientOverlays\DownloadView.xaml.cs">
       <DependentUpon>DownloadView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IdentifiedFeaturePopup.xaml.cs">
       <DependentUpon>IdentifiedFeaturePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SignInWindow.xaml.cs">
+    <Compile Include="Views\Panels\MapPanel.xaml.cs">
+      <DependentUpon>MapPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\OnlineMapPanel.xaml.cs">
+      <DependentUpon>OnlineMapPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\UserAccountPanel.xaml.cs">
+      <DependentUpon>UserAccountPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransientOverlays\SignInWindow.xaml.cs">
       <DependentUpon>SignInWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OriginRelatedRecordPopup.xaml.cs">
       <DependentUpon>OriginRelatedRecordPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransientOverlays\SyncProgressView.xaml.cs">
+      <DependentUpon>SyncProgressView.xaml</DependentUpon>
     </Compile>
     <Page Include="CalciteIcons.xaml">
       <SubType>Designer</SubType>
@@ -135,7 +147,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddFeatureView.xaml">
+    <Page Include="Views\TransientOverlays\AddFeatureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DownloadView.xaml">
+    <Page Include="Views\TransientOverlays\DownloadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,11 +175,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SignInWindow.xaml">
+    <Page Include="Views\Panels\MapPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\OnlineMapPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\UserAccountPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransientOverlays\SignInWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OriginRelatedRecordPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TransientOverlays\SyncProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

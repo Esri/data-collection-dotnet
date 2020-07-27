@@ -13,5 +13,5 @@
 
     <SolidColorBrush x:Key="calcite-color-success">#35AC46</SolidColorBrush>
     <SolidColorBrush x:Key="calcite-color-danger">#DE2900</SolidColorBrush>
-    
+    <SolidColorBrush x:Key="dc-dark-transparent-overlay">#DD000000</SolidColorBrush>
 </ResourceDictionary>

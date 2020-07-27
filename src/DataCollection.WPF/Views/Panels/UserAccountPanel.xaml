@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels.UserAccountPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels" xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:LocalizationConverter x:Key="LocalizationConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../CalciteIcons.xaml" />
+                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <!-- Data context should be set to mainviewmodel.AuthViewModel -->
+    <StackPanel MinWidth="200">
+        <Ellipse Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                         Width="40" Height="40"
+                         Margin="5"
+                         Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="{Binding AuthenticatedUser.ThumbnailUri}" />
+            </Ellipse.Fill>
+        </Ellipse>
+        <TextBlock Text="{Binding AuthenticatedUser.FullName}"
+                           Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
+                           HorizontalAlignment="Center" Margin="5" />
+        <TextBlock Text="{Binding AuthenticatedUser.UserName}"
+                   Style="{StaticResource TitleBarPopoverLabelStyle}"
+                   HorizontalAlignment="Center" />
+
+        <Button Grid.Row="5" Grid.ColumnSpan="2"
+                Style="{StaticResource MapOverlayButtonStyle}"
+                Margin="0,5,0,0"
+                Command="{Binding SignOutCommand}"
+                Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Path Data="{StaticResource calcite-ui-sign-out-16}" Style="{StaticResource MapOverlayButtonIconStyle}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</UserControl>

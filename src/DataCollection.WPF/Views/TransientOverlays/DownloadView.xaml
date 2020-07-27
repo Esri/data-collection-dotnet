@@ -16,8 +16,8 @@
             <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../CalciteIcons.xaml" />
+                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
+                <ResourceDictionary Source="../../CalciteIcons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -37,21 +37,12 @@
                 Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
         </Border>
         <Grid Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"
-                    Background="#CC000000"
-            VerticalAlignment="Stretch"
-            Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
+              Background="{StaticResource dc-dark-transparent-overlay}"
+              VerticalAlignment="Stretch"
+              Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}"
+              Effect="{StaticResource StandardDropShadow}">
             <Border Style="{StaticResource StatusPanelBorderStyle}">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="20" Opacity="0.5" />
-                </Border.Effect>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Downloading Map" Style="{StaticResource StatusPanelTitleStyle}" />
+                <StackPanel>
                     <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}"
                                  Grid.Row="1"
                                  Value="{Binding DownloadViewModel.Progress}" />
@@ -68,7 +59,7 @@
                                        Foreground="{StaticResource calcite-color-danger}" />
                         </StackPanel>
                     </Button>
-                </Grid>
+                </StackPanel>
             </Border>
         </Grid>
         <StackPanel HorizontalAlignment="Center"
