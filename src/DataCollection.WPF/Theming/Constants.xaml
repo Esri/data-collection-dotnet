@@ -14,4 +14,14 @@
     <SolidColorBrush x:Key="calcite-color-success">#35AC46</SolidColorBrush>
     <SolidColorBrush x:Key="calcite-color-danger">#DE2900</SolidColorBrush>
     <SolidColorBrush x:Key="dc-dark-transparent-overlay">#DD000000</SolidColorBrush>
+
+
+    <SolidColorBrush x:Key="brand-primary-accent">#60993D</SolidColorBrush>
+    <SolidColorBrush x:Key="brand-background">#f8f8f8</SolidColorBrush>
+    <SolidColorBrush x:Key="brand-foreground">#151515</SolidColorBrush>
+
+    <SolidColorBrush x:Key="chrome-background">#F8F8F8</SolidColorBrush>
+    <SolidColorBrush x:Key="chrome-foreground">#151515</SolidColorBrush>
+    <SolidColorBrush x:Key="content-foreground">#151515</SolidColorBrush>
+    <SolidColorBrush x:Key="content-background">#FFFFFF</SolidColorBrush>
 </ResourceDictionary>

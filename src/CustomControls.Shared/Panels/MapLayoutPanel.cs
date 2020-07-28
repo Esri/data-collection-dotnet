@@ -106,6 +106,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
             obj.SetValue(AttachPositionProperty, value);
         }
 
+
+
+        public Thickness SafeViewInsets
+        {
+            get { return (Thickness)GetValue(SafeViewInsetsProperty); }
+            set { SetValue(SafeViewInsetsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SafeViewInsets.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SafeViewInsetsProperty =
+            DependencyProperty.Register("SafeViewInsets", typeof(Thickness), typeof(MapLayoutPanel), new PropertyMetadata(new Thickness(0) ));
+
+
+
         // Using a DependencyProperty as the backing store for AttachPosition.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AttachPositionProperty =
             DependencyProperty.RegisterAttached(nameof(AttachPosition), typeof(AttachPosition), typeof(MapLayoutPanel), new PropertyMetadata(AttachPosition.Unspecified));
@@ -142,8 +156,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
         protected override Size ArrangeOverride(Size finalSize)
         {
             // offsets used to arrange panels when multiple children of the same type present
-            Dictionary<AttachPosition, double> offsets_x = new Dictionary<AttachPosition, double>();
-            Dictionary<AttachPosition, double> offsets_y = new Dictionary<AttachPosition, double>();
+            Dictionary<AttachPosition, double> offsets_x = new Dictionary<AttachPosition, double> { { AttachPosition.BottomLeft, 0 }, { AttachPosition.BottomRight, 0 }, { AttachPosition.TopLeft, 0 }, { AttachPosition.TopRight, 0 } };
+            Dictionary<AttachPosition, double> offsets_y = new Dictionary<AttachPosition, double> { { AttachPosition.BottomLeft, 0 }, { AttachPosition.BottomRight, 0 }, { AttachPosition.TopLeft, 0 }, { AttachPosition.TopRight, 0 } };
+
+            // insets for accessories only
+            double leftInset = 0;
+            double rightInset = 0;
+            double topInset = 0;
+            double bottomInset = 0;
 
             IsCollapsed = finalSize.Width < WidthBreakpoint;
 
@@ -174,10 +194,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                         switch (GetAttachPosition(child))
                         {
                             case AttachPosition.BottomLeft:
-                                if (!offsets_x.ContainsKey(AttachPosition.BottomLeft))
+                                if (offsets_x[AttachPosition.BottomLeft] == 0 && offsets_y[AttachPosition.BottomRight] == 0)
                                 {
-                                    offsets_x[AttachPosition.BottomLeft] = 0;
-                                    offsets_y[AttachPosition.BottomLeft] = 0;
                                     // TODO - account for hidden panel
                                     if (IsCollapsed && floatingSheet?.Visibility == Visibility.Visible)
                                     {
@@ -190,12 +208,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                 }
                                 child.Arrange(new Rect(offsets_x[AttachPosition.BottomLeft], finalSize.Height - child.DesiredSize.Height - offsets_y[AttachPosition.BottomLeft], child.DesiredSize.Width, child.DesiredSize.Height));
                                 offsets_x[AttachPosition.BottomLeft] += child.DesiredSize.Width;
+
+                                bottomInset = Math.Max(bottomInset, child.DesiredSize.Height);
                                 break;
                             case AttachPosition.BottomRight:
-                                if (!offsets_x.ContainsKey(AttachPosition.BottomRight))
+                                if (offsets_y[AttachPosition.BottomRight] == 0 && offsets_x[AttachPosition.BottomRight] == 0)
                                 {
-                                    offsets_x[AttachPosition.BottomRight] = 0;
-                                    offsets_y[AttachPosition.BottomRight] = 0;
                                     // TODO - account for hidden panel
                                     if (IsCollapsed && floatingSheet?.Visibility == Visibility.Visible)
                                     {
@@ -204,12 +222,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                 }
                                 child.Arrange(new Rect(finalSize.Width - offsets_x[AttachPosition.BottomRight] - child.DesiredSize.Width, finalSize.Height - child.DesiredSize.Height - offsets_y[AttachPosition.BottomRight], child.DesiredSize.Width, child.DesiredSize.Height));
                                 offsets_x[AttachPosition.BottomRight] += child.DesiredSize.Width;
+
+                                bottomInset = Math.Max(bottomInset, child.DesiredSize.Height);
                                 break;
                             case AttachPosition.TopLeft:
-                                if (!offsets_x.ContainsKey(AttachPosition.TopLeft))
+                                if (offsets_x[AttachPosition.TopLeft] == 0 && offsets_y[AttachPosition.TopLeft] == 0)
                                 {
-                                    offsets_x[AttachPosition.TopLeft] = 0;
-                                    offsets_y[AttachPosition.TopLeft] = 0;
                                     // TODO - account for hidden panel
                                     if (IsCollapsed)
                                     {
@@ -223,16 +241,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                 child.Arrange(new Rect(offsets_x[AttachPosition.TopLeft], offsets_y[AttachPosition.TopLeft], child.DesiredSize.Width, child.DesiredSize.Height));
 
                                 offsets_y[AttachPosition.TopLeft] += child.DesiredSize.Height;
+
+                                leftInset = Math.Max(leftInset, child.DesiredSize.Width);
                                 break;
                             case AttachPosition.TopRight:
-                                if (!offsets_x.ContainsKey(AttachPosition.TopRight))
-                                {
-                                    offsets_x[AttachPosition.TopRight] = 0;
-                                    offsets_y[AttachPosition.TopRight] = 0;
-                                }
                                 child.Arrange(new Rect(finalSize.Width - offsets_x[AttachPosition.TopRight] - child.DesiredSize.Width, offsets_y[AttachPosition.TopRight], child.DesiredSize.Width, child.DesiredSize.Height));
 
                                 offsets_y[AttachPosition.TopRight] += child.DesiredSize.Height;
+                                rightInset = Math.Max(rightInset, child.DesiredSize.Width);
                                 break;
                         }
                         break;
@@ -263,6 +279,28 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                         break;
                 }
             }
+
+            // NOTE: inset calculation is explicitly tuned for use in the data collection app; specifically excluding top accessory buttons from vertical safe area limit;
+            //       also, excluding the bottom quadrants (used for attribution) from the horizontal inset calcuation
+
+            double sheetWidth = 0;
+            double sheetHeight = 0;
+            if (floatingSheet is UIElement sheet && sheet.Visibility == Visibility.Visible)
+            {
+                if (IsCollapsed)
+                {
+                    sheetHeight = CollapsedPanelHeight;
+                }
+                else
+                {
+                    sheetWidth = FloatingSheetWidthWhenExpanded;
+                }
+            }
+
+            SafeViewInsets = new Thickness(leftInset + sheetWidth,
+                                           topInset,
+                                           rightInset,
+                                           bottomInset + sheetHeight);
             return base.ArrangeOverride(finalSize);
         }
     }

@@ -48,6 +48,17 @@
         <Setter Property="Background" Value="White" />
         <Setter Property="BorderThickness" Value="1,0,1,1" />
         <Setter Property="BorderBrush" Value="#2d3436" />
+        <Setter Property="ImageStyle">
+            <Setter.Value>
+                <Style TargetType="Image">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5,5,0,5" />
+                    <Setter Property="MaxWidth" Value="12" />
+                    <Setter Property="MaxHeight" Value="12 "/>
+                    <Setter Property="Stretch" Value="Uniform" />
+                </Style>
+            </Setter.Value>
+        </Setter>
         <!-- default values for ease of use -->
         <Setter Property="Template">
             <Setter.Value>
@@ -74,7 +85,9 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="1"
+                                    <Image Source="{Binding IconSource}" Grid.Row="0" Style="{TemplateBinding ImageStyle}" />
+                                    <ContentPresenter Content="{Binding IconContent}" Grid.Row="0" />
+                                    <TextBlock Grid.Column="1"
                                            Text="{Binding Title, Mode=OneWay}"
                                            Margin="5"
                                            Style="{TemplateBinding TitleTextStyle}"

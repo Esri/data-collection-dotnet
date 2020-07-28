@@ -47,6 +47,17 @@
         <Setter Property="Background" Value="White" />
         <Setter Property="BorderThickness" Value="1,0,1,1" />
         <Setter Property="BorderBrush" Value="#2d3436" />
+        <Setter Property="ImageStyle">
+            <Setter.Value>
+                <Style TargetType="Image">
+                    <Setter Property="MaxWidth" Value="12" />
+                    <Setter Property="MaxHeight" Value="12" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="5,5,0,5" />
+                    <Setter Property="Stretch" Value="Uniform" />
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CardPresenter}">
@@ -54,7 +65,7 @@
                             DataContext="{TemplateBinding Card}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            VerticalAlignment="Stretch"
                             BorderBrush="{TemplateBinding BorderBrush}">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -71,7 +82,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="{Binding IconSource}" Grid.Column="0" />
+                                    <Image Source="{Binding IconSource}" Grid.Column="0" Style="{TemplateBinding ImageStyle}" />
                                     <ContentPresenter Content="{Binding IconContent, Mode=OneWay}" Grid.Column="0" />
                                     <TextBlock Grid.Column="1"
                                     VerticalAlignment="Center"

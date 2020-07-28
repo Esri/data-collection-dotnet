@@ -119,6 +119,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
         }
 
+        private bool _isAttributionOpen = false;
+        public bool IsAttributionOpen
+        {
+            get => _isAttributionOpen;
+            set
+            {
+                if (_isAttributionOpen != value)
+                {
+                    _isAttributionOpen = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public ICommand ToggleBookmarksCommand => _toggleBookmarksCommand ?? (_toggleBookmarksCommand = new DelegateCommand((parm) =>
         {
             IsBookmarksOpen = !IsBookmarksOpen;
@@ -157,6 +171,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             {
                 MapView.SetViewpointScaleAsync(currentViewpoint.TargetScale * 1.4);
             }
+        }));
+
+        private ICommand _toggleAttributionCommand;
+
+        public ICommand ToggleAttributionCommand => _toggleAttributionCommand ?? (_toggleAttributionCommand = new DelegateCommand(parm =>
+        {
+            IsAttributionOpen = !IsAttributionOpen;
         }));
 
         public void CloseAccessories()

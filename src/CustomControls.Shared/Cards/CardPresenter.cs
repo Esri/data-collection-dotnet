@@ -128,5 +128,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
 
 
 
+
+
+        public Style ImageStyle
+        {
+            get { return (Style)GetValue(ImageStyleProperty); }
+            set { SetValue(ImageStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ImageStyle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImageStyleProperty =
+            DependencyProperty.Register("ImageStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
+
+
     }
 }

@@ -25,6 +25,12 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Data;
+using ControlzEx.Behaviors;
+using Microsoft.Xaml.Behaviors;
+using ControlzEx.Native;
+using ControlzEx.Standard;
+using System.Reflection;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 {
@@ -38,6 +44,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
         public MainWindow()
         {
             InitializeComponent();
+            InitializeWindowChromeBehavior();
 
             // create event handler for when the message from the viewmodel changes
             UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
@@ -54,9 +61,34 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             UpdateMinizeIcon();
         }
 
+        private void InitializeWindowChromeBehavior()
+        {
+            var behavior = new WindowChromeBehavior();
+            behavior.EnableMinimize = true;
+            BindingOperations.SetBinding(behavior, WindowChromeBehavior.ResizeBorderThicknessProperty, new Binding { Path = new PropertyPath(ResizeBorderThicknessProperty), Source = this });
+
+            Interaction.GetBehaviors(this).Add(behavior);
+        }
+
+
+
+        public Thickness ResizeBorderThickness
+        {
+            get { return (Thickness)GetValue(ResizeBorderThicknessProperty); }
+            set { SetValue(ResizeBorderThicknessProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ResizeBorderThickness.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ResizeBorderThicknessProperty =
+            DependencyProperty.Register("ResizeBorderThickness", typeof(Thickness), typeof(MainWindow), new PropertyMetadata(new Thickness(6)));
+
+
+
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
             UpdateMinizeIcon();
+            // Works around weird bug on Windows 10 with multiple, mixed-DPI monitors.
+            // Solution inspired by https://www.codesd.com/item/windowstyle-none-and-maximized-window-hack-does-not-work-with-multiple-monitors.html
         }
 
         private void OnWaitStatusChanged(object sender, WaitStatusChangedEventArgs e)
@@ -145,17 +177,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 
     private void OnMinimizeWindow(object sender, RoutedEventArgs e)
     {
-        this.WindowState = WindowState.Minimized;
+            SystemCommands.MinimizeWindow(this);
     }
     private void OnMaximizeWindow(object sender, RoutedEventArgs e)
     {
             if (this.WindowState == WindowState.Maximized)
             {
-                this.WindowState = WindowState.Normal;
+                ControlzEx.Windows.Shell.SystemCommands.RestoreWindow(this);
             }
             else if (this.WindowState == WindowState.Normal)
             {
-                this.WindowState = WindowState.Maximized;
+                ControlzEx.Windows.Shell.SystemCommands.MaximizeWindow(this);
             }
     }
         private void UpdateMinizeIcon()
@@ -175,5 +207,141 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
     {
         this.Close();
     }
+        #region windowsteering
+        // Source: https://github.com/fluentribbon/Fluent.Ribbon/blob/ad5c70ffc120b6676394e68438b4c2fc04e5ba90/Fluent.Ribbon/Controls/WindowSteeringHelperControl.cs 
+        //     and https://github.com/fluentribbon/Fluent.Ribbon/blob/ad5c70ffc120b6676394e68438b4c2fc04e5ba90/Fluent.Ribbon/Helpers/WindowSteeringHelper.cs
+        // MIT license: Copyright (c) 2009-2018 Bastian Schmidt, Degtyarev Daniel, Rikker Serg (https://github.com/fluentribbon/Fluent.Ribbon)
+
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+
+            if (this.IsEnabled)
+            {
+                HandleMouseLeftButtonDown(e, true, true);
+            }
+        }
+
+        /// <inheritdoc />
+        private void OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonUp(e);
+
+            if (this.IsEnabled)
+            {
+                ShowSystemMenu(this, e);
+            }
+        }
+
+        private static readonly PropertyInfo criticalHandlePropertyInfo = typeof(Window).GetProperty("CriticalHandle", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly object[] emptyObjectArray = new object[0];
+
+        /// <summary>
+        /// Shows the system menu at the current mouse position.
+        /// </summary>
+        /// <param name="e">The mouse event args.</param>
+        /// <param name="handleDragMove">Defines if window dragging should be handled.</param>
+        /// <param name="handleStateChange">Defines if window state changes should be handled.</param>
+        public static void HandleMouseLeftButtonDown(MouseButtonEventArgs e, bool handleDragMove, bool handleStateChange)
+        {
+            var dependencyObject = e.Source as DependencyObject;
+
+            if (dependencyObject == null)
+            {
+                return;
+            }
+
+            HandleMouseLeftButtonDown(dependencyObject, e, handleDragMove, handleStateChange);
+        }
+
+        /// <summary>
+        /// Shows the system menu at the current mouse position.
+        /// </summary>
+        /// <param name="dependencyObject">The object which was the source of the mouse event.</param>
+        /// <param name="e">The mouse event args.</param>
+        /// <param name="handleDragMove">Defines if window dragging should be handled.</param>
+        /// <param name="handleStateChange">Defines if window state changes should be handled.</param>
+        public static void HandleMouseLeftButtonDown(DependencyObject dependencyObject, MouseButtonEventArgs e, bool handleDragMove, bool handleStateChange)
+        {
+            var window = Window.GetWindow(dependencyObject);
+
+            if (window == null)
+            {
+                return;
+            }
+
+            if (handleDragMove
+                && e.ClickCount == 1)
+            {
+                e.Handled = true;
+
+                // taken from DragMove internal code
+                window.VerifyAccess();
+
+                // for the touch usage
+                UnsafeNativeMethods.ReleaseCapture();
+
+                var criticalHandle = (IntPtr)criticalHandlePropertyInfo.GetValue(window, emptyObjectArray);
+                // DragMove works too, but not on maximized windows
+                NativeMethods.SendMessage(criticalHandle, WM.SYSCOMMAND, (IntPtr)SC.MOUSEMOVE, IntPtr.Zero);
+                NativeMethods.SendMessage(criticalHandle, WM.LBUTTONUP, IntPtr.Zero, IntPtr.Zero);
+            }
+            else if (handleStateChange
+                && e.ClickCount == 2
+                && (window.ResizeMode == ResizeMode.CanResize || window.ResizeMode == ResizeMode.CanResizeWithGrip))
+            {
+                e.Handled = true;
+
+                if (window.WindowState == WindowState.Normal)
+                {
+                    ControlzEx.Windows.Shell.SystemCommands.MaximizeWindow(window);
+                }
+                else
+                {
+                    ControlzEx.Windows.Shell.SystemCommands.RestoreWindow(window);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Shows the system menu at the current mouse position.
+        /// </summary>
+        /// <param name="dependencyObject">The object which was the source of the mouse event.</param>
+        /// <param name="e">The mouse event args.</param>
+        public static void ShowSystemMenu(DependencyObject dependencyObject, MouseButtonEventArgs e)
+        {
+            var window = Window.GetWindow(dependencyObject);
+
+            if (window == null)
+            {
+                return;
+            }
+
+            ShowSystemMenu(window, e);
+        }
+
+        /// <summary>
+        /// Shows the system menu at the current mouse position.
+        /// </summary>
+        /// <param name="window">The window for which the system menu should be shown.</param>
+        /// <param name="e">The mouse event args.</param>
+        public static void ShowSystemMenu(Window window, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+
+            ControlzEx.Windows.Shell.SystemCommands.ShowSystemMenu(window, e);
+        }
+
+        /// <summary>
+        /// Shows the system menu at <paramref name="screenLocation"/>.
+        /// </summary>
+        /// <param name="window">The window for which the system menu should be shown.</param>
+        /// <param name="screenLocation">The location at which the system menu should be shown.</param>
+        public static void ShowSystemMenu(Window window, Point screenLocation)
+        {
+            ControlzEx.Windows.Shell.SystemCommands.ShowSystemMenu(window, screenLocation);
+        }
+        #endregion
     }
 }

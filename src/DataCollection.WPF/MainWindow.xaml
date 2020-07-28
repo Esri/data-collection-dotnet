@@ -15,22 +15,14 @@
     xmlns:cards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
     xmlns:cc="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards" xmlns:panels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels" xmlns:transientoverlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays"
     Title="Data Collection for .NET (WPF)"
-    BorderBrush="Green" BorderThickness="1"
-    MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}"
-    MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}"
-    WindowStyle="None"
     mc:Ignorable="d">
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="{Binding ElementName=TitleBar, Path=ActualHeight}"
-                      GlassFrameThickness="0"
-                      ResizeBorderThickness="10" CornerRadius="0" />
-    </WindowChrome.WindowChrome>
     <Window.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <localconverters:ConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
+            <localconverters:BoolToCursorConverter x:Key="BoolToCursorConverter" />
             <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
@@ -76,28 +68,35 @@
                 </Setter>
             </Style>
             <Style x:Key="NavContainerStyle" TargetType="Border">
-                <Setter Property="Background" Value="#CCFFFFFF" />
+                <Setter Property="Background" Value="{StaticResource content-background}" />
                 <Setter Property="Margin" Value="0,0,0,5" />
             </Style>
             <DataTemplate x:Key="NavItemTemplate">
-                <Border Background="White" BorderBrush="SlateGray" BorderThickness="1" Padding="5" Margin="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                <Border Background="White" BorderBrush="SlateGray" BorderThickness="1" Margin="5" Grid.Column="0" Padding="5">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="5" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="5" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Image Source="{Binding IconSource}" MaxWidth="20" Grid.Row="0" Grid.Column="0" Margin="5" />
-                        <TextBlock Text="{Binding Title}" 
+                        <Image Source="{Binding IconSource}" MaxWidth="10" MaxHeight="10" 
+                               Grid.Row="0" Grid.Column="0" Margin="0" />
+                            <ContentPresenter Content="{Binding IconContent}"  />
+                            <TextBlock Text="{Binding Title}" 
                                    FontWeight="SemiBold"
                                    Grid.Row="0"
                                    Grid.Column="2"
+                                   Margin="5,0,5,0"
                                    VerticalAlignment="Center" />
-                        <Path Data="{StaticResource calcite-ui-chevron-right-16}" Fill="SlateGray" Height="10" Stretch="Uniform" Grid.Column="4" VerticalAlignment="Center" Margin="5" />
                     </Grid>
                 </Border>
+                 <Path Data="{StaticResource calcite-ui-chevron-right-16}" Fill="SlateGray" Height="10" Stretch="Uniform" VerticalAlignment="Center" Margin="5"
+                       Grid.Column="1"/>
+                </Grid>
             </DataTemplate>
             <Style x:Key="CardCloseStyle" TargetType="Button">
                 <Setter Property="BorderThickness" Value="0" />
@@ -113,7 +112,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="OuterGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -132,10 +131,11 @@
             </Style>
         </Grid.Resources>
 
-        <Grid x:Name="TitleBar" Grid.Row="0" Background="White">
+        <Grid x:Name="TitleBar" Grid.Row="0" Background="White"  MouseLeftButtonDown="OnMouseLeftButtonDown" MouseRightButtonUp="OnMouseRightButtonUp">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <!-- Image -->
+
                 <ColumnDefinition Width="Auto" />
                 <!-- App title-->
                 <ColumnDefinition Width="*" />
@@ -162,7 +162,11 @@
                               >
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource calcite-ui-online-16}" Width="16" Height="16" Fill="{StaticResource calcite-color-success}" Stretch="Uniform" />
-                        <TextBlock Text="Working Online" Margin="10,0,10,0" Foreground="{StaticResource calcite-color-success}" />
+                        <TextBlock Margin="10,0,10,0" Foreground="{StaticResource calcite-color-success}">
+                            <Run Text="Working Online" FontWeight="SemiBold" />
+                            <Run Text=" - " />
+                            <Run Text="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
                     </StackPanel>
                 </ToggleButton>
                 <ToggleButton HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" Padding="10,5,10,5"
@@ -175,6 +179,7 @@
                 </ToggleButton>
             </Grid>
             <Image Grid.Column="0" Source="Images/ArcGIS_Open_Source_Apps.ico" Width="15" Height="15" VerticalAlignment="Center" Margin="5,0,5,0" />
+            <!-- TODO localize everything here -->
             <TextBlock Grid.Column="1" Text="Data Collection for .NET (WPF)" FontWeight="SemiBold" />
             <Button Grid.Column="5" WindowChrome.IsHitTestVisibleInChrome="True"
                     Background="White" Padding="15,5,15,5" VerticalContentAlignment="Center"
@@ -229,7 +234,9 @@
             MapUI:MapLayoutPanel.LayoutRole="BackgroundView"
             utils:MapViewExtensions.IdentifyController="{Binding IdentifyController}"
             utils:MapViewExtensions.MapAccessoryViewModel="{Binding MapAccessoryViewModel}"
-                IsAttributionTextVisible="False"
+            Cursor="{Binding IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToCursorConverter}}"
+            IsAttributionTextVisible="False" Padding="5"
+            ViewInsets="{Binding ElementName=ParentPanel, Path=SafeViewInsets, Mode=OneWay}"
             Map="{Binding MapViewModel.Map, Mode=TwoWay}">
                 <utils:MapViewExtensions.ViewpointController>
                     <utils:ViewpointController Viewpoint="{Binding MapViewModel.AreaOfInterest, Source={StaticResource MainViewModel}, Mode=TwoWay}" />
@@ -256,7 +263,7 @@
                         Margin="10"
                         MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
                         MapUI:MapLayoutPanel.AttachPosition="TopLeft"
-                        Effect="{StaticResource StandardDropShadow}">
+                Effect="{StaticResource StandardDropShadow}">
                 <Button Style="{StaticResource MapAccessoryButtonStyle}"
                         Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ZoomInCommand}">
                     <Path Data="{StaticResource calcite-ui-plus-32}" Style="{StaticResource MapAccessoryIconStyle}" />
@@ -272,7 +279,7 @@
                         Margin="10,0,10,0"
                         MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
                         MapUI:MapLayoutPanel.AttachPosition="TopLeft"
-                        Effect="{StaticResource StandardDropShadow}">
+                Effect="{StaticResource StandardDropShadow}">
                 <!--  Current Location Button  -->
                 <Button Style="{StaticResource MapAccessoryButtonStyle}"
                         Command="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.MoveToCurrentLocationCommand}"
@@ -289,7 +296,7 @@
                         MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" 
                         MapUI:MapLayoutPanel.AttachPosition="TopRight"
                         DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}"
-                        Effect="{StaticResource StandardDropShadow}">
+                Effect="{StaticResource StandardDropShadow}">
                 <Button Command="{Binding ToggleBookmarksCommand, Mode=OneTime}" 
                          Style="{StaticResource MapAccessoryButtonStyle}"
                          ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarksButton.Label}"
@@ -315,7 +322,6 @@
                         Background="White"
                         HorizontalAlignment="Right"
                         Margin="10,0,10,0"
-                        Effect="{StaticResource StandardDropShadow}"
                         MapUI:MapLayoutPanel.AttachPosition="TopRight"
                         MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory">
                 <!--  Add Feature Button  -->
@@ -329,21 +335,31 @@
             </StackPanel>
 
             <!-- Attribution Controls -->
-            <Path Height="20" Stretch="Uniform" Fill="White" 
-                  Margin="5"
-                  Data="{StaticResource calcite-ui-esri-logo}" MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" MapUI:MapLayoutPanel.AttachPosition="BottomRight">
-                <Path.Effect>
-                    <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="1" />
-                </Path.Effect>
-            </Path>
-            <Border Height="20" VerticalAlignment="Center" MapUI:MapLayoutPanel.AttachPosition="BottomRight" Margin="5" MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" Background="#ffffff"
-                    MaxWidth="450" Padding="5">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="5" ShadowDepth="2" Opacity="1" />
-                </Border.Effect>
-                <TextBlock FontSize="9" Text="{Binding ElementName=MapView, Path=AttributionText, UpdateSourceTrigger=PropertyChanged}"
+            <Button Style="{StaticResource OnMapAttributionButtonStyle}"
+                    MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
+                    MapUI:MapLayoutPanel.AttachPosition="BottomRight"
+                    Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleAttributionCommand}">
+                <StackPanel Orientation="Horizontal">
+
+                    <Border Height="20" VerticalAlignment="Center" 
+                    MapUI:MapLayoutPanel.AttachPosition="BottomRight" 
+                    Margin="5"
+                    MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" Background="#aaffffff"
+                    MaxWidth="450" Padding="5"
+                    >
+                        <TextBlock FontSize="9" 
+                           Text="{Binding ElementName=MapView, Path=AttributionText, UpdateSourceTrigger=PropertyChanged}"
                            ToolTipService.ToolTip="{Binding ElementName=MapView, Path=AttributionText, UpdateSourceTrigger=PropertyChanged}"/>
-            </Border>
+                    </Border>
+                    <Path Height="20" Stretch="Uniform" Fill="White" 
+                  Margin="5"
+                  Data="{StaticResource calcite-ui-esri-logo}" 
+                  MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
+                  MapUI:MapLayoutPanel.AttachPosition="BottomRight"
+                         Effect="{StaticResource TightDropShadow}">
+                    </Path>
+                </StackPanel>
+            </Button>
 
             <!--  Compass control that displays when user rotates the map  -->
             <esri:Compass Margin="10"
@@ -370,14 +386,23 @@
                                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
 
+            <Grid Background="{StaticResource dc-dark-transparent-overlay}"
+                  MapUI:MapLayoutPanel.LayoutRole="TransientOverlay"
+                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                  Visibility="{Binding MapAccessoryViewModel.IsAttributionOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+                <transientoverlays:AttributionOverlay DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+
             <cards:CardDeck MapUI:MapLayoutPanel.LayoutRole="FloatingSheet"
                             CardPresenterStyle="{StaticResource BasicCardStyle}"
                             NavigationContainerStyle="{StaticResource NavContainerStyle}"
                             DataContext="{Binding MapAccessoryViewModel}"
                             NavigationItemTemplate="{StaticResource NavItemTemplate}"
-                            Margin="{Binding IsCollapsed, ElementName=ParentPanel, Converter={StaticResource RVC}, ConverterParameter='0,5,0,0|5,5,5,25'}">
+                            Margin="{Binding IsCollapsed, ElementName=ParentPanel, Converter={StaticResource RVC}, ConverterParameter='0,5,0,0|10'}">
                 <cards:CardDeck.Cards>
                     <cards:OverlayCard Title="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.PopupManager.Title}"
+                                       IconSource="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.IconImageSource}"
                                        IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}}">
                         <views:IdentifiedFeaturePopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
                         <cards:OverlayCard.TopAccessories>
@@ -388,6 +413,7 @@
                     </cards:OverlayCard>
 
                     <cards:OverlayCard Title="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                                       IconSource="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedOriginRelationship.IconImageSource, Mode=OneWay}"
                                        IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
                         <views:OriginRelatedRecordPopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
                         <cards:OverlayCard.TopAccessories>
@@ -398,6 +424,7 @@
                     </cards:OverlayCard>
 
                     <cards:OverlayCard Title="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
+                                       IconSource="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
                                        IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedDestinationRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
                         <views:DestinationRelatedRecordPopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
                         <cards:OverlayCard.TopAccessories>

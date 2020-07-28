@@ -70,6 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="Binding Support\SourceController.cs" />
     <Compile Include="Binding Support\WebBrowserExtensions.cs" />
+    <Compile Include="Converters\BoolToCursorConverter.cs" />
     <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
     <Compile Include="Converters\MapTitleConverter.cs" />
@@ -90,6 +91,9 @@
     </Compile>
     <Compile Include="Views\DialogBoxWindow.xaml.cs">
       <DependentUpon>DialogBoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TransientOverlays\AttributionOverlay.xaml.cs">
+      <DependentUpon>AttributionOverlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TransientOverlays\DownloadView.xaml.cs">
       <DependentUpon>DownloadView.xaml</DependentUpon>
@@ -167,6 +171,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TransientOverlays\AttributionOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TransientOverlays\DownloadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +216,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ControlzEx">
+      <Version>4.3.2</Version>
+    </PackageReference>
     <PackageReference Include="Esri.ArcGISRuntime.Toolkit">
       <Version>100.8.0</Version>
     </PackageReference>

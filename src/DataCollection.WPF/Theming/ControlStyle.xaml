@@ -88,7 +88,7 @@
         <Setter Property="Background" Value="White" />
         <Setter Property="FontSize" Value="16" />
     </Style>
-    <Style TargetType="TextBlock" x:Key="PopupSectionSubheaderStyle">
+    <Style TargetType="TextBlock" x:Key="PopupSectionSubheaderStye">
         <Setter Property="Foreground" Value="SlateGray" />
         <Setter Property="Background" Value="White" />
         <Setter Property="Margin" Value="10,5,5,5" />
@@ -221,7 +221,8 @@
         
     </Style>
     <DropShadowEffect x:Key="StandardDropShadow" BlurRadius="20" Opacity="0.5" />
-    
+    <DropShadowEffect x:Key="TightDropShadow" BlurRadius="2" Opacity="1" ShadowDepth="2" />
+
     <Style TargetType="{x:Type Button}" x:Key="TitleBarBlueButtonStyle">
     <Setter Property="Background" Value="White"/>
         <Setter Property="Width" Value="30" />
@@ -240,6 +241,22 @@
         <Trigger Property="IsMouseOver" Value="True">
             <Setter Property="Background" Value="#D0E2F0"/>
         </Trigger>
+    </Style.Triggers>
+</Style>
+    <Style TargetType="{x:Type Button}" x:Key="OnMapAttributionButtonStyle">
+         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="{x:Type Button}">
+                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+    <Style.Triggers>
     </Style.Triggers>
 </Style>
     <Style TargetType="Button" x:Key="TitleBarRedButtonStyle" BasedOn="{StaticResource TitleBarBlueButtonStyle}">

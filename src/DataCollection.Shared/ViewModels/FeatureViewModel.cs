@@ -23,6 +23,8 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using Esri.ArcGISRuntime.UI;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
@@ -50,6 +52,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         {
                             AttachmentsViewModel = new AttachmentsViewModel(PopupManager, FeatureTable);
                         });
+
+                        UpdateImageSource();
                     }
                     OnPropertyChanged();
                 }
@@ -69,6 +73,42 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_attachmentsViewModel != value)
                 {
                     _attachmentsViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private async void UpdateImageSource()
+        {
+            try
+            {
+                await PopupManager.EvaluateExpressionsAsync();
+                if (PopupManager?.Symbol == null)
+                {
+                    IconImageSource = null;
+                    return;
+                }
+
+                var symbol = await PopupManager.Symbol.CreateSwatchAsync(20, 20, 96, System.Drawing.Color.Transparent);
+                var imageSource = await symbol.ToImageSourceAsync();
+                IconImageSource = imageSource;
+            }
+            catch (Exception)
+            {
+                // TODO - log this
+            }
+        }
+
+        private ImageSource _iconImageSource;
+
+        public ImageSource IconImageSource
+        {
+            get => _iconImageSource;
+            set
+            {
+                if (_iconImageSource != value)
+                {
+                    _iconImageSource = value;
                     OnPropertyChanged();
                 }
             }

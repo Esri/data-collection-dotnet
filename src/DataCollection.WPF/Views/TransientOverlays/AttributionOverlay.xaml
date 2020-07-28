@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays.AttributionOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
+                <ResourceDictionary Source="../../CalciteIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <!-- Expects DataContext to be set to MapAccessoryViewModel-->
+        <Border Background="{StaticResource content-background}" Padding="10"
+                MaxWidth="500"
+                MaxHeight="500">
+            <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer Padding="0,0,5,0" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Map Attribution" Style="{StaticResource StatusPanelTitleStyle}" />
+                    <TextBlock Text="{Binding MapView.AttributionText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StatusPanelCaptionTextStyle}"
+                           TextWrapping="Wrap" />
+                </StackPanel>
+            </ScrollViewer>
+            
+            <Button Style="{StaticResource MapOverlayButtonStyle}"
+                    Command="{Binding ToggleAttributionCommand}"
+                    Grid.Row="1"
+                    Margin="0,5,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="{StaticResource calcite-ui-check-circle-16}" Style="{StaticResource MapOverlayButtonIconStyle}"
+                          Fill="{StaticResource  calcite-color-success}" />
+                    <TextBlock Text="OK, Go Back"
+                               Foreground="{StaticResource calcite-color-success}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+        </Border>
+</UserControl>
