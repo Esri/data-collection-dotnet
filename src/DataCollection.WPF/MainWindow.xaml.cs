@@ -343,5 +343,19 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             ControlzEx.Windows.Shell.SystemCommands.ShowSystemMenu(window, screenLocation);
         }
         #endregion
+
+        private void WorkOnlineButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            UserPopup.StaysOpen = true;
+            OfflinePopup.StaysOpen = true;
+            OnlinePopup.StaysOpen = true;
+        }
+
+        private void WorkOnlineButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            UserPopup.StaysOpen = false;
+            OfflinePopup.StaysOpen = false;
+            OnlinePopup.StaysOpen = false;
+        }
     }
 }

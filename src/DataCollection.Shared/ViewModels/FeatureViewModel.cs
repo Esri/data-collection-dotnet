@@ -23,8 +23,13 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using Esri.ArcGISRuntime.UI;
+
+#if __UWP__
+using Windows.UI.Xaml.Media;
+#else
+using System.Windows.Media;
+#endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {

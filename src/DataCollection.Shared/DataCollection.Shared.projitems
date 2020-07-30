@@ -14,6 +14,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\LocationDisplayController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\PointToDoubleConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolInverseConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EmptyCollectionToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />

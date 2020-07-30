@@ -27,7 +27,7 @@
     <Grid DataContext="{Binding IdentifiedFeatureViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TabControl BorderThickness="0">
             <!-- TODO: localize tab headers -->
@@ -75,7 +75,7 @@
                                         <Grid Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0">
                                                 <TextBlock Text="{Binding PopupManager.Title}" Style="{StaticResource RecordCardTitle}" />
@@ -123,7 +123,7 @@
                                                     CommandParameter="{Binding .}"
                                                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}">
                                             <StackPanel Orientation="Horizontal">
-                                                <Path Data="{StaticResource calcite-ui-plus-circle-16}" Fill="Black" />
+                                                <Path Data="{StaticResource calcite-ui-plus-circle-16}" Style="{StaticResource CardButtonIconStyle}" />
                                                 <TextBlock Text="Add Related Record" Margin="5,0,5,0" />
                                             </StackPanel>
                                         </Button>
@@ -135,7 +135,7 @@
                                                         <Grid Visibility="{Binding IsNewFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="40" />
+                                                                <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="*" />

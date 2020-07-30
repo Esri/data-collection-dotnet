@@ -15,6 +15,7 @@
     xmlns:cards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
     xmlns:cc="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards" xmlns:panels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels" xmlns:transientoverlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays"
     Title="Data Collection for .NET (WPF)"
+    BorderBrush="Green" BorderThickness="2"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
@@ -26,89 +27,14 @@
             <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+            <converters:PointToDoubleConverter x:Key="PointToDoubleConverter" />
             <localconverters:MapTitleConverter x:Key="MapTitleConverter" />
             <MapUI:ResponsiveValueConverter x:Key="RVC" />
             <viewModels:MainViewModel x:Key="MainViewModel" />
-            <Style x:Key="BasicCardStyle" TargetType="cards:CardPresenter">
-                <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="TitleTextStyle">
-                    <Setter.Value>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="Black" />
-                            <Setter Property="FontSize" Value="16" />
-                            <Setter Property="FontWeight" Value="Light" />
-                            <Setter Property="VerticalAlignment" Value="Top" />
-                            <Setter Property="Margin" Value="0,0,0,0" />
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="BottomBarStyle">
-                    <Setter.Value>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="SubtitleBarStyle">
-                    <Setter.Value>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="TopBarStyle">
-                    <Setter.Value>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="White" />
-                            <Setter Property="BorderThickness" Value="0,3,0,0" />
-                            <Setter Property="BorderBrush" Value="LightSlateGray" />
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style x:Key="NavContainerStyle" TargetType="Border">
-                <Setter Property="Background" Value="{StaticResource content-background}" />
-                <Setter Property="Margin" Value="0,0,0,5" />
-            </Style>
-            <DataTemplate x:Key="NavItemTemplate">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                <Border Background="White" BorderBrush="SlateGray" BorderThickness="1" Margin="5" Grid.Column="0" Padding="5">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Image Source="{Binding IconSource}" MaxWidth="10" MaxHeight="10" 
-                               Grid.Row="0" Grid.Column="0" Margin="0" />
-                            <ContentPresenter Content="{Binding IconContent}"  />
-                            <TextBlock Text="{Binding Title}" 
-                                   FontWeight="SemiBold"
-                                   Grid.Row="0"
-                                   Grid.Column="2"
-                                   Margin="5,0,5,0"
-                                   VerticalAlignment="Center" />
-                    </Grid>
-                </Border>
-                 <Path Data="{StaticResource calcite-ui-chevron-right-16}" Fill="SlateGray" Height="10" Stretch="Uniform" VerticalAlignment="Center" Margin="5"
-                       Grid.Column="1"/>
-                </Grid>
-            </DataTemplate>
-            <Style x:Key="CardCloseStyle" TargetType="Button">
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Margin" Value="5" />
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="Padding" Value="5" />
-                <!-- TODO: redefine hover style -->
-            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ResourceDictionary.xaml" />
                 <ResourceDictionary Source="CalciteIcons.xaml" />
+                <ResourceDictionary Source="Theming/ControlStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -118,24 +44,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.Resources>
-            <Style TargetType="Button">
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="BorderThickness" Value="0" />
-            </Style>
-            <Style TargetType="ToggleButton">
-                <Setter Property="BorderThickness" Value="0" />
-            </Style>
-            <Style TargetType="TextBlock">
-                <Setter Property="VerticalAlignment" Value="Center" />
-            </Style>
-        </Grid.Resources>
-
-        <Grid x:Name="TitleBar" Grid.Row="0" Background="White"  MouseLeftButtonDown="OnMouseLeftButtonDown" MouseRightButtonUp="OnMouseRightButtonUp">
+        <Grid x:Name="TitleBar" 
+              Grid.Row="0" 
+              Background="{StaticResource chrome-background}"
+              MouseLeftButtonDown="OnMouseLeftButtonDown" 
+              MouseRightButtonUp="OnMouseRightButtonUp">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <!-- Image -->
-
                 <ColumnDefinition Width="Auto" />
                 <!-- App title-->
                 <ColumnDefinition Width="*" />
@@ -155,53 +71,58 @@
                 <ColumnDefinition Width="Auto" />
                 <!-- Close button -->
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" Grid.ColumnSpan="10"  WindowChrome.IsHitTestVisibleInChrome="True">
-                <ToggleButton x:Name="WorkOnlineButton" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" Padding="10,5,10,5"
-                              IsChecked="{Binding Source={StaticResource MainViewModel}, Path=IsOfflinePanelOpen, Mode=TwoWay}"
+            <Grid Grid.Column="0" 
+                  Grid.ColumnSpan="10" 
+                  WindowChrome.IsHitTestVisibleInChrome="True">
+                <ToggleButton x:Name="WorkOnlineButton" Style="{StaticResource TitleBarToggleButton}"
+                              HorizontalAlignment="Center"
                               Visibility="{Binding Source={StaticResource MainViewModel}, Path=ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}"
-                              >
+                              MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-online-16}" Width="16" Height="16" Fill="{StaticResource calcite-color-success}" Stretch="Uniform" />
-                        <TextBlock Margin="10,0,10,0" Foreground="{StaticResource calcite-color-success}">
+                        <Path Data="{StaticResource calcite-ui-online-16}"
+                              Style="{StaticResource TitleBarButtonIconPathStyle}"
+                              Fill="{StaticResource calcite-color-success}" />
+                        <TextBlock Margin="10,0,0,0" Foreground="{StaticResource calcite-color-success}">
                             <Run Text="Working Online" FontWeight="SemiBold" />
                             <Run Text=" - " />
                             <Run Text="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
                     </StackPanel>
                 </ToggleButton>
-                <ToggleButton HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" Padding="10,5,10,5"
-                              IsChecked="{Binding Source={StaticResource MainViewModel}, Path=IsMapStatusPanelOpen, Mode=TwoWay}"
+                <ToggleButton x:Name="WorkOfflineButton" Style="{StaticResource TitleBarToggleButton}"
+                              HorizontalAlignment="Center"
+                              MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave"
                               Visibility="{Binding Source={StaticResource MainViewModel}, Path=ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-offline-16}" Width="16" Height="16" Fill="Black" Stretch="Uniform" />
+                        <Path Data="{StaticResource calcite-ui-offline-16}" Style="{StaticResource TitleBarButtonIconPathStyle}" />
                         <TextBlock Text="Working Offline" Margin="10,0,0,0" />
                     </StackPanel>
                 </ToggleButton>
             </Grid>
-            <Image Grid.Column="0" Source="Images/ArcGIS_Open_Source_Apps.ico" Width="15" Height="15" VerticalAlignment="Center" Margin="5,0,5,0" />
+            <Image Style="{StaticResource TitleBarIconImageStyle}" 
+                   Source="Images/ArcGIS_Open_Source_Apps.ico" />
             <!-- TODO localize everything here -->
-            <TextBlock Grid.Column="1" Text="Data Collection for .NET (WPF)" FontWeight="SemiBold" />
-            <Button Grid.Column="5" WindowChrome.IsHitTestVisibleInChrome="True"
-                    Background="White" Padding="15,5,15,5" VerticalContentAlignment="Center"
+            <TextBlock Grid.Column="1" Text="Data Collection for .NET (WPF)"
+                       Style="{StaticResource TitleBarTitleTextStyle}"/>
+            <Button Grid.Column="5"
+                    Style="{StaticResource TitleBarButton}"
                     HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
                     Command="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.SignInCommand, Mode=OneWay}"
                     Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                 <StackPanel Orientation="Horizontal">
-                    <Path Data="{StaticResource calcite-ui-sign-in-16}" Fill="Black" Width="10" Height="10" Stretch="Uniform" Margin="0,0,5,0" />
-                    <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignInButton.Label}" />
+                    <Path Data="{StaticResource calcite-ui-sign-in-16}" Style="{StaticResource TitleBarButtonIconPathStyle}" Width="10" />
+                    <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignInButton.Label}"
+                               Margin="10,0,0,0"/>
                 </StackPanel>
             </Button>
-            <ToggleButton Grid.Column="5" WindowChrome.IsHitTestVisibleInChrome="True"
-                    Background="White" Padding="10,5,10,5" VerticalContentAlignment="Center"
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                    IsChecked="{Binding Source={StaticResource MainViewModel}, Path=IsUserPanelOpen, Mode=TwoWay}"
-                    Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+            <ToggleButton x:Name="UserPopupButton" Grid.Column="5" 
+                          Style="{StaticResource TitleBarToggleButton}"
+                          HorizontalAlignment="Right"
+                          MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave"
+                          Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
-                    <Ellipse Grid.Column="0"
-                    Width="15"
-                    Height="15"
-                             Margin="0,0,5,0"
-                    Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Ellipse Style="{StaticResource TitleBarUserIconStyle}"
+                             Visibility="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.ThumbnailUri}" />
                         </Ellipse.Fill>
@@ -209,9 +130,9 @@
                     <TextBlock Text="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}" FontSize="11" />
                 </StackPanel>
             </ToggleButton>
-            <TextBlock Grid.Column="6" Text="|" FontWeight="SemiBold" Margin="5,0,5,0" />
+            <TextBlock Grid.Column="6" Text="|" FontWeight="SemiBold" Margin="5,0,5,0" VerticalAlignment="Center" />
             <Button Grid.Column="7" Click="OnMinimizeWindow" Style="{StaticResource TitleBarBlueButtonStyle}">
-                <Path Data="{StaticResource calcite-ui-underscore-16}" Width="10" Height="10" Fill="Black" Stretch="Uniform" VerticalAlignment="Bottom" />
+                <Path Data="{StaticResource calcite-ui-underscore-16}" Fill="Black" Width="10" Height="10" VerticalAlignment="Bottom" Stretch="Uniform"/>
             </Button>
             <Button Style="{StaticResource TitleBarBlueButtonStyle}" 
                     Grid.Column="8" Click="OnMaximizeWindow">
@@ -235,7 +156,7 @@
             utils:MapViewExtensions.IdentifyController="{Binding IdentifyController}"
             utils:MapViewExtensions.MapAccessoryViewModel="{Binding MapAccessoryViewModel}"
             Cursor="{Binding IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToCursorConverter}}"
-            IsAttributionTextVisible="False" Padding="5"
+            IsAttributionTextVisible="False"
             ViewInsets="{Binding ElementName=ParentPanel, Path=SafeViewInsets, Mode=OneWay}"
             Map="{Binding MapViewModel.Map, Mode=TwoWay}">
                 <utils:MapViewExtensions.ViewpointController>
@@ -245,6 +166,11 @@
                     <utils:LocationDisplayController DataSource="{Binding MapViewModel.LocationDataSource, Source={StaticResource MainViewModel}}" />
                 </utils:MapViewExtensions.LocationDisplayController>
             </esri:MapView>
+
+                <IdentifyIndicatorOverlay DataContext="{x:Bind .,Mode=OneWay}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          MapUI:MapLayoutPanel.LayoutRole="Background"/>
 
             <StackPanel Orientation="Vertical"
                         Background="White"
@@ -339,32 +265,35 @@
                     MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
                     MapUI:MapLayoutPanel.AttachPosition="BottomRight"
                     Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleAttributionCommand}">
-                <StackPanel Orientation="Horizontal">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                    <Border Height="20" VerticalAlignment="Center" 
-                    MapUI:MapLayoutPanel.AttachPosition="BottomRight" 
-                    Margin="5"
-                    MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" Background="#aaffffff"
-                    MaxWidth="450" Padding="5"
-                    >
+                    <Border MapUI:MapLayoutPanel.AttachPosition="BottomRight" 
+                            MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" 
+                            Style="{StaticResource AttributionTextBorderStyle}">
                         <TextBlock FontSize="9" 
                            Text="{Binding ElementName=MapView, Path=AttributionText, UpdateSourceTrigger=PropertyChanged}"
                            ToolTipService.ToolTip="{Binding ElementName=MapView, Path=AttributionText, UpdateSourceTrigger=PropertyChanged}"/>
                     </Border>
-                    <Path Height="20" Stretch="Uniform" Fill="White" 
+                    <Path Height="20" Stretch="Uniform" Fill="White" Grid.Column="1"
                   Margin="5"
                   Data="{StaticResource calcite-ui-esri-logo}" 
                   MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
                   MapUI:MapLayoutPanel.AttachPosition="BottomRight"
                          Effect="{StaticResource TightDropShadow}">
                     </Path>
-                </StackPanel>
+                </Grid>
             </Button>
 
             <!--  Compass control that displays when user rotates the map  -->
             <esri:Compass Margin="10"
-                          MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" MapUI:MapLayoutPanel.AttachPosition="BottomLeft"
-                          AutoHide="False"
+                          MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" MapUI:MapLayoutPanel.AttachPosition="TopLeft"
+                          AutoHide="True"
+                          HorizontalAlignment="Center"
+                          Width="44" Height="44"
                           GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
 
             <!--  New feature overlay  -->
@@ -453,7 +382,9 @@
                         <cards:OverlayCard.IconContent>
                             <Path Data="{StaticResource calcite-ui-bookmark-16}" Fill="Black" Stretch="Uniform" Margin="5" />
                         </cards:OverlayCard.IconContent>
-                        <esri:BookmarksView GeoView="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.MapView, Mode=OneTime}" />
+                        <esri:BookmarksView GeoView="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.MapView, Mode=OneTime}"
+                                            ItemTemplate="{StaticResource BookmarksViewItemTemplate}"
+                                            />
                         <cards:OverlayCard.TopAccessories>
                             <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneTime}" Style="{StaticResource CardCloseStyle}">
                                 <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
@@ -468,7 +399,8 @@
                             <Path Data="{StaticResource calcite-ui-legend-16}" Fill="Black" Stretch="Uniform" Margin="5" />
                         </cards:OverlayCard.IconContent>
                         <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" Style="{StaticResource CardCloseStyle}">
+                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" 
+                                    Style="{StaticResource CardCloseStyle}">
                                 <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
                             </Button>
                         </cards:OverlayCard.TopAccessories>
@@ -494,47 +426,35 @@
             </Grid>
         </MapUI:MapLayoutPanel>
 
-        <Path x:Name="IdentifyProgressBar"
-              Grid.RowSpan="3"
-              Style="{StaticResource AnimatedSpinnerPathStyle}"
-              Visibility="{Binding Source={StaticResource MainViewModel}, Path=IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToVisibilityConverter}}"          
-              Data="{StaticResource calcite-ui-spinner-16}"
-              RenderTransformOrigin="0.5,0.5">
-            <Path.RenderTransform>
-                <RotateTransform Angle="0"  />
-            </Path.RenderTransform>
-            <Path.Triggers>
-            <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <!-- TODO : stop animating when not visible -->
-                                <DoubleAnimation Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
-                                             From="0" Duration="0:0:1" To="360" RepeatBehavior="Forever" />
-                        </Storyboard>
-                    </BeginStoryboard>
-            </EventTrigger>
-        </Path.Triggers>
-        </Path>
-
-        <!-- Floating 'Working Online' Panel -->
-        <Border Grid.Row="2"
-                Style="{StaticResource TitleBarPopoverBorderStyle}"
-                Visibility="{Binding Source={StaticResource MainViewModel}, Path=IsOfflinePanelOpen, Converter={StaticResource BoolToVisibilityConverter}}">
-            <panels:OnlineMapPanel DataContext="{StaticResource MainViewModel}" />
-        </Border>
+       <!-- Floating 'Working Online' Panel -->
+        <Popup Grid.Row="2" PlacementTarget="{Binding ElementName=WorkOnlineButton}"
+        Style="{StaticResource PopupStyle}"
+               x:Name="OnlinePopup"
+                IsOpen="{Binding ElementName=WorkOnlineButton, Path=IsChecked}" >
+            <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <panels:OnlineMapPanel DataContext="{StaticResource MainViewModel}" />
+            </Border>
+        </Popup>
 
         <!-- Floating 'Working Offline' Panel -->
-        <Border Grid.Row="2" Style="{StaticResource TitleBarPopoverBorderStyle}"
-                HorizontalAlignment="Center"
-                Visibility="{Binding Source={StaticResource MainViewModel}, Path=IsMapStatusPanelOpen, Converter={StaticResource BoolToVisibilityConverter}}">
-            <panels:MapPanel DataContext="{Binding Source={StaticResource MainViewModel}}"  />
-        </Border>
+        <Popup Grid.Row="2" x:Name="OfflinePopup"
+        Style="{StaticResource PopupStyle}"
+               PlacementTarget="{Binding ElementName=WorkOfflineButton}" StaysOpen="False"
+                IsOpen="{Binding ElementName=WorkOfflineButton, Path=IsChecked}">
+            <Border Style="{StaticResource TitleBarPopoverBorderStyle}" Effect="{x:Null}">
+                <panels:MapPanel DataContext="{Binding Source={StaticResource MainViewModel}}"  />
+            </Border>
+        </Popup>
 
         <!-- Floating User Panel -->
-        <Border Grid.Row="2" Style="{StaticResource TitleBarPopoverBorderStyle}"
-                HorizontalAlignment="Right"
-                Visibility="{Binding Source={StaticResource MainViewModel}, Path=IsUserPanelOpen, Converter={StaticResource BoolToVisibilityConverter}}">
-            <panels:UserAccountPanel DataContext="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel, Mode=OneWay}"  />
-        </Border>
+        <Popup Grid.Row="2" x:Name="UserPopup"
+               Style="{StaticResource PopupStyle}"
+                HorizontalAlignment="Right" HorizontalOffset="-10"
+               PlacementTarget="{Binding ElementName=UserPopupButton}" StaysOpen="False"
+                IsOpen="{Binding ElementName=UserPopupButton, Path=IsChecked}">
+            <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <panels:UserAccountPanel DataContext="{Binding Source={StaticResource MainViewModel}, Path=AuthViewModel, Mode=TwoWay}"  />
+            </Border>
+        </Popup>
     </Grid>
 </Window>

@@ -6,6 +6,15 @@
              xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
+                <ResourceDictionary Source="../../CalciteIcons.xaml" />
+                <ResourceDictionary Source="../../Theming/ControlStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <TreeView ItemsSource="{Binding MapAccessoryViewModel.MapView.Map.OperationalLayers, Mode=OneWay}"
               BorderThickness="0"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -42,17 +51,7 @@
         <TreeView.ItemTemplate>
             <HierarchicalDataTemplate DataType="esri:ILayerContent" ItemsSource="{Binding SublayerContents}">
                 <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay}"
-                                  VerticalContentAlignment="Center"
-                                  HorizontalAlignment="Stretch"
-                                  HorizontalContentAlignment="Stretch"
-                                  Margin="5,0,5,0"
-                                  VerticalAlignment="Center">
-                    <TextBlock Grid.Column="1" Text="{Binding Name}" 
-                                       FontSize="15"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Stretch"
-                                       Margin="5"/>
-                </CheckBox>
+                          Style="{StaticResource TocCheckboxStyle}" />
             </HierarchicalDataTemplate>
         </TreeView.ItemTemplate>
     </TreeView>

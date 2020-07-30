@@ -30,6 +30,7 @@ using System.Threading;
 using System.Threading.Tasks;
 #if NETFX_CORE
 using Windows.UI.Xaml;
+using Windows.Foundation;
 #else
 using System.Windows;
 #endif
@@ -99,6 +100,22 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         /// </summary>
         private Geometry.Geometry _tappedLocation;
 
+        private Point _tappedScreenPosition;
+
+        public Point TappedScreenPosition
+        {
+            get => _tappedScreenPosition;
+            private set
+            {
+                if (_tappedScreenPosition != value)
+                {
+                    _tappedScreenPosition = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TappedScreenPosition)));
+                }
+            }
+        }
+
         /// <summary>
         /// Invoked when GeoViewTapped event is firing
         /// </summary>
@@ -136,7 +153,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 }
 
                 // get the tap location in screen units and geographic coordinates
-                var tapScreenPoint = e.Position;
+                TappedScreenPosition = e.Position;
                 _tappedLocation = e.Location;
 
                 // set identify parameters
@@ -150,8 +167,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 if (target == null)
                 {
                     // An identify target is not specified, so identify all layers and overlays
-                    var identifyLayersTask = mapView.IdentifyLayersAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
-                    var identifyOverlaysTask = mapView.IdentifyGraphicsOverlaysAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
+                    var identifyLayersTask = mapView.IdentifyLayersAsync(TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                    var identifyOverlaysTask = mapView.IdentifyGraphicsOverlaysAsync(TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount);
                     await Task.WhenAll(identifyLayersTask, identifyOverlaysTask);
                     layerResults = identifyLayersTask.Result;
                     graphicsOverlayResults = identifyOverlaysTask.Result;
@@ -159,13 +176,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 else if (target is Layer targetLayer && mapView.Map.OperationalLayers.Contains(target as Layer))
                 {
                     // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                    var identifyResult = await mapView.IdentifyLayerAsync(targetLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                    var identifyResult = await mapView.IdentifyLayerAsync(targetLayer, TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
                     layerResults = new List<IdentifyLayerResult> { identifyResult }.AsReadOnly();
                 }
                 else if (target is GraphicsOverlay targetOverlay && mapView.GraphicsOverlays.Contains(target as GraphicsOverlay))
                 {
                     // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                    var identifyResult = await mapView.IdentifyGraphicsOverlayAsync(targetOverlay, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
+                    var identifyResult = await mapView.IdentifyGraphicsOverlayAsync(targetOverlay, TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount);
                     graphicsOverlayResults = new List<IdentifyGraphicsOverlayResult> { identifyResult }.AsReadOnly();
                 }
                 else if (target is ArcGISSublayer sublayer)
@@ -176,7 +193,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                     {
 
                         // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                        var topLevelIdentifyResult = await mapView.IdentifyLayerAsync(layer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                        var topLevelIdentifyResult = await mapView.IdentifyLayerAsync(layer, TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
                         var sublayerIdentifyResult = topLevelIdentifyResult?.SublayerResults?.Where(r => r.LayerContent.Equals(sublayer)).FirstOrDefault();
 
                         layerResults = new List<IdentifyLayerResult> { sublayerIdentifyResult }.AsReadOnly();

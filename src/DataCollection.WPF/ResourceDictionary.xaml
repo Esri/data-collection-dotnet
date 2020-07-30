@@ -465,13 +465,13 @@
         </StackPanel>
     </DataTemplate>
     <Style x:Key="CardControlStripStyle" TargetType="Grid">
-        <Setter Property="Background" Value="LightSlateGray" />
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
     </Style>
-    <Style x:Key="CardControlStripButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="LightSlateGray" />
+    <Style x:Key="CardControlStripButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonBase}">
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="5" />
-        <Setter Property="Width" Value="40" />
+        <Setter Property="Padding" Value="15" />
+        <Setter Property="Margin" Value="0" />
     </Style>
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Theming/Constants.xaml" />

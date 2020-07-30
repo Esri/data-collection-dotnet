@@ -1,14 +1,32 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:cards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+ 
                     xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Theming">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="./Constants.xaml" />
+        <ResourceDictionary Source="../CalciteIcons.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Style TargetType="TabItem" x:Key="MinimalistTabItemStyle">
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ContentPresenter x:Name="HeaderSite" Content="{TemplateBinding Content}" Cursor="Hand" />
+                    <DataTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HeaderSite" Property="TextElement.Foreground" Value="SlateGray" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="HeaderSite" Property="TextElement.Foreground" Value="Black" />
+                        </Trigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Border x:Name="ControlBorder" BorderThickness="0,0,0,3" Margin="0,0,5,0" Padding="5">
+                    <Border x:Name="ControlBorder" BorderThickness="0,0,0,3" Margin="0" Padding="5">
                         <Grid Name="Panel">
                             <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
@@ -25,12 +43,6 @@
                         <Trigger Property="IsSelected" Value="False">
                             <Setter TargetName="ControlBorder" Property="BorderBrush" Value="Transparent" />
                             <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="Normal" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="SlateGray" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="Black" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -72,17 +84,6 @@
         <Setter Property="Margin" Value="10,0,0,0" />
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
-    <Style TargetType="Button" x:Key="FieldAccessoryButton">
-        <Setter Property="Background" Value="SlateGray" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Margin" Value="0,0,10,0" />
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Width" Value="30" />
-        <Setter Property="HorizontalAlignment" Value="Right" />
-        <Setter Property="Padding" Value="5" />
-        <Setter Property="Cursor" Value="Hand" />
-    </Style>
     <Style TargetType="TextBlock" x:Key="PopupSectionHeaderStyle">
         <Setter Property="Foreground" Value="SlateGray" />
         <Setter Property="Background" Value="White" />
@@ -95,17 +96,7 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
-    <Style TargetType="Button" x:Key="ProminentButtonStyle">
-        <Setter Property="Foreground" Value="SlateGray" />
-        <Setter Property="Background" Value="White" />
-        <Setter Property="BorderBrush" Value="SlateGray" />
-        <Setter Property="Margin" Value="5" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="5" />
-        <Setter Property="Cursor" Value="Hand" />
-    </Style>
+    
     <Style TargetType="Separator" x:Key="PopupSeparatorStyle">
         <Setter Property="Background" Value="SlateGray" />
         <Setter Property="Margin" Value="10,0,10,0" />
@@ -125,16 +116,6 @@
         <Setter Property="Margin" Value="5" />
         <Setter Property="FontSize" Value="14" />
     </Style>
-    <Style TargetType="Button" x:Key="MapOverlayButtonStyle">
-        <Setter Property="Foreground" Value="Black" />
-        <Setter Property="Padding" Value="25,10,25,10" />
-        <Setter Property="BorderBrush" Value="SlateGray" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Margin" Value="5,15,5,20" />
-        <Setter Property="Cursor" Value="Hand" />
-    </Style>
-
     <Style TargetType="Border" x:Key="MapOverlayBorderStyle">
         <Setter Property="BorderBrush" Value="{StaticResource dc-dark-transparent-overlay}" />
         <Setter Property="BorderThickness" Value="100,100,100,200" />
@@ -221,17 +202,20 @@
         
     </Style>
     <DropShadowEffect x:Key="StandardDropShadow" BlurRadius="20" Opacity="0.5" />
-    <DropShadowEffect x:Key="TightDropShadow" BlurRadius="2" Opacity="1" ShadowDepth="2" />
+    <DropShadowEffect x:Key="TightDropShadow" BlurRadius="20" Opacity="1" ShadowDepth="1" />
 
     <Style TargetType="{x:Type Button}" x:Key="TitleBarBlueButtonStyle">
     <Setter Property="Background" Value="White"/>
         <Setter Property="Width" Value="30" />
         <Setter Property="Height" Value="25" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
         <Setter.Value>
             <ControlTemplate TargetType="{x:Type Button}">
-                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </ControlTemplate>
@@ -274,7 +258,6 @@
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="BorderBrush" Value="SlateGray" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
     </Style>
     <Style TargetType="TextBlock" x:Key="TitleBarPopoverLabelStyle">
         <Setter Property="Foreground" Value="#202020" />
@@ -286,12 +269,358 @@
 
     <Style TargetType="Path" x:Key="AnimatedSpinnerPathStyle">
         <Setter Property="Fill" Value="Black" />
-        <Setter Property="Height" Value="64" />
-        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="Width" Value="44" />
         <Setter Property="Stretch" Value="Uniform" />
         <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
+
+    <Style TargetType="Popup" x:Key="PopupStyle">
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="VerticalOffset" Value="10" />
+        <Setter Property="StaysOpen" Value="False" />
+        <Setter Property="PopupAnimation" Value="Fade" />
+    </Style>
+
+    <DataTemplate x:Key="BookmarksViewItemTemplate">
+        <Border Background="Transparent" Padding="10,10,0,10" Cursor="Hand" HorizontalAlignment="Stretch">
+                <TextBlock Text="{Binding Name}" 
+                           FontWeight="{StaticResource content-font-weight}" FontSize="{StaticResource content-font-size}"
+                           Foreground="{StaticResource content-foreground}"/>
+        </Border>
+    </DataTemplate>
+
     
+    
+        <Style x:Key="ListViewContainerStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Padding" Value="4,1"/>
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
+        <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource brand-button-hover-background}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource brand-button-hover-background}"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                    <Condition Property="IsSelected" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{StaticResource brand-button-hover-background}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    
+    <!-- Exports default template -->
+    <Style TargetType="{x:Type ListView}" x:Key="{x:Type ListView}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListViewContainerStyle}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style TargetType="CheckBox" x:Key="TocCheckboxStyle">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Border x:Name="OuterBorder" Padding="10" Cursor="Hand" VerticalAlignment="Stretch">
+                        <Grid VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Path x:Name="CheckImagePath" Grid.Column="0" Fill="Black" Stretch="Uniform" Data="{StaticResource calcite-ui-check-circle-16}"
+                                  Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="{StaticResource content-foreground}"
+                                       Margin="10,0,0,0"
+                                       FontWeight="{StaticResource content-font-weight}" FontSize="{StaticResource content-font-size}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="OuterBorder" Property="Background" Value="{StaticResource brand-button-hover-background}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckImagePath" Property="Data" Value="{StaticResource calcite-ui-view-visible-16}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter TargetName="CheckImagePath" Property="Data" Value="{StaticResource calcite-ui-view-mixed-16}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="CheckImagePath" Property="Data" Value="{StaticResource calcite-ui-view-hide-16}" />
+                        </Trigger>
+                        <!--
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CheckImagePath" Property="Data" Value="{StaticResource calcite-ui-view-hide-16}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="CheckImagePath" Property="Data" Value="{StaticResource calcite-ui-view-visible-16}" />
+                        </MultiTrigger>
+                        -->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Border" x:Key="AttributionTextBorderStyle">
+        <Setter Property="Background" Value="#BBFFFFFF" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="TextBlock.TextTrimming" Value="WordEllipsis" />
+        <Setter Property="BorderBrush" Value="#AAAAAAAA" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    
+    <Style x:Key="BasicCardStyle" TargetType="cards:CardPresenter">
+                <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="TitleTextStyle">
+                    <Setter.Value>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="FontSize" Value="16" />
+                            <Setter Property="FontWeight" Value="Light" />
+                            <Setter Property="VerticalAlignment" Value="Top" />
+                            <Setter Property="Margin" Value="0,0,0,0" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BottomBarStyle">
+                    <Setter.Value>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="SubtitleBarStyle">
+                    <Setter.Value>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="TopBarStyle">
+                    <Setter.Value>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="BorderThickness" Value="0,3,0,0" />
+                            <Setter Property="BorderBrush" Value="LightSlateGray" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="NavContainerStyle" TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource content-background}" />
+                <Setter Property="Margin" Value="0,0,0,5" />
+            </Style>
+            <DataTemplate x:Key="NavItemTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                <Border Background="White" BorderBrush="SlateGray" BorderThickness="1" Margin="5" Grid.Column="0" Padding="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding IconSource}" MaxWidth="10" MaxHeight="10" 
+                               Grid.Row="0" Grid.Column="0" Margin="0" />
+                            <ContentPresenter Content="{Binding IconContent}"  />
+                            <TextBlock Text="{Binding Title}" 
+                                   FontWeight="SemiBold"
+                                   Grid.Row="0"
+                                   Grid.Column="2"
+                                   Margin="5,0,5,0"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+                 <Path Data="{StaticResource calcite-ui-chevron-right-16}" Fill="SlateGray" Height="10" Stretch="Uniform" VerticalAlignment="Center" Margin="5"
+                       Grid.Column="1"/>
+                </Grid>
+            </DataTemplate>
+    <Style x:Key="ActionButtonBase" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="bg"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}"
+                            Margin="{TemplateBinding Margin}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource brand-button-hover-background}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <!-- TODO: redefine hover style -->
+    </Style>
+    <Style x:Key="CardCloseStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonBase}">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style x:Key="TitleBarButtonBase" TargetType="ButtonBase">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="10,5,10,5" />
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+    </Style>
+    <Style TargetType="ToggleButton" x:Key="TitleBarToggleButton" BasedOn="{StaticResource TitleBarButtonBase}">
+        <Setter Property="Template">
+           <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="bg" 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Cursor="{TemplateBinding Cursor}">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource brand-button-hover-background}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource chrome-background}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource brand-button-hover-background}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Button" x:Key="TitleBarButton" BasedOn="{StaticResource TitleBarButtonBase}">
+        <Setter Property="Template">
+           <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="bg" 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Cursor="{TemplateBinding Cursor}">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource brand-button-hover-background}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+  
+        </Setter>
+    </Style>
+    <Style TargetType="Path" x:Key="TitleBarButtonIconPathStyle">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Fill" Value="{StaticResource chrome-foreground}" />
+    </Style>
+
+    <Style TargetType="Image" x:Key="TitleBarIconImageStyle">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5,0,5,0" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="TitleBarTitleTextStyle">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style TargetType="Ellipse" x:Key="TitleBarUserIconStyle">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Margin" Value="0,0,5,0" />
+    </Style>
+     <Style TargetType="Button" x:Key="FieldAccessoryButton" BasedOn="{StaticResource ActionButtonBase}">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+    <Style TargetType="Path" x:Key="CardButtonIconStyle">
+        <Setter Property="Fill" Value="{StaticResource brand-primary-accent}" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+    </Style>
+    <Style TargetType="Button" x:Key="ProminentButtonStyle" BasedOn="{StaticResource ActionButtonBase}">
+        <Setter Property="Foreground" Value="SlateGray" />
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="5,10,5,10" />
+    </Style>
+    <Style TargetType="Button" x:Key="MapOverlayButtonStyle" BasedOn="{StaticResource ActionButtonBase}">
+        <Setter Property="Padding" Value="25,10,25,10" />
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
+        <Setter Property="Margin" Value="5,15,5,20" />
+    </Style>
+
 </ResourceDictionary> 
