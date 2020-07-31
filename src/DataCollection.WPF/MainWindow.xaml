@@ -167,10 +167,31 @@
                 </utils:MapViewExtensions.LocationDisplayController>
             </esri:MapView>
 
-                <IdentifyIndicatorOverlay DataContext="{x:Bind .,Mode=OneWay}"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Stretch"
-                                          MapUI:MapLayoutPanel.LayoutRole="Background"/>
+            <Canvas MapUI:MapLayoutPanel.LayoutRole="BackgroundView">
+                <Path x:Name="IdentifyProgressBar"
+              Grid.RowSpan="3"
+               Canvas.Left="{Binding IdentifyController.TappedScreenPosition, Converter={StaticResource PointToDoubleConverter}, ConverterParameter=Left|-22, Mode=OneWay}"
+                      Canvas.Top="{Binding IdentifyController.TappedScreenPosition, Converter={StaticResource PointToDoubleConverter}, ConverterParameter=Top|-22, Mode=OneWay}"
+              Style="{StaticResource AnimatedSpinnerPathStyle}"
+              Visibility="{Binding Source={StaticResource MainViewModel}, Path=IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToVisibilityConverter}}"          
+              Data="{StaticResource calcite-ui-spinner-16}"
+              RenderTransformOrigin="0.5,0.5">
+            <Path.RenderTransform>
+                <RotateTransform Angle="0"  />
+            </Path.RenderTransform>
+            <Path.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <!-- TODO : stop animating when not visible -->
+                                <DoubleAnimation Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
+                                             From="0" Duration="0:0:1" To="360" RepeatBehavior="Forever" />
+                        </Storyboard>
+                    </BeginStoryboard>
+            </EventTrigger>
+        </Path.Triggers>
+        </Path>
+            </Canvas>
 
             <StackPanel Orientation="Vertical"
                         Background="White"
