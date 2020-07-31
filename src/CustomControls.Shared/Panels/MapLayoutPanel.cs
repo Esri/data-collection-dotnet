@@ -138,11 +138,32 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
         {
             IsCollapsed = availableSize.Width < WidthBreakpoint;
 
+            UIElement floatingSheet = null;
+            // initial measurement round for use later
+            foreach(var child in Children.OfType<UIElement>())
+            {
+                if (GetLayoutRole(child) == LayoutRole.FloatingSheet)
+                {
+                    floatingSheet = child;
+                    break;
+                }
+            }
+
             foreach(var child in Children.OfType<UIElement>())
             {
                 if (GetLayoutRole(child) == LayoutRole.FloatingSheet && IsCollapsed)
                 {
                     child.Measure(new Size(availableSize.Width, CollapsedPanelHeight));
+                }
+                else if (GetLayoutRole(child) == LayoutRole.FloatingAccessory && GetAttachPosition(child) == AttachPosition.BottomRight)
+                {
+                    double widthconstraint = 0;
+                    // TODO - account for hidden panel
+                    if (floatingSheet?.Visibility == Visibility.Visible && !IsCollapsed)
+                    {
+                        widthconstraint = (double)GetValue(FloatingSheetWidthWhenExpandedProperty);
+                    }
+                    child.Measure(new Size(availableSize.Width - widthconstraint, availableSize.Height));
                 }
                 else
                 {
@@ -212,6 +233,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                 bottomInset = Math.Max(bottomInset, child.DesiredSize.Height);
                                 break;
                             case AttachPosition.BottomRight:
+                                double widthconstraint = 0;
                                 if (offsets_y[AttachPosition.BottomRight] == 0 && offsets_x[AttachPosition.BottomRight] == 0)
                                 {
                                     // TODO - account for hidden panel
@@ -219,8 +241,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                                     {
                                         offsets_y[AttachPosition.BottomRight] = (double)GetValue(CollapsedPanelHeightProperty);
                                     }
+                                    else if (floatingSheet?.Visibility == Visibility.Visible && FloatingSheetWidthWhenExpanded + child.DesiredSize.Width > finalSize.Width)
+                                    {
+                                        widthconstraint = (double)GetValue(FloatingSheetWidthWhenExpandedProperty);
+                                    }
                                 }
-                                child.Arrange(new Rect(finalSize.Width - offsets_x[AttachPosition.BottomRight] - child.DesiredSize.Width, finalSize.Height - child.DesiredSize.Height - offsets_y[AttachPosition.BottomRight], child.DesiredSize.Width, child.DesiredSize.Height));
+                                var newWidth = Math.Min(child.DesiredSize.Width, finalSize.Width - widthconstraint);
+                                child.Arrange(new Rect(Math.Max(finalSize.Width - offsets_x[AttachPosition.BottomRight] - child.DesiredSize.Width, widthconstraint), 
+                                                       finalSize.Height - child.DesiredSize.Height - offsets_y[AttachPosition.BottomRight],
+                                                       newWidth,
+                                                       child.DesiredSize.Height));
                                 offsets_x[AttachPosition.BottomRight] += child.DesiredSize.Width;
 
                                 bottomInset = Math.Max(bottomInset, child.DesiredSize.Height);

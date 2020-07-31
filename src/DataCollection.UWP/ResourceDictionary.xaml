@@ -209,6 +209,7 @@
     </DataTemplate>
     <Style x:Key="BasicCardStyle" TargetType="cards:CardPresenter">
         <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="TitleTextStyle">
             <Setter.Value>
@@ -489,7 +490,7 @@
         <Setter Property="LightDismissOverlayMode" Value="On" />
     </Style>
     <Style TargetType="Border" x:Key="PopupBorder">
-        <Setter Property="Background" Value="{StaticResource chrome-background}" />
+        <Setter Property="Background" Value="{StaticResource content-background}" />
         <Setter Property="BorderBrush" Value="{StaticResource chrome-subtle-border}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="BorderThickness" Value="1" />

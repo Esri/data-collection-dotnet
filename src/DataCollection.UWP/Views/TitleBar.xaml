@@ -10,6 +10,7 @@
     d:DesignWidth="400">
     <UserControl.Resources>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
      <VisualStateManager.VisualStateGroups>
@@ -88,12 +89,27 @@
                 <Button Style="{StaticResource TitleBarButton}"
                 Foreground="{StaticResource brand-success}"
                 Command="{x:Bind MainViewModel.ToggleOnlinePanelCommand}"
+                Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}"
                 HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource calcite-ui-online-16}"
                       Style="{StaticResource TitleBarButtonPathIcon}" Fill="{StaticResource brand-success}" />
                         <TextBlock Margin="5,0,0,0">
                     <Run Text="Working Online" FontWeight="SemiBold" />
+                    <Run Text=" - " />
+                    <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource TitleBarButton}"
+                Command="{x:Bind MainViewModel.ToggleOfflinePanelCommand}"
+                Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}"
+                HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource calcite-ui-online-16}"
+                      Style="{StaticResource TitleBarButtonPathIcon}" />
+                        <TextBlock Margin="5,0,0,0">
+                    <Run Text="Working Offline" FontWeight="SemiBold" />
                     <Run Text=" - " />
                     <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
