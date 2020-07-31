@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
                     <!-- Have to use string resources and not shared geometries, due to UWP bug: https://github.com/microsoft/microsoft-ui-xaml/issues/1874 -->
-    <x:String x:Key="calcite-ui-bookmark-24">M25 2H7v27.493l9-6.67 9 6.67zm-1 25.507l-8-5.929-8 5.929V3h16z</x:String>
-    <x:String x:Key="calcite-ui-bookmark-16">M13 0H3v15.469l5-3.556 5 3.556zm-1 13.531l-4-2.844-4 2.844V1h8z</x:String>
+    <x:String x:Key="calcite-ui-bookmark-24">M20 23.444l-8-5.44-8 5.44V1h16zm-8-6.648l7 4.76V2H5v19.556 z</x:String>
+    <x:String x:Key="calcite-ui-bookmark-16">M 13,0 H 3 v 15.469 l 5,-3.556 5,3.556 z M 12,13.531 8,10.687 4,13.531 V 1 h 8 z</x:String>
     <x:String x:Key="calcite-ui-camera-16">M14.5 14h-13A1.502 1.502 0 0 1 0 12.5v-8A1.502 1.502 0 0 1 1.5 3H2V2h4v1h1a1.001 1.001 0 0 1 1-1h5a1.001 1.001 0 0 1 1 1h.5A1.502 1.502 0 0 1 16 4.5v8a1.502 1.502 0 0 1-1.5 1.5zM1.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14a1.001 1.001 0 0 1-1-1H8a1.001 1.001 0 0 1-1 1H5V3H3v1zM5 5.5V5H2v1h3zm5.5-.5A3.5 3.5 0 1 0 14 8.5 3.504 3.504 0 0 0 10.5 5zm0 6A2.5 2.5 0 1 1 13 8.5a2.5 2.5 0 0 1-2.5 2.5z</x:String>
     <x:String x:Key="calcite-ui-chevron-right-16">M5.793 12l4-4-4-4h1.414l4 4-4 4z</x:String>
     <x:String x:Key="calcite-ui-ellipsis-16">M 14,9.5 A 1.5,1.5 0 1 1 15.5,8 1.501,1.501 0 0 1 14,9.5 Z M 9.5,8 A 1.5,1.5 0 1 0 8,9.5 1.501,1.501 0 0 0 9.5,8 Z m -6,0 A 1.5,1.5 0 1 0 2,9.5 1.501,1.501 0 0 0 3.5,8 Z</x:String>
@@ -34,8 +34,8 @@
     <x:String x:Key="calcite-ui-home-32">M 11,8.5 V 5 H 6 v 8.5 L 2.5,17 H 5 v 12 h 8 v -8 h 6 v 8 h 8 V 17 h 2.5 L 16,3.5 Z M 26,16 v 12 h -6 v -8 h -8 v 8 H 6 V 16 H 4.914 L 7.0000001,13.914 V 6 H 10 v 4.914 l 6,-6 L 27.086,16 Z</x:String>
     <x:String x:Key="calcite-ui-plus-32">M16 17H8v-1h8V8h1v8h8v1h-8v8h-1z</x:String>
     <x:String x:Key="calcite-ui-minus-32">M 27,17 H 5 v -1 h 22 z</x:String>
-    <x:String x:Key="calcite-ui-bookmark-32">M25 2H7v27.493l9-6.67 9 6.67zm-1 25.507l-8-5.929-8 5.929V3h16z</x:String>
-    <x:String x:Key="calcite-ui-layers-32">M30.5 11.492L16 3 1.5 11.492 16 20zM16 4.16l12.522 7.334L16 18.841 3.478 11.493zM16 25L1.5 16.492l2.781-1.629.989.58-1.792 1.05L16 23.841l12.522-7.348-1.792-1.05.989-.58 2.781 1.63zm0 5L1.5 21.492l2.781-1.629.989.58-1.792 1.05L16 28.841l12.522-7.348-1.792-1.05.989-.58 2.781 1.63z</x:String>
+    <x:String x:Key="calcite-ui-bookmark-32">M 25,2 H 7 v 27.493 l 9,-6.67 9,6.67 z M 24,27.507 16,21.578 8,27.507 V 3 h 16 z</x:String>
+    <x:String x:Key="calcite-ui-layers-32">M 30.5,11.492 16,3 1.5,11.492 16,20 Z M 16,4.16 28.522,11.494 16,18.841 3.478,11.493 Z M 16,25 1.5,16.492 4.281,14.863 5.27,15.443 3.478,16.493 16,23.841 l 12.522,-7.348 -1.792,-1.05 0.989,-0.58 2.781,1.63 z m 0,5 -14.5,-8.508 2.781,-1.629 0.989,0.58 -1.792,1.05 12.522,7.348 12.522,-7.348 -1.792,-1.05 0.989,-0.58 2.781,1.63 z</x:String>
     <x:String x:Key="calcite-ui-legend-32">M 11,5 H 29 V 6 H 11 Z m 0,8 H 29 V 12 H 11 Z m 0,7 H 29 V 19 H 11 Z m 0,7 H 29 V 26 H 11 Z M 3,12.5 A 2.5000001,2.5 0 1 1 5.5000001,15 2.5000001,2.5 0 0 1 3,12.5 Z m 1.0000001,0 a 1.5000001,1.5 0 1 0 1.5,-1.5 1.5000001,1.5 0 0 0 -1.5,1.5 z M 8.1540002,29 H 2.846 L 5.5000001,23.932 Z M 4.4980001,28 H 6.5020002 L 5.5000001,26.087 Z M 8.0000002,8 H 3 V 3 H 8.0000002 Z M 7.0000001,4 h -3 v 3 h 3 z M 3,17 h 5.0000002 v 5 H 3 Z m 1.0000001,4 h 3 v -3 h -3 z</x:String>
     <x:String x:Key="calcite-ui-plus-circle-32">M 16.5,3.2 A 13.3,13.3 0 1 0 29.8,16.5 13.3,13.3 0 0 0 16.5,3.2 Z m 0,25.6 A 12.3,12.3 0 1 1 28.8,16.5 12.314,12.314 0 0 1 16.5,28.8 Z M 17,16 h 7 v 1 h -7 v 7 H 16 V 17 H 8.9999999 V 16 H 16 V 9 h 1 z</x:String>
     <x:String x:Key="calcite-x-circle-32">M 8.5,7.793 11.328,4.964 12.036,5.672 9.207,8.5 12.036,11.328 11.328,12.036 8.5,9.207 5.672,12.036 4.964,11.328 7.793,8.5 4.964,5.672 5.672,4.964 Z M 15.8,8.5 A 7.3,7.3 0 1 1 8.5,1.2 7.3,7.3 0 0 1 15.8,8.5 Z m -1,0 a 6.3,6.3 0 1 0 -6.3,6.3 6.307,6.307 0 0 0 6.3,-6.3 z</x:String>

@@ -50,7 +50,7 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:StagedAttachment">
-                    <Grid HorizontalAlignment="Stretch" ColumnSpacing="10" Margin="0,10,0,0">
+                    <Grid HorizontalAlignment="Stretch" ColumnSpacing="10" Margin="0,10,0,0" RequestedTheme="Light">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -65,39 +65,27 @@
                             Grid.Column="0"
                             Grid.Row="0" Grid.RowSpan="2"
                             Height="40" Width="40" VerticalAlignment="Center"
-                            Source="{Binding Thumbnail, Mode=OneWay}" />                        
-                        <TextBlock
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            VerticalAlignment="Top"
-                            Text="{Binding Attachment.Name, Mode=OneWay}"
-                            FontWeight="SemiBold"
-                            TextWrapping="Wrap" />
-                        <TextBlock 
-                            Grid.Row="1" Grid.Column="1"
-                            Text="{Binding Attachment.Size, Converter={StaticResource BytesToHumanReadableSizeConverter}}"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Opacity="0.6"/>
-                        <Button
-                            Grid.Column="2"
-                            Grid.Row="0" Grid.RowSpan="2"
-                            HorizontalAlignment="Right"
-                            Command="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.AttachmentsViewModel.DeleteAttachmentCommand}"
-                            CommandParameter="{Binding Attachment}"
-                            Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"
-                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}">
-                            <BitmapIcon UriSource="Assets/Calcite/trash-32.png"
-                                        Width="15" Height="15"/>
+                            Source="{Binding Thumbnail, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource AttachmentTitleText}"
+                                   Grid.Column="1" Grid.Row="0"
+                                   Text="{Binding Attachment.Name, Mode=OneWay}" />
+                        <TextBlock  Style="{StaticResource AttachmentSubtitleText}"
+                                    Grid.Row="1" Grid.Column="1"
+                                    Text="{Binding Attachment.Size, Converter={StaticResource BytesToHumanReadableSizeConverter}}" />
+                        <Button Style="{StaticResource CardGroupButton}"
+                                Grid.Column="2" Grid.Row="0" Grid.RowSpan="2"
+                                Command="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.AttachmentsViewModel.DeleteAttachmentCommand}"
+                                CommandParameter="{Binding Attachment}"
+                                Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"
+                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}">
+                            <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource CardGroupButtonPathIcon}" />
                         </Button>
-                        <Button
-                            Grid.Column="3"
-                            Grid.Row="0" Grid.RowSpan="2"
-                            HorizontalAlignment="Right"
-                            Command="{Binding ElementName=AttachmentsItemsControl, Path=DataContext.AttachmentsViewModel.OpenAttachmentCommand, Mode=OneWay}"
-                            CommandParameter="{Binding Attachment, Mode=OneWay}"
-                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}">
-                            <BitmapIcon UriSource="Assets/Calcite/launch-32.png"
-                                        Width="15" Height="15"/>
+                        <Button Style="{StaticResource CardGroupButton}"
+                                Grid.Column="3" Grid.Row="0" Grid.RowSpan="2"
+                                Command="{Binding ElementName=AttachmentsItemsControl, Path=DataContext.AttachmentsViewModel.OpenAttachmentCommand, Mode=OneWay}"
+                                CommandParameter="{Binding Attachment, Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}">
+                            <Path Data="{StaticResource calcite-ui-launch-16}" Style="{StaticResource CardGroupButtonPathIcon}" />
                         </Button>
                     </Grid>
                 </DataTemplate>

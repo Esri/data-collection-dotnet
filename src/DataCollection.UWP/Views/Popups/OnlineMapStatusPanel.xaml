@@ -1,0 +1,72 @@
+﻿<UserControl
+    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups.OnlineMapStatusPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+            <converters:LocalizationConverter x:Key="LocalizationConverter" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border Style="{StaticResource PopupBorder}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}"
+                   Style="{StaticResource PopupProminentText}"
+                   Grid.Column="0" Grid.ColumnSpan="2"
+                   FontSize="18" />
+            <!-- TODO: localize -->
+            <TextBlock Text="Created:" Style="{StaticResource PopupProminentText}"
+                   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"/>
+            <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Created, FallbackValue='unknown', Mode=OneWay}"
+                   Style="{StaticResource PopupText}"
+                   Grid.Row="2" Grid.Column="1" />
+            <TextBlock Text="Offline Map Available" 
+                   Style="{StaticResource PopupProminentText}"
+                   Grid.Row="5" Grid.Column="0" 
+                   Grid.ColumnSpan="2" 
+                   HorizontalAlignment="Center"
+                   Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+            <TextBlock Text="Downloaded on:" Margin="0,5,5,0"
+                   Style="{StaticResource PopupProminentText}" 
+                   Grid.Row="3" Grid.Column="0" VerticalAlignment="Top"
+                   Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}"  />
+            <TextBlock Text="{x:Bind MainViewModel.OfflineMap.Item.Modified, Mode=OneWay}" 
+                   Style="{StaticResource PopupText}" 
+                   Grid.Row="3" Grid.Column="1" 
+                   Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Snippet, Mode=OneWay}"
+                   Style="{StaticResource PopupText}" Margin="0,5,0,5"
+                   Grid.Row="1" Grid.ColumnSpan="2"/>
+            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                Style="{StaticResource PopupButton}"
+                    Margin="0,5,0,0"
+                Command="{x:Bind MainViewModel.WorkOfflineCommand, Mode=OneWay}"
+                Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Path Data="{StaticResource calcite-ui-offline-16}" Style="{StaticResource PopupButtonIconPath}" />
+                    <TextBlock Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton.Label}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>

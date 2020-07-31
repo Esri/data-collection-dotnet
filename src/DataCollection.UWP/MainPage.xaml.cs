@@ -21,6 +21,7 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using System;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -43,18 +44,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
 
             // load settings for the custom tree survey dataset
             LoadTreeSurveySettings();
-
-            // Update the draggable title bar region
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
-            // Set XAML element as a draggable region.
-            Window.Current.SetTitleBar(AppTitleBar);
-        }
-
-        private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
-        {
-            AppTitleBar.Height = sender.Height;
         }
 
         private void OnWaitStatusChanged(object sender, WaitStatusChangedEventArgs e)
@@ -67,14 +56,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
         /// Gets the view-model that provides mapping capabilities to the view
         /// </summary>
         public MainViewModel MainViewModel { get; } = new MainViewModel();
-
-        public AuthViewModel AuthViewModel { get; } = new AuthViewModel(
-                                                        Settings.Default.WebmapURL,
-                                                        Settings.Default.ArcGISOnlineURL,
-                                                        Settings.Default.AppClientID,
-                                                        Settings.Default.RedirectURL,
-                                                        Settings.Default.AuthenticatedUserName,
-                                                        Settings.Default.OAuthRefreshToken);
 
         /// <summary>
         /// Event handler for displaying a message to the user
@@ -165,5 +146,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP
             UserPromptMessenger.Instance.MessageValueChanged -= UserPrompt_MessageValueChanged;
             BusyWaitingMessenger.Instance.WaitStatusChanged -= OnWaitStatusChanged;
         }
+
     }
 }

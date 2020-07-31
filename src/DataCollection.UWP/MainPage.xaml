@@ -13,7 +13,7 @@
     xmlns:mapping="using:Esri.ArcGISRuntime.Mapping"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
     xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels" xmlns:cards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards"
+    xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels" xmlns:cards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards" xmlns:popups="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -36,34 +36,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <!-- Title bar draggable background -->
-        <!-- Title bar area-->
-        <Grid Grid.Row="0" Background="{StaticResource chrome-background}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.ColumnSpan="4" Background="{StaticResource chrome-background}" x:Name="AppTitleBar" />
-            <Image Source="./Assets/Square44x44Logo.scale-100.png" Margin="5,0,0,0"
-                   Style="{StaticResource TitleBarImageStyle}"/>
-            <TextBlock Text="Data Collection for .NET (UWP)" 
-                       Style="{StaticResource TitleBarTitleStyle}"
-                       Grid.Column="1"/>
-        </Grid>
-        <Button Style="{StaticResource TitleBarButtonStyle}"
-                Foreground="{StaticResource brand-success}"
-                HorizontalAlignment="Center">
-            <StackPanel Orientation="Horizontal">
-                <Path Data="{StaticResource calcite-ui-online-16}" Stretch="Uniform" Fill="{StaticResource brand-success}" />
-                <TextBlock Margin="5,0,0,0">
-                    <Run Text="Working Online" FontWeight="SemiBold" />
-                    <Run Text=" - " />
-                    <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
-                </TextBlock>
-            </StackPanel>
-        </Button>
+        <views:TitleBar Grid.Row="0" MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        
         <!-- Map Area -->
         <panels:MapLayoutPanel x:Name="MapLayoutPanel" Grid.Row="1"
                                WidthBreakpoint="720">
@@ -277,7 +251,33 @@
 
                 </cards:CardDeck.Cards>
             </cards:CardDeck>
+            
+            <views:AddFeatureView x:Name="AddFeatureView"
+                                  panels:MapLayoutPanel.LayoutRole="TransientOverlay"
+                                  DataContext="{x:Bind MainViewModel, Mode=OneWay}"
+                                  Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <views:DownloadView panels:MapLayoutPanel.LayoutRole="TransientOverlay"
+                                Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
+                                DataContext="{x:Bind MainViewModel, Mode=OneWay}"
+                                Visibility="{x:Bind MainViewModel.DownloadViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                                VisibleArea="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}" />
         </panels:MapLayoutPanel>
+        <Popup IsOpen="{x:Bind MainViewModel.IsMapStatusPanelOpen, Mode=TwoWay}" 
+               Style="{StaticResource Popup}" 
+               Grid.Row="1" Width="300"
+               HorizontalAlignment="Center">
+            <popups:OnlineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        </Popup>
+        <Popup IsOpen="{x:Bind MainViewModel.IsOfflinePanelOpen, Mode=TwoWay}"
+               Style="{StaticResource Popup}" HorizontalAlignment="Center" MaxWidth="300" 
+               Grid.Row="1">
+            <popups:OfflineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        </Popup>
+        <Popup IsOpen="{x:Bind MainViewModel.IsUserPanelOpen, Mode=TwoWay}"
+               Style="{StaticResource Popup}" Width="300"
+               Grid.Row="1" HorizontalAlignment="Right">
+            <popups:SignedInUserPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        </Popup>
     </Grid>
     <!--<Grid Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}">
         <Grid.RowDefinitions>

@@ -1,0 +1,48 @@
+﻿<UserControl
+    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups.SignedInUserPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <converters:LocalizationConverter x:Key="LocalizationConverter" />
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    </UserControl.Resources>
+    <Border Style="{StaticResource PopupBorder}">
+        <StackPanel MinWidth="200">
+            <Ellipse Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                 Width="40" Height="40"
+                 Margin="5"
+                 Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
+                <Ellipse.Fill>
+                    <ImageBrush>
+                        <ImageBrush.ImageSource>
+                            <BitmapImage UriSource="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
+                        </ImageBrush.ImageSource>
+                    </ImageBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}"
+                       Style="{StaticResource PopupProminentText}"
+                           HorizontalAlignment="Center" Margin="5" />
+            <TextBlock Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.UserName, Mode=OneWay}"
+                       Style="{StaticResource PopupText}"
+                   HorizontalAlignment="Center" />
+
+            <Button Grid.Row="5" Grid.ColumnSpan="2"
+                    Style="{StaticResource PopupButton}"
+                    Command="{x:Bind MainViewModel.AuthViewModel.SignOutCommand, Mode=OneWay}"
+                    Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Path Data="{StaticResource calcite-ui-sign-out-16}" Style="{StaticResource PopupButtonIconPath}" />
+                    <TextBlock Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>

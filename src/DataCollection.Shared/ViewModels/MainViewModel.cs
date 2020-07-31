@@ -1043,5 +1043,24 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 }
             }
         }
+
+        private ICommand _toggleUserCommand;
+        private ICommand _toggleOnlinePanelCommand;
+        private ICommand _toggleOfflinePanelCommand;
+
+        public ICommand ToggleUserPanelCommand => _toggleUserCommand ?? new DelegateCommand((parm) =>
+        {
+            IsUserPanelOpen = !IsUserPanelOpen;
+        });
+
+        public ICommand ToggleOfflinePanelCommand => _toggleOfflinePanelCommand ?? new DelegateCommand((parm) =>
+        {
+            IsOfflinePanelOpen = !IsOfflinePanelOpen;
+        });
+
+        public ICommand ToggleOnlinePanelCommand => _toggleOnlinePanelCommand ?? new DelegateCommand((parm) =>
+        {
+            IsMapStatusPanelOpen = !IsMapStatusPanelOpen;
+        });
     }
 }
