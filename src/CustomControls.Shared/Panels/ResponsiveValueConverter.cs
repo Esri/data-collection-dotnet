@@ -10,6 +10,7 @@ using CustomCultureInfo = System.Globalization.CultureInfo;
 
 #if __UWP__
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Markup;
 using CustomCultureInfo = System.String;
 #endif
 
@@ -28,11 +29,19 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
                     {
                         if (IsCollapsed)
                         {
+#if __UWP__
+                            return XamlBindingHelper.ConvertValue(targetType, parts[0]);
+#else
                             return parts[0];
+#endif
                         }
                         else
                         {
+#if __UWP__
+                            return XamlBindingHelper.ConvertValue(targetType, parts[1]);
+#else
                             return parts[1];
+#endif
                         }
                     }
                 }
