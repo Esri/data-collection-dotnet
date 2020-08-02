@@ -20,38 +20,51 @@
 
     <Grid>
         <!--  Download Overlay  -->
-        <Grid x:Name="DownloadOverlay" Visibility="{Binding DownloadViewModel.IsAwaitingDownload, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid x:Name="DownloadOverlay" 
+              Visibility="{Binding DownloadViewModel.IsAwaitingDownload, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
-                <RowDefinition Height=".1*" />
+                <RowDefinition Height="100" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height=".1*" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
             </Grid.RowDefinitions>
-            <Border
+            <Border Style="{StaticResource MapOverlayBorder}"
                 Grid.Row="0"
-                Grid.RowSpan="3"
-                BorderBrush="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}"
-                BorderThickness="100" />
+                Grid.RowSpan="4" />
             <StackPanel
-                Grid.Row="0"
+                Grid.Row="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
                 <TextBlock x:Uid="DownloadLabel_Line1" HorizontalAlignment="Center" />
                 <TextBlock x:Uid="DownloadLabel_Line2" HorizontalAlignment="Center" />
             </StackPanel>
-            <StackPanel
-                Grid.Row="2"
+            <StackPanel Spacing="10"
+                Grid.Row="3"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <Button Margin="0,0,20,0" 
-                        Content="Cancel" 
-                        Command="{Binding DownloadViewModel.CancelDownloadCommand}" />
-                <Button
+                <Button Style="{StaticResource MapOverlayButton}"
+                        Command="{Binding DownloadViewModel.CancelDownloadCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Path Data="{StaticResource calcite-ui-undo-16}" 
+                              Style="{StaticResource MapOverlayButtonPathIcon}"
+                              Fill="{StaticResource brand-danger}"/>
+                        <TextBlock Text="Cancel" Foreground="{StaticResource brand-danger}" />
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource MapOverlayButton}"
                     x:Uid="DownloadButton"
                     Margin="20,0,0,0"
                     Command="{Binding DownloadViewModel.DownloadMapCommand}"
-                    CommandParameter="{Binding ElementName=DownloadUserControl, Path=VisibleArea}" />
+                        Foreground="{StaticResource brand-success}"
+                    CommandParameter="{Binding ElementName=DownloadUserControl, Path=VisibleArea}">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Path Data="{StaticResource calcite-ui-download-16}" Style="{StaticResource MapOverlayButtonPathIcon}" 
+                              Fill="{StaticResource brand-success}" />
+                        <TextBlock Text="Download" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
 
@@ -84,7 +97,7 @@
                     Grid.Row="1"
                     Margin="0,0,0,20"
                     HorizontalAlignment="Center" />
-                <Button
+                <Button Style="{StaticResource ButtonBaseStyle}"
                     x:Uid="CancelButton"
                     Grid.Row="2"
                     Width="70"

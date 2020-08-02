@@ -56,6 +56,7 @@
     <SolidColorBrush x:Key="chrome-subtle-border">#DDDDDD</SolidColorBrush>
     <SolidColorBrush x:Key="content-foreground">#404040</SolidColorBrush>
     <SolidColorBrush x:Key="content-background">#FFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="chrome-map-overlay-border">#DD000000</SolidColorBrush>
 
     <x:Double x:Key="content-font-size">12</x:Double>
     <FontWeight x:Key="content-font-weight">Normal</FontWeight>
@@ -165,6 +166,7 @@
     <Style TargetType="Path" x:Key="MapAccessoryPathIcon">
         <Setter Property="Stretch" Value="Uniform" />
         <Setter Property="Width" Value="16" />
+        <Setter Property="RequestedTheme" Value="Light" />
         <Setter Property="Height" Value="16" />
         <Setter Property="Fill" Value="{StaticResource chrome-foreground}" />
     </Style>
@@ -204,7 +206,7 @@
                 ext:Mouse.Cursor="Hand" 
                 HorizontalAlignment="Stretch">
             <TextBlock Text="{Binding Name}" 
-                           FontWeight="{StaticResource content-font-weight}" FontSize="{StaticResource content-font-size}"
+                           FontWeight="{StaticResource content-font-weight}"
                            Foreground="{StaticResource content-foreground}"/>
         </Border>
     </DataTemplate>
@@ -424,15 +426,57 @@
     <Style TargetType="muxc:TreeViewItem" x:Key="LayerTreeViewItem">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
+        <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="muxc:TreeViewItem">
+                    <Border x:Name="BG" 
+                            Background="{TemplateBinding Background}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" />
+                         <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-hover-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-hover-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-disabled-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-disabled-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style TargetType="CheckBox" x:Key="TreeViewCheckboxStyle">
         <Setter Property="ext:Mouse.Cursor" Value="Hand" />
         <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
         <Setter Property="Background" Value="{StaticResource content-background}" />
         <Setter Property="ext:Mouse.Cursor" Value="Hand" />
-        <Setter Property="Margin" Value="-24,0,0,0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Padding" Value="10" />
         <Setter Property="Template">
@@ -468,6 +512,34 @@
                                     <VisualState.Setters>
                                         <Setter Target="CheckGlyph.Data" Value="{StaticResource calcite-ui-view-mixed-16}"/>
                                     </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-hover-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-hover-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-disabled-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-disabled-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
@@ -530,5 +602,121 @@
         <Setter Property="OffsetX" Value="5" />
         <Setter Property="OffsetY" Value="5" />
         <Setter Property="ShadowOpacity" Value="1" />
+    </Style>
+    <Style TargetType="uwptk:DropShadowPanel" x:Key="FlyoutShadow" BasedOn="{StaticResource MapAccessoryShadow}">
+        <Setter Property="OffsetX" Value="4" />
+        <Setter Property="OffsetY" Value="4" />
+    </Style>
+    <Style TargetType="FlyoutPresenter" x:Key="FlyoutPresenter">
+        <Setter Property="Background" Value="{StaticResource content-background}" />
+        <Setter Property="Foreground" Value="{StaticResource content-foreground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource chrome-subtle-border}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="FlyoutPresenter">
+                    <uwptk:DropShadowPanel Style="{StaticResource FlyoutShadow}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Border>
+                    </uwptk:DropShadowPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="ListViewItem" x:Key="ListViewItem">
+        <Setter Property="Background" Value="{StaticResource content-background}" />
+        <Setter Property="Foreground" Value="{StaticResource content-foreground}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border x:Name="BG" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-hover-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-hover-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BG">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-disabled-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource chrome-disabled-background}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="ListView">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListViewItem}" />
+    </Style>
+    <Style TargetType="ToolTip">
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
+        <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource chrome-subtle-border}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Border" x:Key="MapOverlayBorder">
+        <Setter Property="BorderBrush" Value="{StaticResource chrome-map-overlay-border}" />
+        <Setter Property="BorderThickness" Value="100,100,100,200" />
+    </Style>
+    <Style TargetType="Button" x:Key="MapOverlayButton" BasedOn="{StaticResource ButtonBaseStyle}">
+        <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
+        <Setter Property="Padding" Value="15,10,15,10" />
+        <Setter Property="BorderBrush" Value="{StaticResource chrome-subtle-border}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style TargetType="Path" x:Key="MapOverlayButtonPathIcon">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Stretch" Value="Uniform" />
+        <Setter Property="Fill" Value="{StaticResource chrome-foreground}" />
     </Style>
 </ResourceDictionary>

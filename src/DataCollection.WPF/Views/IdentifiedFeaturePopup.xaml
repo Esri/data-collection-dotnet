@@ -61,7 +61,7 @@
                         </ItemsControl>
                         <TextBlock Style="{StaticResource PopupSectionHeaderStyle}"
                                    Text="Linked Records" Margin="0,10,0,10"
-                                   Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                   Visibility="{Binding HasDestinationRelationships, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         <!--  View Mode  -->
                         <!--  List of relationships where identified feature is destination  -->
                         <ItemsControl

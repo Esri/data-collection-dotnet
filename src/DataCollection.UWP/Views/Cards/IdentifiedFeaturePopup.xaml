@@ -38,15 +38,15 @@
                                       Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
                                       ItemTemplate="{StaticResource CardSimpleFieldViewer}" />
                         <TextBlock Text="Linked Records" Style="{StaticResource CardSectionHeader}"
-                                   Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"/>
+                                   Visibility="{x:Bind IdentifiedFeatureViewModel.HasDestinationRelationships, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         <!--  List of relationships where identified feature is destination  -->
                         <ItemsControl HorizontalContentAlignment="Stretch"
                                       ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships, Mode=OneWay}"
                                       Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Style="{StaticResource CardGroupContainer}">
-                                    <Grid Visibility="{Binding PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                                    <Border Style="{StaticResource CardGroupContainer}" Visibility="{Binding PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                                    <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />

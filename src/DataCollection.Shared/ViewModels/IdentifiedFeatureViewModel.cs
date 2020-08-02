@@ -104,6 +104,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
         }
 
+        public bool HasDestinationRelationships => DestinationRelationships?.Where(rel => rel.PopupManager != null)?.Any() ?? false;
+
         /// <summary>
         /// Gets or sets the collection of view models that handle the related features to which the identified feature is Destination
         /// </summary>
@@ -300,6 +302,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         {
             // clear related records from previous searches
             DestinationRelationships.Clear();
+            OnPropertyChanged(nameof(HasDestinationRelationships));
             OriginRelationships.Clear();
 
             // get RelationshipInfos from the table
@@ -326,6 +329,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         await destinationRelationshipViewModel.InitializeAsync(relatedFeatureQueryResult);
 
                         DestinationRelationships.Add(destinationRelationshipViewModel);
+                        OnPropertyChanged(nameof(HasDestinationRelationships));
                     }
                     catch (Exception ex)
                     {

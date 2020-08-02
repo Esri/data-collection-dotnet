@@ -5,6 +5,7 @@
     xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
@@ -14,28 +15,31 @@
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     </UserControl.Resources>
     <Border Style="{StaticResource PopupBorder}">
-        <StackPanel MinWidth="200">
-            <Ellipse Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                 Width="40" Height="40"
-                 Margin="5"
-                 Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
-                <Ellipse.Fill>
-                    <ImageBrush>
-                        <ImageBrush.ImageSource>
-                            <BitmapImage UriSource="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
-                        </ImageBrush.ImageSource>
-                    </ImageBrush>
-                </Ellipse.Fill>
-            </Ellipse>
+        <Grid MinWidth="200" ColumnSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <muxc:PersonPicture DisplayName="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}"
+                                Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+                <muxc:PersonPicture.ProfilePicture>
+                    <BitmapImage UriSource="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
+                </muxc:PersonPicture.ProfilePicture>
+            </muxc:PersonPicture>
             <TextBlock Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}"
-                       Style="{StaticResource PopupProminentText}"
-                           HorizontalAlignment="Center" Margin="5" />
+                       Grid.Row="0" Grid.Column="1"
+                       Style="{StaticResource PopupProminentText}" />
             <TextBlock Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.UserName, Mode=OneWay}"
-                       Style="{StaticResource PopupText}"
-                   HorizontalAlignment="Center" />
-
-            <Button Grid.Row="5" Grid.ColumnSpan="2"
-                    Style="{StaticResource PopupButton}"
+                       Grid.Row="1" Grid.Column="1"
+                       Style="{StaticResource PopupText}" />
+            <Button Style="{StaticResource PopupButton}"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{x:Bind MainViewModel.AuthViewModel.SignOutCommand, Mode=OneWay}"
                     Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -43,6 +47,6 @@
                     <TextBlock Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
                 </StackPanel>
             </Button>
-        </StackPanel>
+        </Grid>
     </Border>
 </UserControl>

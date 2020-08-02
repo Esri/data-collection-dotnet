@@ -272,7 +272,7 @@
         <Setter Property="Height" Value="44" />
         <Setter Property="Width" Value="44" />
         <Setter Property="Stretch" Value="Uniform" />
-        <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
+        <!--<Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />-->
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
@@ -417,7 +417,7 @@
     </Style>
     
     <Style x:Key="BasicCardStyle" TargetType="cards:CardPresenter">
-                <Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />
+                <!--<Setter Property="Effect" Value="{StaticResource StandardDropShadow}" />-->
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="TitleTextStyle">
                     <Setter.Value>

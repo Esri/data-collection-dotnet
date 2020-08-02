@@ -17,17 +17,18 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="200" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <Border
             Grid.Row="0"
-            Grid.RowSpan="3"
-            BorderBrush="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}"
-            BorderThickness="100" />
+            Grid.RowSpan="4"
+            BorderThickness="100,200,100,200"
+            Style="{StaticResource MapOverlayBorder}"/>
         <StackPanel
-            Grid.Row="0"
+            Grid.Row="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Vertical">
@@ -50,16 +51,31 @@
                 Source="ms-appx:///Assets/PinShadow.png" />
         </StackPanel>
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Spacing="10"
             Orientation="Horizontal">
             <Button x:Uid="CancelButton" 
-                    Margin="0,0,20,0" 
-                    Command="{Binding CancelNewFeatureCommand}" />
+                    Style="{StaticResource MapOverlayButton}"
+                    BorderBrush="{StaticResource brand-danger}"
+                    Foreground="{StaticResource brand-danger}"
+                    Command="{Binding CancelNewFeatureCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <Path Data="{StaticResource calcite-ui-undo-16}" Fill="{StaticResource brand-danger}" Style="{StaticResource MapOverlayButtonPathIcon}" />
+                    <TextBlock Text="Cancel" />
+                </StackPanel>
+            </Button>
             <Button x:Uid="SaveButton"
-                    Margin="20,0,0,0"
-                    Command="{Binding SaveNewFeatureCommand, Mode=OneWay}" />
+                    Style="{StaticResource MapOverlayButton}"
+                    BorderBrush="{StaticResource brand-success}"
+                    Foreground="{StaticResource brand-success}"
+                    Command="{Binding SaveNewFeatureCommand, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <Path Data="{StaticResource calcite-ui-check-circle-16}" Fill="{StaticResource brand-success}" Style="{StaticResource MapOverlayButtonPathIcon}" />
+                    <TextBlock Text="Add" />
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>
