@@ -38,7 +38,7 @@
                                    Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <controls:NullReadyCalendarDatePicker Style="{StaticResource CardEditorCalendar}"
                                                               Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
-                                                              PlaceholderText="Select date" />
+                                                              PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=FeatureEditor_CalendarPlaceholder}" />
                         <TextBlock x:Name="RadiusReferenceText"
                                    Style="{StaticResource CardValidationErrorText}"
                                    Text="{Binding PopupFieldValue.ValidationError.Message}"

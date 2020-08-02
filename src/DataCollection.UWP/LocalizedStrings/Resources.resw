@@ -210,10 +210,10 @@
   <data name="SerializationError_Title" xml:space="preserve">
     <value>Error Saving Application Settings</value>
   </data>
-  <data name="AddFeatureLabel_Line1.Text" xml:space="preserve">
+  <data name="AddFeatureLabel_Line1_Text" xml:space="preserve">
     <value>Choose the location where you would like to add a feature.</value>
   </data>
-  <data name="AddFeatureLabel_Line2.Text" xml:space="preserve">
+  <data name="AddFeatureLabel_Line2_Text" xml:space="preserve">
     <value>Pan and zoom map under pin.</value>
   </data>
   <data name="AddFeatureButton.Label" xml:space="preserve">
@@ -237,28 +237,22 @@
   <data name="DownloadButton.Content" xml:space="preserve">
     <value>Download</value>
   </data>
-  <data name="DownloadingMessage.Text" xml:space="preserve">
-    <value>Preparing map for offline use. Please wait.</value>
-  </data>
-  <data name="DownloadLabel_Line1.Text" xml:space="preserve">
+  <data name="DownloadLabel_Line1_Text" xml:space="preserve">
     <value>Select the region of the map to take offline.</value>
   </data>
-  <data name="DownloadLabel_Line2.Text" xml:space="preserve">
+  <data name="DownloadLabel_Line2_Text" xml:space="preserve">
     <value>Pan and zoom map within the rectangle.</value>
   </data>
   <data name="EditRecord_Tooltip" xml:space="preserve">
     <value>Edit Record</value>
   </data>
-  <data name="SignInButton.Label" xml:space="preserve">
-    <value>Sign In</value>
-  </data>
-  <data name="SignOutButton.Label" xml:space="preserve">
+  <data name="SignOutButton_Label" xml:space="preserve">
     <value>Sign Out</value>
   </data>
   <data name="MoreTools_Tooltip" xml:space="preserve">
     <value>More Tools</value>
   </data>
-  <data name="SaveButton.Content" xml:space="preserve">
+  <data name="SaveButton_Content" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="SaveEdits_Tooltip" xml:space="preserve">
@@ -267,25 +261,25 @@
   <data name="ShowDetailButton_Tooltip" xml:space="preserve">
     <value>Show Detail</value>
   </data>
-  <data name="SyncButton.Label" xml:space="preserve">
+  <data name="SyncButton_Label" xml:space="preserve">
     <value>Synchronize Offline Map</value>
   </data>
-  <data name="SynchingMessage.Text" xml:space="preserve">
+  <data name="SynchingMessage_Text" xml:space="preserve">
     <value>Synchronizing map. Please wait.</value>
   </data>
-  <data name="WorkingOfflineButton.Label" xml:space="preserve">
+  <data name="WorkingOfflineButton_Label" xml:space="preserve">
     <value>Working Offline</value>
   </data>
-  <data name="WorkingOnlineButton.Label" xml:space="preserve">
+  <data name="WorkingOnlineButton_Label" xml:space="preserve">
     <value>Working Online</value>
   </data>
-  <data name="WorkOfflineButton.Label" xml:space="preserve">
+  <data name="WorkOfflineButton_Label" xml:space="preserve">
     <value>Work Offline</value>
   </data>
-  <data name="WorkOnlineButton.Label" xml:space="preserve">
+  <data name="WorkOnlineButton_Label" xml:space="preserve">
     <value>Work Online</value>
   </data>
-  <data name="CurrentLocationButton.Label" xml:space="preserve">
+  <data name="CurrentLocationButton_Label" xml:space="preserve">
     <value>Center on Location</value>
   </data>
   <data name="MapLoadingError_Title" xml:space="preserve">
@@ -312,13 +306,13 @@
   <data name="OpenAttachment_Tooltip" xml:space="preserve">
     <value>Open Attachment</value>
   </data>
-  <data name="CancelButton.Content" xml:space="preserve">
+  <data name="CancelButton_Content" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="CancelSyncButton.Content" xml:space="preserve">
+  <data name="CancelSyncButton_Content" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="SignedInTextBlock.Text" xml:space="preserve">
+  <data name="SignedInTextBlock_Text" xml:space="preserve">
     <value>You are signed in as</value>
   </data>
   <data name="NoSignIn_DeviceOffline_Message" xml:space="preserve">
@@ -357,13 +351,13 @@
   <data name="TakePhoto_Tooltip" xml:space="preserve">
     <value>Capture Photo</value>
   </data>
-  <data name="ShowBookmarksButton.Label" xml:space="preserve">
+  <data name="ShowBookmarksButton_Label" xml:space="preserve">
     <value>Show Bookmarks</value>
   </data>
-  <data name="ShowTOCButton.Label" xml:space="preserve">
+  <data name="ShowTOCButton_Label" xml:space="preserve">
     <value>Show TOC</value>
   </data>
-  <data name="ShowLegendButton.Label" xml:space="preserve">
+  <data name="ShowLegendButton_Label" xml:space="preserve">
     <value>Show Legend</value>
   </data>
   <data name="Bookmarks_PanelHeader" xml:space="preserve">
@@ -374,5 +368,110 @@
   </data>
   <data name="TOC_PanelHeader" xml:space="preserve">
     <value>Table of Contents</value>
+  </data>
+  <data name="MapAccessory_Attribution_Tooltip" xml:space="preserve">
+    <value>Show Map Attribution</value>
+  </data>
+  <data name="MapAccessory_BookmarksButton_Tooltip" xml:space="preserve">
+    <value>Show Bookmarks</value>
+  </data>
+  <data name="MapAccessory_GPSButton_Tooltip" xml:space="preserve">
+    <value>Show Device Location</value>
+  </data>
+  <data name="MapAccessory_HomeButton_Tooltip" xml:space="preserve">
+    <value>Go To Default Extent</value>
+  </data>
+  <data name="MapAccessory_LegendButton_Tooltip" xml:space="preserve">
+    <value>Show Legend</value>
+  </data>
+  <data name="MapAccessory_MinusButton_Tooltip" xml:space="preserve">
+    <value>Zoom Out</value>
+  </data>
+  <data name="MapAccessory_PlusButton_Tooltip" xml:space="preserve">
+    <value>Zoom In</value>
+  </data>
+  <data name="MapAccessory_TOCButton_Tooltip" xml:space="preserve">
+    <value>Show Table of Contents</value>
+  </data>
+  <data name="OfflineMapPanel_DeleteButton_Text" xml:space="preserve">
+    <value>Delete Offline Map</value>
+  </data>
+  <data name="OfflineMapPanel_LastSync_FieldLabel" xml:space="preserve">
+    <value>Last Sync:</value>
+  </data>
+  <data name="OfflineMapPanel_SyncButton_Text" xml:space="preserve">
+    <value>Synchronize</value>
+  </data>
+  <data name="OfflineMapPanel_WorkOnlineButton_Text" xml:space="preserve">
+    <value>Work Online</value>
+  </data>
+  <data name="OnlineMapPanel_Created_FieldLabel" xml:space="preserve">
+    <value>Created:</value>
+  </data>
+  <data name="OnlineMapPanel_Downloaded_FieldLabel" xml:space="preserve">
+    <value>Downloaded:</value>
+  </data>
+  <data name="OnlineMapPanel_OfflineMapAvailable_Label" xml:space="preserve">
+    <value>Offline Map Available</value>
+  </data>
+  <data name="OnlineMapPanel_WorkOfflineButton_Text" xml:space="preserve">
+    <value>Work Offline</value>
+  </data>
+  <data name="TitleBar_SignInButton_Text" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="TitleBar_UserButton_Tooltip" xml:space="preserve">
+    <value>Sign Out</value>
+  </data>
+  <data name="TitleBar_WorkingOfflineButton_LabelPart" xml:space="preserve">
+    <value>Working Offline</value>
+  </data>
+  <data name="TitleBar_WorkingOfflineButton_Tooltip" xml:space="preserve">
+    <value>Show Map Options and Info</value>
+  </data>
+  <data name="TitleBar_WorkingOnlineButton_LabelPart" xml:space="preserve">
+    <value>Working Online</value>
+  </data>
+  <data name="TitleBar_WorkingOnlineButton_Tooltip" xml:space="preserve">
+    <value>Show Map Options and Info</value>
+  </data>
+  <data name="UserAccountPanel_SignOutButton_Text" xml:space="preserve">
+    <value>Sign Out</value>
+  </data>
+  <data name="AddView_SaveButton_Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AttachmentNameDialog_DefaultAttachmentName" xml:space="preserve">
+    <value>Attachment</value>
+  </data>
+  <data name="AttachmentNameDialog_PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AttachmentNameDialog_Title" xml:space="preserve">
+    <value>Choose file name</value>
+  </data>
+  <data name="Attribution_Popup_Label" xml:space="preserve">
+    <value>Attribution</value>
+  </data>
+  <data name="MapDownloadButton_Text" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Universal_CancelButton_Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DownloadView_InProgressLabel_Text" xml:space="preserve">
+    <value>Preparing map for offline use. Please wait.</value>
+  </data>
+  <data name="FeatureEditor_CalendarPlaceholder" xml:space="preserve">
+    <value>Select date</value>
+  </data>
+  <data name="FeaturePopup_AttributesSection_Header" xml:space="preserve">
+    <value>Attributes</value>
+  </data>
+  <data name="FeaturePopup_DestinationRelationships_Header" xml:space="preserve">
+    <value>Linked Records</value>
+  </data>
+  <data name="MapAccessory_AddButton_Tooltip" xml:space="preserve">
+    <value>Add new feature</value>
   </data>
 </root>

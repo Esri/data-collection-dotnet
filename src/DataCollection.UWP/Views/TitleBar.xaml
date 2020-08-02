@@ -85,8 +85,8 @@
                        Style="{StaticResource TitleBarTitleStyle}" />
             </StackPanel>
             <Grid x:Name="CenterPanel">
-
                 <Button Style="{StaticResource TitleBarButton}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}"
                 Foreground="{StaticResource brand-success}"
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}"
                 HorizontalAlignment="Center">
@@ -94,7 +94,7 @@
                         <Path Data="{StaticResource calcite-ui-online-16}"
                       Style="{StaticResource TitleBarButtonPathIcon}" Fill="{StaticResource brand-success}" />
                         <TextBlock Margin="5,0,0,0">
-                    <Run Text="Working Online" FontWeight="SemiBold" />
+                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart}" FontWeight="SemiBold" />
                     <Run Text=" - " />
                     <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
@@ -107,13 +107,14 @@
                     </Button.Flyout>
                 </Button>
                 <Button Style="{StaticResource TitleBarButton}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip}"
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}"
                 HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource calcite-ui-online-16}"
                       Style="{StaticResource TitleBarButtonPathIcon}" />
                         <TextBlock Margin="5,0,0,0">
-                    <Run Text="Working Offline" FontWeight="SemiBold" />
+                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart}" FontWeight="SemiBold" />
                     <Run Text=" - " />
                     <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
@@ -127,14 +128,16 @@
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" x:Name="RightPanel">
                 <Button Style="{StaticResource TitleBarButton}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}"
                     Command="{x:Bind MainViewModel.AuthViewModel.SignInCommand, Mode=OneWay}"
                         Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter},ConverterParameter=Inverse, Mode=OneWay}">
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource calcite-ui-sign-in-16}" Style="{StaticResource TitleBarButtonPathIcon}" />
-                        <TextBlock Text="Sign in" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}" Margin="10,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="UserPopupButton" HorizontalAlignment="Center"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_UserButton_Tooltip}"
                     Style="{StaticResource TitleBarButton}"
                     Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
                     <StackPanel Orientation="Horizontal">

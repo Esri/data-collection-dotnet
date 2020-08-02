@@ -3,19 +3,23 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Choose file name"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+    Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_Title}"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    PrimaryButtonText="OK"
+    Background="{StaticResource chrome-background}"
+    Foreground="{StaticResource chrome-foreground}"
+    RequestedTheme="Light"
+    PrimaryButtonText="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_PrimaryButtonText}"
     mc:Ignorable="d">
 
+<!-- TODO - set requested theme globally with resource-->
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBox
+            <TextBox Style="{StaticResource CardEditorTextBox}"
                 x:Name="FileNameTextBox"
-                Text="Attachment"
+                Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_DefaultAttachmentName}"
                 TextChanged="FileNameTextBox_TextChanged" />
-            <TextBlock x:Name="ValidationTextBlock" Foreground="Red" />
+            <TextBlock x:Name="ValidationTextBlock" Style="{StaticResource CardValidationErrorText}" />
         </StackPanel>
     </Grid>
 </ContentDialog>

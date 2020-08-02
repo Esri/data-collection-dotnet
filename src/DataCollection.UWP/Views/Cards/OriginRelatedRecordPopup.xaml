@@ -13,7 +13,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
             <convertersUWP:SelectedPivotIndexToVisibilityConverter x:Key="SelectedPivotIndexToVisibilityConverter" />
         </ResourceDictionary>
@@ -59,7 +58,7 @@
                     Grid.Column="0"
                     Style="{StaticResource CardBottomStripButton}"
                     Click="CaptureMediaButton_Click"
-                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=TakePhoto_Tooltip}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TakePhoto_Tooltip}"
                     Visibility="{Binding ElementName=OriginRelatedRecordPivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}">
                 <Path Data="{StaticResource calcite-ui-camera-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
             </Button>
@@ -67,7 +66,7 @@
                     Grid.Column="1"
                     Style="{StaticResource CardBottomStripButton}"
                     Click="BrowseFilesButton_Click"
-                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=BrowseAttach_Tooltip}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=BrowseAttach_Tooltip}"
                     Visibility="{Binding ElementName=OriginRelatedRecordPivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}">
                 <Path Data="{StaticResource calcite-ui-folder-open-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
             </Button>
@@ -75,7 +74,7 @@
             <Button Style="{StaticResource CardBottomStripButton}"
                     Grid.Column="3"
                     Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=EditRecord_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                 <Path Data="{StaticResource calcite-ui-pencil-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
             </Button>
@@ -83,7 +82,7 @@
                     Grid.Column="5"
                     Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.DeleteFeatureCommand}"
                     CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
-                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DeleteRecord_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                 <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
             </Button>
@@ -91,7 +90,7 @@
             <Button Style="{StaticResource CardBottomStripButton}"
                     Grid.Column="3"
                     Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=SaveEdits_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                 <Path Data="{StaticResource calcite-ui-save-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
             </Button>
@@ -99,7 +98,7 @@
                     Grid.Column="4"
                     Command="{Binding ElementName=OriginRelatedRecordGrid, Mode=OneWay, Path=DataContext.CancelEditsCommand}"
                     CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
-                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CancelEdits_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                 <Path Data="{StaticResource calcite-ui-x-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
             </Button>

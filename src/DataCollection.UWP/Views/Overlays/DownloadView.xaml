@@ -36,8 +36,8 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Vertical">
-                <TextBlock x:Uid="DownloadLabel_Line1" HorizontalAlignment="Center" />
-                <TextBlock x:Uid="DownloadLabel_Line2" HorizontalAlignment="Center" />
+                <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DownloadLabel_Line1_Text}" HorizontalAlignment="Center" />
+                <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DownloadLabel_Line2_Text}" HorizontalAlignment="Center" />
             </StackPanel>
             <StackPanel Spacing="10"
                 Grid.Row="3"
@@ -45,23 +45,25 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
                 <Button Style="{StaticResource MapOverlayButton}"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}"
                         Command="{Binding DownloadViewModel.CancelDownloadCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Path Data="{StaticResource calcite-ui-undo-16}" 
                               Style="{StaticResource MapOverlayButtonPathIcon}"
                               Fill="{StaticResource brand-danger}"/>
-                        <TextBlock Text="Cancel" Foreground="{StaticResource brand-danger}" />
+                        <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}" Foreground="{StaticResource brand-danger}" />
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource MapOverlayButton}"
                     Command="{Binding DownloadViewModel.DownloadMapCommand}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapDownloadButton_Text}"
                         Foreground="{StaticResource brand-success}"
                     CommandParameter="{Binding ElementName=DownloadUserControl, Path=VisibleArea}">
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Path Data="{StaticResource calcite-ui-download-16}" 
                               Style="{StaticResource MapOverlayButtonPathIcon}" 
                               Fill="{StaticResource brand-success}" />
-                        <TextBlock Text="Download" />
+                        <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapDownloadButton_Text}" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -80,10 +82,11 @@
                     Minimum="0"
                     Value="{Binding DownloadViewModel.Progress}" />
                 <TextBlock Style="{StaticResource PopupProminentText}"
-                    x:Uid="DownloadingMessage" />
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DownloadView_InProgressLabel_Text}" />
                 <Button Style="{StaticResource MapOverlayButton}"
                         HorizontalAlignment="Stretch"
                         BorderBrush="{StaticResource brand-danger}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}"
                     Grid.Row="2"
                     Command="{Binding DownloadViewModel.CancelDownloadCommand}">
                     <StackPanel Orientation="Horizontal" 
@@ -91,7 +94,7 @@
                                 HorizontalAlignment="Center">
                         <Path Data="{StaticResource calcite-ui-undo-16}" Fill="{StaticResource brand-danger}"
                               Style="{StaticResource MapOverlayButtonPathIcon}" />
-                        <TextBlock Text="Cancel" Foreground="{StaticResource brand-danger}" />
+                        <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}" Foreground="{StaticResource brand-danger}" />
                     </StackPanel>
                 </Button>
             </StackPanel>

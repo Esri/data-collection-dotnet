@@ -11,7 +11,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters1:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
         </ResourceDictionary>
@@ -35,7 +34,7 @@
                    Style="{StaticResource PopupProminentText}"
                    Grid.Column="0" Grid.ColumnSpan="2" FontSize="18" />
             <!-- TODO: localize -->
-            <TextBlock Text="Last Sync:"
+            <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_LastSync_FieldLabel}"
                    Style="{StaticResource PopupProminentText}" 
                    Visibility="{x:Bind MainViewModel.SyncDate, Converter={StaticResource NullToVisibilityConverter}}"
                    Grid.Row="2" Grid.Column="0" />
@@ -51,10 +50,11 @@
             <Button Grid.Row="4" Grid.ColumnSpan="2"
                 Style="{StaticResource PopupButton}"
                 Command="{x:Bind MainViewModel.SyncMapCommand, Mode=OneWay}"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_SyncButton_Text}"
                 Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Path Data="{StaticResource calcite-ui-refresh-16}" Style="{StaticResource PopupButtonIconPath}" />
-                    <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton.Label}" />
+                    <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_SyncButton_Text}" />
                 </StackPanel>
             </Button>
 
@@ -62,10 +62,11 @@
             <Button Grid.Row="5" Grid.ColumnSpan="2"
                 Style="{StaticResource PopupButton}"
                 Command="{x:Bind MainViewModel.DeleteOfflineMapCommand, Mode=OneWay}"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_DeleteButton_Text}"
                 Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource PopupButtonIconPath}" />
-                    <TextBlock Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton.Label}" />
+                    <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_DeleteButton_Text}" />
                 </StackPanel>
             </Button>
             <!--  Work online button and text  -->
@@ -73,10 +74,11 @@
                 Style="{StaticResource PopupButton}"
                 Command="{x:Bind MainViewModel.WorkOnlineCommand }"
                 CommandParameter="{Binding MapViewModel.AreaOfInterest}"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_WorkOnlineButton_Text}"
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Path Data="{StaticResource calcite-ui-online-16}" Style="{StaticResource PopupButtonIconPath}" />
-                    <TextBlock Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton.Label}" />
+                    <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_WorkOnlineButton_Text}" />
                 </StackPanel>
             </Button>
         </Grid>

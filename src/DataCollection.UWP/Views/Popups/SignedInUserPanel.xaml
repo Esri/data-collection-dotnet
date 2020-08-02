@@ -11,7 +11,6 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
     <UserControl.Resources>
-        <converters:LocalizationConverter x:Key="LocalizationConverter" />
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     </UserControl.Resources>
     <Border Style="{StaticResource PopupBorder}">
@@ -41,10 +40,11 @@
             <Button Style="{StaticResource PopupButton}"
                     Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                     Command="{x:Bind MainViewModel.AuthViewModel.SignOutCommand, Mode=OneWay}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=SignOutButton_Label}"
                     Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Path Data="{StaticResource calcite-ui-sign-out-16}" Style="{StaticResource PopupButtonIconPath}" />
-                    <TextBlock Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
+                    <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=SignOutButton_Label}" />
                 </StackPanel>
             </Button>
         </Grid>

@@ -13,7 +13,6 @@
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
             <converters:BytesToHumanReadableSizeConverter x:Key="BytesToHumanReadableSizeConverter" />
         </ResourceDictionary>
@@ -77,14 +76,14 @@
                                 Command="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.AttachmentsViewModel.DeleteAttachmentCommand}"
                                 CommandParameter="{Binding Attachment}"
                                 Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}"
-                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}">
+                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DeleteAttachment_Tooltip}">
                             <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource CardGroupButtonPathIcon}" />
                         </Button>
                         <Button Style="{StaticResource CardGroupButton}"
                                 Grid.Column="3" Grid.Row="0" Grid.RowSpan="2"
                                 Command="{Binding ElementName=AttachmentsItemsControl, Path=DataContext.AttachmentsViewModel.OpenAttachmentCommand, Mode=OneWay}"
                                 CommandParameter="{Binding Attachment, Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}">
+                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OpenAttachment_Tooltip}">
                             <Path Data="{StaticResource calcite-ui-launch-16}" Style="{StaticResource CardGroupButtonPathIcon}" />
                         </Button>
                     </Grid>
@@ -95,7 +94,7 @@
                    Grid.RowSpan="2"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Text="{x:Bind Converter={StaticResource LocalizationConverter}, ConverterParameter=NoAttachmentsFound_Message}" 
+                   Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=NoAttachmentsFound_Message}" 
                    Style="{ThemeResource SubtitleTextBlockStyle}"
                    Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}" />
     </Grid>

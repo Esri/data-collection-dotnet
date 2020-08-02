@@ -5,7 +5,7 @@
     xmlns:cards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
     xmlns:uwptk="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions" xmlns:mapping="using:Esri.ArcGISRuntime.Mapping">
+    xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions" xmlns:mapping="using:Esri.ArcGISRuntime.Mapping" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters">
     <ResourceDictionary.MergedDictionaries>
         <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
         <ResourceDictionary Source="CalciteIcons.xaml" />
@@ -39,6 +39,7 @@
             <SolidColorBrush x:Key="TitleBarForegroundOffline" Color="{ThemeResource SystemBaseHighColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+    <converters:LocalizationConverter x:Key="LC" />
     <Thickness x:Key="FieldMargin">0,5,0,5</Thickness>
     <Thickness x:Key="FieldMarginIndented">10,5,0,5</Thickness>
     <Style TargetType="PivotItem">
