@@ -31,14 +31,18 @@
             <PivotItem Header="Details">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
                     <StackPanel>
-                        <TextBlock Text="Attributes" Style="{StaticResource CardSectionHeader}"
-                                   Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                        <Border Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
+                                Style="{StaticResource CardSectionSeparator}">
+                            <TextBlock Text="Attributes" Style="{StaticResource CardSectionHeader}" />
+                        </Border>
                         <!--  List of attributes from identified feature in View Mode  -->
                         <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.PopupManager.DisplayedFields, Mode=OneWay, Converter={StaticResource PopupFieldFormatConverter}}"
                                       Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
                                       ItemTemplate="{StaticResource CardSimpleFieldViewer}" />
-                        <TextBlock Text="Linked Records" Style="{StaticResource CardSectionHeader}"
-                                   Visibility="{x:Bind IdentifiedFeatureViewModel.HasDestinationRelationships, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <Border Visibility="{x:Bind IdentifiedFeatureViewModel.HasDestinationRelationships, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Style="{StaticResource CardSectionSeparator}">
+                            <TextBlock Text="Linked Records" Style="{StaticResource CardSectionHeader}" />
+                        </Border>
                         <!--  List of relationships where identified feature is destination  -->
                         <ItemsControl HorizontalContentAlignment="Stretch"
                                       ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships, Mode=OneWay}"
@@ -96,7 +100,9 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <TextBlock Style="{StaticResource CardSectionHeader}" Text="{Binding RelatedTable.PopupDefinition.Title, Mode=OneWay}" />
+                                        <Border Style="{StaticResource CardSectionSeparator}">
+                                            <TextBlock Style="{StaticResource CardSectionHeader}" Text="{Binding RelatedTable.PopupDefinition.Title, Mode=OneWay}" />
+                                        </Border>
                                         <Button Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, Mode=OneWay, ElementName=IdentifiedFeatureUserControl}"
                                                 Style="{StaticResource CardProminentButton}"
                                                 CommandParameter="{Binding}"

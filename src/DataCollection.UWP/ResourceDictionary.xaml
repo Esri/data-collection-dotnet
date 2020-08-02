@@ -719,4 +719,10 @@
         <Setter Property="Stretch" Value="Uniform" />
         <Setter Property="Fill" Value="{StaticResource chrome-foreground}" />
     </Style>
+    <Style TargetType="Border" x:Key="CardSectionSeparator">
+        <Setter Property="BorderBrush" Value="{StaticResource chrome-subtle-border}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
 </ResourceDictionary>
