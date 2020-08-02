@@ -17,23 +17,31 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <!-- Data context should be set to mainviewmodel.AuthViewModel -->
-    <StackPanel MinWidth="200">
-        <Ellipse Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+    <Grid MinWidth="200">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Ellipse Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
                          Width="40" Height="40"
-                         Margin="5"
+                 Margin="0,0,10,0"
                          Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding AuthenticatedUser.ThumbnailUri}" />
             </Ellipse.Fill>
         </Ellipse>
         <TextBlock Text="{Binding AuthenticatedUser.FullName}"
-                           Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
-                           HorizontalAlignment="Center" Margin="5" />
+                   Grid.Row="0" Grid.Column="1"
+                           Style="{StaticResource TitleBarPopoverProminentLabelStyle}" />
         <TextBlock Text="{Binding AuthenticatedUser.UserName}"
-                   Style="{StaticResource TitleBarPopoverLabelStyle}"
-                   HorizontalAlignment="Center" />
-
-        <Button Grid.Row="5" Grid.ColumnSpan="2"
+                   Grid.Row="1" Grid.Column="1"
+                   Style="{StaticResource TitleBarPopoverLabelStyle}" />
+        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                 Style="{StaticResource MapOverlayButtonStyle}"
                 Margin="0,5,0,0"
                 Command="{Binding SignOutCommand}"
@@ -43,5 +51,5 @@
                 <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
             </StackPanel>
         </Button>
-    </StackPanel>
+    </Grid>
 </UserControl>

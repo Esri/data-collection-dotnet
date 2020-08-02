@@ -120,6 +120,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NullReadyCalendarDatePicker.cs" />
+    <Compile Include="Converters\DateTimeStringFormatConverter.cs" />
     <Compile Include="Converters\SelectedPivotIndexToVisibilityConverter.cs" />
     <Compile Include="Converters\TitleBarConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ObjectToDateTimeOffsetConverter.cs" />

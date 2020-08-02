@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" xmlns:converters1="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -13,10 +13,12 @@
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters1:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{StaticResource PopupBorder}">
-        <Grid>
+        <Grid ColumnSpacing="{StaticResource brand-column-spacing}"
+              RowSpacing="{StaticResource brand-row-spacing}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -36,8 +38,8 @@
                    FontSize="18" />
             <!-- TODO: localize -->
             <TextBlock Text="Created:" Style="{StaticResource PopupProminentText}"
-                   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"/>
-            <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Created, FallbackValue='unknown', Mode=OneWay}"
+                   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+            <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Created , FallbackValue='unknown', Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='r'}"
                    Style="{StaticResource PopupText}"
                    Grid.Row="2" Grid.Column="1" />
             <TextBlock Text="Offline Map Available" 
@@ -46,20 +48,20 @@
                    Grid.ColumnSpan="2" 
                    HorizontalAlignment="Center"
                    Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
-            <TextBlock Text="Downloaded on:" Margin="0,5,5,0"
+            <TextBlock Text="Downloaded on:"
                    Style="{StaticResource PopupProminentText}" 
                    Grid.Row="3" Grid.Column="0" VerticalAlignment="Top"
+                   HorizontalAlignment="Right"
                    Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}"  />
-            <TextBlock Text="{x:Bind MainViewModel.OfflineMap.Item.Modified, Mode=OneWay}" 
+            <TextBlock Text="{x:Bind MainViewModel.OfflineMap.Item.Modified, Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='r'}" 
                    Style="{StaticResource PopupText}" 
                    Grid.Row="3" Grid.Column="1" 
                    Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
             <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Snippet, Mode=OneWay}"
-                   Style="{StaticResource PopupText}" Margin="0,5,0,5"
+                   Style="{StaticResource PopupText}"
                    Grid.Row="1" Grid.ColumnSpan="2"/>
             <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                 Style="{StaticResource PopupButton}"
-                    Margin="0,5,0,0"
                 Command="{x:Bind MainViewModel.WorkOfflineCommand, Mode=OneWay}"
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

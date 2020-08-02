@@ -59,6 +59,9 @@
     <SolidColorBrush x:Key="chrome-map-overlay-border">#DD000000</SolidColorBrush>
 
     <x:Double x:Key="content-font-size">12</x:Double>
+    <x:Double x:Key="brand-column-spacing">4</x:Double>
+    <x:Double x:Key="brand-row-spacing">4</x:Double>
+    <x:Double x:Key="brand-row-spacing-large">8</x:Double>
     <FontWeight x:Key="content-font-weight">Normal</FontWeight>
 
     <Style TargetType="Path" x:Key="AnimatedSpinnerPathStyle">
@@ -568,7 +571,8 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="Width" Value="300" />
+        <Setter Property="MinWidth" Value="300" />
+        <Setter Property="MaxWidth" Value="350" />
     </Style>
     <Style TargetType="TextBlock" x:Key="PopupProminentText">
         <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
@@ -581,7 +585,6 @@
     <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}" x:Key="PopupButton">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
-        <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="10" />
     </Style>
     <Style TargetType="Path" x:Key="PopupButtonIconPath">
@@ -714,8 +717,8 @@
         <Setter Property="BorderThickness" Value="1" />
     </Style>
     <Style TargetType="Path" x:Key="MapOverlayButtonPathIcon">
-        <Setter Property="Height" Value="16" />
-        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Width" Value="14" />
         <Setter Property="Stretch" Value="Uniform" />
         <Setter Property="Fill" Value="{StaticResource chrome-foreground}" />
     </Style>

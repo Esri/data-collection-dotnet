@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" xmlns:converters1="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -13,10 +13,11 @@
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters1:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Style="{StaticResource PopupBorder}">
-        <Grid>
+        <Grid RowSpacing="{StaticResource brand-row-spacing-large}" ColumnSpacing="{StaticResource brand-column-spacing}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -38,7 +39,7 @@
                    Style="{StaticResource PopupProminentText}" 
                    Visibility="{x:Bind MainViewModel.SyncDate, Converter={StaticResource NullToVisibilityConverter}}"
                    Grid.Row="2" Grid.Column="0" />
-            <TextBlock Text="{x:Bind MainViewModel.SyncDate, Mode=OneWay}"
+            <TextBlock Text="{x:Bind MainViewModel.SyncDate, Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='r'}"
                    Style="{StaticResource PopupText}" 
                    Visibility="{x:Bind MainViewModel.SyncDate, Converter={StaticResource NullToVisibilityConverter}}"
                    Grid.Row="2" Grid.Column="1"  />
@@ -50,7 +51,6 @@
             <Button Grid.Row="4" Grid.ColumnSpan="2"
                 Style="{StaticResource PopupButton}"
                 Command="{x:Bind MainViewModel.SyncMapCommand, Mode=OneWay}"
-                Margin="0,5,0,0"
                 Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Path Data="{StaticResource calcite-ui-refresh-16}" Style="{StaticResource PopupButtonIconPath}" />

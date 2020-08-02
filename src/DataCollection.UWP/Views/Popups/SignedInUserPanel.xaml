@@ -15,7 +15,7 @@
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     </UserControl.Resources>
     <Border Style="{StaticResource PopupBorder}">
-        <Grid MinWidth="200" ColumnSpacing="10">
+        <Grid MinWidth="200" ColumnSpacing="{StaticResource brand-column-spacing}" RowSpacing="{StaticResource brand-row-spacing-large}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
