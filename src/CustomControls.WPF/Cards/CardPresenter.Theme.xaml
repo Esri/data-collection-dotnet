@@ -62,6 +62,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CardPresenter}">
                     <Border CornerRadius="{TemplateBinding CornerRadius}"
+                            Background="{TemplateBinding Background}"
                             DataContext="{TemplateBinding Card}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
@@ -123,7 +124,8 @@
                                 </Grid>
                             </Border>
                             <Grid Grid.Row="2" Background="{TemplateBinding Background}">
-                                <ContentPresenter Grid.Row="2" Content="{Binding Content, Mode=OneWay}"
+                                <ContentPresenter Grid.Row="2" 
+                                                  Content="{Binding Content, Mode=OneWay}"
                                               Margin="{TemplateBinding Padding}" />
                             </Grid>
                             <Border Grid.Row="3"

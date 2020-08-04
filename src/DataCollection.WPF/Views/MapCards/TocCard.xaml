@@ -6,17 +6,10 @@
              xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../../CalciteIcons.xaml" />
-                <ResourceDictionary Source="../../Theming/ControlStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <TreeView ItemsSource="{Binding MapAccessoryViewModel.MapView.Map.OperationalLayers, Mode=OneWay}"
               BorderThickness="0"
+              Background="{StaticResource content-background}"
+              Foreground="{StaticResource content-foreground}"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <TreeView.ItemContainerStyle>
             <Style TargetType="TreeViewItem">

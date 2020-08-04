@@ -11,15 +11,12 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../ResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="White">
+    <Grid Background="{StaticResource content-background}">
         <!--  Attribute information for the destination relationship selected  -->
         <ItemsControl ItemsSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
-                      Margin="10">
+                      Margin="{StaticResource padding-default}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>

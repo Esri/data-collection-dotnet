@@ -12,10 +12,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../../CalciteIcons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -47,21 +43,23 @@
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
                 <Button Style="{StaticResource MapOverlayButtonStyle}"
-                        BorderBrush="{StaticResource calcite-color-danger}"
+                        BorderBrush="{DynamicResource danger}"
                         Command="{Binding CancelNewFeatureCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-undo-16}" Style="{StaticResource MapOverlayButtonIconStyle}" Fill="{StaticResource calcite-color-danger}" />
-                        <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton.Content}" 
-                                   Foreground="{StaticResource calcite-color-danger}" />
+                        <Path Data="{StaticResource icon-undo-16}" Style="{StaticResource PathIconBase}" Fill="{DynamicResource danger}" />
+                        <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton_Content}" 
+                                   Style="{StaticResource MapOverlayButtonText}"
+                                   Foreground="{DynamicResource danger}" />
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource MapOverlayButtonStyle}"
-                        BorderBrush="{StaticResource calcite-color-success}"
+                        BorderBrush="{DynamicResource success}"
                         Command="{Binding SaveNewFeatureCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-check-circle-16}" Style="{StaticResource MapOverlayButtonIconStyle}" Fill="{StaticResource calcite-color-success}" />
-                        <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveButton.Content}" 
-                                   Foreground="{StaticResource calcite-color-success}" />
+                        <Path Data="{StaticResource icon-check-circle-16}" Style="{StaticResource PathIconBase}" Fill="{DynamicResource success}" />
+                        <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveButton_Content}" 
+                                   Style="{StaticResource MapOverlayButtonText}"
+                                   Foreground="{DynamicResource success}" />
                     </StackPanel>
                 </Button>
             </StackPanel>

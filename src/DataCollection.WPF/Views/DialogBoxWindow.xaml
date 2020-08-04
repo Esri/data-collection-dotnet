@@ -5,34 +5,33 @@
     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Height="250"
-    MaxWidth="400"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     WindowStartupLocation="CenterScreen"
+    SizeToContent="WidthAndHeight"
+    ResizeMode="NoResize"
     WindowStyle="None"
+    ShowInTaskbar="False"
+    Background="{StaticResource content-background}"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../ResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <StackPanel Background="White" Orientation="Vertical">
+        <StackPanel Orientation="Vertical">
             <TextBlock
-                Grid.Row="0"
-                Padding="10,10,10,10"
-                Background="Green"
+                Padding="{StaticResource padding-default}"
+                Background="{StaticResource chrome-background}"
                 FontSize="20"
-                Foreground="White"
+                Foreground="{StaticResource chrome-foreground}"
                 Text="{Binding MessageTitle}"
                 TextWrapping="Wrap"
                 Visibility="{Binding MessageTitle, Converter={StaticResource NullToVisibilityConverter}}" />
             <TextBlock
-                Margin="10"
+                Margin="{StaticResource padding-default}"
+                Style="{StaticResource FieldLabelStyle}"
                 Text="{Binding Message}"
                 TextWrapping="Wrap" />
 
@@ -40,20 +39,20 @@
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button
                     x:Name="OKDialogButton"
-                    Margin="20"
-                    Padding="10"
+                    Style="{StaticResource MapOverlayButtonStyle}"
                     Command="{Binding DismissDialogBoxCommand}"
                     CommandParameter="true"
-                    Content="{Binding AffirmativeActionButtonContent}"
-                    Style="{StaticResource MenuButtonStyle}" />
+                    BorderBrush="{StaticResource danger}"
+                    Foreground="{StaticResource danger}"
+                    Content="{Binding AffirmativeActionButtonContent}" />
                 <Button
                     x:Name="CancelDialogButton"
-                    Margin="20"
-                    Padding="10"
+                    Style="{StaticResource MapOverlayButtonStyle}"
+                    BorderBrush="{StaticResource success}"
+                    Foreground="{StaticResource success}"
                     Command="{Binding DismissDialogBoxCommand}"
                     CommandParameter="false"
                     Content="{Binding NegativeActionButtonContent}"
-                    Style="{StaticResource MenuButtonStyle}"
                     Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
             </StackPanel>
 

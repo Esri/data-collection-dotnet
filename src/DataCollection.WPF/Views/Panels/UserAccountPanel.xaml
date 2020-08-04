@@ -10,10 +10,6 @@
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../CalciteIcons.xaml" />
-                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <!-- Data context should be set to mainviewmodel.AuthViewModel -->
@@ -47,8 +43,9 @@
                 Command="{Binding SignOutCommand}"
                 Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Path Data="{StaticResource calcite-ui-sign-out-16}" Style="{StaticResource MapOverlayButtonIconStyle}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton.Label}" />
+                <Path Data="{StaticResource icon-sign-out-16}" Style="{StaticResource PathIconBase}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton_Label}"
+                           Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>
     </Grid>

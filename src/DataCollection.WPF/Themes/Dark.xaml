@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Themes">
+    <SolidColorBrush x:Key="tint" Color="#91BF6B" />
+    <SolidColorBrush x:Key="chrome-background" Color="#2B2B2B"/>
+    <SolidColorBrush x:Key="chrome-foreground" Color="#ffffff" />
+    <SolidColorBrush x:Key="chrome-background-hover" Color="#353535" />
+    <SolidColorBrush x:Key="chrome-border" Color="#404040" />
+    <SolidColorBrush x:Key="content-foreground" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="content-background" Color="#202020" />
+    <SolidColorBrush x:Key="content-subtle" Color="#DFDFDF" />
+    <SolidColorBrush x:Key="danger" Color="#FE583E" />
+    <SolidColorBrush x:Key="danger-hover" Color="#F3381B" />
+    <SolidColorBrush x:Key="danger-pressed" Color="#FF7465" />
+    <SolidColorBrush x:Key="success" Color="#36DA43" />
+    <SolidColorBrush x:Key="success-hover" Color="#11AD1D" />
+    <SolidColorBrush x:Key="success-pressed" Color="#44ED51" />
+    <SolidColorBrush x:Key="warning" Color="#FFC900" />
+    <SolidColorBrush x:Key="map-overlay-border-background" Color="#DD000000" />
+    <SolidColorBrush x:Key="map-overlay-border-foreground" Color="#ffffff" />
+    <SolidColorBrush x:Key="blue" Color="#00A0FF" />
+</ResourceDictionary>

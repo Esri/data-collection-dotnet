@@ -14,10 +14,6 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
             <converters:BytesToHumanReadableSizeConverter x:Key="BytesToHumanReadableSizeConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../CalciteIcons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -33,15 +29,15 @@
             IsIndeterminate="True" />
 
         <!--  Wrap panel containing attachment thumbnails and names  -->
-        <ListView Background="White"
-                  Grid.Row="1" BorderBrush="Transparent" BorderThickness="0"
+        <ListView Grid.Row="1" BorderBrush="Transparent" BorderThickness="0"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Padding="{StaticResource padding-default}"
                   ItemsSource="{Binding AttachmentsViewModel.Attachments}"
                   Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                   ItemContainerStyle="{StaticResource UnstyledListViewItemStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="10">
+                    <Grid Margin="{StaticResource margin-top-bottom}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -55,29 +51,31 @@
                         <Image Grid.Column="0"
                                Grid.Row="0" Grid.RowSpan="2"
                                Width="40" Height="40"
-                               Margin="0,0,10,0"
+                               Margin="{StaticResource margin-right-only}"
                                Source="{Binding Thumbnail}"
                                />
                         <TextBlock
                             Grid.Column="1"
                             Grid.Row="0"
-                            FontWeight="SemiBold"
+                            Style="{StaticResource FieldLabelStyle}"
                             Text="{Binding Attachment.Name}"
+                            Margin="0"
                             TextWrapping="Wrap" />
                         <TextBlock
                             Grid.Column="1"
                             Grid.Row="1"
-                            Text="{Binding Attachment.Size, Converter={StaticResource BytesToHumanReadableSizeConverter}}"
-                            Opacity="0.6" />
+                            Style="{StaticResource FieldValueReadonlyStyle}"
+                            Text="{Binding Attachment.Size, Converter={StaticResource BytesToHumanReadableSizeConverter}}" />
                         <Button Style="{StaticResource FieldAccessoryButton}"
                             Grid.Column="2"
                             Grid.Row="0" Grid.RowSpan="2"
                             HorizontalAlignment="Right"
+                            Margin="{StaticResource margin-sides}"
                             Command="{Binding DataContext.AttachmentsViewModel.DeleteAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                             CommandParameter="{Binding Attachment}"
                             ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}"
                             Visibility="{Binding DataContext.EditViewModel, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}">
-                            <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource CardButtonIconStyle}" />
+                            <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource CardButtonIconStyle}" />
                         </Button>
                         <Button Style="{StaticResource FieldAccessoryButton}"
                             Grid.Column="3"
@@ -85,7 +83,7 @@
                             Command="{Binding DataContext.AttachmentsViewModel.OpenAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                             CommandParameter="{Binding Attachment}"
                             ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}" >
-                            <Path Data="{StaticResource calcite-ui-launch-16}" Style="{StaticResource CardButtonIconStyle}" />
+                            <Path Data="{StaticResource icon-launch-16}" Style="{StaticResource CardButtonIconStyle}" />
                         </Button>
                     </Grid>
                 </DataTemplate>
@@ -95,9 +93,8 @@
                    Grid.RowSpan="2"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
+                   Style="{StaticResource FieldLabelStyle}"
                    Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=NoAttachmentsFound_Message}" 
-                   Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}"
-                   FontWeight="SemiBold"
-                   Margin="15" />
+                   Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}" />
     </Grid>
 </UserControl>

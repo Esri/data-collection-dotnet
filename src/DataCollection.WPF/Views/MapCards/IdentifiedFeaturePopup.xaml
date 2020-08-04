@@ -18,9 +18,12 @@
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
+            <Style TargetType="TextBlock" x:Key="PopupSectionHeaderStyle">
+        <Setter Property="Foreground" Value="{StaticResource tint}" />
+        <Setter Property="FontSize" Value="{StaticResource chrome-font-size-large}" />
+    </Style>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../CalciteIcons.xaml" />
+                <ResourceDictionary Source="../../Styles/DataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -29,18 +32,22 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TabControl BorderThickness="0">
+        <TabControl BorderThickness="0" 
+                    Background="{StaticResource content-background}" 
+                    Foreground="{StaticResource content-foreground}">
             <!-- TODO: localize tab headers -->
-            <TabItem Header="Details" Style="{StaticResource MinimalistTabItemStyle}">
+            <TabItem Header="Details" 
+                     Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the identified feature  -->
                 <ScrollViewer
             x:Name="DetailsView"
-            Grid.Row="1" Padding="5"
+            Grid.Row="1" Padding="{StaticResource padding-default}"
             HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Stretch"
             PanningMode="VerticalOnly"
             VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                    <TextBlock Style="{StaticResource PopupSectionHeaderStyle}" Margin="0,0,0,10"
+                    <TextBlock Style="{StaticResource PopupSectionHeaderStyle}" 
+                               Margin="{StaticResource margin-bottom-only}"
                                Text="Attributes" />
                         <!--  View Mode  -->
                         <!--  List of attributes from identified feature  -->
@@ -59,9 +66,11 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <TextBlock Style="{StaticResource PopupSectionHeaderStyle}"
-                                   Text="Linked Records" Margin="0,10,0,10"
+                        <Border Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                            <TextBlock Style="{StaticResource PopupSectionHeaderStyle}"
+                                   Text="Linked Records" Margin="{StaticResource margin-top-bottom}"
                                    Visibility="{Binding HasDestinationRelationships, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Border>
                         <!--  View Mode  -->
                         <!--  List of relationships where identified feature is destination  -->
                         <ItemsControl
@@ -98,7 +107,7 @@
                                                 CommandParameter="{Binding}"
                                                 Style="{StaticResource FieldAccessoryButton}"
                                                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
-                                                <Path Data="{StaticResource calcite-ui-information-16}" Style="{StaticResource CardButtonIconStyle}" />
+                                                <Path Data="{StaticResource icon-information-16}" Style="{StaticResource CardButtonIconStyle}" />
                                             </Button>
                                         </Grid>
                                     </Border>
@@ -116,15 +125,16 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <TextBlock Style="{StaticResource PopupSectionHeaderStyle}" Margin="0,10,0,10"
+                                        <TextBlock Style="{StaticResource PopupSectionHeaderStyle}" Margin="{StaticResource margin-top-bottom}"
                                                    Text="{Binding RelatedTable.PopupDefinition.Title}" />
-                                            <Button Style="{StaticResource ProminentButtonStyle}" Margin="0,0,0,5"
+                                            <Button Style="{StaticResource MapOverlayButtonStyle}" Margin="{StaticResource margin-bottom-only}"
                                                     Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding .}"
                                                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Path Data="{StaticResource calcite-ui-plus-circle-16}" Style="{StaticResource CardButtonIconStyle}" />
-                                                <TextBlock Text="Add Related Record" Margin="5,0,5,0" />
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Path Data="{StaticResource icon-plus-circle-16}" Style="{StaticResource CardButtonIconStyle}" />
+                                                <TextBlock Text="Add Related Record"
+                                                           Style="{StaticResource MapOverlayButtonText}" Margin="0" />
                                             </StackPanel>
                                         </Button>
                                         <ItemsControl ItemsSource="{Binding OriginRelationshipViewModelCollection}">
@@ -170,7 +180,7 @@
                                                                 CommandParameter="{Binding PopupManager}"
                                                                 Style="{StaticResource FieldAccessoryButton}"
                                                                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
-                                                                <Path Data="{StaticResource calcite-ui-information-16}" Style="{StaticResource CardButtonIconStyle}" />
+                                                                <Path Data="{StaticResource icon-information-16}" Style="{StaticResource CardButtonIconStyle}" />
                                                             </Button>
                                                         </Grid>
                                                     </Border>
@@ -262,7 +272,7 @@
                 Style="{StaticResource CardControlStripButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Data="{StaticResource calcite-ui-pencil-16}" Style="{StaticResource CardButtonIconStyle}" />
+                <Path Data="{StaticResource icon-pencil-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
             <Button
                 Grid.Column="2"
@@ -272,7 +282,7 @@
                 Style="{StaticResource CardControlStripButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource CardButtonIconStyle}"/>
+                <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource CardButtonIconStyle}"/>
             </Button>
 
             <!--  Bottom buttons to save or discard changes to record  -->
@@ -282,7 +292,7 @@
                 Style="{StaticResource CardControlStripButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Data="{StaticResource calcite-ui-save-16}" Style="{StaticResource CardButtonIconStyle}"/>
+                <Path Data="{StaticResource icon-save-16}" Style="{StaticResource CardButtonIconStyle}"/>
             </Button>
             <Button
                 Grid.Column="2"
@@ -292,7 +302,7 @@
                 Style="{StaticResource CardControlStripButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Data="{StaticResource calcite-ui-x-16}" Style="{StaticResource CardButtonIconStyle}"/>
+                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource CardButtonIconStyle}"/>
             </Button>
 
             <!--  Button to add new attachment  -->
@@ -304,7 +314,7 @@
                 Command="{Binding EditFeatureCommand}"
                 Style="{StaticResource CardControlStripButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}">
-                <Path Data="{StaticResource calcite-ui-folder-open-16}" Style="{StaticResource CardButtonIconStyle}"/>
+                <Path Data="{StaticResource icon-folder-open-16}" Style="{StaticResource CardButtonIconStyle}"/>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:ChangePropertyAction

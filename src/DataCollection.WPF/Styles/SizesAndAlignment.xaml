@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:core="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Styles">
+
+    <core:Double x:Key="chrome-font-size">12</core:Double>
+    <core:Double x:Key="content-font-size">12</core:Double>
+    <core:Double x:Key="chrome-font-size-large">16</core:Double>
+    <core:Double x:Key="chrome-font-size-prominent">14</core:Double>
+
+    <FontWeight x:Key="content-label">SemiBold</FontWeight>
+    <FontWeight x:Key="content-value">Normal</FontWeight>
+    <FontWeight x:Key="chrome-heading">SemiBold</FontWeight>
+    <FontWeight x:Key="chrome-normal">Normal</FontWeight>
+
+    <Thickness x:Key="chrome-border-thickness">1</Thickness>
+
+
+    <Thickness x:Key="padding-default">8</Thickness>
+    <Thickness x:Key="margin-default">4</Thickness>
+    <Thickness x:Key="padding-button-wide">16,8,16,8</Thickness>
+    <Thickness x:Key="padding-button-xl">32,16,32,16</Thickness>
+    <Thickness x:Key="padding-xl">16</Thickness>
+    <core:Double x:Key="margin-part-default">4</core:Double>
+    <Thickness x:Key="margin-sides">4,0,4,0</Thickness>
+    <Thickness x:Key="margin-top-bottom">0,4,0,4</Thickness>
+    <Thickness x:Key="margin-top-only">0,4,0,0</Thickness>
+    <Thickness x:Key="margin-bottom-only">0,0,0,4</Thickness>
+    <Thickness x:Key="margin-left-only">8,0,0,0</Thickness>
+    <Thickness x:Key="margin-right-only">0,0,4,0</Thickness>
+    <CornerRadius x:Key="corner-radius-default">0</CornerRadius>
+    <Size Width="16" Height="16" x:Key="size-large-icon" />
+    <core:Double x:Key="dimension-large-icon">16</core:Double>
+    <Thickness x:Key="control-border-default">1</Thickness>
+    <Cursor x:Key="action-cursor">Hand</Cursor>
+</ResourceDictionary>

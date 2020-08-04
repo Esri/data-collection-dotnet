@@ -15,10 +15,6 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../../CalciteIcons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="DownloadOverlay" >
@@ -37,10 +33,9 @@
                 Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
         </Border>
         <Grid Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"
-              Background="{StaticResource dc-dark-transparent-overlay}"
+              Background="{DynamicResource map-overlay-border-background}"
               VerticalAlignment="Stretch"
-              Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}"
-              Effect="{StaticResource StandardDropShadow}">
+              Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
             <Border Style="{StaticResource StatusPanelBorderStyle}">
                 <StackPanel>
                     <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}"
@@ -48,15 +43,16 @@
                                  Value="{Binding DownloadViewModel.Progress}" />
                     <TextBlock Style="{StaticResource StatusPanelCaptionTextStyle}"
                                Grid.Row="2"
+                               Foreground="{DynamicResource map-overlay-border-foreground}"
                                Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadingMessage.Text}" />
                     <Button Style="{StaticResource StatusPanelButtonStyle}"
                             Grid.Row="4"
                             Command="{Binding DownloadViewModel.CancelDownloadCommand}"
-                            BorderBrush="{StaticResource calcite-color-danger}">
+                            BorderBrush="{DynamicResource danger}">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Path Data="{StaticResource calcite-ui-undo-16}" Fill="{StaticResource calcite-color-danger}" Stretch="Uniform" Margin="0,0,10,0" />
+                            <Path Data="{StaticResource icon-undo-16}" Fill="{DynamicResource danger}" Stretch="Uniform" Margin="0,0,10,0" />
                             <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton.Content}"
-                                       Foreground="{StaticResource calcite-color-danger}" />
+                                       Foreground="{DynamicResource danger}" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -80,7 +76,7 @@
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
                 <Button Style="{StaticResource MapOverlayButtonStyle}"
-                        BorderBrush="{StaticResource calcite-color-danger}">
+                        BorderBrush="{DynamicResource danger}">
                         <!-- TODO - replace with command binding -->
                         <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -91,21 +87,21 @@
                         </i:EventTrigger>
                             </i:Interaction.Triggers>
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-undo-16}" Style="{StaticResource MapOverlayButtonIconStyle}" 
-                              Fill="{StaticResource calcite-color-danger}" />
+                        <Path Data="{StaticResource icon-undo-16}" Style="{StaticResource PathIconBase}" 
+                              Fill="{DynamicResource danger}" />
                         <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" 
-                                   Foreground="{StaticResource calcite-color-danger}" />
+                                   Foreground="{DynamicResource danger}" />
                     </StackPanel>
                 </Button>
                 <Button Style="{StaticResource MapOverlayButtonStyle}"
-                        BorderBrush="{StaticResource calcite-color-success}"
+                        BorderBrush="{DynamicResource success}"
                         Command="{Binding DownloadViewModel.DownloadMapCommand}"
                         CommandParameter="{Binding ElementName=DownloadUserControl, Path=VisibleArea}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-download-16}" Style="{StaticResource MapOverlayButtonIconStyle}" 
-                              Fill="{StaticResource calcite-color-success}" />
+                        <Path Data="{StaticResource icon-download-16}" Style="{StaticResource PathIconBase}" 
+                              Fill="{DynamicResource success}" />
                         <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadButton.Content}"
-                                   Foreground="{StaticResource calcite-color-success}" />
+                                   Foreground="{DynamicResource success}" />
                     </StackPanel>
                 </Button>
             </StackPanel>

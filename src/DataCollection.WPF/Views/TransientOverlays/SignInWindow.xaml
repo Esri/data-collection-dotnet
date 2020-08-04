@@ -16,10 +16,6 @@
             <wpfViewModels:SignInWindowViewModel x:Key="SignInWindowViewModel" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../../CalciteIcons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -32,7 +28,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Rectangle Fill="{StaticResource dc-dark-transparent-overlay}" Grid.RowSpan="3" />
+        <Rectangle Fill="{DynamicResource map-overlay-border-background}" Grid.RowSpan="3" />
         <WebBrowser x:Name="WebBrowser" MinWidth="300" MinHeight="300"
                     Grid.Row="1">
             <utils:WebBrowserExtensions.SourceController>
@@ -48,8 +44,8 @@
                 Style="{StaticResource MapOverlayButtonStyle}"
                 Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
-                <Path Data="{StaticResource calcite-ui-undo-16}" Fill="{StaticResource calcite-color-danger}" Style="{StaticResource MapOverlayButtonIconStyle}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" Foreground="{StaticResource calcite-color-danger}" />
+                <Path Data="{StaticResource icon-undo-16}" Fill="{DynamicResource danger}" Style="{StaticResource PathIconBase}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" Foreground="{DynamicResource danger}" />
             </StackPanel>
         </Button>
     </Grid>

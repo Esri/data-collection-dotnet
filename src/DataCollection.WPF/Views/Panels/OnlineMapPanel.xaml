@@ -10,10 +10,6 @@
         <ResourceDictionary>
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../CalciteIcons.xaml" />
-                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
              <!-- Expects DataContext to be set to MainViewModel -->
@@ -69,8 +65,9 @@
                 Margin="0,5,0,0"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Path Data="{StaticResource calcite-ui-offline-16}" Style="{StaticResource MapOverlayButtonIconStyle}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton.Label}" />
+                <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconBase}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton_Label}"
+                           Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>
     </Grid>

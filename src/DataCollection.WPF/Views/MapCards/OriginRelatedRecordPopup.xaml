@@ -19,8 +19,7 @@
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../ResourceDictionary.xaml" />
-                <ResourceDictionary Source="../CalciteIcons.xaml" />
+                <ResourceDictionary Source="../../Styles/DataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -30,7 +29,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TabControl BorderThickness="0" Grid.Row="1">
+        <TabControl BorderThickness="0" Grid.Row="1" Background="{StaticResource content-background}">
             <TabItem Header="Details" Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the origin relationship selected  -->
                 <ScrollViewer
@@ -38,9 +37,9 @@
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto"
             Visibility="Visible">
-                    <StackPanel Background="White" Orientation="Vertical">
+                    <StackPanel Orientation="Vertical">
                         <!--  Origin related record in View mode  -->
-                        <ItemsControl Margin="5"
+                        <ItemsControl Margin="{StaticResource padding-default}"
                     ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
@@ -57,7 +56,7 @@
                         </ItemsControl>
                         <!--  Origin related record in Edit mode  -->
                         <ItemsControl
-                    Margin="5"
+                    Margin="{StaticResource padding-default}"
                     BorderThickness="0"
                     ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}"
                     ItemsSource="{Binding Fields}"
@@ -91,7 +90,7 @@
                 Command="{Binding EditRelatedRecordCommand}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource calcite-ui-pencil-16}" />
+                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-pencil-16}" />
             </Button>
             <Button Style="{StaticResource CardControlStripButtonStyle}"
                 Grid.Column="2"
@@ -100,7 +99,7 @@
                 CommandParameter="{Binding}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource calcite-ui-trash-16}" />
+                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-trash-16}" />
             </Button>
 
             <!--  Buttons to save and discard changes to record  -->
@@ -110,7 +109,7 @@
                 Command="{Binding SaveEditsCommand}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource calcite-ui-save-16}" />
+                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-save-16}" />
             </Button>
             <Button Style="{StaticResource CardControlStripButtonStyle}"
                 Grid.Column="2"
@@ -119,7 +118,7 @@
                 CommandParameter="{Binding .}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
                 Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource calcite-ui-x-16}" />
+                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-x-16}" />
             </Button>
 
             <!--  Button to add new attachment  -->
@@ -131,7 +130,7 @@
                 Click="AddAttachmentButton_Click"
                 Command="{Binding EditRelatedRecordCommand}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource calcite-ui-folder-open-16}" />
+                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-folder-open-16}" />
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:ChangePropertyAction

@@ -10,10 +10,6 @@
         <ResourceDictionary>
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../CalciteIcons.xaml" />
-                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
              <!-- Expects data context to be set to MainViewModel -->
@@ -35,7 +31,7 @@
         <TextBlock Text="{Binding MapViewModel.Map.Item.Title}"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
                    Grid.Column="0" Grid.ColumnSpan="2"
-                   FontSize="18" />
+                   FontSize="{StaticResource chrome-font-size-large}" />
         <!-- TODO: localize -->
         <TextBlock Text="Last Sync:"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}" 
@@ -43,12 +39,12 @@
         <TextBlock Text="{Binding SyncDate, StringFormat='r'}"
                    Style="{StaticResource TitleBarPopoverLabelStyle}" 
                    Grid.Row="2" Grid.Column="1" 
-                   Margin="5,5,5,5" />
+                   Margin="{StaticResource margin-default}" />
         <TextBlock Text="{Binding MapViewModel.Map.Item.Snippet}"
                    Style="{StaticResource TitleBarPopoverLabelStyle}" 
                    TextWrapping="Wrap"
                    Grid.Row="1" Grid.ColumnSpan="2" 
-                   Margin="0,5,0,5" />
+                   Margin="{StaticResource margin-top-bottom}" />
         <!--  Synchronize button and text  -->
         <Button Grid.Row="4" Grid.ColumnSpan="2"
                 Style="{StaticResource MapOverlayButtonStyle}"
@@ -56,8 +52,9 @@
                 Margin="0,5,0,0"
                 Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Path Data="{StaticResource calcite-ui-refresh-16}" Style="{StaticResource MapOverlayButtonIconStyle}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton.Label}" />
+                <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconBase}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton_Label}"
+                           Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>
 
@@ -68,8 +65,9 @@
                 Margin="0,5,0,0"
                 Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource MapOverlayButtonIconStyle}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton.Label}" />
+                <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconBase}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton_Label}"
+                           Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>
         <!--  Work online button and text  -->
@@ -80,8 +78,9 @@
                 CommandParameter="{Binding MapViewModel.AreaOfInterest}"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Path Data="{StaticResource calcite-ui-online-16}" Style="{StaticResource MapOverlayButtonIconStyle}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton.Label}" />
+                <Path Data="{StaticResource icon-online-16}" Style="{StaticResource PathIconBase}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton_Label}"
+                           Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>
 

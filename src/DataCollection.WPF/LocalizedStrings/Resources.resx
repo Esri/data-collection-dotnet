@@ -228,7 +228,7 @@
   <data name="CloseButton_Tooltip" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="DeleteMapButton.Label" xml:space="preserve">
+  <data name="DeleteMapButton_Label" xml:space="preserve">
     <value>Delete Offline Map</value>
   </data>
   <data name="DeleteRecord_Tooltip" xml:space="preserve">

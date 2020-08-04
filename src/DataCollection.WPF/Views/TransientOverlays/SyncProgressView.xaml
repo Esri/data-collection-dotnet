@@ -10,27 +10,31 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../CalciteIcons.xaml" />
-                <ResourceDictionary Source="../../ResourceDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <!-- Expects DataContext to be set to SyncViewModel -->
-    <StackPanel>
-        <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}"
+    <Grid Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"
+              Background="{DynamicResource map-overlay-border-background}"
+              VerticalAlignment="Stretch"
+              Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
+        <Border Style="{StaticResource StatusPanelBorderStyle}">
+            <StackPanel>
+                <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}"
                      Maximum="100" Minimum="0"
                      Value="{Binding SyncViewModel.Progress}" />
-        <TextBlock Style="{StaticResource StatusPanelTitleStyle}"
-                   HorizontalAlignment="Center"
-                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SynchingMessage.Text}" />
-        <Button Command="{Binding SyncViewModel.CancelSyncCommand}" BorderBrush="{StaticResource calcite-color-danger}"
+                <TextBlock Style="{StaticResource StatusPanelTitleStyle}"
+                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SynchingMessage_Text}" />
+                <Button Command="{Binding SyncViewModel.CancelSyncCommand}" BorderBrush="{DynamicResource danger}"
+                        Margin="{StaticResource margin-top-only}"
                 Style="{StaticResource MapOverlayButtonStyle}">
-            <StackPanel Orientation="Horizontal">
-                <Path Data="{StaticResource calcite-x-circle-32}" Style="{StaticResource MapOverlayButtonIconStyle}" Fill="{StaticResource calcite-color-danger}" />
-                <TextBlock Text="{Binding .,Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}"
-                           Foreground="{StaticResource calcite-color-danger}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Path Data="{StaticResource calcite-x-circle-32}" Style="{StaticResource PathIconBase}" Fill="{DynamicResource danger}" />
+                        <TextBlock Text="{Binding .,Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}"
+                                   Style="{StaticResource MapOverlayButtonText}"
+                                   Foreground="{StaticResource danger}"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
-        </Button>
-    </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>
