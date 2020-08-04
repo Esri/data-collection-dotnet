@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Images\ArcGIS_Open_Source_Apps.ico" />
     <None Remove="Images\bookmark-16.png" />
     <None Remove="Images\Calcite\bookmark-32.png" />
     <None Remove="Images\Calcite\camera-32.png" />
@@ -91,6 +92,9 @@
     </Resource>
     <Resource Include="..\DataCollection.Shared\Resources\Images\PinShadow.png">
       <Link>Images\PinShadow.png</Link>
+    </Resource>
+    <Resource Include="Images\ArcGIS_Open_Source_Apps.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Calcite\bookmark-32.png" />
     <Resource Include="Images\Calcite\camera-32.png" />

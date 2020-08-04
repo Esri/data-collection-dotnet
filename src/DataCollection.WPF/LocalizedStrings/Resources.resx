@@ -474,4 +474,7 @@
   <data name="MapAccessory_AddButton_Tooltip" xml:space="preserve">
     <value>Add new feature</value>
   </data>
+  <data name="DownloadingMessage_Text" xml:space="preserve">
+    <value>Downloading Map</value>
+  </data>
 </root>

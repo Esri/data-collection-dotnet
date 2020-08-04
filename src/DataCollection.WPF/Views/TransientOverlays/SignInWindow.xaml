@@ -45,7 +45,9 @@
                 Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
                 <Path Data="{StaticResource icon-undo-16}" Fill="{DynamicResource danger}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" Foreground="{DynamicResource danger}" />
+                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" 
+                           Style="{StaticResource MapOverlayButtonText}"
+                           Foreground="{DynamicResource danger}" />
             </StackPanel>
         </Button>
     </Grid>

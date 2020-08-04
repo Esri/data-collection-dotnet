@@ -43,15 +43,16 @@
                                  Value="{Binding DownloadViewModel.Progress}" />
                     <TextBlock Style="{StaticResource StatusPanelCaptionTextStyle}"
                                Grid.Row="2"
-                               Foreground="{DynamicResource map-overlay-border-foreground}"
-                               Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadingMessage.Text}" />
+                               Foreground="{DynamicResource chrome-foreground}"
+                               Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadingMessage_Text}" />
                     <Button Style="{StaticResource StatusPanelButtonStyle}"
                             Grid.Row="4"
                             Command="{Binding DownloadViewModel.CancelDownloadCommand}"
                             BorderBrush="{DynamicResource danger}">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Path Data="{StaticResource icon-undo-16}" Fill="{DynamicResource danger}" Stretch="Uniform" Margin="0,0,10,0" />
-                            <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton.Content}"
+                            <Path Data="{StaticResource icon-undo-16}" Fill="{DynamicResource danger}" Stretch="Uniform" Style="{StaticResource PathIconBase}" />
+                            <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton_Content}"
+                                       Style="{StaticResource MapOverlayButtonText}"
                                        Foreground="{DynamicResource danger}" />
                         </StackPanel>
                     </Button>
@@ -90,6 +91,7 @@
                         <Path Data="{StaticResource icon-undo-16}" Style="{StaticResource PathIconBase}" 
                               Fill="{DynamicResource danger}" />
                         <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" 
+                                   Style="{StaticResource MapOverlayButtonText}"
                                    Foreground="{DynamicResource danger}" />
                     </StackPanel>
                 </Button>
@@ -101,6 +103,7 @@
                         <Path Data="{StaticResource icon-download-16}" Style="{StaticResource PathIconBase}" 
                               Fill="{DynamicResource success}" />
                         <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadButton.Content}"
+                                   Style="{StaticResource MapOverlayButtonText}"
                                    Foreground="{DynamicResource success}" />
                     </StackPanel>
                 </Button>
