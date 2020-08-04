@@ -415,16 +415,21 @@
             <views:SignInWindow MapUI:MapLayoutPanel.LayoutRole="TransientOverlay" />
 
             <Grid MapUI:MapLayoutPanel.LayoutRole="TransientOverlay"
-              Visibility="{Binding IsBusyWaiting, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                <Rectangle Fill="Black" Opacity=".5" />
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+              Visibility="{Binding IsBusyWaiting, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                  Background="{StaticResource map-overlay-border-background}">
+                <Border Style="{StaticResource StatusPanelBorderStyle}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">                
+                    <StackPanel>
                     <TextBlock Text="{Binding BusyWaitingMessage, Mode=OneWay}" 
-                           HorizontalAlignment="Center"
                            Style="{StaticResource FieldLabelStyle}"
-                           FontWeight="SemiBold" FontSize="36" />
-                    <ProgressBar IsIndeterminate="True" Margin="5" HorizontalAlignment="Stretch"
-                             Height="10"/>
-                </StackPanel>
+                               FontSize="18"
+                            />
+                        <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch"
+                                     Margin="{StaticResource margin-default}"
+                                     Style="{StaticResource StatusPanelProgressBarStyle}"/>
+                    </StackPanel>
+                </Border>
+
             </Grid>
         </MapUI:MapLayoutPanel>
 

@@ -75,20 +75,21 @@
                 MaxWidth="400"
                 MaxHeight="300"
                 Margin="0"
-                Background="White"
+                Background="{StaticResource content-background}"
                 Visibility="{Binding IsChecked, ElementName=StackTraceVisibilitySwitch, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10" />
+                    <RowDefinition Height="8" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Separator Grid.Row="0" Background="Green" />
+                <Separator Grid.Row="0" Background="{StaticResource tint}" />
                 <ScrollViewer
                     Grid.Row="1"
-                    Margin="10"
+                    Margin="{StaticResource margin-default}"
                     VerticalScrollBarVisibility="Auto">
                     <TextBlock
-                        Padding="5"
+                        Padding="{StaticResource padding-default}"
                         VerticalAlignment="Top"
+                        Foreground="{StaticResource content-foreground}"
                         Text="{Binding StackTrace}"
                         TextWrapping="Wrap" />
                 </ScrollViewer>

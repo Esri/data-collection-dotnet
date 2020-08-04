@@ -114,8 +114,24 @@
         <Setter Property="Padding" Value="{StaticResource padding-default}" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Foreground" Value="{StaticResource chrome-foreground}" />
-        <Setter Property="Background" Value="{StaticResource content-background}" />
+        <Setter Property="Background" Value="{StaticResource chrome-background}" />
         <Setter Property="FontSize" Value="{StaticResource content-font-size}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border 
+          Name="Border"
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}" >
+                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style TargetType="TextBox" x:Key="EditableFieldValueStyle">
         <Setter Property="IsEnabled" Value="True" />
@@ -128,7 +144,20 @@
         <Setter Property="BorderBrush" Value="{StaticResource chrome-border}" />
         <Setter Property="BorderThickness" Value="{StaticResource chrome-border-thickness}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusStyle}" />
+        <Setter Property="Cursor" Value="IBeam" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border 
+          Name="Border"
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}" >
+                        <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style TargetType="DatePicker" x:Key="DatePickerValueStyle">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -140,6 +169,7 @@
         <Setter Property="TextElement.Background" Value="{StaticResource chrome-background}" />
         <Setter Property="TextElement.Foreground" Value="{StaticResource chrome-foreground}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="{StaticResource action-cursor}" />
     </Style>
     <Style TargetType="ComboBox" x:Key="ComboboxValueStyle">
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -235,8 +265,6 @@
     <Style TargetType="Path" x:Key="MapAccessoryIconStyle" BasedOn="{StaticResource PathIconBase}">
         <Setter Property="Margin" Value="{StaticResource margin-default}" />
     </Style>
-    <DropShadowEffect x:Key="StandardDropShadow" BlurRadius="20" Opacity="0.5" />
-    <DropShadowEffect x:Key="TightDropShadow" BlurRadius="20" Opacity="1" ShadowDepth="1" />
 
     <Style TargetType="{x:Type Button}" x:Key="TitleBarBlueButtonStyle">
     <Setter Property="Background" Value="{StaticResource chrome-background}"/>

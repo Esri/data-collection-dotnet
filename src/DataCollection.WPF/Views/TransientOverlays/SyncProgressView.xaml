@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:LocalizationConverter x:Key="LocalizationConverter" />
+            <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <!-- Expects DataContext to be set to SyncViewModel -->
