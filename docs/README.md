@@ -1,5 +1,75 @@
 # Data Collection for .NET documentation
 
+<!-- MDTOC maxdepth:6 firsth1:0 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
+
+- [Description](#description)   
+   - [Generic application](#generic-application)   
+   - [Trees of Portland](#trees-of-portland)   
+   - [Custom behavior](#custom-behavior)   
+- [Using the app](#using-the-app)   
+   - [Manage the app's context](#manage-the-apps-context)   
+      - [Sign in and out of ArcGIS](#sign-in-and-out-of-arcgis)   
+      - [App work mode](#app-work-mode)   
+         - [_Online Work Mode_](#_online-work-mode_)   
+         - [_Offline Work Mode_](#_offline-work-mode_)   
+   - [View map bookmarks](#view-map-bookmarks)   
+   - [View the map's legend](#view-the-maps-legend)   
+   - [Hide and show layers with the TOC](#hide-and-show-layers-with-the-toc)   
+   - [Identify map features](#identify-map-features)   
+   - [Add map feature](#add-map-feature)   
+      - [View a pop-up](#view-a-pop-up)   
+      - [Edit a pop-up](#edit-a-pop-up)   
+         - [_Editing a Pop-up's Related Records_](#_editing-a-pop-ups-related-records_)   
+- [Using web maps](#using-web-maps)   
+   - [Configure web map & feature services for data collection](#configure-web-map-feature-services-for-data-collection)   
+      - [Map title](#map-title)   
+      - [Organizing feature layers](#organizing-feature-layers)   
+      - [Feature layer visibility range](#feature-layer-visibility-range)   
+      - [Enable editing on feature layers and tables](#enable-editing-on-feature-layers-and-tables)   
+      - [Enable pop-up on feature layers and tables](#enable-pop-up-on-feature-layers-and-tables)   
+      - [Configure pop-up on feature layers and tables](#configure-pop-up-on-feature-layers-and-tables)   
+- [Identity model](#identity-model)   
+   - [Public map, social login](#public-map-social-login)   
+- [Using map definition & pop-up configurations to drive app behavior](#using-map-definition-pop-up-configurations-to-drive-app-behavior)   
+   - [Map identify rules](#map-identify-rules)   
+   - [Add feature rules](#add-feature-rules)   
+   - [Pop-up view rules](#pop-up-view-rules)   
+      - [View mode](#view-mode)   
+         - [_Pop-up Attributes_](#_pop-up-attributes_)   
+         - [_Many-To-One Records_](#_many-to-one-records_)   
+         - [_One-To-Many Records_](#_one-to-many-records_)   
+         - [_Delete Pop-up_](#_delete-pop-up_)   
+      - [Edit mode](#edit-mode)   
+         - [Pop-up Attributes](#pop-up-attributes)   
+         - [_Many-To-One Related Records_](#_many-to-one-related-records_)   
+- [Leveraging ArcGIS](#leveraging-arcgis)   
+   - [Identifying map features](#identifying-map-features)   
+   - [Offline map jobs](#offline-map-jobs)   
+      - [Download map offline](#download-map-offline)   
+      - [Synchronize offline map](#synchronize-offline-map)   
+      - [Deleting offline map](#deleting-offline-map)   
+   - [Querying feature tables](#querying-feature-tables)   
+      - [Query for all features](#query-for-all-features)   
+      - [Query for related features](#query-for-related-features)   
+      - [Spatial query](#spatial-query)   
+   - [Editing features](#editing-features)   
+      - [Creating features](#creating-features)   
+      - [Editing features and related records](#editing-features-and-related-records)   
+   - [Reverse geocoding](#reverse-geocoding)   
+- [Architecture](#architecture)   
+   - [Solution overview](#solution-overview)   
+   - [Model-View-ViewModel pattern](#model-view-viewmodel-pattern)   
+   - [General application organization](#general-application-organization)   
+   - [App modes](#app-modes)   
+   - [ViewModels organization](#viewmodels-organization)   
+   - [Internationalization](#internationalization)   
+- [Configuration and customization](#configuration-and-customization)   
+   - [App static configuration](#app-static-configuration)   
+   - [App dynamic configuration](#app-dynamic-configuration)   
+
+<!-- /MDTOC -->
+---
+
 ## Description
 
 This is a data collection app that uses your organization's web maps and the ArcGIS Web GIS information model. Use the example _Trees of Portland_ web map and dataset to get started.
@@ -895,4 +965,4 @@ The first time the app runs, the config file is generated and saved locally in t
 * WPF (.NET Core): `C:\Users\<YourUsername>\AppData\Local\ESRI\DataCollection.WPF\Settings.xml`
 * UWP: `C:\Users\<YourUsername>\AppData\Local\Packages\a5fe2542-a748-4b21-8484-d65c71379b3e_5gsmk95twfe48\LocalState\Esri\Data Collection for .NET (UWP)\Settings.xml`
 
-The app does not need to be rebuilt to change the configured web map. Update the `WebmapURL` in the local config file. 
+The app does not need to be rebuilt to change the configured web map. Update the `WebmapURL` in the local config file.
