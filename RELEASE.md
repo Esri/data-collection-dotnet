@@ -1,5 +1,10 @@
 # Release notes
 
+## 1.2.2
+
+* Adds doc table of contents to root README.md and docs/index.md
+* Renames docs/index.md to [docs/README.md](/docs/README.md)
+
 ## 1.2.1
 
 * Updates all versions of the app to use the latest 100.8.0 release of ArcGIS Runtime.
@@ -38,7 +43,7 @@ New features at 1.1.0 include:
 
 New features at 1.0.1 include:
 
-* Comprehensive [app documentation](/docs/index.md) from the ArcGIS for Developers site.
+* Comprehensive [app documentation](/docs/README.md) from the ArcGIS for Developers site.
 
 ## 1.0.0
 
