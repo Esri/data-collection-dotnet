@@ -16,6 +16,7 @@
 - [Learn more](#learn-more)   
 - [Requirements](#requirements)   
 - [Contribute](#contribute)   
+- [MDTOC](#mdtoc)   
 - [License](#license)   
    - [3rd-party component licensing](#3rd-party-component-licensing)   
 
@@ -133,6 +134,10 @@ Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pu
 2. Report issues
 3. Contribute code
 4. Improve documentation
+
+## MDTOC
+
+Generating table of contents for documents in this repository was performed using the [MDTOC package for Atom](https://atom.io/packages/atom-mdtoc).
 
 ## License
 
