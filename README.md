@@ -4,6 +4,7 @@
 
 - [Features](#features)   
 - [Best practices](#best-practices)   
+- [Detailed Documentation](#detailed-documentation)   
 - [Get started](#get-started)   
    - [Fork the repo](#fork-the-repo)   
    - [Clone the repo](#clone-the-repo)   
@@ -50,6 +51,10 @@ The project also demonstrates some patterns for building real-world apps around 
 * ArcGIS asynchronous service pattern
 * Cross-platform application design
 * Model-View-ViewModel pattern
+
+## Detailed Documentation
+
+Read the [docs](./docs/README.md) for a detailed explanation of the application, including its architecture and how it leverages the ArcGIS platform, as well as how you can begin using the app right away.
 
 ## Get started
 
