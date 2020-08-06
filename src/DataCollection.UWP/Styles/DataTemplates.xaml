@@ -18,27 +18,27 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Border Background="{ThemeResource chrome-background}" 
+            <Border Background="Transparent" 
                     BorderBrush="{ThemeResource chrome-border}" 
-                    BorderThickness="{StaticResource chrome-border-thickness}" 
+                    BorderThickness="0" 
                     Margin="{StaticResource margin-default}" 
-                    Grid.Column="0" Padding="{StaticResource padding-default}">
+                    Grid.Column="0" Padding="0,4,0,4">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Image Source="{Binding IconSource}" MaxWidth="8" MaxHeight="8"
-                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                           Grid.Column="0" Margin="0" />
-                    <ContentPresenter Content="{Binding IconContent}" Grid.Column="0"  />
-                    <TextBlock Text="{Binding Title}" Style="{StaticResource TextBlockBase}" Foreground="{ThemeResource chrome-foreground}"
+                    <TextBlock Text="{Binding Title}" 
+                               Style="{StaticResource TextBlockBase}" 
+                               Foreground="{ThemeResource chrome-foreground}"
                                    FontWeight="SemiBold"
                                    Grid.Row="0" Grid.Column="1" />
                 </Grid>
             </Border>
             <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconBase}"
-                  Fill="{ThemeResource tint}" 
+                  Fill="{ThemeResource content-subtle}" 
+                  Width="8" Height="8"
+                  Margin="0,2,0,0"
                   Grid.Column="1"/>
         </Grid>
     </DataTemplate>
@@ -46,8 +46,10 @@
         <StackPanel>
             <TextBlock Style="{StaticResource CardFieldLabel}"
                    Text="{Binding Field.Label, Mode=OneWay}" />
+            <!-- MinHeight setting matches workaround in feature editor view -->
             <TextBox Style="{StaticResource CardFieldValueBox}"
-                   Text="{Binding ReformattedValue, Mode=OneWay}" />
+                     MinHeight="38"
+                     Text="{Binding ReformattedValue, Mode=OneWay}" />
         </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

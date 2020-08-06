@@ -44,7 +44,7 @@
                           DataContext="{x:Bind MainViewModel}"
                           Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}">
                 <utils:MapViewExtensions.ViewpointController>
-                    <utils:ViewpointController Viewpoint="{Binding AreaOfInterest, Mode=TwoWay}" />
+                    <utils:ViewpointController Viewpoint="{x:Bind MainViewModel.MapViewModel.AreaOfInterest, Mode=TwoWay}" />
                 </utils:MapViewExtensions.ViewpointController>
                 <utils:MapViewExtensions.LocationDisplayController>
                     <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}" />
@@ -223,7 +223,8 @@
                         IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsTocOpen, Mode=OneWay}">
                         <!-- TODO: TOC card-->
                         <cards:OverlayCard.IconContent>
-                            <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconBase}" Margin="8"/>
+                            <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconBase}" 
+                                  Margin="8,8,0,8"/>
                         </cards:OverlayCard.IconContent>
                         <cards:OverlayCard.TopAccessories>
                             <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTocCommand, Mode=OneTime}" 
@@ -253,7 +254,7 @@
                                        IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay}">
                         <cards:OverlayCard.IconContent>
                             <Path Data="{StaticResource icon-bookmark-16}"
-                                  Margin="8"
+                                  Margin="8,8,0,8"
                                   Style="{StaticResource PathIconBase}" />
                         </cards:OverlayCard.IconContent>
                         <toolkit:BookmarksView GeoView="{x:Bind MapView}"
@@ -274,7 +275,9 @@
                                         Background="{ThemeResource content-background}"
                                         Foreground="{ThemeResource content-foreground}" />
                         <cards:OverlayCard.IconContent>
-                            <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconBase}" Margin="8" />
+                            <Path Data="{StaticResource icon-legend-16}" 
+                                  Style="{StaticResource PathIconBase}" 
+                                  Margin="8,12,0,8" />
                         </cards:OverlayCard.IconContent>
                         <cards:OverlayCard.TopAccessories>
                             <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" 

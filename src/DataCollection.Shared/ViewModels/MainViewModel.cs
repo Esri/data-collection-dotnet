@@ -98,6 +98,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 {
                     ConnectivityMode = (ConnectivityMode)l.Args.Value;
                 }
+                else if (l.Args.Key == BroadcastMessageKey.ClosePopups)
+                {
+                    CloseAllPanels();
+                }
             };
 
             // Initialize the identify controller
@@ -169,6 +173,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     if (_isLocationOnlyMode)
                     {
                         IdentifiedFeatureViewModel = null;
+                        IdentifyController.IsIdentifyPaused = true;
+                    }
+                    else
+                    {
+                        IdentifyController.IsIdentifyPaused = false;
                     }
                     OnPropertyChanged();
                 }
@@ -409,7 +418,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _workOfflineCommand ?? (_workOfflineCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        IsOfflinePanelOpen = false;
+                        // Reset UI state
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
 
                         // reset the identify view model so the feature selected is deselected
                         IdentifiedFeatureViewModel = null;
@@ -476,7 +486,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _workOnlineCommand ?? (_workOnlineCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        IsMapStatusPanelOpen = false;
+                        // Reset UI state
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
 
                         // retrieve active viewpoint from offline map to pass to online map 
                         var activeViewpoint = ((x is Polygon) ? new Viewpoint((Polygon)x) : (Viewpoint)x) ?? null;
@@ -590,7 +601,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                             return;
                         }
 
-                        IsMapStatusPanelOpen = false;
+                        // Reset UI state
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
 
                         // if online map is unreachable, do not proceed
                         if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
@@ -1062,5 +1074,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         {
             IsMapStatusPanelOpen = !IsMapStatusPanelOpen;
         });
+
+        private void CloseAllPanels()
+        {
+            IsUserPanelOpen = false;
+            IsOfflinePanelOpen = false;
+            IsMapStatusPanelOpen = false;
+            MapAccessoryViewModel.IsAttributionOpen = false;
+            MapAccessoryViewModel.IsBookmarksOpen = false;
+            MapAccessoryViewModel.IsTocOpen = false;
+            MapAccessoryViewModel.IsLayersOpen = false;
+        }
     }
 }

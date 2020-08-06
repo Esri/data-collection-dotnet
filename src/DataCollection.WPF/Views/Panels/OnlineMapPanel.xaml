@@ -35,7 +35,7 @@
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
                    Grid.Row="2" Grid.Column="0" 
                    Margin="{StaticResource margin-right-only}" VerticalAlignment="Top" />
-        <TextBlock Text="{Binding Path=MapViewModel.Map.Item.Created, FallbackValue='unknown', StringFormat='r'}"
+        <TextBlock Text="{Binding Path=MapViewModel.Map.Item.Created, FallbackValue='unknown', StringFormat='g'}"
                    Style="{StaticResource TitleBarPopoverLabelStyle}"
                    Grid.Row="2" Grid.Column="1" />
         <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_OfflineMapAvailable_Label}" 
@@ -50,7 +50,7 @@
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}" 
                    Grid.Row="3" Grid.Column="0" 
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}"  />
-        <TextBlock Text="{Binding Path=OfflineMap.Item.Modified, StringFormat='r'}" 
+        <TextBlock Text="{Binding Path=OfflineMap.Item.Modified, StringFormat='g'}" 
                    Style="{StaticResource TitleBarPopoverLabelStyle}" 
                    Grid.Row="3" Grid.Column="1" 
                    Margin="0,4,4,0"

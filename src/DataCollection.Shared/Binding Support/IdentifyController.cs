@@ -136,6 +136,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                     return;
                 }
 
+                if (IsIdentifyPaused)
+                {
+                    return;
+                }
+
                 if (IsIdentifyInProgress)
                 {
                     _cancellationTokenSource.Cancel();
@@ -274,6 +279,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 {
                     _isIdentifyInProgress = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIdentifyInProgress)));
+                }
+            }
+        }
+
+        private bool _isIdentifyPaused;
+        public bool IsIdentifyPaused
+        {
+            get => _isIdentifyPaused;
+            set
+            {
+                if (_isIdentifyPaused != value)
+                {
+                    _isIdentifyPaused = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIdentifyPaused)));
                 }
             }
         }

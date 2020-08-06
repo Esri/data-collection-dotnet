@@ -95,7 +95,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource icon-download-16}" Style="{StaticResource PathIconBase}" 
                               Fill="{DynamicResource success}" />
-                        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=DownloadButton.Content}"
+                        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=DownloadButton_Content}"
                                    Style="{StaticResource MapOverlayButtonText}"
                                    Foreground="{DynamicResource success}" />
                     </StackPanel>

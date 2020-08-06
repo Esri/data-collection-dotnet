@@ -35,8 +35,7 @@
         <TabControl BorderThickness="0" 
                     Background="{DynamicResource content-background}" 
                     Foreground="{DynamicResource content-foreground}">
-            <!-- TODO: localize tab headers -->
-            <TabItem Header="Details" 
+            <TabItem Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DetailsHeading}" 
                      Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the identified feature  -->
                 <ScrollViewer
@@ -82,7 +81,9 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
-                                        <TextBlock Text="{Binding PopupManager.Title}" Style="{StaticResource FieldLabelStyle}" />
+                                        <TextBlock Text="{Binding PopupManager.Title}" 
+                                                   Style="{StaticResource FieldLabelStyle}"
+                                                   Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}"/>
                                         <Border Style="{StaticResource RecordCardBorderStyle}" Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}">
                                             <Grid Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}">
                                                 <Grid.ColumnDefinitions>
@@ -109,7 +110,9 @@
                                                 CommandParameter="{Binding}"
                                                 Style="{StaticResource FieldAccessoryButton}"
                                                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
-                                                    <Path Data="{StaticResource icon-information-16}" Style="{StaticResource CardButtonIconStyle}" />
+                                                    <Path Data="{StaticResource icon-chevron-right-16}" 
+                                                          Width="12" Height="12"
+                                                          Style="{StaticResource CardButtonIconStyle}" />
                                                 </Button>
                                             </Grid>
                                         </Border>
@@ -128,16 +131,24 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <TextBlock Style="{StaticResource PopupSectionHeaderStyle}" Margin="{StaticResource margin-top-bottom}"
-                                                   Text="{Binding RelatedTable.PopupDefinition.Title}" />
-                                            <Button Style="{StaticResource MapOverlayButtonStyle}" Margin="{StaticResource margin-bottom-only}"
+                                        <TextBlock Style="{StaticResource PopupSectionHeaderStyle}" 
+                                                   Margin="{StaticResource margin-top-bottom}">
+                                            <Run Text="{Binding RelatedTable.PopupDefinition.Title}" />
+                                            <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=RelatedRecordTableSuffix}" />
+                                        </TextBlock>
+                                            <Button Style="{StaticResource MapOverlayButtonStyle}" Margin="{StaticResource margin-top-bottom}"
                                                     Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding .}"
                                                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <Path Data="{StaticResource icon-plus-circle-16}" Style="{StaticResource CardButtonIconStyle}" />
-                                                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}"
-                                                           Style="{StaticResource MapOverlayButtonText}" Margin="0" />
+                                                <Path Data="{StaticResource icon-plus-circle-16}" 
+                                                      Fill="{DynamicResource tint}"
+                                                      Style="{StaticResource CardButtonIconStyle}" />
+                                                <TextBlock Style="{StaticResource MapOverlayButtonText}" Margin="4,0,4,0">
+                                                    <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Button_part1}" />
+                                                    <Run Text="{Binding RelatedTable.PopupDefinition.Title}" />
+                                                    <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Button_part3}" />
+                                                </TextBlock>
                                             </StackPanel>
                                         </Button>
                                         <ItemsControl ItemsSource="{Binding OriginRelationshipViewModelCollection}">
@@ -150,11 +161,7 @@
                                                                 <ColumnDefinition Width="*" />
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="*" />
-                                                            </Grid.RowDefinitions>
                                                             <StackPanel
-                                                    Grid.Row="1"
                                                     Grid.Column="0"
                                                     DataContext="{Binding PopupManager}"
                                                     Orientation="Vertical">
@@ -177,13 +184,14 @@
                                                                            Text="{Binding ReformattedValue}" />
                                                                 </StackPanel>
                                                             </StackPanel>
-                                                            <Button Grid.Row="1"
-                                                                Grid.Column="1"
+                                                            <Button Grid.Column="1"
                                                                 Command="{Binding DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                                 CommandParameter="{Binding PopupManager}"
                                                                 Style="{StaticResource FieldAccessoryButton}"
                                                                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
-                                                                <Path Data="{StaticResource icon-information-16}" Style="{StaticResource CardButtonIconStyle}" />
+                                                                <Path Data="{StaticResource icon-chevron-right-16}" 
+                                                                      Width="12" Height="12"
+                                                                      Style="{StaticResource CardButtonIconStyle}" />
                                                             </Button>
                                                         </Grid>
                                                     </Border>
@@ -248,7 +256,8 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Attachments" 
+            <TabItem Header="{Binding .,Converter={StaticResource LocalizationConverter}, ConverterParameter=AttachmentsHeading}" 
+                     x:Name="AttachmentsTabItem"
                      Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attachments view  -->
                 <views:AttachmentsView
@@ -315,6 +324,7 @@
                 HorizontalAlignment="Left"
                 Click="AddAttachmentButton_Click"
                 Command="{Binding EditFeatureCommand}"
+                Visibility="{Binding ElementName=AttachmentsTabItem, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                 Style="{StaticResource CardControlStripButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}">
                 <Path Data="{StaticResource icon-folder-open-16}" Style="{StaticResource CardButtonIconStyle}"/>

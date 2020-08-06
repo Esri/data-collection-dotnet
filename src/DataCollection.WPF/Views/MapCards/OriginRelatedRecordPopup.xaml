@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities"
     xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views"
@@ -31,7 +30,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TabControl BorderThickness="0" Grid.Row="1" Background="{DynamicResource content-background}">
-            <TabItem Header="Details" Style="{StaticResource MinimalistTabItemStyle}">
+            <TabItem Header="{Binding .,Converter={StaticResource LC}, ConverterParameter=DetailsHeading}" 
+                     Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the origin relationship selected  -->
                 <ScrollViewer
             x:Name="DetailsView"
@@ -66,7 +66,9 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Attachments" Style="{StaticResource MinimalistTabItemStyle}">
+            <TabItem Header="{Binding .,Converter={StaticResource LC}, ConverterParameter=AttachmentsHeading}" 
+                     x:Name="AttachmentsTabItem"
+                     Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attachments view  -->
                 <views:AttachmentsView
             x:Name="AttachmentsView"
@@ -130,36 +132,9 @@
                 HorizontalAlignment="Left"
                 Click="AddAttachmentButton_Click"
                 Command="{Binding EditRelatedRecordCommand}"
+                Visibility="{Binding ElementName=AttachmentsTabItem, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}">
                 <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-folder-open-16}" />
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=DetailsView}"
-                            Value="Collapsed" />
-                        <i:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=AttachmentsView}"
-                            Value="Visible" />
-                        <i:ChangePropertyAction
-                            PropertyName="Foreground"
-                            TargetObject="{Binding ElementName=AttachmentsModeButton}"
-                            Value="White" />
-                        <i:ChangePropertyAction
-                            PropertyName="FontWeight"
-                            TargetObject="{Binding ElementName=AttachmentsModeButton}"
-                            Value="Regular" />
-                        <i:ChangePropertyAction
-                            PropertyName="Foreground"
-                            TargetObject="{Binding ElementName=DetailsModeButton}"
-                            Value="GhostWhite" />
-                        <i:ChangePropertyAction
-                            PropertyName="FontWeight"
-                            TargetObject="{Binding ElementName=DetailsModeButton}"
-                            Value="Light" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
             </Button>
         </Grid>
 

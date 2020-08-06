@@ -129,7 +129,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_areaOfInterest != value)
                 {
                     _areaOfInterest = value;
-                    OnPropertyChanged();
+                    // PropertyChange ommitted because of issue when two-way x:Bind bound on UWP
                 }
             }
         }

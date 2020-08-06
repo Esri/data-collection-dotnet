@@ -20,10 +20,10 @@
             <StackPanel>
                 <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}"
                              Maximum="100" Minimum="0"
-                             Value="{Binding SyncViewModel.Progress}" />
+                             Value="{Binding Progress}" />
                 <TextBlock Style="{StaticResource StatusPanelTitleStyle}"
                            Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=SynchingMessage_Text}" />
-                <Button Command="{Binding SyncViewModel.CancelSyncCommand}" BorderBrush="{DynamicResource danger}"
+                <Button Command="{Binding CancelSyncCommand}" BorderBrush="{DynamicResource danger}"
                         Margin="{StaticResource margin-top-only}"
                         ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}"
                         Style="{StaticResource MapOverlayButtonStyle}">

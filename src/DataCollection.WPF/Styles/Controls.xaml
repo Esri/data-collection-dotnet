@@ -78,8 +78,8 @@
                 <ControlTemplate TargetType="TabItem">
                     <Border x:Name="ControlBorder" 
                             Background="{DynamicResource content-background}"
-                            BorderThickness="{StaticResource margin-bottom-only}"
-                            Margin="0" Padding="{StaticResource margin-default}">
+                            BorderThickness="0,0,0,1"
+                            Margin="0" Padding="{StaticResource padding-default}">
                         <Grid Name="Panel">
                             <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
@@ -345,7 +345,7 @@
     <Style TargetType="TextBlock" x:Key="TitleBarButtonTextStyle">
         <Setter Property="Foreground" Value="{DynamicResource chrome-foreground}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="{StaticResource margin-left-only}" />
+        <Setter Property="Margin" Value="{StaticResource margin-sides}" />
     </Style>
 
     <Style TargetType="Path" x:Key="AnimatedSpinnerPathStyle">
@@ -556,8 +556,8 @@
                 </Border>
                  <Path Data="{StaticResource icon-chevron-right-16}" 
                        Style="{StaticResource PathIconBase}"
-                       Fill="LightGray" Height="8" Width="8"
-                       Margin="{StaticResource margin-default}"
+                       Fill="{StaticResource content-subtle}" Height="8" Width="8"
+                       Margin="4,8,8,4"
                        Grid.Column="1"/>
                 </Grid>
             </DataTemplate>
@@ -630,6 +630,12 @@
     <Style TargetType="Path" x:Key="TitleBarButtonIconPathStyle" BasedOn="{StaticResource PathIconBase}">
         <Setter Property="Margin" Value="0" />
     </Style>
+    <Style TargetType="Path" x:Key="TitleBarCaretIcon" BasedOn="{StaticResource PathIconBase}">
+        <Setter Property="Fill" Value="{DynamicResource chrome-foreground}" />
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Data" Value="{StaticResource icon-caret-down-16}" />
+    </Style>
 
     <Style TargetType="Image" x:Key="TitleBarIconImageStyle">
         <Setter Property="Height" Value="{StaticResource dimension-large-icon}" />
@@ -649,10 +655,11 @@
     </Style>
      <Style TargetType="Button" x:Key="FieldAccessoryButton" BasedOn="{StaticResource ActionButtonBase}">
         <Setter Property="Foreground" Value="{DynamicResource chrome-background}" />
+        <Setter Property="BorderThickness" Value="{StaticResource chrome-border-thickness}" />
         <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
     <Style TargetType="Path" x:Key="CardButtonIconStyle">
-        <Setter Property="Fill" Value="{DynamicResource tint}" />
+        <Setter Property="Fill" Value="{DynamicResource chrome-foreground}" />
         <Setter Property="Stretch" Value="Uniform" />
         <Setter Property="Width" Value="{StaticResource dimension-large-icon}" />
         <Setter Property="Height" Value="{StaticResource dimension-large-icon}" />

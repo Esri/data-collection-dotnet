@@ -11,9 +11,11 @@
     <UserControl.Resources>
         <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
     </UserControl.Resources>
-    <Grid Padding="{StaticResource padding-default}">
-        <!--  Attribute information for the destination relationship selected  -->
-        <ItemsControl ItemsSource="{x:Bind DestinationRelationshipViewModel.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
+    <ScrollViewer>
+        <Grid Padding="{StaticResource padding-default}">
+            <!--  Attribute information for the destination relationship selected  -->
+            <ItemsControl ItemsSource="{x:Bind DestinationRelationshipViewModel.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
                       ItemTemplate="{StaticResource CardSimpleFieldViewer}" />
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

@@ -489,10 +489,22 @@
   <data name="TitleBar_Suffix_WPF" xml:space="preserve">
     <value> (WPF)</value>
   </data>
+  <data name="AddRelatedRecord_Button_part1" xml:space="preserve">
+    <value>Add</value>
+    <comment>'Add' in 'Add related record'</comment>
+  </data>
+  <data name="AddRelatedRecord_Button_part3" xml:space="preserve">
+    <value>Record</value>
+    <comment>Singular record in 'Add related record'</comment>
+  </data>
   <data name="AttachmentsHeading" xml:space="preserve">
     <value>Attachments</value>
   </data>
   <data name="DetailsHeading" xml:space="preserve">
     <value>Details</value>
+  </data>
+  <data name="RelatedRecordTableSuffix" xml:space="preserve">
+    <value>Records</value>
+    <comment>Records plural in 'Related Records'</comment>
   </data>
 </root>

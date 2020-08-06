@@ -11,7 +11,7 @@
     <SolidColorBrush x:Key="danger" Color="#DE2900" />
     <SolidColorBrush x:Key="danger-hover" Color="#E65240" />
     <SolidColorBrush x:Key="danger-pressed" Color="#A82B1E" />
-    <SolidColorBrush x:Key="success" Color="#35AC46" />
+    <SolidColorBrush x:Key="success" Color="#60993D" />
     <SolidColorBrush x:Key="success-hover" Color="#50BA5F" />
     <SolidColorBrush x:Key="success-pressed" Color="#288835" />
     <SolidColorBrush x:Key="warning" Color="#EDD317" />

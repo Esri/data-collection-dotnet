@@ -39,33 +39,23 @@
                         <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.PopupManager.DisplayedFields, Mode=OneWay, Converter={StaticResource PopupFieldFormatConverter}}"
                                       Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
                                       ItemTemplate="{StaticResource CardSimpleFieldViewer}" />
-                        <Grid Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                            <Border Visibility="{x:Bind IdentifiedFeatureViewModel.HasDestinationRelationships, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                                Style="{StaticResource CardSectionSeparator}">
-                                <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=FeaturePopup_DestinationRelationships_Header}" 
-                                       Style="{StaticResource CardSectionHeader}" />
-                            </Border>
-                        </Grid>
                         <!--  List of relationships where identified feature is destination  -->
                         <ItemsControl HorizontalContentAlignment="Stretch"
                                       ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships, Mode=OneWay}"
                                       Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Style="{StaticResource CardGroupContainer}" Visibility="{Binding PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding PopupManager.Title}" Style="{StaticResource CardFieldLabel}" />
+                                        <Border Style="{StaticResource CardGroupContainer}" 
+                                                Visibility="{Binding PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
 
-                                            <TextBlock Style="{StaticResource CardGroupHeader}" 
-                                                       Text="{Binding PopupManager.Title}" />
-                                        <StackPanel Grid.Row="1" Grid.Column="0">
+                                        <StackPanel Grid.Column="0">
                                             <StackPanel DataContext="{Binding PopupManager.DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}">
                                                 <TextBlock Style="{StaticResource CardFieldLabel}"
                                                            Text="{Binding Field.Label, Mode=OneWay}" />
@@ -80,16 +70,17 @@
                                             </StackPanel>
                                         </StackPanel>
                                             <Button Style="{StaticResource chrome-button-base}"
-                                                    Grid.Row="1"
                                                     Grid.Column="1"
                                                     Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedDestinationRelationshipCommand}"
                                                     CommandParameter="{Binding}"
                                                     ToolTipService.ToolTip="{Binding Converter={StaticResource LC}, ConverterParameter=ShowDetailButton_Tooltip}">
                                                 <Path Data="{StaticResource icon-chevron-right-16}" 
+                                                      Height="8" Width="8"
                                                       Style="{StaticResource PathIconBase}" />
                                             </Button>
                                     </Grid>
                                     </Border>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -103,17 +94,24 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
                                         <Border Style="{StaticResource CardSectionSeparator}">
-                                            <TextBlock Style="{StaticResource CardSectionHeader}" 
-                                                       Text="{Binding RelatedTable.PopupDefinition.Title, Mode=OneWay}" />
+                                            <TextBlock Style="{StaticResource CardSectionHeader}">
+                                                <Run Text="{Binding RelatedTable.PopupDefinition.Title, Mode=OneWay}"/>
+                                                <Run Text="{Binding Converter={StaticResource LC}, ConverterParameter=RelatedRecordTableSuffix}" />
+                                            </TextBlock>
                                         </Border>
                                         <Button Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, Mode=OneWay, ElementName=IdentifiedFeatureUserControl}"
                                                 Style="{StaticResource CardProminentButton}"
                                                 CommandParameter="{Binding}"
                                                 ToolTipService.ToolTip="{Binding Converter={StaticResource LC}, ConverterParameter=AddRelatedRecord_Tooltip}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Path Data="{StaticResource icon-plus-circle-16}" Style="{StaticResource PathIconBase}" />
-                                                <TextBlock Text="{Binding Converter={StaticResource LC}, ConverterParameter=AddRelatedRecord_Tooltip}"
-                                                           Style="{StaticResource TextBlockBase}" />
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <Path Data="{StaticResource icon-plus-circle-16}" 
+                                                      Fill="{ThemeResource tint}"
+                                                      Style="{StaticResource PathIconBase}" />
+                                                <TextBlock Style="{StaticResource TextBlockBase}">
+                                                    <Run Text="{Binding Converter={StaticResource LC}, ConverterParameter=AddRelatedRecord_Button_part1}" />
+                                                    <Run Text="{Binding RelatedTable.PopupDefinition.Title, Mode=OneWay}" />
+                                                    <Run Text="{Binding Converter={StaticResource LC}, ConverterParameter=AddRelatedRecord_Button_part3}" />
+                                                </TextBlock>
                                             </StackPanel>
                                             </Button>
                                         <ItemsControl HorizontalContentAlignment="Stretch" 
@@ -127,12 +125,8 @@
                                                                 <ColumnDefinition Width="*" />
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="5" />
-                                                                <RowDefinition Height="*" />
-                                                            </Grid.RowDefinitions>
                                                             <StackPanel x:Name="OriginRecordGrid"
-                                                                        Grid.Row="1" Grid.Column="0"
+                                                                        Grid.Column="0"
                                                                         DataContext="{Binding PopupManager}"
                                                                         Orientation="Vertical">
                                                                 <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}">
@@ -155,11 +149,13 @@
                                                                 </StackPanel>
                                                             </StackPanel>
                                                             <Button Style="{StaticResource chrome-button-base}"
-                                                                    Grid.Row="1" Grid.Column="1"
+                                                                    Grid.Column="1"
                                                                     Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand}"
                                                                     CommandParameter="{Binding PopupManager}"
                                                                     ToolTipService.ToolTip="{Binding Converter={StaticResource LC}, ConverterParameter=ShowDetailButton_Tooltip}">
-                                                                <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconBase}" />
+                                                                <Path Data="{StaticResource icon-chevron-right-16}" 
+                                                                      Height="8" Width="8"
+                                                                      Style="{StaticResource PathIconBase}" />
                                                             </Button>
                                                         </Grid>
                                                     </Border>

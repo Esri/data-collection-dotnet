@@ -27,5 +27,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
         AuthenticatedUser,
         ConnectivityMode,
         SyncSucceeded,
+        ClosePopups
     }
 }

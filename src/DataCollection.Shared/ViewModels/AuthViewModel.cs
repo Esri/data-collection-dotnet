@@ -112,6 +112,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _signOutCommand ?? (_signOutCommand = new DelegateCommand(
                     (x) =>
                     {
+                        // Close any popups
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
+
                         // clear credentials
                         foreach (var credential in AuthenticationManager.Current.Credentials)
                         {

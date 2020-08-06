@@ -14,20 +14,21 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="{DynamicResource content-background}">
-        <!--  Attribute information for the destination relationship selected  -->
-        <ItemsControl ItemsSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <!--  Attribute information for the destination relationship selected  -->
+            <ItemsControl ItemsSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
                       Margin="{StaticResource padding-default}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Style="{StaticResource FieldLabelStyle}"
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource FieldLabelStyle}"
                                    Text="{Binding Field.Label}" />
-                        <TextBox Style="{StaticResource FieldValueStyle}"
+                            <TextBox Style="{StaticResource FieldValueStyle}"
                                  Text="{Binding ReformattedValue, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
-
 </UserControl>

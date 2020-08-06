@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <converters:StringToNullConverter x:Key="StringToNullConverter" />
         <localConverters:ObjectToDateTimeOffsetConverter x:Key="ObjectToDateTimeOffsetConverter" />
     </UserControl.Resources>
     <Grid>
@@ -25,7 +26,9 @@
                     <StackPanel>
                         <TextBlock Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}"
                                    Style="{StaticResource CardFieldLabel}"/>
+                        <!-- Minheight setting is workaround for UWP layout/sizing issue when textbox is showing whitespace-->
                         <TextBox Style="{StaticResource CardEditorTextBox}"
+                                 MinHeight="38"
                                  Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Style="{StaticResource CardValidationErrorText}"
                                    Text="{Binding PopupFieldValue.ValidationError.Message}"
@@ -51,7 +54,7 @@
                                    Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <TextBox InputScope="Digits" 
                                  Style="{StaticResource CardEditorTextBox}"
-                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}}"
                                  Margin="{StaticResource FieldMargin}"/>
                         <TextBlock Style="{StaticResource CardValidationErrorText}"
                                    Text="{Binding PopupFieldValue.ValidationError.Message}"

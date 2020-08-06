@@ -12,10 +12,12 @@
     xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views"
     xmlns:MapUI="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls" 
     xmlns:cards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
-    xmlns:cc="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards" xmlns:panels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels" xmlns:transientoverlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays"
+    xmlns:cc="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards" 
+    xmlns:transientoverlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays"
     Title="Data Collection for .NET (WPF)"
     UseLayoutRounding="True"
-    BorderBrush="{DynamicResource tint}" BorderThickness="1"
+    BorderBrush="{DynamicResource tint}" 
+    BorderThickness="{StaticResource chrome-border-thickness}"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
@@ -244,7 +246,7 @@
                         IsOpen="{Binding MapAccessoryViewModel.IsTocOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
                         <cc:TocCard MapAccessoryViewModel="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel, Mode=OneWay}" />
                         <cards:OverlayCard.IconContent>
-                            <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconBase}" Margin="8" />
+                            <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconBase}" Margin="8,8,4,8" />
                         </cards:OverlayCard.IconContent>
                         <cards:OverlayCard.TopAccessories>
                             <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleTocCommand, Mode=OneTime}" 
@@ -257,7 +259,7 @@
                     <cards:OverlayCard Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
                                        IsOpen="{Binding MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
                         <cards:OverlayCard.IconContent>
-                            <Path Data="{StaticResource icon-bookmark-16}" Style="{StaticResource PathIconBase}"  />
+                            <Path Data="{StaticResource icon-bookmark-16}" Style="{StaticResource PathIconBase}" Margin="8,8,4,8" />
                         </cards:OverlayCard.IconContent>
                         <esri:BookmarksView GeoView="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.MapView, Mode=OneTime}"
                                             ItemTemplate="{StaticResource BookmarksViewItemTemplate}" />
@@ -274,7 +276,7 @@
                         <esri:Legend GeoView="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.MapView, Mode=OneWay}"
                                      Background="{DynamicResource content-background}"/>
                         <cards:OverlayCard.IconContent>
-                            <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconBase}" />
+                            <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconBase}" Margin="8,8,4,8" />
                         </cards:OverlayCard.IconContent>
                         <cards:OverlayCard.TopAccessories>
                             <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" 

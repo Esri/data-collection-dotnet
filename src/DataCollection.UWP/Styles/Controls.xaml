@@ -79,6 +79,13 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
+    <Style x:Key="TitleBarCaretIcon" BasedOn="{StaticResource PathIconBase}" TargetType="Path">
+        <Setter Property="Fill" Value="{ThemeResource chrome-foreground}" />
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Margin" Value="{StaticResource margin-left-only}" />
+        <Setter Property="Data" Value="{StaticResource icon-caret-down-16}" />
+    </Style>
     <Style TargetType="Path" x:Key="AnimatedSpinnerPathStyle" BasedOn="{StaticResource PathIconBase}">
         <Setter Property="Fill" Value="{ThemeResource tint}" />
         <Setter Property="Height" Value="44" />
@@ -101,6 +108,7 @@
         <Setter Property="BorderBrush" Value="{ThemeResource chrome-border}" />
         <Setter Property="BorderThickness" Value="{StaticResource chrome-border-thickness}" />
         <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <!--- TODO change hover style -->
     </Style>
@@ -116,7 +124,7 @@
     </Style>
     <Style TargetType="Button" x:Key="TitleBarButton" BasedOn="{StaticResource chrome-button-base}">
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="8,0,8,0" />
+        <Setter Property="Padding" Value="8,4,8,4" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="{ThemeResource chrome-background}" />
         <Setter Property="BorderBrush" Value="{ThemeResource chrome-border}" />
@@ -218,15 +226,15 @@
             <Setter.Value>
                 <Style TargetType="Border">
                     <Setter Property="Background" Value="{ThemeResource chrome-background}" />
-                    <Setter Property="BorderThickness" Value="0,3,0,0" />
+                    <Setter Property="BorderThickness" Value="0,4,0,0" />
                     <Setter Property="BorderBrush" Value="{ThemeResource tint}" />
                 </Style>
             </Setter.Value>
         </Setter>
     </Style>
     <Style x:Key="NavContainerStyle" TargetType="Border">
-        <Setter Property="Background" Value="{ThemeResource content-background}" />
-        <Setter Property="Margin" Value="0,0,0,5" />
+        <Setter Property="Background" Value="{ThemeResource tint}" />
+        <Setter Property="Padding" Value="0,4,0,0" />
     </Style>
     
     <Style TargetType="Pivot" x:Key="CardPivot">
@@ -262,6 +270,7 @@
     </Style>
     <Style TargetType="Border" x:Key="CardGroupContainer" BasedOn="{StaticResource UiBorderBase}">
         <Setter Property="Margin" Value="{StaticResource margin-top-bottom}" />
+        <Setter Property="BorderBrush" Value="{StaticResource chrome-background}" />
     </Style>
     <Style TargetType="TextBlock" x:Key="CardGroupHeader">
         <Setter Property="Foreground" Value="{ThemeResource content-foreground}" />
@@ -284,6 +293,8 @@
         <Setter Property="BorderThickness" Value="{StaticResource chrome-border-thickness}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="ext:Mouse.Cursor" Value="Hand" />
+        <!-- Matches workaround for textboxes -->
+        <Setter Property="MinHeight" Value="38" />
     </Style> 
     <Style TargetType="Grid" x:Key="CardBottomStrip">
         <Setter Property="Background" Value="{ThemeResource chrome-background}" />
@@ -310,6 +321,9 @@
         <Setter Property="BorderBrush" Value="{ThemeResource chrome-border}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ext:Mouse.Cursor" Value="Hand" />
+
+        <!-- Update to match workaround for textboxes -->
+        <Setter Property="MinHeight" Value="38" />
     </Style>
     <Style TargetType="TextBlock" x:Key="CardValidationErrorText" BasedOn="{StaticResource CardFieldLabel}">
         <Setter Property="Margin" Value="{StaticResource margin-default}" />

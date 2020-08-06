@@ -43,9 +43,9 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="5" />
+        <Setter Property="Padding" Value="4" />
         <Setter Property="Background" Value="White" />
-        <Setter Property="BorderThickness" Value="1,0,1,1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="BorderBrush" Value="#2d3436" />
         <Setter Property="ImageStyle">
             <Setter.Value>
@@ -53,7 +53,7 @@
                     <Setter Property="MaxWidth" Value="12" />
                     <Setter Property="MaxHeight" Value="12" />
                     <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="Margin" Value="5,5,0,5" />
+                    <Setter Property="Margin" Value="4,4,0,4" />
                     <Setter Property="Stretch" Value="Uniform" />
                 </Style>
             </Setter.Value>
@@ -87,7 +87,7 @@
                                     <ContentPresenter Content="{Binding IconContent, Mode=OneWay}" Grid.Column="0" />
                                     <TextBlock Grid.Column="1"
                                     VerticalAlignment="Center"
-                                    Margin="5"
+                                    Margin="4"
                                                Text="{Binding Title, Mode=OneWay}"
                                                Style="{TemplateBinding TitleTextStyle}"/>
                                     <ItemsControl ItemsSource="{Binding TopAccessories, Mode=OneWay}"

@@ -45,14 +45,16 @@
                               IsChecked="{Binding IsMapStatusPanelOpen,Mode=TwoWay}"
                               MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-online-16}"
+                        <Path Data="{StaticResource icon-arcgis-online-16}"
                               Style="{StaticResource TitleBarButtonIconPathStyle}"
+                              Margin="{StaticResource margin-right-only}"
                               Fill="{DynamicResource success}" />
                         <TextBlock Foreground="{DynamicResource success}" Style="{StaticResource TitleBarButtonTextStyle}">
                             <Run Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart, Converter={StaticResource LC}, Mode=OneWay}" FontWeight="SemiBold" />
                             <Run Text=" - " />
                             <Run Text="{Binding MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
+                        <Path Style="{StaticResource TitleBarCaretIcon}" Fill="{DynamicResource success}" />
                     </StackPanel>
                 </ToggleButton>
                 <ToggleButton x:Name="WorkOfflineButton" Style="{StaticResource TitleBarToggleButton}"
@@ -62,12 +64,14 @@
                               IsChecked="{Binding IsOfflinePanelOpen, Mode=TwoWay}"
                               Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource TitleBarButtonIconPathStyle}" />
+                        <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource TitleBarButtonIconPathStyle}"
+                              Margin="{StaticResource margin-right-only}"/>
                         <TextBlock Style="{StaticResource TitleBarButtonTextStyle}">
                             <Run Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart, Converter={StaticResource LC}, Mode=OneWay}" FontWeight="SemiBold" />
                             <Run Text=" - " />
                             <Run Text="{Binding MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
+                        <Path Style="{StaticResource TitleBarCaretIcon}" />
                     </StackPanel>
                 </ToggleButton>
             </StackPanel>
@@ -98,6 +102,7 @@
                         </Ellipse>
                         <TextBlock Text="{Binding AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}"
                                    Style="{StaticResource TitleBarButtonTextStyle}" />
+                        <Path Style="{StaticResource TitleBarCaretIcon}" />
                     </StackPanel>
                 </ToggleButton>
                 <TextBlock Text="|" 

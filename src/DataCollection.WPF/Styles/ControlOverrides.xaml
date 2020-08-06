@@ -24,6 +24,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource chrome-border}" />
         <Setter Property="BorderThickness" Value="{StaticResource control-border-default}" />
         <Setter Property="Padding" Value="{StaticResource padding-default}" />
+        <Setter Property="Cursor" Value="{StaticResource action-cursor}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
@@ -77,10 +78,10 @@
                             x:Name="Arrow"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            Margin="{StaticResource margin-right-only}"
+                            Margin="0,0,8,0"
                             Stretch="Uniform"
                             VerticalAlignment="Center"
-                            Data="M 0 0 L 5 7 L 10 0 Z"
+                            Data="{StaticResource icon-caret-down-16}"
                             Fill="{TemplateBinding Foreground}"
                             Stroke="{TemplateBinding Foreground}" />
                     </Grid>
@@ -106,6 +107,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="Cursor" Value="{StaticResource action-cursor}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">

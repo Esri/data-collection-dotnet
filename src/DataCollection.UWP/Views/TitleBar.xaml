@@ -93,7 +93,7 @@
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}"
                 HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-online-16}"
+                        <Path Data="{StaticResource icon-arcgis-online-16}"
                               Style="{StaticResource PathIconBase}" 
                               Fill="{ThemeResource success}" />
                         <TextBlock Style="{StaticResource TextBlockBase}"
@@ -102,9 +102,10 @@
                             <Run Text=" - " />
                             <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
+                        <Path Style="{StaticResource TitleBarCaretIcon}" Fill="{ThemeResource success}" />
                     </StackPanel>
                     <Button.Flyout>
-                        <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
+                        <Flyout x:Name="OnlineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
                             <popups:OnlineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>
@@ -114,16 +115,17 @@
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}"
                 HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-online-16}"
+                        <Path Data="{StaticResource icon-offline-16}"
                       Style="{StaticResource PathIconBase}" />
                         <TextBlock Margin="{StaticResource margin-left-only}" Style="{StaticResource TextBlockBase}">
                     <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart}" FontWeight="SemiBold" />
                     <Run Text=" - " />
                     <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
+                        <Path Style="{StaticResource TitleBarCaretIcon}" />
                     </StackPanel>
                     <Button.Flyout>
-                        <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
+                        <Flyout x:Name="OfflineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
                             <popups:OfflineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>
@@ -156,9 +158,10 @@
                         </Ellipse>
                         <TextBlock Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}"
                                    Style="{StaticResource TextBlockBase}" />
+                        <Path Style="{StaticResource TitleBarCaretIcon}" />
                     </StackPanel>
                     <Button.Flyout>
-                        <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
+                        <Flyout x:Name="UserPanelFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
                             <popups:SignedInUserPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>

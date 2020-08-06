@@ -1,4 +1,5 @@
-﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
+﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,10 +40,27 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             titleBar.ButtonForegroundColor = (Application.Current.Resources["chrome-foreground"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
             titleBar.ButtonHoverBackgroundColor = (Application.Current.Resources["chrome-background-hover"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
             titleBar.ButtonHoverForegroundColor = (Application.Current.Resources["blue"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
+
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += Instance_BroadcastMessengerValueChanged;
+        }
+
+        private void Instance_BroadcastMessengerValueChanged(object sender, BroadcastMessengerEventArgs e)
+        {
+            if (e.Args.Key == Shared.Models.BroadcastMessageKey.ClosePopups)
+            {
+                this.OfflineMapFlyout.Hide();
+                this.OnlineMapFlyout.Hide();
+                this.UserPanelFlyout.Hide();
+            }
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
+            if (sender?.SystemOverlayRightInset == null || sender?.Height == null)
+            {
+                return;
+            }
+
             AppTitleBar.Height = sender.Height;
             // TODO - update for RTL
             SystemButtonColumn.Width = new GridLength(sender.SystemOverlayRightInset - 50);

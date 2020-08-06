@@ -34,7 +34,7 @@
         <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_LastSync_FieldLabel}"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}" 
                    Grid.Row="2" Grid.Column="0" />
-        <TextBlock Text="{Binding SyncDate, StringFormat='r'}"
+        <TextBlock Text="{Binding SyncDate, StringFormat='g'}"
                    Style="{StaticResource TitleBarPopoverLabelStyle}" 
                    Grid.Row="2" Grid.Column="1" 
                    Margin="{StaticResource margin-default}" />
@@ -79,7 +79,7 @@
                 ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOnlineButton_Label}"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Path Data="{StaticResource icon-online-16}" Style="{StaticResource PathIconBase}" />
+                <Path Data="{StaticResource icon-arcgis-online-16}" Style="{StaticResource PathIconBase}" />
                 <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOnlineButton_Label}"
                            Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>

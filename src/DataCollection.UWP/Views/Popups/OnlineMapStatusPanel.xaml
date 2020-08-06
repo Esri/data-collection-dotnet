@@ -38,7 +38,7 @@
                    FontSize="18" />
             <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Created_FieldLabel}" Style="{StaticResource PopupProminentText}"
                    Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-            <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Created , FallbackValue='unknown', Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='r'}"
+            <TextBlock Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Created , FallbackValue='unknown', Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='g'}"
                    Style="{StaticResource PopupText}"
                    Grid.Row="2" Grid.Column="1" />
             <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_OfflineMapAvailable_Label}" 
@@ -52,7 +52,7 @@
                    Grid.Row="3" Grid.Column="0" VerticalAlignment="Top"
                    HorizontalAlignment="Right"
                    Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}"  />
-            <TextBlock Text="{x:Bind MainViewModel.OfflineMap.Item.Modified, Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='r'}" 
+            <TextBlock Text="{x:Bind MainViewModel.OfflineMap.Item.Modified, Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='g'}" 
                    Style="{StaticResource PopupText}" 
                    Grid.Row="3" Grid.Column="1" 
                    Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
@@ -67,7 +67,8 @@
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconBase}" />
-                    <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}" />
+                    <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}"
+                               Style="{StaticResource TextBlockBase}"/>
                 </StackPanel>
             </Button>
         </Grid>
