@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
         <Pivot x:Name="OriginRelatedRecordPivot" Grid.Row="0"
                Style="{StaticResource CardPivot}">
-            <PivotItem Header="Details">
+            <PivotItem Header="{x:Bind Converter={StaticResource LC}, ConverterParameter=DetailsHeading}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
                     <StackPanel Orientation="Vertical">
                         <!--  Origin related record in View mode  -->
@@ -38,7 +38,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Attachments">
+            <PivotItem Header="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentsHeading}">
                 <!--  Attachments view  -->
                 <local:AttachmentsView DataContext="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}" />
             </PivotItem>

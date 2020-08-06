@@ -270,10 +270,8 @@
 
                     <cards:OverlayCard Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
                                        IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsLayersOpen, Mode=OneWay}">
-                        <!-- TODO - fix foreground not being set properly -->
                         <toolkit:Legend GeoView="{x:Bind MapView}" 
                                         Background="{ThemeResource content-background}"
-                                        RequestedTheme="Light"
                                         Foreground="{ThemeResource content-foreground}" />
                         <cards:OverlayCard.IconContent>
                             <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconBase}" Margin="8" />

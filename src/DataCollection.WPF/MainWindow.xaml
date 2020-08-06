@@ -240,7 +240,7 @@
                     </cards:OverlayCard>
 
                     <cards:OverlayCard
-                        Title="{Binding {x:Null},Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
+                        Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
                         IsOpen="{Binding MapAccessoryViewModel.IsTocOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
                         <cc:TocCard MapAccessoryViewModel="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel, Mode=OneWay}" />
                         <cards:OverlayCard.IconContent>
@@ -254,7 +254,7 @@
                         </cards:OverlayCard.TopAccessories>
                     </cards:OverlayCard>
 
-                    <cards:OverlayCard Title="{Binding Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
+                    <cards:OverlayCard Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
                                        IsOpen="{Binding MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
                         <cards:OverlayCard.IconContent>
                             <Path Data="{StaticResource icon-bookmark-16}" Style="{StaticResource PathIconBase}"  />

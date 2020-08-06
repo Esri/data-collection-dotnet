@@ -50,8 +50,7 @@
                 <DataTemplate x:DataType="models:StagedAttachment">
                     <Grid HorizontalAlignment="Stretch" 
                           ColumnSpacing="{StaticResource spacing-default}" 
-                          Margin="{StaticResource margin-default}" 
-                          RequestedTheme="{ThemeResource theme-active}">
+                          Margin="{StaticResource margin-default}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />

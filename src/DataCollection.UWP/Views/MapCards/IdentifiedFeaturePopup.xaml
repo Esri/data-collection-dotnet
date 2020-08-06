@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
         <Pivot x:Name="IdentifiedFeaturePivot"
                Style="{StaticResource CardPivot}">
-            <PivotItem Header="Details">
+            <PivotItem Header="{x:Bind Converter={StaticResource LC}, ConverterParameter=DetailsHeading}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
                     <StackPanel>
                         <Border Visibility="Visible"
@@ -217,7 +217,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Attachments">
+            <PivotItem Header="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentsHeading}">
                 <!--  Attachments view  -->
                 <local:AttachmentsView DataContext="{x:Bind IdentifiedFeatureViewModel, Mode=OneWay}" />
             </PivotItem>

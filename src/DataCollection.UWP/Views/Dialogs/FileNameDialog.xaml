@@ -8,7 +8,6 @@
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     Background="{ThemeResource chrome-background}"
     Foreground="{ThemeResource chrome-foreground}"
-    RequestedTheme="{ThemeResource theme-active}"
     PrimaryButtonText="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_PrimaryButtonText}"
     mc:Ignorable="d">
 

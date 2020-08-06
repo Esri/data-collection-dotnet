@@ -489,4 +489,10 @@
   <data name="TitleBar_Suffix_WPF" xml:space="preserve">
     <value> (WPF)</value>
   </data>
+  <data name="AttachmentsHeading" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="DetailsHeading" xml:space="preserve">
+    <value>Details</value>
+  </data>
 </root>
