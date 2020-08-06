@@ -6,9 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
     Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_Title}"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    Background="{StaticResource chrome-background}"
-    Foreground="{StaticResource chrome-foreground}"
-    RequestedTheme="Light"
+    Background="{ThemeResource chrome-background}"
+    Foreground="{ThemeResource chrome-foreground}"
+    RequestedTheme="{ThemeResource theme-active}"
     PrimaryButtonText="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_PrimaryButtonText}"
     mc:Ignorable="d">
 

@@ -30,9 +30,10 @@
             <PivotItem Header="Details">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
                     <StackPanel>
-                        <Border Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
+                        <Border Visibility="Visible"
                                 Style="{StaticResource CardSectionSeparator}">
-                            <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=FeaturePopup_AttributesSection_Header}" Style="{StaticResource CardSectionHeader}" />
+                            <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=FeaturePopup_AttributesSection_Header}" 
+                                       Style="{StaticResource CardSectionHeader}" />
                         </Border>
                         <!--  List of attributes from identified feature in View Mode  -->
                         <ItemsControl ItemsSource="{x:Bind IdentifiedFeatureViewModel.PopupManager.DisplayedFields, Mode=OneWay, Converter={StaticResource PopupFieldFormatConverter}}"
@@ -78,14 +79,14 @@
                                                            Text="{Binding ReformattedValue, Mode=OneWay}" />
                                             </StackPanel>
                                         </StackPanel>
-                                            <Button Style="{StaticResource CardGroupButton}"
+                                            <Button Style="{StaticResource chrome-button-base}"
                                                     Grid.Row="1"
                                                     Grid.Column="1"
                                                     Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedDestinationRelationshipCommand}"
                                                     CommandParameter="{Binding}"
                                                     ToolTipService.ToolTip="{Binding Converter={StaticResource LC}, ConverterParameter=ShowDetailButton_Tooltip}">
-                                                <Path Data="{StaticResource calcite-ui-chevron-right-16}" 
-                                                      Style="{StaticResource CardGroupButtonPathIcon}" />
+                                                <Path Data="{StaticResource icon-chevron-right-16}" 
+                                                      Style="{StaticResource PathIconBase}" />
                                             </Button>
                                     </Grid>
                                     </Border>
@@ -95,7 +96,6 @@
 
                         <!--  List of relationships where identified feature is origin  -->
                         <ItemsControl
-                            Grid.Row="2"
                             HorizontalContentAlignment="Stretch"
                             ItemsSource="{x:Bind IdentifiedFeatureViewModel.OriginRelationships, Mode=OneWay}"
                             Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
@@ -111,8 +111,9 @@
                                                 CommandParameter="{Binding}"
                                                 ToolTipService.ToolTip="{Binding Converter={StaticResource LC}, ConverterParameter=AddRelatedRecord_Tooltip}">
                                             <StackPanel Orientation="Horizontal">
-                                                <Path Data="{StaticResource calcite-ui-plus-circle-16}" Style="{StaticResource CardProminentButtonPathIcon}" />
-                                                <TextBlock Text="{Binding Converter={StaticResource LC}, ConverterParameter=AddRelatedRecord_Tooltip}" />
+                                                <Path Data="{StaticResource icon-plus-circle-16}" Style="{StaticResource PathIconBase}" />
+                                                <TextBlock Text="{Binding Converter={StaticResource LC}, ConverterParameter=AddRelatedRecord_Tooltip}"
+                                                           Style="{StaticResource TextBlockBase}" />
                                             </StackPanel>
                                             </Button>
                                         <ItemsControl HorizontalContentAlignment="Stretch" 
@@ -153,12 +154,12 @@
                                                                                Text="{Binding ReformattedValue, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
                                                                 </StackPanel>
                                                             </StackPanel>
-                                                            <Button Style="{StaticResource CardGroupButton}"
+                                                            <Button Style="{StaticResource chrome-button-base}"
                                                                     Grid.Row="1" Grid.Column="1"
                                                                     Command="{Binding ElementName=IdentifiedFeatureUserControl, Mode=OneWay, Path=DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand}"
                                                                     CommandParameter="{Binding PopupManager}"
                                                                     ToolTipService.ToolTip="{Binding Converter={StaticResource LC}, ConverterParameter=ShowDetailButton_Tooltip}">
-                                                                <Path Data="{StaticResource calcite-ui-chevron-right-16}" Style="{StaticResource CardGroupButtonPathIcon}" />
+                                                                <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconBase}" />
                                                             </Button>
                                                         </Grid>
                                                     </Border>
@@ -173,14 +174,12 @@
                         <!--  Edit Mode  -->
                         <!--  List of attributes from identified feature  -->
                         <local:FeatureEditorView
-                            Grid.Row="0"
                             DataContext="{x:Bind IdentifiedFeatureViewModel, Mode=OneWay}"
                             Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
                         <!--  Edit Mode  -->
                         <!--  List of relationships where identified feature is destination  -->
                         <ItemsControl
-                            Grid.Row="1"
                             ItemsSource="{x:Bind IdentifiedFeatureViewModel.DestinationRelationships,Mode=OneWay}"
                             Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                             <ItemsControl.ItemTemplate>
@@ -188,7 +187,7 @@
                                     <Grid>
                                         <StackPanel x:Name="DestinationRelationshipsStackPanel" DataContext="{Binding}">
                                             <TextBlock Style="{StaticResource CardFieldLabel}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
-                                            <ComboBox Style="{StaticResource CardEditorCombo}"
+                                            <ComboBox Style="{StaticResource ComboBoxBase}"
                                                       ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
                                                       SelectedItem="{Binding ElementName=DestinationRelationshipsStackPanel, Path=DataContext.PopupManager, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
@@ -240,7 +239,7 @@
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TakePhoto_Tooltip}"
                     Style="{StaticResource CardBottomStripButton}"
                     Visibility="{Binding ElementName=IdentifiedFeaturePivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}">
-                <Path Data="{StaticResource calcite-ui-camera-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-camera-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <Button Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
                     Grid.Column="0"
@@ -248,14 +247,14 @@
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=BrowseAttach_Tooltip}"
                     Style="{StaticResource CardBottomStripButton}"
                     Visibility="{Binding ElementName=IdentifiedFeaturePivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}">
-                <Path Data="{StaticResource calcite-ui-folder-open-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" /> 
+                <Path Data="{StaticResource icon-folder-open-16}" Style="{StaticResource PathIconBase}" /> 
             </Button>
             <Button Style="{StaticResource CardBottomStripButton}"
                     Grid.Column="3"
                     Command="{x:Bind IdentifiedFeatureViewModel.EditFeatureCommand, Mode=OneWay}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=EditRecord_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Data="{StaticResource calcite-ui-pencil-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-pencil-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <Button Style="{StaticResource CardBottomStripButton}"
                     Grid.Column="4"
@@ -263,7 +262,7 @@
                     CommandParameter="{x:Bind IdentifiedFeatureViewModel}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DeleteRecord_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <!--  Buttons to save and discard changes to record  -->
             <Button Style="{StaticResource CardBottomStripButton}"
@@ -271,7 +270,7 @@
                     Command="{x:Bind IdentifiedFeatureViewModel.SaveEditsCommand, Mode=OneWay}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=SaveEdits_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Data="{StaticResource calcite-ui-save-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-save-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <Button Style="{StaticResource CardBottomStripButton}"
                     Grid.Column="4"
@@ -279,8 +278,7 @@
                     CommandParameter="{x:Bind IdentifiedFeatureViewModel}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CancelEdits_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                        <Path Data="{StaticResource calcite-ui-x-16}" Style="{StaticResource CardBottomStripButtonPathIcon}"
-                              Width="12" Height="12"/>
+                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
             </Button>
         </Grid>
     </Grid>

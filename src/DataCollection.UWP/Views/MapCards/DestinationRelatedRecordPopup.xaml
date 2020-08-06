@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
     </UserControl.Resources>
-    <Grid Padding="10">
+    <Grid Padding="{StaticResource padding-default}">
         <!--  Attribute information for the destination relationship selected  -->
         <ItemsControl ItemsSource="{x:Bind DestinationRelationshipViewModel.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
                       ItemTemplate="{StaticResource CardSimpleFieldViewer}" />

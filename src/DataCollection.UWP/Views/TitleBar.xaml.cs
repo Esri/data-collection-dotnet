@@ -37,8 +37,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = (Application.Current.Resources["chrome-background"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
             titleBar.ButtonForegroundColor = (Application.Current.Resources["chrome-foreground"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
-            titleBar.ButtonHoverBackgroundColor = (Application.Current.Resources["chrome-hover-background"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
-            titleBar.ButtonHoverForegroundColor = (Application.Current.Resources["chrome-hover-foreground"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
+            titleBar.ButtonHoverBackgroundColor = (Application.Current.Resources["chrome-background-hover"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
+            titleBar.ButtonHoverForegroundColor = (Application.Current.Resources["blue"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)

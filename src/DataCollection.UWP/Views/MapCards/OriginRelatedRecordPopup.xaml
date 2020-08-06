@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:convertersUWP="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
+    xmlns:convertersUwp="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -14,7 +14,7 @@
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
-            <convertersUWP:SelectedPivotIndexToVisibilityConverter x:Key="SelectedPivotIndexToVisibilityConverter" />
+            <convertersUwp:SelectedPivotIndexToVisibilityConverter x:Key="SelectedPivotIndexToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -60,7 +60,7 @@
                     Click="CaptureMediaButton_Click"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TakePhoto_Tooltip}"
                     Visibility="{Binding ElementName=OriginRelatedRecordPivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}">
-                <Path Data="{StaticResource calcite-ui-camera-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-camera-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <Button Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
                     Grid.Column="1"
@@ -68,7 +68,7 @@
                     Click="BrowseFilesButton_Click"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=BrowseAttach_Tooltip}"
                     Visibility="{Binding ElementName=OriginRelatedRecordPivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter},ConverterParameter=1,Mode=OneWay}">
-                <Path Data="{StaticResource calcite-ui-folder-open-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-folder-open-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <!--  Buttons to edit and delete record  -->
             <Button Style="{StaticResource CardBottomStripButton}"
@@ -76,7 +76,7 @@
                     Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=EditRecord_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Data="{StaticResource calcite-ui-pencil-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-pencil-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <Button Style="{StaticResource CardBottomStripButton}"
                     Grid.Column="5"
@@ -84,7 +84,7 @@
                     CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DeleteRecord_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Data="{StaticResource calcite-ui-trash-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <!--  Buttons to save and discard changes to record  -->
             <Button Style="{StaticResource CardBottomStripButton}"
@@ -92,7 +92,7 @@
                     Command="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=SaveEdits_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Data="{StaticResource calcite-ui-save-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-save-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <Button Style="{StaticResource CardBottomStripButton}"
                     Grid.Column="4"
@@ -100,7 +100,7 @@
                     CommandParameter="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CancelEdits_Tooltip}"
                     Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Data="{StaticResource calcite-ui-x-16}" Style="{StaticResource CardBottomStripButtonPathIcon}" />
+                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
             </Button>
         </Grid>
     </Grid>

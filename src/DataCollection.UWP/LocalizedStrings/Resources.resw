@@ -216,7 +216,7 @@
   <data name="AddFeatureLabel_Line2_Text" xml:space="preserve">
     <value>Pan and zoom map under pin.</value>
   </data>
-  <data name="AddFeatureButton.Label" xml:space="preserve">
+  <data name="AddFeatureButton_Label" xml:space="preserve">
     <value>Add Feature</value>
   </data>
   <data name="AddRelatedRecord_Tooltip" xml:space="preserve">
@@ -234,7 +234,7 @@
   <data name="DeleteRecord_Tooltip" xml:space="preserve">
     <value>Delete Record</value>
   </data>
-  <data name="DownloadButton.Content" xml:space="preserve">
+  <data name="DownloadButton_Content" xml:space="preserve">
     <value>Download</value>
   </data>
   <data name="DownloadLabel_Line1_Text" xml:space="preserve">
@@ -473,5 +473,20 @@
   </data>
   <data name="MapAccessory_AddButton_Tooltip" xml:space="preserve">
     <value>Add new feature</value>
+  </data>
+  <data name="DownloadingMessage_Text" xml:space="preserve">
+    <value>Downloading Map</value>
+  </data>
+  <data name="Show_Stacktrace" xml:space="preserve">
+    <value>Show Stack Trace</value>
+  </data>
+  <data name="TitleBar_Name_App" xml:space="preserve">
+    <value>Data Collection for .NET</value>
+  </data>
+  <data name="TitleBar_Suffix_UWP" xml:space="preserve">
+    <value> (UWP)</value>
+  </data>
+  <data name="TitleBar_Suffix_WPF" xml:space="preserve">
+    <value> (WPF)</value>
   </data>
 </root>

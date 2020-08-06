@@ -15,10 +15,8 @@
         <ResourceDictionary>
             <wpfViewModels:SignInWindowViewModel x:Key="SignInWindowViewModel" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-
     <Grid
         x:Name="MainGrid"
         DataContext="{StaticResource SignInWindowViewModel}"
@@ -42,10 +40,11 @@
         </WebBrowser>
         <Button Command="{Binding CancelCommand}"
                 Style="{StaticResource MapOverlayButtonStyle}"
+                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}"
                 Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
                 <Path Data="{StaticResource icon-undo-16}" Fill="{DynamicResource danger}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" 
+                <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}" 
                            Style="{StaticResource MapOverlayButtonText}"
                            Foreground="{DynamicResource danger}" />
             </StackPanel>

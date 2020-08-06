@@ -2,9 +2,10 @@
     x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.TitleBar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:popups="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" 
+    xmlns:popups="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -13,58 +14,58 @@
         <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-     <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="SizeGroup">
-                    <VisualState x:Name="Normal">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="900" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <Setter Target="LeftPanel.Visibility" Value="Visible" />
-                            <Setter Target="LeftPanel.(Grid.Row)" Value="0" />
-                            <Setter Target="LeftPanel.(Grid.Column)" Value="0" />
-                            <Setter Target="CenterPanel.(Grid.Column)" Value="1" />
-                            <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
-                            <Setter Target="RightPanel.(Grid.Column)" Value="2"/>
-                            <Setter Target="RightPanel.(Grid.Row)" Value="0" />
-                            <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SizeGroup">
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="900" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LeftPanel.Visibility" Value="Visible" />
+                        <Setter Target="LeftPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="LeftPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="CenterPanel.(Grid.Column)" Value="1" />
+                        <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="RightPanel.(Grid.Column)" Value="2"/>
+                        <Setter Target="RightPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="1" />
                     </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Intermediate">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="600" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
-                            <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
-                            <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
+                </VisualState>
+                <VisualState x:Name="Intermediate">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
                         <Setter Target="CenterPanel.HorizontalAlignment" Value="Left" />
                         <Setter Target="RightPanel.(Grid.Column)" Value="2"/>
-                            <Setter Target="RightPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="RightPanel.(Grid.Row)" Value="0" />
                         <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="3" />
                     </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Smallest">
-                        <VisualState.StateTriggers>
-                            <AdaptiveTrigger MinWindowWidth="0" />
-                        </VisualState.StateTriggers>
-                        <VisualState.Setters>
-                            <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
-                            <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
-                            <Setter Target="CenterPanel.(Grid.Row)" Value="1" />
-                            <Setter Target="RightPanel.(Grid.Column)" Value="3"/>
-                            <Setter Target="RightPanel.(Grid.Row)" Value="0" />
+                </VisualState>
+                <VisualState x:Name="Smallest">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="CenterPanel.(Grid.Row)" Value="1" />
+                        <Setter Target="RightPanel.(Grid.Column)" Value="3"/>
+                        <Setter Target="RightPanel.(Grid.Row)" Value="0" />
                         <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="5" />
                         <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="CenterPanel.HorizontalAlignment" Value="Center" />
                     </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-        <Grid Background="{StaticResource chrome-background}">
-           
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid Background="{ThemeResource chrome-background}">
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -79,26 +80,28 @@
             </Grid.RowDefinitions>
             <Grid x:Name="AppTitleBar" HorizontalAlignment="Stretch" Background="Transparent" Grid.ColumnSpan="8" />
             <StackPanel Orientation="Horizontal" Grid.Column="0" x:Name="LeftPanel">
-                <Image Source="../Assets/Square44x44Logo.scale-100.png" Margin="5,0,0,0"
+                <Image Source="../Assets/Square44x44Logo.scale-100.png" Margin="{StaticResource margin-left-only}"
                    Style="{StaticResource TitleBarImageStyle}"/>
-                <TextBlock Text="Data Collection for .NET (UWP)" 
-                       Style="{StaticResource TitleBarTitleStyle}" />
+                <TextBlock Style="{StaticResource TitleBarTitleStyle}">
+                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
+                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Suffix_UWP}" />
+                </TextBlock>
             </StackPanel>
             <Grid x:Name="CenterPanel">
                 <Button Style="{StaticResource TitleBarButton}"
                         ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}"
-                Foreground="{StaticResource brand-success}"
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}"
                 HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-online-16}"
-                      Style="{StaticResource TitleBarButtonPathIcon}" Fill="{StaticResource brand-success}" />
-                        <TextBlock Margin="5,0,0,0">
-                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart}" FontWeight="SemiBold" />
-                    <Run Text=" - " />
-                    <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        <Path Data="{StaticResource icon-online-16}"
+                              Style="{StaticResource PathIconBase}" 
+                              Fill="{ThemeResource success}" />
+                        <TextBlock Style="{StaticResource TextBlockBase}"
+                                   Foreground="{ThemeResource success}">
+                            <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart}" FontWeight="SemiBold" />
+                            <Run Text=" - " />
+                            <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
-
                     </StackPanel>
                     <Button.Flyout>
                         <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
@@ -111,9 +114,9 @@
                 Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}"
                 HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-online-16}"
-                      Style="{StaticResource TitleBarButtonPathIcon}" />
-                        <TextBlock Margin="5,0,0,0">
+                        <Path Data="{StaticResource icon-online-16}"
+                      Style="{StaticResource PathIconBase}" />
+                        <TextBlock Margin="{StaticResource margin-left-only}" Style="{StaticResource TextBlockBase}">
                     <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart}" FontWeight="SemiBold" />
                     <Run Text=" - " />
                     <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
@@ -132,11 +135,11 @@
                     Command="{x:Bind MainViewModel.AuthViewModel.SignInCommand, Mode=OneWay}"
                         Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter},ConverterParameter=Inverse, Mode=OneWay}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource calcite-ui-sign-in-16}" Style="{StaticResource TitleBarButtonPathIcon}" />
+                        <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource PathIconBase}" />
                         <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}" Margin="10,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="UserPopupButton" HorizontalAlignment="Center"
+                <Button HorizontalAlignment="Center"
                         ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_UserButton_Tooltip}"
                     Style="{StaticResource TitleBarButton}"
                     Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
@@ -151,8 +154,8 @@
                                 </ImageBrush>
                             </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}" FontSize="11"
-                               VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}"
+                                   Style="{StaticResource TextBlockBase}" />
                     </StackPanel>
                     <Button.Flyout>
                         <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
@@ -161,8 +164,7 @@
                     </Button.Flyout>
                 </Button>
                 <TextBlock Text="|" Style="{StaticResource TitleBarTitleStyle}" Width="50"
-                           TextAlignment="Center"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                           TextAlignment="Center" HorizontalAlignment="Center" />
             </StackPanel>
         </Grid>
     </Grid>

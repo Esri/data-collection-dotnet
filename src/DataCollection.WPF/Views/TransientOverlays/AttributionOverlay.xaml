@@ -3,15 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <ResourceDictionary>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <!-- Expects DataContext to be set to MapAccessoryViewModel-->
-        <Border Background="{StaticResource content-background}" Padding="10"
+        <Border Background="{DynamicResource content-background}" Padding="{StaticResource padding-default}"
                 MaxWidth="500"
                 MaxHeight="500">
             <Grid>
@@ -19,7 +14,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ScrollViewer Padding="0,0,5,0" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer Padding="{StaticResource margin-right-only}" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Text="Map Attribution" Style="{StaticResource StatusPanelTitleStyle}" />
                     <TextBlock Text="{Binding MapView.AttributionText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StatusPanelCaptionTextStyle}"
@@ -30,11 +25,12 @@
             <Button Style="{StaticResource MapOverlayButtonStyle}"
                     Command="{Binding ToggleAttributionCommand}"
                     Grid.Row="1"
-                    Margin="{StaticResource margin-top-only}">
+                    ToolTip="{Binding .,Converter={StaticResource LC}, ConverterParameter=GenericAffirmativeButton_Content}"
+                    Margin="{StaticResource margin-top-only}">  
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Path Data="{StaticResource icon-check-circle-16}" Style="{StaticResource PathIconBase}"
                           Fill="{DynamicResource success}" />
-                    <TextBlock Text="OK, Go Back"
+                    <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericAffirmativeButton_Content}"
                                Style="{StaticResource MapOverlayButtonText}"
                                Foreground="{DynamicResource success}" />
                 </StackPanel>

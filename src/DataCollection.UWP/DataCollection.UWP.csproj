@@ -156,6 +156,9 @@
     <Compile Include="Views\MapCards\OriginRelatedRecordPopup.xaml.cs">
       <DependentUpon>OriginRelatedRecordPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MapTransientOverlays\SyncProgressView.xaml.cs">
+      <DependentUpon>SyncProgressView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Popups\OfflineMapStatusPanel.xaml.cs">
       <DependentUpon>OfflineMapStatusPanel.xaml</DependentUpon>
     </Compile>
@@ -274,7 +277,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="CalciteIcons.xaml">
+    <Page Include="Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -282,7 +285,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ResourceDictionary.xaml">
+    <Page Include="Styles\ControlOverrides.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Controls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Sizes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,6 +342,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MapCards\OriginRelatedRecordPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MapTransientOverlays\SyncProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

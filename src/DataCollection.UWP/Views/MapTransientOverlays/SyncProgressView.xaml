@@ -1,0 +1,48 @@
+﻿<UserControl
+    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapTransientOverlays.SyncProgressView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource map-overlay-border-background}">
+        <!--  Progress bar area for download  -->
+        <Border Style="{StaticResource PopupBorder}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <StackPanel Spacing="{StaticResource brand-row-spacing-large}"
+                        HorizontalAlignment="Center">
+                <ProgressBar
+                    Width="300"
+                    Maximum="100"
+                    Minimum="0" Foreground="{ThemeResource tint}"
+                    Value="{Binding Progress}" />
+                <TextBlock Style="{StaticResource PopupProminentText}"
+                           FontSize="{StaticResource chrome-font-size-large}"
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=SynchingMessage_Text}" />
+                <Button Style="{StaticResource MapOverlayButton}"
+                        HorizontalAlignment="Stretch"
+                        BorderBrush="{ThemeResource danger}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}"
+                    Command="{Binding CancelSyncCommand}">
+                    <StackPanel Orientation="Horizontal" 
+                                Spacing="{StaticResource brand-column-spacing}"
+                                HorizontalAlignment="Center">
+                        <Path Data="{StaticResource icon-x-circle-32}" Fill="{ThemeResource danger}"
+                              Style="{StaticResource PathIconBase}" />
+                        <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}" 
+                                   Style="{StaticResource TextBlockBase}"
+                                   Foreground="{ThemeResource danger}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

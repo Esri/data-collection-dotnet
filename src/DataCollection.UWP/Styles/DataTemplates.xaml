@@ -1,0 +1,53 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions">
+    <DataTemplate x:Key="BookmarksViewItemTemplate">
+        <Border Background="Transparent" 
+                Padding="{StaticResource padding-default}" 
+                ext:Mouse.Cursor="Hand" 
+                HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding Name}" 
+                           FontWeight="{StaticResource content-font-weight}"
+                           Foreground="{ThemeResource content-foreground}"/>
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="NavItemTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Background="{ThemeResource chrome-background}" 
+                    BorderBrush="{ThemeResource chrome-border}" 
+                    BorderThickness="{StaticResource chrome-border-thickness}" 
+                    Margin="{StaticResource margin-default}" 
+                    Grid.Column="0" Padding="{StaticResource padding-default}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding IconSource}" MaxWidth="8" MaxHeight="8"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Grid.Column="0" Margin="0" />
+                    <ContentPresenter Content="{Binding IconContent}" Grid.Column="0"  />
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource TextBlockBase}" Foreground="{ThemeResource chrome-foreground}"
+                                   FontWeight="SemiBold"
+                                   Grid.Row="0" Grid.Column="1" />
+                </Grid>
+            </Border>
+            <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconBase}"
+                  Fill="{ThemeResource tint}" 
+                  Grid.Column="1"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="CardSimpleFieldViewer">
+        <StackPanel>
+            <TextBlock Style="{StaticResource CardFieldLabel}"
+                   Text="{Binding Field.Label, Mode=OneWay}" />
+            <TextBox Style="{StaticResource CardFieldValueBox}"
+                   Text="{Binding ReformattedValue, Mode=OneWay}" />
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

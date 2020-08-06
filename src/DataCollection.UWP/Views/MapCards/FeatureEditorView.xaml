@@ -74,7 +74,7 @@
                     <StackPanel>
                         <TextBlock Style="{StaticResource CardFieldLabel}" 
                                    Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
-                        <ComboBox Style="{StaticResource CardEditorCombo}"
+                        <ComboBox Style="{StaticResource ComboBoxBase}"
                                   DisplayMemberPath="Name"
                                   ItemsSource="{Binding OriginalField.Domain.CodedValues, Mode=OneWay}"
                                   Loaded="ComboBox_Loaded"

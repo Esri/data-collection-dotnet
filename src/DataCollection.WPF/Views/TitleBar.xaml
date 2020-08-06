@@ -13,7 +13,7 @@
     <Grid>
         <Grid x:Name="TitleBarGrid" 
               Grid.Row="0" 
-              Background="{StaticResource chrome-background}"
+              Background="{DynamicResource chrome-background}"
               MouseLeftButtonDown="OnMouseLeftButtonDown" 
               MouseRightButtonUp="OnMouseRightButtonUp">
             <Grid.RowDefinitions>
@@ -31,22 +31,25 @@
             <StackPanel x:Name="TitleIconContainer" Orientation="Horizontal" Grid.Column="0">
                 <Image Style="{StaticResource TitleBarIconImageStyle}" 
                        Source="../Images/ArcGIS_Open_Source_Apps.ico" />
-                       <!-- TODO: localize -->
-                <TextBlock Grid.Column="1" Text="Data Collection for .NET (WPF)"
-                       Style="{StaticResource TitleBarTitleTextStyle}"/>
+                <TextBlock Grid.Column="1"
+                           Style="{StaticResource TitleBarTitleTextStyle}">
+                    <Run Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
+                    <Run Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=TitleBar_Suffix_WPF}" />
+                </TextBlock>
             </StackPanel>
             <StackPanel x:Name="CenterButtonContainer" Orientation="Horizontal" Grid.Column="1">
                 <ToggleButton x:Name="WorkOnlineButton" Style="{StaticResource TitleBarToggleButton}"
                               HorizontalAlignment="Center"
                               Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}"
+                              ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip, Converter={StaticResource LC}}"
                               IsChecked="{Binding IsMapStatusPanelOpen,Mode=TwoWay}"
                               MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave">
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource icon-online-16}"
                               Style="{StaticResource TitleBarButtonIconPathStyle}"
                               Fill="{DynamicResource success}" />
-                        <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource success}" Style="{StaticResource TitleBarButtonTextStyle}">
-                            <Run Text="Working Online" FontWeight="SemiBold" />
+                        <TextBlock Foreground="{DynamicResource success}" Style="{StaticResource TitleBarButtonTextStyle}">
+                            <Run Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart, Converter={StaticResource LC}, Mode=OneWay}" FontWeight="SemiBold" />
                             <Run Text=" - " />
                             <Run Text="{Binding MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
@@ -55,11 +58,16 @@
                 <ToggleButton x:Name="WorkOfflineButton" Style="{StaticResource TitleBarToggleButton}"
                               HorizontalAlignment="Center"
                               MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave"
+                              ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip, Converter={StaticResource LC}}"
                               IsChecked="{Binding IsOfflinePanelOpen, Mode=TwoWay}"
                               Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource TitleBarButtonIconPathStyle}" />
-                        <TextBlock Text="Working Offline" Style="{StaticResource TitleBarButtonTextStyle}" />
+                        <TextBlock Style="{StaticResource TitleBarButtonTextStyle}">
+                            <Run Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart, Converter={StaticResource LC}, Mode=OneWay}" FontWeight="SemiBold" />
+                            <Run Text=" - " />
+                            <Run Text="{Binding MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
                     </StackPanel>
                 </ToggleButton>
             </StackPanel>
@@ -70,13 +78,14 @@
                         Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                 <StackPanel Orientation="Horizontal">
                     <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource TitleBarButtonIconPathStyle}" />
-                    <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=TitleBar_SignInButton_Text}"
+                    <TextBlock Text="{Binding {x:Null}, Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}"
                                Style="{StaticResource TitleBarButtonTextStyle}" />
                 </StackPanel>
                 </Button>
                 <ToggleButton x:Name="UserPopupButton"  
                           Style="{StaticResource TitleBarToggleButton}"
                           HorizontalAlignment="Right"
+                          ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_UserButton_Tooltip, Converter={StaticResource LC}}"
                           IsChecked="{Binding IsUserPanelOpen, Mode=TwoWay}"
                           MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave"
                           Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
@@ -94,7 +103,7 @@
                 <TextBlock Text="|" 
                            FontWeight="SemiBold" 
                            Margin="{StaticResource margin-sides}" 
-                           Foreground="{StaticResource chrome-foreground}" VerticalAlignment="Center" />
+                           Foreground="{DynamicResource chrome-foreground}" VerticalAlignment="Center" />
                 <Button Click="OnMinimizeWindow" 
                         Style="{StaticResource TitleBarBlueButtonStyle}">
                     <Path Data="{StaticResource icon-underscore-16}" Style="{StaticResource TitleBarPathIcon}"/>
@@ -113,11 +122,11 @@
         </Grid>
 
         <!-- Floating 'Working Online' Panel -->
-        <Popup Grid.Row="1" PlacementTarget="{Binding ElementName=WorkOnlineButton}"
+        <Popup PlacementTarget="{Binding ElementName=WorkOnlineButton}"
         HorizontalAlignment="Center"
                Placement="Bottom"
         Style="{StaticResource PopupStyle}"
-               x:Name="OnlinePopup" StaysOpen="False"
+               x:Name="OnlinePopup"
                Closed="OnlinePopup_Closed"
                 IsOpen="{Binding IsMapStatusPanelOpen, Mode=OneWay}" >
             <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
@@ -126,7 +135,7 @@
         </Popup>
 
         <!-- Floating 'Working Offline' Panel -->
-        <Popup Grid.Row="1" x:Name="OfflinePopup"
+        <Popup x:Name="OfflinePopup"
         Style="{StaticResource PopupStyle}"
                PlacementTarget="{Binding ElementName=WorkOfflineButton}" StaysOpen="False"
                Placement="Bottom"
@@ -139,12 +148,11 @@
         </Popup>
 
         <!-- Floating User Panel -->
-        <Popup Grid.Row="1" x:Name="UserPopup"
+        <Popup x:Name="UserPopup"
                Style="{StaticResource PopupStyle}"
                 HorizontalAlignment="Center"
                PlacementTarget="{Binding ElementName=UserPopupButton}"
                Placement="Bottom"
-               StaysOpen="False"
                Closed="UserPopup_Closed"
                 IsOpen="{Binding IsUserPanelOpen, Mode=OneWay}">
             <Border Style="{StaticResource TitleBarPopoverBorderStyle}">

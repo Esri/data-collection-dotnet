@@ -9,7 +9,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
              <!-- Expects DataContext to be set to MainViewModel -->
@@ -30,43 +29,46 @@
         <TextBlock Text="{Binding MapViewModel.Map.Item.Title}"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
                    Grid.Column="0" Grid.ColumnSpan="2"
-                   FontSize="18" />
+                   FontSize="{StaticResource chrome-font-size-large}" />
         <!-- TODO: localize -->
-        <TextBlock Text="Created:" Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
+        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Created_FieldLabel}" 
+                   Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
                    Grid.Row="2" Grid.Column="0" 
-                   Margin="0,0,5,0" VerticalAlignment="Top" />
+                   Margin="{StaticResource margin-right-only}" VerticalAlignment="Top" />
         <TextBlock Text="{Binding Path=MapViewModel.Map.Item.Created, FallbackValue='unknown', StringFormat='r'}"
                    Style="{StaticResource TitleBarPopoverLabelStyle}"
                    Grid.Row="2" Grid.Column="1" />
-        <TextBlock Text="Offline Map Available" 
+        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_OfflineMapAvailable_Label}" 
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
                    Grid.Row="5" Grid.Column="0" 
-                   Margin="0,5,0,0" 
+                   Margin="{StaticResource margin-top-only}" 
                    Grid.ColumnSpan="2" 
                    HorizontalAlignment="Center"
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
-        <TextBlock Text="Downloaded on:" Margin="0,5,5,0"
+        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Downloaded_FieldLabel}" 
+                   Margin="0,4,4,0"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}" 
                    Grid.Row="3" Grid.Column="0" 
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}"  />
         <TextBlock Text="{Binding Path=OfflineMap.Item.Modified, StringFormat='r'}" 
                    Style="{StaticResource TitleBarPopoverLabelStyle}" 
                    Grid.Row="3" Grid.Column="1" 
-                   Margin="0,5,5,0"
+                   Margin="0,4,4,0"
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
         <TextBlock Text="{Binding Path=MapViewModel.Map.Item.Snippet}"
                    Style="{StaticResource TitleBarPopoverLabelStyle}"
                    TextWrapping="Wrap"
                    Grid.Row="1" Grid.ColumnSpan="2"
-                   Margin="0,5,0,5"/>
+                   Margin="{StaticResource margin-top-bottom}"/>
         <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                 Style="{StaticResource MapOverlayButtonStyle}"
                 Command="{Binding Path=WorkOfflineCommand}"
-                Margin="0,5,0,0"
+                Margin="{StaticResource margin-top-only}"
+                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton_Label}"
+                <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}"
                            Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>

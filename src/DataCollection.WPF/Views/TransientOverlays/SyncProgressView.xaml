@@ -3,36 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays" 
              xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
             <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <!-- Expects DataContext to be set to SyncViewModel -->
-    <Grid Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"
+    <Grid 
               Background="{DynamicResource map-overlay-border-background}"
               VerticalAlignment="Stretch"
               Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
         <Border Style="{StaticResource StatusPanelBorderStyle}">
             <StackPanel>
                 <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}"
-                     Maximum="100" Minimum="0"
-                     Value="{Binding SyncViewModel.Progress}" />
+                             Maximum="100" Minimum="0"
+                             Value="{Binding SyncViewModel.Progress}" />
                 <TextBlock Style="{StaticResource StatusPanelTitleStyle}"
-                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SynchingMessage_Text}" />
+                           Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=SynchingMessage_Text}" />
                 <Button Command="{Binding SyncViewModel.CancelSyncCommand}" BorderBrush="{DynamicResource danger}"
                         Margin="{StaticResource margin-top-only}"
-                Style="{StaticResource MapOverlayButtonStyle}">
+                        ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}"
+                        Style="{StaticResource MapOverlayButtonStyle}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Path Data="{StaticResource calcite-x-circle-32}" Style="{StaticResource PathIconBase}" Fill="{DynamicResource danger}" />
-                        <TextBlock Text="{Binding .,Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}"
+                        <TextBlock Text="{Binding .,Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}"
                                    Style="{StaticResource MapOverlayButtonText}"
-                                   Foreground="{StaticResource danger}"/>
+                                   Foreground="{DynamicResource danger}"/>
                     </StackPanel>
                 </Button>
             </StackPanel>

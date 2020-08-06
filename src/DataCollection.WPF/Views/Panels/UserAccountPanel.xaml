@@ -9,7 +9,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <!-- Data context should be set to mainviewmodel.AuthViewModel -->
@@ -24,9 +23,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Ellipse Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-                         Width="40" Height="40"
-                 Margin="0,0,10,0"
-                         Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
+                 Width="40" Height="40"
+                 Margin="{StaticResource margin-right-only}"
+                 Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="{Binding AuthenticatedUser.ThumbnailUri}" />
             </Ellipse.Fill>
@@ -39,12 +38,13 @@
                    Style="{StaticResource TitleBarPopoverLabelStyle}" />
         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                 Style="{StaticResource MapOverlayButtonStyle}"
-                Margin="0,5,0,0"
+                Margin="{StaticResource margin-top-only}"
                 Command="{Binding SignOutCommand}"
+                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=SignOutButton_Label}"
                 Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Path Data="{StaticResource icon-sign-out-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton_Label}"
+                <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=SignOutButton_Label}"
                            Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>

@@ -29,7 +29,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TabControl BorderThickness="0" Grid.Row="1" Background="{StaticResource content-background}">
+        <TabControl BorderThickness="0" Grid.Row="1" Background="{DynamicResource content-background}">
             <TabItem Header="Details" Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the origin relationship selected  -->
                 <ScrollViewer

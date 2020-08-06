@@ -3,13 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels" xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
              <!-- Expects data context to be set to MainViewModel -->
@@ -32,8 +31,7 @@
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
                    Grid.Column="0" Grid.ColumnSpan="2"
                    FontSize="{StaticResource chrome-font-size-large}" />
-        <!-- TODO: localize -->
-        <TextBlock Text="Last Sync:"
+        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_LastSync_FieldLabel}"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}" 
                    Grid.Row="2" Grid.Column="0" />
         <TextBlock Text="{Binding SyncDate, StringFormat='r'}"
@@ -43,47 +41,48 @@
         <TextBlock Text="{Binding MapViewModel.Map.Item.Snippet}"
                    Style="{StaticResource TitleBarPopoverLabelStyle}" 
                    TextWrapping="Wrap"
-                   Grid.Row="1" Grid.ColumnSpan="2" 
+                   Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
                    Margin="{StaticResource margin-top-bottom}" />
         <!--  Synchronize button and text  -->
-        <Button Grid.Row="4" Grid.ColumnSpan="2"
+        <Button Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0"
                 Style="{StaticResource MapOverlayButtonStyle}"
                 Command="{Binding Path=SyncMapCommand}"
-                Margin="0,5,0,0"
+                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=SyncButton_Label}"
+                Margin="{StaticResource margin-top-only}"
                 Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton_Label}"
+                <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=SyncButton_Label}"
                            Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>
 
         <!--  Delete offline map button and text  -->
-        <Button Grid.Row="5" Grid.ColumnSpan="2"
+        <Button Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0"
                 Style="{StaticResource MapOverlayButtonStyle}"
                 Command="{Binding Path=DeleteOfflineMapCommand}"
-                Margin="0,5,0,0"
+                Margin="{StaticResource margin-top-only}"
+                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=DeleteMapButton_Label}"
                 Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton_Label}"
+                <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=DeleteMapButton_Label}"
                            Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>
         <!--  Work online button and text  -->
-        <Button Grid.Row="6" Grid.ColumnSpan="2"
+        <Button Grid.Row="6" Grid.ColumnSpan="2" Grid.Column="0"
                 Style="{StaticResource MapOverlayButtonStyle}"
                 Command="{Binding WorkOnlineCommand }"
-                Margin="0,5,0,0"
+                Margin="{StaticResource margin-top-only}"
                 CommandParameter="{Binding MapViewModel.AreaOfInterest}"
+                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOnlineButton_Label}"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Path Data="{StaticResource icon-online-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton_Label}"
+                <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOnlineButton_Label}"
                            Style="{StaticResource MapOverlayButtonText}"/>
             </StackPanel>
         </Button>
-
-
     </Grid>
 </UserControl>

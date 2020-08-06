@@ -5,39 +5,32 @@
     xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:esri="using:Esri.ArcGISRuntime.UI.Controls"
-    xmlns:localConverters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
     xmlns:views="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
     xmlns:mapping="using:Esri.ArcGISRuntime.Mapping"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-    xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels" xmlns:cards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards" xmlns:popups="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels" 
+    xmlns:cards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards" 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:mapTransientOverlays="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapTransientOverlays"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
-            <converters:PointToDoubleConverter x:Key="PointToDoubleConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
-            <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
             <panels:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
-            <localConverters:TitleBarConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
-            <panels:ResponsiveValueConverter x:Key="RVC" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="./CalciteIcons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Background="{StaticResource chrome-background}">
+    <Grid Background="{ThemeResource chrome-background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <views:TitleBar Grid.Row="0" MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
-        
+
         <!-- Map Area -->
         <panels:MapLayoutPanel x:Name="MapLayoutPanel" Grid.Row="1"
                                WidthBreakpoint="720">
@@ -51,7 +44,7 @@
                           DataContext="{x:Bind MainViewModel}"
                           Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}">
                 <utils:MapViewExtensions.ViewpointController>
-                    <utils:ViewpointController Viewpoint="{Binding MapViewModel.AreaOfInterest, Mode=TwoWay}" />
+                    <utils:ViewpointController Viewpoint="{Binding AreaOfInterest, Mode=TwoWay}" />
                 </utils:MapViewExtensions.ViewpointController>
                 <utils:MapViewExtensions.LocationDisplayController>
                     <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}" />
@@ -71,17 +64,17 @@
                         <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_BookmarksButton_Tooltip}"
                             Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneTime}">
-                            <Path Data="{StaticResource calcite-ui-bookmark-32}" Style="{StaticResource MapAccessoryPathIcon}" />
+                            <Path Data="{StaticResource icon-bookmark-32}" Style="{StaticResource PathIconBase}" />
                         </Button>
                         <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_LegendButton_Tooltip}"
                             Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}">
-                            <Path Data="{StaticResource calcite-ui-legend-32}" Style="{StaticResource MapAccessoryPathIcon}" />
+                            <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconBase}" />
                         </Button>
                         <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_TOCButton_Tooltip}"
                             Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTocCommand, Mode=OneTime}">
-                            <Path Data="{StaticResource calcite-ui-layers-32}" Style="{StaticResource MapAccessoryPathIcon}" />
+                            <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconBase}" />
                         </Button>
                     </StackPanel>
                 </controls:DropShadowPanel>
@@ -94,8 +87,8 @@
                         <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_AddButton_Tooltip}"
                         Command="{x:Bind MainViewModel.StartNewFeatureCommand, Mode=OneTime}">
-                            <Path Data="{StaticResource calcite-ui-plus-circle-16}" Style="{StaticResource MapAccessoryPathIcon}"
-                          Fill="{StaticResource brand-success}"/>
+                            <Path Data="{StaticResource icon-plus-circle-16}" Style="{StaticResource PathIconBase}"
+                                  Fill="{ThemeResource success}"/>
                         </Button>
                     </StackPanel>
                 </controls:DropShadowPanel>
@@ -109,7 +102,7 @@
                         <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_HomeButton_Tooltip}"
                         Command="{x:Bind MainViewModel.MapAccessoryViewModel.GoHomeCommand, Mode=OneTime}">
-                            <Path Data="{StaticResource calcite-ui-home-32}" Style="{StaticResource MapAccessoryPathIcon}" />
+                            <Path Data="{StaticResource icon-home-16}" Style="{StaticResource PathIconBase}" />
                         </Button>
                     </StackPanel>
                 </controls:DropShadowPanel>
@@ -121,12 +114,12 @@
                         <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_PlusButton_Tooltip}"
                         Command="{x:Bind MainViewModel.MapAccessoryViewModel.ZoomInCommand, Mode=OneTime}">
-                            <Path Data="{StaticResource calcite-ui-plus-32}" Style="{StaticResource MapAccessoryPathIcon}" />
+                            <Path Data="{StaticResource icon-plus-16}" Style="{StaticResource PathIconBase}" />
                         </Button>
                         <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_MinusButton_Tooltip}"
                         Command="{x:Bind MainViewModel.MapAccessoryViewModel.ZoomOutCommand, Mode=OneTime}">
-                            <Path Data="{StaticResource calcite-ui-minus-32}" Style="{StaticResource MapAccessoryPathIcon}" />
+                            <Path Data="{StaticResource icon-minus-32}" Style="{StaticResource PathIconBase}" />
                         </Button>
                     </StackPanel>
                 </controls:DropShadowPanel>
@@ -139,13 +132,13 @@
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_GPSButton_Tooltip}"
                         IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}"
                         Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}">
-                            <Path Data="{StaticResource calcite-ui-gps-on-16}" Style="{StaticResource MapAccessoryPathIcon}" />
+                            <Path Data="{StaticResource icon-gps-on-16}" Style="{StaticResource PathIconBase}" />
                         </Button>
                     </StackPanel>
                 </controls:DropShadowPanel>
 
             </StackPanel>
-            
+
             <!-- Attribution -->
             <Button Style="{StaticResource AttributionButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind MapView.AttributionText, Mode=OneWay}"
@@ -161,15 +154,16 @@
                                    FontSize="9"
                                    VerticalAlignment="Center" />
                     </Border>
-                    <controls:DropShadowPanel Grid.Column="1" Style="{StaticResource EsriAttributionShadow}">
-                        <Path Data="{StaticResource calcite-ui-esri-logo}" 
-                          Fill="White" Stretch="Uniform" Height="20" 
-                          Grid.Column="1" />
+                    <controls:DropShadowPanel Grid.Column="1"
+                                              BlurRadius="16" OffsetY="4" OffsetX="4"
+                                              ShadowOpacity="1">
+                        <Path Data="{StaticResource icon-esri-logo}" Fill="White" Stretch="Uniform" Height="20" />
                     </controls:DropShadowPanel>
                 </Grid>
                 <Button.Flyout>
-                    <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenter}" Placement="TopEdgeAlignedRight">
-                        <StackPanel Orientation="Vertical" Padding="5" Spacing="5">
+                    <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenter}" 
+                            Placement="TopEdgeAlignedRight">
+                        <StackPanel Orientation="Vertical" Padding="{StaticResource padding-default}" Spacing="{StaticResource spacing-default}">
                             <TextBlock Style="{StaticResource PopupProminentText}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Attribution_Popup_Label}" />
                             <TextBlock Style="{StaticResource PopupText}" Text="{x:Bind MapView.AttributionText, Mode=OneWay}" />
                         </StackPanel>
@@ -178,123 +172,134 @@
             </Button>
 
             <!-- Floating sheets & widgets -->
-                <cards:CardDeck panels:MapLayoutPanel.LayoutRole="FloatingSheet" 
+            <cards:CardDeck panels:MapLayoutPanel.LayoutRole="FloatingSheet" 
                             CardPresenterStyle="{StaticResource BasicCardStyle}"
                                 Margin="{x:Bind MapLayoutPanel.IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,5,0,0|5', Mode=OneWay}"
                             NavigationContainerStyle="{StaticResource NavContainerStyle}"
                             NavigationItemTemplate="{StaticResource NavItemTemplate}">
-                    <!-- TODO - responsive value -->
-                    <cards:CardDeck.Cards>
-                        <cards:OverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
+                <!-- TODO - responsive value -->
+                <cards:CardDeck.Cards>
+                    <cards:OverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
                                        IconSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.IconImageSource, Mode=OneWay}"
                                        IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}, Mode=OneWay}">
-                            <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
-                            <cards:OverlayCard.TopAccessories>
-                                <Button Command="{x:Bind MainViewModel.ClearIdentifiedFeatureCommand, Mode=OneTime}" Style="{StaticResource CardCloseButton}">
-                                    <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
-                                </Button>
-                            </cards:OverlayCard.TopAccessories>
-                        </cards:OverlayCard>
+                        <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
+                        <cards:OverlayCard.TopAccessories>
+                            <Button Command="{x:Bind MainViewModel.ClearIdentifiedFeatureCommand, Mode=OneTime}" 
+                                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
+                                    Style="{StaticResource CardCloseButton}">
+                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                            </Button>
+                        </cards:OverlayCard.TopAccessories>
+                    </cards:OverlayCard>
 
-                        <cards:OverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                    <cards:OverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
                                        IconSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.IconImageSource, Mode=OneWay}"
                                        IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False, Mode=OneWay}">
-                            <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
-                            <cards:OverlayCard.TopAccessories>
-                                <Button Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" Style="{StaticResource CardCloseButton}">
-                                    <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
-                                </Button>
-                            </cards:OverlayCard.TopAccessories>
-                        </cards:OverlayCard>
+                        <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}" />
+                        <cards:OverlayCard.TopAccessories>
+                            <Button Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" 
+                                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
+                                    Style="{StaticResource CardCloseButton}">
+                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                            </Button>
+                        </cards:OverlayCard.TopAccessories>
+                    </cards:OverlayCard>
 
-                        <cards:OverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
+                    <cards:OverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
                                        IconSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
                                        IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False, Mode=OneWay}">
-                            <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
-                            <cards:OverlayCard.TopAccessories>
-                                <Button Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" Style="{StaticResource CardCloseButton}">
-                                    <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
-                                </Button>
-                            </cards:OverlayCard.TopAccessories>
-                        </cards:OverlayCard>
+                        <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}" />
+                        <cards:OverlayCard.TopAccessories>
+                            <Button Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" 
+                                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
+                                    Style="{StaticResource CardCloseButton}">
+                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                            </Button>
+                        </cards:OverlayCard.TopAccessories>
+                    </cards:OverlayCard>
 
-                        <cards:OverlayCard
+                    <cards:OverlayCard
                         Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
                         IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsTocOpen, Mode=OneWay}">
-                            <!-- TODO: TOC card-->
-                            <cards:OverlayCard.IconContent>
-                                <Path Data="{StaticResource calcite-ui-layers-16}" Style="{StaticResource CardPathIcon}"/>
-                            </cards:OverlayCard.IconContent>
-                            <cards:OverlayCard.TopAccessories>
-                                <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTocCommand, Mode=OneTime}" 
+                        <!-- TODO: TOC card-->
+                        <cards:OverlayCard.IconContent>
+                            <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconBase}" Margin="8"/>
+                        </cards:OverlayCard.IconContent>
+                        <cards:OverlayCard.TopAccessories>
+                            <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTocCommand, Mode=OneTime}" 
+                                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
                                     Style="{StaticResource CardCloseButton}">
-                                    <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
-                                </Button>
-                            </cards:OverlayCard.TopAccessories>
-                            <muxc:TreeView ItemsSource="{x:Bind MapView.Map.OperationalLayers, Mode=OneWay}"
+                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                            </Button>
+                        </cards:OverlayCard.TopAccessories>
+                        <muxc:TreeView ItemsSource="{x:Bind MapView.Map.OperationalLayers, Mode=OneWay}"
                                        ItemContainerStyle="{StaticResource LayerTreeViewItem}">
-                                <muxc:TreeView.ItemTemplate>
-                                    <DataTemplate x:DataType="mapping:ILayerContent">
-                                        <muxc:TreeViewItem ItemsSource="{x:Bind SublayerContents}">
-                                            <muxc:TreeViewItem.Content>
-                                                <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}"
+                            <muxc:TreeView.ItemTemplate>
+                                <DataTemplate x:DataType="mapping:ILayerContent">
+                                    <muxc:TreeViewItem ItemsSource="{x:Bind SublayerContents}">
+                                        <muxc:TreeViewItem.Content>
+                                            <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}"
                                                       Style="{StaticResource TreeViewCheckboxStyle}"
                                                       Content="{x:Bind Name, Mode=OneWay}" />
-                                            </muxc:TreeViewItem.Content>
-                                        </muxc:TreeViewItem>
-                                    </DataTemplate>
+                                        </muxc:TreeViewItem.Content>
+                                    </muxc:TreeViewItem>
+                                </DataTemplate>
 
-                                </muxc:TreeView.ItemTemplate>
-                            </muxc:TreeView>
-                        </cards:OverlayCard>
+                            </muxc:TreeView.ItemTemplate>
+                        </muxc:TreeView>
+                    </cards:OverlayCard>
 
-                        <cards:OverlayCard Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
+                    <cards:OverlayCard Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
                                        IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay}">
-                            <cards:OverlayCard.IconContent>
-                                <Path Data="{StaticResource calcite-ui-bookmark-16}"
-                                  Style="{StaticResource CardPathIcon}" />
-                            </cards:OverlayCard.IconContent>
-                            <toolkit:BookmarksView GeoView="{x:Bind MapView}"
+                        <cards:OverlayCard.IconContent>
+                            <Path Data="{StaticResource icon-bookmark-16}"
+                                  Margin="8"
+                                  Style="{StaticResource PathIconBase}" />
+                        </cards:OverlayCard.IconContent>
+                        <toolkit:BookmarksView GeoView="{x:Bind MapView}"
                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                                ItemTemplate="{StaticResource BookmarksViewItemTemplate}" />
-                            <cards:OverlayCard.TopAccessories>
-                                <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneWay}" 
+                        <cards:OverlayCard.TopAccessories>
+                            <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneWay}" 
+                                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
                                     Style="{StaticResource CardCloseButton}">
-                                    <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
-                                </Button>
-                            </cards:OverlayCard.TopAccessories>
-                        </cards:OverlayCard>
+                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                            </Button>
+                        </cards:OverlayCard.TopAccessories>
+                    </cards:OverlayCard>
 
-                        <cards:OverlayCard Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
+                    <cards:OverlayCard Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
                                        IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsLayersOpen, Mode=OneWay}">
-                            <!-- TODO - fix foreground not being set properly -->
-                            <toolkit:Legend GeoView="{x:Bind MapView}" 
-                                        Background="{StaticResource content-background}"
+                        <!-- TODO - fix foreground not being set properly -->
+                        <toolkit:Legend GeoView="{x:Bind MapView}" 
+                                        Background="{ThemeResource content-background}"
                                         RequestedTheme="Light"
-                                        Foreground="{StaticResource content-foreground}" />
-                            <cards:OverlayCard.IconContent>
-                                <Path Data="{StaticResource calcite-ui-legend-16}" Style="{StaticResource CardPathIcon}" />
-                            </cards:OverlayCard.IconContent>
-                            <cards:OverlayCard.TopAccessories>
-                                <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" 
+                                        Foreground="{ThemeResource content-foreground}" />
+                        <cards:OverlayCard.IconContent>
+                            <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconBase}" Margin="8" />
+                        </cards:OverlayCard.IconContent>
+                        <cards:OverlayCard.TopAccessories>
+                            <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" 
+                                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
                                     Style="{StaticResource CardCloseButton}">
-                                    <Path Data="{StaticResource calcite-ui-x-16}" Fill="Black" Stretch="Uniform" />
-                                </Button>
-                            </cards:OverlayCard.TopAccessories>
-                        </cards:OverlayCard>
+                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                            </Button>
+                        </cards:OverlayCard.TopAccessories>
+                    </cards:OverlayCard>
 
-                    </cards:CardDeck.Cards>
-                </cards:CardDeck>
+                </cards:CardDeck.Cards>
+            </cards:CardDeck>
 
-            <views:AddFeatureView x:Name="AddFeatureView"
-                                  panels:MapLayoutPanel.LayoutRole="TransientOverlay"
+            <views:AddFeatureView panels:MapLayoutPanel.LayoutRole="TransientOverlay"
                                   DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                   Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
             <views:DownloadView panels:MapLayoutPanel.LayoutRole="TransientOverlay"
-                                Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
                                 DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                 Visibility="{x:Bind MainViewModel.DownloadViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
                                 VisibleArea="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}" />
+            <mapTransientOverlays:SyncProgressView DataContext="{x:Bind MainViewModel.SyncViewModel, Mode=OneWay}"
+                                                   Visibility="{x:Bind MainViewModel.SyncViewModel, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}"
+                                                   panels:MapLayoutPanel.LayoutRole="TransientOverlay" />
         </panels:MapLayoutPanel>
     </Grid>
 </Page>

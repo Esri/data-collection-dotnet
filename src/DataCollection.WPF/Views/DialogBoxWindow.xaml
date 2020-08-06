@@ -11,7 +11,8 @@
     ResizeMode="NoResize"
     WindowStyle="None"
     ShowInTaskbar="False"
-    Background="{StaticResource content-background}"
+    BorderBrush="{StaticResource tint}" BorderThickness="{StaticResource chrome-border-thickness}"
+    Background="{DynamicResource content-background}"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
@@ -23,9 +24,9 @@
         <StackPanel Orientation="Vertical">
             <TextBlock
                 Padding="{StaticResource padding-default}"
-                Background="{StaticResource chrome-background}"
+                Background="{DynamicResource chrome-background}"
                 FontSize="20"
-                Foreground="{StaticResource chrome-foreground}"
+                Foreground="{DynamicResource chrome-foreground}"
                 Text="{Binding MessageTitle}"
                 TextWrapping="Wrap"
                 Visibility="{Binding MessageTitle, Converter={StaticResource NullToVisibilityConverter}}" />
@@ -42,14 +43,14 @@
                     Style="{StaticResource MapOverlayButtonStyle}"
                     Command="{Binding DismissDialogBoxCommand}"
                     CommandParameter="true"
-                    BorderBrush="{StaticResource danger}"
-                    Foreground="{StaticResource danger}"
+                    BorderBrush="{DynamicResource danger}"
+                    Foreground="{DynamicResource danger}"
                     Content="{Binding AffirmativeActionButtonContent}" />
                 <Button
                     x:Name="CancelDialogButton"
                     Style="{StaticResource MapOverlayButtonStyle}"
-                    BorderBrush="{StaticResource success}"
-                    Foreground="{StaticResource success}"
+                    BorderBrush="{DynamicResource success}"
+                    Foreground="{DynamicResource success}"
                     Command="{Binding DismissDialogBoxCommand}"
                     CommandParameter="false"
                     Content="{Binding NegativeActionButtonContent}"
@@ -57,7 +58,7 @@
             </StackPanel>
 
             <StackPanel
-                Margin="10,0,10,10"
+                Margin="{StaticResource margin-default}"
                 Orientation="Horizontal"
                 Visibility="{Binding StackTrace, Converter={StaticResource NullToVisibilityConverter}}">
                 <CheckBox
@@ -65,9 +66,9 @@
                     VerticalAlignment="Center"
                     IsChecked="False" />
                 <TextBlock
-                    Margin="5,5,0,7"
+                    Margin="4,4,0,8"
                     VerticalAlignment="Center"
-                    Text="Show StackTrace" />
+                    Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=Show_Stacktrace}" />
             </StackPanel>
 
             <!--  Stacktrace box  -->
@@ -75,13 +76,13 @@
                 MaxWidth="400"
                 MaxHeight="300"
                 Margin="0"
-                Background="{StaticResource content-background}"
+                Background="{DynamicResource content-background}"
                 Visibility="{Binding IsChecked, ElementName=StackTraceVisibilitySwitch, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Separator Grid.Row="0" Background="{StaticResource tint}" />
+                <Separator Grid.Row="0" Background="{DynamicResource tint}" />
                 <ScrollViewer
                     Grid.Row="1"
                     Margin="{StaticResource margin-default}"
@@ -89,7 +90,7 @@
                     <TextBlock
                         Padding="{StaticResource padding-default}"
                         VerticalAlignment="Top"
-                        Foreground="{StaticResource content-foreground}"
+                        Foreground="{DynamicResource content-foreground}"
                         Text="{Binding StackTrace}"
                         TextWrapping="Wrap" />
                 </ScrollViewer>

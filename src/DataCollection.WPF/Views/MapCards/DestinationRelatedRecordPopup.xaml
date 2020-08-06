@@ -13,7 +13,7 @@
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{StaticResource content-background}">
+    <Grid Background="{DynamicResource content-background}">
         <!--  Attribute information for the destination relationship selected  -->
         <ItemsControl ItemsSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
                       Margin="{StaticResource padding-default}">
