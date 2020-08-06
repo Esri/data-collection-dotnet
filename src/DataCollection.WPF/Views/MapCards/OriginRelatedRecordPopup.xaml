@@ -23,7 +23,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid DataContext="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship}">
+    <Grid DataContext="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship}"
+          Background="{DynamicResource content-background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

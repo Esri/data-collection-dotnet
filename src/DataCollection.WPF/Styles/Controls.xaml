@@ -76,7 +76,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
-                    <Border x:Name="ControlBorder" BorderThickness="0,0,0,3" Margin="0" Padding="5">
+                    <Border x:Name="ControlBorder" 
+                            Background="{DynamicResource content-background}"
+                            BorderThickness="{StaticResource margin-bottom-only}"
+                            Margin="0" Padding="{StaticResource margin-default}">
                         <Grid Name="Panel">
                             <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
@@ -482,8 +485,9 @@
     </Style>
     
     <Style x:Key="BasicCardStyle" TargetType="cards:CardPresenter">
-        <Setter Property="Background" Value="{DynamicResource content-background}" />
+        <Setter Property="Background" Value="{DynamicResource tint}" />
         <Setter Property="Foreground" Value="{DynamicResource content-foreground}" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="0" />
                 <Setter Property="TitleTextStyle">
                     <Setter.Value>
@@ -514,7 +518,7 @@
                     <Setter.Value>
                         <Style TargetType="Border">
                             <Setter Property="Background" Value="{DynamicResource chrome-background}" />
-                            <Setter Property="BorderThickness" Value="0,4,0,0" />
+                            <Setter Property="BorderThickness" Value="{StaticResource margin-top-only}" />
                             <Setter Property="BorderBrush" Value="{DynamicResource tint}" />
                         </Style>
                     </Setter.Value>
@@ -525,7 +529,7 @@
                 <Setter Property="Margin" Value="0" />
             </Style>
             <DataTemplate x:Key="NavItemTemplate">
-                <Grid>
+                <Grid Margin="{StaticResource margin-top-only}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -533,8 +537,8 @@
                 <Border Background="Transparent" VerticalAlignment="Center"
                         BorderBrush="{DynamicResource tint}" 
                         BorderThickness="0" 
-                        Margin="{StaticResource margin-default}" 
-                        Grid.Column="0" Padding="0">
+                        Margin="{StaticResource margin-default}"
+                        Grid.Column="0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />

@@ -27,7 +27,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid DataContext="{Binding IdentifiedFeatureViewModel}">
+    <Grid DataContext="{Binding IdentifiedFeatureViewModel}" Background="{DynamicResource content-background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
