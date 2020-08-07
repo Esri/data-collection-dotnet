@@ -128,7 +128,7 @@ Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/exam
 
 ## Contribute
 
-Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pull requests.
+Anyone and everyone is welcome to [contribute](https://github.com/esri/contributing). We do accept pull requests.
 
 1. Get involved
 2. Report issues
