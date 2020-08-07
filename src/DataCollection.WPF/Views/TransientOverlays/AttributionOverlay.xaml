@@ -16,8 +16,10 @@
             </Grid.RowDefinitions>
             <ScrollViewer Padding="{StaticResource margin-right-only}" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <TextBlock Text="Map Attribution" Style="{StaticResource StatusPanelTitleStyle}" />
-                    <TextBlock Text="{Binding MapView.AttributionText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource StatusPanelCaptionTextStyle}"
+                    <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=Attribution_Popup_Label}" 
+                               Style="{StaticResource StatusPanelTitleStyle}" />
+                    <TextBlock Text="{Binding MapView.AttributionText, UpdateSourceTrigger=PropertyChanged}" 
+                               Style="{StaticResource StatusPanelCaptionTextStyle}"
                            TextWrapping="Wrap" />
                 </StackPanel>
             </ScrollViewer>

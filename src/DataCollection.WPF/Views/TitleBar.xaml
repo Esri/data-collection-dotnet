@@ -108,12 +108,14 @@
                 <TextBlock Text="|" 
                            FontWeight="SemiBold" 
                            Margin="{StaticResource margin-sides}" 
-                           Foreground="{DynamicResource chrome-foreground}" VerticalAlignment="Center" />
+                           Foreground="{DynamicResource chrome-foreground}" 
+                           Opacity="0.5"
+                           VerticalAlignment="Center" />
                 <Button Click="OnMinimizeWindow" 
                         Style="{StaticResource TitleBarBlueButtonStyle}">
                     <Path Data="{StaticResource icon-underscore-16}" Style="{StaticResource TitleBarPathIcon}"/>
                 </Button>
-                <Button Style="{StaticResource TitleBarBlueButtonStyle}" 
+                <Button Style="{StaticResource TitleBarBlueButtonStyle}"
                         Click="OnMaximizeWindow">
                     <Grid>
                         <Path x:Name="MinimizePath" Data="{StaticResource icon-minimize-16}" Style="{StaticResource TitleBarPathIcon}" />

@@ -641,7 +641,7 @@
         <Setter Property="Height" Value="{StaticResource dimension-large-icon}" />
         <Setter Property="Width" Value="{StaticResource dimension-large-icon}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="{StaticResource margin-sides}" />
+        <Setter Property="Margin" Value="{StaticResource padding-default}" />
     </Style>
 
     <Style TargetType="TextBlock" x:Key="TitleBarTitleTextStyle">
