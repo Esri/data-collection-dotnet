@@ -166,7 +166,8 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <TextBlock Text="|" Style="{StaticResource TitleBarTitleStyle}" Width="50"
+                <TextBlock Text="|" Style="{StaticResource TitleBarTitleStyle}" 
+                           Width="50" Opacity="0.8"
                            TextAlignment="Center" HorizontalAlignment="Center" />
             </StackPanel>
         </Grid>

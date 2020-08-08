@@ -23,11 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tabs\" />
-    <Folder Include="Panels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Cards\CardDeck.Theme.xaml">
       <SubType>Designer</SubType>
     </Page>

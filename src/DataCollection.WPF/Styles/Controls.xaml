@@ -500,13 +500,6 @@
                         </Style>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="BottomBarStyle">
-                    <Setter.Value>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </Style>
-                    </Setter.Value>
-                </Setter>
                 <Setter Property="SubtitleBarStyle">
                     <Setter.Value>
                         <Style TargetType="Border">

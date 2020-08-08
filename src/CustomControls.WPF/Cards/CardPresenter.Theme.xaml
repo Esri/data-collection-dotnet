@@ -19,13 +19,6 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="BottomBarStyle">
-            <Setter.Value>
-                <Style TargetType="Border">
-                    <Setter Property="Background" Value="#6c5ce7" />
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="SubtitleBarStyle">
             <Setter.Value>
                 <Style TargetType="Border">
@@ -73,7 +66,6 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Border Grid.Row="0" Style="{TemplateBinding TopBarStyle}">
                                 <Grid>
@@ -128,17 +120,7 @@
                                                   Content="{Binding Content, Mode=OneWay}"
                                               Margin="{TemplateBinding Padding}" />
                             </Grid>
-                            <Border Grid.Row="3"
-                                    Style="{TemplateBinding BottomBarStyle}">
-                                 <ItemsControl ItemsSource="{Binding BottomAccessories, Mode=OneWay}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                            </Border>
-                       </Grid>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

@@ -88,21 +88,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         public static readonly DependencyProperty SubtitleBarStyleProperty =
             DependencyProperty.Register("SubtitleBarStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
 
-
-
-
-        public Style BottomBarStyle
-        {
-            get { return (Style)GetValue(BottomBarStyleProperty); }
-            set { SetValue(BottomBarStyleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for BottomBarStyle.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty BottomBarStyleProperty =
-            DependencyProperty.Register("BottomBarStyle", typeof(Style), typeof(CardPresenter), new PropertyMetadata(null));
-
-
-
         public Style TitleTextStyle
         {
             get { return (Style)GetValue(TitleTextStyleProperty); }

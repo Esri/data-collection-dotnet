@@ -30,7 +30,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
     {
         public OverlayCard() : base()
         {
-            BottomAccessories = new ObservableCollection<UIElement>();
             TopAccessories = new ObservableCollection<UIElement>();
         }
 
@@ -74,15 +73,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards
         public static readonly DependencyProperty SecondarySubtitleProperty =
             DependencyProperty.Register(nameof(SecondarySubtitle), typeof(string), typeof(OverlayCard), new PropertyMetadata(null));
 
-        public ObservableCollection<UIElement> BottomAccessories
-        {
-            get { return (ObservableCollection<UIElement>)GetValue(BottomAccessoriesProperty); }
-            set { SetValue(BottomAccessoriesProperty, value); }
-        }
 
-        // Using a DependencyProperty as the backing store for BottomAccessories.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty BottomAccessoriesProperty =
-            DependencyProperty.Register(nameof(BottomAccessories), typeof(ObservableCollection<UIElement>), typeof(OverlayCard), new PropertyMetadata(null));
 
         public ObservableCollection<UIElement> TopAccessories
         {

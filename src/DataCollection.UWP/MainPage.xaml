@@ -174,10 +174,9 @@
             <!-- Floating sheets & widgets -->
             <cards:CardDeck panels:MapLayoutPanel.LayoutRole="FloatingSheet" 
                             CardPresenterStyle="{StaticResource BasicCardStyle}"
-                                Margin="{x:Bind MapLayoutPanel.IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,5,0,0|5', Mode=OneWay}"
+                            Margin="{x:Bind MapLayoutPanel.IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,4,0,0|4', Mode=OneWay}"
                             NavigationContainerStyle="{StaticResource NavContainerStyle}"
                             NavigationItemTemplate="{StaticResource NavItemTemplate}">
-                <!-- TODO - responsive value -->
                 <cards:CardDeck.Cards>
                     <cards:OverlayCard Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
                                        IconSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.IconImageSource, Mode=OneWay}"

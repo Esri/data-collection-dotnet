@@ -9,9 +9,6 @@
     <Import_RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Tabs\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Cards\CardDeck.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cards\CardPresenter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cards\OverlayCard.cs" />
