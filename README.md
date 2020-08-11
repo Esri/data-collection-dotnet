@@ -1,5 +1,28 @@
 # Data Collection .NET
 
+<!-- MDTOC maxdepth:6 firsth1:0 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
+
+- [Features](#features)   
+- [Best practices](#best-practices)   
+- [Detailed Documentation](#detailed-documentation)   
+- [Get started](#get-started)   
+   - [Fork the repo](#fork-the-repo)   
+   - [Clone the repo](#clone-the-repo)   
+      - [Command line Git](#command-line-git)   
+   - [Configuring a Remote for a Fork](#configuring-a-remote-for-a-fork)   
+   - [Configure the app](#configure-the-app)   
+      - [1. Register an application](#1-register-an-application)   
+      - [2. Configure the project](#2-configure-the-project)   
+- [Learn more](#learn-more)   
+- [Requirements](#requirements)   
+- [Contribute](#contribute)   
+- [MDTOC](#mdtoc)   
+- [License](#license)   
+   - [3rd-party component licensing](#3rd-party-component-licensing)   
+
+<!-- /MDTOC -->
+---
+
 Data Collection for .NET shows how a robust application can be built with the ArcGIS Platform using the ArcGIS Runtime SDK for .NET, WPF, and UWP. It demonstrates best practices around some simple but key functionality of the ArcGIS Runtime. Using your organization's web maps, you can use Data Collection as-is, or extend it to meet your specific needs.
 
 ![Screenshot of the data collection app for WPF, showing the Portland Tree Survey dataset with an identified feature popup](docs/images/anatomy-identified-feature.png)
@@ -29,6 +52,10 @@ The project also demonstrates some patterns for building real-world apps around 
 * ArcGIS asynchronous service pattern
 * Cross-platform application design
 * Model-View-ViewModel pattern
+
+## Detailed Documentation
+
+Read the [docs](./docs/README.md) for a detailed explanation of the application, including its architecture and how it leverages the ArcGIS platform, as well as how you can begin using the app right away.
 
 ## Get started
 
@@ -101,12 +128,16 @@ Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/exam
 
 ## Contribute
 
-Anyone and everyone is welcome to [contribute](CONTRIBUTING.md). We do accept pull requests.
+Anyone and everyone is welcome to [contribute](https://github.com/esri/contributing). We do accept pull requests.
 
 1. Get involved
 2. Report issues
 3. Contribute code
 4. Improve documentation
+
+## MDTOC
+
+Generating table of contents for documents in this repository was performed using the [MDTOC package for Atom](https://atom.io/packages/atom-mdtoc).
 
 ## License
 
