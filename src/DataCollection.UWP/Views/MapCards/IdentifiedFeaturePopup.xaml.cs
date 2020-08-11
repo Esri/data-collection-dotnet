@@ -23,13 +23,14 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 {
     /// <summary>
     /// Interaction logic for IdentifiedFeaturePopup.xaml
     /// </summary>
-    public sealed partial class IdentifiedFeaturePopup : UserControl, INotifyPropertyChanged
+    public sealed partial class IdentifiedFeaturePopup : CardBase, INotifyPropertyChanged
     {
         public IdentifiedFeaturePopup()
         {
@@ -40,6 +41,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             {
                 if (DataContext is MainViewModel mainViewModel)
                 {
+                    _mainViewModel = mainViewModel;
+                    OnPropertyChanged(nameof(MainViewModel));
                     mainViewModel.PropertyChanged += (o, a) =>
                     {
                         if (a.PropertyName == nameof(IdentifiedFeatureViewModel))
@@ -49,6 +52,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
                     };
                 }
             };
+        }
+
+        private MainViewModel _mainViewModel;
+
+        public MainViewModel MainViewModel
+        {
+            get => _mainViewModel;
         }
 
         private IdentifiedFeatureViewModel _identifiedFeatureViewModel;

@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Styles/ControlOverrides.xaml" />
                 <ResourceDictionary Source="Styles/Controls.xaml" />
                 <ResourceDictionary Source="Styles/DataTemplates.xaml" />
+                <ResourceDictionary Source="SharedConverters.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -14,6 +14,7 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Helpers;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
     /// <summary>
     /// Interaction logic for IdentifiedFeaturePopup.xaml
     /// </summary>
-    public partial class IdentifiedFeaturePopup : UserControl
+    public partial class IdentifiedFeaturePopup
     {
         public IdentifiedFeaturePopup()
         {

@@ -22,13 +22,14 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 {
     /// <summary>
     /// Interaction logic for DestinationRelatedRecordPopup.xaml
     /// </summary>
-    public sealed partial class DestinationRelatedRecordPopup : UserControl, INotifyPropertyChanged
+    public sealed partial class DestinationRelatedRecordPopup : CardBase, INotifyPropertyChanged
     {
         public DestinationRelatedRecordPopup()
         {
@@ -37,31 +38,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             // set the DestinationRelationshipViewModel property when DataContext changes and DestinationRelationshipViewModel is set
             DataContextChanged += (s, e) =>
             {
-                if (DataContext is IdentifiedFeatureViewModel identifiedFeatureViewModel)
+                if (DataContext is MainViewModel mainVM)
                 {
-                    identifiedFeatureViewModel.PropertyChanged += (o, a) =>
-                    {
-                        if (a.PropertyName == "SelectedDestinationRelationship")
-                            DestinationRelationshipViewModel = identifiedFeatureViewModel.SelectedDestinationRelationship;
-                    };
+                    MainViewModel = mainVM;
+                    OnPropertyChanged(nameof(MainViewModel));
                 }
             };
         }
 
-        private DestinationRelationshipViewModel _destinationRelationshipViewModel;
-
-        /// <summary>
-        /// Gets or sets the DestinationRelationshipViewModel
-        /// </summary>
-        public DestinationRelationshipViewModel DestinationRelationshipViewModel
-        {
-            get => _destinationRelationshipViewModel;
-            set
-            {
-                _destinationRelationshipViewModel = value;
-                OnPropertyChanged();
-            }
-        }
+        public MainViewModel MainViewModel { get; private set; }
 
         /// <summary>
         /// Raises the <see cref="PropertyChanged" /> event

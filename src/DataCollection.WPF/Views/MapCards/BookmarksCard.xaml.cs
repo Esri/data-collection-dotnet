@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,18 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.MapCards
 {
     /// <summary>
-    /// Interaction logic for TocCard.xaml
+    /// Interaction logic for BookmarksCard.xaml
     /// </summary>
-    public partial class TocCard
+    public partial class BookmarksCard
     {
-        public TocCard()
+        public BookmarksCard()
         {
             InitializeComponent();
         }

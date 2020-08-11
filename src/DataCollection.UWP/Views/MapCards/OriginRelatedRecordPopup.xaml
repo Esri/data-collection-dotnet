@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<customcontrols:CardBase
+    xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
     x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.OriginRelatedRecordPopup"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -18,12 +19,52 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="OriginRelatedRecordGrid">
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Pivot x:Name="OriginRelatedRecordPivot" Grid.Row="0"
+        <Border Style="{StaticResource CardTopBar}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image Source="{x:Bind IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}" 
+                       Margin="{StaticResource padding-default}"
+                       Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.IconImageSource, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}"
+                       Style="{StaticResource TitleBarImageStyle}" />
+                <TextBlock Text="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                           Style="{StaticResource BaseTextBlockStyle}" 
+                           VerticalAlignment="Center"
+                           FontSize="{StaticResource chrome-font-size-large}"
+                           Margin="{StaticResource padding-default}"
+                           FontWeight="Normal"
+                           Grid.Column="1" />
+                <Button Command="{x:Bind ToggleStateCommand}"
+                        Grid.Column="2"
+                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                        Style="{StaticResource CardCloseButton}">
+                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}"  />
+                </Button>
+                <Button Command="{x:Bind ToggleStateCommand}"
+                        Grid.Column="2"
+                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                        Style="{StaticResource CardCloseButton}">
+                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}"  />
+                </Button>
+                <Button Command="{x:Bind IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" 
+                        Grid.Column="3"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
+                        Style="{StaticResource CardCloseButton}">
+                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                </Button>
+            </Grid>
+        </Border>
+        <Pivot x:Name="OriginRelatedRecordPivot" Grid.Row="1"
                Style="{StaticResource CardPivot}">
             <PivotItem Header="{x:Bind Converter={StaticResource LC}, ConverterParameter=DetailsHeading}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
@@ -45,7 +86,7 @@
         </Pivot>
 
         <!--  Bottom buttons  -->
-        <Grid Grid.Row="1" Style="{StaticResource CardBottomStrip}" >
+        <Grid Grid.Row="2" Style="{StaticResource CardBottomStrip}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -104,4 +145,4 @@
             </Button>
         </Grid>
     </Grid>
-</UserControl>
+</customcontrols:CardBase>

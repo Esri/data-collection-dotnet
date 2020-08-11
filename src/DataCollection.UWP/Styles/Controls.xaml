@@ -174,7 +174,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="Margin" Value="{StaticResource margin-right-only}" />
-        <Setter Property="Padding" Value="{StaticResource padding-default}" />
+        <Setter Property="Padding" Value="8,4,8,4" />
         <Setter Property="BorderBrush" Value="#AAAAAAAA" />
         <Setter Property="BorderThickness" Value="{StaticResource chrome-border-thickness}" />
     </Style>
@@ -515,5 +515,10 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
+    <Style TargetType="Border" x:Key="CardTopBar">
+        <Setter Property="Background" Value="{ThemeResource chrome-background}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource tint}" />
+        <Setter Property="BorderThickness" Value="0,4,0,0" />
     </Style>
 </ResourceDictionary>

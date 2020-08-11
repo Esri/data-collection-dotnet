@@ -78,6 +78,15 @@
     <Compile Include="Helpers\BrowseHelper.cs" />
     <Compile Include="LocalizedStrings\Resources.Designer.cs" />
     <Compile Include="ViewModels\SignInWindowViewModel.cs" />
+    <Compile Include="Views\MapCards\BookmarksCard.xaml.cs">
+      <DependentUpon>BookmarksCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MapCards\LegendCard.xaml.cs">
+      <DependentUpon>LegendCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NavBar.xaml.cs">
+      <DependentUpon>NavBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TitleBar.xaml.cs">
       <DependentUpon>TitleBar.xaml</DependentUpon>
     </Compile>
@@ -160,6 +169,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Light.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MapCards\BookmarksCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MapCards\LegendCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NavBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

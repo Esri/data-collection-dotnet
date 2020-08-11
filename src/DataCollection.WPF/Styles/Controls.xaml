@@ -685,4 +685,17 @@
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="panels:MapLayoutPanel.LayoutRole" Value="TransientOverlay" />
     </Style>
+    <Style TargetType="TextBlock" x:Key="CardTitle">
+                            <Setter Property="Foreground" Value="{DynamicResource chrome-foreground}" />
+                            <Setter Property="FontSize" Value="{StaticResource chrome-font-size-large}" />
+                            <Setter Property="FontWeight" Value="Light" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+
+    <Style TargetType="Border" x:Key="CardTitleBar">
+        <Setter Property="Background" Value="{DynamicResource chrome-background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource tint}" />
+        <Setter Property="BorderThickness" Value="0,4,0,0" />
+    </Style>
 </ResourceDictionary>

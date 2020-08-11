@@ -1,6 +1,5 @@
-<UserControl
-    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.IdentifiedFeaturePopup"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ctrl:CardBase xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.IdentifiedFeaturePopup"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,6 +9,8 @@
     xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views"
     d:DesignHeight="600"
     d:DesignWidth="400"
+               x:Name="Self"
+    xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -19,20 +20,53 @@
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
             <Style TargetType="TextBlock" x:Key="PopupSectionHeaderStyle">
-        <Setter Property="Foreground" Value="{DynamicResource tint}" />
-        <Setter Property="FontSize" Value="{StaticResource chrome-font-size-large}" />
-    </Style>
+                <Setter Property="Foreground" Value="{DynamicResource tint}" />
+                <Setter Property="FontSize" Value="{StaticResource chrome-font-size-large}" />
+            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/DataTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid DataContext="{Binding IdentifiedFeatureViewModel}" Background="{DynamicResource content-background}">
+    <Grid Background="{DynamicResource content-background}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Border Style="{StaticResource CardTitleBar}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding IdentifiedFeatureViewModel.IconImageSource}" Style="{StaticResource TitleBarIconImageStyle}" />
+                <TextBlock Text="{Binding IdentifiedFeatureViewModel.PopupManager.Title}" Style="{StaticResource CardTitle}"
+                           Grid.Column="1" />
+                <Button Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
+                        Grid.Column="2"
+                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Style="{StaticResource CardCloseStyle}">
+                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}"  />
+                </Button>
+                <Button Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
+                        Grid.Column="2"
+                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Style="{StaticResource CardCloseStyle}">
+                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}"  />
+                </Button>
+                <Button Command="{Binding ClearIdentifiedFeatureCommand, Mode=OneWay}" 
+                        Grid.Column="3"
+                        Style="{StaticResource CardCloseStyle}">
+                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}"  />
+                </Button>
+            </Grid>
+        </Border>
         <TabControl BorderThickness="0" 
+                    Grid.Row="1"
+                    DataContext="{Binding IdentifiedFeatureViewModel}"
                     Background="{DynamicResource content-background}" 
                     Foreground="{DynamicResource content-foreground}">
             <TabItem Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DetailsHeading}" 
@@ -45,7 +79,7 @@
             PanningMode="VerticalOnly"
             VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                    <TextBlock Style="{StaticResource PopupSectionHeaderStyle}" 
+                        <TextBlock Style="{StaticResource PopupSectionHeaderStyle}" 
                                Margin="{StaticResource margin-bottom-only}"
                                Text="Attributes" />
                         <!--  View Mode  -->
@@ -136,7 +170,7 @@
                                             <Run Text="{Binding RelatedTable.PopupDefinition.Title}" />
                                             <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=RelatedRecordTableSuffix}" />
                                         </TextBlock>
-                                            <Button Style="{StaticResource MapOverlayButtonStyle}" Margin="{StaticResource margin-top-bottom}"
+                                        <Button Style="{StaticResource MapOverlayButtonStyle}" Margin="{StaticResource margin-top-bottom}"
                                                     Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                     CommandParameter="{Binding .}"
                                                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}">
@@ -269,7 +303,7 @@
         </TabControl>
 
         <!--  Bottom Buttons  -->
-        <Grid Grid.Row="1" Style="{StaticResource CardControlStripStyle}">
+        <Grid Grid.Row="2" Style="{StaticResource CardControlStripStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -337,4 +371,4 @@
             Text="{Binding AttachmentsViewModel.NewAttachmentPath, Mode=TwoWay}"
             Visibility="Collapsed" />
     </Grid>
-</UserControl>
+</ctrl:CardBase>

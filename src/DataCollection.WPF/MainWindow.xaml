@@ -13,7 +13,7 @@
     xmlns:MapUI="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls" 
     xmlns:cards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
     xmlns:cc="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards" 
-    xmlns:transientoverlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays"
+    xmlns:transientoverlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays" xmlns:customcontrols="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls" xmlns:mapcards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.MapCards"
     Title="Data Collection for .NET (WPF)"
     UseLayoutRounding="True"
     BorderBrush="{DynamicResource tint}" 
@@ -33,24 +33,22 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid x:Name="OuterGrid" DataContext="{StaticResource MainViewModel}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <views:TitleBar x:Name="TitleBarControl" DataContext="{StaticResource MainViewModel}"  />
-
-        <MapUI:MapLayoutPanel DataContext="{StaticResource MainViewModel}" Grid.Row="1"
-                              WidthBreakpoint="600"
+        <customcontrols:ModernMapPanel DataContext="{StaticResource MainViewModel}"
+                                       ExpandedCardWidth="350"
+                                       ExpandedWidthMinimum="600"
+                                       CollapsedCardHeight="300"
                               x:Name="ParentPanel">
+            <views:TitleBar x:Name="TitleBarControl" DataContext="{StaticResource MainViewModel}"
+                            customcontrols:ModernMapPanel.Role="Titlebar"/>
+
             <!--  MapView control  -->
             <esri:MapView
             x:Name="MapView"
-            MapUI:MapLayoutPanel.LayoutRole="BackgroundView"
+            customcontrols:ModernMapPanel.Role="GeoView"
             utils:MapViewExtensions.IdentifyController="{Binding IdentifyController}"
             utils:MapViewExtensions.MapAccessoryViewModel="{Binding MapAccessoryViewModel}"
             Cursor="{Binding IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToCursorConverter}}"
             IsAttributionTextVisible="False"
-            ViewInsets="{Binding ElementName=ParentPanel, Path=SafeViewInsets, Mode=OneWay}"
             Map="{Binding MapViewModel.Map, Mode=TwoWay}">
                 <utils:MapViewExtensions.ViewpointController>
                     <utils:ViewpointController Viewpoint="{Binding MapViewModel.AreaOfInterest, Source={StaticResource MainViewModel}, Mode=TwoWay}" />
@@ -60,7 +58,7 @@
                 </utils:MapViewExtensions.LocationDisplayController>
             </esri:MapView>
 
-            <Canvas MapUI:MapLayoutPanel.LayoutRole="BackgroundView">
+            <Canvas customcontrols:ModernMapPanel.Role="ContextCanvas">
                 <Path x:Name="IdentifyProgressBar"
               Grid.RowSpan="3"
                Canvas.Left="{Binding IdentifyController.TappedScreenPosition, Converter={StaticResource PointToDoubleConverter}, ConverterParameter=Left|-22, Mode=OneWay}"
@@ -87,87 +85,90 @@
                 </Path>
             </Canvas>
 
-            <StackPanel Style="{StaticResource MapAccessoryPanel}"
-                        MapUI:MapLayoutPanel.AttachPosition="TopLeft"
-                        MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory">
-                <Button Style="{StaticResource MapAccessoryButtonStyle}"
+            <StackPanel Orientation="Vertical"
+                        customcontrols:ModernMapPanel.Role="Accessory"
+                        HorizontalAlignment="Left" VerticalAlignment="Top">
+                <StackPanel Style="{StaticResource MapAccessoryPanel}">
+                    <Button Style="{StaticResource MapAccessoryButtonStyle}"
                         ToolTip="{Binding {x:Null}, ConverterParameter=MapAccessory_HomeButton_Tooltip, Converter={StaticResource LC}}"
                         Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.GoHomeCommand}">
-                    <Path Data="{StaticResource icon-home-16}" Style="{StaticResource MapAccessoryIconStyle}" />
-                </Button>
-            </StackPanel>
+                        <Path Data="{StaticResource icon-home-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                    </Button>
+                </StackPanel>
 
-            <StackPanel Style="{StaticResource MapAccessoryPanel}"
-                        MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
-                        MapUI:MapLayoutPanel.AttachPosition="TopLeft">
-                <Button Style="{StaticResource MapAccessoryButtonStyle}"
+                <StackPanel Style="{StaticResource MapAccessoryPanel}">
+                    <Button Style="{StaticResource MapAccessoryButtonStyle}"
                         ToolTip="{Binding {x:Null}, ConverterParameter=MapAccessory_PlusButton_Tooltip, Converter={StaticResource LC}}"
                         Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ZoomInCommand}">
-                    <Path Data="{StaticResource icon-plus-16}" Style="{StaticResource MapAccessoryIconStyle}" />
-                </Button>
-                <Button Style="{StaticResource MapAccessoryButtonStyle}"
+                        <Path Data="{StaticResource icon-plus-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                    </Button>
+                    <Button Style="{StaticResource MapAccessoryButtonStyle}"
                         ToolTip="{Binding {x:Null}, ConverterParameter=MapAccessory_MinusButton_Tooltip, Converter={StaticResource LC}}"
                         Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ZoomOutCommand}">
-                    <Path Data="{StaticResource icon-minus-16}" Style="{StaticResource MapAccessoryIconStyle}" />
-                </Button>
-            </StackPanel>
+                        <Path Data="{StaticResource icon-minus-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                    </Button>
+                </StackPanel>
 
-            <StackPanel Style="{StaticResource MapAccessoryPanel}"
-                        MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
-                        MapUI:MapLayoutPanel.AttachPosition="TopLeft">
-                <!--  Current Location Button  -->
-                <Button Style="{StaticResource MapAccessoryButtonStyle}"
+                <StackPanel Style="{StaticResource MapAccessoryPanel}">
+                    <!--  Current Location Button  -->
+                    <Button Style="{StaticResource MapAccessoryButtonStyle}"
                         Command="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.MoveToCurrentLocationCommand}"
                         IsEnabled="{Binding Source={StaticResource MainViewModel}, Path=MapViewModel.IsLocationStarted}"
                         ToolTip="{Binding {x:Null}, Converter={StaticResource LC}, ConverterParameter=CurrentLocationButton_Label}">
-                    <Path Data="{StaticResource icon-gps-on-16}" Style="{StaticResource MapAccessoryIconStyle}" />
-                </Button>
+                        <Path Data="{StaticResource icon-gps-on-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                    </Button>
+                </StackPanel>
+                <!--  Compass control that displays when user rotates the map  -->
+                <esri:Compass Margin="{StaticResource margin-default}"
+                          AutoHide="True"
+                          HorizontalAlignment="Center"
+                          Width="44" Height="44"
+                          GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
+
             </StackPanel>
 
-            <!-- Widget Controls -->
-            <StackPanel Style="{StaticResource MapAccessoryPanel}" 
-                        MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" 
-                        MapUI:MapLayoutPanel.AttachPosition="TopRight"
+            <StackPanel customcontrols:ModernMapPanel.Role="Accessory"
+                        VerticalAlignment="Top" HorizontalAlignment="Right">
+                <!-- Widget Controls -->
+                <StackPanel Style="{StaticResource MapAccessoryPanel}" 
                         DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}">
-                <Button Command="{Binding ToggleBookmarksCommand, Mode=OneTime}" 
+                    <Button Command="{Binding ToggleBookmarksCommand, Mode=OneTime}" 
                          Style="{StaticResource MapAccessoryButtonStyle}"
                          ToolTip="{Binding {x:Null}, Converter={StaticResource LC}, ConverterParameter=ShowBookmarksButton_Label}"
                          Visibility="{Binding ElementName=MapView, Path=Map.Bookmarks, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <Path Data="{StaticResource icon-bookmark-16}" Style="{StaticResource MapAccessoryIconStyle}" />
-                </Button>
-                <!--  Legend Button -->
-                <Button Command="{Binding ToggleLayersCommand, Mode=OneTime}"
+                        <Path Data="{StaticResource icon-bookmark-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                    </Button>
+                    <!--  Legend Button -->
+                    <Button Command="{Binding ToggleLayersCommand, Mode=OneTime}"
                         Style="{StaticResource MapAccessoryButtonStyle}"
                         ToolTip="{Binding {x:Null}, Converter={StaticResource LC}, ConverterParameter=ShowLegendButton_Label}">
-                    <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource MapAccessoryIconStyle}" />
-                </Button>
-                <!--  TOC Button -->
-                <Button Command="{Binding ToggleTocCommand}"
+                        <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                    </Button>
+                    <!--  TOC Button -->
+                    <Button Command="{Binding ToggleTocCommand}"
                         Style="{StaticResource MapAccessoryButtonStyle}"
                         ToolTip="{Binding {x:Null}, Converter={StaticResource LC}, ConverterParameter=ShowTOCButton_Label}">
-                    <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource MapAccessoryIconStyle}" />
-                </Button>
-            </StackPanel>
+                        <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource MapAccessoryIconStyle}" />
+                    </Button>
+                </StackPanel>
 
-            <!-- Editing Controls -->
-            <StackPanel Style="{StaticResource MapAccessoryPanel}"
-                        Margin="{StaticResource padding-default}"
-                        MapUI:MapLayoutPanel.AttachPosition="TopRight"
-                        MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory">
-                <!--  Add Feature Button  -->
-                <Button Style="{StaticResource MapAccessoryButtonStyle}"
+                <!-- Editing Controls -->
+                <StackPanel Style="{StaticResource MapAccessoryPanel}"
+                        Margin="{StaticResource padding-default}">
+                    <!--  Add Feature Button  -->
+                    <Button Style="{StaticResource MapAccessoryButtonStyle}"
                         Command="{Binding Source={StaticResource MainViewModel}, Path=StartNewFeatureCommand, Mode=OneWay}"
                         IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"
                         ToolTip="{Binding {x:Null}, Converter={StaticResource LC}, ConverterParameter=AddFeatureButton_Label}"
                         Visibility="{Binding IsAddingFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" >
-                    <Path Data="{StaticResource icon-plus-circle-16}" Style="{StaticResource MapAccessoryIconStyle}" Fill="{DynamicResource success}" />
-                </Button>
+                        <Path Data="{StaticResource icon-plus-circle-16}" Style="{StaticResource MapAccessoryIconStyle}" Fill="{DynamicResource success}" />
+                    </Button>
+                </StackPanel>
             </StackPanel>
 
             <!-- Attribution Controls -->
             <Button Style="{StaticResource OnMapAttributionButtonStyle}"
-                    MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory"
-                    MapUI:MapLayoutPanel.AttachPosition="BottomRight"
+                    customcontrols:ModernMapPanel.Role="Attribution"
                     Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleAttributionCommand}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -189,108 +190,47 @@
                 </Grid>
             </Button>
 
-            <!--  Compass control that displays when user rotates the map  -->
-            <esri:Compass Margin="{StaticResource margin-default}"
-                          MapUI:MapLayoutPanel.LayoutRole="FloatingAccessory" 
-                          MapUI:MapLayoutPanel.AttachPosition="TopLeft"
-                          AutoHide="True"
-                          HorizontalAlignment="Center"
-                          Width="44" Height="44"
-                          GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
-                        
-            <cards:CardDeck MapUI:MapLayoutPanel.LayoutRole="FloatingSheet"
-                            CardPresenterStyle="{StaticResource BasicCardStyle}"
-                            NavigationContainerStyle="{StaticResource NavContainerStyle}"
-                            Background="{DynamicResource content-background}"
-                            DataContext="{Binding MapAccessoryViewModel}"
-                            NavigationItemTemplate="{StaticResource NavItemTemplate}"
-                            Margin="{Binding IsCollapsed, ElementName=ParentPanel, Converter={StaticResource RVC}, ConverterParameter='0,5,0,0|10'}">
-                <cards:CardDeck.Cards>
-                    <cards:OverlayCard Title="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.PopupManager.Title}"
-                                       IconSource="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.IconImageSource}"
-                                       IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}}">
-                        <views:IdentifiedFeaturePopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
-                        <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=ClearIdentifiedFeatureCommand, Mode=OneTime}" Style="{StaticResource CardCloseStyle}">
-                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}"  />
-                            </Button>
-                        </cards:OverlayCard.TopAccessories>
-                    </cards:OverlayCard>
+            <views:NavBar customcontrols:ModernMapPanel.Role="CardAdorner"
+                          Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,0,0,-4|8,8,0,-8'}"
+                          ParentPanel="{Binding ElementName=ParentPanel}" />
 
-                    <cards:OverlayCard Title="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
-                                       IconSource="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedOriginRelationship.IconImageSource, Mode=OneWay}"
-                                       IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
-                        <views:OriginRelatedRecordPopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
-                        <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" 
-                                    Style="{StaticResource CardCloseStyle}">
-                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}"  />
-                            </Button>
-                        </cards:OverlayCard.TopAccessories>
-                    </cards:OverlayCard>
-
-                    <cards:OverlayCard Title="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
-                                       IconSource="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
-                                       IsOpen="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.SelectedDestinationRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}">
-                        <views:DestinationRelatedRecordPopup DataContext="{Binding Source={StaticResource MainViewModel}}" />
-                        <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" 
-                                    Style="{StaticResource CardCloseStyle}">
-                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
-                            </Button>
-                        </cards:OverlayCard.TopAccessories>
-                    </cards:OverlayCard>
-
-                    <cards:OverlayCard
-                        Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
-                        IsOpen="{Binding MapAccessoryViewModel.IsTocOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
-                        <cc:TocCard MapAccessoryViewModel="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel, Mode=OneWay}" />
-                        <cards:OverlayCard.IconContent>
-                            <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconBase}" Margin="8,8,4,8" />
-                        </cards:OverlayCard.IconContent>
-                        <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleTocCommand, Mode=OneTime}" 
-                                    Style="{StaticResource CardCloseStyle}">
-                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
-                            </Button>
-                        </cards:OverlayCard.TopAccessories>
-                    </cards:OverlayCard>
-
-                    <cards:OverlayCard Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
-                                       IsOpen="{Binding MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
-                        <cards:OverlayCard.IconContent>
-                            <Path Data="{StaticResource icon-bookmark-16}" Style="{StaticResource PathIconBase}" Margin="8,8,4,8" />
-                        </cards:OverlayCard.IconContent>
-                        <esri:BookmarksView GeoView="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.MapView, Mode=OneTime}"
-                                            ItemTemplate="{StaticResource BookmarksViewItemTemplate}" />
-                        <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneTime}" 
-                                    Style="{StaticResource CardCloseStyle}">
-                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
-                            </Button>
-                        </cards:OverlayCard.TopAccessories>
-                    </cards:OverlayCard>
-
-                    <cards:OverlayCard Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
-                                       IsOpen="{Binding MapAccessoryViewModel.IsLayersOpen, Mode=OneWay, Source={StaticResource MainViewModel}}">
-                        <esri:Legend GeoView="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.MapView, Mode=OneWay}"
-                                     Background="{DynamicResource content-background}"/>
-                        <cards:OverlayCard.IconContent>
-                            <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconBase}" Margin="8,8,4,8" />
-                        </cards:OverlayCard.IconContent>
-                        <cards:OverlayCard.TopAccessories>
-                            <Button Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" 
-                                    Style="{StaticResource CardCloseStyle}">
-                                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
-                            </Button>
-                        </cards:OverlayCard.TopAccessories>
-                    </cards:OverlayCard>
-
-                </cards:CardDeck.Cards>
-            </cards:CardDeck>
+            <views:IdentifiedFeaturePopup customcontrols:ModernMapPanel.Role="Card"
+                                          customcontrols:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.PopupManager.Title}"
+                                          Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                                          DataContext="{StaticResource MainViewModel}"
+                                          IsOpen="{Binding IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}}" />
             
+            <views:OriginRelatedRecordPopup IsOpen="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}"
+                                            Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                                            customcontrols:ModernMapPanel.Role="Card"
+                                            customcontrols:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                                            DataContext="{StaticResource MainViewModel}" />
+
+            <views:DestinationRelatedRecordPopup DataContext="{StaticResource MainViewModel}"
+                                                 IsOpen="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}"
+                                                 customcontrols:ModernMapPanel.Role="Card"
+                                                 Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                                                 customcontrols:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title}" />
+            <cc:TocCard DataContext="{StaticResource MainViewModel}"
+                        IsOpen="{Binding MapAccessoryViewModel.IsTocOpen, Mode=OneWay}"
+                        customcontrols:ModernMapPanel.Role="Card"
+                        Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                        customcontrols:ModernMapPanel.Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}" />
+            <mapcards:BookmarksCard DataContext="{StaticResource MainViewModel}"
+                                    IsOpen="{Binding MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay}"
+                                    customcontrols:ModernMapPanel.Role="Card"
+                                    Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                                    customcontrols:ModernMapPanel.Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}" />
+
+            <mapcards:LegendCard DataContext="{StaticResource MainViewModel}"
+                                 IsOpen="{Binding MapAccessoryViewModel.IsLayersOpen, Mode=OneWay}"
+                                 customcontrols:ModernMapPanel.Role="Card"
+                                 Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                                 customcontrols:ModernMapPanel.Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}" />
+
             <!--  Sync View  -->
             <Grid Style="{StaticResource TransientOverlayBackground}"
+                  customcontrols:ModernMapPanel.Role="ModalLightbox"
                   Visibility="{Binding SyncViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                 <transientoverlays:SyncProgressView DataContext="{Binding Source={StaticResource MainViewModel}, Path=SyncViewModel}"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -298,6 +238,7 @@
 
             <!-- Attribution overlay -->
             <Grid Style="{StaticResource TransientOverlayBackground}"
+                  customcontrols:ModernMapPanel.Role="ModalLightbox"
                   Visibility="{Binding MapAccessoryViewModel.IsAttributionOpen, Converter={StaticResource BoolToVisibilityConverter}}">
                 <transientoverlays:AttributionOverlay DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -305,18 +246,19 @@
 
             <!--  New feature overlay  -->
             <views:AddFeatureView x:Name="AddFeatureView"
-                                  MapUI:MapLayoutPanel.LayoutRole="TransientOverlay"
+                                  customcontrols:ModernMapPanel.Role="ModalLightbox"
                                   Visibility="{Binding IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
             <!--  Download view  -->
-            <views:DownloadView MapUI:MapLayoutPanel.LayoutRole="TransientOverlay"
+            <views:DownloadView 
+                                customcontrols:ModernMapPanel.Role="ModalLightbox"
                                 Visibility="{Binding DownloadViewModel, Converter={StaticResource NullToVisibilityConverter}}"
                                 VisibleArea="{Binding ElementName=MapView, Path=VisibleArea}" />
 
             <!--  Sign In Window  -->
-            <views:SignInWindow MapUI:MapLayoutPanel.LayoutRole="TransientOverlay" />
+            <views:SignInWindow customcontrols:ModernMapPanel.Role="ModalLightbox"/>
 
-            <Grid MapUI:MapLayoutPanel.LayoutRole="TransientOverlay"
+            <Grid customcontrols:ModernMapPanel.Role="ModalLightbox"
                   Visibility="{Binding IsBusyWaiting, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                   Background="{StaticResource map-overlay-border-background}">
                 <Border Style="{StaticResource StatusPanelBorderStyle}"
@@ -331,6 +273,6 @@
                     </StackPanel>
                 </Border>
             </Grid>
-        </MapUI:MapLayoutPanel>
+        </customcontrols:ModernMapPanel>
     </Grid>
 </Window>

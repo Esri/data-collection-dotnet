@@ -23,13 +23,14 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 {
     /// <summary>
     /// Interaction logic for OriginRelatedRecordPopup.xaml
     /// </summary>
-    public sealed partial class OriginRelatedRecordPopup : UserControl, INotifyPropertyChanged
+    public sealed partial class OriginRelatedRecordPopup : CardBase, INotifyPropertyChanged
     {
         public OriginRelatedRecordPopup()
         {

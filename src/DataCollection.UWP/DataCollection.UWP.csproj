@@ -132,6 +132,15 @@
     <Compile Include="Views\IdentifyIndicatorOverlay.xaml.cs">
       <DependentUpon>IdentifyIndicatorOverlay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MapCards\BookmarksCard.xaml.cs">
+      <DependentUpon>BookmarksCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MapCards\LegendCard.xaml.cs">
+      <DependentUpon>LegendCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MapCards\TocCard.xaml.cs">
+      <DependentUpon>TocCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MapTransientOverlays\AddFeatureView.xaml.cs">
       <DependentUpon>AddFeatureView.xaml</DependentUpon>
     </Compile>
@@ -158,6 +167,9 @@
     </Compile>
     <Compile Include="Views\MapTransientOverlays\SyncProgressView.xaml.cs">
       <DependentUpon>SyncProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NavBar.xaml.cs">
+      <DependentUpon>NavBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Popups\OfflineMapStatusPanel.xaml.cs">
       <DependentUpon>OfflineMapStatusPanel.xaml</DependentUpon>
@@ -285,6 +297,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SharedConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ControlOverrides.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -310,6 +326,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\IdentifyIndicatorOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MapCards\BookmarksCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MapCards\LegendCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MapCards\TocCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -346,6 +374,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MapTransientOverlays\SyncProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NavBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,8 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP" 
+    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" 
+    xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels">
+   <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" /> 
+</ResourceDictionary>

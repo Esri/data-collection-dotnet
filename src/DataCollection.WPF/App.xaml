@@ -9,6 +9,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <localconverters:ConvertValueToCodedValueDomainValue x:Key="ConvertValueToCodedValueDomainValue" />
             <converters:LocalizationConverter x:Key="LC" />
             <ResourceDictionary.MergedDictionaries>
