@@ -174,7 +174,6 @@
         <Setter Property="TextElement.Background" Value="{DynamicResource chrome-background}" />
         <Setter Property="TextElement.Foreground" Value="{DynamicResource chrome-foreground}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Cursor" Value="{StaticResource action-cursor}" />
     </Style>
     <Style TargetType="ComboBox" x:Key="ComboboxValueStyle">
         <Setter Property="VerticalContentAlignment" Value="Center" />
