@@ -9,33 +9,31 @@
     xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:utils="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
     xmlns:views="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
-    xmlns:mapping="using:Esri.ArcGISRuntime.Mapping"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-    xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels" 
-    xmlns:cards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards" 
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:mapTransientOverlays="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapTransientOverlays" xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls" xmlns:mapcards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards"
+    xmlns:mapTransientOverlays="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapTransientOverlays" 
+    xmlns:ctrl="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+    xmlns:mapcards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
-            <panels:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
-            <panels:ResponsiveValueConverter x:Key="RVC" />
+            <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
+            <ctrl:ResponsiveValueConverter x:Key="RVC" />
         </ResourceDictionary>
     </Page.Resources>
 
     <!-- Map Area -->
-    <customcontrols:ModernMapPanel x:Name="MapLayoutPanel" Grid.Row="1"
+    <ctrl:ModernMapPanel x:Name="MapLayoutPanel" Grid.Row="1"
                                        ExpandedCardWidth="348"
                                        ExpandedWidthMinimum="600"
                                        CollapsedCardHeight="300">
         <views:TitleBar Grid.Row="0" MainViewModel="{x:Bind MainViewModel, Mode=OneWay}"
-                        customcontrols:ModernMapPanel.Role="Titlebar"/>
+                        ctrl:ModernMapPanel.Role="Titlebar"/>
         <!-- TODO: Do IdentifyController, MapAccessoryViewModel need to be one-way bound? -->
         <esri:MapView x:Name="MapView"
-                          customcontrols:ModernMapPanel.Role="GeoView"
+                          ctrl:ModernMapPanel.Role="GeoView"
                           IsAttributionTextVisible="False"
                           utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
                           utils:MapViewExtensions.MapAccessoryViewModel="{x:Bind MainViewModel.MapAccessoryViewModel, Mode=OneWay}"
@@ -51,10 +49,10 @@
 
         <!-- Identify spinner -->
         <views:IdentifyIndicatorOverlay MainViewModel="{x:Bind MainViewModel, Mode=OneWay}"
-                                            customcontrols:ModernMapPanel.Role="ContextCanvas" />
+                                            ctrl:ModernMapPanel.Role="ContextCanvas" />
         <!-- Map widget controls -->
         <StackPanel Orientation="Vertical"
-                    customcontrols:ModernMapPanel.Role="Accessory"
+                    ctrl:ModernMapPanel.Role="Accessory"
                     VerticalAlignment="Top" HorizontalAlignment="Right">
             <controls:DropShadowPanel Style="{StaticResource MapAccessoryShadow}">
                 <StackPanel Style="{StaticResource MapAccessoryContainerStack}">
@@ -79,8 +77,7 @@
             <!-- Editing buttons -->
             <controls:DropShadowPanel Style="{StaticResource MapAccessoryShadow}">
                 <StackPanel Style="{StaticResource MapAccessoryContainerStack}"
-                        HorizontalAlignment="Right"
-                        panels:MapLayoutPanel.AttachPosition="TopRight">
+                        HorizontalAlignment="Right">
                     <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_AddButton_Tooltip}"
                         Command="{x:Bind MainViewModel.StartNewFeatureCommand, Mode=OneTime}">
@@ -92,7 +89,7 @@
         </StackPanel>
 
         <!-- Navigation buttons -->
-        <StackPanel customcontrols:ModernMapPanel.Role="Accessory"
+        <StackPanel ctrl:ModernMapPanel.Role="Accessory"
                     HorizontalAlignment="Left" VerticalAlignment="Top">
             <controls:DropShadowPanel Style="{StaticResource MapAccessoryShadow}">
                 <StackPanel Style="{StaticResource MapAccessoryContainerStack}"
@@ -107,8 +104,7 @@
 
             <controls:DropShadowPanel Style="{StaticResource MapAccessoryShadow}">
                 <StackPanel Style="{StaticResource MapAccessoryContainerStack}"
-                        HorizontalAlignment="Left"
-                        panels:MapLayoutPanel.AttachPosition="TopLeft">
+                        HorizontalAlignment="Left">
                     <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_PlusButton_Tooltip}"
                         Command="{x:Bind MainViewModel.MapAccessoryViewModel.ZoomInCommand, Mode=OneTime}">
@@ -124,8 +120,7 @@
 
             <controls:DropShadowPanel Style="{StaticResource MapAccessoryShadow}">
                 <StackPanel Style="{StaticResource MapAccessoryContainerStack}"
-                        HorizontalAlignment="Left"
-                        panels:MapLayoutPanel.AttachPosition="TopLeft">
+                        HorizontalAlignment="Left">
                     <Button Style="{StaticResource MapAccessoryButton}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_GPSButton_Tooltip}"
                         IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}"
@@ -139,7 +134,7 @@
 
         <!-- Attribution -->
         <Button Style="{StaticResource AttributionButtonStyle}"
-                customcontrols:ModernMapPanel.Role="Attribution"
+                ctrl:ModernMapPanel.Role="Attribution"
                     ToolTipService.ToolTip="{x:Bind MapView.AttributionText, Mode=OneWay}"
                     Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleAttributionCommand, Mode=OneWay}">
             <Grid>
@@ -172,49 +167,49 @@
 
         <views:NavBar ParentPanel="{x:Bind MapLayoutPanel}"
                       Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,-8'}"
-                      customcontrols:ModernMapPanel.Role="CardAdorner" />
+                      ctrl:ModernMapPanel.Role="CardAdorner" />
 
         <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                       Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,8'}"
-                                      customcontrols:ModernMapPanel.Role="Card"
-                                      customcontrols:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
+                                      ctrl:ModernMapPanel.Role="Card"
+                                      ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
                                       IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}, Mode=OneWay, FallbackValue=False}" />
 
         <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                         Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,8'}"
-                                        customcontrols:ModernMapPanel.Role="Card"
-                                        customcontrols:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                                        ctrl:ModernMapPanel.Role="Card"
+                                        ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
                                         IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False, Mode=OneWay}"/>
         <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                              Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,8'}"
-                                             customcontrols:ModernMapPanel.Role="Card"
-                                             customcontrols:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
+                                             ctrl:ModernMapPanel.Role="Card"
+                                             ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
                                              IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}"/>
         <mapcards:TocCard MainViewModel="{x:Bind MainViewModel, Mode=OneWay}"
                           Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,8'}"
-                          customcontrols:ModernMapPanel.Role="Card"
-                          customcontrols:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
+                          ctrl:ModernMapPanel.Role="Card"
+                          ctrl:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
                           IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsTocOpen, Mode=OneWay}"/>
         <mapcards:BookmarksCard MainViewModel="{x:Bind MainViewModel, Mode=OneWay}"
                                 Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,8'}"
-                                customcontrols:ModernMapPanel.Role="Card"
-                                customcontrols:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
+                                ctrl:ModernMapPanel.Role="Card"
+                                ctrl:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
                                 IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay}" />
         <mapcards:LegendCard MainViewModel="{x:Bind MainViewModel, Mode=OneWay}"
                              Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,8'}"
-                             customcontrols:ModernMapPanel.Role="Card"
-                             customcontrols:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
+                             ctrl:ModernMapPanel.Role="Card"
+                             ctrl:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
                              IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsLayersOpen, Mode=OneWay}" />
 
         <views:AddFeatureView DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-                              customcontrols:ModernMapPanel.Role="ModalLightbox"
+                              ctrl:ModernMapPanel.Role="ModalLightbox"
                                   Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-        <views:DownloadView customcontrols:ModernMapPanel.Role="ModalLightbox"
+        <views:DownloadView ctrl:ModernMapPanel.Role="ModalLightbox"
                                 DataContext="{x:Bind MainViewModel, Mode=OneWay}"
                                 Visibility="{x:Bind MainViewModel.DownloadViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
                                 VisibleArea="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}" />
         <mapTransientOverlays:SyncProgressView DataContext="{x:Bind MainViewModel.SyncViewModel, Mode=OneWay}"
-                                               customcontrols:ModernMapPanel.Role="ModalLightbox"
+                                               ctrl:ModernMapPanel.Role="ModalLightbox"
                                                Visibility="{x:Bind MainViewModel.SyncViewModel, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
-    </customcontrols:ModernMapPanel>
+    </ctrl:ModernMapPanel>
 </Page>

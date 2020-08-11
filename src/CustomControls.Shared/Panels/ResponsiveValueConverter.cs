@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Markup;
 using CustomCultureInfo = System.String;
 #endif
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 {
     public class ResponsiveValueConverter : IValueConverter
     {

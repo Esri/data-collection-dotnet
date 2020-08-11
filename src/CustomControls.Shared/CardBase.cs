@@ -1,5 +1,4 @@
-﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;

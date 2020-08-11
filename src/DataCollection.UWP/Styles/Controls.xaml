@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels"
-    xmlns:cards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Cards"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:uwptk="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -141,7 +139,6 @@
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Margin" Value="8,8,8,0" />
         <Setter Property="Background" Value="{ThemeResource chrome-background}"/>
-        <Setter Property="panels:MapLayoutPanel.LayoutRole" Value="FloatingAccessory" />
     </Style>
     <Style TargetType="Button" x:Key="MapAccessoryButton" BasedOn="{StaticResource chrome-button-base}">
         <Setter Property="BorderThickness" Value="0.5" />
@@ -155,8 +152,6 @@
 
     <Style TargetType="Button" x:Key="AttributionButtonStyle">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="panels:MapLayoutPanel.LayoutRole" Value="FloatingAccessory" />
-        <Setter Property="panels:MapLayoutPanel.AttachPosition" Value="BottomRight" />
         <Setter Property="Margin" Value="{StaticResource margin-default}" />
         <Setter Property="ext:Mouse.Cursor" Value="Hand" />
         <Setter Property="Template">
@@ -192,39 +187,6 @@
 
     </Style>
     
-    <Style x:Key="BasicCardStyle" TargetType="cards:CardPresenter">
-        <Setter Property="Foreground" Value="{ThemeResource content-foreground}" />
-        <Setter Property="Background" Value="{ThemeResource content-background}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="TitleTextStyle">
-            <Setter.Value>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="{ThemeResource chrome-foreground}" />
-                    <Setter Property="FontSize" Value="{StaticResource chrome-font-size-large}" />
-                    <Setter Property="FontWeight" Value="Light" />
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="Margin" Value="{StaticResource margin-left-only}" />
-                </Style>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="SubtitleBarStyle">
-            <Setter.Value>
-                <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                </Style>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="TopBarStyle">
-            <Setter.Value>
-                <Style TargetType="Border">
-                    <Setter Property="Background" Value="{ThemeResource chrome-background}" />
-                    <Setter Property="BorderThickness" Value="0,4,0,0" />
-                    <Setter Property="BorderBrush" Value="{ThemeResource tint}" />
-                </Style>
-            </Setter.Value>
-        </Setter>
-    </Style>
     <Style x:Key="NavContainerStyle" TargetType="Border">
         <Setter Property="Background" Value="{ThemeResource tint}" />
         <Setter Property="Padding" Value="0,4,0,0" />

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" 
     xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters"
+    xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
     Startup="Application_Startup"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
@@ -12,8 +13,9 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <localconverters:ConvertValueToCodedValueDomainValue x:Key="ConvertValueToCodedValueDomainValue" />
             <converters:LocalizationConverter x:Key="LC" />
+            <ctrl:ResponsiveValueConverter x:Key="RVC" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Dark.xaml" />
+                <ResourceDictionary Source="Themes/Light.xaml" />
                 <ResourceDictionary Source="Icons.xaml" />
                 <ResourceDictionary Source="Styles/SizesAndAlignment.xaml" />
                 <ResourceDictionary Source="Styles/Controls.xaml" />
