@@ -23,7 +23,7 @@
                     </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding}" 
                                    FontWeight="{StaticResource chrome-heading}"
-                                       Foreground="{DynamicResource chrome-foreground}"
+                                       Foreground="{DynamicResource tint-offset}"
                                    Grid.Row="0"
                                    Grid.Column="0"
                                    Margin="0"

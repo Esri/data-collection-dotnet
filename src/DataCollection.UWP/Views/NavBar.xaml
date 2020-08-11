@@ -25,7 +25,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{Binding}" 
                                    FontWeight="{StaticResource chrome-heading}"
-                                       Foreground="{ThemeResource chrome-foreground}"
+                                       Foreground="{ThemeResource tint-offset}"
                                    Grid.Row="0"
                                    Grid.Column="0"
                                    Margin="0"

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="tint" Color="#91BF6B" />
+    <SolidColorBrush x:Key="tint-contrast" Color="White" />
     <SolidColorBrush x:Key="chrome-background" Color="#2B2B2B"/>
     <SolidColorBrush x:Key="chrome-foreground" Color="#ffffff" />
     <SolidColorBrush x:Key="chrome-background-hover" Color="#353535" />
