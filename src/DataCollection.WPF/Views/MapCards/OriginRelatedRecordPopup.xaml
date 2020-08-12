@@ -1,36 +1,25 @@
-<ctrl:CardBase xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ctrl:CardBase x:Name="Self"
+               x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.OriginRelatedRecordPopup"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
                xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
-    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.OriginRelatedRecordPopup"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities"
-    xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views"
-               x:Name="Self"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+               xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities"
+               xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views"
+               xmlns:models="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:LocalizationConverter x:Key="LocalizationConverter" />
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/DataTemplates.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid DataContext="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship}"
-          Background="{DynamicResource content-background}">
+    <Grid Background="{DynamicResource ContentBackgroundBrush}" DataContext="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource CardTitleBar}">
+        <Border Style="{StaticResource CardTitleBorderStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -38,82 +27,75 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding IconImageSource}" 
-                       Visibility="{Binding IconImageSource, Converter={StaticResource NullToVisibilityConverter}}"
-                       Style="{StaticResource TitleBarIconImageStyle}" />
-                <TextBlock Text="{Binding PopupManager.Title}" 
-                           Style="{StaticResource CardTitle}"
-                           Margin="{StaticResource padding-default}"
-                           Grid.Column="1" />
-                <Button Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
-                        Grid.Column="2"
-                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}}"
-                        Style="{StaticResource CardCloseStyle}">
-                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}"  />
+                <Image Source="{Binding IconImageSource}"
+                       Style="{StaticResource TitleBarIconImageStyle}"
+                       Visibility="{Binding IconImageSource, Converter={StaticResource NullToVisibilityConverter}}" />
+                <TextBlock Grid.Column="1"
+                           Margin="{StaticResource UniformLargeThickness}"
+                           Style="{StaticResource CardTitleStyle}"
+                           Text="{Binding PopupManager.Title}" />
+                <Button Grid.Column="2"
+                        Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
+                        Style="{StaticResource CardCloseButtonStyle}"
+                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}" />
                 </Button>
-                <Button Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
-                        Grid.Column="2"
-                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}}"
-                        Style="{StaticResource CardCloseStyle}">
-                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}"  />
+                <Button Grid.Column="2"
+                        Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
+                        Style="{StaticResource CardCloseButtonStyle}"
+                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}" />
                 </Button>
-                <Button Command="{Binding ElementName=Self, Path=DataContext.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" 
-                        Grid.Column="3"
-                        Style="{StaticResource CardCloseStyle}">
-                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}"  />
+                <Button Grid.Column="3"
+                        Command="{Binding ElementName=Self, Path=DataContext.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
+                        Style="{StaticResource CardCloseButtonStyle}">
+                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
                 </Button>
             </Grid>
         </Border>
-        <TabControl BorderThickness="0" Grid.Row="1" 
-                    Background="{DynamicResource content-background}">
-            <TabItem Header="{Binding .,Converter={StaticResource LC}, ConverterParameter=DetailsHeading}" 
-                     Style="{StaticResource MinimalistTabItemStyle}">
+        <TabControl Grid.Row="1"
+                    Background="{DynamicResource ContentBackgroundBrush}"
+                    BorderThickness="0">
+            <TabItem Header="{Binding ., Converter={StaticResource LC}, ConverterParameter=DetailsHeading}" Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the origin relationship selected  -->
-                <ScrollViewer
-            x:Name="DetailsView"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto"
-            Visibility="Visible">
+                <ScrollViewer x:Name="DetailsView"
+                              HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto"
+                              Visibility="Visible">
                     <StackPanel Orientation="Vertical">
                         <!--  Origin related record in View mode  -->
-                        <ItemsControl Margin="{StaticResource padding-default}"
-                    ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                        <ItemsControl Margin="{StaticResource UniformLargeThickness}"
+                                      ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate DataType="models:WrappedPopupFieldValue">
                                     <StackPanel>
-                                        <TextBlock Style="{StaticResource FieldLabelStyle}"
-                                           Text="{Binding Field.Label}" />
-                                        <TextBox Style="{StaticResource FieldValueStyle}"
-                                         Text="{Binding ReformattedValue, Mode=OneWay}" />
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                        <TextBox Style="{StaticResource FieldValueStyle}" Text="{Binding ReformattedValue, Mode=OneWay}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <!--  Origin related record in Edit mode  -->
-                        <ItemsControl
-                    Margin="{StaticResource padding-default}"
-                    BorderThickness="0"
-                    ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}"
-                    ItemsSource="{Binding Fields}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <ItemsControl Margin="{StaticResource UniformLargeThickness}"
+                                      BorderThickness="0"
+                                      ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}"
+                                      ItemsSource="{Binding Fields}"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{Binding .,Converter={StaticResource LC}, ConverterParameter=AttachmentsHeading}" 
-                     x:Name="AttachmentsTabItem"
+            <TabItem x:Name="AttachmentsTabItem"
+                     Header="{Binding ., Converter={StaticResource LC}, ConverterParameter=AttachmentsHeading}"
                      Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attachments view  -->
-                <views:AttachmentsView
-            x:Name="AttachmentsView"
-            Grid.Row="1"
-            DataContext="{Binding .}" />
+                <views:AttachmentsView x:Name="AttachmentsView"
+                                       Grid.Row="1"
+                                       DataContext="{Binding .}" />
             </TabItem>
         </TabControl>
-
-
         <!--  Bottom buttons  -->
         <Grid Grid.Row="2" Style="{StaticResource CardControlStripStyle}">
             <Grid.ColumnDefinitions>
@@ -121,63 +103,58 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-
             <!--  Buttons to edit and delete record  -->
-            <Button Style="{StaticResource CardControlStripButtonStyle}"
-                Grid.Column="1"
-                HorizontalAlignment="Right"
-                Command="{Binding EditRelatedRecordCommand}"
-                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
-                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-pencil-16}" />
+            <Button Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Command="{Binding EditRelatedRecordCommand}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <Path Data="{StaticResource icon-pencil-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
-            <Button Style="{StaticResource CardControlStripButtonStyle}"
-                Grid.Column="2"
-                HorizontalAlignment="Right"
-                Command="{Binding DataContext.DeleteFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                CommandParameter="{Binding}"
-                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
-                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-trash-16}" />
+            <Button Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Command="{Binding DataContext.DeleteFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
-
             <!--  Buttons to save and discard changes to record  -->
-            <Button Style="{StaticResource CardControlStripButtonStyle}"
-                Grid.Column="1"
-                HorizontalAlignment="Right"
-                Command="{Binding SaveEditsCommand}"
-                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
-                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-save-16}" />
+            <Button Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Command="{Binding SaveEditsCommand}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                <Path Data="{StaticResource icon-save-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
-            <Button Style="{StaticResource CardControlStripButtonStyle}"
-                Grid.Column="2"
-                HorizontalAlignment="Right"
-                Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                CommandParameter="{Binding .}"
-                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
-                Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-x-16}" />
+            <Button Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding .}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
+                    Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
-
             <!--  Button to add new attachment  -->
             <!--  Clicking this button switches user to Attachments tab, begins edit mode, and starts up a browse dialog  -->
-            <Button Style="{StaticResource CardControlStripButtonStyle}"
-                x:Name="AddAttachmentButton"
-                Grid.Column="0"
-                HorizontalAlignment="Left"
-                Click="AddAttachmentButton_Click"
-                Command="{Binding EditRelatedRecordCommand}"
-                Visibility="{Binding ElementName=AttachmentsTabItem, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}">
-                <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-folder-open-16}" />
+            <Button x:Name="AddAttachmentButton"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Click="AddAttachmentButton_Click"
+                    Command="{Binding EditRelatedRecordCommand}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
+                    Visibility="{Binding ElementName=AttachmentsTabItem, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Path Data="{StaticResource icon-folder-open-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
         </Grid>
-
         <!--  Hidden element used to pass new attachment path to the viewmodel  -->
-        <TextBlock
-            x:Name="AttachmentPathTextBlock"
-            Text="{Binding AttachmentsViewModel.NewAttachmentPath, Mode=TwoWay}"
-            Visibility="Collapsed" />
+        <TextBlock x:Name="AttachmentPathTextBlock"
+                   Text="{Binding AttachmentsViewModel.NewAttachmentPath, Mode=TwoWay}"
+                   Visibility="Collapsed" />
     </Grid>
 </ctrl:CardBase>

@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+                    xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+                    xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters">
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <localconverters:ConvertValueToCodedValueDomainValue x:Key="ConvertValueToCodedValueDomainValue" />
+    <converters:LocalizationConverter x:Key="LC" />
+    <converters:LocalizationConverter x:Key="LocalizationConverter" />
+    <ctrl:ResponsiveValueConverter x:Key="RVC" />
+    <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+</ResourceDictionary>

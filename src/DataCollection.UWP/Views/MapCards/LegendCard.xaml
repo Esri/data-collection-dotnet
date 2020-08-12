@@ -1,24 +1,14 @@
-﻿<customcontrols:CardBase
-    xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
-    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards.LegendCard"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
-
-    <UserControl.Resources>
-        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-    </UserControl.Resources>
-    <Grid Background="{ThemeResource content-background}">
+﻿<customcontrols:CardBase x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards.LegendCard"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+                         xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls">
+    <Grid Background="{ThemeResource ContentBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource CardTopBar}">
+        <Border Style="{StaticResource CardTopBarStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -26,37 +16,40 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconBase}" Margin="{StaticResource padding-default}" />
-                <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_Panelheader}"
-                           Style="{StaticResource BaseTextBlockStyle}" 
+                <Path Margin="{StaticResource UniformLargeThickness}"
+                      Data="{StaticResource icon-legend-16}"
+                      Style="{StaticResource PathIconStyle}" />
+                <TextBlock Grid.Column="1"
+                           Margin="{StaticResource UniformLargeThickness}"
                            VerticalAlignment="Center"
-                           FontSize="{StaticResource chrome-font-size-large}"
-                           Margin="{StaticResource padding-default}"
+                           FontSize="{StaticResource LargeFontSize}"
                            FontWeight="Normal"
-                           Grid.Column="1" />
-                           <Button Command="{x:Bind ToggleStateCommand}"
-                        Grid.Column="2"
-                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                        Style="{StaticResource CardCloseButton}">
-                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}"  />
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_Panelheader}" />
+                <Button Grid.Column="2"
+                        Command="{x:Bind ToggleStateCommand}"
+                        Style="{StaticResource CloseButtonStyle}"
+                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconStyle}" />
                 </Button>
-                <Button Command="{x:Bind ToggleStateCommand}"
-                        Grid.Column="2"
-                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                        Style="{StaticResource CardCloseButton}">
-                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}"  />
+                <Button Grid.Column="2"
+                        Command="{x:Bind ToggleStateCommand}"
+                        Style="{StaticResource CloseButtonStyle}"
+                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconStyle}" />
                 </Button>
-                <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}" 
-                Grid.Column="3"
-                                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
-                                    Style="{StaticResource CardCloseButton}">
-                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                <Button Grid.Column="3"
+                        Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleLayersCommand, Mode=OneTime}"
+                        Style="{StaticResource CloseButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}">
+                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconStyle}" />
                 </Button>
             </Grid>
         </Border>
-        <toolkit:Legend GeoView="{x:Bind MainViewModel.MapAccessoryViewModel.MapView}" 
-                        Grid.Row="1"
-                                        Background="{ThemeResource content-background}"
-                                        Foreground="{ThemeResource content-foreground}" />
+        <toolkit:Legend Grid.Row="1"
+                        Margin="{StaticResource TopLargeThickness}"
+                        Background="{ThemeResource ContentBackgroundBrush}"
+                        Foreground="{ThemeResource ContentForegroundBrush}"
+                        GeoView="{x:Bind MainViewModel.MapAccessoryViewModel.MapView}" />
     </Grid>
 </customcontrols:CardBase>

@@ -1,8 +1,15 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP" 
-    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" 
-    xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Panels">
-   <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" /> 
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+                    xmlns:ctrl="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+                    xmlns:uwpconverters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters">
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+    <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
+    <ctrl:ResponsiveValueConverter x:Key="RVC" />
+    <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+    <converters:PointToDoubleConverter x:Key="PointToDoubleConverter" />
+    <uwpconverters:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
+    <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
 </ResourceDictionary>

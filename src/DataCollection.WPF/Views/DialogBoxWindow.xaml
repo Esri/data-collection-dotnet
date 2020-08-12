@@ -1,98 +1,80 @@
-﻿<Window
-    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.DialogBoxWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{Binding RelativeSource={RelativeSource Self}}"
-    WindowStartupLocation="CenterScreen"
-    SizeToContent="WidthAndHeight"
-    ResizeMode="NoResize"
-    WindowStyle="None"
-    ShowInTaskbar="False"
-    BorderBrush="{StaticResource tint}" BorderThickness="{StaticResource chrome-border-thickness}"
-    Background="{DynamicResource content-background}"
-    mc:Ignorable="d">
-    <Window.Resources>
-        <ResourceDictionary>
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-        </ResourceDictionary>
-    </Window.Resources>
+﻿<Window x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.DialogBoxWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        MaxWidth="600"
+        Background="{DynamicResource ContentBackgroundBrush}"
+        BorderBrush="{StaticResource TintBrush}"
+        BorderThickness="{StaticResource ChromeBorderThickness}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock
-                Padding="{StaticResource padding-default}"
-                Background="{DynamicResource chrome-background}"
-                FontSize="20"
-                Foreground="{DynamicResource chrome-foreground}"
-                Text="{Binding MessageTitle}"
-                TextWrapping="Wrap"
-                Visibility="{Binding MessageTitle, Converter={StaticResource NullToVisibilityConverter}}" />
-            <TextBlock
-                Margin="{StaticResource padding-default}"
-                Style="{StaticResource FieldLabelStyle}"
-                Text="{Binding Message}"
-                TextWrapping="Wrap" />
+            <TextBlock Padding="{StaticResource UniformLargeThickness}"
+                       Background="{DynamicResource ChromeBackgroundBrush}"
+                       FontSize="{StaticResource LargeFontSize}"
+                       Foreground="{DynamicResource ChromeForegroundBrush}"
+                       Text="{Binding MessageTitle}"
+                       TextWrapping="Wrap"
+                       Visibility="{Binding MessageTitle, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Margin="{StaticResource UniformLargeThickness}"
+                       Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding Message}"
+                       TextWrapping="Wrap" />
 
             <!--  Buttons for dialog box  -->
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button
-                    x:Name="OKDialogButton"
-                    Style="{StaticResource MapOverlayButtonStyle}"
-                    Command="{Binding DismissDialogBoxCommand}"
-                    CommandParameter="true"
-                    BorderBrush="{DynamicResource danger}"
-                    Foreground="{DynamicResource danger}"
-                    Content="{Binding AffirmativeActionButtonContent}" />
-                <Button
-                    x:Name="CancelDialogButton"
-                    Style="{StaticResource MapOverlayButtonStyle}"
-                    BorderBrush="{DynamicResource success}"
-                    Foreground="{DynamicResource success}"
-                    Command="{Binding DismissDialogBoxCommand}"
-                    CommandParameter="false"
-                    Content="{Binding NegativeActionButtonContent}"
-                    Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
-            </StackPanel>
-
-            <StackPanel
-                Margin="{StaticResource margin-default}"
-                Orientation="Horizontal"
-                Visibility="{Binding StackTrace, Converter={StaticResource NullToVisibilityConverter}}">
-                <CheckBox
-                    x:Name="StackTraceVisibilitySwitch"
-                    VerticalAlignment="Center"
-                    IsChecked="False" />
-                <TextBlock
-                    Margin="4,4,0,8"
-                    VerticalAlignment="Center"
-                    Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=Show_Stacktrace}" />
-            </StackPanel>
-
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <CheckBox x:Name="StackTraceVisibilitySwitch"
+                          Margin="{StaticResource UniformMediumThickness}"
+                          Visibility="{Binding StackTrace, Converter={StaticResource NullToVisibilityConverter}}"
+                          Style="{StaticResource TocCheckboxStyle}" Content="{Binding ., Converter={StaticResource LC}, ConverterParameter=Show_Stacktrace}"
+                          IsChecked="False" />
+                <Button x:Name="OKDialogButton"
+                        Grid.Column="2"
+                        BorderBrush="{DynamicResource DangerBrush}"
+                        Command="{Binding DismissDialogBoxCommand}"
+                        CommandParameter="true"
+                        Content="{Binding AffirmativeActionButtonContent}"
+                        Foreground="{DynamicResource DangerBrush}"
+                        Style="{StaticResource MapOverlayButtonStyle}" />
+                <Button x:Name="CancelDialogButton"
+                        Grid.Column="3"
+                        BorderBrush="{DynamicResource SuccessBrush}"
+                        Command="{Binding DismissDialogBoxCommand}"
+                        CommandParameter="false"
+                        Content="{Binding NegativeActionButtonContent}"
+                        Foreground="{DynamicResource SuccessBrush}"
+                        Style="{StaticResource MapOverlayButtonStyle}"
+                        Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+            </Grid>
             <!--  Stacktrace box  -->
-            <Grid
-                MaxWidth="400"
-                MaxHeight="300"
-                Margin="0"
-                Background="{DynamicResource content-background}"
-                Visibility="{Binding IsChecked, ElementName=StackTraceVisibilitySwitch, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid MaxHeight="300"
+                  Margin="{StaticResource UniformMediumThickness}"
+                  Background="{DynamicResource ContentBackgroundBrush}"
+                  Visibility="{Binding IsChecked, ElementName=StackTraceVisibilitySwitch, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Separator Grid.Row="0" Background="{DynamicResource tint}" />
-                <ScrollViewer
-                    Grid.Row="1"
-                    Margin="{StaticResource margin-default}"
-                    VerticalScrollBarVisibility="Auto">
-                    <TextBlock
-                        Padding="{StaticResource padding-default}"
-                        VerticalAlignment="Top"
-                        Foreground="{DynamicResource content-foreground}"
-                        Text="{Binding StackTrace}"
-                        TextWrapping="Wrap" />
+                <Separator Grid.Row="0" Background="{DynamicResource TintBrush}" />
+                <ScrollViewer Grid.Row="1"
+                              Margin="{StaticResource UniformMediumThickness}"
+                              VerticalScrollBarVisibility="Auto">
+                    <TextBlock Padding="{StaticResource UniformLargeThickness}"
+                               VerticalAlignment="Top"
+                               FontFamily="Consolas"
+                               Foreground="{DynamicResource ContentForegroundBrush}"
+                               Text="{Binding StackTrace}"
+                               TextWrapping="Wrap" />
                 </ScrollViewer>
             </Grid>
         </StackPanel>

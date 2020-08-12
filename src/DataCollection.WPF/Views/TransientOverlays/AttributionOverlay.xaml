@@ -1,42 +1,38 @@
 ﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays.AttributionOverlay"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <!-- Expects DataContext to be set to MapAccessoryViewModel-->
-        <Border Background="{DynamicResource content-background}" Padding="{StaticResource padding-default}"
-                MaxWidth="500"
-                MaxHeight="500">
-            <Grid>
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  Expects DataContext to be set to MapAccessoryViewModel  -->
+    <Border MaxWidth="500"
+            MaxHeight="500"
+            Padding="{StaticResource UniformLargeThickness}"
+            Background="{DynamicResource ContentBackgroundBrush}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ScrollViewer Padding="{StaticResource margin-right-only}" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer Padding="{StaticResource RightMediumThickness}" VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=Attribution_Popup_Label}" 
-                               Style="{StaticResource StatusPanelTitleStyle}" />
-                    <TextBlock Text="{Binding MapView.AttributionText, UpdateSourceTrigger=PropertyChanged}" 
-                               Style="{StaticResource StatusPanelCaptionTextStyle}"
-                           TextWrapping="Wrap" />
+                    <TextBlock Style="{StaticResource StatusPanelTitleStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=Attribution_Popup_Label}" />
+                    <TextBlock Style="{StaticResource StatusPanelCaptionTextStyle}"
+                               Text="{Binding MapView.AttributionText, UpdateSourceTrigger=PropertyChanged}"
+                               TextWrapping="Wrap" />
                 </StackPanel>
             </ScrollViewer>
-
-            <Button Style="{StaticResource MapOverlayButtonStyle}"
+            <Button Grid.Row="1"
+                    Margin="{StaticResource TopMediumThickness}"
                     Command="{Binding ToggleAttributionCommand}"
-                    Grid.Row="1"
-                    ToolTip="{Binding .,Converter={StaticResource LC}, ConverterParameter=GenericAffirmativeButton_Content}"
-                    Margin="{StaticResource margin-top-only}">  
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Path Data="{StaticResource icon-check-circle-16}" Style="{StaticResource PathIconBase}"
-                          Fill="{DynamicResource success}" />
-                    <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericAffirmativeButton_Content}"
-                               Style="{StaticResource MapOverlayButtonText}"
-                               Foreground="{DynamicResource success}" />
+                    Style="{StaticResource MapOverlayButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericAffirmativeButton_Content}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Path Data="{StaticResource icon-check-circle-16}"
+                          Fill="{DynamicResource SuccessBrush}"
+                          Style="{StaticResource PathIconBase}" />
+                    <TextBlock Foreground="{DynamicResource SuccessBrush}"
+                               Style="{StaticResource MapOverlayButtonTextStyle}"
+                               Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericAffirmativeButton_Content}" />
                 </StackPanel>
             </Button>
         </Grid>
-        </Border>
+    </Border>
 </UserControl>

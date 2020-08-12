@@ -1,20 +1,12 @@
 ﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TitleBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views" xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" xmlns:panels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-        <converters:LocalizationConverter x:Key="LocalizationConverter" />
-    </UserControl.Resources>
+             xmlns:panels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels">
     <Grid>
-        <Grid x:Name="TitleBarGrid" 
-              Grid.Row="0" 
-              Background="{DynamicResource chrome-background}"
-              MouseLeftButtonDown="OnMouseLeftButtonDown" 
+        <Grid x:Name="TitleBarGrid"
+              Grid.Row="0"
+              Background="{DynamicResource ChromeBackgroundBrush}"
+              MouseLeftButtonDown="OnMouseLeftButtonDown"
               MouseRightButtonUp="OnMouseRightButtonUp">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -28,142 +20,154 @@
                 <ColumnDefinition Width="Auto" />
 
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="TitleIconContainer" Orientation="Horizontal" Grid.Column="0">
-                <Image Style="{StaticResource TitleBarIconImageStyle}" 
-                       Source="../Images/ArcGIS_Open_Source_Apps.ico" />
-                <TextBlock Grid.Column="1"
-                           Style="{StaticResource TitleBarTitleTextStyle}">
+            <StackPanel x:Name="TitleIconContainer"
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+                <Image Source="../Images/ArcGIS_Open_Source_Apps.ico" Style="{StaticResource TitleBarIconImageStyle}" />
+                <TextBlock VerticalAlignment="Center" FontWeight="{StaticResource HeadingFontWeight}" Foreground="{StaticResource ChromeForegroundBrush}">
                     <Run Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
                     <Run Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=TitleBar_Suffix_WPF}" />
                 </TextBlock>
             </StackPanel>
-            <StackPanel x:Name="CenterButtonContainer" Orientation="Horizontal" Grid.Column="1">
-                <ToggleButton x:Name="WorkOnlineButton" Style="{StaticResource TitleBarToggleButton}"
+            <StackPanel x:Name="CenterButtonContainer"
+                        Grid.Row="0" Grid.Column="1"
+                        Orientation="Horizontal">
+                <ToggleButton x:Name="WorkOnlineButton"
                               HorizontalAlignment="Center"
-                              Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}"
+                              IsChecked="{Binding IsMapStatusPanelOpen, Mode=TwoWay}"
+                              MouseEnter="WorkOnlineButton_MouseEnter"
+                              MouseLeave="WorkOnlineButton_MouseLeave"
+                              Style="{StaticResource TitleBarToggleButtonStyle}"
                               ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip, Converter={StaticResource LC}}"
-                              IsChecked="{Binding IsMapStatusPanelOpen,Mode=TwoWay}"
-                              MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave">
+                              Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-arcgis-online-16}"
-                              Style="{StaticResource TitleBarButtonIconPathStyle}"
-                              Margin="{StaticResource margin-right-only}"
-                              Fill="{DynamicResource success}" />
-                        <TextBlock Foreground="{DynamicResource success}" Style="{StaticResource TitleBarButtonTextStyle}">
-                            <Run Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart, Converter={StaticResource LC}, Mode=OneWay}" FontWeight="SemiBold" />
+                        <Path Margin="{StaticResource RightMediumThickness}"
+                              Data="{StaticResource icon-arcgis-online-16}"
+                              Fill="{DynamicResource SuccessBrush}"
+                              Style="{StaticResource TitleBarButtonIconPathStyle}" />
+                        <TextBlock Foreground="{DynamicResource SuccessBrush}" Style="{StaticResource TitleBarButtonTextStyle}">
+                            <Run FontWeight="SemiBold" Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart, Converter={StaticResource LC}, Mode=OneWay}" />
                             <Run Text=" - " />
                             <Run Text="{Binding MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
-                        <Path Style="{StaticResource TitleBarCaretIcon}" Fill="{DynamicResource success}" />
+                        <Path Fill="{DynamicResource SuccessBrush}" Style="{StaticResource TitleBarCaretIconStyle}" />
                     </StackPanel>
                 </ToggleButton>
-                <ToggleButton x:Name="WorkOfflineButton" Style="{StaticResource TitleBarToggleButton}"
+                <ToggleButton x:Name="WorkOfflineButton"
                               HorizontalAlignment="Center"
-                              MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave"
-                              ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip, Converter={StaticResource LC}}"
                               IsChecked="{Binding IsOfflinePanelOpen, Mode=TwoWay}"
+                              MouseEnter="WorkOnlineButton_MouseEnter"
+                              MouseLeave="WorkOnlineButton_MouseLeave"
+                              Style="{StaticResource TitleBarToggleButtonStyle}"
+                              ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip, Converter={StaticResource LC}}"
                               Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource TitleBarButtonIconPathStyle}"
-                              Margin="{StaticResource margin-right-only}"/>
+                        <Path Margin="{StaticResource RightMediumThickness}"
+                              Data="{StaticResource icon-offline-16}"
+                              Style="{StaticResource TitleBarButtonIconPathStyle}" />
                         <TextBlock Style="{StaticResource TitleBarButtonTextStyle}">
-                            <Run Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart, Converter={StaticResource LC}, Mode=OneWay}" FontWeight="SemiBold" />
+                            <Run FontWeight="SemiBold" Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart, Converter={StaticResource LC}, Mode=OneWay}" />
                             <Run Text=" - " />
                             <Run Text="{Binding MapViewModel.Map.Item.Title, Mode=OneWay}" />
                         </TextBlock>
-                        <Path Style="{StaticResource TitleBarCaretIcon}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
                     </StackPanel>
                 </ToggleButton>
             </StackPanel>
-            <StackPanel x:Name="RightPanel" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{StaticResource TitleBarButton}"
-                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+            <StackPanel Grid.Row="0" Grid.Column="0" x:Name="RightPanel"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
                         Command="{Binding AuthViewModel.SignInCommand, Mode=OneWay}"
+                        Style="{StaticResource TitleBarButtonStyle}"
                         Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <StackPanel Orientation="Horizontal">
-                    <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource TitleBarButtonIconPathStyle}" />
-                    <TextBlock Text="{Binding {x:Null}, Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}"
-                               Style="{StaticResource TitleBarButtonTextStyle}" />
-                </StackPanel>
-                </Button>
-                <ToggleButton x:Name="UserPopupButton"  
-                          Style="{StaticResource TitleBarToggleButton}"
-                          HorizontalAlignment="Right"
-                          ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_UserButton_Tooltip, Converter={StaticResource LC}}"
-                          IsChecked="{Binding IsUserPanelOpen, Mode=TwoWay}"
-                          MouseEnter="WorkOnlineButton_MouseEnter" MouseLeave="WorkOnlineButton_MouseLeave"
-                          Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
-                        <Ellipse Style="{StaticResource TitleBarUserIconStyle}"
-                                Visibility="{Binding AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
+                        <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource TitleBarButtonIconPathStyle}" />
+                        <TextBlock Style="{StaticResource TitleBarButtonTextStyle}" Text="{Binding {x:Null}, Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}" />
+                    </StackPanel>
+                </Button>
+                <ToggleButton x:Name="UserPopupButton"
+                              HorizontalAlignment="Right"
+                              IsChecked="{Binding IsUserPanelOpen, Mode=TwoWay}"
+                              MouseEnter="WorkOnlineButton_MouseEnter"
+                              MouseLeave="WorkOnlineButton_MouseLeave"
+                              Style="{StaticResource TitleBarToggleButtonStyle}"
+                              ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_UserButton_Tooltip, Converter={StaticResource LC}}"
+                              Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="{StaticResource IconLargeLength}" Height="{StaticResource IconLargeLength}"
+                                 Visibility="{Binding AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="{Binding AuthViewModel.AuthenticatedUser.ThumbnailUri}" />
                             </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock Text="{Binding AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}"
-                                   Style="{StaticResource TitleBarButtonTextStyle}" />
-                        <Path Style="{StaticResource TitleBarCaretIcon}" />
+                        <TextBlock Style="{StaticResource TitleBarButtonTextStyle}" Text="{Binding AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
                     </StackPanel>
                 </ToggleButton>
-                <TextBlock Text="|" 
-                           FontWeight="SemiBold" 
-                           Margin="{StaticResource margin-sides}" 
-                           Foreground="{DynamicResource chrome-foreground}" 
+                <TextBlock Margin="{StaticResource SidesMediumThickness}"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource ChromeForegroundBrush}"
                            Opacity="0.5"
-                           VerticalAlignment="Center" />
-                <Button Click="OnMinimizeWindow" 
-                        Style="{StaticResource TitleBarBlueButtonStyle}">
-                    <Path Data="{StaticResource icon-underscore-16}" Style="{StaticResource TitleBarPathIcon}"/>
+                           Text="|" />
+                <Button Click="OnMinimizeWindow" Style="{StaticResource TitleBarBlueButtonStyle}">
+                    <Path Data="{StaticResource icon-underscore-16}" Style="{StaticResource WindowButtonIconStyle}" />
                 </Button>
-                <Button Style="{StaticResource TitleBarBlueButtonStyle}"
-                        Click="OnMaximizeWindow">
+                <Button Click="OnMaximizeWindow" Style="{StaticResource TitleBarBlueButtonStyle}">
                     <Grid>
-                        <Path x:Name="MinimizePath" Data="{StaticResource icon-minimize-16}" Style="{StaticResource TitleBarPathIcon}" />
-                        <Path x:Name="MaximizePath" Data="{StaticResource icon-maximize-16}" Style="{StaticResource TitleBarPathIcon}" Visibility="Collapsed" />
+                        <Path x:Name="MinimizePath"
+                              Data="{StaticResource icon-minimize-16}"
+                              Style="{StaticResource WindowButtonIconStyle}" />
+                        <Path x:Name="MaximizePath"
+                              Data="{StaticResource icon-maximize-16}"
+                              Style="{StaticResource WindowButtonIconStyle}"
+                              Visibility="Collapsed" />
                     </Grid>
                 </Button>
                 <Button Click="OnCloseWindow" Style="{StaticResource TitleBarRedButtonStyle}">
-                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource TitleBarPathIcon}" />
+                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource WindowButtonIconStyle}" />
                 </Button>
             </StackPanel>
         </Grid>
 
-        <!-- Floating 'Working Online' Panel -->
-        <Popup PlacementTarget="{Binding ElementName=WorkOnlineButton}"
-        HorizontalAlignment="Center"
-               Placement="Bottom"
-        Style="{StaticResource PopupStyle}"
-               x:Name="OnlinePopup"
+        <!--  Floating 'Working Online' Panel  -->
+        <Popup x:Name="OnlinePopup"
+               HorizontalAlignment="Center"
                Closed="OnlinePopup_Closed"
-                IsOpen="{Binding IsMapStatusPanelOpen, Mode=OneWay}" >
+               IsOpen="{Binding IsMapStatusPanelOpen, Mode=OneWay}"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=WorkOnlineButton}"
+               Style="{StaticResource PopupStyle}">
             <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
                 <panels:OnlineMapPanel DataContext="{Binding .}" />
             </Border>
         </Popup>
 
-        <!-- Floating 'Working Offline' Panel -->
+        <!--  Floating 'Working Offline' Panel  -->
         <Popup x:Name="OfflinePopup"
-        Style="{StaticResource PopupStyle}"
-               PlacementTarget="{Binding ElementName=WorkOfflineButton}" StaysOpen="False"
-               Placement="Bottom"
                HorizontalAlignment="Center"
-                IsOpen="{Binding IsOfflinePanelOpen, Mode=OneWay}"
-               Closed="OfflinePopup_Closed">
-            <Border Style="{StaticResource TitleBarPopoverBorderStyle}" Effect="{x:Null}">
-                <panels:MapPanel DataContext="{Binding .}"  />
+               Closed="OfflinePopup_Closed"
+               IsOpen="{Binding IsOfflinePanelOpen, Mode=OneWay}"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=WorkOfflineButton}"
+               Style="{StaticResource PopupStyle}">
+            <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <panels:MapPanel DataContext="{Binding .}" />
             </Border>
         </Popup>
 
-        <!-- Floating User Panel -->
+        <!--  Floating User Panel  -->
         <Popup x:Name="UserPopup"
-               Style="{StaticResource PopupStyle}"
-                HorizontalAlignment="Center"
-               PlacementTarget="{Binding ElementName=UserPopupButton}"
-               Placement="Bottom"
+               HorizontalAlignment="Center"
                Closed="UserPopup_Closed"
-                IsOpen="{Binding IsUserPanelOpen, Mode=OneWay}">
+               IsOpen="{Binding IsUserPanelOpen, Mode=OneWay}"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=UserPopupButton}"
+               Style="{StaticResource PopupStyle}">
             <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
-                <panels:UserAccountPanel DataContext="{Binding AuthViewModel, Mode=TwoWay}"  />
+                <panels:UserAccountPanel DataContext="{Binding AuthViewModel, Mode=TwoWay}" />
             </Border>
         </Popup>
     </Grid>

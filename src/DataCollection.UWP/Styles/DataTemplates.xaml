@@ -1,54 +1,22 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions">
     <DataTemplate x:Key="BookmarksViewItemTemplate">
-        <Border Background="Transparent" 
-                Padding="{StaticResource padding-default}" 
-                ext:Mouse.Cursor="Hand" 
-                HorizontalAlignment="Stretch">
-            <TextBlock Text="{Binding Name}" 
-                           FontWeight="{StaticResource content-font-weight}"
-                           Foreground="{ThemeResource content-foreground}"/>
+        <Border Padding="{StaticResource UniformLargeThickness}"
+                HorizontalAlignment="Stretch"
+                ext:Mouse.Cursor="Hand"
+                Background="Transparent">
+            <TextBlock FontWeight="{StaticResource NormalFontWeight}"
+                       Foreground="{ThemeResource ContentForegroundBrush}"
+                       Text="{Binding Name}" />
         </Border>
-    </DataTemplate>
-    <DataTemplate x:Key="NavItemTemplate">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Border Background="Transparent" 
-                    BorderBrush="{ThemeResource chrome-border}" 
-                    BorderThickness="0" 
-                    Margin="{StaticResource margin-default}" 
-                    Grid.Column="0" Padding="0,4,0,4">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Title}" 
-                               Style="{StaticResource TextBlockBase}" 
-                               Foreground="{ThemeResource chrome-foreground}"
-                                   FontWeight="SemiBold"
-                                   Grid.Row="0" Grid.Column="1" />
-                </Grid>
-            </Border>
-            <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconBase}"
-                  Fill="{ThemeResource content-subtle}" 
-                  Width="8" Height="8"
-                  Margin="0,2,0,0"
-                  Grid.Column="1"/>
-        </Grid>
     </DataTemplate>
     <DataTemplate x:Key="CardSimpleFieldViewer">
         <StackPanel>
-            <TextBlock Style="{StaticResource CardFieldLabel}"
-                   Text="{Binding Field.Label, Mode=OneWay}" />
-            <!-- MinHeight setting matches workaround in feature editor view -->
-            <TextBox Style="{StaticResource CardFieldValueBox}"
-                     MinHeight="38"
+            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label, Mode=OneWay}" />
+            <!--  MinHeight setting matches workaround in feature editor view  -->
+            <TextBox MinHeight="38"
+                     Style="{StaticResource FieldValueReadOnlyTextBoxStyle}"
                      Text="{Binding ReformattedValue, Mode=OneWay}" />
         </StackPanel>
     </DataTemplate>

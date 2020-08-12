@@ -1,17 +1,7 @@
 ﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels.OnlineMapPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels" xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-        </ResourceDictionary>
-    </UserControl.Resources>
-             <!-- Expects DataContext to be set to MainViewModel -->
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  Expects DataContext to be set to MainViewModel  -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -21,55 +11,63 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="{Binding MapViewModel.Map.Item.Title}"
+        <TextBlock Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   FontSize="{StaticResource LargeFontSize}"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
-                   Grid.Column="0" Grid.ColumnSpan="2"
-                   FontSize="{StaticResource chrome-font-size-large}" />
-        <!-- TODO: localize -->
-        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Created_FieldLabel}" 
+                   Text="{Binding MapViewModel.Map.Item.Title}" />
+        <!--  TODO: localize  -->
+        <TextBlock Grid.Row="2"
+                   Grid.Column="0"
+                   Margin="{StaticResource RightMediumThickness}"
+                   VerticalAlignment="Top"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
-                   Grid.Row="2" Grid.Column="0" 
-                   Margin="{StaticResource margin-right-only}" VerticalAlignment="Top" />
-        <TextBlock Text="{Binding Path=MapViewModel.Map.Item.Created, FallbackValue='unknown', StringFormat='g'}"
+                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Created_FieldLabel}" />
+        <TextBlock Grid.Row="2"
+                   Grid.Column="1"
                    Style="{StaticResource TitleBarPopoverLabelStyle}"
-                   Grid.Row="2" Grid.Column="1" />
-        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_OfflineMapAvailable_Label}" 
-                   Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
-                   Grid.Row="5" Grid.Column="0" 
-                   Margin="{StaticResource margin-top-only}" 
-                   Grid.ColumnSpan="2" 
+                   Text="{Binding Path=MapViewModel.Map.Item.Created, FallbackValue='unknown', StringFormat='g'}" />
+        <TextBlock Grid.Row="5"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Margin="{StaticResource TopMediumThickness}"
                    HorizontalAlignment="Center"
+                   Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
+                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_OfflineMapAvailable_Label}"
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
-        <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Downloaded_FieldLabel}" 
+        <TextBlock Grid.Row="3"
+                   Grid.Column="0"
                    Margin="0,4,4,0"
-                   Style="{StaticResource TitleBarPopoverProminentLabelStyle}" 
-                   Grid.Row="3" Grid.Column="0" 
-                   Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}"  />
-        <TextBlock Text="{Binding Path=OfflineMap.Item.Modified, StringFormat='g'}" 
-                   Style="{StaticResource TitleBarPopoverLabelStyle}" 
-                   Grid.Row="3" Grid.Column="1" 
-                   Margin="0,4,4,0"
+                   Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
+                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Downloaded_FieldLabel}"
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
-        <TextBlock Text="{Binding Path=MapViewModel.Map.Item.Snippet}"
+        <TextBlock Grid.Row="3"
+                   Grid.Column="1"
+                   Margin="0,4,4,0"
                    Style="{StaticResource TitleBarPopoverLabelStyle}"
-                   TextWrapping="Wrap"
-                   Grid.Row="1" Grid.ColumnSpan="2"
-                   Margin="{StaticResource margin-top-bottom}"/>
-        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
-                Style="{StaticResource MapOverlayButtonStyle}"
+                   Text="{Binding Path=OfflineMap.Item.Modified, StringFormat='g'}"
+                   Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
+        <TextBlock Grid.Row="1"
+                   Grid.ColumnSpan="2" Grid.Column="0"
+                   Margin="{StaticResource TopBottomMediumThickness}"
+                   Style="{StaticResource TitleBarPopoverLabelStyle}"
+                   Text="{Binding Path=MapViewModel.Map.Item.Snippet}"
+                   TextWrapping="Wrap" />
+        <Button Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="{StaticResource TopMediumThickness}"
                 Command="{Binding Path=WorkOfflineCommand}"
-                Margin="{StaticResource margin-top-only}"
+                Style="{StaticResource MapOverlayButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}"
-                           Style="{StaticResource MapOverlayButtonText}"/>
+                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}" />
             </StackPanel>
         </Button>
     </Grid>

@@ -148,6 +148,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SharedConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Brushes.xaml" />
     <Page Include="Styles\ControlOverrides.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

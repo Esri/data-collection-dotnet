@@ -1,19 +1,126 @@
-﻿<UserControl
-    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.TitleBar"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" 
-    xmlns:popups="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
-    <UserControl.Resources>
-        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-    </UserControl.Resources>
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.TitleBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:popups="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups">
     <Grid>
+        <Grid Background="{ThemeResource ChromeBackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="SystemButtonColumn" Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid x:Name="AppTitleBar"
+                  Grid.ColumnSpan="8"
+                  HorizontalAlignment="Stretch"
+                  Background="Transparent" />
+            <StackPanel x:Name="LeftPanel"
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+                <Image Margin="{StaticResource LeftLargeThickness}"
+                       Source="../Assets/Square44x44Logo.scale-100.png"
+                       Style="{StaticResource TitleBarImageStyle}" />
+                <TextBlock Style="{StaticResource TitleBarTitleStyle}">
+                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
+                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Suffix_UWP}" />
+                </TextBlock>
+            </StackPanel>
+            <Grid x:Name="CenterPanel">
+                <Button HorizontalAlignment="Center"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}"
+                        Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-arcgis-online-16}"
+                              Fill="{ThemeResource SuccessBrush}"
+                              Style="{StaticResource PathIconStyle}" />
+                        <TextBlock Foreground="{ThemeResource SuccessBrush}" Style="{StaticResource TextBlockBaseStyle}">
+                            <Run FontWeight="SemiBold" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart}" />
+                            <Run Text=" - " />
+                            <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
+                        <Path Fill="{ThemeResource SuccessBrush}" Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <Flyout x:Name="OnlineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                            <popups:OnlineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button HorizontalAlignment="Center"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip}"
+                        Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconStyle}" />
+                        <TextBlock Margin="{StaticResource LeftLargeThickness}" Style="{StaticResource TextBlockBaseStyle}">
+                            <Run FontWeight="SemiBold" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart}" />
+                            <Run Text=" - " />
+                            <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <Flyout x:Name="OfflineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                            <popups:OfflineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+            <StackPanel x:Name="RightPanel"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button Command="{x:Bind MainViewModel.AuthViewModel.SignInCommand, Mode=OneWay}"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}"
+                        Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource PathIconStyle}" />
+                        <TextBlock Margin="{StaticResource LeftLargeThickness}"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}" />
+                    </StackPanel>
+                </Button>
+                <Button HorizontalAlignment="Center"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_UserButton_Tooltip}"
+                        Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="{StaticResource IconLargeLength}"
+                                 Height="{StaticResource IconLargeLength}"
+                                 Margin="{StaticResource RightMediumThickness}"
+                                 Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
+                            <Ellipse.Fill>
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <Flyout x:Name="UserPanelFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                            <popups:SignedInUserPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <TextBlock Width="50"
+                           HorizontalAlignment="Center"
+                           Opacity="0.8"
+                           Style="{StaticResource TitleBarTitleStyle}"
+                           Text="|"
+                           TextAlignment="Center" />
+            </StackPanel>
+        </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="SizeGroup">
                 <VisualState x:Name="Normal">
@@ -26,7 +133,7 @@
                         <Setter Target="LeftPanel.(Grid.Column)" Value="0" />
                         <Setter Target="CenterPanel.(Grid.Column)" Value="1" />
                         <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
-                        <Setter Target="RightPanel.(Grid.Column)" Value="2"/>
+                        <Setter Target="RightPanel.(Grid.Column)" Value="2" />
                         <Setter Target="RightPanel.(Grid.Row)" Value="0" />
                         <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="1" />
@@ -41,7 +148,7 @@
                         <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
                         <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
                         <Setter Target="CenterPanel.HorizontalAlignment" Value="Left" />
-                        <Setter Target="RightPanel.(Grid.Column)" Value="2"/>
+                        <Setter Target="RightPanel.(Grid.Column)" Value="2" />
                         <Setter Target="RightPanel.(Grid.Row)" Value="0" />
                         <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="3" />
@@ -55,7 +162,7 @@
                         <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
                         <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
                         <Setter Target="CenterPanel.(Grid.Row)" Value="1" />
-                        <Setter Target="RightPanel.(Grid.Column)" Value="3"/>
+                        <Setter Target="RightPanel.(Grid.Column)" Value="3" />
                         <Setter Target="RightPanel.(Grid.Row)" Value="0" />
                         <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="5" />
                         <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
@@ -64,112 +171,5 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid Background="{ThemeResource chrome-background}">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" x:Name="SystemButtonColumn" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid x:Name="AppTitleBar" HorizontalAlignment="Stretch" Background="Transparent" Grid.ColumnSpan="8" />
-            <StackPanel Orientation="Horizontal" Grid.Column="0" x:Name="LeftPanel">
-                <Image Source="../Assets/Square44x44Logo.scale-100.png" Margin="{StaticResource margin-left-only}"
-                   Style="{StaticResource TitleBarImageStyle}"/>
-                <TextBlock Style="{StaticResource TitleBarTitleStyle}">
-                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
-                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Suffix_UWP}" />
-                </TextBlock>
-            </StackPanel>
-            <Grid x:Name="CenterPanel">
-                <Button Style="{StaticResource TitleBarButton}"
-                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}"
-                Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}"
-                HorizontalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-arcgis-online-16}"
-                              Style="{StaticResource PathIconBase}" 
-                              Fill="{ThemeResource success}" />
-                        <TextBlock Style="{StaticResource TextBlockBase}"
-                                   Foreground="{ThemeResource success}">
-                            <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart}" FontWeight="SemiBold" />
-                            <Run Text=" - " />
-                            <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
-                        </TextBlock>
-                        <Path Style="{StaticResource TitleBarCaretIcon}" Fill="{ThemeResource success}" />
-                    </StackPanel>
-                    <Button.Flyout>
-                        <Flyout x:Name="OnlineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
-                            <popups:OnlineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <Button Style="{StaticResource TitleBarButton}"
-                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip}"
-                Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}"
-                HorizontalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-offline-16}"
-                      Style="{StaticResource PathIconBase}" />
-                        <TextBlock Margin="{StaticResource margin-left-only}" Style="{StaticResource TextBlockBase}">
-                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart}" FontWeight="SemiBold" />
-                    <Run Text=" - " />
-                    <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
-                        </TextBlock>
-                        <Path Style="{StaticResource TitleBarCaretIcon}" />
-                    </StackPanel>
-                    <Button.Flyout>
-                        <Flyout x:Name="OfflineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
-                            <popups:OfflineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-            </Grid>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" x:Name="RightPanel">
-                <Button Style="{StaticResource TitleBarButton}"
-                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}"
-                    Command="{x:Bind MainViewModel.AuthViewModel.SignInCommand, Mode=OneWay}"
-                        Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter},ConverterParameter=Inverse, Mode=OneWay}">
-                    <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource PathIconBase}" />
-                        <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-                <Button HorizontalAlignment="Center"
-                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_UserButton_Tooltip}"
-                    Style="{StaticResource TitleBarButton}"
-                    Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
-                    <StackPanel Orientation="Horizontal">
-                        <Ellipse Style="{StaticResource TitleBarUserIcon}"
-                             Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
-                            <Ellipse.Fill>
-                                <ImageBrush>
-                                    <ImageBrush.ImageSource>
-                                        <BitmapImage UriSource="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}"
-                                   Style="{StaticResource TextBlockBase}" />
-                        <Path Style="{StaticResource TitleBarCaretIcon}" />
-                    </StackPanel>
-                    <Button.Flyout>
-                        <Flyout x:Name="UserPanelFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenter}">
-                            <popups:SignedInUserPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <TextBlock Text="|" Style="{StaticResource TitleBarTitleStyle}" 
-                           Width="50" Opacity="0.8"
-                           TextAlignment="Center" HorizontalAlignment="Center" />
-            </StackPanel>
-        </Grid>
     </Grid>
 </UserControl>

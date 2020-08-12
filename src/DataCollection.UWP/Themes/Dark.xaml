@@ -1,33 +1,22 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="tint" Color="#91BF6B" />
-    <SolidColorBrush x:Key="tint-offset" Color="White" />
-    <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="#91BF6B" />
-
-    <SolidColorBrush x:Key="chrome-background" Color="#2B2B2B"/>
-    <SolidColorBrush x:Key="chrome-background-disabled" Color="#202020" />
-    <SolidColorBrush x:Key="chrome-foreground" Color="#ffffff" />
-    <SolidColorBrush x:Key="chrome-background-hover" Color="#353535" />
-    <SolidColorBrush x:Key="chrome-border" Color="#404040" />
-
-    <SolidColorBrush x:Key="content-foreground" Color="#FFFFFF" />
-    <SolidColorBrush x:Key="content-background" Color="#202020" />
-    <SolidColorBrush x:Key="content-subtle" Color="#DFDFDF" />
-
-    <SolidColorBrush x:Key="danger" Color="#FE583E" />
-    <SolidColorBrush x:Key="danger-hover" Color="#F3381B" />
-    <SolidColorBrush x:Key="danger-pressed" Color="#FF7465" />
-    <SolidColorBrush x:Key="success" Color="#91BF6B" />
-    <SolidColorBrush x:Key="success-hover" Color="#11AD1D" />
-    <SolidColorBrush x:Key="success-pressed" Color="#44ED51" />
-    <SolidColorBrush x:Key="warning" Color="#FFC900" />
-    <SolidColorBrush x:Key="blue" Color="#00A0FF" />
-
-    <SolidColorBrush x:Key="map-overlay-border-background" Color="#DD000000" />
-    <SolidColorBrush x:Key="map-overlay-border-foreground" Color="#ffffff" />
-
-    <ElementTheme x:Key="theme-active">Dark</ElementTheme>
-    <ElementTheme x:Key="theme-dark">Dark</ElementTheme>
-    <ElementTheme x:Key="theme-light">Light</ElementTheme>
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="TintColor">#91BF6B</Color>
+    <!--  Color meant to render text readable on a TintColor colored background  -->
+    <Color x:Key="TintOffsetColor">#FFFFFF</Color>
+    <Color x:Key="ChromeBackgroundColor">#2B2B2B</Color>
+    <Color x:Key="ChromeBackgroundHoverColor">#353535</Color>
+    <Color x:Key="ChromeForegroundColor">#FFFFFF</Color>
+    <Color x:Key="ChromeBorderColor">#404040</Color>
+    <Color x:Key="ContentForegroundColor">#FFFFFF</Color>
+    <Color x:Key="ContentBackgroundColor">#202020</Color>
+    <Color x:Key="ContentSubtleColor">#DFDFDF</Color>
+    <Color x:Key="DangerColor">#FE583E</Color>
+    <Color x:Key="SuccessColor">#91BF6B</Color>
+    <Color x:Key="BlueColor">#00A0FF</Color>
+    <Color x:Key="MapShadeColor">#DD000000</Color>
+    <!--  Color meant to render text readable on a MapShadeColor colored background  -->
+    <Color x:Key="MapShadeOffsetColor">#FFFFFF</Color>
+    <Color x:Key="ChromeBackgroundDisabledColor">#202020</Color>
+    <Color x:Key="AttributionBackgroundColor">#BBFFFFFF</Color>
+    <Color x:Key="AttributionBorderColor">#AAAAAAAA</Color>
+    <Color x:Key="AttributionForegroundColor">#000000</Color>
 </ResourceDictionary>

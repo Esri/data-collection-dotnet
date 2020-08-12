@@ -1,24 +1,14 @@
-﻿<customcontrols:CardBase
-    xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
-    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards.BookmarksCard"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Esri.ArcGISRuntime.Toolkit.UI.Controls" xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
-
-    <UserControl.Resources>
-        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-    </UserControl.Resources>
-    <Grid Background="{ThemeResource content-background}">
+﻿<customcontrols:CardBase x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards.BookmarksCard"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:controls="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
+                         xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls">
+    <Grid Background="{ThemeResource ContentBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource CardTopBar}">
+        <Border Style="{StaticResource CardTopBarStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -26,36 +16,38 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Path Data="{StaticResource icon-bookmark-16}" Style="{StaticResource PathIconBase}" Margin="{StaticResource padding-default}" />
-                <TextBlock Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Bookmarks_Panelheader}"
-                           Style="{StaticResource BaseTextBlockStyle}" 
+                <Path Margin="{StaticResource UniformLargeThickness}"
+                      Data="{StaticResource icon-bookmark-16}"
+                      Style="{StaticResource PathIconStyle}" />
+                <TextBlock Grid.Column="1"
+                           Margin="{StaticResource UniformLargeThickness}"
                            VerticalAlignment="Center"
-                           FontSize="{StaticResource chrome-font-size-large}"
-                           Margin="{StaticResource padding-default}"
+                           FontSize="{StaticResource LargeFontSize}"
                            FontWeight="Normal"
-                           Grid.Column="1" />
-                <Button Command="{x:Bind ToggleStateCommand, Mode=OneWay}"
-                        Grid.Column="2"
-                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                        Style="{StaticResource CardCloseButton}">
-                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}"  />
+                           Style="{StaticResource BaseTextBlockStyle}"
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Bookmarks_Panelheader}" />
+                <Button Grid.Column="2"
+                        Command="{x:Bind ToggleStateCommand, Mode=OneWay}"
+                        Style="{StaticResource CloseButtonStyle}"
+                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconStyle}" />
                 </Button>
-                <Button Command="{x:Bind ToggleStateCommand}"
-                        Grid.Column="2"
-                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                        Style="{StaticResource CardCloseButton}">
-                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}"  />
+                <Button Grid.Column="2"
+                        Command="{x:Bind ToggleStateCommand}"
+                        Style="{StaticResource CloseButtonStyle}"
+                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconStyle}" />
                 </Button>
-                <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneWay}" 
-                        Grid.Column="3"
-                                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}"
-                                    Style="{StaticResource CardCloseButton}">
-                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+                <Button Grid.Column="3"
+                        Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneWay}"
+                        Style="{StaticResource CloseButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}">
+                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconStyle}" />
                 </Button>
             </Grid>
         </Border>
-        <controls:BookmarksView GeoView="{x:Bind MainViewModel.MapAccessoryViewModel.MapView, Mode=OneWay}"
-                                ItemTemplate="{StaticResource BookmarksViewItemTemplate}"
-                                Grid.Row="1" />
+        <controls:BookmarksView Grid.Row="1"
+                                GeoView="{x:Bind MainViewModel.MapAccessoryViewModel.MapView, Mode=OneWay}"
+                                ItemTemplate="{StaticResource BookmarksViewItemTemplate}" />
     </Grid>
 </customcontrols:CardBase>

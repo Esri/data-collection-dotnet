@@ -36,10 +36,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 
             // customize colors
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = (Application.Current.Resources["chrome-background"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
-            titleBar.ButtonForegroundColor = (Application.Current.Resources["chrome-foreground"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
-            titleBar.ButtonHoverBackgroundColor = (Application.Current.Resources["chrome-background-hover"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
-            titleBar.ButtonHoverForegroundColor = (Application.Current.Resources["blue"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
+            titleBar.ButtonBackgroundColor = (Application.Current.Resources["ChromeBackgroundBrush"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
+            titleBar.ButtonForegroundColor = (Application.Current.Resources["ChromeForegroundBrush"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
+            titleBar.ButtonHoverBackgroundColor = (Application.Current.Resources["ChromeBackgroundHoverBrush"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
+            titleBar.ButtonHoverForegroundColor = (Application.Current.Resources["BlueBrush"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
 
             BroadcastMessenger.Instance.BroadcastMessengerValueChanged += Instance_BroadcastMessengerValueChanged;
         }
@@ -63,7 +63,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 
             AppTitleBar.Height = sender.Height;
             // TODO - update for RTL
-            SystemButtonColumn.Width = new GridLength(sender.SystemOverlayRightInset - 50);
+            SystemButtonColumn.Width = new GridLength(Math.Max(sender.SystemOverlayRightInset - 50, 0));
+
+            // Note: sometimes there is a crash when minimizing, suspected to be due to negative grid length
+            if (sender.SystemOverlayRightInset < 50)
+            {
+                throw new Exception();
+            }
         }
 
         public MainViewModel MainViewModel
