@@ -154,7 +154,7 @@
         </Button>
 
         <views:NavBar Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,-8'}"
-                      ctrl:ModernMapPanel.Role="CardAdorner"
+                      ctrl:ModernMapPanel.Role="CardAppendage"
                       ParentPanel="{x:Bind MapLayoutPanel}" />
 
         <cards:IdentifiedFeaturePopup Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource RVC}, ConverterParameter='0|8,8,0,8'}"

@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*******************************************************************************
+  * Copyright 2020 Esri
+  *
+  *  Licensed under the Apache License, Version 2.0 (the "License");
+  *  you may not use this file except in compliance with the License.
+  *  You may obtain a copy of the License at
+  *
+  *  http://www.apache.org/licenses/LICENSE-2.0
+  *
+  *   Unless required by applicable law or agreed to in writing, software
+  *   distributed under the License is distributed on an "AS IS" BASIS,
+  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  *   See the License for the specific language governing permissions and
+  *   limitations under the License.
+******************************************************************************/
+
+using System;
 #if __WPF__
 using System.Windows.Data;
 using CustomCultureInfo = System.Globalization.CultureInfo;
@@ -12,8 +28,20 @@ using CustomCultureInfo = System.String;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 {
+    /// <summary>
+    /// Converter designed to facilitate binding against the <see cref="ModernMapPanel.IsCollapsed"/> property
+    /// to facilitate responsive layouts.
+    /// </summary>
     public class ResponsiveValueConverter : IValueConverter
     {
+        /// <summary>
+        /// Chooses a value based on the bound boolean.
+        /// </summary>
+        /// <param name="value">Boolean value</param>
+        /// <param name="targetType">Any object</param>
+        /// <param name="parameter">Intended values to choose between, in the format: 'valueIfTrue|valueIfFalse'.</param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
             if (value is bool isCollapsed)

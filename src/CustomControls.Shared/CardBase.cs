@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*******************************************************************************
+  * Copyright 2020 Esri
+  *
+  *  Licensed under the Apache License, Version 2.0 (the "License");
+  *  you may not use this file except in compliance with the License.
+  *  You may obtain a copy of the License at
+  *
+  *  http://www.apache.org/licenses/LICENSE-2.0
+  *
+  *   Unless required by applicable law or agreed to in writing, software
+  *   distributed under the License is distributed on an "AS IS" BASIS,
+  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  *   See the License for the specific language governing permissions and
+  *   limitations under the License.
+******************************************************************************/
+
+using System;
 using System.ComponentModel;
 using System.Windows.Input;
 #if __UWP__
@@ -11,15 +27,17 @@ using System.Windows.Controls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 {
+    /// <summary>
+    /// Base class to be used for children of <see cref="ModernMapPanel"/> playing the role of <see cref="MapRole.Card"/>.
+    /// </summary>
     public class CardBase : UserControl
     {
         public bool IsOpen
         {
-            get { return (bool)GetValue(IsOpenProperty); }
-            set { SetValue(IsOpenProperty, value); }
+            get => (bool)GetValue(IsOpenProperty);
+            set => SetValue(IsOpenProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for IsOpen.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(CardBase), new PropertyMetadata(false, HandleIsOpenChanged));
 
@@ -37,20 +55,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         public CardState CardState
         {
-            get { return (CardState)GetValue(CardStateProperty); }
-            set { SetValue(CardStateProperty, value); }
+            get => (CardState)GetValue(CardStateProperty);
+            set => SetValue(CardStateProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for CardState.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CardStateProperty =
             DependencyProperty.Register(nameof(CardState), typeof(CardState), typeof(CardBase), new PropertyMetadata(CardState.Minimized, HandleCardStateChanged));
 
-
-
         public ModernMapPanel ParentPanel
         {
-            get { return (ModernMapPanel)GetValue(ParentPanelProperty); }
-            set { SetValue(ParentPanelProperty, value); }
+            get => (ModernMapPanel)GetValue(ParentPanelProperty);
+            set => SetValue(ParentPanelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ParentPanel.  This enables animation, styling, binding, etc...

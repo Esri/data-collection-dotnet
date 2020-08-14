@@ -199,7 +199,7 @@
             </Button>
 
             <views:NavBar Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,0,0,-4|8,8,0,-8'}"
-                          ctrl:ModernMapPanel.Role="CardAdorner"
+                          ctrl:ModernMapPanel.Role="CardAppendage"
                           ParentPanel="{Binding ElementName=ParentPanel}" />
 
             <cc:IdentifiedFeaturePopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
