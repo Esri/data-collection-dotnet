@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Windows.Input;
 #if __UWP__
 using Windows.UI.Xaml;
@@ -60,7 +58,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             DependencyProperty.Register("ParentPanel", typeof(ModernMapPanel), typeof(CardBase), new PropertyMetadata(null));
 
         private ToggleCommand _toggleCommand;
-        public ToggleCommand ToggleStateCommand => _toggleCommand ?? new ToggleCommand(this);
+        public ToggleCommand ToggleStateCommand => _toggleCommand ?? (_toggleCommand = new ToggleCommand(this));
     }
 
     public class ToggleCommand : ICommand

@@ -1,23 +1,11 @@
-﻿using ControlzEx.Behaviors;
-using ControlzEx.Native;
+﻿using ControlzEx.Native;
 using ControlzEx.Standard;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
-using Microsoft.Xaml.Behaviors;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 {
@@ -29,6 +17,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         public TitleBar()
         {
             InitializeComponent();
+            this.Loaded += TitleBar_Loaded;
+        }
+
+        private void TitleBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (ThisWindow != null)
+                UpdateMinizeIcon();
         }
 
         private MainWindow _window;
@@ -81,17 +76,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
                 Grid.SetColumn(RightPanel, 2);
                 Grid.SetRow(RightPanel, 0);
                 Grid.SetColumnSpan(RightPanel, 1);
-
-
             }
         }
 
         internal void MainWindow_StateChanged(object sender, EventArgs e)
         {
             UpdateMinizeIcon();
-            // Works around weird bug on Windows 10 with multiple, mixed-DPI monitors.
-            // Solution inspired by https://www.codesd.com/item/windowstyle-none-and-maximized-window-hack-does-not-work-with-multiple-monitors.html
         }
+
         private void OnDragMoveWindow(object sender, MouseButtonEventArgs e)
         {
             if (e.ButtonState == MouseButtonState.Pressed)
@@ -103,7 +95,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
                     }
                     ThisWindow.DragMove();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Ignore
                 }
@@ -236,7 +228,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
                 }
             }
         }
-
 
         /// <summary>
         /// Shows the system menu at the current mouse position.

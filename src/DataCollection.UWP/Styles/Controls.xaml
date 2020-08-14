@@ -405,7 +405,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="FlyoutPresenter">
-                    <uwptk:DropShadowPanel Style="{StaticResource AccessoryShadowStyle}">
+                    <uwptk:DropShadowPanel>
                         <Border Padding="{TemplateBinding Padding}"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"

@@ -7,7 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SharedConverters.xaml" />
-                <ResourceDictionary Source="Themes/Dark.xaml" />
+                <ResourceDictionary Source="Themes/Light.xaml" />
                 <ResourceDictionary Source="Styles/Brushes.xaml" />
                 <ResourceDictionary Source="Icons.xaml" />
                 <ResourceDictionary Source="Styles/SizesAndAlignment.xaml" />

@@ -57,12 +57,13 @@
                 <Path x:Name="IdentifyProgressBar"
                       Canvas.Left="{Binding IdentifyController.TappedScreenPosition, Converter={StaticResource PointToDoubleConverter}, ConverterParameter=Left|-22, Mode=OneWay}"
                       Canvas.Top="{Binding IdentifyController.TappedScreenPosition, Converter={StaticResource PointToDoubleConverter}, ConverterParameter=Top|-22, Mode=OneWay}"
+                      Width="44"
+                      Height="44"
                       Margin="0"
                       Data="{StaticResource icon-spinner-16}"
                       Fill="{StaticResource TintBrush}"
                       RenderTransformOrigin="0.5,0.5"
                       Stretch="Uniform"
-                      Height="44" Width="44"
                       Visibility="{Binding Source={StaticResource MainViewModel}, Path=IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Path.RenderTransform>
                         <RotateTransform Angle="0" />
@@ -237,8 +238,9 @@
                                  IsOpen="{Binding MapAccessoryViewModel.IsLayersOpen, Mode=OneWay}" />
 
             <!--  Sync View  -->
-            <Grid ctrl:ModernMapPanel.Role="ModalLightbox"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            <Grid HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  ctrl:ModernMapPanel.Role="ModalLightbox"
                   Background="{DynamicResource MapShadeBrush}"
                   Visibility="{Binding SyncViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                 <transientoverlays:SyncProgressView HorizontalAlignment="Center"
@@ -247,9 +249,10 @@
             </Grid>
 
             <!--  Attribution overlay  -->
-            <Grid ctrl:ModernMapPanel.Role="ModalLightbox"
+            <Grid HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  ctrl:ModernMapPanel.Role="ModalLightbox"
                   Background="{DynamicResource MapShadeBrush}"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   Visibility="{Binding MapAccessoryViewModel.IsAttributionOpen, Converter={StaticResource BoolToVisibilityConverter}}">
                 <transientoverlays:AttributionOverlay HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"

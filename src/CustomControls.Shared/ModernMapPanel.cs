@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.ComponentModel;
 #if __WPF__
 using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Markup;
 #elif __UWP__
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
 using Windows.Foundation;
 #endif
 
@@ -68,36 +65,24 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
         public ObservableCollection<string> NavigationTitles
         {
             get { return (ObservableCollection<string>)GetValue(NavigationTitlesProperty); }
-            set { SetValue(NavigationTitlesProperty, value); }
+            private set { SetValue(NavigationTitlesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for NavigationTitles.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NavigationTitlesProperty =
             DependencyProperty.Register("NavigationTitles", typeof(ObservableCollection<string>), typeof(ModernMapPanel), new PropertyMetadata(null));
 
-        public static MapRole GetRole(DependencyObject obj)
-        {
-            return (MapRole)obj.GetValue(RoleProperty);
-        }
+        public static MapRole GetRole(DependencyObject depObj) => (MapRole)depObj?.GetValue(RoleProperty);
 
-        public static void SetRole(DependencyObject obj, MapRole value)
-        {
-            obj.SetValue(RoleProperty, value);
-        }
+        public static void SetRole(DependencyObject depObj, MapRole value) => depObj?.SetValue(RoleProperty, value);
 
         // Using a DependencyProperty as the backing store for Role.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RoleProperty =
             DependencyProperty.RegisterAttached("Role", typeof(MapRole), typeof(ModernMapPanel), new PropertyMetadata(MapRole.Accessory));
 
-        public static string GetTitle(DependencyObject obj)
-        {
-            return (string)obj.GetValue(TitleProperty);
-        }
+        public static string GetTitle(DependencyObject depObj) => (string)depObj?.GetValue(TitleProperty);
 
-        public static void SetTitle(DependencyObject obj, string value)
-        {
-            obj.SetValue(TitleProperty, value);
-        }
+        public static void SetTitle(DependencyObject depObj, string value) => depObj?.SetValue(TitleProperty, value);
 
         // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TitleProperty =
@@ -131,63 +116,68 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             FrameworkElement topLeftAccessory = null;
             FrameworkElement bottomLeftAccessory = null;
 
-            foreach (var child in Children.OfType<UIElement>())
+            foreach (UIElement element in Children)
             {
-                if (child is CardBase card)
+                if (element is UIElement child)
                 {
-                    card.PropertyChanged -= Child_PropertyChanged;
-                    card.PropertyChanged += Child_PropertyChanged;
-                }
-                switch (GetRole(child))
-                {
-                    case MapRole.Titlebar:
-                        titlebar = child;
-                        break;
-                    case MapRole.GeoView:
-                        geoview = child;
-                        break;
-                    case MapRole.ContextCanvas:
-                        canvas = child;
-                        break;
-                    case MapRole.Attribution:
-                        attribution = child;
-                        break;
-                    case MapRole.CardAdorner:
-                        adorner = child;
-                        break;
-                    case MapRole.Card:
-                        cards.Add(child);
-                        break;
-                    case MapRole.Accessory:
-                        if (child is FrameworkElement fe)
-                        {
-                            if (fe.HorizontalAlignment == HorizontalAlignment.Right)
+                    if (child is CardBase card)
+                    {
+                        card.PropertyChanged -= Child_PropertyChanged;
+                        card.PropertyChanged += Child_PropertyChanged;
+                    }
+
+                    switch (GetRole(child))
+                    {
+                        case MapRole.Titlebar:
+                            titlebar = child;
+                            break;
+                        case MapRole.GeoView:
+                            geoview = child;
+                            break;
+                        case MapRole.ContextCanvas:
+                            canvas = child;
+                            break;
+                        case MapRole.Attribution:
+                            attribution = child;
+                            break;
+                        case MapRole.CardAdorner:
+                            adorner = child;
+                            break;
+                        case MapRole.Card:
+                            cards.Add(child);
+                            break;
+                        case MapRole.Accessory:
+                            if (child is FrameworkElement fe)
                             {
-                                if (fe.VerticalAlignment == VerticalAlignment.Top)
+                                if (fe.HorizontalAlignment == HorizontalAlignment.Right)
                                 {
-                                    topRightAccessory = fe;
+                                    if (fe.VerticalAlignment == VerticalAlignment.Top)
+                                    {
+                                        topRightAccessory = fe;
+                                    }
+                                    else
+                                    {
+                                        bottomRightAccessory = fe;
+                                    }
                                 }
                                 else
                                 {
-                                    bottomRightAccessory = fe;
+                                    if (fe.VerticalAlignment == VerticalAlignment.Top)
+                                    {
+                                        topLeftAccessory = fe;
+                                    }
+                                    else
+                                    {
+                                        bottomLeftAccessory = fe;
+                                    }
                                 }
                             }
-                            else
-                            {
-                                if (fe.VerticalAlignment == VerticalAlignment.Top)
-                                {
-                                    topLeftAccessory = fe;
-                                }
-                                else
-                                {
-                                    bottomLeftAccessory = fe;
-                                }
-                            }
-                        }
-                        break;
-                    case MapRole.ModalLightbox:
-                        lightBoxes.Add(child);
-                        break;
+
+                            break;
+                        case MapRole.ModalLightbox:
+                            lightBoxes.Add(child);
+                            break;
+                    }
                 }
             }
 
@@ -299,65 +289,70 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             FrameworkElement topLeftAccessory = null;
             FrameworkElement bottomLeftAccessory = null;
 
-            foreach (var child in Children.OfType<UIElement>())
+            foreach (UIElement element in Children)
             {
-                switch (GetRole(child))
+                if (element is UIElement child)
                 {
-                    case MapRole.Titlebar:
-                        titlebar = child;
-                        break;
-                    case MapRole.GeoView:
-                        geoview = child;
-                        break;
-                    case MapRole.ContextCanvas:
-                        canvas = child;
-                        break;
-                    case MapRole.Attribution:
-                        attribution = child;
-                        break;
-                    case MapRole.CardAdorner:
-                        adorner = child;
-                        break;
-                    case MapRole.Card:
-                        if (child != TopCard)
-                        {
-                            // TODO - determine if this is the best way
-                            child.Arrange(new Rect(0,0,0,0));
-                        }
-                        break;
-                    case MapRole.Accessory:
-                        if (child is FrameworkElement fe)
-                        {
-                            if (fe.HorizontalAlignment == HorizontalAlignment.Right)
+                    switch (GetRole(child))
+                    {
+                        case MapRole.Titlebar:
+                            titlebar = child;
+                            break;
+                        case MapRole.GeoView:
+                            geoview = child;
+                            break;
+                        case MapRole.ContextCanvas:
+                            canvas = child;
+                            break;
+                        case MapRole.Attribution:
+                            attribution = child;
+                            break;
+                        case MapRole.CardAdorner:
+                            adorner = child;
+                            break;
+                        case MapRole.Card:
+                            if (child != TopCard)
                             {
-                                if (fe.VerticalAlignment == VerticalAlignment.Top)
+                                // TODO - determine if this is the best way
+                                child.Arrange(new Rect(0, 0, 0, 0));
+                            }
+
+                            break;
+                        case MapRole.Accessory:
+                            if (child is FrameworkElement fe)
+                            {
+                                if (fe.HorizontalAlignment == HorizontalAlignment.Right)
                                 {
-                                    topRightAccessory = fe;
+                                    if (fe.VerticalAlignment == VerticalAlignment.Top)
+                                    {
+                                        topRightAccessory = fe;
+                                    }
+                                    else
+                                    {
+                                        bottomRightAccessory = fe;
+                                    }
                                 }
                                 else
                                 {
-                                    bottomRightAccessory = fe;
+                                    if (fe.VerticalAlignment == VerticalAlignment.Top)
+                                    {
+                                        topLeftAccessory = fe;
+                                    }
+                                    else
+                                    {
+                                        bottomLeftAccessory = fe;
+                                    }
                                 }
                             }
-                            else
-                            {
-                                if (fe.VerticalAlignment == VerticalAlignment.Top)
-                                {
-                                    topLeftAccessory = fe;
-                                }
-                                else
-                                {
-                                    bottomLeftAccessory = fe;
-                                }
-                            }
-                        }
-                        break;
-                    case MapRole.ModalLightbox:
-                        lightBoxes.Add(child);
-                        break;
-                    default:
-                        child.Arrange(new Rect(0,0,0,0));
-                        break;
+
+                            break;
+                        case MapRole.ModalLightbox:
+                            lightBoxes.Add(child);
+                            break;
+                        default:
+                            child.Arrange(new Rect(0, 0, 0, 0));
+                            break;
+                    }
                 }
             }
 

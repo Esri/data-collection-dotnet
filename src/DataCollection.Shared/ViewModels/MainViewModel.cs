@@ -31,7 +31,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 #if WPF
-using System.Windows;
 using static System.Environment;
 #elif NETFX_CORE
 using Windows.ApplicationModel.Core;
@@ -762,12 +761,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                     IdentifiedFeatureViewModel = null;
                                 }
                             }
-                            else
+                            else if (x is OriginRelationshipViewModel)
                             {
                                 if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteFeature())
                                 {
                                     IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
                                 }
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.Fail("Binding error, should never get to this point; ensure command parameter is set");
                             }
                         }
                     }));
@@ -1060,20 +1063,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private ICommand _toggleOnlinePanelCommand;
         private ICommand _toggleOfflinePanelCommand;
 
-        public ICommand ToggleUserPanelCommand => _toggleUserCommand ?? new DelegateCommand((parm) =>
+        public ICommand ToggleUserPanelCommand => _toggleUserCommand ?? (_toggleUserCommand = new DelegateCommand((parm) =>
         {
             IsUserPanelOpen = !IsUserPanelOpen;
-        });
+        }));
 
-        public ICommand ToggleOfflinePanelCommand => _toggleOfflinePanelCommand ?? new DelegateCommand((parm) =>
+        public ICommand ToggleOfflinePanelCommand => _toggleOfflinePanelCommand ?? (_toggleOfflinePanelCommand = new DelegateCommand((parm) =>
         {
             IsOfflinePanelOpen = !IsOfflinePanelOpen;
-        });
+        }));
 
-        public ICommand ToggleOnlinePanelCommand => _toggleOnlinePanelCommand ?? new DelegateCommand((parm) =>
+        public ICommand ToggleOnlinePanelCommand => _toggleOnlinePanelCommand ?? (_toggleOnlinePanelCommand = new DelegateCommand((parm) =>
         {
             IsMapStatusPanelOpen = !IsMapStatusPanelOpen;
-        });
+        }));
 
         private void CloseAllPanels()
         {

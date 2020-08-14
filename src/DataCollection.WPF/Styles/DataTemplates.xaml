@@ -6,8 +6,7 @@
     <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
         <StackPanel>
             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox Style="{StaticResource EditableFieldValueStyle}"
-                     Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                        Text="{Binding PopupFieldValue.ValidationError.Message}"
                        Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />

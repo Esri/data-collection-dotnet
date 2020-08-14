@@ -22,15 +22,9 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Data;
 using ControlzEx.Behaviors;
 using Microsoft.Xaml.Behaviors;
-using ControlzEx.Native;
-using ControlzEx.Standard;
-using System.Reflection;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
 {

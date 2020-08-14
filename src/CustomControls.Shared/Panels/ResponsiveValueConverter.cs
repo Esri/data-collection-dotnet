@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-
 #if __WPF__
 using System.Windows.Data;
 using CustomCultureInfo = System.Globalization.CultureInfo;
@@ -20,14 +16,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
     {
         public object Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-            if (value is bool IsCollapsed)
+            if (value is bool isCollapsed)
             {
                 if (parameter is string stringParam)
                 {
                     var parts = stringParam.Split('|');
                     if (parts.Length > 1)
                     {
-                        if (IsCollapsed)
+                        if (isCollapsed)
                         {
 #if __UWP__
                             return XamlBindingHelper.ConvertValue(targetType, parts[0]);
