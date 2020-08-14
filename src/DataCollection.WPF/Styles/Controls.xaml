@@ -141,6 +141,7 @@
            BasedOn="{StaticResource FieldValueStyle}"
            TargetType="TextBox">
         <Setter Property="IsEnabled" Value="True" />
+        <Setter Property="IsReadOnly" Value="False" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="AcceptsReturn" Value="True" />
         <Setter Property="BorderBrush" Value="{DynamicResource ChromeBorderBrush}" />

@@ -27,7 +27,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
     {
         public FeatureEditorView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for IsOpen.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsOpenProperty =
-            DependencyProperty.Register("IsOpen", typeof(bool), typeof(CardBase), new PropertyMetadata(false, HandleIsOpenChanged));
+            DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(CardBase), new PropertyMetadata(false, HandleIsOpenChanged));
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -43,7 +43,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for CardState.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CardStateProperty =
-            DependencyProperty.Register("CardState", typeof(CardState), typeof(CardBase), new PropertyMetadata(CardState.Minimized, HandleCardStateChanged));
+            DependencyProperty.Register(nameof(CardState), typeof(CardState), typeof(CardBase), new PropertyMetadata(CardState.Minimized, HandleCardStateChanged));
 
 
 
@@ -55,7 +55,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for ParentPanel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ParentPanelProperty =
-            DependencyProperty.Register("ParentPanel", typeof(ModernMapPanel), typeof(CardBase), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ParentPanel), typeof(ModernMapPanel), typeof(CardBase), new PropertyMetadata(null));
 
         private ToggleCommand _toggleCommand;
         public ToggleCommand ToggleStateCommand => _toggleCommand ?? (_toggleCommand = new ToggleCommand(this));

@@ -30,7 +30,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for ExpandedWidthMinimum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ExpandedWidthMinimumProperty =
-            DependencyProperty.Register("ExpandedWidthMinimum", typeof(double), typeof(ModernMapPanel), new PropertyMetadata(600.0));
+            DependencyProperty.Register(nameof(ExpandedWidthMinimum), typeof(double), typeof(ModernMapPanel), new PropertyMetadata(600.0));
 
         public double ExpandedCardWidth
         {
@@ -40,7 +40,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for ExpandedCardWidth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ExpandedCardWidthProperty =
-            DependencyProperty.Register("ExpandedCardWidth", typeof(double), typeof(ModernMapPanel), new PropertyMetadata(350.0));
+            DependencyProperty.Register(nameof(ExpandedCardWidth), typeof(double), typeof(ModernMapPanel), new PropertyMetadata(350.0));
 
         public double CollapsedCardHeight
         {
@@ -50,7 +50,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for CollapsedCardHeight.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CollapsedCardHeightProperty =
-            DependencyProperty.Register("CollapsedCardHeight", typeof(double), typeof(ModernMapPanel), new PropertyMetadata(350.0));
+            DependencyProperty.Register(nameof(CollapsedCardHeight), typeof(double), typeof(ModernMapPanel), new PropertyMetadata(350.0));
 
         public bool IsCollapsed
         {
@@ -60,7 +60,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for IsCollapsed.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsCollapsedProperty =
-            DependencyProperty.Register("IsCollapsed", typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsCollapsed), typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
 
         public ObservableCollection<string> NavigationTitles
         {
@@ -70,7 +70,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for NavigationTitles.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty NavigationTitlesProperty =
-            DependencyProperty.Register("NavigationTitles", typeof(ObservableCollection<string>), typeof(ModernMapPanel), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(NavigationTitles), typeof(ObservableCollection<string>), typeof(ModernMapPanel), new PropertyMetadata(null));
 
         public static MapRole GetRole(DependencyObject depObj) => (MapRole)depObj?.GetValue(RoleProperty);
 
@@ -96,7 +96,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for uIElement.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TopCardProperty =
-            DependencyProperty.Register("TopCard", typeof(UIElement), typeof(ModernMapPanel), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TopCard), typeof(UIElement), typeof(ModernMapPanel), new PropertyMetadata(null));
 
         protected override Size MeasureOverride(Size availableSize)
         {
@@ -557,7 +557,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for ShouldEnableCardMaximize.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShouldEnableCardMaximizeProperty =
-            DependencyProperty.Register("ShouldEnableCardMaximize", typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(ShouldEnableCardMaximize), typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
 
 
 
@@ -569,6 +569,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 
         // Using a DependencyProperty as the backing store for ShouldEnableCardMinimize.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShouldEnableCardMinimizeProperty =
-            DependencyProperty.Register("ShouldEnableCardMinimize", typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(ShouldEnableCardMinimize), typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
     }
 }

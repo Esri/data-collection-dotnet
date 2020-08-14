@@ -1,4 +1,20 @@
-﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
+﻿/*******************************************************************************
+  * Copyright 2020 Esri
+  *
+  *  Licensed under the Apache License, Version 2.0 (the "License");
+  *  you may not use this file except in compliance with the License.
+  *  You may obtain a copy of the License at
+  *
+  *  http://www.apache.org/licenses/LICENSE-2.0
+  *
+  *   Unless required by applicable law or agreed to in writing, software
+  *   distributed under the License is distributed on an "AS IS" BASIS,
+  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  *   See the License for the specific language governing permissions and
+  *   limitations under the License.
+******************************************************************************/
+
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using System;
 using Windows.ApplicationModel.Core;
@@ -34,9 +50,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
         {
             if (e.Args.Key == Shared.Models.BroadcastMessageKey.ClosePopups)
             {
-                this.OfflineMapFlyout.Hide();
-                this.OnlineMapFlyout.Hide();
-                this.UserPanelFlyout.Hide();
+                OfflineMapFlyout.Hide();
+                OnlineMapFlyout.Hide();
+                UserPanelFlyout.Hide();
             }
         }
 
@@ -48,7 +64,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             }
 
             AppTitleBar.Height = sender.Height;
-            // TODO - update for RTL
+            // Future enhancement - update for RTL
             SystemButtonColumn.Width = new GridLength(Math.Max(sender.SystemOverlayRightInset - 50, 0));
 
             // Note: sometimes there is a crash when minimizing, suspected to be due to negative grid length
@@ -60,12 +76,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 
         public MainViewModel MainViewModel
         {
-            get { return (MainViewModel)GetValue(MainViewModelProperty); }
-            set { SetValue(MainViewModelProperty, value); }
+            get => (MainViewModel)GetValue(MainViewModelProperty);
+            set => SetValue(MainViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for MainViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MainViewModelProperty =
-            DependencyProperty.Register("MainViewModel", typeof(MainViewModel), typeof(TitleBar), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(TitleBar), new PropertyMetadata(null));
     }
 }

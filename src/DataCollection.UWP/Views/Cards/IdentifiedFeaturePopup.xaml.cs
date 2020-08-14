@@ -39,7 +39,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
             {
                 if (DataContext is MainViewModel mainViewModel)
                 {
-                    _mainViewModel = mainViewModel;
+                    MainViewModel = mainViewModel;
                     OnPropertyChanged(nameof(MainViewModel));
                     mainViewModel.PropertyChanged += (o, a) =>
                     {
@@ -52,12 +52,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
             };
         }
 
-        private MainViewModel _mainViewModel;
-
-        public MainViewModel MainViewModel
-        {
-            get => _mainViewModel;
-        }
+        public MainViewModel MainViewModel { get; private set; }
 
         private IdentifiedFeatureViewModel _identifiedFeatureViewModel;
 
