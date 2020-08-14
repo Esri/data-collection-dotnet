@@ -19,6 +19,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControls.UWP", "Custo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomControls.WPF", "CustomControls.WPF\CustomControls.WPF.csproj", "{15E01828-AE26-413B-A127-684D9BD89CEF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToolConfiguration", "ToolConfiguration", "{A5649E9B-0E21-43A6-8AD4-DD4AC538BB1E}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+		Settings.XamlStyler = Settings.XamlStyler
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlsTest", "ControlsTest\ControlsTest.csproj", "{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DataCollection.Shared\DataCollection.Shared.projitems*{0e4a590d-8ccc-44ca-9127-10ed36dd02e9}*SharedItemsImports = 13
@@ -146,6 +154,26 @@ Global
 		{15E01828-AE26-413B-A127-684D9BD89CEF}.Release|x64.Build.0 = Release|Any CPU
 		{15E01828-AE26-413B-A127-684D9BD89CEF}.Release|x86.ActiveCfg = Release|Any CPU
 		{15E01828-AE26-413B-A127-684D9BD89CEF}.Release|x86.Build.0 = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|ARM.Build.0 = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|x64.Build.0 = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Debug|x86.Build.0 = Debug|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|ARM.ActiveCfg = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|ARM.Build.0 = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|ARM64.Build.0 = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|x64.ActiveCfg = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|x64.Build.0 = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|x86.ActiveCfg = Release|Any CPU
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +182,7 @@ Global
 		{994D253E-4BD4-4699-8E24-D6E2EC18A74B} = {62FEFE21-746B-4D91-8AB6-2632BB12E2FD}
 		{CAED4EDE-D903-4F51-B46E-2268DE45D7AA} = {62FEFE21-746B-4D91-8AB6-2632BB12E2FD}
 		{15E01828-AE26-413B-A127-684D9BD89CEF} = {62FEFE21-746B-4D91-8AB6-2632BB12E2FD}
+		{0A2DE7A2-20F0-4CF3-9F1B-8F91E17A32E5} = {62FEFE21-746B-4D91-8AB6-2632BB12E2FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F8C1DBC-47C2-437E-811E-735A61F1DBC8}

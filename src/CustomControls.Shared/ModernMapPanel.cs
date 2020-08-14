@@ -205,6 +205,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             {
                 actualCardWidth = ExpandedCardWidth;
             }
+            if (TopCard != null)
+            {
+                foreach(var card in cards)
+                {
+                    if (card != TopCard)
+                    {
+                        card.Measure(new Size(0,0));
+                    }
+                }
+            }
 
             double titleBarBottomY = 0;
 
@@ -273,7 +283,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                     lb.Measure(new Size(availableSize.Width, availableSize.Height - titleBarBottomY));
                 }
             }
-            return base.MeasureOverride(availableSize);
+            // Note: this panel should not be used in scroll viewers or any other context where size could be infinite.
+            if (double.IsInfinity(availableSize.Width) || double.IsInfinity(availableSize.Height))
+            {
+                return new Size(0,0);
+            }
+            return new Size(availableSize.Width, availableSize.Height);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
