@@ -22,37 +22,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource CardTitleBorderStyle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Image Source="{Binding IdentifiedFeatureViewModel.IconImageSource}" Style="{StaticResource TitleBarIconImageStyle}" />
-                <TextBlock Grid.Column="1"
-                           Style="{StaticResource CardTitleStyle}"
-                           Text="{Binding IdentifiedFeatureViewModel.PopupManager.Title}" />
-                <Button Grid.Column="2"
-                        Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
-                        Style="{StaticResource CardCloseButtonStyle}"
-                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}" />
-                </Button>
-                <Button Grid.Column="2"
-                        Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
-                        Style="{StaticResource CardCloseButtonStyle}"
-                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}" />
-                </Button>
-                <Button Grid.Column="3"
-                        Command="{Binding ClearIdentifiedFeatureCommand, Mode=OneWay}"
-                        Style="{StaticResource CardCloseButtonStyle}">
-                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
-                </Button>
-            </Grid>
-        </Border>
+        <views:CardBar Title="{Binding IdentifiedFeatureViewModel.PopupManager.Title}"
+                       CloseCommand="{Binding ClearIdentifiedFeatureCommand}"
+                       ImageSource="{Binding IdentifiedFeatureViewModel.IconImageSource}"
+                       OwningCard="{Binding ElementName=Self}" />
         <TabControl Grid.Row="1"
                     Background="{DynamicResource ContentBackgroundBrush}"
                     BorderThickness="0"
@@ -73,8 +46,7 @@
                                    Text="Attributes" />
                         <!--  View Mode  -->
                         <!--  List of attributes from identified feature  -->
-                        <ItemsControl ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
-                                      Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                        <ItemsControl ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
@@ -217,8 +189,7 @@
 
                         <!--  Edit Mode  -->
                         <!--  List of relationships where identified feature is destination  -->
-                        <ItemsControl ItemsSource="{Binding DestinationRelationships}"
-                                      Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                        <ItemsControl ItemsSource="{Binding DestinationRelationships}" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>

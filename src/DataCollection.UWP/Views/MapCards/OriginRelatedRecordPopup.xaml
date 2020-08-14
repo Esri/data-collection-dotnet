@@ -18,45 +18,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource CardTopBarStyle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Image Margin="{StaticResource UniformLargeThickness}"
-                       Source="{x:Bind IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
-                       Style="{StaticResource TitleBarImageStyle}"
-                       Visibility="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.IconImageSource, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
-                <TextBlock Grid.Column="1"
-                           Margin="{StaticResource UniformLargeThickness}"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource LargeFontSize}"
-                           FontWeight="Normal"
-                           Style="{StaticResource BaseTextBlockStyle}"
-                           Text="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}" />
-                <Button Grid.Column="2"
-                        Command="{x:Bind ToggleStateCommand}"
-                        Style="{StaticResource CloseButtonStyle}"
-                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconStyle}" />
-                </Button>
-                <Button Grid.Column="2"
-                        Command="{x:Bind ToggleStateCommand}"
-                        Style="{StaticResource CloseButtonStyle}"
-                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconStyle}" />
-                </Button>
-                <Button Grid.Column="3"
-                        Command="{x:Bind IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
-                        Style="{StaticResource CloseButtonStyle}"
-                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}">
-                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconStyle}" />
-                </Button>
-            </Grid>
-        </Border>
+        <local:CardBar Title="{x:Bind IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                       CloseCommand="{x:Bind IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
+                       ImageSource="{x:Bind IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
+                       OwningCard="{x:Bind}" />
         <Pivot x:Name="OriginRelatedRecordPivot"
                Grid.Row="1"
                Style="{StaticResource TabPivotStyle}">

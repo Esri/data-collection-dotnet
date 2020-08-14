@@ -3,50 +3,16 @@
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
                          xmlns:mapping="using:Esri.ArcGISRuntime.Mapping"
-                         xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+                         xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views">
     <Grid Background="{ThemeResource ContentBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource CardTopBarStyle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Path Margin="{StaticResource UniformLargeThickness}"
-                      Data="{StaticResource icon-layers-16}"
-                      Style="{StaticResource PathIconStyle}" />
-                <TextBlock Grid.Column="1"
-                           Margin="{StaticResource UniformLargeThickness}"
-                           VerticalAlignment="Center"
-                           FontSize="{StaticResource LargeFontSize}"
-                           FontWeight="Normal"
-                           Style="{StaticResource BaseTextBlockStyle}"
-                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TOC_Panelheader}" />
-                <Button Grid.Column="2"
-                        Command="{x:Bind ToggleStateCommand}"
-                        Style="{StaticResource CloseButtonStyle}"
-                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconStyle}" />
-                </Button>
-                <Button Grid.Column="2"
-                        Command="{x:Bind ToggleStateCommand}"
-                        Style="{StaticResource CloseButtonStyle}"
-                        Visibility="{x:Bind ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconStyle}" />
-                </Button>
-                <Button Grid.Column="3"
-                        Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTocCommand, Mode=OneWay}"
-                        Style="{StaticResource CloseButtonStyle}"
-                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CloseButton_Tooltip}">
-                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconStyle}" />
-                </Button>
-            </Grid>
-        </Border>
+        <local:CardBar Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_Panelheader}"
+                       CloseCommand="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTocCommand, Mode=OneWay}"
+                       IconGeometry="{StaticResource icon-layers-16}"
+                       OwningCard="{x:Bind}" />
         <muxc:TreeView Grid.Row="1"
                        ItemContainerStyle="{StaticResource LayerTreeViewItemStyle}"
                        ItemsSource="{x:Bind MainViewModel.MapViewModel.Map.OperationalLayers, Mode=OneWay}">

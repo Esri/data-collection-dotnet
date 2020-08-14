@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.CardBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource CardTopBarStyle}" Padding="{StaticResource LeftMediumThickness}">
+        <Grid DataContext="{x:Bind}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image Source="{x:Bind ImageSource, Mode=OneWay}"
+                   Style="{StaticResource TitleBarImageStyle}" Margin="{StaticResource UniformMediumThickness}"
+                   Visibility="{x:Bind Path=ImageSource, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+            <!-- This uses Binding instead of x:Bind (and DataContext is set to this above) because 
+                 setting Path.Data to null crashes under x:Bind but not Binding-->
+            <Path Margin="{StaticResource UniformMediumThickness}"
+                  Data="{Binding IconGeometry, Mode=OneWay}"
+                  Style="{StaticResource PathIconStyle}"
+                  Visibility="{x:Bind IconGeometry, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+            <TextBlock Grid.Column="1"
+                       Margin="{StaticResource UniformMediumThickness}"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource LargeFontSize}"
+                       FontWeight="Normal"
+                       Style="{StaticResource BaseTextBlockStyle}"
+                       Text="{x:Bind Title, Mode=OneWay}" />
+            <Button Grid.Column="2"
+                    Command="{x:Bind OwningCard.ToggleStateCommand, Mode=OneWay}"
+                    Style="{StaticResource CloseButtonStyle}"
+                    Visibility="{x:Bind OwningCard.ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconStyle}" />
+            </Button>
+            <Button Grid.Column="2"
+                    Command="{x:Bind OwningCard.ToggleStateCommand, Mode=OneWay}"
+                    Style="{StaticResource CloseButtonStyle}"
+                    Visibility="{x:Bind OwningCard.ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconStyle}" />
+            </Button>
+            <Button Grid.Column="3"
+                    Command="{x:Bind CloseCommand, Mode=OneWay}"
+                    Style="{StaticResource CloseButtonStyle}">
+                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconStyle}" />
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>
