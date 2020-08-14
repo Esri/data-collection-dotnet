@@ -1,9 +1,6 @@
 ﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
 using Esri.ArcGISRuntime.UI.Controls;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
@@ -51,32 +48,32 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         }
 
         private ICommand _toggleBookmarksCommand;
-        private ICommand _toggleTOCCommand;
-        private ICommand _toggleLayersCommand;
+        private ICommand _toggleTableOfContentsCommand;
+        private ICommand _toggleLegendCommand;
 
         private ICommand _goHomeCommand;
         private ICommand _zoomInCommand;
         private ICommand _zoomOutCommand;
 
         private bool _bookmarksOpen;
-        private bool _tocOpen;
-        private bool _layersOpen;
+        private bool _tableOfContentsOpen;
+        private bool _legendOpen;
 
-        public bool IsLayersOpen
+        public bool IsLegendOpen
         {
-            get => _layersOpen;
+            get => _legendOpen;
             set
             {
-                if (_layersOpen != value)
+                if (_legendOpen != value)
                 {
-                    _layersOpen = value;
+                    _legendOpen = value;
                     OnPropertyChanged();
                 }
 
-                if (_layersOpen)
+                if (_legendOpen)
                 {
                     IsBookmarksOpen = false;
-                    IsTocOpen = false;
+                    IsTableOfContentsOpen = false;
                 }
             }
         }
@@ -94,26 +91,26 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
                 if (_bookmarksOpen)
                 {
-                    IsLayersOpen = false;
-                    IsTocOpen = false;
+                    IsLegendOpen = false;
+                    IsTableOfContentsOpen = false;
                 }
             }
         }
 
-        public bool IsTocOpen
+        public bool IsTableOfContentsOpen
         {
-            get => _tocOpen;
+            get => _tableOfContentsOpen;
             set
             {
-                if (_tocOpen != value)
+                if (_tableOfContentsOpen != value)
                 {
-                    _tocOpen = value;
+                    _tableOfContentsOpen = value;
                     OnPropertyChanged();
                 }
                 
-                if (_tocOpen)
+                if (_tableOfContentsOpen)
                 {
-                    IsLayersOpen = false;
+                    IsLegendOpen = false;
                     IsBookmarksOpen = false;
                 }
             }
@@ -138,20 +135,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             IsBookmarksOpen = !IsBookmarksOpen;
         }));
 
-        public ICommand ToggleTocCommand => _toggleTOCCommand ?? (_toggleTOCCommand = new DelegateCommand((parm) =>
+        public ICommand ToggleTocCommand => _toggleTableOfContentsCommand ?? (_toggleTableOfContentsCommand = new DelegateCommand((parm) =>
         {
-            IsTocOpen = !IsTocOpen;
+            IsTableOfContentsOpen = !IsTableOfContentsOpen;
         }));
 
-        public ICommand ToggleLayersCommand => _toggleLayersCommand ?? (_toggleLayersCommand = new DelegateCommand((parm) =>
+        public ICommand ToggleLayersCommand => _toggleLegendCommand ?? (_toggleLegendCommand = new DelegateCommand((parm) =>
         {
-            IsLayersOpen = !IsLayersOpen;
+            IsLegendOpen = !IsLegendOpen;
         }));
 
 
         public ICommand GoHomeCommand => _goHomeCommand ?? (_goHomeCommand = new DelegateCommand((parm) =>
         {
-            if (MapView?.Map?.InitialViewpoint is Esri.ArcGISRuntime.Mapping.Viewpoint initialViewpoint)
+            if (MapView?.Map?.InitialViewpoint is Mapping.Viewpoint initialViewpoint)
             {
                 MapView.SetViewpoint(initialViewpoint);
             }
@@ -159,7 +156,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
         public ICommand ZoomInCommand => _zoomInCommand ?? (_zoomInCommand = new DelegateCommand((parm) =>
         {
-            if (MapView?.GetCurrentViewpoint(Mapping.ViewpointType.CenterAndScale) is Esri.ArcGISRuntime.Mapping.Viewpoint currentViewpoint)
+            if (MapView?.GetCurrentViewpoint(Mapping.ViewpointType.CenterAndScale) is Mapping.Viewpoint currentViewpoint)
             {
                 MapView.SetViewpointScaleAsync(currentViewpoint.TargetScale * 0.6);
             }
@@ -183,8 +180,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         public void CloseAccessories()
         {
             IsBookmarksOpen = false;
-            IsLayersOpen = false;
-            IsTocOpen = false;
+            IsLegendOpen = false;
+            IsTableOfContentsOpen = false;
         }
     }
 }

@@ -10,12 +10,13 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image Source="{x:Bind ImageSource, Mode=OneWay}"
+                   Grid.Column="0"
                    Style="{StaticResource TitleBarImageStyle}" Margin="{StaticResource UniformMediumThickness}"
                    Visibility="{x:Bind Path=ImageSource, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
             <!-- This uses Binding instead of x:Bind (and DataContext is set to this above) because 
                  setting Path.Data to null crashes under x:Bind but not Binding-->
-            <Path Margin="{StaticResource UniformMediumThickness}"
-                  Data="{Binding IconGeometry, Mode=OneWay}"
+            <Path Data="{Binding IconGeometry, Mode=OneWay}"
+                  Grid.Column="0"
                   Style="{StaticResource PathIconStyle}"
                   Visibility="{x:Bind IconGeometry, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
             <TextBlock Grid.Column="1"

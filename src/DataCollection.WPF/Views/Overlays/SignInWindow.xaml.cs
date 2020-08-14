@@ -14,13 +14,13 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.ViewModels;
-using Esri.ArcGISRuntime.Security;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.ViewModels;
+using Esri.ArcGISRuntime.Security;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Overlays
 {
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
@@ -50,7 +50,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
             {
                 // get screen dpi
                 var dpiProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
-                var dpi = (int)dpiProperty.GetValue(null, null);
+                var dpi = (int)dpiProperty?.GetValue(null, null);
 
                 // calculate and det browser size based on dpi
                 WebBrowser.Height = ProportionalityConstant / dpi;

@@ -74,13 +74,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 
         /// <summary>
         /// Gets or sets the content of the affirmative button to be shown to the user
-        /// If nothing is speficied, the default is "OK"
+        /// If nothing is specified, the default is "OK"
         /// </summary>
         public string AffirmativeActionButtonContent { get; private set; }
 
         /// <summary>
         /// Gets or sets the content of the negative button to be shown to the user
-        /// If nothing is speficied, the default is "Cancel"
+        /// If nothing is specified, the default is "Cancel"
         /// </summary>
         public string NegativeActionButtonContent { get; private set; }
 

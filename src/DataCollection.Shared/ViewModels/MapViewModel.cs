@@ -21,10 +21,7 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Location;
 using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.Portal;
-using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
@@ -129,7 +126,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_areaOfInterest != value)
                 {
                     _areaOfInterest = value;
-                    // PropertyChange ommitted because of issue when two-way x:Bind bound on UWP
+                    // PropertyChange omitted because of issue when two-way x:Bind bound on UWP
                 }
             }
         }

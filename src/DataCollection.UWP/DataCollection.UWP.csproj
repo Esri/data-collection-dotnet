@@ -432,7 +432,6 @@
       <Version>2.3.200213001</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CustomControls.UWP\CustomControls.UWP.csproj">
       <Project>{caed4ede-d903-4f51-b46e-2268de45d7aa}</Project>

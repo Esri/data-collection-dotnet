@@ -14,22 +14,21 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Helpers;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Helpers;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
 {
     /// <summary>
     /// Interaction logic for IdentifiedFeaturePopup.xaml
     /// </summary>
-    public sealed partial class IdentifiedFeaturePopup : CardBase, INotifyPropertyChanged
+    public sealed partial class IdentifiedFeaturePopup : INotifyPropertyChanged
     {
         public IdentifiedFeaturePopup()
         {
@@ -101,7 +100,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Event handler for user selecting to add a new attachment by capturing new media

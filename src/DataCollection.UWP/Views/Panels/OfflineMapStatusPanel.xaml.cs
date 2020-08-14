@@ -1,21 +1,19 @@
-﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels
 {
-    public sealed partial class OfflineMapStatusPanel : UserControl
+    public sealed partial class OfflineMapStatusPanel
     {
         public OfflineMapStatusPanel()
         {
             this.InitializeComponent();
         }
+        
         public MainViewModel MainViewModel
         {
-            get { return (MainViewModel)GetValue(MainViewModelProperty); }
-            set { SetValue(MainViewModelProperty, value); }
+            get => (MainViewModel)GetValue(MainViewModelProperty);
+            set => SetValue(MainViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for MainViewModel.  This enables animation, styling, binding, etc...

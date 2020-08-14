@@ -151,9 +151,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         /// <summary>
         /// MapAccessoryViewModel setter method
         /// </summary>
-        public static void SetMapAccessoryViewModel(DependencyObject mapView, MapAccessoryViewModel MapAccessoryViewModel)
+        public static void SetMapAccessoryViewModel(DependencyObject mapView, MapAccessoryViewModel mapAccessoryViewModel)
         {
-            (mapView as MapView)?.SetValue(MapAccessoryViewModelProperty, MapAccessoryViewModel);
+            (mapView as MapView)?.SetValue(MapAccessoryViewModelProperty, mapAccessoryViewModel);
         }
 
     }

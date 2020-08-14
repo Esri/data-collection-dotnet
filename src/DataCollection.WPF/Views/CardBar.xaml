@@ -11,9 +11,11 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image Source="{Binding ImageSource, ElementName=Self}"
+                   Grid.Column="0"
                    Style="{StaticResource TitleBarIconImageStyle}"
                    Visibility="{Binding Path=ImageSource, ElementName=Self, Converter={StaticResource NullToVisibilityConverter}}" />
             <Path Margin="{StaticResource UniformLargeThickness}"
+                  Grid.Column="0"
                   Data="{Binding ElementName=Self, Path=IconGeometry}"
                   Style="{StaticResource PathIconBase}"
                   Visibility="{Binding Path=IconGeometry, ElementName=Self, Converter={StaticResource NullToVisibilityConverter}}" />

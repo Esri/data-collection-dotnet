@@ -12,18 +12,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
     /// <summary>
     /// Interaction logic for TitleBar.xaml
     /// </summary>
-    public partial class TitleBar : UserControl
+    public partial class TitleBar
     {
         public TitleBar()
         {
             InitializeComponent();
-            this.Loaded += TitleBar_Loaded;
+            Loaded += TitleBar_Loaded;
         }
 
         private void TitleBar_Loaded(object sender, RoutedEventArgs e)
         {
             if (ThisWindow != null)
-                UpdateMinizeIcon();
+                UpdateMinimizeIcon();
         }
 
         private MainWindow _window;
@@ -81,24 +81,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 
         internal void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            UpdateMinizeIcon();
-        }
-
-        private void OnDragMoveWindow(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ButtonState == MouseButtonState.Pressed)
-                try
-                {
-                    if (ThisWindow.WindowState == WindowState.Maximized)
-                    {
-                        ThisWindow.WindowState = WindowState.Normal;
-                    }
-                    ThisWindow.DragMove();
-                }
-                catch (Exception)
-                {
-                    // Ignore
-                }
+            UpdateMinimizeIcon();
         }
 
         private void OnMinimizeWindow(object sender, RoutedEventArgs e)
@@ -109,14 +92,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         {
             if (ThisWindow.WindowState == WindowState.Maximized)
             {
+#pragma warning disable 618
                 ControlzEx.Windows.Shell.SystemCommands.RestoreWindow(ThisWindow);
+#pragma warning restore 618
             }
             else if (ThisWindow.WindowState == WindowState.Normal)
             {
+#pragma warning disable 618
                 ControlzEx.Windows.Shell.SystemCommands.MaximizeWindow(ThisWindow);
+#pragma warning restore 618
             }
         }
-        private void UpdateMinizeIcon()
+        private void UpdateMinimizeIcon()
         {
             if (ThisWindow.WindowState == WindowState.Maximized)
             {
@@ -147,8 +134,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
                 HandleMouseLeftButtonDown(e, true, true);
             }
         }
-
-        /// <inheritdoc />
+        
         private void OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             base.OnMouseRightButtonUp(e);
@@ -159,8 +145,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
             }
         }
 
-        private static readonly PropertyInfo criticalHandlePropertyInfo = typeof(Window).GetProperty("CriticalHandle", BindingFlags.NonPublic | BindingFlags.Instance);
-        private static readonly object[] emptyObjectArray = new object[0];
+        private static readonly PropertyInfo CriticalHandlePropertyInfo = typeof(Window).GetProperty("CriticalHandle", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly object[] EmptyObjectArray = new object[0];
 
         /// <summary>
         /// Shows the system menu at the current mouse position.
@@ -168,7 +154,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         /// <param name="e">The mouse event args.</param>
         /// <param name="handleDragMove">Defines if window dragging should be handled.</param>
         /// <param name="handleStateChange">Defines if window state changes should be handled.</param>
-        public static void HandleMouseLeftButtonDown(MouseButtonEventArgs e, bool handleDragMove, bool handleStateChange)
+        private static void HandleMouseLeftButtonDown(MouseButtonEventArgs e, bool handleDragMove, bool handleStateChange)
         {
             var dependencyObject = e.Source as DependencyObject;
 
@@ -187,7 +173,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         /// <param name="e">The mouse event args.</param>
         /// <param name="handleDragMove">Defines if window dragging should be handled.</param>
         /// <param name="handleStateChange">Defines if window state changes should be handled.</param>
-        public static void HandleMouseLeftButtonDown(DependencyObject dependencyObject, MouseButtonEventArgs e, bool handleDragMove, bool handleStateChange)
+        private static void HandleMouseLeftButtonDown(DependencyObject dependencyObject, MouseButtonEventArgs e, bool handleDragMove, bool handleStateChange)
         {
             var window = Window.GetWindow(dependencyObject);
 
@@ -205,10 +191,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
                 window.VerifyAccess();
 
                 // for the touch usage
+#pragma warning disable 618
                 UnsafeNativeMethods.ReleaseCapture();
 
-                var criticalHandle = (IntPtr)criticalHandlePropertyInfo.GetValue(window, emptyObjectArray);
+                var criticalHandle = (IntPtr)CriticalHandlePropertyInfo.GetValue(window, EmptyObjectArray);
                 // DragMove works too, but not on maximized windows
+
                 NativeMethods.SendMessage(criticalHandle, WM.SYSCOMMAND, (IntPtr)SC.MOUSEMOVE, IntPtr.Zero);
                 NativeMethods.SendMessage(criticalHandle, WM.LBUTTONUP, IntPtr.Zero, IntPtr.Zero);
             }
@@ -227,6 +215,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
                     ControlzEx.Windows.Shell.SystemCommands.RestoreWindow(window);
                 }
             }
+#pragma warning restore 618
         }
 
         /// <summary>
@@ -234,7 +223,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         /// </summary>
         /// <param name="dependencyObject">The object which was the source of the mouse event.</param>
         /// <param name="e">The mouse event args.</param>
-        public static void ShowSystemMenu(DependencyObject dependencyObject, MouseButtonEventArgs e)
+        private static void ShowSystemMenu(DependencyObject dependencyObject, MouseButtonEventArgs e)
         {
             var window = Window.GetWindow(dependencyObject);
 
@@ -251,21 +240,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         /// </summary>
         /// <param name="window">The window for which the system menu should be shown.</param>
         /// <param name="e">The mouse event args.</param>
-        public static void ShowSystemMenu(Window window, MouseButtonEventArgs e)
+        private static void ShowSystemMenu(Window window, MouseButtonEventArgs e)
         {
             e.Handled = true;
 
+#pragma warning disable 618
             ControlzEx.Windows.Shell.SystemCommands.ShowSystemMenu(window, e);
-        }
-
-        /// <summary>
-        /// Shows the system menu at <paramref name="screenLocation"/>.
-        /// </summary>
-        /// <param name="window">The window for which the system menu should be shown.</param>
-        /// <param name="screenLocation">The location at which the system menu should be shown.</param>
-        public static void ShowSystemMenu(Window window, Point screenLocation)
-        {
-            ControlzEx.Windows.Shell.SystemCommands.ShowSystemMenu(window, screenLocation);
+#pragma warning restore 618
         }
         #endregion
 
@@ -284,17 +265,26 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         }
         private void OfflinePopup_Closed(object sender, EventArgs e)
         {
-            (this.DataContext as MainViewModel).IsOfflinePanelOpen = false;
+            if (DataContext is MainViewModel vm)
+            {
+                vm.IsOfflinePanelOpen = false;
+            }
         }
 
         private void OnlinePopup_Closed(object sender, EventArgs e)
         {
-            (this.DataContext as MainViewModel).IsMapStatusPanelOpen = false;
+            if (DataContext is MainViewModel vm)
+            {
+                vm.IsMapStatusPanelOpen = false;
+            }
         }
 
         private void UserPopup_Closed(object sender, EventArgs e)
         {
-            (this.DataContext as MainViewModel).IsUserPanelOpen = false;
+            if (DataContext is MainViewModel vm)
+            {
+                vm.IsUserPanelOpen = false;
+            }
         }
     }
 }

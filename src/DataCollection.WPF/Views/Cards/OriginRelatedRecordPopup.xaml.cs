@@ -14,10 +14,10 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Helpers;
 using System.Windows;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Helpers;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
 {
     /// <summary>
     /// Interaction logic for RelatedRecordPopup.xaml

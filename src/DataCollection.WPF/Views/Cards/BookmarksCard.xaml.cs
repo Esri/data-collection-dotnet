@@ -1,4 +1,4 @@
-﻿namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.MapCards
+﻿namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
 {
     /// <summary>
     /// Interaction logic for BookmarksCard.xaml

@@ -14,7 +14,6 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using System;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities;
@@ -80,14 +79,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             {
                 _mainViewModel.IsBusyWaiting = e.IsBusy;
                 _mainViewModel.BusyWaitingMessage = e.Message;
-            }
-        }
-
-        private void InstanceOnBecameBusyWaiting(object sender, EventArgs e)
-        {
-            if (_mainViewModel != null)
-            {
-                _mainViewModel.IsBusyWaiting = true;
             }
         }
 

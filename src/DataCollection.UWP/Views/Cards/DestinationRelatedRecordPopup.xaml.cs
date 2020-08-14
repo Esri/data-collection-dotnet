@@ -14,21 +14,20 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
 {
     /// <summary>
     /// Interaction logic for DestinationRelatedRecordPopup.xaml
     /// </summary>
-    public sealed partial class DestinationRelatedRecordPopup : CardBase, INotifyPropertyChanged
+    public sealed partial class DestinationRelatedRecordPopup : INotifyPropertyChanged
     {
         public DestinationRelatedRecordPopup()
         {
@@ -37,9 +36,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             // set the DestinationRelationshipViewModel property when DataContext changes and DestinationRelationshipViewModel is set
             DataContextChanged += (s, e) =>
             {
-                if (DataContext is MainViewModel mainVM)
+                if (DataContext is MainViewModel mainVm)
                 {
-                    MainViewModel = mainVM;
+                    MainViewModel = mainVm;
                     OnPropertyChanged(nameof(MainViewModel));
                 }
             };
@@ -73,6 +72,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged;
     }
 }

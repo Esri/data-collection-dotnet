@@ -77,7 +77,6 @@
     <Style x:Key="TitleBarCaretIconStyle"
            BasedOn="{StaticResource PathIconStyle}"
            TargetType="Path">
-        <Setter Property="Fill" Value="{ThemeResource ChromeForegroundBrush}" />
         <Setter Property="Width" Value="{StaticResource IconSmallLength}" />
         <Setter Property="Height" Value="{StaticResource IconSmallLength}" />
         <Setter Property="Margin" Value="{StaticResource LeftLargeThickness}" />
@@ -420,7 +419,7 @@
     </Style>
     <Style x:Key="MapOverlayBorderStyle" TargetType="Border">
         <Setter Property="BorderBrush" Value="{StaticResource MapShadeBrush}" />
-        <Setter Property="BorderThickness" Value="{StaticResource MapLightboxBorderThickness}" />
+        <Setter Property="BorderThickness" Value="{StaticResource MapLightBoxBorderThickness}" />
     </Style>
     <Style x:Key="MapOverlayButtonStyle"
            BasedOn="{StaticResource ButtonBaseStyle}"

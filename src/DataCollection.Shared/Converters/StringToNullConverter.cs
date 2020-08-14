@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
 #if __UWP__
 using lang = System.String;

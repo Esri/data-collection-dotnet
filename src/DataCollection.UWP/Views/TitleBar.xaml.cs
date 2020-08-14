@@ -4,13 +4,10 @@ using System;
 using Windows.ApplicationModel.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 {
-    public sealed partial class TitleBar : UserControl
+    public sealed partial class TitleBar
     {
         public TitleBar()
         {
@@ -70,7 +67,5 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
         // Using a DependencyProperty as the backing store for MainViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MainViewModelProperty =
             DependencyProperty.Register("MainViewModel", typeof(MainViewModel), typeof(TitleBar), new PropertyMetadata(null));
-
-
     }
 }

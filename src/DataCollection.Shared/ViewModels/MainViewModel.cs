@@ -1085,8 +1085,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             IsMapStatusPanelOpen = false;
             MapAccessoryViewModel.IsAttributionOpen = false;
             MapAccessoryViewModel.IsBookmarksOpen = false;
-            MapAccessoryViewModel.IsTocOpen = false;
-            MapAccessoryViewModel.IsLayersOpen = false;
+            MapAccessoryViewModel.IsTableOfContentsOpen = false;
+            MapAccessoryViewModel.IsLegendOpen = false;
         }
     }
 }

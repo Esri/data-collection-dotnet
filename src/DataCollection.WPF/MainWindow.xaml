@@ -6,11 +6,10 @@
         xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
         xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
         xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters"
-        xmlns:mapcards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.MapCards"
-        xmlns:transientoverlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays"
         xmlns:utils="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
         xmlns:viewModels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels"
         xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views"
+        xmlns:overlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Overlays"
         Title="Data Collection for .NET (WPF)"
         BorderBrush="{DynamicResource TintBrush}"
         BorderThickness="{StaticResource ChromeBorderThickness}"
@@ -203,19 +202,19 @@
                           ctrl:ModernMapPanel.Role="CardAdorner"
                           ParentPanel="{Binding ElementName=ParentPanel}" />
 
-            <views:IdentifiedFeaturePopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+            <cc:IdentifiedFeaturePopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                                           ctrl:ModernMapPanel.Role="Card"
                                           ctrl:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.PopupManager.Title}"
                                           DataContext="{StaticResource MainViewModel}"
                                           IsOpen="{Binding IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}}" />
 
-            <views:OriginRelatedRecordPopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+            <cc:OriginRelatedRecordPopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                                             ctrl:ModernMapPanel.Role="Card"
                                             ctrl:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
                                             DataContext="{StaticResource MainViewModel}"
                                             IsOpen="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}" />
 
-            <views:DestinationRelatedRecordPopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+            <cc:DestinationRelatedRecordPopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                                                  ctrl:ModernMapPanel.Role="Card"
                                                  ctrl:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title}"
                                                  DataContext="{StaticResource MainViewModel}"
@@ -224,18 +223,18 @@
                         ctrl:ModernMapPanel.Role="Card"
                         ctrl:ModernMapPanel.Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
                         DataContext="{StaticResource MainViewModel}"
-                        IsOpen="{Binding MapAccessoryViewModel.IsTocOpen, Mode=OneWay}" />
-            <mapcards:BookmarksCard Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                        IsOpen="{Binding MapAccessoryViewModel.IsTableOfContentsOpen, Mode=OneWay}" />
+            <cc:BookmarksCard Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                                     ctrl:ModernMapPanel.Role="Card"
                                     ctrl:ModernMapPanel.Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
                                     DataContext="{StaticResource MainViewModel}"
                                     IsOpen="{Binding MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay}" />
 
-            <mapcards:LegendCard Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+            <cc:LegendCard Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource RVC}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                                  ctrl:ModernMapPanel.Role="Card"
                                  ctrl:ModernMapPanel.Title="{Binding Source={x:Null}, Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
                                  DataContext="{StaticResource MainViewModel}"
-                                 IsOpen="{Binding MapAccessoryViewModel.IsLayersOpen, Mode=OneWay}" />
+                                 IsOpen="{Binding MapAccessoryViewModel.IsLegendOpen, Mode=OneWay}" />
 
             <!--  Sync View  -->
             <Grid HorizontalAlignment="Stretch"
@@ -243,7 +242,7 @@
                   ctrl:ModernMapPanel.Role="ModalLightbox"
                   Background="{DynamicResource MapShadeBrush}"
                   Visibility="{Binding SyncViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                <transientoverlays:SyncProgressView HorizontalAlignment="Center"
+                <overlays:SyncProgressView HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     DataContext="{Binding Source={StaticResource MainViewModel}, Path=SyncViewModel}" />
             </Grid>
@@ -254,23 +253,23 @@
                   ctrl:ModernMapPanel.Role="ModalLightbox"
                   Background="{DynamicResource MapShadeBrush}"
                   Visibility="{Binding MapAccessoryViewModel.IsAttributionOpen, Converter={StaticResource BoolToVisibilityConverter}}">
-                <transientoverlays:AttributionOverlay HorizontalAlignment="Center"
+                <overlays:AttributionOverlay HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"
                                                       DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}" />
             </Grid>
 
             <!--  New feature overlay  -->
-            <views:AddFeatureView x:Name="AddFeatureView"
+            <overlays:AddFeatureView x:Name="AddFeatureView"
                                   ctrl:ModernMapPanel.Role="ModalLightbox"
                                   Visibility="{Binding IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
             <!--  Download view  -->
-            <views:DownloadView ctrl:ModernMapPanel.Role="ModalLightbox"
+            <overlays:DownloadView ctrl:ModernMapPanel.Role="ModalLightbox"
                                 Visibility="{Binding DownloadViewModel, Converter={StaticResource NullToVisibilityConverter}}"
                                 VisibleArea="{Binding ElementName=MapView, Path=VisibleArea}" />
 
             <!--  Sign In Window  -->
-            <views:SignInWindow ctrl:ModernMapPanel.Role="ModalLightbox" />
+            <overlays:SignInWindow ctrl:ModernMapPanel.Role="ModalLightbox" />
 
             <Grid ctrl:ModernMapPanel.Role="ModalLightbox"
                   Background="{StaticResource MapShadeBrush}"

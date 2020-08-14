@@ -14,11 +14,11 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.Geometry;
 using System.Windows;
 using System.Windows.Controls;
+using Esri.ArcGISRuntime.Geometry;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Overlays
 {
     /// <summary>
     /// Interaction logic for DownloadView.xaml
@@ -31,7 +31,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         }
 
         /// <summary>
-        /// Identifies the <see cref="MapViewProperty"/> property
+        /// Identifies the <see cref="VisibleAreaProperty"/> property
         /// </summary>
         public static readonly DependencyProperty VisibleAreaProperty = DependencyProperty.Register(
             nameof(VisibleArea),

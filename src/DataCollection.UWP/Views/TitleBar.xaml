@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.TitleBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:popups="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Popups">
+             xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels">
     <Grid>
         <Grid Background="{ThemeResource ChromeBackgroundBrush}">
             <Grid.ColumnDefinitions>
@@ -49,7 +49,7 @@
                     </StackPanel>
                     <Button.Flyout>
                         <Flyout x:Name="OnlineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
-                            <popups:OnlineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                            <panels:OnlineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>
@@ -68,7 +68,7 @@
                     </StackPanel>
                     <Button.Flyout>
                         <Flyout x:Name="OfflineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
-                            <popups:OfflineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                            <panels:OfflineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>
@@ -109,7 +109,7 @@
                     </StackPanel>
                     <Button.Flyout>
                         <Flyout x:Name="UserPanelFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
-                            <popups:SignedInUserPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                            <panels:SignedInUserPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>

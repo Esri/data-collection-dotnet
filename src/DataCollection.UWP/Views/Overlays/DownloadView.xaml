@@ -1,5 +1,5 @@
 ﻿<UserControl x:Name="DownloadUserControl"
-             x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.DownloadView"
+             x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays.DownloadView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>

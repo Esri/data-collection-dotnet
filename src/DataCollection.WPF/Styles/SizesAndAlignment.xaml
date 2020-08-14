@@ -20,9 +20,9 @@
     <Thickness x:Key="TopSidesLargeThickness">8,8,8,0</Thickness>
     <Thickness x:Key="TopMediumThickness">0,4,0,0</Thickness>
     <Thickness x:Key="UniformLargeThickness">8</Thickness>
-    <Thickness x:Key="MapLightboxBorderThickness">100,100,100,200</Thickness>
+    <Thickness x:Key="MapLightBoxBorderThickness">100,100,100,200</Thickness>
     <Thickness x:Key="UniformMediumThickness">4</Thickness>
-    <Thickness x:Key="UniformXLThickness">16</Thickness>
+    <Thickness x:Key="UniformXlThickness">16</Thickness>
     <Thickness x:Key="WidePaddingThickness">16,8,16,8</Thickness>
-    <Thickness x:Key="WidePaddingXLThickness">32,16,32,16</Thickness>
+    <Thickness x:Key="WidePaddingXlThickness">32,16,32,16</Thickness>
 </ResourceDictionary>

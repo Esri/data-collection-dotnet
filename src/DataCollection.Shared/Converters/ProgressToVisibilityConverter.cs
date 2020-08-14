@@ -15,7 +15,6 @@
 ******************************************************************************/
 
 using System;
-using System.Globalization;
 #if NETFX_CORE
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;

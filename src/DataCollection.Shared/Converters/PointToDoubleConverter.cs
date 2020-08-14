@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 #if __UWP__
 using Windows.UI.Xaml.Data;
 using Culture = System.String;
@@ -18,7 +15,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
     {
         public object Convert(object value, Type targetType, object parameter, Culture language)
         {
-            if (parameter is string positionString && value is Point screenpoint)
+            if (parameter is string positionString && value is Point screenPoint)
             {
                 string position = null;
                 double offset = 0;
@@ -30,16 +27,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
                 }
                 if (parts.Length > 1)
                 {
-                    Double.TryParse(parts[1], out offset);
+                    double.TryParse(parts[1], out offset);
                 }
                 switch (position)
                 {
                     case "Top":
                     case "Y":
-                        return screenpoint.Y + offset;
+                        return screenPoint.Y + offset;
                     case "Left":
                     case "X":
-                        return screenpoint.X + offset;
+                        return screenPoint.X + offset;
                 }
             }
             return value;

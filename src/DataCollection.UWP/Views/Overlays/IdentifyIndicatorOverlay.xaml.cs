@@ -1,12 +1,9 @@
-﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays
 {
-    public sealed partial class IdentifyIndicatorOverlay : UserControl
+    public sealed partial class IdentifyIndicatorOverlay
     {
         public IdentifyIndicatorOverlay()
         {

@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TransientOverlays
+﻿namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Overlays
 {
     /// <summary>
     /// Interaction logic for AttributionOverlay.xaml
     /// </summary>
-    public partial class AttributionOverlay : UserControl
+    public partial class AttributionOverlay
     {
         public AttributionOverlay()
         {

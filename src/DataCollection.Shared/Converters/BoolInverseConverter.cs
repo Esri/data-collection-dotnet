@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 #if __UWP__
 using Windows.UI.Xaml.Data;
 using Culture = System.String;
@@ -16,18 +13,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
     {
         public object Convert(object value, Type targetType, object parameter, Culture language)
         {
-            if (value is bool boolvalue)
+            if (value is bool booleanValue)
             {
-                return !boolvalue;
+                return !booleanValue;
             }
             return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, Culture language)
         {
-            if (value is bool boolvalue)
+            if (value is bool booleanValue)
             {
-                return !boolvalue;
+                return !booleanValue;
             }
             return value;
         }

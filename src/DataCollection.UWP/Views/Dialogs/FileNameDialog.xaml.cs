@@ -17,7 +17,7 @@
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Controls;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Dialogs
 {
     public sealed partial class FileNameDialog : ContentDialog
     {

@@ -1,13 +1,12 @@
 ﻿using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 {
     /// <summary>
     /// Interaction logic for NavBar.xaml
     /// </summary>
-    public partial class NavBar : UserControl
+    public partial class NavBar
     {
         public NavBar()
         {

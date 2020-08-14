@@ -167,7 +167,6 @@
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
                         <ToggleButton Name="ToggleButton"
-                                      Grid.Column="2"
                                       Background="{TemplateBinding Background}"
                                       BorderBrush="{TemplateBinding BorderBrush}"
                                       ClickMode="Press"

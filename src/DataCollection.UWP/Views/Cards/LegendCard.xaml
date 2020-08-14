@@ -1,4 +1,4 @@
-﻿<customcontrols:CardBase x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.MapCards.LegendCard"
+﻿<customcontrols:CardBase x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards.LegendCard"
                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"

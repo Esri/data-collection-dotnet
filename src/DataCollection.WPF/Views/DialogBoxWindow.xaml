@@ -38,15 +38,15 @@
                           Visibility="{Binding StackTrace, Converter={StaticResource NullToVisibilityConverter}}"
                           Style="{StaticResource TocCheckboxStyle}" Content="{Binding ., Converter={StaticResource LC}, ConverterParameter=Show_Stacktrace}"
                           IsChecked="False" />
-                <Button x:Name="OKDialogButton"
-                        Grid.Column="2"
+                <Button
+                    Grid.Column="2"
                         BorderBrush="{DynamicResource DangerBrush}"
                         Command="{Binding DismissDialogBoxCommand}"
                         CommandParameter="true"
                         Content="{Binding AffirmativeActionButtonContent}"
                         Foreground="{DynamicResource DangerBrush}"
                         Style="{StaticResource MapOverlayButtonStyle}" />
-                <Button x:Name="CancelDialogButton"
+                <Button
                         Grid.Column="3"
                         BorderBrush="{DynamicResource SuccessBrush}"
                         Command="{Binding DismissDialogBoxCommand}"

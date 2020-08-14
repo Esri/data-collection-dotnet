@@ -14,14 +14,14 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.Data;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Esri.ArcGISRuntime.Data;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
 {
     public sealed partial class FeatureEditorView : UserControl
     {
