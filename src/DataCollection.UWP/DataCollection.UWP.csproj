@@ -129,55 +129,58 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\IdentifyIndicatorOverlay.xaml.cs">
+    <Compile Include="Views\CardBar.xaml.cs">
+      <DependentUpon>CardBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlays\IdentifyIndicatorOverlay.xaml.cs">
       <DependentUpon>IdentifyIndicatorOverlay.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapCards\BookmarksCard.xaml.cs">
+    <Compile Include="Views\Cards\BookmarksCard.xaml.cs">
       <DependentUpon>BookmarksCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapCards\LegendCard.xaml.cs">
+    <Compile Include="Views\Cards\LegendCard.xaml.cs">
       <DependentUpon>LegendCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapCards\TocCard.xaml.cs">
+    <Compile Include="Views\Cards\TocCard.xaml.cs">
       <DependentUpon>TocCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapTransientOverlays\AddFeatureView.xaml.cs">
+    <Compile Include="Views\Overlays\AddFeatureView.xaml.cs">
       <DependentUpon>AddFeatureView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapCards\AttachmentsView.xaml.cs">
+    <Compile Include="Views\Cards\AttachmentsView.xaml.cs">
       <DependentUpon>AttachmentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapCards\DestinationRelatedRecordPopup.xaml.cs">
+    <Compile Include="Views\Cards\DestinationRelatedRecordPopup.xaml.cs">
       <DependentUpon>DestinationRelatedRecordPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapTransientOverlays\DownloadView.xaml.cs">
+    <Compile Include="Views\Overlays\DownloadView.xaml.cs">
       <DependentUpon>DownloadView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapCards\FeatureEditorView.xaml.cs">
+    <Compile Include="Views\Cards\FeatureEditorView.xaml.cs">
       <DependentUpon>FeatureEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\FileNameDialog.xaml.cs">
       <DependentUpon>FileNameDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapCards\IdentifiedFeaturePopup.xaml.cs">
+    <Compile Include="Views\Cards\IdentifiedFeaturePopup.xaml.cs">
       <DependentUpon>IdentifiedFeaturePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapCards\OriginRelatedRecordPopup.xaml.cs">
+    <Compile Include="Views\Cards\OriginRelatedRecordPopup.xaml.cs">
       <DependentUpon>OriginRelatedRecordPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MapTransientOverlays\SyncProgressView.xaml.cs">
+    <Compile Include="Views\Overlays\SyncProgressView.xaml.cs">
       <DependentUpon>SyncProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NavBar.xaml.cs">
       <DependentUpon>NavBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Popups\OfflineMapStatusPanel.xaml.cs">
+    <Compile Include="Views\Panels\OfflineMapStatusPanel.xaml.cs">
       <DependentUpon>OfflineMapStatusPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Popups\OnlineMapStatusPanel.xaml.cs">
+    <Compile Include="Views\Panels\OnlineMapStatusPanel.xaml.cs">
       <DependentUpon>OnlineMapStatusPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Popups\SignedInUserPanel.xaml.cs">
+    <Compile Include="Views\Panels\SignedInUserPanel.xaml.cs">
       <DependentUpon>SignedInUserPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TitleBar.xaml.cs">
@@ -329,39 +332,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\IdentifyIndicatorOverlay.xaml">
+    <Page Include="Views\CardBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapCards\BookmarksCard.xaml">
+    <Page Include="Views\Overlays\IdentifyIndicatorOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapCards\LegendCard.xaml">
+    <Page Include="Views\Cards\BookmarksCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapCards\TocCard.xaml">
+    <Page Include="Views\Cards\LegendCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapTransientOverlays\AddFeatureView.xaml">
+    <Page Include="Views\Cards\TocCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapCards\AttachmentsView.xaml">
+    <Page Include="Views\Overlays\AddFeatureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapCards\DestinationRelatedRecordPopup.xaml">
+    <Page Include="Views\Cards\AttachmentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapTransientOverlays\DownloadView.xaml">
+    <Page Include="Views\Cards\DestinationRelatedRecordPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapCards\FeatureEditorView.xaml">
+    <Page Include="Views\Overlays\DownloadView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\FeatureEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -369,15 +376,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapCards\IdentifiedFeaturePopup.xaml">
+    <Page Include="Views\Cards\IdentifiedFeaturePopup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MapCards\OriginRelatedRecordPopup.xaml">
+    <Page Include="Views\Cards\OriginRelatedRecordPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapTransientOverlays\SyncProgressView.xaml">
+    <Page Include="Views\Overlays\SyncProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -385,15 +392,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Popups\OfflineMapStatusPanel.xaml">
+    <Page Include="Views\Panels\OfflineMapStatusPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Popups\OnlineMapStatusPanel.xaml">
+    <Page Include="Views\Panels\OnlineMapStatusPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Popups\SignedInUserPanel.xaml">
+    <Page Include="Views\Panels\SignedInUserPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

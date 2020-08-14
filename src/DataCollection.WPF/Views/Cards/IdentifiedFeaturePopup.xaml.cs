@@ -14,10 +14,8 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Helpers;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 {
