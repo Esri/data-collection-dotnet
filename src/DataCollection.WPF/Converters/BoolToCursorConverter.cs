@@ -21,6 +21,9 @@ using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters
 {
+    /// <summary>
+    /// Converter used to make it convenient to bind the mouse cursor to a boolean value.
+    /// </summary>
     public class BoolToCursorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -16,7 +16,6 @@
 
 using ControlzEx.Native;
 using ControlzEx.Standard;
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using System;
 using System.Reflection;
 using System.Windows;
@@ -26,29 +25,48 @@ using System.Windows.Input;
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for TitleBar.xaml
+    /// Implements the responsive custom titlebar
     /// </summary>
     public partial class TitleBar
     {
         public TitleBar()
         {
             InitializeComponent();
+
+            // Do work that can only be done when the titlebar is loaded
             Loaded += TitleBar_Loaded;
         }
 
+        /// <summary>
+        /// The TitleBar_Loaded.
+        /// </summary>
         private void TitleBar_Loaded(object sender, RoutedEventArgs e)
         {
-            if (ThisWindow != null)
+            // Minimize icon can only be updated once the window is available.
+            if (ThisWindow != null) {
                 UpdateMinimizeIcon();
+            }
+
+            Loaded -= TitleBar_Loaded;
         }
 
+        /// <summary>
+        /// Holds a reference to the window.
+        /// </summary>
         private MainWindow _window;
+
+        /// <summary>
+        /// Gets the window associated with this view.
+        /// </summary>
         private MainWindow ThisWindow => _window ?? (_window = Window.GetWindow(this) as MainWindow);
 
-
+        /// <summary>
+        /// Implement responsive behavior by setting properties according to the new rendered size.
+        /// </summary>
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
+
             var size = sizeInfo.NewSize;
 
             if (size.Width < 600)
@@ -95,30 +113,34 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
             }
         }
 
-        internal void MainWindow_StateChanged(object sender, EventArgs e)
-        {
-            UpdateMinimizeIcon();
-        }
+        /// <summary>
+        /// Update the minimize/maximize button based on the window's current state
+        /// </summary>
+        internal void MainWindow_StateChanged(object sender, EventArgs e) => UpdateMinimizeIcon();
 
-        private void OnMinimizeWindow(object sender, RoutedEventArgs e)
-        {
-            SystemCommands.MinimizeWindow(ThisWindow);
-        }
+        /// <summary>
+        /// Handle minimize button press
+        /// </summary>
+        private void OnMinimizeWindow(object sender, RoutedEventArgs e) => SystemCommands.MinimizeWindow(ThisWindow);
+
+        /// <summary>
+        /// Handles maximize/minimize button presses
+        /// </summary>
         private void OnMaximizeWindow(object sender, RoutedEventArgs e)
         {
             if (ThisWindow.WindowState == WindowState.Maximized)
             {
-#pragma warning disable 618
-                ControlzEx.Windows.Shell.SystemCommands.RestoreWindow(ThisWindow);
-#pragma warning restore 618
+                SystemCommands.RestoreWindow(ThisWindow);
             }
             else if (ThisWindow.WindowState == WindowState.Normal)
             {
-#pragma warning disable 618
-                ControlzEx.Windows.Shell.SystemCommands.MaximizeWindow(ThisWindow);
-#pragma warning restore 618
+                SystemCommands.MaximizeWindow(ThisWindow);
             }
         }
+
+        /// <summary>
+        /// Updates the minimize/maximize button based on the window's current state
+        /// </summary>
         private void UpdateMinimizeIcon()
         {
             if (ThisWindow.WindowState == WindowState.Maximized)
@@ -132,175 +154,87 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
                 MaximizePath.Visibility = Visibility.Visible;
             }
         }
-        private void OnCloseWindow(object sender, RoutedEventArgs e)
-        {
-            ThisWindow.Close();
-        }
-        #region windowsteering
+
+        /// <summary>
+        /// Handle close button clicks.
+        /// </summary>
+        private void OnCloseWindow(object sender, RoutedEventArgs e) => ThisWindow.Close();
+
+        /// <summary>
+        /// Corrects popup behavior with toggle button.
+        /// </summary>
+        private void ToggleButton_MouseEnter(object sender, MouseEventArgs e) => UserPopup.StaysOpen = OfflinePopup.StaysOpen = OnlinePopup.StaysOpen = true;
+
+        /// <summary>
+        /// Corrects popup behavior with toggle button.
+        /// </summary>
+        private void ToggleButton_MouseLeave(object sender, MouseEventArgs e) => UserPopup.StaysOpen = OfflinePopup.StaysOpen = OnlinePopup.StaysOpen = false;
+
+        #region Custom window management based on Fluent Ribbon's RibbonWindow implementation
+        // Code based on Fluent.Ribbon's implementation
         // Source: https://github.com/fluentribbon/Fluent.Ribbon/blob/ad5c70ffc120b6676394e68438b4c2fc04e5ba90/Fluent.Ribbon/Controls/WindowSteeringHelperControl.cs 
         //     and https://github.com/fluentribbon/Fluent.Ribbon/blob/ad5c70ffc120b6676394e68438b4c2fc04e5ba90/Fluent.Ribbon/Helpers/WindowSteeringHelper.cs
         // MIT license: Copyright (c) 2009-2018 Bastian Schmidt, Degtyarev Daniel, Rikker Serg (https://github.com/fluentribbon/Fluent.Ribbon)
 
-        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-
-            if (ThisWindow.IsEnabled)
-            {
-                HandleMouseLeftButtonDown(e, true, true);
-            }
-        }
-        
+        /// <summary>
+        /// Show system menu on right click in titlebar.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/>.</param>
+        /// <param name="e">The e<see cref="MouseButtonEventArgs"/>.</param>
         private void OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             base.OnMouseRightButtonUp(e);
 
-            if (ThisWindow.IsEnabled)
-            {
-                ShowSystemMenu(this, e);
-            }
+            e.Handled = true;
+            #pragma warning disable 618
+            ControlzEx.Windows.Shell.SystemCommands.ShowSystemMenu(ThisWindow, e);
+            #pragma warning restore 618
         }
 
+        /// <summary>
+        /// Defines the CriticalHandlePropertyInfo.
+        /// </summary>
         private static readonly PropertyInfo CriticalHandlePropertyInfo = typeof(Window).GetProperty("CriticalHandle", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        /// <summary>
+        /// Defines the EmptyObjectArray.
+        /// </summary>
         private static readonly object[] EmptyObjectArray = new object[0];
 
         /// <summary>
-        /// Shows the system menu at the current mouse position.
+        /// Handle mouse clicks on titlebar
         /// </summary>
-        /// <param name="e">The mouse event args.</param>
-        /// <param name="handleDragMove">Defines if window dragging should be handled.</param>
-        /// <param name="handleStateChange">Defines if window state changes should be handled.</param>
-        private static void HandleMouseLeftButtonDown(MouseButtonEventArgs e, bool handleDragMove, bool handleStateChange)
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var dependencyObject = e.Source as DependencyObject;
-
-            if (dependencyObject == null)
-            {
-                return;
-            }
-
-            HandleMouseLeftButtonDown(dependencyObject, e, handleDragMove, handleStateChange);
-        }
-
-        /// <summary>
-        /// Shows the system menu at the current mouse position.
-        /// </summary>
-        /// <param name="dependencyObject">The object which was the source of the mouse event.</param>
-        /// <param name="e">The mouse event args.</param>
-        /// <param name="handleDragMove">Defines if window dragging should be handled.</param>
-        /// <param name="handleStateChange">Defines if window state changes should be handled.</param>
-        private static void HandleMouseLeftButtonDown(DependencyObject dependencyObject, MouseButtonEventArgs e, bool handleDragMove, bool handleStateChange)
-        {
-            var window = Window.GetWindow(dependencyObject);
-
-            if (window == null)
-            {
-                return;
-            }
-
-            if (handleDragMove
-                && e.ClickCount == 1)
+            if (e.ClickCount == 1)
             {
                 e.Handled = true;
 
-                // taken from DragMove internal code
-                window.VerifyAccess();
-
-                // for the touch usage
+                ThisWindow.VerifyAccess();
 #pragma warning disable 618
+                // for the touch usage
                 UnsafeNativeMethods.ReleaseCapture();
 
-                var criticalHandle = (IntPtr)CriticalHandlePropertyInfo.GetValue(window, EmptyObjectArray);
-                // DragMove works too, but not on maximized windows
+                var criticalHandle = (IntPtr)CriticalHandlePropertyInfo.GetValue(ThisWindow, EmptyObjectArray);
 
                 NativeMethods.SendMessage(criticalHandle, WM.SYSCOMMAND, (IntPtr)SC.MOUSEMOVE, IntPtr.Zero);
                 NativeMethods.SendMessage(criticalHandle, WM.LBUTTONUP, IntPtr.Zero, IntPtr.Zero);
+#pragma warning restore 618
             }
-            else if (handleStateChange
-                && e.ClickCount == 2
-                && (window.ResizeMode == ResizeMode.CanResize || window.ResizeMode == ResizeMode.CanResizeWithGrip))
+            else if (e.ClickCount == 2 && ThisWindow.ResizeMode == ResizeMode.CanResize || ThisWindow.ResizeMode == ResizeMode.CanResizeWithGrip)
             {
                 e.Handled = true;
 
-                if (window.WindowState == WindowState.Normal)
+                if (ThisWindow.WindowState == WindowState.Normal)
                 {
-                    ControlzEx.Windows.Shell.SystemCommands.MaximizeWindow(window);
+                    SystemCommands.MaximizeWindow(ThisWindow);
                 }
                 else
                 {
-                    ControlzEx.Windows.Shell.SystemCommands.RestoreWindow(window);
+                    SystemCommands.RestoreWindow(ThisWindow);
                 }
             }
-#pragma warning restore 618
-        }
-
-        /// <summary>
-        /// Shows the system menu at the current mouse position.
-        /// </summary>
-        /// <param name="dependencyObject">The object which was the source of the mouse event.</param>
-        /// <param name="e">The mouse event args.</param>
-        private static void ShowSystemMenu(DependencyObject dependencyObject, MouseButtonEventArgs e)
-        {
-            var window = Window.GetWindow(dependencyObject);
-
-            if (window == null)
-            {
-                return;
-            }
-
-            ShowSystemMenu(window, e);
-        }
-
-        /// <summary>
-        /// Shows the system menu at the current mouse position.
-        /// </summary>
-        /// <param name="window">The window for which the system menu should be shown.</param>
-        /// <param name="e">The mouse event args.</param>
-        private static void ShowSystemMenu(Window window, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-
-#pragma warning disable 618
-            ControlzEx.Windows.Shell.SystemCommands.ShowSystemMenu(window, e);
-#pragma warning restore 618
         }
         #endregion
-
-        private void WorkOnlineButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            UserPopup.StaysOpen = true;
-            OfflinePopup.StaysOpen = true;
-            OnlinePopup.StaysOpen = true;
-        }
-
-        private void WorkOnlineButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            UserPopup.StaysOpen = false;
-            OfflinePopup.StaysOpen = false;
-            OnlinePopup.StaysOpen = false;
-        }
-        private void OfflinePopup_Closed(object sender, EventArgs e)
-        {
-            if (DataContext is MainViewModel vm)
-            {
-                vm.IsOfflinePanelOpen = false;
-            }
-        }
-
-        private void OnlinePopup_Closed(object sender, EventArgs e)
-        {
-            if (DataContext is MainViewModel vm)
-            {
-                vm.IsMapStatusPanelOpen = false;
-            }
-        }
-
-        private void UserPopup_Closed(object sender, EventArgs e)
-        {
-            if (DataContext is MainViewModel vm)
-            {
-                vm.IsUserPanelOpen = false;
-            }
-        }
     }
 }

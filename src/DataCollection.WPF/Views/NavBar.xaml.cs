@@ -20,7 +20,7 @@ using System.Windows;
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for NavBar.xaml
+    /// Control for visualizing the navigation stack provided by <see cref="ModernMapPanel"/>.
     /// </summary>
     public partial class NavBar
     {
@@ -29,13 +29,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
             InitializeComponent();
         }
 
-        public ModernMapPanel ParentPanel
-        {
-            get => (ModernMapPanel)GetValue(ParentPanelProperty);
-            set => SetValue(ParentPanelProperty, value);
-        }
+        /// <summary>
+        /// A reference to the parent panel is needed for binding to the <see cref="ModernMapPanel.NavigationTitles" /> property which is shown in the nav bar..
+        /// </summary>
+        public ModernMapPanel ParentPanel { get => (ModernMapPanel)GetValue(ParentPanelProperty); set => SetValue(ParentPanelProperty, value); }
 
-        // Using a DependencyProperty as the backing store for ParentPanel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ParentPanelProperty =
             DependencyProperty.Register(nameof(ParentPanel), typeof(ModernMapPanel), typeof(NavBar), new PropertyMetadata(null));
     }

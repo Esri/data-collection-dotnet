@@ -23,6 +23,9 @@ using Windows.UI.Xaml;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 {
+    /// <summary>
+    /// Control shows a custom title bar, including buttons that contain flyouts.
+    /// </summary>
     public sealed partial class TitleBar
     {
         public TitleBar()
@@ -33,19 +36,24 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+
             // Set XAML element as a draggable region.
             Window.Current.SetTitleBar(AppTitleBar);
 
-            // customize colors
+            // Customize colors
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = (Application.Current.Resources["ChromeBackgroundBrush"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
             titleBar.ButtonForegroundColor = (Application.Current.Resources["ChromeForegroundBrush"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
             titleBar.ButtonHoverBackgroundColor = (Application.Current.Resources["ChromeBackgroundHoverBrush"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
             titleBar.ButtonHoverForegroundColor = (Application.Current.Resources["BlueBrush"] as Windows.UI.Xaml.Media.SolidColorBrush).Color;
 
+            // Flyout open state can't be bound, so listen for ClosePopups message and call Hide as needed
             BroadcastMessenger.Instance.BroadcastMessengerValueChanged += Instance_BroadcastMessengerValueChanged;
         }
 
+        /// <summary>
+        /// Commands to close popups are broadcast in response to certain view model state changes.
+        /// </summary>
         private void Instance_BroadcastMessengerValueChanged(object sender, BroadcastMessengerEventArgs e)
         {
             if (e.Args.Key == Shared.Models.BroadcastMessageKey.ClosePopups)
@@ -56,6 +64,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             }
         }
 
+        /// <summary>
+        /// Handle core app (UWP) titlebar property changes
+        /// </summary>
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             if (sender?.SystemOverlayRightInset == null || sender?.Height == null)
@@ -64,24 +75,22 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             }
 
             AppTitleBar.Height = sender.Height;
+
             // Future enhancement - update for RTL
-            SystemButtonColumn.Width = new GridLength(Math.Max(sender.SystemOverlayRightInset - 50, 0));
 
             // Note: sometimes there is a crash when minimizing, suspected to be due to negative grid length
-            if (sender.SystemOverlayRightInset < 50)
-            {
-                throw new Exception();
-            }
+            SystemButtonColumn.Width = new GridLength(Math.Max(sender.SystemOverlayRightInset - 50, 0));
         }
 
+        #region enable passing in viewmodel with binding
         public MainViewModel MainViewModel
         {
             get => (MainViewModel)GetValue(MainViewModelProperty);
             set => SetValue(MainViewModelProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for MainViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MainViewModelProperty =
             DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(TitleBar), new PropertyMetadata(null));
+        #endregion
     }
 }

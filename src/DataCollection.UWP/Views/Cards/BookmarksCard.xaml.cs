@@ -32,7 +32,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
             set => SetValue(MainViewModelProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for MainViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MainViewModelProperty =
             DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(BookmarksCard), new PropertyMetadata(null));
     }

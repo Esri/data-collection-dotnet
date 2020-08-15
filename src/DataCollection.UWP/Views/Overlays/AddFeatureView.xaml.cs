@@ -16,6 +16,9 @@
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays
 {
+    /// <summary>
+    /// Control shows a view for choosing where to add a feature.
+    /// </summary>
     public sealed partial class AddFeatureView
     {
         public AddFeatureView()

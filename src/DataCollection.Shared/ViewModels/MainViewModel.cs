@@ -99,7 +99,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 }
                 else if (l.Args.Key == BroadcastMessageKey.ClosePopups)
                 {
-                    CloseAllPanels();
+                    MapAccessoryViewModel.CloseAccessories();
                 }
             };
 
@@ -536,7 +536,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _deleteOfflineMapCommand ?? (_deleteOfflineMapCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        IsMapStatusPanelOpen = false;
+                        MapAccessoryViewModel.CloseAccessories();
 
                         // if online map is unreachable, do not proceed
                         if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
@@ -1015,78 +1015,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 _currentOfflineSubdirectory = null;
                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.DownloadPath);
             }
-        }
-
-        private bool _isOfflinePanelOpen;
-        public bool IsOfflinePanelOpen
-        {
-            get => _isOfflinePanelOpen;
-            set
-            {
-                if (_isOfflinePanelOpen != value)
-                {
-                    _isOfflinePanelOpen = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private bool _isMapStatusPanelOpen;
-        public bool IsMapStatusPanelOpen
-        {
-            get => _isMapStatusPanelOpen;
-            set
-            {
-                if (_isMapStatusPanelOpen != value)
-                {
-                    _isMapStatusPanelOpen = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private bool _isUserPanelOpen;
-        public bool IsUserPanelOpen
-        {
-            get => _isUserPanelOpen;
-            set
-            {
-                if (_isUserPanelOpen != value)
-                {
-                    _isUserPanelOpen = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private ICommand _toggleUserCommand;
-        private ICommand _toggleOnlinePanelCommand;
-        private ICommand _toggleOfflinePanelCommand;
-
-        public ICommand ToggleUserPanelCommand => _toggleUserCommand ?? (_toggleUserCommand = new DelegateCommand((parm) =>
-        {
-            IsUserPanelOpen = !IsUserPanelOpen;
-        }));
-
-        public ICommand ToggleOfflinePanelCommand => _toggleOfflinePanelCommand ?? (_toggleOfflinePanelCommand = new DelegateCommand((parm) =>
-        {
-            IsOfflinePanelOpen = !IsOfflinePanelOpen;
-        }));
-
-        public ICommand ToggleOnlinePanelCommand => _toggleOnlinePanelCommand ?? (_toggleOnlinePanelCommand = new DelegateCommand((parm) =>
-        {
-            IsMapStatusPanelOpen = !IsMapStatusPanelOpen;
-        }));
-
-        private void CloseAllPanels()
-        {
-            IsUserPanelOpen = false;
-            IsOfflinePanelOpen = false;
-            IsMapStatusPanelOpen = false;
-            MapAccessoryViewModel.IsAttributionOpen = false;
-            MapAccessoryViewModel.IsBookmarksOpen = false;
-            MapAccessoryViewModel.IsTableOfContentsOpen = false;
-            MapAccessoryViewModel.IsLegendOpen = false;
         }
     }
 }

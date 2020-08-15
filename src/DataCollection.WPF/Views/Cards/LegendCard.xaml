@@ -11,7 +11,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <views:CardBar Title="{Binding ., Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
-                       CloseCommand="{Binding MapAccessoryViewModel.ToggleLayersCommand}"
+                       CloseCommand="{Binding MapAccessoryViewModel.ToggleLegendCommand}"
                        IconGeometry="{StaticResource icon-layers-16}"
                        OwningCard="{Binding ElementName=Self}" />
         <esri:Legend Grid.Row="1"

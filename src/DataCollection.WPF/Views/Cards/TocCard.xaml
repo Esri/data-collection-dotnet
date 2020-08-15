@@ -11,7 +11,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <views:CardBar Title="{Binding ., Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
-                       CloseCommand="{Binding MapAccessoryViewModel.ToggleTocCommand}"
+                       CloseCommand="{Binding MapAccessoryViewModel.ToggleTableOfContentsCommand}"
                        IconGeometry="{StaticResource icon-legend-16}"
                        OwningCard="{Binding ElementName=Self}" />
         <TreeView Grid.Row="1"

@@ -10,7 +10,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <local:CardBar Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_Panelheader}"
-                       CloseCommand="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTocCommand, Mode=OneWay}"
+                       CloseCommand="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTableOfContentsCommand, Mode=OneWay}"
                        IconGeometry="{StaticResource icon-layers-16}"
                        OwningCard="{x:Bind}" />
         <muxc:TreeView Grid.Row="1"

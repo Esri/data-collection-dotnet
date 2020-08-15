@@ -21,7 +21,6 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 using ControlzEx.Behaviors;
 using Microsoft.Xaml.Behaviors;
 
@@ -42,7 +41,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
             BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
 
-            this.StateChanged += TitleBarControl.MainWindow_StateChanged;
             this.Unloaded += OnUnloaded;
 
             _mainViewModel = TryFindResource("MainViewModel") as MainViewModel;
@@ -50,29 +48,27 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             // load settings for the custom tree survey dataset
             LoadTreeSurveySettings();
 
-        InitializeWindowChromeBehavior();
+            // Set up the custom window chrome behavior
+            InitializeWindowChromeBehavior();
+
+            // Listen for window state changes, notify the titlebar
+            StateChanged += TitleBarControl.MainWindow_StateChanged;
         }
+
+        /// <summary>
+        /// Adds the ControlzEx window behavior to this window, enabling proper window resize with the custom window.
+        /// </summary>
         private void InitializeWindowChromeBehavior()
         {
             var behavior = new WindowChromeBehavior();
             behavior.EnableMinimize = true;
-            BindingOperations.SetBinding(behavior, WindowChromeBehavior.ResizeBorderThicknessProperty, new Binding { Path = new PropertyPath(ResizeBorderThicknessProperty), Source = this });
-
+            behavior.ResizeBorderThickness = new Thickness(6);
             Interaction.GetBehaviors(this).Add(behavior);
         }
-
         
-        public Thickness ResizeBorderThickness
-        {
-            get { return (Thickness)GetValue(ResizeBorderThicknessProperty); }
-            set { SetValue(ResizeBorderThicknessProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ResizeBorderThickness.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ResizeBorderThicknessProperty =
-            DependencyProperty.Register("ResizeBorderThickness", typeof(Thickness), typeof(MainWindow), new PropertyMetadata(new Thickness(6)));
-
-        
+        /// <summary>
+        /// Updates the main view model with changes from the busy waiting messenger.
+        /// </summary>
         private void OnWaitStatusChanged(object sender, WaitStatusChangedEventArgs e)
         {
             if (_mainViewModel != null)
@@ -128,10 +124,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
         {
             // Unsubscribe from events.
             this.Unloaded -= OnUnloaded;
-            UserPromptMessenger.Instance.MessageValueChanged += DialogBoxMessenger_MessageValueChanged;
-            BusyWaitingMessenger.Instance.WaitStatusChanged += OnWaitStatusChanged;
+            UserPromptMessenger.Instance.MessageValueChanged -= DialogBoxMessenger_MessageValueChanged;
+            BusyWaitingMessenger.Instance.WaitStatusChanged -= OnWaitStatusChanged;
         }
-
-        
     }
 }

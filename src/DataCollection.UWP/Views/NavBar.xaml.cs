@@ -19,20 +19,25 @@ using Windows.UI.Xaml;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 {
+    /// <summary>
+    /// Meant to be used as a <see cref="MapRole.CardAppendage"/> to visualize the navigation stack provided by <see cref="ModernMapPanel"/>.
+    /// </summary>
     public sealed partial class NavBar
     {
         public NavBar()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
+        /// <summary>
+        /// Reference to the <see cref="ModernMapPanel"/> providing the navigation stack.
+        /// </summary>
         public ModernMapPanel ParentPanel
         {
             get => (ModernMapPanel)GetValue(ParentPanelProperty);
             set => SetValue(ParentPanelProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for ParentPanel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ParentPanelProperty =
             DependencyProperty.Register(nameof(ParentPanel), typeof(ModernMapPanel), typeof(NavBar), new PropertyMetadata(null));
     }

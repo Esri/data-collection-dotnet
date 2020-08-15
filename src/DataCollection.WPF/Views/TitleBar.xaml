@@ -24,19 +24,22 @@
                         Grid.Column="0"
                         Orientation="Horizontal">
                 <Image Source="../Images/ArcGIS_Open_Source_Apps.ico" Style="{StaticResource TitleBarIconImageStyle}" />
-                <TextBlock VerticalAlignment="Center" FontWeight="{StaticResource HeadingFontWeight}" Foreground="{StaticResource ChromeForegroundBrush}">
+                <TextBlock VerticalAlignment="Center"
+                           FontWeight="{StaticResource HeadingFontWeight}"
+                           Foreground="{StaticResource ChromeForegroundBrush}">
                     <Run Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
                     <Run Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=TitleBar_Suffix_WPF}" />
                 </TextBlock>
             </StackPanel>
             <StackPanel x:Name="CenterButtonContainer"
-                        Grid.Row="0" Grid.Column="1"
+                        Grid.Row="0"
+                        Grid.Column="1"
                         Orientation="Horizontal">
                 <ToggleButton x:Name="WorkOnlineButton"
                               HorizontalAlignment="Center"
-                              IsChecked="{Binding IsMapStatusPanelOpen, Mode=TwoWay}"
-                              MouseEnter="WorkOnlineButton_MouseEnter"
-                              MouseLeave="WorkOnlineButton_MouseLeave"
+                              IsChecked="{Binding MapAccessoryViewModel.IsMapStatusPanelOpen, Mode=TwoWay}"
+                              MouseEnter="ToggleButton_MouseEnter"
+                              MouseLeave="ToggleButton_MouseLeave"
                               Style="{StaticResource TitleBarToggleButtonStyle}"
                               ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip, Converter={StaticResource LC}}"
                               Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
@@ -55,9 +58,9 @@
                 </ToggleButton>
                 <ToggleButton x:Name="WorkOfflineButton"
                               HorizontalAlignment="Center"
-                              IsChecked="{Binding IsOfflinePanelOpen, Mode=TwoWay}"
-                              MouseEnter="WorkOnlineButton_MouseEnter"
-                              MouseLeave="WorkOnlineButton_MouseLeave"
+                              IsChecked="{Binding MapAccessoryViewModel.IsOfflinePanelOpen, Mode=TwoWay}"
+                              MouseEnter="ToggleButton_MouseEnter"
+                              MouseLeave="ToggleButton_MouseLeave"
                               Style="{StaticResource TitleBarToggleButtonStyle}"
                               ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip, Converter={StaticResource LC}}"
                               Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
@@ -74,7 +77,9 @@
                     </StackPanel>
                 </ToggleButton>
             </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="0" x:Name="RightPanel"
+            <StackPanel x:Name="RightPanel"
+                        Grid.Row="0"
+                        Grid.Column="0"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
                 <Button HorizontalAlignment="Stretch"
@@ -89,14 +94,15 @@
                 </Button>
                 <ToggleButton x:Name="UserPopupButton"
                               HorizontalAlignment="Right"
-                              IsChecked="{Binding IsUserPanelOpen, Mode=TwoWay}"
-                              MouseEnter="WorkOnlineButton_MouseEnter"
-                              MouseLeave="WorkOnlineButton_MouseLeave"
+                              IsChecked="{Binding MapAccessoryViewModel.IsUserPanelOpen, Mode=TwoWay}"
+                              MouseEnter="ToggleButton_MouseEnter"
+                              MouseLeave="ToggleButton_MouseLeave"
                               Style="{StaticResource TitleBarToggleButtonStyle}"
                               ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_UserButton_Tooltip, Converter={StaticResource LC}}"
                               Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal">
-                        <Ellipse Width="{StaticResource IconLargeLength}" Height="{StaticResource IconLargeLength}"
+                        <Ellipse Width="{StaticResource IconLargeLength}"
+                                 Height="{StaticResource IconLargeLength}"
                                  Visibility="{Binding AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="{Binding AuthViewModel.AuthenticatedUser.ThumbnailUri}" />
@@ -135,8 +141,7 @@
         <!--  Floating 'Working Online' Panel  -->
         <Popup x:Name="OnlinePopup"
                HorizontalAlignment="Center"
-               Closed="OnlinePopup_Closed"
-               IsOpen="{Binding IsMapStatusPanelOpen, Mode=OneWay}"
+               IsOpen="{Binding MapAccessoryViewModel.IsMapStatusPanelOpen, Mode=TwoWay}"
                Placement="Bottom"
                PlacementTarget="{Binding ElementName=WorkOnlineButton}"
                Style="{StaticResource PopupStyle}">
@@ -148,8 +153,7 @@
         <!--  Floating 'Working Offline' Panel  -->
         <Popup x:Name="OfflinePopup"
                HorizontalAlignment="Center"
-               Closed="OfflinePopup_Closed"
-               IsOpen="{Binding IsOfflinePanelOpen, Mode=OneWay}"
+               IsOpen="{Binding MapAccessoryViewModel.IsOfflinePanelOpen, Mode=TwoWay}"
                Placement="Bottom"
                PlacementTarget="{Binding ElementName=WorkOfflineButton}"
                Style="{StaticResource PopupStyle}">
@@ -161,8 +165,7 @@
         <!--  Floating User Panel  -->
         <Popup x:Name="UserPopup"
                HorizontalAlignment="Center"
-               Closed="UserPopup_Closed"
-               IsOpen="{Binding IsUserPanelOpen, Mode=OneWay}"
+               IsOpen="{Binding MapAccessoryViewModel.IsUserPanelOpen, Mode=TwoWay}"
                Placement="Bottom"
                PlacementTarget="{Binding ElementName=UserPopupButton}"
                Style="{StaticResource PopupStyle}">

@@ -20,7 +20,6 @@
                    FontSize="{StaticResource LargeFontSize}"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
                    Text="{Binding MapViewModel.Map.Item.Title}" />
-        <!--  TODO: localize  -->
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    Margin="{StaticResource RightMediumThickness}"

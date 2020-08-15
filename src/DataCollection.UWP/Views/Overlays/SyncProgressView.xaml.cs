@@ -16,6 +16,9 @@
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays
 {
+    /// <summary>
+    /// Control shows map syncronization progress.
+    /// </summary>
     public sealed partial class SyncProgressView
     {
         public SyncProgressView()

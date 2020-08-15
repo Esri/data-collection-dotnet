@@ -19,6 +19,9 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels
 {
+    /// <summary>
+    /// Control shows details about the signed-in user.
+    /// </summary>
     public sealed partial class SignedInUserPanel
     {
         public SignedInUserPanel()
@@ -32,7 +35,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels
             set => SetValue(MainViewModelProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for MainViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MainViewModelProperty =
             DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(SignedInUserPanel), new PropertyMetadata(null));
     }
