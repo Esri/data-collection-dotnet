@@ -10,6 +10,7 @@
         <StackPanel Orientation="Vertical">
             <TextBox x:Name="FileNameTextBox"
                      Style="{StaticResource FieldEditorTextBoxStyle}"
+                     AcceptsReturn="False" KeyDown="FileNameTextBox_KeyDown"
                      Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_DefaultAttachmentName}"
                      TextChanged="FileNameTextBox_TextChanged" />
             <TextBlock x:Name="ValidationTextBlock" Style="{StaticResource ValidationErrorTextStyle}" />

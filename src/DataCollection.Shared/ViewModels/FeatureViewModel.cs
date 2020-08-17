@@ -94,7 +94,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     return;
                 }
 
-                var symbol = await PopupManager.Symbol.CreateSwatchAsync(20, 20, 96, System.Drawing.Color.Transparent);
+                var symbol = await PopupManager.Symbol.CreateSwatchAsync(16, 16, 192, System.Drawing.Color.Transparent);
                 var imageSource = await symbol.ToImageSourceAsync();
                 IconImageSource = imageSource;
             }

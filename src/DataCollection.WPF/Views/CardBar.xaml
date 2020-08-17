@@ -10,16 +10,18 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Image Source="{Binding ImageSource, ElementName=Self}"
-                   Grid.Column="0"
+            <Image Grid.Column="0"
+                   Margin="{StaticResource LeftLargeThickness}"
+                   Source="{Binding ImageSource, ElementName=Self}"
                    Style="{StaticResource TitleBarIconImageStyle}"
                    Visibility="{Binding Path=ImageSource, ElementName=Self, Converter={StaticResource NullToVisibilityConverter}}" />
-            <Path Margin="{StaticResource UniformLargeThickness}"
-                  Grid.Column="0"
+            <Path Grid.Column="0"
+                  Margin="{StaticResource LeftLargeThickness}"
                   Data="{Binding ElementName=Self, Path=IconGeometry}"
                   Style="{StaticResource PathIconBase}"
                   Visibility="{Binding Path=IconGeometry, ElementName=Self, Converter={StaticResource NullToVisibilityConverter}}" />
             <TextBlock Grid.Column="1"
+                       Margin="{StaticResource LeftLargeThickness}"
                        Style="{StaticResource CardTitleStyle}"
                        Text="{Binding Title, ElementName=Self}" />
             <Button Grid.Column="2"

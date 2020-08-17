@@ -200,7 +200,7 @@
            BasedOn="{StaticResource BorderBaseStyle}"
            TargetType="Border">
         <Setter Property="Margin" Value="{StaticResource TopBottomMediumThickness}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ChromeBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource ChromeBorderBrush}" />
     </Style>
     <Style x:Key="CardProminentButtonStyle"
            BasedOn="{StaticResource ButtonBaseStyle}"

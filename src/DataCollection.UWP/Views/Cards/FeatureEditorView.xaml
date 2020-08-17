@@ -59,7 +59,7 @@
                         <TextBox Margin="{StaticResource TopBottomMediumThickness}"
                                  InputScope="Digits"
                                  Style="{StaticResource FieldEditorTextBoxStyle}"
-                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, Converter={StaticResource StringToNullConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                                    Text="{Binding PopupFieldValue.ValidationError.Message}"
                                    Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />

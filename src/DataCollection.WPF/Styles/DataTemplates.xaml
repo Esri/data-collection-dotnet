@@ -69,14 +69,14 @@
     <DataTemplate x:Key="DoubleRangeDomainTemplate" x:Name="DoubleRangeDomainTemplate">
         <StackPanel>
             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, Converter={StaticResource StringToNullConverter}, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                        Text="{Binding PopupFieldValue.ValidationError.Message}"
                        Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="BookmarksViewItemTemplate">
-        <Border Padding="8,8,0,8"
+        <Border Padding="{StaticResource UniformLargeThickness}"
                 HorizontalAlignment="Stretch"
                 Background="Transparent"
                 Cursor="{StaticResource ActionCursor}">

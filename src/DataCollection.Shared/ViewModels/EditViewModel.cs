@@ -64,10 +64,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         internal void CreateFeature(MapPoint point, ArcGISFeature feature, PopupManager popupManager)
         {
-            popupManager.StartEditing();
-
             try
             {
+                popupManager.StartEditing();
                 // if appropriate, add geometry to the newly created feature
                 if (point != null)
                 {

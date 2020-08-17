@@ -145,7 +145,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     {
                         // Set viewpoint to the user's current location
                         if (_lastLocation != null)
+                        {
                             AreaOfInterest = new Viewpoint(_lastLocation?.Position, _defaultZoomScale);
+                            OnPropertyChanged(nameof(AreaOfInterest));
+                        }
                     }));
             }
         }

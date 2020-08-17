@@ -62,5 +62,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Dialogs
         {
             FileName = FileNameTextBox.Text;
         }
+
+        private void FileNameTextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                e.Handled = true;
+                FileName = FileNameTextBox.Text;
+                this.Hide();
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@
                xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
                xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
                xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
-    <Grid Background="{DynamicResource ContentBackgroundBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -16,6 +16,7 @@
                        IconGeometry="{StaticResource icon-bookmark-16}"
                        OwningCard="{Binding ElementName=Self}" />
         <esri:BookmarksView Grid.Row="1"
+                            Margin="0"
                             GeoView="{Binding MapAccessoryViewModel.MapView, Mode=OneTime}"
                             ItemTemplate="{StaticResource BookmarksViewItemTemplate}" />
     </Grid>

@@ -124,6 +124,7 @@
         <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SelectionBrush" Value="{StaticResource TintBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
@@ -179,6 +180,10 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
     <Style x:Key="UnstyledListViewItemStyle" TargetType="{x:Type ListViewItem}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -328,14 +333,16 @@
     </Style>
     <Style x:Key="TocCheckboxStyle" TargetType="CheckBox">
         <Setter Property="Content" Value="{Binding Name}" />
+        <Setter Property="Background" Value="{StaticResource ContentBackgroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Border x:Name="OuterBorder"
                             Padding="{StaticResource UniformLargeThickness}"
+                            Background="{TemplateBinding Background}"
                             VerticalAlignment="Stretch"
                             Cursor="{StaticResource ActionCursor}">
-                        <Grid>
+                        <Grid x:Name="OuterGrid" Background="{TemplateBinding Background}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -356,6 +363,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="OuterBorder" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
+                            <Setter TargetName="OuterGrid" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="CheckImagePath" Property="Data" Value="{StaticResource icon-view-visible-16}" />
@@ -499,7 +507,7 @@
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
         <Setter Property="FontWeight" Value="{StaticResource CardTitleFontWeight}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="0" />
+        <Setter Property="Margin" Value="{StaticResource LeftLargeThickness}" />
     </Style>
     <Style x:Key="CardTitleBorderStyle" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />

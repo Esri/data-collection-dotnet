@@ -6,7 +6,7 @@
                xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
                xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
                xmlns:models="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models"
-               xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities">
+               xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities" xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
@@ -19,40 +19,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource CardTitleBorderStyle}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Image Source="{Binding IconImageSource}"
-                       Style="{StaticResource TitleBarIconImageStyle}"
-                       Visibility="{Binding IconImageSource, Converter={StaticResource NullToVisibilityConverter}}" />
-                <TextBlock Grid.Column="1"
-                           Margin="{StaticResource UniformLargeThickness}"
-                           Style="{StaticResource CardTitleStyle}"
-                           Text="{Binding PopupManager.Title}" />
-                <Button Grid.Column="2"
-                        Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
-                        Style="{StaticResource CardCloseButtonStyle}"
-                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}" />
-                </Button>
-                <Button Grid.Column="2"
-                        Command="{Binding ElementName=Self, Path=ToggleStateCommand}"
-                        Style="{StaticResource CardCloseButtonStyle}"
-                        Visibility="{Binding ElementName=Self, Path=ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}" />
-                </Button>
-                <Button Grid.Column="3"
-                        Command="{Binding ElementName=Self, Path=DataContext.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
-                        Style="{StaticResource CardCloseButtonStyle}">
-                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
-                </Button>
-            </Grid>
-        </Border>
+        <views:CardBar OwningCard="{Binding ElementName=Self}"
+                       Title="{Binding PopupManager.Title}"
+                       ImageSource="{Binding IconImageSource}"
+                       CloseCommand="{Binding ElementName=Self, Path=DataContext.IdentifiedFeatureViewModel.ClearRelationshipsCommand}" />
         <TabControl Grid.Row="1"
                     Background="{DynamicResource ContentBackgroundBrush}"
                     BorderThickness="0">
@@ -67,6 +37,7 @@
                         <ItemsControl Margin="{StaticResource UniformLargeThickness}"
                                       ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                       Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="models:WrappedPopupFieldValue">

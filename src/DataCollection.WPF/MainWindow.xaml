@@ -119,13 +119,10 @@
                     </Button>
                 </StackPanel>
                 <!--  Compass control that displays when user rotates the map  -->
-                <esri:Compass Width="44"
-                              Height="44"
-                              Margin="{StaticResource UniformMediumThickness}"
+                <esri:Compass Margin="{StaticResource UniformLargeThickness}"
                               HorizontalAlignment="Center"
                               AutoHide="True"
                               GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
-
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Right"

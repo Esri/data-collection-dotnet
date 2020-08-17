@@ -51,7 +51,8 @@
                    Text="{Binding Path=OfflineMap.Item.Modified, StringFormat='g'}"
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
         <TextBlock Grid.Row="1"
-                   Grid.ColumnSpan="2" Grid.Column="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
                    Margin="{StaticResource TopBottomMediumThickness}"
                    Style="{StaticResource TitleBarPopoverLabelStyle}"
                    Text="{Binding Path=MapViewModel.Map.Item.Snippet}"

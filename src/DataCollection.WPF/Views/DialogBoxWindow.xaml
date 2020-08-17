@@ -35,19 +35,18 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox x:Name="StackTraceVisibilitySwitch"
                           Margin="{StaticResource UniformMediumThickness}"
-                          Visibility="{Binding StackTrace, Converter={StaticResource NullToVisibilityConverter}}"
-                          Style="{StaticResource TocCheckboxStyle}" Content="{Binding ., Converter={StaticResource LC}, ConverterParameter=Show_Stacktrace}"
-                          IsChecked="False" />
-                <Button
-                    Grid.Column="2"
+                          Content="{Binding ., Converter={StaticResource LC}, ConverterParameter=Show_Stacktrace}"
+                          IsChecked="False"
+                          Style="{StaticResource TocCheckboxStyle}"
+                          Visibility="{Binding StackTrace, Converter={StaticResource NullToVisibilityConverter}}" />
+                <Button Grid.Column="2"
                         BorderBrush="{DynamicResource DangerBrush}"
                         Command="{Binding DismissDialogBoxCommand}"
                         CommandParameter="true"
                         Content="{Binding AffirmativeActionButtonContent}"
                         Foreground="{DynamicResource DangerBrush}"
                         Style="{StaticResource MapOverlayButtonStyle}" />
-                <Button
-                        Grid.Column="3"
+                <Button Grid.Column="3"
                         BorderBrush="{DynamicResource SuccessBrush}"
                         Command="{Binding DismissDialogBoxCommand}"
                         CommandParameter="false"
@@ -70,7 +69,6 @@
                               Margin="{StaticResource UniformMediumThickness}"
                               VerticalScrollBarVisibility="Auto">
                     <TextBlock Padding="{StaticResource UniformLargeThickness}"
-                               VerticalAlignment="Top"
                                FontFamily="Consolas"
                                Foreground="{DynamicResource ContentForegroundBrush}"
                                Text="{Binding StackTrace}"

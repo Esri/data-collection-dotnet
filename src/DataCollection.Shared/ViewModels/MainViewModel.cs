@@ -662,7 +662,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _startNewFeatureCommand ?? (_startNewFeatureCommand = new DelegateCommand(
-                    (x) => { IsAddingFeature = true; IsLocationOnlyMode = true; }));
+                    (x) => { MapAccessoryViewModel.CloseAccessories(); IsAddingFeature = true; IsLocationOnlyMode = true; }));
             }
         }
 
@@ -715,6 +715,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
                                     //get relationship information for the newly added feature
                                     await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature as ArcGISFeature);
+
+                                    // Add the feature to the table so that it is visible on the map.
+                                    await feature.FeatureTable.AddFeatureAsync(feature);
 
                                     // select the new feature
                                     MapViewModel.SelectFeature(feature);

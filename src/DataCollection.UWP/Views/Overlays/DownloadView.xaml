@@ -18,8 +18,14 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Vertical">
-                <TextBlock HorizontalAlignment="Center" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DownloadLabel_Line1_Text}" />
-                <TextBlock HorizontalAlignment="Center" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DownloadLabel_Line2_Text}" />
+                <TextBlock HorizontalAlignment="Center"
+                           Foreground="{ThemeResource MapShadeOffsetBrush}"
+                           Style="{StaticResource TextBlockBaseStyle}"
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DownloadLabel_Line1_Text}" />
+                <TextBlock HorizontalAlignment="Center"
+                           Foreground="{ThemeResource MapShadeOffsetBrush}"
+                           Style="{StaticResource TextBlockBaseStyle}"
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DownloadLabel_Line2_Text}" />
             </StackPanel>
             <StackPanel Grid.Row="3"
                         HorizontalAlignment="Center"

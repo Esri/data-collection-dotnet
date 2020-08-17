@@ -9,7 +9,6 @@
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <ResourceDictionary Source="Styles/Brushes.xaml" />
                 <ResourceDictionary Source="Icons.xaml" />
                 <ResourceDictionary Source="Styles/Sizes.xaml" />
                 <ResourceDictionary Source="Styles/ControlOverrides.xaml" />

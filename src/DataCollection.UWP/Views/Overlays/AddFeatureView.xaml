@@ -16,11 +16,16 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
-            <TextBlock HorizontalAlignment="Center" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddFeatureLabel_Line1_Text}" />
-            <TextBlock HorizontalAlignment="Center" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddFeatureLabel_Line2_Text}" />
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="{ThemeResource MapShadeOffsetBrush}"
+                       Style="{StaticResource TextBlockBaseStyle}"
+                       Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddFeatureLabel_Line1_Text}" />
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="{ThemeResource MapShadeOffsetBrush}"
+                       Style="{StaticResource TextBlockBaseStyle}"
+                       Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddFeatureLabel_Line2_Text}" />
         </StackPanel>
         <StackPanel Grid.Row="1"
-                    Margin="0,0,0,50"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
