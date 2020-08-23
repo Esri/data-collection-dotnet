@@ -6,6 +6,8 @@
     * Added a `ModernMapPanel` custom layout panel to facilitate consistent, responsive design for UWP and WPF
     * Refactored styles and related XAML
     * Switched to vector icons where possible
+* Updated for the 100.9 release of ArcGIS Runtime
+* Moved the .NET Core WPF project to a separate folder to prevent possible build issues
 
 ## 1.2.2
 

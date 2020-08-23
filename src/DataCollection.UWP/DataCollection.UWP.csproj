@@ -444,7 +444,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>SET SRCPATH=$(SolutionDir)DataCollection.WPF\LocalizedStrings
+    <PreBuildEvent>SET SRCPATH=$(SolutionDir)DataCollection.WPF_NetFramework\LocalizedStrings
 SET DESTPATH=$(ProjectDir)LocalizedStrings
 
 copy /Y %25SRCPATH%25\Resources.resx %25DESTPATH%25\Resources.resw</PreBuildEvent>
