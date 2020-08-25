@@ -24,7 +24,7 @@
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
-                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_LastSync_FieldLabel}" />
+                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OfflineMapPanel_LastSync_FieldLabel}" />
         <TextBlock Grid.Row="2"
                    Grid.Column="1"
                    Margin="{StaticResource UniformMediumThickness}"
@@ -44,11 +44,11 @@
                 Margin="{StaticResource TopMediumThickness}"
                 Command="{Binding Path=SyncMapCommand}"
                 Style="{StaticResource MapOverlayButtonStyle}"
-                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=SyncButton_Label}"
+                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton_Label}"
                 Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=SyncButton_Label}" />
+                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SyncButton_Label}" />
             </StackPanel>
         </Button>
         <!--  Delete offline map button and text  -->
@@ -58,11 +58,11 @@
                 Margin="{StaticResource TopMediumThickness}"
                 Command="{Binding Path=DeleteOfflineMapCommand}"
                 Style="{StaticResource MapOverlayButtonStyle}"
-                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=DeleteMapButton_Label}"
+                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton_Label}"
                 Visibility="{Binding OfflineMap, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=DeleteMapButton_Label}" />
+                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteMapButton_Label}" />
             </StackPanel>
         </Button>
         <!--  Work online button and text  -->
@@ -73,11 +73,11 @@
                 Command="{Binding WorkOnlineCommand}"
                 CommandParameter="{Binding MapViewModel.AreaOfInterest}"
                 Style="{StaticResource MapOverlayButtonStyle}"
-                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOnlineButton_Label}"
+                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton_Label}"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Path Data="{StaticResource icon-arcgis-online-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOnlineButton_Label}" />
+                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOnlineButton_Label}" />
             </StackPanel>
         </Button>
     </Grid>

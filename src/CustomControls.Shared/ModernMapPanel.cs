@@ -17,8 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.ComponentModel;
+using System.Linq;
+
 #if __WPF__
 using System.Windows.Controls;
 using System.Windows;
@@ -27,100 +28,125 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using Windows.Foundation;
 #endif
-
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 {
     /// <summary>
-    /// Layout panel that lays out elements according to their role in a mapping application
+    /// Layout panel that lays out elements according to their role in a mapping application.
     /// </summary>
     public class ModernMapPanel : Panel
     {
         public ModernMapPanel()
         {
-            // Initialize observable collection
             NavigationTitles = new ObservableCollection<string>();
         }
-        
-        public double ExpandedWidthMinimum
-        {
-            get => (double)GetValue(ExpandedWidthMinimumProperty);
-            set => SetValue(ExpandedWidthMinimumProperty, value);
-        }
 
-        // Using a DependencyProperty as the backing store for ExpandedWidthMinimum.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Gets or sets the minimum width needed for the panel to show a full-width view.
+        /// </summary>
+        public double ExpandedWidthMinimum { get => (double)GetValue(ExpandedWidthMinimumProperty); set => SetValue(ExpandedWidthMinimumProperty, value); }
+
+        /// <summary>
+        /// Enables binding the minimum width needed for the panel to show a full-width view.
+        /// </summary>
         public static readonly DependencyProperty ExpandedWidthMinimumProperty =
             DependencyProperty.Register(nameof(ExpandedWidthMinimum), typeof(double), typeof(ModernMapPanel), new PropertyMetadata(600.0));
 
-        public double ExpandedCardWidth
-        {
-            get => (double)GetValue(ExpandedCardWidthProperty);
-            set => SetValue(ExpandedCardWidthProperty, value);
-        }
+        /// <summary>
+        /// Gets or sets the ExpandedCardWidth.
+        /// </summary>
+        public double ExpandedCardWidth { get => (double)GetValue(ExpandedCardWidthProperty); set => SetValue(ExpandedCardWidthProperty, value); }
 
-        // Using a DependencyProperty as the backing store for ExpandedCardWidth.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding the width of the floating card when the panel is showing a full-width view.
+        /// </summary>
         public static readonly DependencyProperty ExpandedCardWidthProperty =
             DependencyProperty.Register(nameof(ExpandedCardWidth), typeof(double), typeof(ModernMapPanel), new PropertyMetadata(350.0));
 
-        public double CollapsedCardHeight
-        {
-            get => (double)GetValue(CollapsedCardHeightProperty);
-            set => SetValue(CollapsedCardHeightProperty, value);
-        }
+        /// <summary>
+        /// Gets or sets the height of the floating card when the panel is showing a reduced-width view.
+        /// </summary>
+        public double CollapsedCardHeight { get => (double)GetValue(CollapsedCardHeightProperty); set => SetValue(CollapsedCardHeightProperty, value); }
 
-        // Using a DependencyProperty as the backing store for CollapsedCardHeight.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding the height of the floating card when the panel is showing a reduced-width view.
+        /// </summary>
         public static readonly DependencyProperty CollapsedCardHeightProperty =
             DependencyProperty.Register(nameof(CollapsedCardHeight), typeof(double), typeof(ModernMapPanel), new PropertyMetadata(350.0));
 
-        public bool IsCollapsed
-        {
-            get => (bool)GetValue(IsCollapsedProperty);
-            set => SetValue(IsCollapsedProperty, value);
-        }
+        /// <summary>
+        /// Returns true if the panel is showing a reduced-width view.
+        /// </summary>
+        public bool IsCollapsed { get => (bool)GetValue(IsCollapsedProperty); private set => SetValue(IsCollapsedProperty, value); }
 
-        // Using a DependencyProperty as the backing store for IsCollapsed.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding to the width state of the panel, value is true if panel is showing a reduced-width view.
+        /// </summary>
         public static readonly DependencyProperty IsCollapsedProperty =
             DependencyProperty.Register(nameof(IsCollapsed), typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
 
-        public ObservableCollection<string> NavigationTitles
-        {
-            get => (ObservableCollection<string>)GetValue(NavigationTitlesProperty);
-            private set => SetValue(NavigationTitlesProperty, value);
-        }
+        /// <summary>
+        /// Gets the titles of cards that are eligible to be shown, but that aren't shown because another card is in the foreground.
+        /// </summary>
+        public ObservableCollection<string> NavigationTitles { get => (ObservableCollection<string>)GetValue(NavigationTitlesProperty); private set => SetValue(NavigationTitlesProperty, value); }
 
-        // Using a DependencyProperty as the backing store for NavigationTitles.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding to the titles of cards that are eligible to be shown but that aren't shown because another card is in the foreground.
+        /// </summary>
         public static readonly DependencyProperty NavigationTitlesProperty =
             DependencyProperty.Register(nameof(NavigationTitles), typeof(ObservableCollection<string>), typeof(ModernMapPanel), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Gets the layout role of a child.
+        /// </summary>
         public static MapRole GetRole(DependencyObject depObj) => (MapRole)depObj?.GetValue(RoleProperty);
 
+        /// <summary>
+        /// Sets the layout role of a child.
+        /// </summary>
         public static void SetRole(DependencyObject depObj, MapRole value) => depObj?.SetValue(RoleProperty, value);
 
-        // Using a DependencyProperty as the backing store for Role.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Defines the role attached property for children.
+        /// </summary>
         public static readonly DependencyProperty RoleProperty =
             DependencyProperty.RegisterAttached("Role", typeof(MapRole), typeof(ModernMapPanel), new PropertyMetadata(MapRole.Accessory));
 
+        /// <summary>
+        /// Gets the title of a child.
+        /// </summary>
         public static string GetTitle(DependencyObject depObj) => (string)depObj?.GetValue(TitleProperty);
 
+        /// <summary>
+        /// Sets the title of a child.
+        /// </summary>
         public static void SetTitle(DependencyObject depObj, string value) => depObj?.SetValue(TitleProperty, value);
 
-        // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Defines the title attached property for children.
+        /// </summary>
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.RegisterAttached("Title", typeof(string), typeof(ModernMapPanel), new PropertyMetadata(null));
 
-        public UIElement TopCard
-        {
-            get => (UIElement)GetValue(TopCardProperty);
-            set => SetValue(TopCardProperty, value);
-        }
+        /// <summary>
+        /// Gets the topmost card that is eligible for display.
+        /// </summary>
+        public UIElement TopCard { get => (UIElement)GetValue(TopCardProperty); private set => SetValue(TopCardProperty, value); }
 
-        // Using a DependencyProperty as the backing store for uIElement.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding to the topmost card that is eligible for display.
+        /// </summary>
         private static readonly DependencyProperty TopCardProperty =
             DependencyProperty.Register(nameof(TopCard), typeof(UIElement), typeof(ModernMapPanel), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Implements the measure step for this panel.
+        /// </summary>
         protected override Size MeasureOverride(Size availableSize)
         {
+            // Update the IsCollapsed state
             IsCollapsed = availableSize.Width < ExpandedWidthMinimum;
 
+            // Organize children elements by role
             UIElement titlebar = null;
             UIElement geoview = null;
             UIElement canvas = null;
@@ -207,11 +233,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             }
             if (TopCard != null)
             {
-                foreach(var card in cards)
+                foreach (var card in cards)
                 {
                     if (card != TopCard)
                     {
-                        card.Measure(new Size(0,0));
+                        card.Measure(new Size(0, 0));
                     }
                 }
             }
@@ -271,9 +297,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             topRightAccessory?.Measure(new Size(availableSize.Width - actualCardWidth, availableSize.Height - attrHeight - bottomRightHeight));
             double topRightWidth = topRightAccessory?.DesiredSize.Width ?? 0;
 
-            topLeftAccessory?.Measure(new Size(availableSize.Width - actualCardWidth- topRightWidth, availableSize.Height - attrHeight));
+            topLeftAccessory?.Measure(new Size(availableSize.Width - actualCardWidth - topRightWidth, availableSize.Height - attrHeight));
             double topLeftHeight = topLeftAccessory?.DesiredSize.Height ?? 0;
-            bottomLeftAccessory?.Measure(new Size(availableSize.Width - actualCardWidth- bottomRightWidth, availableSize.Height - attrHeight - topLeftHeight));
+            bottomLeftAccessory?.Measure(new Size(availableSize.Width - actualCardWidth - bottomRightWidth, availableSize.Height - attrHeight - topLeftHeight));
 
             // 8. Place modal light box
             if (lightBoxes.Any())
@@ -286,11 +312,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             // Note: this panel should not be used in scroll viewers or any other context where size could be infinite.
             if (double.IsInfinity(availableSize.Width) || double.IsInfinity(availableSize.Height))
             {
-                return new Size(0,0);
+                return new Size(0, 0);
             }
             return new Size(availableSize.Width, availableSize.Height);
         }
 
+        /// <summary>
+        /// Implements the arrange step of the layout cycle.
+        /// </summary>
         protected override Size ArrangeOverride(Size finalSize)
         {
             IsCollapsed = finalSize.Width < ExpandedWidthMinimum;
@@ -405,10 +434,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                 if (IsCollapsed)
                 {
                     if ((TopCard as CardBase)?.CardState == CardState.Minimized)
-                    { 
+                    {
                         appendage.Arrange(new Rect(0, cardTopY - appendage.DesiredSize.Height, finalSize.Width, appendage.DesiredSize.Height));
                     }
-                    else 
+                    else
                     {
                         appendage.Arrange(new Rect(0, cardTopY - appendage.DesiredSize.Height, finalSize.Width, appendage.DesiredSize.Height));
                         mapVisibleAreaBottom = titleBarBottomY; // TODO maybe hide things in this state
@@ -422,7 +451,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             }
             else if (appendage != null)
             {
-                appendage.Arrange(new Rect(0,0,0,0));
+                appendage.Arrange(new Rect(0, 0, 0, 0));
             }
             // 5. Place top card
             if (TopCard != null)
@@ -467,7 +496,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             {
                 double leftEdge = Math.Max(0, finalSize.Width - bottomRightAccessory.DesiredSize.Width);
                 double bottomEdge = Math.Min(finalSize.Height - bottomRightAccessory.DesiredSize.Height, mapVisibleAreaBottom - attribution.DesiredSize.Height);
-                bottomRightAccessory.Arrange(new Rect(Math.Max(finalSize.Width - bottomRightAccessory.DesiredSize.Width, leftEdge), 
+                bottomRightAccessory.Arrange(new Rect(Math.Max(finalSize.Width - bottomRightAccessory.DesiredSize.Width, leftEdge),
                                                       Math.Max(0, bottomEdge - bottomRightAccessory.DesiredSize.Height),
                                                       Math.Min(finalSize.Width - bottomRightAccessory.DesiredSize.Width, finalSize.Width - leftEdge),
                                                       bottomRightAccessory.DesiredSize.Height));
@@ -476,7 +505,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                 titleBarBottomY,
                 topRightAccessory.DesiredSize.Width,
                 topRightAccessory.DesiredSize.Height));
-            
+
             if (topLeftAccessory != null)
             {
                 double leftEdge = 0;
@@ -484,7 +513,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                     leftEdge = ExpandedCardWidth;
                 topLeftAccessory.Arrange(new Rect(leftEdge, titleBarBottomY, topLeftAccessory.DesiredSize.Width, topLeftAccessory.DesiredSize.Height));
             }
-            
+
             if (bottomLeftAccessory != null)
             {
                 double leftEdge = 0;
@@ -498,7 +527,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                 {
                     bottomOffset = attrLeftTopY;
                 }
-                bottomLeftAccessory.Arrange(new Rect(leftEdge, finalSize.Height - bottomOffset - bottomLeftAccessory.DesiredSize.Height, 
+                bottomLeftAccessory.Arrange(new Rect(leftEdge, finalSize.Height - bottomOffset - bottomLeftAccessory.DesiredSize.Height,
                     bottomLeftAccessory.DesiredSize.Width, bottomLeftAccessory.DesiredSize.Height));
             }
 
@@ -514,11 +543,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             return base.ArrangeOverride(finalSize);
         }
 
+        /// <summary>
+        /// Applies rules to update the list of navigation titles and select the topmost visible card.
+        /// </summary>
+        /// <param name="cards">The cards<see cref="IReadOnlyCollection{UIElement}"/>.</param>
         private void UpdateCardModel(IReadOnlyCollection<UIElement> cards)
         {
             NavigationTitles.Clear();
             // Update visibility based on IsOpen if applicable
-            foreach(var card in cards.OfType<CardBase>())
+            foreach (var card in cards.OfType<CardBase>())
             {
                 card.Visibility = card.IsOpen ? Visibility.Visible : Visibility.Collapsed;
                 card.ParentPanel = this;
@@ -550,33 +583,44 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                 ShouldEnableCardMinimize = IsCollapsed && cb.CardState == CardState.Maximized;
             }
         }
-        
+
+        /// <summary>
+        /// Handles requesting layout changes when a child property changes.
+        /// </summary>
         private void Child_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // When card property changes (note: only property currently is IsOpen), refresh layout
+            // When card property changes refresh layout
             if (e.PropertyName == nameof(CardBase.IsOpen) || e.PropertyName == nameof(CardBase.CardState))
             {
                 InvalidateMeasure();
             }
         }
 
-        public bool ShouldEnableCardMaximize
-        {
-            get => (bool)GetValue(ShouldEnableCardMaximizeProperty);
-            set => SetValue(ShouldEnableCardMaximizeProperty, value);
-        }
+        /// <summary>
+        /// Gets whether cards should be able to be maximized. Cards are maximized by default in a full-width view and can't be collapsed.
+        /// </summary>
+        /// <remarks>
+        /// Some layouts are awkward when cards can or can't be maximized, so this and the related dependency property allow the panel to weigh in.
+        /// </remarks>
+        public bool ShouldEnableCardMaximize { get => (bool)GetValue(ShouldEnableCardMaximizeProperty); set => SetValue(ShouldEnableCardMaximizeProperty, value); }
 
-        // Using a DependencyProperty as the backing store for ShouldEnableCardMaximize.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding to the <see cref="ShouldEnableCardMaximize"/> property.
+        /// </summary>
         public static readonly DependencyProperty ShouldEnableCardMaximizeProperty =
             DependencyProperty.Register(nameof(ShouldEnableCardMaximize), typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
 
-        public bool ShouldEnableCardMinimize
-        {
-            get => (bool)GetValue(ShouldEnableCardMinimizeProperty);
-            set => SetValue(ShouldEnableCardMinimizeProperty, value);
-        }
+        /// <summary>
+        /// Gets whether cards should be able to be minimized. Cards are maximized by default in a full-width view and can't be collapsed.
+        /// </summary>
+        /// <remarks>
+        /// Some layouts are awkward when cards can or can't be minimized, so this and the related dependency property allow the panel to weigh in.
+        /// </remarks>
+        public bool ShouldEnableCardMinimize { get => (bool)GetValue(ShouldEnableCardMinimizeProperty); set => SetValue(ShouldEnableCardMinimizeProperty, value); }
 
-        // Using a DependencyProperty as the backing store for ShouldEnableCardMinimize.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding to the <see cref="ShouldEnableCardMaximize"/> property.
+        /// </summary>
         public static readonly DependencyProperty ShouldEnableCardMinimizeProperty =
             DependencyProperty.Register(nameof(ShouldEnableCardMinimize), typeof(bool), typeof(ModernMapPanel), new PropertyMetadata(false));
     }

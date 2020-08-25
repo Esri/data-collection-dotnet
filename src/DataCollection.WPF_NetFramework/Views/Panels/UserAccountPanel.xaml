@@ -36,11 +36,11 @@
                 Margin="{StaticResource TopMediumThickness}"
                 Command="{Binding SignOutCommand}"
                 Style="{StaticResource MapOverlayButtonStyle}"
-                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=SignOutButton_Label}"
+                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton_Label}"
                 Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Path Data="{StaticResource icon-sign-out-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=SignOutButton_Label}" />
+                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton_Label}" />
             </StackPanel>
         </Button>
     </Grid>

@@ -16,9 +16,7 @@
 
 using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Helpers;
@@ -28,74 +26,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
     /// <summary>
     /// Interaction logic for IdentifiedFeaturePopup.xaml
     /// </summary>
-    public sealed partial class IdentifiedFeaturePopup : INotifyPropertyChanged
+    public sealed partial class IdentifiedFeaturePopup
     {
         public IdentifiedFeaturePopup()
         {
             InitializeComponent();
-
-            // set the IdentifiedFeatureViewModel property when DataContext changes and IdentifiedFeatureViewModel is set
-            DataContextChanged += (s, e) =>
-            {
-                if (DataContext is MainViewModel mainViewModel)
-                {
-                    MainViewModel = mainViewModel;
-                    OnPropertyChanged(nameof(MainViewModel));
-                    mainViewModel.PropertyChanged += (o, a) =>
-                    {
-                        if (a.PropertyName == nameof(IdentifiedFeatureViewModel))
-                        {
-                            IdentifiedFeatureViewModel = mainViewModel.IdentifiedFeatureViewModel;
-                        }
-                    };
-                }
-            };
         }
 
-        public MainViewModel MainViewModel { get; private set; }
-
-        private IdentifiedFeatureViewModel _identifiedFeatureViewModel;
-
-        /// <summary>
-        /// Gets or sets the IdentifiedFeatureViewModel
-        /// </summary>
-        public IdentifiedFeatureViewModel IdentifiedFeatureViewModel
+        public MainViewModel MainViewModel
         {
-            get => _identifiedFeatureViewModel;
-            set
-            {
-                _identifiedFeatureViewModel = value;
-                OnPropertyChanged();
-            }
+            get => (MainViewModel)GetValue(MainViewModelProperty);
+            set => SetValue(MainViewModelProperty, value);
         }
 
-        /// <summary>
-        /// Raises the <see cref="PropertyChanged" /> event
-        /// </summary>
-        /// <param name="propertyName">The name of the property that has changed</param>
-        private async void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            try
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-                {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                });
-            }
-            catch (Exception ex)
-            {
-                UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                    Shared.Properties.Resources.GetString("GenericError_Title"),
-                    ex.Message,
-                    true,
-                    ex.StackTrace);
-
-                // This exception should never happen; if it does, the app is in an unknown state and should terminate.
-                Environment.FailFast("Error invoking property change event handler.", ex);
-            }
-        }
-
-        public new event PropertyChangedEventHandler PropertyChanged;
+        public static readonly DependencyProperty MainViewModelProperty =
+            DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(IdentifiedFeaturePopup), new PropertyMetadata(null));
 
         /// <summary>
         /// Event handler for user selecting to add a new attachment by capturing new media
@@ -104,7 +49,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
         {
             try
             {
-                _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync();
+                MainViewModel.IdentifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync();
             }
             catch (Exception ex)
             {
@@ -123,7 +68,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
         {
             try
             {
-                _identifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();
+                MainViewModel.IdentifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();
             }
             catch (Exception ex)
             {

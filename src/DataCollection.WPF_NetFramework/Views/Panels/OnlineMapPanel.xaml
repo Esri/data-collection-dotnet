@@ -25,7 +25,7 @@
                    Margin="{StaticResource RightMediumThickness}"
                    VerticalAlignment="Top"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
-                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Created_FieldLabel}" />
+                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OnlineMapPanel_Created_FieldLabel}" />
         <TextBlock Grid.Row="2"
                    Grid.Column="1"
                    Style="{StaticResource TitleBarPopoverLabelStyle}"
@@ -36,13 +36,13 @@
                    Margin="{StaticResource TopMediumThickness}"
                    HorizontalAlignment="Center"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
-                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_OfflineMapAvailable_Label}"
+                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OnlineMapPanel_OfflineMapAvailable_Label}"
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
         <TextBlock Grid.Row="3"
                    Grid.Column="0"
                    Margin="0,4,4,0"
                    Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
-                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Downloaded_FieldLabel}"
+                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OnlineMapPanel_Downloaded_FieldLabel}"
                    Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
         <TextBlock Grid.Row="3"
                    Grid.Column="1"
@@ -63,11 +63,11 @@
                 Margin="{StaticResource TopMediumThickness}"
                 Command="{Binding Path=WorkOfflineCommand}"
                 Style="{StaticResource MapOverlayButtonStyle}"
-                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}"
+                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton_Label}"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}" />
+                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton_Label}" />
             </StackPanel>
         </Button>
     </Grid>

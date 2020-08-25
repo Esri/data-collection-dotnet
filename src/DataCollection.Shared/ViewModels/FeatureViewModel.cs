@@ -100,16 +100,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
             catch (Exception)
             {
-                // TODO - log this
+                // Ignore
             }
         }
 
         private ImageSource _iconImageSource;
 
+        /// <summary>
+        /// Gets the image that represents this feature, typically meant to be taken from the feature's symbology.
+        /// </summary>
+        /// <remarks>Can be null if there is no symbol associated with the feature.</remarks>
         public ImageSource IconImageSource
         {
             get => _iconImageSource;
-            set
+            private set
             {
                 if (_iconImageSource != value)
                 {

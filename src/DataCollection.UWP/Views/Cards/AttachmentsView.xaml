@@ -17,7 +17,6 @@
                      Margin="{StaticResource BottomMediumThickness}"
                      IsIndeterminate="True"
                      Visibility="{Binding AttachmentsViewModel.IsLoadingAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-        <!--  Wrap panel containing attachment thumbnails and names  -->
         <ListView x:Name="AttachmentsItemsControl"
                   Grid.Row="1"
                   ItemsSource="{Binding AttachmentsViewModel.Attachments, Mode=OneWay}"
@@ -54,8 +53,8 @@
                         <Image Grid.Row="0"
                                Grid.RowSpan="2"
                                Grid.Column="0"
-                               Width="40"
-                               Height="40"
+                               Width="{StaticResource ThumbnailLength}"
+                               Height="{StaticResource ThumbnailLength}"
                                VerticalAlignment="Center"
                                Source="{Binding Thumbnail, Mode=OneWay}" />
                         <TextBlock Grid.Row="0"

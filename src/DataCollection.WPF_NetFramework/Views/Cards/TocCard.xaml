@@ -5,21 +5,21 @@
                xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
                xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
                xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
-    <Grid Background="{DynamicResource ContentBackgroundBrush}">
+    <Grid Background="{StaticResource ContentBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <views:CardBar Title="{Binding ., Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
+        <views:CardBar Title="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=TOC_PanelHeader}"
                        CloseCommand="{Binding MapAccessoryViewModel.ToggleTableOfContentsCommand}"
-                       IconGeometry="{StaticResource icon-legend-16}"
+                       IconGeometry="{StaticResource icon-layers-16}"
                        OwningCard="{Binding ElementName=Self}" />
         <TreeView Grid.Row="1"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
-                  Background="{DynamicResource ContentBackgroundBrush}"
+                  Background="{StaticResource ContentBackgroundBrush}"
                   BorderThickness="0"
-                  Foreground="{DynamicResource ContentForegroundBrush}"
+                  Foreground="{StaticResource ContentForegroundBrush}"
                   ItemsSource="{Binding MapAccessoryViewModel.MapView.Map.OperationalLayers, Mode=OneWay}">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="TreeViewItem">

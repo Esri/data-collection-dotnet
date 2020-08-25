@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <views:CardBar Title="{Binding ., Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
+        <views:CardBar Title="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=Bookmarks_PanelHeader}"
                        Grid.Row="0"
                        CloseCommand="{Binding MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneWay}"
                        IconGeometry="{StaticResource icon-bookmark-16}"

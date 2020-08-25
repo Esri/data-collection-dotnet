@@ -14,6 +14,9 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
+using Windows.UI.Xaml;
+
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays
 {
     /// <summary>
@@ -25,5 +28,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays
         {
             InitializeComponent();
         }
+
+        public SyncViewModel SyncViewModel
+        {
+            get { return (SyncViewModel)GetValue(SyncViewModelProperty); }
+            set { SetValue(SyncViewModelProperty, value); }
+        }
+
+        public static readonly DependencyProperty SyncViewModelProperty =
+            DependencyProperty.Register(nameof(SyncViewModel), typeof(SyncViewModel), typeof(SyncProgressView), new PropertyMetadata(null));
     }
 }

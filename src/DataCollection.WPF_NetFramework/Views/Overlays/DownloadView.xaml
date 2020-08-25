@@ -29,14 +29,12 @@
               Grid.Column="0"
               Grid.ColumnSpan="3"
               VerticalAlignment="Stretch"
-              Background="{DynamicResource MapShadeBrush}"
+              Background="{StaticResource MapShadeBrush}"
               Visibility="{Binding DownloadViewModel.Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
             <Border Style="{StaticResource StatusPanelBorderStyle}">
                 <StackPanel>
-                    <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}"
-                                 Value="{Binding DownloadViewModel.Progress}" />
-                    <TextBlock Style="{StaticResource StatusPanelCaptionTextStyle}"
-                               Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=DownloadingMessage_Text}" />
+                    <ProgressBar Style="{StaticResource StatusPanelProgressBarStyle}" Value="{Binding DownloadViewModel.Progress}" />
+                    <TextBlock Style="{StaticResource StatusPanelCaptionTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadingMessage_Text}" />
                     <Button BorderBrush="{DynamicResource DangerBrush}"
                             Command="{Binding DownloadViewModel.CancelDownloadCommand}"
                             Style="{StaticResource StatusPanelButtonStyle}">
@@ -46,7 +44,7 @@
                                   Style="{StaticResource PathIconBase}" />
                             <TextBlock Foreground="{DynamicResource DangerBrush}"
                                        Style="{StaticResource MapOverlayButtonTextStyle}"
-                                       Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=CancelButton_Content}" />
+                                       Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelButton_Content}" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -59,8 +57,8 @@
                     VerticalAlignment="Center"
                     Orientation="Vertical"
                     Visibility="{Binding DownloadViewModel.IsAwaitingDownload, Converter={StaticResource BoolToVisibilityConverter}}">
-            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=DownloadLabel_Line1.Text}" />
-            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=DownloadLabel_Line2.Text}" />
+            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line1.Text}" />
+            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line2.Text}" />
 
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -68,28 +66,28 @@
                 <Button BorderBrush="{DynamicResource DangerBrush}"
                         Command="{Binding DownloadViewModel.CancelDownloadCommand, Mode=OneWay}"
                         Style="{StaticResource MapOverlayButtonStyle}"
-                        ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}">
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}">
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource icon-undo-16}"
                               Fill="{DynamicResource DangerBrush}"
                               Style="{StaticResource PathIconBase}" />
                         <TextBlock Foreground="{DynamicResource DangerBrush}"
                                    Style="{StaticResource MapOverlayButtonTextStyle}"
-                                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}" />
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" />
                     </StackPanel>
                 </Button>
                 <Button BorderBrush="{DynamicResource SuccessBrush}"
                         Command="{Binding DownloadViewModel.DownloadMapCommand}"
                         CommandParameter="{Binding ElementName=DownloadUserControl, Path=VisibleArea}"
                         Style="{StaticResource MapOverlayButtonStyle}"
-                        ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=DownloadButton_Content}">
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadButton_Content}">
                     <StackPanel Orientation="Horizontal">
                         <Path Data="{StaticResource icon-download-16}"
                               Fill="{DynamicResource SuccessBrush}"
                               Style="{StaticResource PathIconBase}" />
                         <TextBlock Foreground="{DynamicResource SuccessBrush}"
                                    Style="{StaticResource MapOverlayButtonTextStyle}"
-                                   Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=DownloadButton_Content}" />
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadButton_Content}" />
                     </StackPanel>
                 </Button>
             </StackPanel>

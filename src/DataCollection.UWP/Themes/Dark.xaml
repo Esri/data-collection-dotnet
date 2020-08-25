@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Color x:Key="TintColor">#91BF6B</Color>
+    <!--  Overrides the user-set system accent color on built-in controls  -->
     <Color x:Key="SystemAccentColor">#91BF6B</Color>
     <!--  Color meant to render text readable on a TintColor colored background  -->
     <Color x:Key="TintOffsetColor">#FFFFFF</Color>

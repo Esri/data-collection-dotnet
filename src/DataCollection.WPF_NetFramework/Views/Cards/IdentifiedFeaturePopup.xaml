@@ -12,12 +12,12 @@
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
             <Style x:Key="PopupSectionHeaderStyle" TargetType="TextBlock">
-                <Setter Property="Foreground" Value="{DynamicResource TintBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource TintBrush}" />
                 <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{DynamicResource ContentBackgroundBrush}">
+    <Grid Background="{StaticResource ContentBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -28,10 +28,10 @@
                        ImageSource="{Binding IdentifiedFeatureViewModel.IconImageSource}"
                        OwningCard="{Binding ElementName=Self}" />
         <TabControl Grid.Row="1"
-                    Background="{DynamicResource ContentBackgroundBrush}"
+                    Background="{StaticResource ContentBackgroundBrush}"
                     BorderThickness="0"
                     DataContext="{Binding IdentifiedFeatureViewModel}"
-                    Foreground="{DynamicResource ContentForegroundBrush}">
+                    Foreground="{StaticResource ContentForegroundBrush}">
             <TabItem Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DetailsHeading}" Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the identified feature  -->
                 <ScrollViewer x:Name="DetailsView"
@@ -60,7 +60,7 @@
                         <Border Visibility="Collapsed">
                             <TextBlock Margin="{StaticResource TopBottomMediumThickness}"
                                        Style="{StaticResource PopupSectionHeaderStyle}"
-                                       Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=FeaturePopup_DestinationRelationships_Header}"
+                                       Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=FeaturePopup_DestinationRelationships_Header}"
                                        Visibility="{Binding HasDestinationRelationships, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </Border>
                         <!--  View Mode  -->
@@ -126,7 +126,7 @@
                                                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}">
                                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                                 <Path Data="{StaticResource icon-plus-circle-16}"
-                                                      Fill="{DynamicResource TintBrush}"
+                                                      Fill="{StaticResource TintBrush}"
                                                       Style="{StaticResource CardButtonIconStyle}" />
                                                 <TextBlock Margin="{StaticResource SidesMediumThickness}" Style="{StaticResource MapOverlayButtonTextStyle}">
                                                     <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Button_part1}" />

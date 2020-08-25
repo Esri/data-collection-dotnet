@@ -26,8 +26,14 @@ using Culture = System.Globalization.CultureInfo;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
 {
+    /// <summary>
+    /// Converter for conveniently binding to the inverse of a boolean value
+    /// </summary>
     public class BoolInverseConverter : IValueConverter
     {
+        /// <summary>
+        /// Returns the inverse of the input boolean, or the input value if it is not a boolean.
+        /// </summary>
         public object Convert(object value, Type targetType, object parameter, Culture language)
         {
             if (value is bool booleanValue)
@@ -37,6 +43,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
             return value;
         }
 
+        /// <summary>
+        /// Returns the inverse of the input boolean, or the input value if it is not a boolean.
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, Culture language)
         {
             if (value is bool booleanValue)

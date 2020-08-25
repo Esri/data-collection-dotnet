@@ -1,23 +1,23 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters">
-    <converters:LocalizationConverter x:Key="LC" />
+    <converters:LocalizationConverter x:Key="LocalizationConverter" />
     <Style x:Key="CardControlStripStyle" TargetType="Grid">
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
     </Style>
     <Style x:Key="PathIconBase" TargetType="Path">
         <Setter Property="Stretch" Value="Uniform" />
         <Setter Property="Width" Value="{StaticResource IconLargeLength}" />
         <Setter Property="Height" Value="{StaticResource IconLargeLength}" />
-        <Setter Property="Fill" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="Fill" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="Margin" Value="{StaticResource UniformMediumThickness}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style x:Key="ButtonBaseStyle" TargetType="ButtonBase">
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ChromeBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
         <Setter Property="Cursor" Value="{StaticResource ActionCursor}" />
@@ -36,10 +36,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bg" Property="Background" Value="{DynamicResource ChromeBackgroundHoverBrush}" />
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="False">
-                            <Setter TargetName="bg" Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -61,11 +61,11 @@
                                       Cursor="{StaticResource ActionCursor}" />
                     <DataTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="HeaderSite" Property="TextElement.Foreground" Value="{DynamicResource TintBrush}" />
+                            <Setter TargetName="HeaderSite" Property="TextElement.Foreground" Value="{StaticResource TintBrush}" />
                             <Setter TargetName="HeaderSite" Property="TextElement.FontSize" Value="{StaticResource LargeFontSize}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="False">
-                            <Setter TargetName="HeaderSite" Property="TextElement.Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+                            <Setter TargetName="HeaderSite" Property="TextElement.Foreground" Value="{StaticResource ChromeForegroundBrush}" />
                             <Setter TargetName="HeaderSite" Property="TextElement.FontSize" Value="{StaticResource LargeFontSize}" />
                         </Trigger>
                     </DataTemplate.Triggers>
@@ -78,7 +78,7 @@
                     <Border x:Name="ControlBorder"
                             Margin="0"
                             Padding="{StaticResource UniformLargeThickness}"
-                            Background="{DynamicResource ContentBackgroundBrush}"
+                            Background="{StaticResource ContentBackgroundBrush}"
                             BorderThickness="0,0,0,1">
                         <Grid Name="Panel">
                             <ContentPresenter x:Name="ContentSite"
@@ -89,7 +89,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="ControlBorder" Property="BorderBrush" Value="{DynamicResource TintBrush}" />
+                            <Setter TargetName="ControlBorder" Property="BorderBrush" Value="{StaticResource TintBrush}" />
                             <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="{StaticResource HeadingFontWeight}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="False">
@@ -104,10 +104,10 @@
     <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
         <Setter Property="FontWeight" Value="{StaticResource HeadingFontWeight}" />
         <Setter Property="Margin" Value="{StaticResource TopBottomMediumThickness}" />
-        <Setter Property="Foreground" Value="{DynamicResource ContentForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ContentForegroundBrush}" />
     </Style>
     <Style x:Key="FieldValueReadonlyStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource ContentForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ContentForegroundBrush}" />
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
     </Style>
     <Style x:Key="FieldValueStyle" TargetType="TextBox">
@@ -117,11 +117,11 @@
             layout shift when editing
         -->
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
         <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SelectionBrush" Value="{StaticResource TintBrush}" />
@@ -145,7 +145,7 @@
         <Setter Property="IsReadOnly" Value="False" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="AcceptsReturn" Value="True" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ChromeBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Cursor" Value="IBeam" />
         <Setter Property="Template">
@@ -164,12 +164,12 @@
     <Style x:Key="DatePickerValueStyle" TargetType="DatePicker">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ChromeBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
-        <Setter Property="TextElement.Background" Value="{DynamicResource ChromeBackgroundBrush}" />
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="TextElement.Background" Value="{StaticResource ChromeBackgroundBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
     <Style x:Key="ValidationErrorTextStyle"
@@ -193,13 +193,13 @@
         </Setter>
     </Style>
     <Style x:Key="MapOverlayBorderForegroundTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource MapShadeOffsetBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource MapShadeOffsetBrush}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Margin" Value="{StaticResource UniformMediumThickness}" />
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
     </Style>
     <Style x:Key="MapOverlayBorderStyle" TargetType="Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource MapShadeBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MapShadeBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource MapLightBoxBorderThickness}" />
     </Style>
     <Style x:Key="StatusPanelTitleStyle"
@@ -208,22 +208,22 @@
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
     </Style>
     <Style x:Key="StatusPanelBorderStyle" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource TintBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TintBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
         <Setter Property="Padding" Value="{StaticResource UniformXlThickness}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style x:Key="StatusPanelProgressBarStyle" TargetType="ProgressBar">
-        <Setter Property="Foreground" Value="{DynamicResource TintBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TintBrush}" />
         <Setter Property="Height" Value="{StaticResource IconLargeLength}" />
         <Setter Property="MaxWidth" Value="300" />
         <Setter Property="MinWidth" Value="200" />
         <Setter Property="Margin" Value="{StaticResource TopBottomLargeThickness}" />
     </Style>
     <Style x:Key="StatusPanelCaptionTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
         <Setter Property="FontWeight" Value="{StaticResource NormalFontWeight}" />
@@ -233,13 +233,13 @@
            BasedOn="{StaticResource ButtonBaseStyle}"
            TargetType="Button">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource TintBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource TintBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TintBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TintBrush}" />
     </Style>
     <Style x:Key="RecordCardBorderStyle" TargetType="Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource TintBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TintBrush}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
         <Setter Property="Margin" Value="{StaticResource TopBottomMediumThickness}" />
     </Style>
@@ -250,7 +250,7 @@
            BasedOn="{StaticResource PathIconBase}"
            TargetType="Path" />
     <Style x:Key="TitleBarBlueButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Cursor" Value="{StaticResource ActionCursor}" />
@@ -303,16 +303,16 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="TitleBarPopoverBorderStyle" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="MaxWidth" Value="300" />
         <Setter Property="Margin" Value="{StaticResource UniformMediumThickness}" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
         <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="BorderBrush" Value="{DynamicResource TintBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TintBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
     </Style>
     <Style x:Key="TitleBarPopoverLabelStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource ContentForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ContentForegroundBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style x:Key="TitleBarPopoverProminentLabelStyle"
@@ -321,7 +321,7 @@
         <Setter Property="FontWeight" Value="{StaticResource HeadingFontWeight}" />
     </Style>
     <Style x:Key="TitleBarButtonTextStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="{StaticResource SidesMediumThickness}" />
     </Style>
@@ -339,8 +339,8 @@
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Border x:Name="OuterBorder"
                             Padding="{StaticResource UniformLargeThickness}"
-                            Background="{TemplateBinding Background}"
                             VerticalAlignment="Stretch"
+                            Background="{TemplateBinding Background}"
                             Cursor="{StaticResource ActionCursor}">
                         <Grid x:Name="OuterGrid" Background="{TemplateBinding Background}">
                             <Grid.ColumnDefinitions>
@@ -356,7 +356,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="{StaticResource DefaultFontSize}"
                                        FontWeight="{StaticResource NormalFontWeight}"
-                                       Foreground="{DynamicResource ContentForegroundBrush}"
+                                       Foreground="{StaticResource ContentForegroundBrush}"
                                        Text="{TemplateBinding Content}" />
                         </Grid>
                     </Border>
@@ -380,12 +380,12 @@
         </Setter>
     </Style>
     <Style x:Key="AttributionTextBorderStyle" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource AttributionBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource AttributionBackgroundBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="{StaticResource UniformMediumThickness}" />
         <Setter Property="Padding" Value="{StaticResource UniformMediumThickness}" />
         <Setter Property="TextBlock.TextTrimming" Value="WordEllipsis" />
-        <Setter Property="BorderBrush" Value="{DynamicResource AttributionBorderBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AttributionBorderBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
     </Style>
     <Style x:Key="CardCloseButtonStyle"
@@ -393,7 +393,7 @@
            TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="ToolTip" Value="{Binding ., ConverterParameter=CloseButton_Tooltip, Converter={StaticResource LC}}" />
+        <Setter Property="ToolTip" Value="{Binding ., ConverterParameter=CloseButton_Tooltip, Converter={StaticResource LocalizationConverter}}" />
     </Style>
     <Style x:Key="TitleBarButtonBaseStyle"
            BasedOn="{StaticResource ButtonBaseStyle}"
@@ -424,7 +424,7 @@
                             <Setter TargetName="bg" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="bg" Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+                            <Setter TargetName="bg" Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="bg" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
@@ -490,11 +490,11 @@
            TargetType="Button">
         <Setter Property="Padding" Value="{StaticResource WidePaddingThickness}" />
         <Setter Property="Margin" Value="{StaticResource UniformMediumThickness}" />
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
     <Style x:Key="MapAccessoryPanelStyle" TargetType="StackPanel">
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="Orientation" Value="Vertical" />
         <Setter Property="Margin" Value="{StaticResource TopSidesLargeThickness}" />
     </Style>
@@ -503,15 +503,15 @@
         <Setter Property="Margin" Value="{StaticResource LeftLargeThickness}" />
     </Style>
     <Style x:Key="CardTitleStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
         <Setter Property="FontWeight" Value="{StaticResource CardTitleFontWeight}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="{StaticResource LeftLargeThickness}" />
     </Style>
     <Style x:Key="CardTitleBorderStyle" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource TintBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TintBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource TopMediumThickness}" />
     </Style>
 </ResourceDictionary>

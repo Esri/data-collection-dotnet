@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Rectangle Grid.RowSpan="3" Fill="{DynamicResource MapShadeBrush}" />
+        <Rectangle Grid.RowSpan="3" Fill="{StaticResource MapShadeBrush}" />
         <WebBrowser x:Name="WebBrowser"
                     Grid.Row="1"
                     MinWidth="300"
@@ -36,14 +36,14 @@
                 VerticalAlignment="Top"
                 Command="{Binding CancelCommand}"
                 Style="{StaticResource MapOverlayButtonStyle}"
-                ToolTip="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}">
+                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}">
             <StackPanel Orientation="Horizontal">
                 <Path Data="{StaticResource icon-undo-16}"
                       Fill="{DynamicResource DangerBrush}"
                       Style="{StaticResource PathIconBase}" />
                 <TextBlock Foreground="{DynamicResource DangerBrush}"
                            Style="{StaticResource MapOverlayButtonTextStyle}"
-                           Text="{Binding ., Converter={StaticResource LC}, ConverterParameter=GenericNegativeButton_Content}" />
+                           Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" />
             </StackPanel>
         </Button>
     </Grid>

@@ -4,12 +4,11 @@
                     xmlns:ctrl="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
                     xmlns:uwpconverters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters">
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
-    <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
-    <ctrl:ResponsiveValueConverter x:Key="RVC" />
     <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     <converters:PointToDoubleConverter x:Key="PointToDoubleConverter" />
-    <uwpconverters:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
     <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
+    <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
+    <uwpconverters:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
 </ResourceDictionary>

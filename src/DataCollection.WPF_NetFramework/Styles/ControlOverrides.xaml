@@ -23,7 +23,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
@@ -70,7 +70,7 @@
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListViewContainerStyle}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Background" Value="{DynamicResource ContentBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ContentBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <!--  Implicit control styles  -->
@@ -78,8 +78,8 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ChromeBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
         <Setter Property="Cursor" Value="{StaticResource ActionCursor}" />
@@ -105,9 +105,9 @@
     </Style>
     <!--  Not an override but used by ComboBox template  -->
     <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
-        <Setter Property="BorderBrush" Value="{DynamicResource ChromeBorderBrush}" />
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
         <Setter Property="Template">
@@ -132,7 +132,7 @@
                                 CornerRadius="0" />
                         <Path x:Name="Arrow"
                               Grid.Column="1"
-                              Margin="0,0,8,0"
+                              Margin="{StaticResource RightMediumThickness}"
                               HorizontalAlignment="Right"
                               VerticalAlignment="Center"
                               Data="{StaticResource icon-caret-down-16}"
@@ -154,10 +154,10 @@
         <Border x:Name="PART_ContentHost" Focusable="True" />
     </ControlTemplate>
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ChromeBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
-        <Setter Property="Background" Value="{DynamicResource ChromeBackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -203,15 +203,14 @@
                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                   SnapsToDevicePixels="True">
                                 <Border x:Name="DropDownBorder"
-                                        Background="{DynamicResource ChromeBackgroundBrush}"
-                                        BorderBrush="{DynamicResource ChromeBorderBrush}"
+                                        Background="{StaticResource ChromeBackgroundBrush}"
+                                        BorderBrush="{StaticResource ChromeBorderBrush}"
                                         BorderThickness="{StaticResource ChromeBorderThickness}" />
                                 <ScrollViewer SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>
                             </Grid>
                         </Popup>
-
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasItems" Value="false">
@@ -240,10 +239,10 @@
             <Setter.Value>
                 <ControlTemplate>
                     <TextBox x:Name="PART_TextBox"
+                             Padding="0"
                              Background="Transparent"
                              BorderThickness="0"
                              Style="{StaticResource EditableFieldValueStyle}"
-                             Padding="0"
                              Text="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
                 </ControlTemplate>
             </Setter.Value>

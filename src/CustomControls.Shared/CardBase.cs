@@ -14,9 +14,8 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using System;
 using System.ComponentModel;
-using System.Windows.Input;
+
 #if __UWP__
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,7 +23,6 @@ using Windows.UI.Xaml.Controls;
 using System.Windows;
 using System.Windows.Controls;
 #endif
-
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 {
     /// <summary>
@@ -32,73 +30,63 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
     /// </summary>
     public class CardBase : UserControl
     {
-        public bool IsOpen
-        {
-            get => (bool)GetValue(IsOpenProperty);
-            set => SetValue(IsOpenProperty, value);
-        }
+        /// <summary>
+        /// Backing field for <see cref="ToggleStateCommand"/>.
+        /// </summary>
+        private ToggleCommand _toggleCommand;
 
+        /// <summary>
+        /// Gets or sets this card's open/closed state.
+        /// </summary>
+        public bool IsOpen { get => (bool)GetValue(IsOpenProperty); set => SetValue(IsOpenProperty, value); }
+
+        /// <summary>
+        /// Enables binding to the open/closed state of this card.
+        /// </summary>
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(CardBase), new PropertyMetadata(false, HandleIsOpenChanged));
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private static void HandleIsOpenChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs dpcea)
-        {
-            (dpo as CardBase)?.PropertyChanged?.Invoke(dpo, new PropertyChangedEventArgs(nameof(IsOpen)));
-        }
+        /// <summary>
+        /// Raises <see cref="PropertyChanged"/> when the open/closed state changes.
+        /// </summary>
+        /// <param name="dpo">The <see cref="DependencyObject"/>.</param>
+        /// <param name="dpcea">The <see cref="DependencyPropertyChangedEventArgs"/>.</param>
+        private static void HandleIsOpenChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs dpcea) => (dpo as CardBase)?.PropertyChanged?.Invoke(dpo, new PropertyChangedEventArgs(nameof(IsOpen)));
 
-        private static void HandleCardStateChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs dpcea)
-        {
-            (dpo as CardBase)?.PropertyChanged?.Invoke(dpo, new PropertyChangedEventArgs(nameof(CardState)));
-        }
+        /// <summary>
+        /// Raises <see cref="PropertyChanged"/> when the minimize/maximize state changes.
+        /// </summary>
+        /// <param name="dpo">The <see cref="DependencyObject"/>.</param>
+        /// <param name="dpcea">The <see cref="DependencyPropertyChangedEventArgs"/>.</param>
+        private static void HandleCardStateChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs dpcea) => (dpo as CardBase)?.PropertyChanged?.Invoke(dpo, new PropertyChangedEventArgs(nameof(CardState)));
 
-        public CardState CardState
-        {
-            get => (CardState)GetValue(CardStateProperty);
-            set => SetValue(CardStateProperty, value);
-        }
+        /// <summary>
+        /// Gets or sets this card's minimize/maximize state.
+        /// </summary>
+        public CardState CardState { get => (CardState)GetValue(CardStateProperty); set => SetValue(CardStateProperty, value); }
 
-        // Using a DependencyProperty as the backing store for CardState.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding to the minimize/maximize state of the card.
+        /// </summary>
         public static readonly DependencyProperty CardStateProperty =
             DependencyProperty.Register(nameof(CardState), typeof(CardState), typeof(CardBase), new PropertyMetadata(CardState.Minimized, HandleCardStateChanged));
 
-        public ModernMapPanel ParentPanel
-        {
-            get => (ModernMapPanel)GetValue(ParentPanelProperty);
-            set => SetValue(ParentPanelProperty, value);
-        }
+        /// <summary>
+        /// Reference to parent panel is needed for binding convenience.
+        /// </summary>
+        public ModernMapPanel ParentPanel { get => (ModernMapPanel)GetValue(ParentPanelProperty); set => SetValue(ParentPanelProperty, value); }
 
-        // Using a DependencyProperty as the backing store for ParentPanel.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Enables binding to the parent panel.
+        /// </summary>
         public static readonly DependencyProperty ParentPanelProperty =
             DependencyProperty.Register(nameof(ParentPanel), typeof(ModernMapPanel), typeof(CardBase), new PropertyMetadata(null));
 
-        private ToggleCommand _toggleCommand;
+        /// <summary>
+        /// Command for toggling this cards minimize/maximize state.
+        /// </summary>
         public ToggleCommand ToggleStateCommand => _toggleCommand ?? (_toggleCommand = new ToggleCommand(this));
-    }
-
-    public class ToggleCommand : ICommand
-    {
-        public event EventHandler CanExecuteChanged;
-
-        private CardBase _cardBase;
-
-        public ToggleCommand(CardBase cb)
-        {
-            _cardBase = cb;
-        }
-        public bool CanExecute(object parameter) => true;
-
-        public void Execute(object parameter)
-        {
-            if (_cardBase.CardState == CardState.Maximized)
-            {
-                _cardBase.CardState = CardState.Minimized;
-            }
-            else
-            {
-                _cardBase.CardState = CardState.Maximized;
-            }
-        }
     }
 }

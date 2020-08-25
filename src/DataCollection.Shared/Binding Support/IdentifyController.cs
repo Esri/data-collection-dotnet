@@ -100,8 +100,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         /// </summary>
         private Geometry.Geometry _tappedLocation;
 
+        /// <summary>
+        /// Stores the most-recently-tapped screen location.
+        /// </summary>
         private Point _tappedScreenPosition;
 
+        /// <summary>
+        /// Gets the most-recently-tapped screen location.
+        /// </summary>
+        /// <remarks>Enables the convenient placement of UI elements through binding, e.g. an identify-in-progress spinner.</remarks>
         public Point TappedScreenPosition
         {
             get => _tappedScreenPosition;
@@ -284,6 +291,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         }
 
         private bool _isIdentifyPaused;
+
+        /// <summary>
+        /// Gets or sets whether attempts to identify should be ignored.
+        /// </summary>
         public bool IsIdentifyPaused
         {
             get => _isIdentifyPaused;

@@ -26,7 +26,6 @@
                         </muxc:TreeViewItem.Content>
                     </muxc:TreeViewItem>
                 </DataTemplate>
-
             </muxc:TreeView.ItemTemplate>
         </muxc:TreeView>
     </Grid>

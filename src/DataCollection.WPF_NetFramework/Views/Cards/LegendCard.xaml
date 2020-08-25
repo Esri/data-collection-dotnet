@@ -5,18 +5,18 @@
                xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
                xmlns:esri="clr-namespace:Esri.ArcGISRuntime.Toolkit.UI.Controls;assembly=Esri.ArcGISRuntime.Toolkit"
                xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
-    <Grid Background="{DynamicResource ContentBackgroundBrush}">
+    <Grid Background="{StaticResource ContentBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <views:CardBar Title="{Binding ., Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
+        <views:CardBar Title="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=Legend_PanelHeader}"
                        CloseCommand="{Binding MapAccessoryViewModel.ToggleLegendCommand}"
-                       IconGeometry="{StaticResource icon-layers-16}"
+                       IconGeometry="{StaticResource icon-legend-16}"
                        OwningCard="{Binding ElementName=Self}" />
         <esri:Legend Grid.Row="1"
-                     Background="{DynamicResource ContentBackgroundBrush}"
-                     Foreground="{DynamicResource ContentForegroundBrush}"
+                     Background="{StaticResource ContentBackgroundBrush}"
+                     Foreground="{StaticResource ContentForegroundBrush}"
                      GeoView="{Binding MapAccessoryViewModel.MapView, Mode=OneWay}" />
     </Grid>
 </ctrl:CardBase>

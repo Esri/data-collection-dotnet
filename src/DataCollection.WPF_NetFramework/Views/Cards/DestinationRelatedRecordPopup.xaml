@@ -10,7 +10,7 @@
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{DynamicResource ContentBackgroundBrush}">
+    <Grid Background="{StaticResource ContentBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

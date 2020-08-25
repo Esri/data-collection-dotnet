@@ -82,7 +82,7 @@
                 Cursor="{StaticResource ActionCursor}">
             <TextBlock FontSize="{StaticResource DefaultFontSize}"
                        FontWeight="{StaticResource NormalFontWeight}"
-                       Foreground="{DynamicResource ContentForegroundBrush}"
+                       Foreground="{StaticResource ContentForegroundBrush}"
                        Text="{Binding Name}" />
         </Border>
     </DataTemplate>

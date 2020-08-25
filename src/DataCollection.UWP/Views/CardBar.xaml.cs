@@ -21,74 +21,72 @@ using Windows.UI.Xaml.Media;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
 {
+    /// <summary>
+    /// A user control that shows title, image/icon, and tools for a card.
+    /// </summary>
     public sealed partial class CardBar
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CardBar"/> class.
+        /// </summary>
         public CardBar()
         {
             InitializeComponent();
         }
-        /// <summary>
-        /// Geometry of the path to show as the card's icon.
-        /// </summary>
-        /// <remarks>Set either the <see cref="ImageSource"/> or the <see cref="IconGeometry"/>, not both.</remarks>
-        public string IconGeometry
-        {
-            get => (string)GetValue(IconGeometryProperty);
-            set => SetValue(IconGeometryProperty, value);
-        }
 
         /// <summary>
-        /// Image source to show as the card's icon.
+        /// Gets or sets the geometry of the path to show as the card's icon.
         /// </summary>
-        /// <remarks>Set either the <see cref="ImageSource"/> or the <see cref="IconGeometry"/>, not both.</remarks>
-        public ImageSource ImageSource
-        {
-            get => (ImageSource)GetValue(ImageSourceProperty);
-            set => SetValue(ImageSourceProperty, value);
-        }
+        public string IconGeometry { get => (string)GetValue(IconGeometryProperty); set => SetValue(IconGeometryProperty, value); }
 
         /// <summary>
-        /// Title of the card
+        /// Gets or sets the image source to show as the card's icon.
         /// </summary>
-        public string Title
-        {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
-        }
+        public ImageSource ImageSource { get => (ImageSource)GetValue(ImageSourceProperty); set => SetValue(ImageSourceProperty, value); }
 
         /// <summary>
-        /// Reference to the card this bar is associated with
+        /// Gets or sets the Title of the card.
         /// </summary>
-        public CardBase OwningCard
-        {
-            get => (CardBase)GetValue(OwningCardProperty);
-            set => SetValue(OwningCardProperty, value);
-        }
+        public string Title { get => (string)GetValue(TitleProperty); set => SetValue(TitleProperty, value); }
 
         /// <summary>
-        /// Command executed when close button is clicked.
+        /// Gets or sets the card this bar is associated with.
         /// </summary>
-        public ICommand CloseCommand
-        {
-            get => (ICommand)GetValue(CloseCommandProperty);
-            set => SetValue(CloseCommandProperty, value);
-        }
+        public CardBase OwningCard { get => (CardBase)GetValue(OwningCardProperty); set => SetValue(OwningCardProperty, value); }
 
-        #region Dependency properties to enable convenient binding
+        /// <summary>
+        /// Gets or sets the command executed when close button is clicked.
+        /// </summary>
+        public ICommand CloseCommand { get => (ICommand)GetValue(CloseCommandProperty); set => SetValue(CloseCommandProperty, value); }
+
+        /// <summary>
+        /// Enables binding the <see cref="IconGeometry"/> property.
+        /// </summary>
         public static readonly DependencyProperty IconGeometryProperty =
             DependencyProperty.Register(nameof(IconGeometry), typeof(string), typeof(CardBar), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Enables binding the <see cref="Title"/> property.
+        /// </summary>
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(nameof(Title), typeof(string), typeof(CardBar), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Enables binding the <see cref="OwningCard"/> property.
+        /// </summary>
         public static readonly DependencyProperty OwningCardProperty =
             DependencyProperty.Register(nameof(OwningCard), typeof(CardBase), typeof(CardBar), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Enables binding the <see cref="CloseCommand"/> property.
+        /// </summary>
         public static readonly DependencyProperty CloseCommandProperty =
             DependencyProperty.Register(nameof(CloseCommand), typeof(ICommand), typeof(CardBar), new PropertyMetadata(null));
 
+        /// <summary>
+        /// Enables binding the <see cref="ImageSource"/> property.
+        /// </summary>
         public static readonly DependencyProperty ImageSourceProperty =
             DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(CardBar), new PropertyMetadata(null));
-        #endregion
     }
 }

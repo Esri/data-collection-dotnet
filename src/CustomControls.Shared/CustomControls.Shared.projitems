@@ -14,5 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MapRole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModernMapPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ResponsiveValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToggleCommand.cs" />
   </ItemGroup>
 </Project>

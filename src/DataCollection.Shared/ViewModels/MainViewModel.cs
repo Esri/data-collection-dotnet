@@ -97,10 +97,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 {
                     ConnectivityMode = (ConnectivityMode)l.Args.Value;
                 }
-                else if (l.Args.Key == BroadcastMessageKey.ClosePopups)
-                {
-                    MapAccessoryViewModel.CloseAccessories();
-                }
             };
 
             // Initialize the identify controller
@@ -536,7 +532,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _deleteOfflineMapCommand ?? (_deleteOfflineMapCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        MapAccessoryViewModel.CloseAccessories();
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
 
                         // if online map is unreachable, do not proceed
                         if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
@@ -662,7 +658,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _startNewFeatureCommand ?? (_startNewFeatureCommand = new DelegateCommand(
-                    (x) => { MapAccessoryViewModel.CloseAccessories(); IsAddingFeature = true; IsLocationOnlyMode = true; }));
+                    (x) => { BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups); IsAddingFeature = true; IsLocationOnlyMode = true; }));
             }
         }
 
@@ -846,7 +842,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         MapViewModel.SelectFeature(feature);
 
                         // close map accessories
-                        MapAccessoryViewModel.CloseAccessories();
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
                     }
                     else
                     {

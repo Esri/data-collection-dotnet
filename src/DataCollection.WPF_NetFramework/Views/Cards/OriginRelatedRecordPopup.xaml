@@ -13,7 +13,7 @@
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{DynamicResource ContentBackgroundBrush}" DataContext="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship}">
+    <Grid Background="{StaticResource ContentBackgroundBrush}" DataContext="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -24,9 +24,9 @@
                        ImageSource="{Binding IconImageSource}"
                        CloseCommand="{Binding ElementName=Self, Path=DataContext.IdentifiedFeatureViewModel.ClearRelationshipsCommand}" />
         <TabControl Grid.Row="1"
-                    Background="{DynamicResource ContentBackgroundBrush}"
+                    Background="{StaticResource ContentBackgroundBrush}"
                     BorderThickness="0">
-            <TabItem Header="{Binding ., Converter={StaticResource LC}, ConverterParameter=DetailsHeading}" Style="{StaticResource MinimalistTabItemStyle}">
+            <TabItem Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DetailsHeading}" Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the origin relationship selected  -->
                 <ScrollViewer x:Name="DetailsView"
                               HorizontalScrollBarVisibility="Disabled"
@@ -59,7 +59,7 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem x:Name="AttachmentsTabItem"
-                     Header="{Binding ., Converter={StaticResource LC}, ConverterParameter=AttachmentsHeading}"
+                     Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AttachmentsHeading}"
                      Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attachments view  -->
                 <cards:AttachmentsView x:Name="AttachmentsView"

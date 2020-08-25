@@ -15,6 +15,7 @@
 ******************************************************************************/
 
 using System;
+
 #if __WPF__
 using System.Windows.Data;
 using CustomCultureInfo = System.Globalization.CultureInfo;
@@ -25,7 +26,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
 using CustomCultureInfo = System.String;
 #endif
-
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
 {
     /// <summary>
@@ -35,13 +35,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
     public class ResponsiveValueConverter : IValueConverter
     {
         /// <summary>
-        /// Chooses a value based on the bound boolean.
+        /// Chooses a value from the content of the parameter string based on the bound boolean.
         /// </summary>
-        /// <param name="value">Boolean value</param>
-        /// <param name="targetType">Any object</param>
+        /// <param name="value">Boolean value.</param>
+        /// <param name="targetType">Any object.</param>
         /// <param name="parameter">Intended values to choose between, in the format: 'valueIfTrue|valueIfFalse'.</param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
+        /// <remarks>Intended for use with the <see cref="ModernMapPanel.IsCollapsed"/> property.</remarks>
         public object Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
             if (value is bool isCollapsed)
@@ -73,9 +72,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             return value;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CustomCultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Not implemented.
+        /// </summary>
+        public object ConvertBack(object value, Type targetType, object parameter, CustomCultureInfo culture) => throw new NotImplementedException();
     }
 }

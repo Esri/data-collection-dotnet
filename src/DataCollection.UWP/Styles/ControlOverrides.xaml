@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="PivotItem">
-        <Setter Property="Margin" Value="10,5,10,0" />
+        <Setter Property="Margin" Value="8,4,8,0" />
     </Style>
     <Style x:Key="ListViewItem" TargetType="ListViewItem">
         <Setter Property="Background" Value="{ThemeResource ContentBackgroundBrush}" />
@@ -58,7 +58,7 @@
         <Setter Property="Background" Value="{ThemeResource ChromeBackgroundBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource ChromeForegroundBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ChromeBorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">

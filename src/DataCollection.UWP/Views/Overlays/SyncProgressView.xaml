@@ -11,13 +11,13 @@
                              Foreground="{ThemeResource TintBrush}"
                              Maximum="100"
                              Minimum="0"
-                             Value="{Binding Progress}" />
+                             Value="{x:Bind SyncViewModel.Progress, Mode=OneWay}" />
                 <TextBlock FontSize="{StaticResource LargeFontSize}"
                            Style="{StaticResource PopupProminentText}"
                            Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=SynchingMessage_Text}" />
                 <Button HorizontalAlignment="Stretch"
                         BorderBrush="{ThemeResource DangerBrush}"
-                        Command="{Binding CancelSyncCommand}"
+                        Command="{x:Bind SyncViewModel.CancelSyncCommand, Mode=OneWay}"
                         Style="{StaticResource MapOverlayButtonStyle}"
                         ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}">
                     <StackPanel HorizontalAlignment="Center"

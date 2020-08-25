@@ -28,18 +28,22 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
     /// <summary>
     /// Special converter used for two-way bindings where null is acceptable but an empty string isn't
     /// </summary>
+    /// <remarks>This is needed when binding to double fields in popups. Without this converter, deleting the contents of a textbox, or editing an already empty textbox, will result in a validation error from popup manager.</remarks>
     public class StringToNullConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, lang culture)
-        {
-            return value;
-        }
+        /// <summary>
+        /// Returns the input value unmodified.
+        /// </summary>
+        public object Convert(object value, Type targetType, object parameter, lang culture) => value;
 
+        /// <summary>
+        /// For input strings, returns null if the string is null or empty. Returns unmodified value for all other inputs.
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, lang culture)
         {
-            if (value is string stringvalue)
+            if (value is string stringValue)
             {
-                if (string.IsNullOrEmpty(stringvalue))
+                if (string.IsNullOrEmpty(stringValue))
                 {
                     return null;
                 }

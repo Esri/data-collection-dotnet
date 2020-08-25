@@ -113,7 +113,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <TextBlock Width="50"
+                <TextBlock Width="48"
                            HorizontalAlignment="Center"
                            Opacity="0.8"
                            Style="{StaticResource TitleBarTitleStyle}"

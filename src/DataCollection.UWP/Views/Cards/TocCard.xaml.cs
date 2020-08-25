@@ -14,11 +14,14 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Windows.UI.Xaml;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
+using Windows.UI.Xaml;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
 {
+    /// <summary>
+    /// Card that shows a map's table of contents.
+    /// </summary>
     public sealed partial class TocCard
     {
         public TocCard()
@@ -26,11 +29,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
             InitializeComponent();
         }
 
-        public MainViewModel MainViewModel
-        {
-            get => (MainViewModel)GetValue(MainViewModelProperty);
-            set => SetValue(MainViewModelProperty, value);
-        }
+        public MainViewModel MainViewModel { get => (MainViewModel)GetValue(MainViewModelProperty); set => SetValue(MainViewModelProperty, value); }
 
         public static readonly DependencyProperty MainViewModelProperty =
             DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(TocCard),

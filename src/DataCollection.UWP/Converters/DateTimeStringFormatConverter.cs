@@ -19,8 +19,15 @@ using Windows.UI.Xaml.Data;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
 {
+    /// <summary>
+    /// Converter applies a format string to a date time
+    /// </summary>
     public class DateTimeStringFormatConverter : IValueConverter
     {
+        /// <summary>
+        /// Applies format string specified in <paramref name="parameter"/> to the input <paramref name="value"/>, which is expected to
+        /// be a <see cref="DateTime"/> or <see cref="DateTimeOffset"/>.
+        /// </summary>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (parameter is string format)
@@ -38,9 +45,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
             return value?.ToString();
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Not implemented
+        /// </summary>
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
     }
 }

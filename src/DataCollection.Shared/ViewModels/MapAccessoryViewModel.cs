@@ -15,6 +15,7 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.UI.Controls;
 using System;
 using System.Windows.Input;
@@ -49,6 +50,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private bool _isOfflineMapStatusPanelOpen;
         private bool _isUserPanelOpen;
         private bool _isOnlineMapStatusPanelOpen;
+
+        public MapAccessoryViewModel()
+        {
+            // Close all accessories when prompted
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += HandleBroadcastMessage;
+        }
+
+        private void HandleBroadcastMessage(object sender, BroadcastMessengerEventArgs e)
+        {
+            if (e.Args.Key == Models.BroadcastMessageKey.ClosePopups)
+            {
+                CloseAccessories();
+            }
+        }
 
         /// <summary>
         /// Hold a reference to the map view.
