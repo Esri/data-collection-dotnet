@@ -2,13 +2,14 @@
              x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.NavBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ListView Background="{StaticResource TintBrush}" ItemsSource="{Binding ElementName=Self, Path=ParentPanel.NavigationTitles}">
-        <ListView.ItemsPanel>
+    <ItemsControl Background="{StaticResource TintBrush}" ItemsSource="{Binding ElementName=Self, Path=ParentPanel.NavigationTitles}"
+                  Padding="{StaticResource UniformMediumThickness}">
+        <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" />
             </ItemsPanelTemplate>
-        </ListView.ItemsPanel>
-        <ListView.ItemTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Grid Margin="{StaticResource TopMediumThickness}">
                     <Grid.ColumnDefinitions>
@@ -32,6 +33,6 @@
                           Style="{StaticResource PathIconBase}" />
                 </Grid>
             </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>
