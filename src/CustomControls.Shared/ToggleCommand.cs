@@ -11,7 +11,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
         /// <summary>
         /// Raised when <see cref="CanExecute(object)"/> changes. This event will not be raised.
         /// </summary>
+#pragma warning disable CS0067
         public event EventHandler CanExecuteChanged;
+#pragma warning restore CS0067
 
         private CardBase _cardBase;
 
