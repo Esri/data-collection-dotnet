@@ -46,12 +46,14 @@
                     <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleLegendCommand, Mode=OneTime}"
                             Style="{StaticResource MapAccessoryButtonStyle}"
                             ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_LegendButton_Tooltip}">
-                        <Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconStyle}" />
+                        <!--<Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/legend-32.png" />
                     </Button>
                     <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTableOfContentsCommand, Mode=OneTime}"
                             Style="{StaticResource MapAccessoryButtonStyle}"
                             ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_TOCButton_Tooltip}">
-                        <Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconStyle}" />
+                        <!--<Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/layers-32.png" />
                     </Button>
                 </StackPanel>
             </controls:DropShadowPanel>
@@ -79,7 +81,8 @@
                     <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.GoHomeCommand, Mode=OneTime}"
                             Style="{StaticResource MapAccessoryButtonStyle}"
                             ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_HomeButton_Tooltip}">
-                        <Path Data="{StaticResource icon-home-16}" Style="{StaticResource PathIconStyle}" />
+                        <!--<Path Data="{StaticResource icon-home-16}" Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon UriSource="Assets/Calcite/home-16.png" Style="{StaticResource PathIconWorkaroundStyle}" />
                     </Button>
                 </StackPanel>
             </controls:DropShadowPanel>

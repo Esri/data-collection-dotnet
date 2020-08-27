@@ -195,12 +195,16 @@
     <Content Include="..\DataCollection.Shared\Resources\Images\PinShadow.png">
       <Link>Assets\PinShadow.png</Link>
     </Content>
+    <Content Include="Assets\Calcite\arcgis-online-16.png" />
+    <Content Include="Assets\Calcite\arcgis-online-32.png" />
     <Content Include="Assets\Calcite\bookmark-32.png" />
     <Content Include="Assets\Calcite\camera-32.png" />
     <Content Include="Assets\Calcite\chevron-right-32.png" />
     <Content Include="Assets\Calcite\ellipsis-32.png" />
     <Content Include="Assets\Calcite\folder-open-32.png" />
     <Content Include="Assets\Calcite\gps-on-32.png" />
+    <Content Include="Assets\Calcite\home-16.png" />
+    <Content Include="Assets\Calcite\home-16.svg" />
     <Content Include="Assets\Calcite\launch-32.png" />
     <Content Include="Assets\Calcite\layers-32.png" />
     <Content Include="Assets\Calcite\legend-32.png" />

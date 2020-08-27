@@ -37,9 +37,12 @@
                         ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}"
                         Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-arcgis-online-16}"
+                        <!--<Path Data="{StaticResource icon-arcgis-online-16}"
                               Fill="{ThemeResource SuccessBrush}"
-                              Style="{StaticResource PathIconStyle}" />
+                              Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Foreground="{ThemeResource TintBrush}"
+                                    Style="{StaticResource PathIconWorkaroundStyle}"
+                                    UriSource="Assets/Calcite/arcgis-online-32.png" />
                         <TextBlock Foreground="{ThemeResource SuccessBrush}" Style="{StaticResource TextBlockBaseStyle}">
                             <Run FontWeight="SemiBold" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart}" />
                             <Run Text=" - " />
@@ -58,7 +61,8 @@
                         ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip}"
                         Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
                     <StackPanel Orientation="Horizontal">
-                        <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconStyle}" />
+                        <!--<Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/offline-32.png" />
                         <TextBlock Margin="{StaticResource LeftLargeThickness}" Style="{StaticResource TextBlockBaseStyle}">
                             <Run FontWeight="SemiBold" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart}" />
                             <Run Text=" - " />

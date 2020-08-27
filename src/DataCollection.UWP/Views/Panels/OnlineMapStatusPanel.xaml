@@ -64,7 +64,8 @@
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}"
                     Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconStyle}" />
+                    <!--<Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconStyle}" />-->
+                    <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/offline-32.png" />
                     <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}" />
                 </StackPanel>
             </Button>

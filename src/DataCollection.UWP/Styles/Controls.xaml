@@ -74,6 +74,13 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
+    <!-- Needed for workaround due to UWP vector & path bugs. See https://github.com/microsoft/microsoft-ui-xaml/issues/3077 -->
+    <Style x:Key="PathIconWorkaroundStyle" TargetType="BitmapIcon">
+        <Setter Property="Foreground" Value="{ThemeResource ChromeForegroundBrush}" />
+        <Setter Property="Width" Value="{StaticResource IconLargeLength}" />
+        <Setter Property="Height" Value="{StaticResource IconLargeLength}" />
+        <Setter Property="Margin" Value="{StaticResource UniformMediumThickness}" />
+    </Style>
     <Style x:Key="TitleBarCaretIconStyle"
            BasedOn="{StaticResource PathIconStyle}"
            TargetType="Path">

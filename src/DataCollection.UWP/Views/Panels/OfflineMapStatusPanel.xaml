@@ -61,7 +61,8 @@
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_DeleteButton_Text}"
                     Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconStyle}" />
+                    <!--<Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconStyle}" />-->
+                    <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/trash-32.png" />
                     <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_DeleteButton_Text}" />
                 </StackPanel>
             </Button>
@@ -76,7 +77,8 @@
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_WorkOnlineButton_Text}"
                     Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Path Data="{StaticResource icon-arcgis-online-16}" Style="{StaticResource PathIconStyle}" />
+                    <!--<Path Data="{StaticResource icon-arcgis-online-16}" Style="{StaticResource PathIconStyle}" />-->
+                    <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/arcgis-online-32.png" />
                     <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_WorkOnlineButton_Text}" />
                 </StackPanel>
             </Button>
