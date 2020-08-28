@@ -2,7 +2,7 @@
 
 ## 1.2.3
 
-* Updates  all versions of the app to use the latest 100.9 release of ArcGIS Runtime.
+* Updates all versions of the app to use the latest 100.9 release of ArcGIS Runtime.
 
 ## 1.2.2
 
