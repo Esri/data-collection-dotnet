@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.2.3
+
+* Updates  all versions of the app to use the latest 100.9 release of ArcGIS Runtime.
+
 ## 1.2.2
 
 * Adds doc table of contents to root README.md and docs/index.md
