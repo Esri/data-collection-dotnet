@@ -740,7 +740,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _deleteFeatureCommand ?? (_deleteFeatureCommand = new DelegateCommand(
-                    async (x) =>
+                    async (commandParameter) =>
                     {
                         // wait for response from the user if they truly want to delete the feature
                         bool deleteConfirmed = await UserPromptMessenger.Instance.AwaitConfirmation(
@@ -753,14 +753,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         if (deleteConfirmed)
                         {
                             // determine if the feature is coming from the main feature class or a related table
-                            if (x is IdentifiedFeatureViewModel)
+                            if (commandParameter is IdentifiedFeatureViewModel)
                             {
                                 if (await IdentifiedFeatureViewModel.DeleteFeature())
                                 {
                                     IdentifiedFeatureViewModel = null;
                                 }
                             }
-                            else if (x is OriginRelationshipViewModel)
+                            else if (commandParameter is OriginRelationshipViewModel)
                             {
                                 if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteFeature())
                                 {

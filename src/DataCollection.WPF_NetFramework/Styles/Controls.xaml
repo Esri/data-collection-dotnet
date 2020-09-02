@@ -409,7 +409,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Border x:Name="bg"
+                    <Border x:Name="backgroundBorder"
                             Padding="{TemplateBinding Padding}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
@@ -421,13 +421,13 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="bg" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
+                            <Setter TargetName="backgroundBorder" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="bg" Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
+                            <Setter TargetName="backgroundBorder" Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bg" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
+                            <Setter TargetName="backgroundBorder" Property="Background" Value="{StaticResource ChromeBackgroundHoverBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

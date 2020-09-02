@@ -8,6 +8,11 @@ namespace ControlsTest
     [TestFixture]
     public class BasicTests
     {
+        /// <summary>
+        /// Basic tests to make sure that the panel doesn't throw an exception at the measure/arrange stage when there are no children.
+        /// </summary>
+        /// <param name="width">width passed to measure</param>
+        /// <param name="height">height passed to measure</param>
         [TestCase(0,0)]
         [TestCase(300,300)]
         [TestCase(0,600)]
@@ -19,6 +24,10 @@ namespace ControlsTest
             panel.Arrange(new Rect(0,0, panel.DesiredSize.Width, panel.DesiredSize.Height));
         }
 
+        /// <summary>
+        /// Test to verify panel doesn't throw an exception with a single child taking on any of the possible roles.
+        /// </summary>
+        /// <param name="mapRole"></param>
         [TestCase(MapRole.Accessory)]
         [TestCase(MapRole.Attribution)]
         [TestCase(MapRole.Card)]

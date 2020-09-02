@@ -34,20 +34,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
             InitializeComponent();
 
             // Do work that can only be done when the titlebar is loaded
-            Loaded += TitleBar_Loaded;
+            Loaded += TitleBarLoaded;
         }
 
         /// <summary>
-        /// The TitleBar_Loaded.
+        /// Updates the minimize icon once this loads, which is when <see cref="ThisWindow"/> becomes available.
         /// </summary>
-        private void TitleBar_Loaded(object sender, RoutedEventArgs e)
+        private void TitleBarLoaded(object sender, RoutedEventArgs e)
         {
             // Minimize icon can only be updated once the window is available.
             if (ThisWindow != null) {
                 UpdateMinimizeIcon();
             }
 
-            Loaded -= TitleBar_Loaded;
+            Loaded -= TitleBarLoaded;
         }
 
         /// <summary>

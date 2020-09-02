@@ -25,6 +25,7 @@
     <Resource Include="..\DataCollection.WPF_NetFramework\**\*.ico" />
     <EmbeddedResource Include="..\DataCollection.WPF_NetFramework\**\*.resx" />
     <Compile Remove="..\DataCollection.WPF_NetFramework\obj\Debug\**" />
+    <Compile Remove="..\DataCollection.WPF_NetFramework\obj\Release\**" />
     <Compile Remove="..\DataCollection.WPF_NetFramework\Properties\AssemblyInfo.cs" />
     <None Include="../DataCollection.WPF_NetFramework/app.manifest" />
     <ApplicationDefinition Include="..\DataCollection.WPF_NetFramework\App.xaml" />

@@ -18,7 +18,6 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters
 {
     /// <summary>
