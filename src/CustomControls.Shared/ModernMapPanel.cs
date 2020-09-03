@@ -359,7 +359,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                         case MapRole.Card:
                             if (child != TopCard)
                             {
-                                // TODO - determine if this is the best way
                                 child.Arrange(new Rect(0, 0, 0, 0));
                             }
 
