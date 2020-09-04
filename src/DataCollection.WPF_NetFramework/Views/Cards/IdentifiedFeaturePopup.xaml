@@ -270,8 +270,7 @@
             </Button>
             <Button Grid.Column="2"
                     HorizontalAlignment="Right"
-                    Command="{Binding CancelEditsCommand}"
-                    CommandParameter="{Binding IdentifiedFeatureViewModel}"
+                    Command="{Binding IdentifiedFeatureViewModel.CancelEditsCommand}"
                     Style="{StaticResource CardControlStripButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
                     Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">

@@ -6,7 +6,8 @@
                xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
                xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
                xmlns:models="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models"
-               xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities" xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
+               xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities"
+               xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
@@ -19,10 +20,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <views:CardBar OwningCard="{Binding ElementName=Self}"
-                       Title="{Binding PopupManager.Title}"
+        <views:CardBar Title="{Binding PopupManager.Title}"
+                       CloseCommand="{Binding ElementName=Self, Path=DataContext.IdentifiedFeatureViewModel.ClearRelationshipsCommand}"
                        ImageSource="{Binding IconImageSource}"
-                       CloseCommand="{Binding ElementName=Self, Path=DataContext.IdentifiedFeatureViewModel.ClearRelationshipsCommand}" />
+                       OwningCard="{Binding ElementName=Self}" />
         <TabControl Grid.Row="1"
                     Background="{StaticResource ContentBackgroundBrush}"
                     BorderThickness="0">
@@ -35,9 +36,10 @@
                     <StackPanel Orientation="Vertical">
                         <!--  Origin related record in View mode  -->
                         <ItemsControl Margin="{StaticResource UniformLargeThickness}"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
                                       ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                       Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="models:WrappedPopupFieldValue">
@@ -103,8 +105,7 @@
             </Button>
             <Button Grid.Column="2"
                     HorizontalAlignment="Right"
-                    Command="{Binding DataContext.CancelEditsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    CommandParameter="{Binding .}"
+                    Command="{Binding CancelEditsCommand}"
                     Style="{StaticResource CardControlStripButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
                     Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">

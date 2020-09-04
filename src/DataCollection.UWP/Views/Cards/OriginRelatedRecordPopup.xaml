@@ -101,8 +101,7 @@
                 <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/save-32.png" />
             </Button>
             <Button Grid.Column="4"
-                    Command="{x:Bind MainViewModel.CancelEditsCommand, Mode=OneWay}"
-                    CommandParameter="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}"
+                    Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.CancelEditsCommand, Mode=OneWay}"
                     Style="{StaticResource CardStripButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CancelEdits_Tooltip}"
                     Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
