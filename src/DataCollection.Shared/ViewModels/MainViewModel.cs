@@ -30,12 +30,15 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
 #if WPF
 using static System.Environment;
 #elif NETFX_CORE
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.Storage;
+using Windows.Foundation;
+using Windows.UI.Xaml;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
@@ -679,7 +682,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _saveNewFeatureCommand ?? (_saveNewFeatureCommand = new DelegateCommand(
-                    async (x) =>
+                    async (pinpointElement) =>
                     {
                         IsAddingFeature = false;
                         IsLocationOnlyMode = false;
@@ -696,8 +699,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                     // create new feature 
                                     var feature = ((FeatureLayer)layer).FeatureTable.CreateFeature();
 
-                                    // set feature geometry as the mapview's center
-                                    var newFeatureGeometry = MapViewModel.AreaOfInterest?.TargetGeometry.Extent.GetCenter() as MapPoint;
+                                    // set feature geometry as the pinpoint's position
+                                    var frameworkElement = (FrameworkElement)pinpointElement;
+                                    #if WPF
+                                    var point = new Point(frameworkElement.Width / 2, frameworkElement.Height / 2);
+                                    var newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(frameworkElement.TranslatePoint(point, MapAccessoryViewModel.MapView));
+                                    #else
+                                    var transform = frameworkElement.TransformToVisual(MapAccessoryViewModel.MapView);
+                                    // Get the actual center point. CenterPoint here defaults to top left
+                                    var point = new Point(frameworkElement.CenterPoint.X + frameworkElement.Width / 2, frameworkElement.CenterPoint.Y + frameworkElement.Height / 2);
+                                    var newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(transform.TransformPoint(point));
+                                    #endif
 
                                     // call method to perform custom workflow for the custom tree dataset
                                     await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);

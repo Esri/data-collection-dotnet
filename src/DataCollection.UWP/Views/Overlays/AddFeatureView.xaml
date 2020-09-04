@@ -33,6 +33,7 @@
                    Height="34"
                    Source="ms-appx:///Assets/GenericPin.png" />
             <Image Width="21"
+                   x:Name="Shadow"
                    Height="5"
                    Source="ms-appx:///Assets/PinShadow.png" />
         </StackPanel>
@@ -56,6 +57,7 @@
             </Button>
             <Button BorderBrush="{ThemeResource SuccessBrush}"
                     Command="{Binding SaveNewFeatureCommand, Mode=OneWay}"
+                    CommandParameter="{Binding ElementName=Shadow}"
                     Style="{StaticResource MapOverlayButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddView_SaveButton_Text}">
                 <StackPanel Orientation="Horizontal" Spacing="{StaticResource MediumColumnSpacing}">

@@ -43,6 +43,7 @@
                 </Button>
                 <Button BorderBrush="{DynamicResource SuccessBrush}"
                         Command="{Binding SaveNewFeatureCommand}"
+                        CommandParameter="{Binding ElementName=Shadow}"
                         Style="{StaticResource MapOverlayButtonStyle}"
                         ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveButton_Content}">
                     <StackPanel Orientation="Horizontal">
@@ -66,6 +67,7 @@
                    Source="pack://application:,,,/Images/GenericPin.png" />
             <Image Width="21"
                    Height="5"
+                   x:Name="Shadow"
                    Source="pack://application:,,,/Images/PinShadow.png" />
         </StackPanel>
 
