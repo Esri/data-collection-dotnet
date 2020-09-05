@@ -24,7 +24,7 @@
                         Grid.Column="0"
                         Orientation="Horizontal">
                 <Image Margin="{StaticResource LeftLargeThickness}"
-                       Source="../Assets/TitleBarIcon.png"
+                       Source="../Assets/TitleBarIcon.png" Width="20" Height="20"
                        Style="{StaticResource TitleBarImageStyle}" />
                 <TextBlock Style="{StaticResource TitleBarTitleStyle}">
                     <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
