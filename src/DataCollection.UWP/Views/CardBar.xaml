@@ -13,6 +13,7 @@
                    Margin="{StaticResource UniformMediumThickness}"
                    Source="{x:Bind ImageSource, Mode=OneWay}"
                    Style="{StaticResource TitleBarImageStyle}"
+                   Width="10" Height="10"
                    Visibility="{x:Bind Path=ImageSource, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
             <!--
                 This uses Binding instead of x:Bind (and DataContext is set to this above) because
