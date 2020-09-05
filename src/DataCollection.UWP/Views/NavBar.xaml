@@ -4,7 +4,7 @@
     <ItemsControl Background="{ThemeResource TintBrush}" ItemsSource="{x:Bind ParentPanel.NavigationTitles, Mode=OneWay}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <StackPanel Padding="8,8,0,4"
+                <StackPanel Padding="4,2,4,0"
                             Background="{ThemeResource TintBrush}"
                             Orientation="Horizontal" />
             </ItemsPanelTemplate>
@@ -20,8 +20,8 @@
                                Grid.Column="0"
                                Margin="0"
                                VerticalAlignment="Center"
-                               FontWeight="{StaticResource HeadingFontWeight}"
                                Foreground="{ThemeResource TintOffsetBrush}"
+                               FontSize="12"
                                Text="{Binding}" />
                     <Path Grid.Column="1"
                           Width="8"
