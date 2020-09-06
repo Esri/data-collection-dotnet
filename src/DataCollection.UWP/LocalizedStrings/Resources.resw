@@ -507,4 +507,10 @@
     <value>Records</value>
     <comment>Records plural in 'Related Records'</comment>
   </data>
+  <data name="DownloadMap_Subtitle" xml:space="preserve">
+    <value>Download Map</value>
+  </data>
+  <data name="OpenOfflineMap_Subtitle" xml:space="preserve">
+    <value>Open Offline Map</value>
+  </data>
 </root>

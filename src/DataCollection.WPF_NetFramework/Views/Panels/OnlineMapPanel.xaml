@@ -65,10 +65,45 @@
                 Style="{StaticResource MapOverlayButtonStyle}"
                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton_Label}"
                 Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconBase}" />
-                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton_Label}" />
-            </StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Path Grid.Row="0"
+                      Grid.RowSpan="2"
+                      Grid.Column="0"
+                      VerticalAlignment="Center"
+                      Data="{StaticResource icon-offline-16}"
+                      Style="{StaticResource PathIconBase}"
+                      Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
+                <Path Grid.Row="0"
+                      Grid.RowSpan="2"
+                      Grid.Column="0"
+                      VerticalAlignment="Center"
+                      Data="{StaticResource icon-download-16}"
+                      Style="{StaticResource PathIconBase}"
+                      Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter='Inverse'}" />
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           FontWeight="SemiBold"
+                           Style="{StaticResource MapOverlayButtonTextStyle}"
+                           Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=WorkOfflineButton_Label}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Style="{StaticResource MapOverlayButtonTextStyle}"
+                           Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenOfflineMap_Subtitle}"
+                           Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Style="{StaticResource MapOverlayButtonTextStyle}"
+                           Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadMap_Subtitle}"
+                           Visibility="{Binding Path=OfflineMap, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter='Inverse'}" />
+            </Grid>
         </Button>
     </Grid>
 </UserControl>
