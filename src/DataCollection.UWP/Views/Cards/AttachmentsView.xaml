@@ -74,7 +74,8 @@
                                 Style="{StaticResource ButtonBaseStyle}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DeleteAttachment_Tooltip}"
                                 Visibility="{Binding ElementName=AttachmentsItemsControl, Mode=OneWay, Path=DataContext.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-                            <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconStyle}" />
+                            <!--<Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconStyle}" />-->
+                            <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/trash-32.png" />
                         </Button>
                         <Button Grid.Row="0"
                                 Grid.RowSpan="2"
@@ -83,7 +84,8 @@
                                 CommandParameter="{Binding Attachment, Mode=OneWay}"
                                 Style="{StaticResource ButtonBaseStyle}"
                                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OpenAttachment_Tooltip}">
-                            <Path Data="{StaticResource icon-launch-16}" Style="{StaticResource PathIconStyle}" />
+                            <!--<Path Data="{StaticResource icon-launch-16}" Style="{StaticResource PathIconStyle}" />-->
+                            <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/launch-32.png" />
                         </Button>
                     </Grid>
                 </DataTemplate>
