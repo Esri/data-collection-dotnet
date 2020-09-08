@@ -9,7 +9,6 @@
     <converters:LocalizationConverter x:Key="LocalizationConverter" />
     <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-    <converters:PointToDoubleConverter x:Key="PointToDoubleConverter" />
     <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
     <localconverters:BoolToCursorConverter x:Key="BoolToCursorConverter" />
     <localconverters:ConvertValueToCodedValueDomainValue x:Key="ConvertValueToCodedValueDomainValue" />

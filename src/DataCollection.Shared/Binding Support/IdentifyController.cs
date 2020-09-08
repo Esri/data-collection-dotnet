@@ -98,7 +98,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         /// <summary>
         /// Gets or sets the location where user has tapped to identify
         /// </summary>
-        private Geometry.Geometry _tappedLocation;
+        private MapPoint _tappedLocation;
+
+        public MapPoint TappedLocation
+        {
+            get => _tappedLocation;
+            set
+            {
+                if (value != _tappedLocation)
+                {
+                    _tappedLocation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TappedLocation)));
+                }
+            }
+        }
 
         /// <summary>
         /// Stores the most-recently-tapped screen location.
@@ -166,7 +179,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
 
                 // get the tap location in screen units and geographic coordinates
                 TappedScreenPosition = e.Position;
-                _tappedLocation = e.Location;
+                TappedLocation = e.Location;
 
                 // set identify parameters
                 var pixelTolerance = 10;

@@ -41,40 +41,38 @@
                 <utils:MapViewExtensions.LocationDisplayController>
                     <utils:LocationDisplayController DataSource="{Binding MapViewModel.LocationDataSource, Source={StaticResource MainViewModel}}" />
                 </utils:MapViewExtensions.LocationDisplayController>
+                <esri:MapView.Overlays>
+                    <esri:OverlayItemsControl>
+                        <Path x:Name="IdentifyProgressBar"
+                              Width="{StaticResource ThumbnailLength}"
+                              Height="{StaticResource ThumbnailLength}"
+                              Margin="0"
+                              esri:GeoView.ViewOverlayAnchor="{Binding IdentifyController.TappedLocation}"
+                              Data="{StaticResource icon-spinner-16}"
+                              Fill="{StaticResource TintBrush}"
+                              RenderTransformOrigin="0.5,0.5"
+                              Stretch="Uniform"
+                              Visibility="{Binding Source={StaticResource MainViewModel}, Path=IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0" />
+                            </Path.RenderTransform>
+                            <Path.Triggers>
+                                <EventTrigger RoutedEvent="Canvas.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation RepeatBehavior="Forever"
+                                                             Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
+                                                             From="0"
+                                                             To="360"
+                                                             Duration="0:0:1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Path.Triggers>
+                        </Path>
+                    </esri:OverlayItemsControl>
+                </esri:MapView.Overlays>
             </esri:MapView>
-
-            <Canvas ctrl:ModernMapPanel.Role="ContextCanvas">
-                <Path x:Name="IdentifyProgressBar"
-                      Canvas.Left="{Binding IdentifyController.TappedScreenPosition, Converter={StaticResource PointToDoubleConverter}, ConverterParameter=Left|-22, Mode=OneWay}"
-                      Canvas.Top="{Binding IdentifyController.TappedScreenPosition, Converter={StaticResource PointToDoubleConverter}, ConverterParameter=Top|-22, Mode=OneWay}"
-                      Width="{StaticResource ThumbnailLength}"
-                      Height="{StaticResource ThumbnailLength}"
-                      Margin="0"
-                      Data="{StaticResource icon-spinner-16}"
-                      Fill="{StaticResource TintBrush}"
-                      RenderTransformOrigin="0.5,0.5"
-                      Stretch="Uniform"
-                      Visibility="{Binding Source={StaticResource MainViewModel}, Path=IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Path.RenderTransform>
-                        <RotateTransform Angle="0" />
-                    </Path.RenderTransform>
-                    <Path.Triggers>
-                        <EventTrigger RoutedEvent="Canvas.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <!--  TODO : stop animating when not visible  -->
-                                    <DoubleAnimation RepeatBehavior="Forever"
-                                                     Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
-                                                     From="0"
-                                                     To="360"
-                                                     Duration="0:0:1" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Path.Triggers>
-                </Path>
-            </Canvas>
-
             <StackPanel HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         ctrl:ModernMapPanel.Role="Accessory"

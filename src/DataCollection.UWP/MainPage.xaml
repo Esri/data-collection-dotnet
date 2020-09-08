@@ -14,7 +14,6 @@
                          ExpandedCardWidth="348"
                          ExpandedWidthMinimum="600">
         <views:TitleBar ctrl:ModernMapPanel.Role="Titlebar" MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
-        <!--  TODO: Do IdentifyController, MapAccessoryViewModel need to be one-way bound?  -->
         <esri:MapView x:Name="MapView"
                       ctrl:ModernMapPanel.Role="GeoView"
                       utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
@@ -28,9 +27,39 @@
             <utils:MapViewExtensions.LocationDisplayController>
                 <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}" />
             </utils:MapViewExtensions.LocationDisplayController>
+            <esri:MapView.Overlays>
+                <esri:OverlayItemsControl>
+                    <Path Width="44"
+                          Height="44"
+                          esri:GeoView.ViewOverlayAnchor="{x:Bind MainViewModel.IdentifyController.TappedLocation, Mode=OneWay}"
+                          Data="{StaticResource icon-spinner-16}"
+                          Fill="{ThemeResource TintBrush}"
+                          RenderTransformOrigin="0.5,0.5"
+                          Stretch="Uniform"
+                          Visibility="{x:Bind MainViewModel.IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                        <Path.RenderTransform>
+                            <RotateTransform x:Name="RT" Angle="0" />
+                        </Path.RenderTransform>
+                        <Path.Triggers>
+                            <EventTrigger RoutedEvent="Path.Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation RepeatBehavior="Forever"
+                                                             Storyboard.TargetName="RT"
+                                                             Storyboard.TargetProperty="Angle"
+                                                             From="0"
+                                                             To="360"
+                                                             Duration="0:0:1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Path.Triggers>
+                    </Path>
+                </esri:OverlayItemsControl>
+            </esri:MapView.Overlays>
         </esri:MapView>
-        <!--  Identify spinner  -->
-        <overlays:IdentifyIndicatorOverlay ctrl:ModernMapPanel.Role="ContextCanvas" MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
         <!--  Map widget controls  -->
         <StackPanel HorizontalAlignment="Right"
                     VerticalAlignment="Top"
@@ -82,7 +111,7 @@
                             Style="{StaticResource MapAccessoryButtonStyle}"
                             ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_HomeButton_Tooltip}">
                         <!--<Path Data="{StaticResource icon-home-16}" Style="{StaticResource PathIconStyle}" />-->
-                        <BitmapIcon UriSource="Assets/Calcite/home-16.png" Style="{StaticResource PathIconWorkaroundStyle}" />
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/home-16.png" />
                     </Button>
                 </StackPanel>
             </controls:DropShadowPanel>

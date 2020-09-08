@@ -111,9 +111,6 @@
     <Compile Include="Views\CardBar.xaml.cs">
       <DependentUpon>CardBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Overlays\IdentifyIndicatorOverlay.xaml.cs">
-      <DependentUpon>IdentifyIndicatorOverlay.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Cards\BookmarksCard.xaml.cs">
       <DependentUpon>BookmarksCard.xaml</DependentUpon>
     </Compile>
@@ -313,10 +310,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Overlays\IdentifyIndicatorOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

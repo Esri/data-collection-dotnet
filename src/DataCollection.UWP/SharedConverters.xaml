@@ -7,7 +7,6 @@
     <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
     <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-    <converters:PointToDoubleConverter x:Key="PointToDoubleConverter" />
     <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
     <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
     <uwpconverters:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
