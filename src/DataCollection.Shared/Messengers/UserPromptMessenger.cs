@@ -85,13 +85,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers
             {
                 {
                     Instance.ResponseValueChanged -= handler;
-                    if (e.Response)
-                    {
-                        taskCompletionSource.TrySetResult(e.Response);
-                    }
-                    else if (shouldCancel)
+                    if (shouldCancel && !e.Response)
                     {
                         taskCompletionSource.TrySetCanceled();
+                    }
+                    else
+                    {
+                        taskCompletionSource.TrySetResult(e.Response);
                     }
                 }
             }
