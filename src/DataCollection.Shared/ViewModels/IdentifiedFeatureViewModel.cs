@@ -237,21 +237,31 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _clearRelationshipsCommand ?? (_clearRelationshipsCommand = new DelegateCommand(
                     async (x) =>
                     {
-                        // Confirm that user intended to cancel edits if edit is in progress
-                        if (SelectedOriginRelationship?.EditViewModel != null)
-                        {
-                            if (await SelectedOriginRelationship.CancelEdits())
-                            {
-                                SelectedOriginRelationship = null;
-                            }
-                        }
-                        else
-                        {
-                            SelectedOriginRelationship = null;
-                        }
-                        SelectedDestinationRelationship = null;
+                        _ = await ClearRelationships();
                     }));
             }
+        }
+        public async Task<bool> ClearRelationships()
+        {
+            var relationshipsCleared = true;
+            // Confirm that user intended to cancel edits if edit is in progress
+            if (SelectedOriginRelationship?.EditViewModel != null)
+            {
+                if (await SelectedOriginRelationship.CancelEdits())
+                {
+                    SelectedOriginRelationship = null;
+                }
+                else
+                {
+                    relationshipsCleared = false;
+                }
+            }
+            else
+            {
+                SelectedOriginRelationship = null;
+            }
+            SelectedDestinationRelationship = null;
+            return relationshipsCleared;
         }
 
         private ICommand _addOriginRelatedFeatureCommand;

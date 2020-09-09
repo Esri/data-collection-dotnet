@@ -94,11 +94,25 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             _defaultZoomScale = Settings.Default.DefaultZoomScale;
 
             // set the download path and connectivity mode as they change
-            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += (s, l) =>
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += async (s, l) =>
             {
                 if (l.Args.Key == BroadcastMessageKey.ConnectivityMode && ConnectivityMode != (ConnectivityMode)l.Args.Value)
                 {
                     ConnectivityMode = (ConnectivityMode)l.Args.Value;
+                }
+                else if (l.Args.Key == BroadcastMessageKey.AccessoryOpened)
+                {
+                    if (IdentifiedFeatureViewModel != null && !(await IdentifiedFeatureViewModel.ClearRelationships())){
+                        MapAccessoryViewModel.CloseAccessories();
+                    }
+                    else if (IdentifiedFeatureViewModel.EditViewModel != null && !(await IdentifiedFeatureViewModel.DiscardChanges()))
+                    {
+                        MapAccessoryViewModel.CloseAccessories();
+                    }
+                    else
+                    {
+                        IdentifiedFeatureViewModel = null;
+                    }
                 }
             };
 
@@ -645,9 +659,19 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _clearIdentifiedFeatureCommand ?? (_clearIdentifiedFeatureCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
-                        IdentifiedFeatureViewModel = null;
+                        if (IdentifiedFeatureViewModel?.EditViewModel != null)
+                        {
+                            if (await IdentifiedFeatureViewModel.DiscardChanges())
+                            {
+                                IdentifiedFeatureViewModel = null;
+                            }
+                        }
+                        else
+                        {
+                            IdentifiedFeatureViewModel = null;
+                        }
                     }));
             }
         }

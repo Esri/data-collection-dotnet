@@ -121,6 +121,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 {
                     IsBookmarksOpen = false;
                     IsTableOfContentsOpen = false;
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, Models.BroadcastMessageKey.AccessoryOpened);
                 }
             }
         }
@@ -143,6 +144,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 {
                     IsLegendOpen = false;
                     IsTableOfContentsOpen = false;
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, Models.BroadcastMessageKey.AccessoryOpened);
                 }
             }
         }
@@ -165,6 +167,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 {
                     IsLegendOpen = false;
                     IsBookmarksOpen = false;
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, Models.BroadcastMessageKey.AccessoryOpened);
                 }
             }
         }
