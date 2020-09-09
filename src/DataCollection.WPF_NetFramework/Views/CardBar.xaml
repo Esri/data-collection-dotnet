@@ -11,10 +11,11 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
+                   Width="10"
+                   Height="10"
                    Margin="{StaticResource LeftLargeThickness}"
                    Source="{Binding ImageSource, ElementName=Self}"
                    Style="{StaticResource TitleBarIconImageStyle}"
-                   Width="10" Height="10"
                    Visibility="{Binding Path=ImageSource, ElementName=Self, Converter={StaticResource NullToVisibilityConverter}}" />
             <Path Grid.Column="0"
                   Margin="{StaticResource LeftLargeThickness}"
