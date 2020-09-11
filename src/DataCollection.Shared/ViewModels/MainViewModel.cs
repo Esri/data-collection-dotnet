@@ -100,27 +100,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 {
                     ConnectivityMode = (ConnectivityMode)l.Args.Value;
                 }
-                else if (l.Args.Key == BroadcastMessageKey.AccessoryOpened)
-                {
-                    if (IdentifiedFeatureViewModel != null && !(await IdentifiedFeatureViewModel.ClearRelationships())){
-                        MapAccessoryViewModel.CloseAccessories();
-                    }
-                    else if (IdentifiedFeatureViewModel.EditViewModel != null && !(await IdentifiedFeatureViewModel.DiscardChanges()))
-                    {
-                        MapAccessoryViewModel.CloseAccessories();
-                    }
-                    else
-                    {
-                        IdentifiedFeatureViewModel = null;
-                    }
-                }
             };
 
             // Initialize the identify controller
             IdentifyController = new IdentifyController();
             IdentifyController.IdentifyCompleted += IdentifyController_IdentifyCompleted;
 
-            MapAccessoryViewModel = new MapAccessoryViewModel();
+            MapAccessoryViewModel = new MapAccessoryViewModel(this);
 
             // call method to retrieve map based on app state, connection and offline file availability
             GetMap().ContinueWith(t =>
@@ -130,6 +116,28 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     MapViewModel = new MapViewModel(t.Result, ConnectivityMode, _defaultZoomScale);
                 }
             });
+        }
+
+        /// <summary>
+        /// Attempts to close active feature and relationship views.
+        /// </summary>
+        /// <returns>True if editors successfully closed, false if the user chose to keep their editing session.</returns>
+        public async Task<bool> AttemptCloseEditorsAsync()
+        {
+            bool result = true;
+            if (IdentifiedFeatureViewModel != null && !await IdentifiedFeatureViewModel.ClearRelationships())
+            {
+                result = false;
+            }
+            else if (IdentifiedFeatureViewModel?.EditViewModel != null && !await IdentifiedFeatureViewModel.DiscardChanges())
+            {
+                result = false;
+            }
+            else
+            {
+                IdentifiedFeatureViewModel = null;
+            }
+            return result;
         }
 
         private void DeleteOldMapPackages()

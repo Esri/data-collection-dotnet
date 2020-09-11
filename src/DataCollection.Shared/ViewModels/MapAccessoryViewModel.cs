@@ -51,8 +51,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private bool _isUserPanelOpen;
         private bool _isOnlineMapStatusPanelOpen;
 
-        public MapAccessoryViewModel()
+        private MainViewModel _mainViewModel;
+
+        public MapAccessoryViewModel(MainViewModel mainVM)
         {
+            // Hold a reference to the main view model to enable waiting on it before showing accessories.
+            _mainViewModel = mainVM;
+
             // Close all accessories when prompted
             BroadcastMessenger.Instance.BroadcastMessengerValueChanged += HandleBroadcastMessage;
         }
@@ -191,25 +196,34 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Toggles the display of bookmarks.
         /// </summary>
-        public ICommand ToggleBookmarksCommand => _toggleBookmarksCommand ?? (_toggleBookmarksCommand = new DelegateCommand((parm) =>
+        public ICommand ToggleBookmarksCommand => _toggleBookmarksCommand ?? (_toggleBookmarksCommand = new DelegateCommand(async (parm) =>
         {
-            IsBookmarksOpen = !IsBookmarksOpen;
+            if (await _mainViewModel.AttemptCloseEditorsAsync())
+            {
+                IsBookmarksOpen = !IsBookmarksOpen;
+            }
         }));
 
         /// <summary>
         /// Toggles the display of the table of contents.
         /// </summary>
-        public ICommand ToggleTableOfContentsCommand => _toggleTableOfContentsCommand ?? (_toggleTableOfContentsCommand = new DelegateCommand((parm) =>
+        public ICommand ToggleTableOfContentsCommand => _toggleTableOfContentsCommand ?? (_toggleTableOfContentsCommand = new DelegateCommand(async (parm) =>
         {
-            IsTableOfContentsOpen = !IsTableOfContentsOpen;
+            if (await _mainViewModel.AttemptCloseEditorsAsync())
+            {
+                IsTableOfContentsOpen = !IsTableOfContentsOpen;
+            }
         }));
 
         /// <summary>
         /// Toggles the display of the legend.
         /// </summary>
-        public ICommand ToggleLegendCommand => _toggleLegendCommand ?? (_toggleLegendCommand = new DelegateCommand((parm) =>
+        public ICommand ToggleLegendCommand => _toggleLegendCommand ?? (_toggleLegendCommand = new DelegateCommand(async (parm) =>
         {
-            IsLegendOpen = !IsLegendOpen;
+            if (await _mainViewModel.AttemptCloseEditorsAsync())
+            {
+                IsLegendOpen = !IsLegendOpen;
+            }
         }));
 
         /// <summary>
