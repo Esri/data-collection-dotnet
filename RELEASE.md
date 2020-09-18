@@ -1,13 +1,16 @@
 # Release notes
 
+## 1.2.4
+
+* Updates both WPF and UWP with a new design that adapts to work well for any screen size.
+    * Adds a `ModernMapPanel` custom layout panel to facilitate consistent, responsive design for UWP and WPF.
+    * Refactors styles and related XAML.
+    * Switches to vector icons where possible.
+* Moves the .NET Core WPF project to a separate folder to prevent possible build issues
+
 ## 1.2.3
 
-* Updated design for both WPF and UWP that adapts to work well for any screen size
-    * Added a `ModernMapPanel` custom layout panel to facilitate consistent, responsive design for UWP and WPF
-    * Refactored styles and related XAML
-    * Switched to vector icons where possible
-* Updated for the 100.9 release of ArcGIS Runtime
-* Moved the .NET Core WPF project to a separate folder to prevent possible build issues
+* Updates all versions of the app to use the latest 100.9 release of ArcGIS Runtime.
 
 ## 1.2.2
 
