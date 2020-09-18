@@ -196,7 +196,6 @@
         <Setter Property="Foreground" Value="{StaticResource MapShadeOffsetBrush}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Margin" Value="{StaticResource UniformMediumThickness}" />
-        <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
     </Style>
     <Style x:Key="MapOverlayBorderStyle" TargetType="Border">
         <Setter Property="BorderBrush" Value="{StaticResource MapShadeBrush}" />

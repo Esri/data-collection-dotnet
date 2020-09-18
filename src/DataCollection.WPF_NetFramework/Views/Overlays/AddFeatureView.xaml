@@ -22,8 +22,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
-            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureLabel_Line1.Text}" />
-            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureLabel_Line2.Text}" />
+            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureLabel_Line1_Text}" />
+            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddFeatureLabel_Line2_Text}" />
 
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -65,9 +65,9 @@
             <Image Width="23"
                    Height="34"
                    Source="pack://application:,,,/Images/GenericPin.png" />
-            <Image Width="21"
+            <Image x:Name="Shadow"
+                   Width="21"
                    Height="5"
-                   x:Name="Shadow"
                    Source="pack://application:,,,/Images/PinShadow.png" />
         </StackPanel>
 

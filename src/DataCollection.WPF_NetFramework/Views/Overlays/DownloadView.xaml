@@ -57,8 +57,8 @@
                     VerticalAlignment="Center"
                     Orientation="Vertical"
                     Visibility="{Binding DownloadViewModel.IsAwaitingDownload, Converter={StaticResource BoolToVisibilityConverter}}">
-            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line1.Text}" />
-            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line2.Text}" />
+            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line1_Text}" />
+            <TextBlock Style="{StaticResource MapOverlayBorderForegroundTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DownloadLabel_Line2_Text}" />
 
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
