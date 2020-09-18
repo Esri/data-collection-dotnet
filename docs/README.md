@@ -113,7 +113,7 @@ The app launches a map view containing the pre-configured web map.
 
 ### Sign in and out of ArcGIS
 
-Upon first launch the user is not authenticated and the app does not prompt for authentication. To sign in, the user can tap the 'Sign in' button in the title bar.
+Upon first launch, the user is not authenticated and the app does not prompt for authentication. To sign in, the user can tap the 'Sign in' button in the title bar.
 
 Upon successfully signing in, the button that previously read 'Sign in' is replaced by the user's name and picture. Clicking the user's name will reveal a menu with the option to sign out.
 
