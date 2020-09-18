@@ -7,11 +7,10 @@
    - [Trees of Portland](#trees-of-portland)   
    - [Custom behavior](#custom-behavior)   
 - [Using the app](#using-the-app)   
-   - [Manage the app's context](#manage-the-apps-context)   
-      - [Sign in and out of ArcGIS](#sign-in-and-out-of-arcgis)   
-      - [App work mode](#app-work-mode)   
-         - [_Online Work Mode_](#_online-work-mode_)   
-         - [_Offline Work Mode_](#_offline-work-mode_)   
+   - [Sign in and out of ArcGIS](#sign-in-and-out-of-arcgis)   
+   - [App work mode](#app-work-mode)   
+      - [_Online Work Mode_](#_online-work-mode_)   
+      - [_Offline Work Mode_](#_offline-work-mode_)   
    - [View map bookmarks](#view-map-bookmarks)   
    - [View the map's legend](#view-the-maps-legend)   
    - [Hide and show layers with the TOC](#hide-and-show-layers-with-the-toc)   
@@ -112,21 +111,21 @@ The app launches a map view containing the pre-configured web map.
 |-----|-----|
 | ![Main Map View](/docs/images/anatomy-map-view-uwp.png) | ![Main Map View](/docs/images/anatomy-map-view.png) |
 
-#### Sign in and out of ArcGIS
+### Sign in and out of ArcGIS
 
 Upon first launch the user is not authenticated and the app does not prompt for authentication. To sign in, the user can tap the 'Sign in' button in the title bar.
 
 Upon successfully signing in, the button that previously read 'Sign in' is replaced by the user's name and picture. Clicking the user's name will reveal a menu with the option to sign out.
 
-#### App work mode
+### App work mode
 
 The app supports a workflow for users in the field with the requirement to work both in connected (online) and disconnected (offline) environments.
 
-##### _Online Work Mode_
+#### _Online Work Mode_
 
 At initial launch the app loads the configured portal's public web map. A user does not need to authenticate to use the app provided that the web map and all of its layers are not private. The map can identify features and make edits. Edits can be made to the web map including adding new, updating existing and deleting records.
 
-##### _Offline Work Mode_
+#### _Offline Work Mode_
 
 A user may need to collect data in a location where they are disconnected from the network. The app allows the user to take a web map offline. Because Trees of Portland uses a premium content basemap, a user must be authenticated to fully take the web map offline.
 
