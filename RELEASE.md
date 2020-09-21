@@ -1,6 +1,6 @@
 # Release notes
 
-## 1.2.4
+## 1.3.0
 
 * Updates both WPF and UWP with a new design that adapts to work well for any screen size.
     * Adds a `ModernMapPanel` custom layout panel to facilitate consistent, responsive design for UWP and WPF.
