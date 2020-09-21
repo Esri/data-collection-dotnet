@@ -1,0 +1,89 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters">
+    <converters:StringToNullConverter x:Key="StringToNullConverter" />
+    <!--  Data templates for all the field types used in editing features  -->
+    <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
+        <StackPanel>
+            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="DateTemplate" x:Name="DateTemplate">
+        <StackPanel>
+            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
+            <DatePicker Style="{StaticResource DatePickerValueStyle}" Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="DoubleTemplate" x:Name="DoubleTemplate">
+        <StackPanel>
+            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="IntTemplate" x:Name="IntTemplate">
+        <StackPanel>
+            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="CodedValueDomainTemplate" x:Name="CodedValueDomainTemplate">
+        <StackPanel>
+            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
+            <ComboBox ItemsSource="{Binding OriginalField.Domain.CodedValues}">
+                <ComboBox.SelectedItem>
+                    <MultiBinding Converter="{StaticResource ConvertValueToCodedValueDomainValue}">
+                        <Binding Mode="OneWay" Path="OriginalField.Domain.CodedValues" />
+                        <Binding Mode="TwoWay" Path="PopupFieldValue.Value" />
+                    </MultiBinding>
+                </ComboBox.SelectedItem>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="IntegerRangeDomainTemplate" x:Name="IntegerRangeDomainTemplate">
+        <StackPanel>
+            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="DoubleRangeDomainTemplate" x:Name="DoubleRangeDomainTemplate">
+        <StackPanel>
+            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
+            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, Converter={StaticResource StringToNullConverter}, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                       Text="{Binding PopupFieldValue.ValidationError.Message}"
+                       Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="BookmarksViewItemTemplate">
+        <Border Padding="{StaticResource UniformLargeThickness}"
+                HorizontalAlignment="Stretch"
+                Background="Transparent"
+                Cursor="{StaticResource ActionCursor}">
+            <TextBlock FontSize="{StaticResource DefaultFontSize}"
+                       FontWeight="{StaticResource NormalFontWeight}"
+                       Foreground="{StaticResource ContentForegroundBrush}"
+                       Text="{Binding Name}" />
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

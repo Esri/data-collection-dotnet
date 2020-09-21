@@ -30,7 +30,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;__UWP__</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -40,7 +40,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;__UWP__</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -49,31 +49,10 @@
     <ErrorReport>prompt</ErrorReport>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
-    <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;__UWP__</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -82,7 +61,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;__UWP__</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -94,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;__UWP__</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM64</PlatformTarget>
@@ -103,7 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;__UWP__</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -120,6 +99,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NullReadyCalendarDatePicker.cs" />
+    <Compile Include="Converters\DateTimeStringFormatConverter.cs" />
     <Compile Include="Converters\SelectedPivotIndexToVisibilityConverter.cs" />
     <Compile Include="Converters\TitleBarConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ObjectToDateTimeOffsetConverter.cs" />
@@ -128,29 +108,59 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\AddFeatureView.xaml.cs">
+    <Compile Include="Views\CardBar.xaml.cs">
+      <DependentUpon>CardBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\BookmarksCard.xaml.cs">
+      <DependentUpon>BookmarksCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\LegendCard.xaml.cs">
+      <DependentUpon>LegendCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\TocCard.xaml.cs">
+      <DependentUpon>TocCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlays\AddFeatureView.xaml.cs">
       <DependentUpon>AddFeatureView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AttachmentsView.xaml.cs">
+    <Compile Include="Views\Cards\AttachmentsView.xaml.cs">
       <DependentUpon>AttachmentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DestinationRelatedRecordPopup.xaml.cs">
+    <Compile Include="Views\Cards\DestinationRelatedRecordPopup.xaml.cs">
       <DependentUpon>DestinationRelatedRecordPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DownloadView.xaml.cs">
+    <Compile Include="Views\Overlays\DownloadView.xaml.cs">
       <DependentUpon>DownloadView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FeatureEditorView.xaml.cs">
+    <Compile Include="Views\Cards\FeatureEditorView.xaml.cs">
       <DependentUpon>FeatureEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FileNameDialog.xaml.cs">
+    <Compile Include="Views\Dialogs\FileNameDialog.xaml.cs">
       <DependentUpon>FileNameDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IdentifiedFeaturePopup.xaml.cs">
+    <Compile Include="Views\Cards\IdentifiedFeaturePopup.xaml.cs">
       <DependentUpon>IdentifiedFeaturePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OriginRelatedRecordPopup.xaml.cs">
+    <Compile Include="Views\Cards\OriginRelatedRecordPopup.xaml.cs">
       <DependentUpon>OriginRelatedRecordPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlays\SyncProgressView.xaml.cs">
+      <DependentUpon>SyncProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NavBar.xaml.cs">
+      <DependentUpon>NavBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\OfflineMapStatusPanel.xaml.cs">
+      <DependentUpon>OfflineMapStatusPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\OnlineMapStatusPanel.xaml.cs">
+      <DependentUpon>OnlineMapStatusPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\SignedInUserPanel.xaml.cs">
+      <DependentUpon>SignedInUserPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TitleBar.xaml.cs">
+      <DependentUpon>TitleBar.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -182,12 +192,16 @@
     <Content Include="..\DataCollection.Shared\Resources\Images\PinShadow.png">
       <Link>Assets\PinShadow.png</Link>
     </Content>
+    <Content Include="Assets\Calcite\arcgis-online-16.png" />
+    <Content Include="Assets\Calcite\arcgis-online-32.png" />
     <Content Include="Assets\Calcite\bookmark-32.png" />
     <Content Include="Assets\Calcite\camera-32.png" />
     <Content Include="Assets\Calcite\chevron-right-32.png" />
     <Content Include="Assets\Calcite\ellipsis-32.png" />
     <Content Include="Assets\Calcite\folder-open-32.png" />
     <Content Include="Assets\Calcite\gps-on-32.png" />
+    <Content Include="Assets\Calcite\home-16.png" />
+    <Content Include="Assets\Calcite\home-16.svg" />
     <Content Include="Assets\Calcite\launch-32.png" />
     <Content Include="Assets\Calcite\layers-32.png" />
     <Content Include="Assets\Calcite\legend-32.png" />
@@ -231,6 +245,7 @@
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\TitleBarIcon.png" />
     <Content Include="Assets\Square44x44Logo.scale-100.png" />
     <Content Include="Assets\Square44x44Logo.scale-125.png" />
     <Content Include="Assets\Square44x44Logo.scale-150.png" />
@@ -258,43 +273,111 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ResourceDictionary.xaml">
+    <Page Include="SharedConverters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddFeatureView.xaml">
+    <Page Include="Styles\ControlOverrides.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AttachmentsView.xaml">
+    <Page Include="Styles\Controls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DestinationRelatedRecordPopup.xaml">
+    <Page Include="Styles\DataTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DownloadView.xaml">
+    <Page Include="Styles\Sizes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FeatureEditorView.xaml">
+    <Page Include="Themes\Dark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FileNameDialog.xaml">
+    <Page Include="Themes\Light.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\IdentifiedFeaturePopup.xaml">
+    <Page Include="Views\CardBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\BookmarksCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\LegendCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\TocCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlays\AddFeatureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\AttachmentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\DestinationRelatedRecordPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlays\DownloadView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\FeatureEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\FileNameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\IdentifiedFeaturePopup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\OriginRelatedRecordPopup.xaml">
+    <Page Include="Views\Cards\OriginRelatedRecordPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlays\SyncProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NavBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\OfflineMapStatusPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\OnlineMapStatusPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\SignedInUserPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TitleBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -312,18 +395,29 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>6.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>6.1.0</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.3.200213001</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CustomControls.UWP\CustomControls.UWP.csproj">
+      <Project>{caed4ede-d903-4f51-b46e-2268de45d7aa}</Project>
+      <Name>CustomControls.UWP</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>SET SRCPATH=$(SolutionDir)DataCollection.WPF\LocalizedStrings
+    <PreBuildEvent>SET SRCPATH=$(SolutionDir)DataCollection.WPF_NetFramework\LocalizedStrings
 SET DESTPATH=$(ProjectDir)LocalizedStrings
 
 copy /Y %25SRCPATH%25\Resources.resx %25DESTPATH%25\Resources.resw</PreBuildEvent>

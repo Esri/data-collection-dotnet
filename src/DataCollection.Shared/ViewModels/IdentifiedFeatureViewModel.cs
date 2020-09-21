@@ -41,7 +41,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentifiedFeatureViewModel"/> class.
         /// </summary>
-        public IdentifiedFeatureViewModel(Feature feature, ConnectivityMode connectivityMode)
+        public IdentifiedFeatureViewModel(Feature feature, ConnectivityMode connectivityMode, MainViewModel owningVM)
         {
             if (feature != null)
             {
@@ -49,8 +49,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 FeatureTable = feature.FeatureTable as ArcGISFeatureTable;
                 PopupManager = new PopupManager(new Popup(feature, FeatureTable.PopupDefinition));
                 ConnectivityMode = connectivityMode;
+                OwningViewModel = owningVM;
             }
         }
+
+        public MainViewModel OwningViewModel { get; private set;}
 
         private DestinationRelationshipViewModel _selectedDestinationRelationship;
 
@@ -103,6 +106,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 }
             }
         }
+
+        public bool HasDestinationRelationships => DestinationRelationships?.Where(rel => rel.PopupManager != null)?.Any() ?? false;
 
         /// <summary>
         /// Gets or sets the collection of view models that handle the related features to which the identified feature is Destination
@@ -230,12 +235,33 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _clearRelationshipsCommand ?? (_clearRelationshipsCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
-                        SelectedOriginRelationship = null;
-                        SelectedDestinationRelationship = null;
+                        _ = await ClearRelationships();
                     }));
             }
+        }
+        public async Task<bool> ClearRelationships()
+        {
+            var relationshipsCleared = true;
+            // Confirm that user intended to cancel edits if edit is in progress
+            if (SelectedOriginRelationship?.EditViewModel != null)
+            {
+                if (await SelectedOriginRelationship.CancelEdits())
+                {
+                    SelectedOriginRelationship = null;
+                }
+                else
+                {
+                    relationshipsCleared = false;
+                }
+            }
+            else
+            {
+                SelectedOriginRelationship = null;
+            }
+            SelectedDestinationRelationship = null;
+            return relationshipsCleared;
         }
 
         private ICommand _addOriginRelatedFeatureCommand;
@@ -260,7 +286,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                 if (feature != null && feature is ArcGISFeature)
                                 {
                                     // create viewmodel for the feature and set it as selected 
-                                    var originRelationshipViewModel = new OriginRelationshipViewModel(originRelationship.RelationshipInfo, ConnectivityMode);
+                                    var originRelationshipViewModel = new OriginRelationshipViewModel(originRelationship.RelationshipInfo, ConnectivityMode, this);
                                     await originRelationshipViewModel.LoadViewModel(feature).ContinueWith(t =>
                                     {
                                         SelectedOriginRelationship = originRelationshipViewModel;
@@ -300,6 +326,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         {
             // clear related records from previous searches
             DestinationRelationships.Clear();
+            OnPropertyChanged(nameof(HasDestinationRelationships));
             OriginRelationships.Clear();
 
             // get RelationshipInfos from the table
@@ -326,6 +353,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         await destinationRelationshipViewModel.InitializeAsync(relatedFeatureQueryResult);
 
                         DestinationRelationships.Add(destinationRelationshipViewModel);
+                        OnPropertyChanged(nameof(HasDestinationRelationships));
                     }
                     catch (Exception ex)
                     {
@@ -342,7 +370,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
                             foreach (var relatedFeature in relatedFeatureQueryResult)
                             {
-                                var originRelatedFeature = new OriginRelationshipViewModel(relationshipInfo, ConnectivityMode);
+                                var originRelatedFeature = new OriginRelationshipViewModel(relationshipInfo, ConnectivityMode, this);
                                 await originRelatedFeature.LoadViewModel(relatedFeature).ContinueWith(t =>
                                 {
                                     originRelationshipsCollection.Add(originRelatedFeature);
@@ -407,6 +435,31 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             for (int i = 0; i < sorted.Count(); i++)
             {
                 originRelationshipVMCollection.Move(originRelationshipVMCollection.IndexOf(sorted[i]), i);
+            }
+        }
+        
+        private ICommand _cancelEditsCommand;
+
+        /// <summary>
+        /// Gets the command to delete the selected feature
+        /// </summary>
+        public ICommand CancelEditsCommand
+        {
+            get
+            {
+                return _cancelEditsCommand ?? (_cancelEditsCommand = new DelegateCommand(
+                    async (x) =>
+                    {
+                        await DiscardChanges();
+                            // TODO - verify behavior when canceling edits on new feature
+                        if (IsNewFeature)
+                        {
+                            OwningViewModel.IdentifiedFeatureViewModel = null;
+                            
+                            // Clear circular reference to VM
+                            OwningViewModel = null;
+                        }
+                    }));
             }
         }
     }

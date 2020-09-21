@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays.AddFeatureView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
+                Grid.RowSpan="4"
+                BorderThickness="100,200,100,200"
+                Style="{StaticResource MapOverlayBorderStyle}" />
+        <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="{ThemeResource MapShadeOffsetBrush}"
+                       Style="{StaticResource TextBlockBaseStyle}"
+                       Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddFeatureLabel_Line1_Text}" />
+            <TextBlock HorizontalAlignment="Center"
+                       Foreground="{ThemeResource MapShadeOffsetBrush}"
+                       Style="{StaticResource TextBlockBaseStyle}"
+                       Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddFeatureLabel_Line2_Text}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+            <Image Width="23"
+                   Height="34"
+                   Source="ms-appx:///Assets/GenericPin.png" />
+            <Image Width="21"
+                   x:Name="Shadow"
+                   Height="5"
+                   Source="ms-appx:///Assets/PinShadow.png" />
+        </StackPanel>
+        <StackPanel Grid.Row="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="{StaticResource MediumColumnSpacing}">
+            <Button BorderBrush="{ThemeResource DangerBrush}"
+                    Command="{Binding CancelNewFeatureCommand}"
+                    Style="{StaticResource MapOverlayButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}">
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource MediumColumnSpacing}">
+                    <Path Data="{StaticResource icon-undo-16}"
+                          Fill="{ThemeResource DangerBrush}"
+                          Style="{StaticResource PathIconStyle}" />
+                    <TextBlock Foreground="{ThemeResource DangerBrush}"
+                               Style="{StaticResource TextBlockBaseStyle}"
+                               Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}" />
+                </StackPanel>
+            </Button>
+            <Button BorderBrush="{ThemeResource SuccessBrush}"
+                    Command="{Binding SaveNewFeatureCommand, Mode=OneWay}"
+                    CommandParameter="{Binding ElementName=Shadow}"
+                    Style="{StaticResource MapOverlayButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddView_SaveButton_Text}">
+                <StackPanel Orientation="Horizontal" Spacing="{StaticResource MediumColumnSpacing}">
+                    <Path Data="{StaticResource icon-check-circle-16}"
+                          Fill="{ThemeResource SuccessBrush}"
+                          Style="{StaticResource PathIconStyle}" />
+                    <TextBlock Foreground="{ThemeResource SuccessBrush}"
+                               Style="{StaticResource TextBlockBaseStyle}"
+                               Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AddView_SaveButton_Text}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

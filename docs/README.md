@@ -7,11 +7,10 @@
    - [Trees of Portland](#trees-of-portland)   
    - [Custom behavior](#custom-behavior)   
 - [Using the app](#using-the-app)   
-   - [Manage the app's context](#manage-the-apps-context)   
-      - [Sign in and out of ArcGIS](#sign-in-and-out-of-arcgis)   
-      - [App work mode](#app-work-mode)   
-         - [_Online Work Mode_](#_online-work-mode_)   
-         - [_Offline Work Mode_](#_offline-work-mode_)   
+   - [Sign in and out of ArcGIS](#sign-in-and-out-of-arcgis)   
+   - [App work mode](#app-work-mode)   
+      - [_Online Work Mode_](#_online-work-mode_)   
+      - [_Offline Work Mode_](#_offline-work-mode_)   
    - [View map bookmarks](#view-map-bookmarks)   
    - [View the map's legend](#view-the-maps-legend)   
    - [Hide and show layers with the TOC](#hide-and-show-layers-with-the-toc)   
@@ -78,6 +77,8 @@ This is a data collection app that uses your organization's web maps and the Arc
 
 The app was designed to work in a generic context and thus your organization can configure the app to consume your own web map, out of the box. To accomplish this, the web map is configured by a set of rules that the app adheres to, driving the app's behavior. These rules are defined by the map's definition and by the map's layers' pop-up configurations. To learn more about what drives the app's behavior, read the section entitled [_Using Map Definition & Pop-up Configurations to Drive App Behavior_](#using-map-definition--pop-up-configurations-to-drive-app-behavior).
 
+Theming of the app's UI is controlled by values defined in files in the **Themes** folder. Each platform has light and dark variants. For more significant changes to the appearance of controls, see the **Styles** folder.
+
 ### Trees of Portland
 
 The capabilities of the app can be demonstrated using _Trees of Portland_, a web map hosted and maintained by the Esri Runtime organization that ships with the app by default. _Trees of Portland_ tells the story of a city arborist or engaged citizen who maintains inspections for all street trees in the city of Portland, OR.
@@ -110,40 +111,21 @@ The app launches a map view containing the pre-configured web map.
 |-----|-----|
 | ![Main Map View](/docs/images/anatomy-map-view-uwp.png) | ![Main Map View](/docs/images/anatomy-map-view.png) |
 
-The navigation bar's title reflects the name of the web map and the navigation bar button items are as follows:
+### Sign in and out of ArcGIS
 
-| Icon | Description |
-| ---- | ----------- |
-| ![Bookmarks icon](/src/DataCollection.UWP/Assets/Calcite/bookmark-32.png) | Bookmarks button reveals list of bookmarks in the map |
-| ![TOC icon](/src/DataCollection.UWP/Assets/Calcite/layers-32.png) | TOC button shows a list of layers, which can be toggled on and off |
-| ![Legend icon](/src/DataCollection.UWP/Assets/Calcite/legend-32.png) | Legend button shows the layer symbols for the map |
-| ![Hamburger Drawer View](/src/DataCollection.UWP/Assets/Calcite/ellipsis-32.png) | Ellipsis button to reveal or hide the app context drawer view. |
-| ![Zoom To Location](/src/DataCollection.UWP/Assets/Calcite/gps-on-32.png) | Zoom to user's location. |
-| ![Add Feature](/src/DataCollection.UWP/Assets/Calcite/plus-circle-32.png) | Add a new spatial feature to map. |
+Upon first launch, the user is not authenticated and the app does not prompt for authentication. To sign in, the user can tap the 'Sign in' button in the title bar.
 
-### Manage the app's context
+Upon successfully signing in, the button that previously read 'Sign in' is replaced by the user's name and picture. Clicking the user's name will reveal a menu with the option to sign out.
 
-Tapping the navigation bar's ellipsis button reveals the app context drawer view.
-
-| UWP | WPF |
-|-----|-----|
-| ![App Context Drawer View](/docs/images/anatomy-app-context-drawer-uwp.png) | ![App Context Drawer View](/docs/images/anatomy-app-context-drawer.png) |
-
-#### Sign in and out of ArcGIS
-
-Upon first launch the user is not authenticated and the app does not prompt for authentication. To sign in, the user can tap the navigation bar's ellipsis button to reveal the app context drawer view. Once revealed, the user can tap 'Sign in'. A modal sign-in view presents, prompting for the user's portal username and password. If valid credentials are provided, an authenticated user is associated with the portal and a refresh token is encrypted and stored locally.
-
-Upon successfully signing in, the button that previously read 'Sign in' now reads 'Sign out' and tapping the button now signs the user out and removes the refresh token.
-
-#### App work mode
+### App work mode
 
 The app supports a workflow for users in the field with the requirement to work both in connected (online) and disconnected (offline) environments.
 
-##### _Online Work Mode_
+#### _Online Work Mode_
 
 At initial launch the app loads the configured portal's public web map. A user does not need to authenticate to use the app provided that the web map and all of its layers are not private. The map can identify features and make edits. Edits can be made to the web map including adding new, updating existing and deleting records.
 
-##### _Offline Work Mode_
+#### _Offline Work Mode_
 
 A user may need to collect data in a location where they are disconnected from the network. The app allows the user to take a web map offline. Because Trees of Portland uses a premium content basemap, a user must be authenticated to fully take the web map offline.
 
@@ -807,8 +789,8 @@ The Data Collection app is built with cross platform adaptability in mind. The a
 
 * **DataCollection.Shared** - contains shared code that applies to both platforms.
 * **DataCollection.UWP** - UWP UI.
-* **DataCollection.WPF** - WPF UI using .NET Framework.
-* **DataCollection.WPF (.NET Core)** - WPF UI using .NET Core.
+* **DataCollection.WPF_NetFramework** - WPF UI using .NET Framework.
+* **DataCollection.WPF_NetCore** - WPF UI using .NET Core.
     * Note: requires Visual Studio 2019 or later
 
 Just as the UWP and WPF projects refer to the shared code project, Xamarin projects can be added to support mobile platforms. There are no substantive differences between the .NET Framework and .NET Core versions of the WPF data collection projects.
@@ -910,6 +892,8 @@ object IValueConverter.Convert(object value, Type targetType, object parameter, 
 ### Internationalization
 
 All of the buttons, prompts, and other text containing controls in the app are being populated from a `Resources.resx` file. This allows a developer to easily switch the language of the app by providing the equivalent of the resources file translated in their language. The app reads the resources and populates the text accordingly.
+
+> **Note**: UWP uses a `Resources.resw` file, which is updated to match the contents of `Resources.resx` automatically as part of the solution build process.
 
 Code below demonstrates retrieving text from resources when prompting the user to answer whether they are sure they want to discard edits performed:
 

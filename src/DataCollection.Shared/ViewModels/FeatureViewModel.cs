@@ -23,6 +23,13 @@ using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Esri.ArcGISRuntime.UI;
+
+#if __UWP__
+using Windows.UI.Xaml.Media;
+#else
+using System.Windows.Media;
+#endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
@@ -50,6 +57,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         {
                             AttachmentsViewModel = new AttachmentsViewModel(PopupManager, FeatureTable);
                         });
+
+                        UpdateImageSource();
                     }
                     OnPropertyChanged();
                 }
@@ -69,6 +78,46 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_attachmentsViewModel != value)
                 {
                     _attachmentsViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private async void UpdateImageSource()
+        {
+            try
+            {
+                await PopupManager.EvaluateExpressionsAsync();
+                if (PopupManager?.Symbol == null)
+                {
+                    IconImageSource = null;
+                    return;
+                }
+
+                var symbol = await PopupManager.Symbol.CreateSwatchAsync(16, 16, 192, System.Drawing.Color.Transparent);
+                var imageSource = await symbol.ToImageSourceAsync();
+                IconImageSource = imageSource;
+            }
+            catch (Exception)
+            {
+                // Ignore
+            }
+        }
+
+        private ImageSource _iconImageSource;
+
+        /// <summary>
+        /// Gets the image that represents this feature, typically meant to be taken from the feature's symbology.
+        /// </summary>
+        /// <remarks>Can be null if there is no symbol associated with the feature.</remarks>
+        public ImageSource IconImageSource
+        {
+            get => _iconImageSource;
+            private set
+            {
+                if (_iconImageSource != value)
+                {
+                    _iconImageSource = value;
                     OnPropertyChanged();
                 }
             }

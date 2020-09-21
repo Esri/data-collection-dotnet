@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <DefineConstants>WPF;NET_CORE</DefineConstants>
+    <DefaultItemExcludes>$(DefaultItemExcludes);netframework\**;obj\**;netcore\**;out\**</DefaultItemExcludes>
+    <ApplicationIcon>..\DataCollection.WPF_NetFramework\Images\ArcGIS_Open_Source_apps.ico</ApplicationIcon>
+    <AssemblyName>DataCollection.WPF</AssemblyName>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <FileVersion>1.3.0.0</FileVersion>
+    <Version>1.3.0</Version>
+    <Authors />
+    <Company>Esri</Company>
+    <Product>Data Collection for .NET</Product>
+    <ApplicationManifest>../DataCollection.WPF_NetFramework/app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\DataCollection.WPF_NetFramework\**\*.cs" />
+    <Page Include="..\DataCollection.WPF_NetFramework\**\*.xaml" />
+    <Resource Include="..\DataCollection.WPF_NetFramework\**\*.png" />
+    <Resource Include="..\DataCollection.WPF_NetFramework\**\*.ico" />
+    <EmbeddedResource Include="..\DataCollection.WPF_NetFramework\**\*.resx" />
+    <Compile Remove="..\DataCollection.WPF_NetFramework\obj\Debug\**" />
+    <Compile Remove="..\DataCollection.WPF_NetFramework\obj\Release\**" />
+    <Compile Remove="..\DataCollection.WPF_NetFramework\Properties\AssemblyInfo.cs" />
+    <None Include="../DataCollection.WPF_NetFramework/app.manifest" />
+    <ApplicationDefinition Include="..\DataCollection.WPF_NetFramework\App.xaml" />
+    <!-- Needed for App.xaml to appear in solution explorer -->
+    <None Include="..\DataCollection.WPF_NetFramework\App.xaml" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ControlzEx" Version="4.3.2" />
+    <PackageReference Include="Esri.ArcGISRuntime.Toolkit" Version="100.9.0" />
+    <PackageReference Include="Esri.ArcGISRuntime.WPF" Version="100.9.0" />
+    <PackageReference Include="Humanizer.Core" Version="2.7.9" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CustomControls.WPF\CustomControls.WPF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentDocument.png">
+      <Link>Images\AttachmentDocument.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentImage.png">
+      <Link>Images\AttachmentImage.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentOther.png">
+      <Link>Images\AttachmentOther.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentVideo.png">
+      <Link>Images\AttachmentVideo.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\GenericPin.png">
+      <Link>Images\GenericPin.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\PinShadow.png">
+      <Link>Images\PinShadow.png</Link>
+    </Resource>
+  </ItemGroup>
+  <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
+</Project>

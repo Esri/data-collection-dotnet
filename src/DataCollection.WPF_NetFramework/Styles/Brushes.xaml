@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="AttributionBackgroundBrush" Color="{DynamicResource AttributionBackgroundColor}" />
+    <SolidColorBrush x:Key="AttributionBorderBrush" Color="{DynamicResource AttributionBorderColor}" />
+    <SolidColorBrush x:Key="AttributionForegroundBrush" Color="{DynamicResource AttributionForegroundColor}" />
+    <SolidColorBrush x:Key="BlueBrush" Color="{DynamicResource BlueColor}" />
+    <SolidColorBrush x:Key="ChromeBackgroundBrush" Color="{DynamicResource ChromeBackgroundColor}" />
+    <SolidColorBrush x:Key="ChromeBackgroundHoverBrush" Color="{DynamicResource ChromeBackgroundHoverColor}" />
+    <SolidColorBrush x:Key="ChromeBorderBrush" Color="{DynamicResource ChromeBorderColor}" />
+    <SolidColorBrush x:Key="ChromeForegroundBrush" Color="{DynamicResource ChromeForegroundColor}" />
+    <SolidColorBrush x:Key="CloseButtonBrush" Color="{DynamicResource CloseButtonColor}" />
+    <SolidColorBrush x:Key="ContentBackgroundBrush" Color="{DynamicResource ContentBackgroundColor}" />
+    <SolidColorBrush x:Key="ContentForegroundBrush" Color="{DynamicResource ContentForegroundColor}" />
+    <SolidColorBrush x:Key="ContentSubtleBrush" Color="{DynamicResource ContentSubtleColor}" />
+    <SolidColorBrush x:Key="DangerBrush" Color="{DynamicResource DangerColor}" />
+    <SolidColorBrush x:Key="MapShadeBrush" Color="{DynamicResource MapShadeColor}" />
+    <SolidColorBrush x:Key="MapShadeOffsetBrush" Color="{DynamicResource MapShadeOffsetColor}" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="{DynamicResource SuccessColor}" />
+    <SolidColorBrush x:Key="TintBrush" Color="{DynamicResource TintColor}" />
+    <SolidColorBrush x:Key="TintOffsetBrush" Color="{DynamicResource TintOffsetColor}" />
+</ResourceDictionary>

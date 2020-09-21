@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{13B49C7E-E8AD-4085-B6D5-69EE6711FE2E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF</RootNamespace>
+    <AssemblyName>DataCollection.WPF</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>TRACE;WPF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\ArcGIS_Open_Source_Apps.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Binding Support\SourceController.cs" />
+    <Compile Include="Binding Support\WebBrowserExtensions.cs" />
+    <Compile Include="Converters\BoolToCursorConverter.cs" />
+    <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
+    <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
+    <Compile Include="Converters\MapTitleConverter.cs" />
+    <Compile Include="Helpers\BrowseHelper.cs" />
+    <Compile Include="LocalizedStrings\Resources.Designer.cs" />
+    <Compile Include="ViewModels\SignInWindowViewModel.cs" />
+    <Compile Include="Views\CardBar.xaml.cs">
+      <DependentUpon>CardBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\BookmarksCard.xaml.cs">
+      <DependentUpon>BookmarksCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\LegendCard.xaml.cs">
+      <DependentUpon>LegendCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NavBar.xaml.cs">
+      <DependentUpon>NavBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TitleBar.xaml.cs">
+      <DependentUpon>TitleBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlays\AddFeatureView.xaml.cs">
+      <DependentUpon>AddFeatureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\AttachmentsView.xaml.cs">
+      <DependentUpon>AttachmentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\TocCard.xaml.cs">
+      <DependentUpon>TocCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\DestinationRelatedRecordPopup.xaml.cs">
+      <DependentUpon>DestinationRelatedRecordPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DialogBoxWindow.xaml.cs">
+      <DependentUpon>DialogBoxWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlays\AttributionOverlay.xaml.cs">
+      <DependentUpon>AttributionOverlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlays\DownloadView.xaml.cs">
+      <DependentUpon>DownloadView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\IdentifiedFeaturePopup.xaml.cs">
+      <DependentUpon>IdentifiedFeaturePopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\MapPanel.xaml.cs">
+      <DependentUpon>MapPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\OnlineMapPanel.xaml.cs">
+      <DependentUpon>OnlineMapPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\UserAccountPanel.xaml.cs">
+      <DependentUpon>UserAccountPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlays\SignInWindow.xaml.cs">
+      <DependentUpon>SignInWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\OriginRelatedRecordPopup.xaml.cs">
+      <DependentUpon>OriginRelatedRecordPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlays\SyncProgressView.xaml.cs">
+      <DependentUpon>SyncProgressView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="SharedConverters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Brushes.xaml" />
+    <Page Include="Styles\ControlOverrides.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Controls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\SizesAndAlignment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\BookmarksCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\LegendCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NavBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TitleBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlays\AddFeatureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\AttachmentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\TocCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\DestinationRelatedRecordPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DialogBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlays\AttributionOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlays\DownloadView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\IdentifiedFeaturePopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\MapPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\OnlineMapPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\UserAccountPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlays\SignInWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\OriginRelatedRecordPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlays\SyncProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="app.config" />
+    <AppDesigner Include="Properties\" />
+    <None Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ControlzEx">
+      <Version>4.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="Esri.ArcGISRuntime.Toolkit">
+      <Version>100.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Esri.ArcGISRuntime.WPF">
+      <Version>100.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Humanizer.Core">
+      <Version>2.7.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.19</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LocalizedStrings\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentDocument.png">
+      <Link>Images\AttachmentDocument.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentImage.png">
+      <Link>Images\AttachmentImage.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentOther.png">
+      <Link>Images\AttachmentOther.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentVideo.png">
+      <Link>Images\AttachmentVideo.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\GenericPin.png">
+      <Link>Images\GenericPin.png</Link>
+    </Resource>
+    <Resource Include="..\DataCollection.Shared\Resources\Images\PinShadow.png">
+      <Link>Images\PinShadow.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ArcGIS_Open_Source_Apps.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Calcite\bookmark-32.png" />
+    <Resource Include="Images\Calcite\camera-32.png" />
+    <Resource Include="Images\Calcite\chevron-right-32.png" />
+    <Resource Include="Images\Calcite\ellipsis-32.png" />
+    <Resource Include="Images\Calcite\folder-open-32.png" />
+    <Resource Include="Images\Calcite\gps-on-32.png" />
+    <Resource Include="Images\Calcite\launch-32.png" />
+    <Resource Include="Images\Calcite\layers-32.png" />
+    <Resource Include="Images\Calcite\legend-32.png" />
+    <Resource Include="Images\Calcite\offline-32.png" />
+    <Resource Include="Images\Calcite\online-32.png" />
+    <Resource Include="Images\Calcite\pencil-32.png" />
+    <Resource Include="Images\Calcite\plus-circle-32.png" />
+    <Resource Include="Images\Calcite\refresh-32.png" />
+    <Resource Include="Images\Calcite\save-32.png" />
+    <Resource Include="Images\Calcite\sign-in-32.png" />
+    <Resource Include="Images\Calcite\sign-out-32.png" />
+    <Resource Include="Images\Calcite\trash-32.png" />
+    <Resource Include="Images\Calcite\x-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Calcite\offline-black-32.png" />
+    <Resource Include="Images\Calcite\refresh-black-32.png" />
+    <Resource Include="Images\Calcite\trash-black-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Calcite\online-black-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomControls.WPF\CustomControls.WPF.csproj">
+      <Project>{15e01828-ae26-413b-a127-684d9bd89cef}</Project>
+      <Name>CustomControls.WPF</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\DataCollection.Shared\DataCollection.Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

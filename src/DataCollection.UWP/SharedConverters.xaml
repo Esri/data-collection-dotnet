@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+                    xmlns:ctrl="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+                    xmlns:uwpconverters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters">
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
+    <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
+    <uwpconverters:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
+</ResourceDictionary>

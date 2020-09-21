@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays.SyncProgressView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Background="{StaticResource MapShadeBrush}">
+        <!--  Progress bar area for download  -->
+        <Border HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource PopupBorder}">
+            <StackPanel HorizontalAlignment="Center" Spacing="{StaticResource LargeRowSpacing}">
+                <ProgressBar Width="300"
+                             Foreground="{ThemeResource TintBrush}"
+                             Maximum="100"
+                             Minimum="0"
+                             Value="{x:Bind SyncViewModel.Progress, Mode=OneWay}" />
+                <TextBlock FontSize="{StaticResource LargeFontSize}"
+                           Style="{StaticResource PopupProminentText}"
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=SynchingMessage_Text}" />
+                <Button HorizontalAlignment="Stretch"
+                        BorderBrush="{ThemeResource DangerBrush}"
+                        Command="{x:Bind SyncViewModel.CancelSyncCommand, Mode=OneWay}"
+                        Style="{StaticResource MapOverlayButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}">
+                    <StackPanel HorizontalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="{StaticResource MediumColumnSpacing}">
+                        <Path Data="{StaticResource icon-x-circle-32}"
+                              Fill="{ThemeResource DangerBrush}"
+                              Style="{StaticResource PathIconStyle}" />
+                        <TextBlock Foreground="{ThemeResource DangerBrush}"
+                                   Style="{StaticResource TextBlockBaseStyle}"
+                                   Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Universal_CancelButton_Text}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,26 @@
+﻿<customcontrols:CardBase x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards.DestinationRelatedRecordPopup"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+                         xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+                         xmlns:views="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views">
+    <UserControl.Resources>
+        <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
+    </UserControl.Resources>
+    <Grid Background="{ThemeResource ContentBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <views:CardBar Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
+                       CloseCommand="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
+                       ImageSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
+                       OwningCard="{x:Bind}" />
+        <ScrollViewer Grid.Row="1">
+            <Grid Padding="{StaticResource UniformLargeThickness}">
+                <!--  Attribute information for the destination relationship selected  -->
+                <ItemsControl ItemTemplate="{StaticResource CardSimpleFieldViewer}" ItemsSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</customcontrols:CardBase>

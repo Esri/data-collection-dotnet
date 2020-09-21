@@ -127,6 +127,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
             {
                 _instance.CurrentOfflineSubdirectory = l.Args.Value?.ToString();
             }
+            else if (l.Args.Key == BroadcastMessageKey.ClosePopups)
+            {
+                return;
+            }
 
             SerializeSettings(_instance);
         }

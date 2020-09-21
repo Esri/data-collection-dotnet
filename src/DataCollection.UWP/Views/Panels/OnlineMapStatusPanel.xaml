@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels.OnlineMapStatusPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource PopupBorder}">
+        <Grid ColumnSpacing="{StaticResource MediumColumnSpacing}" RowSpacing="{StaticResource MediumRowSpacing}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       FontSize="18"
+                       Style="{StaticResource PopupProminentText}"
+                       Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Style="{StaticResource PopupProminentText}"
+                       Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Created_FieldLabel}" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="1"
+                       Style="{StaticResource PopupText}"
+                       Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Created, FallbackValue='unknown', Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='g'}" />
+            <TextBlock Grid.Row="5"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource PopupProminentText}"
+                       Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_OfflineMapAvailable_Label}"
+                       Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top"
+                       Style="{StaticResource PopupProminentText}"
+                       Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OnlineMapPanel_Downloaded_FieldLabel}"
+                       Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+            <TextBlock Grid.Row="3"
+                       Grid.Column="1"
+                       Style="{StaticResource PopupText}"
+                       Text="{x:Bind MainViewModel.OfflineMap.Item.Modified, Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='g'}"
+                       Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Style="{StaticResource PopupText}"
+                       Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Snippet, Mode=OneWay}" />
+            <Button Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="{StaticResource TopMediumThickness}"
+                    HorizontalAlignment="Stretch"
+                    Command="{x:Bind MainViewModel.WorkOfflineCommand, Mode=OneWay}"
+                    Style="{StaticResource ButtonBaseStyle}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}"
+                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
+                <Grid HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <!--<Path Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconStyle}" />-->
+                    <BitmapIcon Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Style="{StaticResource PathIconWorkaroundStyle}"
+                                UriSource="Assets/Calcite/offline-32.png"
+                                Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                    <Path Grid.Row="0"
+                          Grid.RowSpan="2"
+                          Grid.Column="0"
+                          Data="{StaticResource icon-download-16}"
+                          Style="{StaticResource PathIconStyle}"
+                          Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter='Inverse'}" />
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Style="{StaticResource TextBlockBaseStyle}"
+                               Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=WorkOfflineButton_Label}" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Style="{StaticResource TextBlockBaseStyle}"
+                               Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DownloadMap_Subtitle}"
+                               Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter='Inverse'}" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Style="{StaticResource TextBlockBaseStyle}"
+                               Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OpenOfflineMap_Subtitle}"
+                               Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                </Grid>
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>

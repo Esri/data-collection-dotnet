@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels.SignedInUserPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    <Border Style="{StaticResource PopupBorder}">
+        <Grid MinWidth="200"
+              ColumnSpacing="{StaticResource MediumColumnSpacing}"
+              RowSpacing="{StaticResource LargeRowSpacing}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <muxc:PersonPicture Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Width="{StaticResource ThumbnailLength}"
+                                Height="{StaticResource ThumbnailLength}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                DisplayName="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}">
+                <muxc:PersonPicture.ProfilePicture>
+                    <BitmapImage UriSource="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
+                </muxc:PersonPicture.ProfilePicture>
+            </muxc:PersonPicture>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="1"
+                       Style="{StaticResource PopupProminentText}"
+                       Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="1"
+                       Style="{StaticResource PopupText}"
+                       Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.UserName, Mode=OneWay}" />
+            <Button Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch"
+                    Command="{x:Bind MainViewModel.AuthViewModel.SignOutCommand, Mode=OneWay}"
+                    Style="{StaticResource ButtonBaseStyle}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=SignOutButton_Label}"
+                    Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Path Data="{StaticResource icon-sign-out-16}" Style="{StaticResource PathIconStyle}" />
+                    <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=SignOutButton_Label}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>

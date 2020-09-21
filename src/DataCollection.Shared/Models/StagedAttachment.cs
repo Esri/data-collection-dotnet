@@ -67,7 +67,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
             {
                 // create thumbnail for the image attachments
                 case PopupAttachmentType.Image:
-                    Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentImage.png"));
+                    var image = await Attachment.CreateThumbnailAsync(64, 64);
+                    Thumbnail = await image.ToImageSourceAsync();
                     break;
                 // use placeholder images for the rest of the attachments
                 case PopupAttachmentType.Video:
@@ -89,9 +90,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
                 // create thumbnail for the image attachments
                 // must do this on UI thread due to bindings 
                 case PopupAttachmentType.Image:
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
-                        Thumbnail = new BitmapImage(new Uri("ms-appx:///Assets/AttachmentImage.png"));
+                        var image = await Attachment.CreateThumbnailAsync(64, 64);
+                        Thumbnail = await image.ToImageSourceAsync();
                     });
                     break;
 

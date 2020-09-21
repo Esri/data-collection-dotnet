@@ -1,512 +1,233 @@
-﻿<Page
-    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:esri="using:Esri.ArcGISRuntime.UI.Controls"
-    xmlns:localConverters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
-    xmlns:utils="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
-    xmlns:views="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views"
-    xmlns:mapping="using:Esri.ArcGISRuntime.Mapping"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d">
-    <Page.Resources>
-        <ResourceDictionary>
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
-            <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
-            <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
-            <localConverters:TitleBarConnectivityModeToColorConverter x:Key="ConnectivityModeToColorConverter" />
-        </ResourceDictionary>
-    </Page.Resources>
-
-    <Grid Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="Auto"
-                MinWidth="300"
-                MaxWidth="300" />
-            <ColumnDefinition
-                Width="Auto"
-                MinWidth="300"
-                MaxWidth="300" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid x:Name="AppTitleBar" Background="Transparent" Grid.ColumnSpan="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Image Source="Assets/Square44x44Logo.png" 
-                   Grid.Column="0" HorizontalAlignment="Left" 
-                   Width="20" Height="20" Margin="5"/>
-        </Grid>
-        <!--  Title bar with top buttons  -->
-        <CommandBar
-            Grid.Row="1"
-            Grid.ColumnSpan="3"
-            Background="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}}"
-            Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
-            <CommandBar.Content>
-                <TextBlock
-                    Margin="15,0,0,0"
-                    Style="{StaticResource SubheaderTextBlockStyle}" FontSize="28"
-                    Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
-            </CommandBar.Content>
-            <AppBarButton
-                x:Uid="ShowBookmarksButton"
-                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
-                Visibility="{x:Bind MapView.Map.Bookmarks, Mode=OneWay, Converter={StaticResource EmptyCollectionToVisibilityConverter}, ConverterParameter=Inverse}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/bookmark-32.png"
-                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <toolkit:BookmarksView GeoView="{x:Bind MapView, Mode=OneWay}" 
-                                               MaxHeight="300" MaxWidth="250" />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton
-                x:Uid="ShowLegendButton"
-                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/legend-32.png" ShowAsMonochrome="True"
-                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <toolkit:Legend GeoView="{x:Bind MapView, Mode=OneWay}" MaxHeight="400" MaxWidth="250" />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton
-                x:Uid="ShowTOCButton"
-                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/layers-32.png" ShowAsMonochrome="True"
-                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <muxc:TreeView
-                            ItemsSource="{x:Bind MainViewModel.MapViewModel.Map.OperationalLayers,Mode=OneWay}" 
-                            BorderBrush="Transparent"
-                            MaxWidth="300" MaxHeight="250">
-                            <!-- Overrides style to hide expander; can be removed for maps with sublayers -->
-                            <muxc:TreeView.ItemContainerStyle>
-                                <Style TargetType="muxc:TreeViewItem">
-                                    <Style.Setters>
-                                        <Setter Property="Margin" Value="-20,0,5,0" />
-                                    </Style.Setters>
-                                </Style>
-                            </muxc:TreeView.ItemContainerStyle>
-                            <muxc:TreeView.ItemTemplate>
-                                <DataTemplate x:DataType="mapping:ILayerContent">
-                                    <muxc:TreeViewItem ItemsSource="{x:Bind SublayerContents}" Padding="0,0,10,0">
-                                        <muxc:TreeViewItem.Content>
-                                            <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay}"
-                                                      Margin="0"
-                                                      HorizontalAlignment="Stretch"
-                                                      Content="{x:Bind Name}" />
-                                        </muxc:TreeViewItem.Content>
-                                    </muxc:TreeViewItem>
-                                </DataTemplate>
-                            </muxc:TreeView.ItemTemplate>
-                        </muxc:TreeView>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton
-                x:Uid="CurrentLocationButton"
-                Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}"
-                IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}"
-                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/gps-on-32.png" ShowAsMonochrome="True"
-                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton
-                x:Uid="AddFeatureButton"
-                Command="{x:Bind MainViewModel.StartNewFeatureCommand, Mode=OneWay}"
-                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
-                IsEnabled="{Binding ElementName=MapView, Path=Map, Mode=OneWay, Converter={StaticResource NullToBoolConverter}}"
-                Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="Assets/Calcite/plus-circle-32.png" ShowAsMonochrome="True"
-                                Foreground="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToColorConverter}, ConverterParameter=Inverse}"
-                                Width="20" Height="20"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <CommandBar.SecondaryCommands>
-                <!--  Inactive button displaying signed in user info  -->
-                <AppBarButton DataContext="{x:Bind AuthViewModel}" 
-                              Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                    <AppBarButton.Template>
-                        <ControlTemplate>
-                            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                                <Image
-                                    MaxHeight="35"
-                                    Margin="14,10,11,10"
-                                    Source="{Binding AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
-                                <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                    <TextBlock
-                                        x:Uid="SignedInTextBlock"
-                                        Margin="0,0,10,0"
-                                        Style="{StaticResource CaptionTextBlockStyle}" />
-                                    <TextBlock Text="{Binding AuthenticatedUser.FullName, Mode=OneWay}" />
-                                </StackPanel>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </AppBarButton.Template>
-                </AppBarButton>
-
-                <AppBarSeparator Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
-
-                <!--  Working online button  -->
-                <AppBarButton
-                    x:Uid="WorkingOnlineButton"
-                    IsEnabled="False"
-                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Calcite/online-32.png" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <!--  Work online button  -->
-                <AppBarButton
-                    x:Uid="WorkOnlineButton"
-                    Command="{x:Bind MainViewModel.WorkOnlineCommand, Mode=OneWay}"
-                    CommandParameter="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}"
-                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Calcite/online-32.png" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <AppBarSeparator Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
-
-                <!--  Working offline button  -->
-                <AppBarButton
-                    x:Uid="WorkingOfflineButton"
-                    IsEnabled="False"
-                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Calcite/offline-32.png" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <!--  Work offline button  -->
-                <AppBarButton
-                    x:Uid="WorkOfflineButton"
-                    Command="{x:Bind MainViewModel.WorkOfflineCommand, Mode=OneWay}"
-                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Mode=OneWay, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Calcite/offline-32.png" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <!--  Synchronize button  -->
-                <AppBarButton
-                    x:Uid="SyncButton"
-                    Command="{x:Bind MainViewModel.SyncMapCommand, Mode=OneWay}"
-                    DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-                    Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Calcite/refresh-32.png" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <!--  Delete offline map button  -->
-                <AppBarButton
-                    x:Uid="DeleteMapButton"
-                    Command="{x:Bind MainViewModel.DeleteOfflineMapCommand, Mode=OneWay}"
-                    Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Calcite/trash-32.png" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <!--  Inactive button displaying last sync date  -->
-                <AppBarButton
-                    Margin="12,0,0,0"
-                    DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-                    Visibility="{x:Bind MainViewModel.OfflineMap, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                    <AppBarButton.Template>
-                        <ControlTemplate>
-                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="Last Sync:" />
-                                <TextBlock
-                                    Margin="5,0,0,0"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding SyncDate, Mode=OneWay}" />
-                            </StackPanel>
-                        </ControlTemplate>
-                    </AppBarButton.Template>
-                </AppBarButton>
-
-                <AppBarSeparator />
-
-                <!--  Sign in button  -->
-                <AppBarButton
-                    x:Uid="SignInButton"
-                    Command="{x:Bind AuthViewModel.SignInCommand}"
-                    Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Calcite/sign-in-32.png" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-
-                <!--  Sign out button  -->
-                <AppBarButton
-                    x:Uid="SignOutButton"
-                    Command="{x:Bind AuthViewModel.SignOutCommand}"
-                    Visibility="{x:Bind AuthViewModel.AuthenticatedUser, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                    <AppBarButton.Icon>
-                        <BitmapIcon UriSource="Assets/Calcite/sign-out-32.png" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-
-        <!--  MapView Control containing map  -->
-        <esri:MapView
-            x:Name="MapView"
-            Grid.Row="2"
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="3"
-            utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
-            DataContext="{x:Bind MainViewModel}"
-            Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}">
+﻿<Page x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:cards="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:ctrl="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+      xmlns:esri="using:Esri.ArcGISRuntime.UI.Controls"
+      xmlns:overlays="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Overlays"
+      xmlns:utils="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
+      xmlns:views="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views">
+    <!--  Map Area  -->
+    <ctrl:ModernMapPanel x:Name="MapLayoutPanel"
+                         CollapsedCardHeight="300"
+                         ExpandedCardWidth="348"
+                         ExpandedWidthMinimum="600">
+        <views:TitleBar ctrl:ModernMapPanel.Role="Titlebar" MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        <esri:MapView x:Name="MapView"
+                      ctrl:ModernMapPanel.Role="GeoView"
+                      utils:MapViewExtensions.IdentifyController="{x:Bind MainViewModel.IdentifyController, Mode=OneWay}"
+                      utils:MapViewExtensions.MapAccessoryViewModel="{x:Bind MainViewModel.MapAccessoryViewModel, Mode=OneWay}"
+                      DataContext="{x:Bind MainViewModel}"
+                      IsAttributionTextVisible="False"
+                      Map="{x:Bind MainViewModel.MapViewModel.Map, Mode=OneWay}">
             <utils:MapViewExtensions.ViewpointController>
-                <utils:ViewpointController Viewpoint="{Binding MapViewModel.AreaOfInterest, Mode=TwoWay}" />
+                <utils:ViewpointController Viewpoint="{x:Bind MainViewModel.MapViewModel.AreaOfInterest, Mode=TwoWay}" />
             </utils:MapViewExtensions.ViewpointController>
             <utils:MapViewExtensions.LocationDisplayController>
                 <utils:LocationDisplayController DataSource="{x:Bind MainViewModel.MapViewModel.LocationDataSource, Mode=OneWay}" />
             </utils:MapViewExtensions.LocationDisplayController>
+            <esri:MapView.Overlays>
+                <esri:OverlayItemsControl>
+                    <Path Width="44"
+                          Height="44"
+                          esri:GeoView.ViewOverlayAnchor="{x:Bind MainViewModel.IdentifyController.TappedLocation, Mode=OneWay}"
+                          Data="{StaticResource icon-spinner-16}"
+                          Fill="{ThemeResource TintBrush}"
+                          RenderTransformOrigin="0.5,0.5"
+                          Stretch="Uniform"
+                          Visibility="{x:Bind MainViewModel.IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                        <Path.RenderTransform>
+                            <RotateTransform x:Name="RT" Angle="0" />
+                        </Path.RenderTransform>
+                        <Path.Triggers>
+                            <EventTrigger RoutedEvent="Path.Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation RepeatBehavior="Forever"
+                                                             Storyboard.TargetName="RT"
+                                                             Storyboard.TargetProperty="Angle"
+                                                             From="0"
+                                                             To="360"
+                                                             Duration="0:0:1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Path.Triggers>
+                    </Path>
+                </esri:OverlayItemsControl>
+            </esri:MapView.Overlays>
         </esri:MapView>
+        <!--  Map widget controls  -->
+        <StackPanel HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    ctrl:ModernMapPanel.Role="Accessory"
+                    Orientation="Vertical">
+            <controls:DropShadowPanel Style="{StaticResource AccessoryShadowStyle}">
+                <StackPanel Style="{StaticResource AccessoryStackStyle}">
+                    <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneTime}"
+                            Style="{StaticResource MapAccessoryButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_BookmarksButton_Tooltip}">
+                        <Path Data="{StaticResource icon-bookmark-32}" Style="{StaticResource PathIconStyle}" />
+                    </Button>
+                    <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleLegendCommand, Mode=OneTime}"
+                            Style="{StaticResource MapAccessoryButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_LegendButton_Tooltip}">
+                        <!--<Path Data="{StaticResource icon-legend-16}" Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/legend-32.png" />
+                    </Button>
+                    <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleTableOfContentsCommand, Mode=OneTime}"
+                            Style="{StaticResource MapAccessoryButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_TOCButton_Tooltip}">
+                        <!--<Path Data="{StaticResource icon-layers-16}" Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/layers-32.png" />
+                    </Button>
+                </StackPanel>
+            </controls:DropShadowPanel>
 
-        
-
-        <!--  Compass control that displays when user rotates the map  -->
-        <toolkit:Compass
-            Grid.Row="3"
-            Grid.Column="2"
-            Margin="20"
-            VerticalAlignment="Bottom"
-            AutoHide="True"
-            GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
-
-        <!--  New feature overlay  -->
-        <views:AddFeatureView
-            x:Name="AddFeatureView"
-            Grid.Row="2"
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-            Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-        <!--  Download view  -->
-        <views:DownloadView
-            Grid.Row="2"
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-            Visibility="{x:Bind MainViewModel.DownloadViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
-            VisibleArea="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}" />
-
-        <!--  Sync View  -->
-        <StackPanel
-            Grid.Row="2"
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            VerticalAlignment="Center"
-            Orientation="Vertical"
-            Visibility="{x:Bind MainViewModel.SyncViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-            <Grid
-                MaxWidth="350"
-                MaxHeight="250"
-                Background="{ThemeResource SystemAltHighColor}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                </Grid.RowDefinitions>
-                <ProgressBar
-                    Grid.Row="0"
-                    Width="300"
-                    Height="20"
-                    Margin="20"
-                    Background="{ThemeResource SystemChromeLowColor}"
-                    Foreground="{ThemeResource SystemListLowColor}"
-                    Maximum="100"
-                    Minimum="0"
-                    Value="{x:Bind MainViewModel.SyncViewModel.Progress, Mode=OneWay}" />
-                <TextBlock
-                    x:Uid="SynchingMessage"
-                    Grid.Row="1"
-                    Margin="0,0,0,20"
-                    HorizontalAlignment="Center" />
-                <Button
-                    x:Uid="CancelSyncButton"
-                    Grid.Row="2"
-                    Width="70"
-                    Margin="0,0,0,20"
-                    HorizontalAlignment="Center"
-                    Command="{x:Bind MainViewModel.SyncViewModel.CancelSyncCommand, Mode=OneWay}" />
-            </Grid>
+            <!--  Editing buttons  -->
+            <controls:DropShadowPanel Style="{StaticResource AccessoryShadowStyle}">
+                <StackPanel HorizontalAlignment="Right" Style="{StaticResource AccessoryStackStyle}">
+                    <Button Command="{x:Bind MainViewModel.StartNewFeatureCommand, Mode=OneTime}"
+                            Style="{StaticResource MapAccessoryButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_AddButton_Tooltip}">
+                        <Path Data="{StaticResource icon-plus-circle-16}"
+                              Fill="{ThemeResource SuccessBrush}"
+                              Style="{StaticResource PathIconStyle}" />
+                    </Button>
+                </StackPanel>
+            </controls:DropShadowPanel>
         </StackPanel>
 
-        <!--  Grid control that contains the popups for identified features and related records  -->
-        <Grid Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" 
-              Background="{ThemeResource SystemControlAcrylicElementBrush}"
-              Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid x:Name="IdentifiedFeatureBlade" Grid.Column="0" Width="300" Padding="0"
-                  BorderBrush="{ThemeResource AppBarBorderThemeBrush}" BorderThickness="0,0,1,0"
-                  Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"
-                  Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="30" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0"
-                           Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
-                           Margin="5,5,0,0" TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}" />
-                <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30"
-                        Background="Transparent" 
-                        Command="{x:Bind MainViewModel.ClearIdentifiedFeatureCommand}">
-                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <views:IdentifiedFeaturePopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-                                              Grid.Row="1" Grid.ColumnSpan="2"/>
-            </Grid>
-            <Grid x:Name="OriginRelationshipBlade" Grid.Column="1" Width="300"
-                  BorderBrush="{ThemeResource AppBarBorderThemeBrush}" BorderThickness="0,0,1,0"
-                  Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
-                  Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="30" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30"
-                        Background="Transparent" 
-                        Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" >
-                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
-                           Grid.Row="0" 
-                           Margin="5,5,0,0" 
-                           TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}"/>
-                <views:OriginRelatedRecordPopup DataContext="{x:Bind MainViewModel, Mode=OneWay}"
-                                                Grid.Row="1" Grid.ColumnSpan="2" />
-            </Grid>
-            <Grid x:Name="DestinationRelationshipBlade" Grid.Column="2" Width="300"
-                  BorderBrush="{ThemeResource AppBarBorderThemeBrush}" BorderThickness="0,0,1,0"
-                  Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
-                  Tag="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="30" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="2" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Padding="5" Width="30" Height="30"
-                        Background="Transparent" 
-                        Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}" >
-                    <BitmapIcon UriSource="Assets/Calcite/x-32.png"
-                                Width="15" Height="15"/>
-                </Button>
-                <TextBlock Text="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
-                           Grid.Row="0" 
-                           Margin="5,5,0,0" 
-                           TextAlignment="Left"
-                           Padding="5"
-                           Style="{ThemeResource TitleTextBlockStyle}"/>
-                <views:DestinationRelatedRecordPopup DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Mode=OneWay}"
-                                                     Grid.Row="1" Grid.ColumnSpan="2" />
-            </Grid>
-        </Grid>
+        <!--  Navigation buttons  -->
+        <StackPanel HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    ctrl:ModernMapPanel.Role="Accessory">
+            <controls:DropShadowPanel Style="{StaticResource AccessoryShadowStyle}">
+                <StackPanel HorizontalAlignment="Left" Style="{StaticResource AccessoryStackStyle}">
+                    <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.GoHomeCommand, Mode=OneTime}"
+                            Style="{StaticResource MapAccessoryButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_HomeButton_Tooltip}">
+                        <!--<Path Data="{StaticResource icon-home-16}" Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/home-16.png" />
+                    </Button>
+                </StackPanel>
+            </controls:DropShadowPanel>
 
-        <!-- Progress indicator for when identify is in progress -->
-        <ProgressBar 
-            IsIndeterminate="True" 
-            Visibility="{x:Bind MainViewModel.IdentifyController.IsIdentifyInProgress, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-            Grid.Row="2" 
-            Grid.Column="0"
-            Grid.ColumnSpan="3" />
+            <controls:DropShadowPanel Style="{StaticResource AccessoryShadowStyle}">
+                <StackPanel HorizontalAlignment="Left" Style="{StaticResource AccessoryStackStyle}">
+                    <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ZoomInCommand, Mode=OneTime}"
+                            Style="{StaticResource MapAccessoryButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_PlusButton_Tooltip}">
+                        <Path Data="{StaticResource icon-plus-16}" Style="{StaticResource PathIconStyle}" />
+                    </Button>
+                    <Button Command="{x:Bind MainViewModel.MapAccessoryViewModel.ZoomOutCommand, Mode=OneTime}"
+                            Style="{StaticResource MapAccessoryButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_MinusButton_Tooltip}">
+                        <Path Data="{StaticResource icon-minus-32}" Style="{StaticResource PathIconStyle}" />
+                    </Button>
+                </StackPanel>
+            </controls:DropShadowPanel>
 
-        <!--  Busy Waiting View  -->
-        <Grid
-            Grid.Row="1"
-            Grid.RowSpan="3"
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
-            Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
-            Visibility="{x:Bind MainViewModel.IsBusyWaiting, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel VerticalAlignment="Center">
-                <ProgressBar
-                    Width="300"
-                    Margin="20"
-                    IsIndeterminate="True">
-                    <ProgressBar.Foreground>
-                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
-                    </ProgressBar.Foreground>
-                </ProgressBar>
-                <TextBlock
-                    Text="{x:Bind MainViewModel.BusyWaitingMessage, Mode=OneWay}"
-                    Style="{ThemeResource HeaderTextBlockStyle}"
-                    Margin="0,0,0,20"
-                    HorizontalAlignment="Center" />
-            </StackPanel>
-        </Grid>
-    </Grid>
+            <controls:DropShadowPanel Style="{StaticResource AccessoryShadowStyle}">
+                <StackPanel HorizontalAlignment="Left" Style="{StaticResource AccessoryStackStyle}">
+                    <Button Command="{x:Bind MainViewModel.MapViewModel.MoveToCurrentLocationCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind MainViewModel.MapViewModel.IsLocationStarted, Mode=OneWay}"
+                            Style="{StaticResource MapAccessoryButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=MapAccessory_GPSButton_Tooltip}">
+                        <Path Data="{StaticResource icon-gps-on-16}" Style="{StaticResource PathIconStyle}" />
+                    </Button>
+                </StackPanel>
+            </controls:DropShadowPanel>
+
+        </StackPanel>
+
+        <!--  Attribution. Any modifications to attribution display must follow the guidelines at https://developers.arcgis.com/terms/attribution/  -->
+        <Button ctrl:ModernMapPanel.Role="Attribution"
+                Command="{x:Bind MainViewModel.MapAccessoryViewModel.ToggleAttributionCommand, Mode=OneWay}"
+                Style="{StaticResource AttributionButtonStyle}"
+                ToolTipService.ToolTip="{x:Bind MapView.AttributionText, Mode=OneWay}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource AttributionTextBorderStyle}">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="9"
+                               Foreground="{ThemeResource AttributionForegroundBrush}"
+                               Text="{x:Bind MapView.AttributionText, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis" />
+                </Border>
+                <controls:DropShadowPanel Grid.Column="1"
+                                          BlurRadius="16"
+                                          OffsetX="4"
+                                          OffsetY="4"
+                                          ShadowOpacity="1">
+                    <Path Height="20"
+                          Data="{StaticResource icon-esri-logo}"
+                          Fill="White"
+                          Stretch="Uniform" />
+                </controls:DropShadowPanel>
+            </Grid>
+            <Button.Flyout>
+                <Flyout FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}" Placement="TopEdgeAlignedRight">
+                    <StackPanel Padding="{StaticResource UniformLargeThickness}"
+                                Orientation="Vertical"
+                                Spacing="{StaticResource MediumRowSpacing}">
+                        <TextBlock Style="{StaticResource PopupProminentText}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Attribution_Popup_Label}" />
+                        <TextBlock Style="{StaticResource PopupText}" Text="{x:Bind MapView.AttributionText, Mode=OneWay}" />
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+
+        <views:NavBar Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,-8'}"
+                      ctrl:ModernMapPanel.Role="CardAppendage"
+                      ParentPanel="{x:Bind MapLayoutPanel}" />
+
+        <cards:IdentifiedFeaturePopup Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
+                                      ctrl:ModernMapPanel.Role="Card"
+                                      ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
+                                      IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}, Mode=OneWay, FallbackValue=False}"
+                                      MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        <cards:OriginRelatedRecordPopup Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
+                                        ctrl:ModernMapPanel.Role="Card"
+                                        ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                                        IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False, Mode=OneWay}"
+                                        MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        <cards:DestinationRelatedRecordPopup Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
+                                             ctrl:ModernMapPanel.Role="Card"
+                                             ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
+                                             IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}"
+                                             MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        <cards:TocCard Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
+                       ctrl:ModernMapPanel.Role="Card"
+                       ctrl:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=TOC_PanelHeader}"
+                       IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsTableOfContentsOpen, Mode=OneWay}"
+                       MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        <cards:BookmarksCard Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
+                             ctrl:ModernMapPanel.Role="Card"
+                             ctrl:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Bookmarks_PanelHeader}"
+                             IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsBookmarksOpen, Mode=OneWay}"
+                             MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+        <cards:LegendCard Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
+                          ctrl:ModernMapPanel.Role="Card"
+                          ctrl:ModernMapPanel.Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=Legend_PanelHeader}"
+                          IsOpen="{x:Bind MainViewModel.MapAccessoryViewModel.IsLegendOpen, Mode=OneWay}"
+                          MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+
+        <overlays:AddFeatureView ctrl:ModernMapPanel.Role="ModalLightbox"
+                                 DataContext="{x:Bind MainViewModel, Mode=OneWay}"
+                                 Visibility="{x:Bind MainViewModel.IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <overlays:DownloadView ctrl:ModernMapPanel.Role="ModalLightbox"
+                               DataContext="{x:Bind MainViewModel, Mode=OneWay}"
+                               Visibility="{x:Bind MainViewModel.DownloadViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                               VisibleArea="{Binding ElementName=MapView, Mode=OneWay, Path=VisibleArea}" />
+        <overlays:SyncProgressView ctrl:ModernMapPanel.Role="ModalLightbox"
+                                   SyncViewModel="{x:Bind MainViewModel.SyncViewModel, Mode=OneWay}"
+                                   Visibility="{x:Bind MainViewModel.SyncViewModel, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+    </ctrl:ModernMapPanel>
 </Page>

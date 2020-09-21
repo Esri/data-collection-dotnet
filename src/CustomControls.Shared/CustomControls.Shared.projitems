@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>994d253e-4bd4-4699-8e24-d6e2ec18a74b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CardBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MapRole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModernMapPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResponsiveValueConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ToggleCommand.cs" />
+  </ItemGroup>
+</Project>

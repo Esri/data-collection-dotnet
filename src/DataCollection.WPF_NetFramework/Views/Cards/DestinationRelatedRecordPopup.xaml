@@ -1,0 +1,36 @@
+﻿<ctrl:CardBase x:Name="Self"
+               x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards.DestinationRelatedRecordPopup"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+               xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+               xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="{StaticResource ContentBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <views:CardBar Title="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title}"
+                       CloseCommand="{Binding IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
+                       ImageSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource}"
+                       OwningCard="{Binding ElementName=Self}" />
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <!--  Attribute information for the destination relationship selected  -->
+            <ItemsControl Margin="{StaticResource UniformLargeThickness}" ItemsSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                            <TextBox Style="{StaticResource FieldValueStyle}" Text="{Binding ReformattedValue, Mode=OneWay}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</ctrl:CardBase>

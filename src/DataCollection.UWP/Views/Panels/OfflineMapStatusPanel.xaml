@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels.OfflineMapStatusPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource PopupBorder}">
+        <Grid ColumnSpacing="{StaticResource MediumColumnSpacing}" RowSpacing="{StaticResource LargeRowSpacing}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       FontSize="18"
+                       Style="{StaticResource PopupProminentText}"
+                       Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Style="{StaticResource PopupProminentText}"
+                       Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_LastSync_FieldLabel}"
+                       Visibility="{x:Bind MainViewModel.SyncDate, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Grid.Row="2"
+                       Grid.Column="1"
+                       Style="{StaticResource PopupText}"
+                       Text="{x:Bind MainViewModel.SyncDate, Mode=OneWay, Converter={StaticResource DateTimeStringFormatConverter}, ConverterParameter='g'}"
+                       Visibility="{x:Bind MainViewModel.SyncDate, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Style="{StaticResource PopupText}"
+                       Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Snippet, Mode=OneWay}" />
+            <!--  Synchronize button and text  -->
+            <Button Grid.Row="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch"
+                    Command="{x:Bind MainViewModel.SyncMapCommand, Mode=OneWay}"
+                    Style="{StaticResource ButtonBaseStyle}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_SyncButton_Text}"
+                    Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconStyle}" />
+                    <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_SyncButton_Text}" />
+                </StackPanel>
+            </Button>
+
+            <!--  Delete offline map button and text  -->
+            <Button Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch"
+                    Command="{x:Bind MainViewModel.DeleteOfflineMapCommand, Mode=OneWay}"
+                    Style="{StaticResource ButtonBaseStyle}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_DeleteButton_Text}"
+                    Visibility="{x:Bind MainViewModel.OfflineMap, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <!--<Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconStyle}" />-->
+                    <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/trash-32.png" />
+                    <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_DeleteButton_Text}" />
+                </StackPanel>
+            </Button>
+            <!--  Work online button and text  -->
+            <Button Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch"
+                    Command="{x:Bind MainViewModel.WorkOnlineCommand}"
+                    CommandParameter="{Binding MapViewModel.AreaOfInterest}"
+                    Style="{StaticResource ButtonBaseStyle}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_WorkOnlineButton_Text}"
+                    Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <!--<Path Data="{StaticResource icon-arcgis-online-16}" Style="{StaticResource PathIconStyle}" />-->
+                    <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/arcgis-online-32.png" />
+                    <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=OfflineMapPanel_WorkOnlineButton_Text}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>

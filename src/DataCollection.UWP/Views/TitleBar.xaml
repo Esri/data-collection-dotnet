@@ -1,0 +1,179 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.TitleBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:panels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels">
+    <Grid>
+        <Grid Background="{ThemeResource ChromeBackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition x:Name="SystemButtonColumn" Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid x:Name="AppTitleBar"
+                  Grid.ColumnSpan="8"
+                  HorizontalAlignment="Stretch"
+                  Background="Transparent" />
+            <StackPanel x:Name="LeftPanel"
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+                <Image Margin="{StaticResource LeftLargeThickness}"
+                       Source="../Assets/TitleBarIcon.png" Width="20" Height="20"
+                       Style="{StaticResource TitleBarImageStyle}" />
+                <TextBlock Style="{StaticResource TitleBarTitleStyle}">
+                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
+                    <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Suffix_UWP}" />
+                </TextBlock>
+            </StackPanel>
+            <Grid x:Name="CenterPanel">
+                <Button HorizontalAlignment="Center"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}"
+                        Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Path Data="{StaticResource icon-arcgis-online-16}"
+                              Fill="{ThemeResource SuccessBrush}"
+                              Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Foreground="{ThemeResource TintBrush}"
+                                    Style="{StaticResource PathIconWorkaroundStyle}"
+                                    UriSource="Assets/Calcite/arcgis-online-32.png" />
+                        <TextBlock Foreground="{ThemeResource SuccessBrush}" Style="{StaticResource TextBlockBaseStyle}">
+                            <Run FontWeight="SemiBold" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart}" />
+                            <Run Text=" - " />
+                            <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
+                        <Path Fill="{ThemeResource SuccessBrush}" Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <Flyout x:Name="OnlineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                            <panels:OnlineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button HorizontalAlignment="Center"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip}"
+                        Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconStyle}" />-->
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/offline-32.png" />
+                        <TextBlock Margin="{StaticResource LeftLargeThickness}" Style="{StaticResource TextBlockBaseStyle}">
+                            <Run FontWeight="SemiBold" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart}" />
+                            <Run Text=" - " />
+                            <Run Text="{x:Bind MainViewModel.MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <Flyout x:Name="OfflineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                            <panels:OfflineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+            <StackPanel x:Name="RightPanel"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button Command="{x:Bind MainViewModel.AuthViewModel.SignInCommand, Mode=OneWay}"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}"
+                        Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource PathIconStyle}" />
+                        <TextBlock Margin="{StaticResource LeftLargeThickness}"
+                                   VerticalAlignment="Center"
+                                   Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}" />
+                    </StackPanel>
+                </Button>
+                <Button HorizontalAlignment="Center"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_UserButton_Tooltip}"
+                        Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="{StaticResource IconLargeLength}"
+                                 Height="{StaticResource IconLargeLength}"
+                                 Margin="{StaticResource RightMediumThickness}"
+                                 Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
+                            <Ellipse.Fill>
+                                <ImageBrush>
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.ThumbnailUri, Mode=OneWay}" />
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <Flyout x:Name="UserPanelFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                            <panels:SignedInUserPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <TextBlock Width="48"
+                           HorizontalAlignment="Center"
+                           Opacity="0.8"
+                           Style="{StaticResource TitleBarTitleStyle}"
+                           Text="|"
+                           TextAlignment="Center" />
+            </StackPanel>
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SizeGroup">
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="900" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LeftPanel.Visibility" Value="Visible" />
+                        <Setter Target="LeftPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="LeftPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="CenterPanel.(Grid.Column)" Value="1" />
+                        <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="RightPanel.(Grid.Column)" Value="2" />
+                        <Setter Target="RightPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Intermediate">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="CenterPanel.HorizontalAlignment" Value="Left" />
+                        <Setter Target="RightPanel.(Grid.Column)" Value="2" />
+                        <Setter Target="RightPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="3" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Smallest">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
+                        <Setter Target="CenterPanel.(Grid.Row)" Value="1" />
+                        <Setter Target="RightPanel.(Grid.Column)" Value="3" />
+                        <Setter Target="RightPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="5" />
+                        <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="CenterPanel.HorizontalAlignment" Value="Center" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

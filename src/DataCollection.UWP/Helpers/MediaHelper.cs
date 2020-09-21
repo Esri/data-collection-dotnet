@@ -15,11 +15,11 @@
 ******************************************************************************/
 
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities;
-using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views;
 using System;
 using System.Threading.Tasks;
 using Windows.Media.Capture;
 using Windows.Storage;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Dialogs;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Helpers
 {

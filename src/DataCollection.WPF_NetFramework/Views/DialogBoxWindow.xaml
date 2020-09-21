@@ -1,0 +1,80 @@
+﻿<Window x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.DialogBoxWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        MaxWidth="600"
+        Background="{StaticResource ContentBackgroundBrush}"
+        BorderBrush="{StaticResource TintBrush}"
+        BorderThickness="{StaticResource ChromeBorderThickness}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Padding="{StaticResource UniformLargeThickness}"
+                       Background="{StaticResource ChromeBackgroundBrush}"
+                       FontSize="{StaticResource LargeFontSize}"
+                       Foreground="{StaticResource ChromeForegroundBrush}"
+                       Text="{Binding MessageTitle}"
+                       TextWrapping="Wrap"
+                       Visibility="{Binding MessageTitle, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Margin="{StaticResource UniformLargeThickness}"
+                       Style="{StaticResource FieldLabelStyle}"
+                       Text="{Binding Message}"
+                       TextWrapping="Wrap" />
+
+            <!--  Buttons for dialog box  -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <CheckBox x:Name="StackTraceVisibilitySwitch"
+                          Margin="{StaticResource UniformMediumThickness}"
+                          Content="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=Show_Stacktrace}"
+                          IsChecked="False"
+                          Style="{StaticResource TocCheckboxStyle}"
+                          Visibility="{Binding StackTrace, Converter={StaticResource NullToVisibilityConverter}}" />
+                <Button Grid.Column="2"
+                        BorderBrush="{DynamicResource DangerBrush}"
+                        Command="{Binding DismissDialogBoxCommand}"
+                        CommandParameter="true"
+                        Content="{Binding AffirmativeActionButtonContent}"
+                        Foreground="{DynamicResource DangerBrush}"
+                        Style="{StaticResource MapOverlayButtonStyle}" />
+                <Button Grid.Column="3"
+                        BorderBrush="{DynamicResource SuccessBrush}"
+                        Command="{Binding DismissDialogBoxCommand}"
+                        CommandParameter="false"
+                        Content="{Binding NegativeActionButtonContent}"
+                        Foreground="{DynamicResource SuccessBrush}"
+                        Style="{StaticResource MapOverlayButtonStyle}"
+                        Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+            </Grid>
+            <!--  Stacktrace box  -->
+            <Grid MaxHeight="300"
+                  Margin="{StaticResource UniformMediumThickness}"
+                  Background="{StaticResource ContentBackgroundBrush}"
+                  Visibility="{Binding IsChecked, ElementName=StackTraceVisibilitySwitch, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Separator Grid.Row="0" Background="{StaticResource TintBrush}" />
+                <ScrollViewer Grid.Row="1"
+                              Margin="{StaticResource UniformMediumThickness}"
+                              VerticalScrollBarVisibility="Auto">
+                    <TextBlock Padding="{StaticResource UniformLargeThickness}"
+                               FontFamily="Consolas"
+                               Foreground="{StaticResource ContentForegroundBrush}"
+                               Text="{Binding StackTrace}"
+                               TextWrapping="Wrap" />
+                </ScrollViewer>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

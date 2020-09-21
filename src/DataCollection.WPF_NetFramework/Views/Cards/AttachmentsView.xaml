@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards.AttachmentsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:BytesToHumanReadableSizeConverter x:Key="BytesToHumanReadableSizeConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ProgressBar Grid.Row="0"
+                     Grid.Column="0"
+                     Height="{StaticResource IconSmallLength}"
+                     IsIndeterminate="True"
+                     Visibility="{Binding AttachmentsViewModel.IsLoadingAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <!--  Wrap panel containing attachment thumbnails and names  -->
+        <ListView Grid.Row="1"
+                  Padding="{StaticResource UniformLargeThickness}"
+                  BorderBrush="Transparent"
+                  BorderThickness="0"
+                  ItemContainerStyle="{StaticResource UnstyledListViewItemStyle}"
+                  ItemsSource="{Binding AttachmentsViewModel.Attachments}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="{StaticResource TopBottomMediumThickness}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Grid.Column="0"
+                               Width="{StaticResource ThumbnailLength}"
+                               Height="{StaticResource ThumbnailLength}"
+                               Margin="{StaticResource RightMediumThickness}"
+                               Source="{Binding Thumbnail}" />
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   Margin="0"
+                                   Style="{StaticResource FieldLabelStyle}"
+                                   Text="{Binding Attachment.Name}"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   Style="{StaticResource FieldValueReadonlyStyle}"
+                                   Text="{Binding Attachment.Size, Converter={StaticResource BytesToHumanReadableSizeConverter}}" />
+                        <Button Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                Margin="{StaticResource SidesMediumThickness}"
+                                Command="{Binding DataContext.AttachmentsViewModel.DeleteAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding Attachment}"
+                                Style="{StaticResource FieldAccessoryButtonStyle}"
+                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteAttachment_Tooltip}"
+                                Visibility="{Binding DataContext.EditViewModel, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}">
+                            <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource CardButtonIconStyle}" />
+                        </Button>
+                        <Button Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="3"
+                                Command="{Binding DataContext.AttachmentsViewModel.OpenAttachmentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding Attachment}"
+                                Style="{StaticResource FieldAccessoryButtonStyle}"
+                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=OpenAttachment_Tooltip}">
+                            <Path Data="{StaticResource icon-launch-16}" Style="{StaticResource CardButtonIconStyle}" />
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <TextBlock Grid.Row="0"
+                   Grid.RowSpan="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource FieldLabelStyle}"
+                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=NoAttachmentsFound_Message}"
+                   Visibility="{Binding AttachmentsViewModel.HasAttachments, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}" />
+    </Grid>
+</UserControl>
