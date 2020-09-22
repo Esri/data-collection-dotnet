@@ -6,7 +6,8 @@
     * Adds a `ModernMapPanel` custom layout panel to facilitate consistent, responsive design for UWP and WPF.
     * Refactors styles and related XAML.
     * Switches to vector icons where possible.
-* Moves the .NET Core WPF project to a separate folder to prevent possible build issues
+* Moves the .NET Core WPF project to a separate folder to prevent possible build issues.
+* Updates the code called at sign out to revoke credentials in addition to deleting them locally, when possible.
 
 ## 1.2.3
 

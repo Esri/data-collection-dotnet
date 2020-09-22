@@ -110,15 +110,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _signOutCommand ?? (_signOutCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
                         // Close any popups
                         BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
 
-                        // clear credentials
-                        foreach (var credential in AuthenticationManager.Current.Credentials)
+                        try 
+                        { 
+                            // Revoke and remove all credentials
+                            await AuthenticationManager.Current.RemoveAndRevokeAllCredentialsAsync();
+                        }
+                        catch (Exception)
                         {
-                            AuthenticationManager.Current.RemoveCredential(credential);
+                            // If revocation fails (e.g. because of network issues), just delete the credentials
+                            AuthenticationManager.Current.RemoveAllCredentials();
                         }
 
                         // clear authenticated user property
