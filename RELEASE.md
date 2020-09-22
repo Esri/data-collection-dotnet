@@ -7,7 +7,7 @@
     * Refactors styles and related XAML.
     * Switches to vector icons where possible.
 * Moves the .NET Core WPF project to a separate folder to prevent possible build issues.
-* Updates the code called at sign out to revoke credentials in addition to deleting them locally, when possible.
+* Updates the code called at sign out to revoke credentials from the server, when possible, and delete them locally.
 
 ## 1.2.3
 
