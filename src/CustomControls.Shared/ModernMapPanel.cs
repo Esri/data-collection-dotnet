@@ -255,9 +255,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
             // 3. Place context overlay
             canvas?.Measure(new Size(availableSize.Width, availableSize.Height - titleBarBottomY));
             // 4. Place card appendage
+            var cardTopY = titleBarBottomY;
             if (appendage != null && NavigationTitles.Any())
             {
                 appendage.Measure(availableSize);
+                cardTopY += appendage.DesiredSize.Height;
             }
             // 5. Place top card
             if (TopCard != null)
@@ -266,7 +268,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                 {
                     if (TopCard is CardBase cb && cb.CardState == CardState.Maximized)
                     {
-                        TopCard.Measure(new Size(availableSize.Width, availableSize.Height - titleBarBottomY));
+                        TopCard.Measure(new Size(availableSize.Width, availableSize.Height - cardTopY));
                     }
                     else
                     {
@@ -275,7 +277,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls
                 }
                 else
                 {
-                    TopCard.Measure(new Size(ExpandedCardWidth, availableSize.Height - titleBarBottomY));
+                    TopCard.Measure(new Size(ExpandedCardWidth, availableSize.Height - cardTopY));
                 }
             }
             // 6. Place attribution
