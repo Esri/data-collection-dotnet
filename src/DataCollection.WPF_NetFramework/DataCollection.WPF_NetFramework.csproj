@@ -71,8 +71,6 @@
     </ApplicationDefinition>
     <Compile Include="Binding Support\SourceController.cs" />
     <Compile Include="Binding Support\WebBrowserExtensions.cs" />
-    <Compile Include="Converters\NumberToNumberCountConverter.cs" />
-    <Compile Include="Converters\PlusOneConverter.cs" />
     <Compile Include="Converters\BoolToCursorConverter.cs" />
     <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
