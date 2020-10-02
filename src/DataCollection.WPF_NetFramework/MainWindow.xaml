@@ -188,23 +188,29 @@
                           ctrl:ModernMapPanel.Role="CardAppendage"
                           ParentPanel="{Binding ElementName=ParentPanel}" />
 
+            <cc:IdentifyResultCard Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                                   ctrl:ModernMapPanel.Role="Card"
+                                   ctrl:ModernMapPanel.Title="{Binding IdentifyResultViewModel.ResultCount, Converter={StaticResource NumberToResultCountConverter}, ConverterParameter=ResultsPlural}"
+                                   IsOpen="{Binding IdentifyResultViewModel.IdentifiedFeatures, Converter={StaticResource EmptyCollectionToBoolConverter}, ConverterParameter=NoSingleton}"
+                                   ViewModel="{Binding IdentifyResultViewModel}" />
+
             <cc:IdentifiedFeaturePopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                                        ctrl:ModernMapPanel.Role="Card"
-                                       ctrl:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.PopupManager.Title}"
+                                       ctrl:ModernMapPanel.Title="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.PopupManager.Title}"
                                        DataContext="{StaticResource MainViewModel}"
-                                       IsOpen="{Binding IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}}" />
+                                       IsOpen="{Binding IdentifyResultViewModel.CurrentlySelectedFeature, Converter={StaticResource NullToBoolConverter}}" />
 
             <cc:OriginRelatedRecordPopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                                          ctrl:ModernMapPanel.Role="Card"
-                                         ctrl:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                                         ctrl:ModernMapPanel.Title="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
                                          DataContext="{StaticResource MainViewModel}"
-                                         IsOpen="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}" />
+                                         IsOpen="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}" />
 
             <cc:DestinationRelatedRecordPopup Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                                               ctrl:ModernMapPanel.Role="Card"
-                                              ctrl:ModernMapPanel.Title="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title}"
+                                              ctrl:ModernMapPanel.Title="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.PopupManager.Title}"
                                               DataContext="{StaticResource MainViewModel}"
-                                              IsOpen="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}" />
+                                              IsOpen="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}" />
             <cc:TocCard Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                         ctrl:ModernMapPanel.Role="Card"
                         ctrl:ModernMapPanel.Title="{Binding Source={x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=TOC_PanelHeader}"

@@ -154,20 +154,23 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
-        /// Perform feature selection 
+        /// Perform feature selection, clearing all other selections if <paramref name="clearAll"/> is true.
         /// </summary>
-        internal void SelectFeature(Feature feature)
+        internal void SelectFeature(Feature feature, bool clearAll = true)
         {
             if (feature?.FeatureTable?.Layer is FeatureLayer featureLayer)
             {
-                // Clear all selected features in all map feature layers
-                foreach (var layer in this.Map.OperationalLayers.OfType<FeatureLayer>())
+                if (clearAll)
                 {
-                    try
+                    // Clear all selected features in all map feature layers
+                    foreach (var layer in Map.OperationalLayers.OfType<FeatureLayer>())
                     {
-                        layer.ClearSelection();
+                        try
+                        {
+                            layer.ClearSelection();
+                        }
+                        catch { }
                     }
-                    catch { }
                 }
 
                 // Select feature

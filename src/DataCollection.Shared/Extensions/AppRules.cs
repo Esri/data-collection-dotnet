@@ -32,8 +32,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions
         {
             if (layer is FeatureLayer featureLayer)
             {
-                if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null &&
-                    featureLayer.FeatureTable.GeometryType == Geometry.GeometryType.Point)
+                if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null)
                 {
                     return true;
                 }

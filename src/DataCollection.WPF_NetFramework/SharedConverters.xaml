@@ -5,10 +5,13 @@
                     xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters">
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+    <converters:EmptyCollectionToBoolConverter x:Key="EmptyCollectionToBoolConverter" />
     <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
     <converters:LocalizationConverter x:Key="LocalizationConverter" />
     <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <converters:NumberToResultCountConverter x:Key="NumberToResultCountConverter" />
+    <converters:PlusOneConverter x:Key="PlusOneConverter" />
     <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
     <localconverters:BoolToCursorConverter x:Key="BoolToCursorConverter" />
     <localconverters:ConvertValueToCodedValueDomainValue x:Key="ConvertValueToCodedValueDomainValue" />

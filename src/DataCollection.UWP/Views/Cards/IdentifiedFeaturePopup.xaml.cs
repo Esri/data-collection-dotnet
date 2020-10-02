@@ -49,7 +49,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
         {
             try
             {
-                MainViewModel.IdentifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync();
+                MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.RecordMediaAsync();
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
         {
             try
             {
-                MainViewModel.IdentifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();
+                MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.AttachmentsViewModel.NewAttachmentFile = await MediaHelper.GetFileFromUser();
             }
             catch (Exception ex)
             {

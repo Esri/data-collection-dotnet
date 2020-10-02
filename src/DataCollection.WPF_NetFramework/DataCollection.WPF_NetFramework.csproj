@@ -71,6 +71,8 @@
     </ApplicationDefinition>
     <Compile Include="Binding Support\SourceController.cs" />
     <Compile Include="Binding Support\WebBrowserExtensions.cs" />
+    <Compile Include="Converters\NumberToNumberCountConverter.cs" />
+    <Compile Include="Converters\PlusOneConverter.cs" />
     <Compile Include="Converters\BoolToCursorConverter.cs" />
     <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
@@ -89,6 +91,9 @@
     </Compile>
     <Compile Include="Views\NavBar.xaml.cs">
       <DependentUpon>NavBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\IdentifyResultCard.xaml.cs">
+      <DependentUpon>IdentifyResultCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TitleBar.xaml.cs">
       <DependentUpon>TitleBar.xaml</DependentUpon>
@@ -193,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\IdentifyResultCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

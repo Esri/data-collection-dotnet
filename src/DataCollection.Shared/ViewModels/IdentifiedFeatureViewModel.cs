@@ -451,10 +451,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     async (x) =>
                     {
                         await DiscardChanges();
-                            // TODO - verify behavior when canceling edits on new feature
                         if (IsNewFeature)
                         {
-                            OwningViewModel.IdentifiedFeatureViewModel = null;
+                            OwningViewModel.IdentifyResultViewModel.ClearResultsCommand.Execute(null);
                             
                             // Clear circular reference to VM
                             OwningViewModel = null;

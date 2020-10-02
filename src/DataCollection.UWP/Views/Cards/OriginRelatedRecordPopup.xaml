@@ -19,9 +19,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <local:CardBar Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
-                       CloseCommand="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
-                       ImageSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
+        <local:CardBar Title="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                       CloseCommand="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.ClearRelationshipsCommand, Mode=OneWay}"
+                       ImageSource="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
                        OwningCard="{x:Bind}" />
         <Pivot x:Name="OriginRelatedRecordPivot"
                Grid.Row="1"
@@ -31,17 +31,17 @@
                     <StackPanel Orientation="Vertical">
                         <!--  Origin related record in View mode  -->
                         <ItemsControl ItemTemplate="{StaticResource CardSimpleFieldViewer}"
-                                      ItemsSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
+                                      ItemsSource="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                      Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                                      Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
                         <!--  Origin related record in Edit mode  -->
-                        <cards:FeatureEditorView DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}" Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <cards:FeatureEditorView DataContext="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship, Mode=OneWay}" Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentsHeading}">
                 <!--  Attachments view  -->
-                <cards:AttachmentsView DataContext="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}" />
+                <cards:AttachmentsView DataContext="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship, Mode=OneWay}" />
             </PivotItem>
         </Pivot>
 
@@ -57,7 +57,7 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="1"
                     Click="CaptureMediaButton_Click"
-                    Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
+                    Command="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
                     Style="{StaticResource CardStripButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TakePhoto_Tooltip}"
                     Visibility="{Binding ElementName=OriginRelatedRecordPivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter}, ConverterParameter=1, Mode=OneWay}">
@@ -66,7 +66,7 @@
             </Button>
             <Button Grid.Column="0"
                     Click="BrowseFilesButton_Click"
-                    Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
+                    Command="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
                     Style="{StaticResource CardStripButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=BrowseAttach_Tooltip}"
                     Visibility="{Binding ElementName=OriginRelatedRecordPivot, Path=SelectedIndex, Converter={StaticResource SelectedPivotIndexToVisibilityConverter}, ConverterParameter=1, Mode=OneWay}">
@@ -75,36 +75,36 @@
             </Button>
             <!--  Buttons to edit and delete record  -->
             <Button Grid.Column="3"
-                    Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
+                    Command="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditRelatedRecordCommand, Mode=OneWay}"
                     Style="{StaticResource CardStripButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=EditRecord_Tooltip}"
-                    Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                 <!--<Path Data="{StaticResource icon-pencil-16}" Style="{StaticResource PathIconStyle}" />-->
                 <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/pencil-32.png" />
             </Button>
             <Button Grid.Column="5"
                     Command="{x:Bind MainViewModel.DeleteFeatureCommand, Mode=OneWay}"
-                    CommandParameter="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Mode=OneWay}"
+                    CommandParameter="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship, Mode=OneWay}"
                     Style="{StaticResource CardStripButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DeleteRecord_Tooltip}"
-                    Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                 <!--<Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconStyle}" />-->
                 <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/trash-32.png" />
             </Button>
             <!--  Buttons to save and discard changes to record  -->
             <Button Grid.Column="3"
-                    Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}"
+                    Command="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.SaveEditsCommand, Mode=OneWay}"
                     Style="{StaticResource CardStripButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=SaveEdits_Tooltip}"
-                    Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                    Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                 <!--<Path Data="{StaticResource icon-save-16}" Style="{StaticResource PathIconStyle}" />-->
                 <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/save-32.png" />
             </Button>
             <Button Grid.Column="4"
-                    Command="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.CancelEditsCommand, Mode=OneWay}"
+                    Command="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.CancelEditsCommand, Mode=OneWay}"
                     Style="{StaticResource CardStripButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=CancelEdits_Tooltip}"
-                    Visibility="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                    Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                 <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconStyle}" />
             </Button>
         </Grid>

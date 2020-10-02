@@ -31,6 +31,7 @@
    - [Public map, social login](#public-map-social-login)   
 - [Using map definition & pop-up configurations to drive app behavior](#using-map-definition-pop-up-configurations-to-drive-app-behavior)   
    - [Map identify rules](#map-identify-rules)   
+   - [Multiple identify results](#multiple-identify-results)
    - [Add feature rules](#add-feature-rules)   
    - [Pop-up view rules](#pop-up-view-rules)   
       - [View mode](#view-mode)   
@@ -285,6 +286,12 @@ Within the app, a pop-up view can be in display mode or edit mode and attributes
 
 These attributes' values are accompanied by a title label, which is configured by the attribute's field alias. It is recommended to configure the field alias with a label that is easily understood to represent what is contained by that field.
 
+**Pop-up subtitle and attribute expressions**
+
+Often, it is hard to distinguish features when there are multiple identify results for features with the same pop-up definition. You can define an Arcade expression that extracts relevant information into a short subtitle or summary. You can define the pop-ups subtitle by storing that Arcade expression in the pop-up's `Attribute Expressions` collection with the title `Subtitle expression`. By convention, the app knows to check pop-ups for that attribute expression and display it where appropriate.
+
+> **Note**: By default, the web map viewer will add new attribute expressions to the pop-ups display fields. You can manually configure the pop-up to exclude the subtitle expression from the displayed attributes.
+
 ## Identity model
 
 The app leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured web maps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
@@ -361,7 +368,7 @@ The app operates on a set of rules driven by map definitions and pop-up configur
 
 ### Map identify rules
 
-A tap gesture or click on the map view performs an identify function where only results for layers that adhere to certain rules are considered. These rules ask that the layer is visible, is of point type geometry and pop-ups are enabled.
+A tap gesture or click on the map view performs an identify function where only results for layers that adhere to certain rules are considered. These rules ask that the layer is visible and has pop-ups enabled.
 
 These rules are wrapped conveniently as extensions into a static class named `AppRules`.
 
@@ -370,8 +377,7 @@ These rules are wrapped conveniently as extensions into a static class named `Ap
 {
     if (layer is FeatureLayer featureLayer)
     {
-        if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null &&
-            featureLayer.FeatureTable.GeometryType == Geometry.GeometryType.Point)
+        if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null)
         {
             return true;
         }
@@ -379,6 +385,16 @@ These rules are wrapped conveniently as extensions into a static class named `Ap
     return false;
 }
 ```
+
+### Multiple identify results
+
+When the user clicks or taps on the map, all of the map's layers and all of the map view's graphics overlays are queried. The results, if there are more than one, are shown in a list. The list shows each result's graphical representation (if applicable), popup title, and subtitle.
+
+> **Note**: Subtitles are not a standard part of the ArcGIS platform and require special attention to set up.
+
+The subtitle is computed via an Arcade expression defined in the pop-up configuration's *Attribute Expressions* collection. To be displayable in the app, the attribute expression must have the alias or title set to `Subtitle expression`.
+
+> **Note**: The `Subtitle expression` is found by an exact string match. Do not change the title when localizing the web map or for any other reason.
 
 ### Add feature rules
 

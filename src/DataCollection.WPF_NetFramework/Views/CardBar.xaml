@@ -9,10 +9,13 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
-                   Width="10"
-                   Height="10"
+                   Width="8"
+                   Height="8"
                    Margin="{StaticResource LeftLargeThickness}"
                    Source="{Binding ImageSource, ElementName=Self}"
                    Style="{StaticResource TitleBarIconImageStyle}"
@@ -39,6 +42,27 @@
                 <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}" />
             </Button>
             <Button Grid.Column="3"
+                    Command="{Binding PreviousCommand, Mode=OneWay, ElementName=Self}"
+                    Style="{StaticResource CardCloseButtonStyle}"
+                    Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Path Data="{StaticResource icon-chevron-left-16}" Style="{StaticResource PathIconBase}" />
+            </Button>
+            <TextBlock Grid.Column="4"
+                       Margin="8"
+                       Style="{StaticResource CardTitleStyle}"
+                       TextAlignment="Center"
+                       Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Run Text="{Binding ElementName=Self, Path=CurrentResultIndex, Converter={StaticResource PlusOneConverter}}" />
+                <Run Text="{Binding Path=., Converter={StaticResource LocalizationConverter}, ConverterParameter=Of_ResultSeparator, Mode=OneTime}" />
+                <Run Text="{Binding ElementName=Self, Path=ResultCount}" />
+            </TextBlock>
+            <Button Grid.Column="5"
+                    Command="{Binding ElementName=Self, Path=NextCommand, Mode=OneWay}"
+                    Style="{StaticResource CardCloseButtonStyle}"
+                    Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconBase}" />
+            </Button>
+            <Button Grid.Column="6"
                     Command="{Binding CloseCommand, Mode=OneWay, ElementName=Self}"
                     Style="{StaticResource CardCloseButtonStyle}">
                 <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />

@@ -188,20 +188,26 @@
                       ctrl:ModernMapPanel.Role="CardAppendage"
                       ParentPanel="{x:Bind MapLayoutPanel}" />
 
+        <cards:IdentifyResultCard Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
+                                  ctrl:ModernMapPanel.Role="Card"
+                                  ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifyResultViewModel.ResultCount, Converter={StaticResource NumberToResultCountConverter}, ConverterParameter=ResultsPlural, Mode=OneWay}"
+                                  IsOpen="{x:Bind MainViewModel.IdentifyResultViewModel.IdentifiedFeatures, Converter={StaticResource EmptyCollectionToBoolConverter}, Mode=OneWay, ConverterParameter=NoSingleton}"
+                                  MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+
         <cards:IdentifiedFeaturePopup Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
                                       ctrl:ModernMapPanel.Role="Card"
-                                      ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.PopupManager.Title, Mode=OneWay}"
-                                      IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel, Converter={StaticResource NullToBoolConverter}, Mode=OneWay, FallbackValue=False}"
+                                      ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.PopupManager.Title, Mode=OneWay}"
+                                      IsOpen="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature, Converter={StaticResource NullToBoolConverter}, Mode=OneWay, FallbackValue=False}"
                                       MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
         <cards:OriginRelatedRecordPopup Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
                                         ctrl:ModernMapPanel.Role="Card"
-                                        ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
-                                        IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False, Mode=OneWay}"
+                                        ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.PopupManager.Title, Mode=OneWay}"
+                                        IsOpen="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False, Mode=OneWay}"
                                         MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
         <cards:DestinationRelatedRecordPopup Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
                                              ctrl:ModernMapPanel.Role="Card"
-                                             ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
-                                             IsOpen="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}"
+                                             ctrl:ModernMapPanel.Title="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
+                                             IsOpen="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship, Mode=OneWay, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}"
                                              MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
         <cards:TocCard Margin="{x:Bind MapLayoutPanel.IsCollapsed, Mode=OneWay, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0|8,8,0,8'}"
                        ctrl:ModernMapPanel.Role="Card"
