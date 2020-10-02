@@ -33,7 +33,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-
             return $"{value} {Resources.GetString(parameter.ToString())}";
         }
 

@@ -388,13 +388,13 @@ These rules are wrapped conveniently as extensions into a static class named `Ap
 
 ### Multiple identify results
 
-When the user clicks or taps on the map, all of the map's layers and all of the map view's graphics overlays are queried. The results, if there are more than one, are shown in a list. The list shows each result's graphical representation (if applicable), popup title, and subtitle.
+When the user clicks or taps on the map, all of the map's layers and all of the map view's graphics overlays are queried. The results are displayed in a list showing each result's graphical representation, popup title, and configured subtitle.
 
-> **Note**: Subtitles are not a standard part of the ArcGIS platform and require special attention to set up.
+> **Note**, subtitles are not a standard part of the ArcGIS platform and require special attention to set up.
 
 The subtitle is computed via an Arcade expression defined in the pop-up configuration's *Attribute Expressions* collection. To be displayable in the app, the attribute expression must have the alias or title set to `Subtitle expression`.
 
-> **Note**: The `Subtitle expression` is found by an exact string match. Do not change the title when localizing the web map or for any other reason.
+> **Note**, the `Subtitle expression` is found by an exact string match. Do not change the title when localizing the web map or for any other reason.
 
 ### Add feature rules
 

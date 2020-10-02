@@ -331,7 +331,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private string _subtitle = "...";
+        private string _subtitle = "";
 
         /// <summary>
         /// Gets the subtitle to show to differentiate features when there are multiple identify results.
