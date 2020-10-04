@@ -311,7 +311,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
-        /// Uses the Arcade Expression defined in the associated layer's expressions with the title "Subtitle expression" to
+        /// Uses the Arcade Expression defined in the associated layer's expressions with the title defined by the PopupExpressionForSubtitle setting to
         /// set the <see cref="Subtitle"/>.
         /// </summary>
         public async Task ComputeSubtitle()
@@ -322,7 +322,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 var listOfEvaluationResults = await PopupManager.EvaluateExpressionsAsync();
 
                 // Find the matching subtitle expression, if defined.
-                var resultFromCustomExpression = listOfEvaluationResults.FirstOrDefault(res => res.PopupExpression.Title == "Subtitle expression");
+                var resultFromCustomExpression = listOfEvaluationResults.FirstOrDefault(res => res.PopupExpression.Title == Settings.Default.PopupExpressionForSubtitle);
                 Subtitle = resultFromCustomExpression?.Result?.ToString();
             }
             catch

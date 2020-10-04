@@ -6,6 +6,8 @@
   <DefaultZoomScale>5000</DefaultZoomScale>
   <AppClientID>h3em0ifYNGfz3uHX</AppClientID>
   <RedirectURL>data-collection://auth</RedirectURL>
+  <PopupExpressionForSubtitle>Subtitle expression</PopupExpressionForSubtitle>
+  <MaxIdentifyResultsPerLayer>8</MaxIdentifyResultsPerLayer>
   
   <!-- The settings below are speficic to the Tree Survey dataset and workflow. Do not modify -->
   <TreeDatasetWebmapUrl>https://arcgisruntime.maps.arcgis.com/home/item.html?id=16f1b8ba37b44dc3884afc8d5f454dd2</TreeDatasetWebmapUrl>

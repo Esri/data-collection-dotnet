@@ -184,7 +184,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 // set identify parameters
                 var pixelTolerance = 10;
                 var returnPopupsOnly = false;
-                var maxResultCount = 8;
+                var maxResultCount = Settings.Default.MaxIdentifyResultsPerLayer;
 
                 IReadOnlyList<IdentifyLayerResult> layerResults = null;
                 IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults = null;

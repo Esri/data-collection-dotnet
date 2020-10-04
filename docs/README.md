@@ -30,7 +30,6 @@
 - [Identity model](#identity-model)   
    - [Public map, social login](#public-map-social-login)   
 - [Using map definition & pop-up configurations to drive app behavior](#using-map-definition-pop-up-configurations-to-drive-app-behavior)   
-   - [Map identify rules](#map-identify-rules)   
    - [Multiple identify results](#multiple-identify-results)
    - [Add feature rules](#add-feature-rules)   
    - [Pop-up view rules](#pop-up-view-rules)   
@@ -366,33 +365,13 @@ The app allows a user to authenticate against a portal as well as use social cre
 
 The app operates on a set of rules driven by map definitions and pop-up configurations. To learn how to configure your web map, see the section entitled [_Configure Web Map & Feature Services for Data Collection_](#configure-web-map-feature-services-for-data-collection).
 
-### Map identify rules
-
-A tap gesture or click on the map view performs an identify function where only results for layers that adhere to certain rules are considered. These rules ask that the layer is visible and has pop-ups enabled.
-
-These rules are wrapped conveniently as extensions into a static class named `AppRules`.
-
-```csharp
- public static bool IsIdentifiable(this Layer layer)
-{
-    if (layer is FeatureLayer featureLayer)
-    {
-        if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-```
-
 ### Multiple identify results
 
 When the user clicks or taps on the map, all of the map's layers and all of the map view's graphics overlays are queried. The results are displayed in a list showing each result's graphical representation, popup title, and configured subtitle.
 
 > **Note**, subtitles are not a standard part of the ArcGIS platform and require special attention to set up.
 
-The subtitle is computed via an Arcade expression defined in the pop-up configuration's *Attribute Expressions* collection. To be displayable in the app, the attribute expression must have the alias or title set to `Subtitle expression`.
+The subtitle is computed via an [Arcade expression](https://developers.arcgis.com/arcade/) defined in the pop-up configuration's *Attribute Expressions* collection. The app will only display a subtitle if the attribute expression has the alias or title set to match the **PopupExpressionForSubtitle** key defined in the app's settings.
 
 > **Note**, the `Subtitle expression` is found by an exact string match. Do not change the title when localizing the web map or for any other reason.
 
@@ -933,6 +912,7 @@ The shared `Configuration.xml` contains a series of static configuration resourc
 * **DefaultZoomScale**: integer that sets how far the current location button will zoom in when pushed
 * **AppClientID**: Used for OAuth authentication
 * **RedirectURL**: Used for OAuth authentication
+* **PopupExpressionForSubtitle**: The title of the popup expression to be used to compute a subtitle for features. The feature subtitle helps differentiate features when there are multiple identify results.
 
 Settings used specifically and only with the *Tree Survey* dataset. These should not be modified.
 

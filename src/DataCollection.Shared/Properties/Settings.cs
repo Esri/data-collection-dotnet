@@ -200,6 +200,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         [XmlElement("CurrentOfflineSubdirectory")]
         public string CurrentOfflineSubdirectory { get; set; }
 
+        // The title of the popup expression to use as a subtitle when displaying multiple identify results
+        [XmlElement("PopupExpressionForSubtitle")]
+        public string PopupExpressionForSubtitle { get; set; }
+
+        [XmlElement("MaxIdentifyResultsPerLayer")]
+        public int MaxIdentifyResultsPerLayer { get; set; }
+
         /// <summary>
         /// Serializes Settings object and saves it to the settings file
         /// </summary>
