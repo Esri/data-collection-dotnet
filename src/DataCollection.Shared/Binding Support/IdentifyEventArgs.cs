@@ -25,20 +25,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentifyEventArgs"/> class.
         /// </summary>
-        internal IdentifyEventArgs(IReadOnlyList<IdentifyLayerResult> layerResults, IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults)
+        internal IdentifyEventArgs(IReadOnlyList<IdentifyLayerResult> layerResults)
         {
             LayerResults = layerResults ?? new List<IdentifyLayerResult>().AsReadOnly();
-            GraphicsOverlayResults = graphicsOverlayResults ?? new List<IdentifyGraphicsOverlayResult>().AsReadOnly();
         }
 
         /// <summary>
         /// Gets or sets the results for performing Identify on layers
         /// </summary>
         public IReadOnlyList<IdentifyLayerResult> LayerResults { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the results for performing Identify on graphis overlays
-        /// </summary>
-        public IReadOnlyList<IdentifyGraphicsOverlayResult> GraphicsOverlayResults { get; private set; }
     }
 }
