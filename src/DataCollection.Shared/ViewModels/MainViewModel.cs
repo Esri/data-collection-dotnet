@@ -158,7 +158,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             {
                 result = false;
             }
-            else if (clearAllIdentifyResults || IdentifyResultViewModel.IdentifiedFeatures.Count == 1)
+            else if (clearAllIdentifyResults || IdentifyResultViewModel.IdentifiedFeatures?.Count == 1)
             {
                 IdentifyResultViewModel.ClearResultsCommand.Execute(null);
             }
