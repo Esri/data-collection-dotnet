@@ -41,6 +41,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
                 //if value is null, visibility = visible (inverse)
                 return (value == null) ? Visibility.Visible : Visibility.Collapsed;
             }
+            else if (parameter != null && parameter.ToString() == "EmptyString")
+            {
+                return string.IsNullOrEmpty(value?.ToString()) ? Visibility.Collapsed : Visibility.Visible;
+            }
             else
             {
                 //if value is null, visibility is collapsed 

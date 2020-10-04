@@ -13,11 +13,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
-                   Width="10"
-                   Height="10"
+                   Width="22"
+                   Height="22"
                    Margin="{StaticResource UniformMediumThickness}"
                    Source="{x:Bind ImageSource, Mode=OneWay}"
-                   Style="{StaticResource TitleBarImageStyle}"
                    Visibility="{x:Bind Path=ImageSource, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
             <!--
                 This uses Binding instead of x:Bind (and DataContext is set to this above) because
@@ -54,6 +53,8 @@
             </Button>
             <TextBlock Grid.Column="4"
                        Margin="8"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource SmallFontSize}"
                        Style="{StaticResource BaseTextBlockStyle}"
                        TextAlignment="Center"
                        Visibility="{x:Bind ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">

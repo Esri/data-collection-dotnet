@@ -96,9 +96,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     return;
                 }
 
-                // Use different sizes depending on the geometry type to get best results.
-                var baseDimension = Feature?.Geometry.GeometryType == Geometry.GeometryType.Point ? 16 : 32;
-                var symbol = await PopupManager.Symbol.CreateSwatchAsync(baseDimension, baseDimension, 196, System.Drawing.Color.Transparent);
+                var symbol = await PopupManager.Symbol.CreateSwatchAsync(192);
                 var imageSource = await symbol.ToImageSourceAsync();
                 IconImageSource = imageSource;
             }

@@ -14,8 +14,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
-                   Width="8"
-                   Height="8"
+                   Width="22"
+                   Height="22"
                    Margin="{StaticResource LeftLargeThickness}"
                    Source="{Binding ImageSource, ElementName=Self}"
                    Style="{StaticResource TitleBarIconImageStyle}"
@@ -45,10 +45,11 @@
                     Command="{Binding PreviousCommand, Mode=OneWay, ElementName=Self}"
                     Style="{StaticResource CardCloseButtonStyle}"
                     Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Path Data="{StaticResource icon-chevron-left-16}" Style="{StaticResource PathIconBase}" />
+                <Path Data="{StaticResource icon-chevron-left-16}" Style="{StaticResource PathIconBase}" Margin="4,4,0,4" />
             </Button>
             <TextBlock Grid.Column="4"
-                       Margin="8"
+                       Margin="4"
+                       FontSize="{StaticResource SmallFontSize}"
                        Style="{StaticResource CardTitleStyle}"
                        TextAlignment="Center"
                        Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -60,7 +61,7 @@
                     Command="{Binding ElementName=Self, Path=NextCommand, Mode=OneWay}"
                     Style="{StaticResource CardCloseButtonStyle}"
                     Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconBase}" />
+                <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconBase}" Margin="0,4,4,4" />
             </Button>
             <Button Grid.Column="6"
                     Command="{Binding CloseCommand, Mode=OneWay, ElementName=Self}"
