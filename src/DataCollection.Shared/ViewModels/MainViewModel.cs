@@ -727,12 +727,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         foreach (var layer in MapViewModel.Map.OperationalLayers)
                         {
                             // check to see that layer is identifiable based on the app rules
-                            if (layer is FeatureLayer && layer.IsIdentifiable())
+                            if (layer is FeatureLayer featureLayer)
                             {
                                 try
                                 {
                                     // create new feature 
-                                    var feature = ((FeatureLayer)layer).FeatureTable.CreateFeature();
+                                    var feature = featureLayer.FeatureTable.CreateFeature();
 
                                     // set feature geometry as the pinpoint's position
                                     var frameworkElement = (FrameworkElement)pinpointElement;
@@ -840,13 +840,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             // get first identified layer from the collection that matches the app rules
             if (e.LayerResults.Count > 0)
             {
-                // get the results that meet the app rules
-                var identifyLayerResults = e.LayerResults.Where(l => (l.LayerContent as Layer).IsIdentifiable());
-
                 var identifiedFeatureVMs = new List<IdentifiedFeatureViewModel>();
 
                 // get the closest identified feature to the location user tapped
-                foreach (var identifyResult in identifyLayerResults.Where(m => m.Popups?.Any() ?? false))
+                foreach (var identifyResult in e.LayerResults.Where(m => m.Popups?.Any() ?? false))
                 {
                     // get feature
                     foreach (var feature in identifyResult.GeoElements.OfType<ArcGISFeature>())
