@@ -913,6 +913,7 @@ The shared `Configuration.xml` contains a series of static configuration resourc
 * **AppClientID**: Used for OAuth authentication
 * **RedirectURL**: Used for OAuth authentication
 * **PopupExpressionForSubtitle**: The title of the popup expression to be used to compute a subtitle for features. The feature subtitle helps differentiate features when there are multiple identify results.
+* **MaxIdentifyResultsPerLayer**: Sets the maximum number of results to return when performing an identify operation.
 
 Settings used specifically and only with the *Tree Survey* dataset. These should not be modified.
 
