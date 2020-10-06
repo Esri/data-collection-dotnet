@@ -209,6 +209,7 @@
     <Content Include="Assets\Calcite\launch-32.png" />
     <Content Include="Assets\Calcite\layers-32.png" />
     <Content Include="Assets\Calcite\legend-32.png" />
+    <Content Include="Assets\Calcite\list-32.png" />
     <Content Include="Assets\Calcite\offline-32.png" />
     <Content Include="Assets\Calcite\online-32.png" />
     <Content Include="Assets\Calcite\pencil-32.png" />
