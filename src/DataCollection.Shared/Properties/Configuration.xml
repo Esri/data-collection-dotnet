@@ -6,7 +6,7 @@
   <DefaultZoomScale>5000</DefaultZoomScale>
   <AppClientID>h3em0ifYNGfz3uHX</AppClientID>
   <RedirectURL>data-collection://auth</RedirectURL>
-  <PopupExpressionForSubtitle>Subtitle expression</PopupExpressionForSubtitle>
+  <PopupExpressionForSubtitle>subtitle</PopupExpressionForSubtitle>
   <MaxIdentifyResultsPerLayer>8</MaxIdentifyResultsPerLayer>
   
   <!-- The settings below are speficic to the Tree Survey dataset and workflow. Do not modify -->

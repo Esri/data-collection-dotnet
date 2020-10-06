@@ -9,7 +9,7 @@
 * Moves the .NET Core WPF project to a separate folder to prevent possible build issues.
 * Updates the code called at sign out to revoke credentials from the server, when possible, and delete them locally.
 * Adds support for identifying mulitple items on the map simultaneously and displaying them in a list.
-    * An arcade expression defined per layer is used to create subtitles that help you differentiate identified features.
+    * An Arcade expression defined per layer is used to create subtitles that help you differentiate identified features.
 
 ## 1.2.3
 

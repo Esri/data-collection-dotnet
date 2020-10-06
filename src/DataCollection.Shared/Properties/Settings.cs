@@ -88,6 +88,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                         {
                             _instance = DeserializeSettings(settingsFile);
                         }
+                        ApplyMigrations(_instance);
                     }
                 }
 
@@ -271,6 +272,28 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Applies migrations to the settings file. Call after deserializing but before using settings
+        /// </summary>
+        /// <remarks>
+        /// The settings file schema changes over time as new features and settings are added.
+        /// This step ensures that newer versions of the app work with older settings files.
+        /// </remarks>
+        /// <param name="_settingsInstance">Settings instance created by deserializing the settings file.</param>
+        private static void ApplyMigrations(Settings _settingsInstance)
+        {
+            if (_settingsInstance.MaxIdentifyResultsPerLayer < 1)
+            {
+                _settingsInstance.MaxIdentifyResultsPerLayer = 8;
+            }
+            
+            if (string.IsNullOrEmpty(_settingsInstance.PopupExpressionForSubtitle))
+            {
+                _settingsInstance.PopupExpressionForSubtitle = "subtitle";
+            }
+            SerializeSettings(_settingsInstance);
         }
     }
 }

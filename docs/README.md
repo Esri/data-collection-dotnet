@@ -287,7 +287,7 @@ These attributes' values are accompanied by a title label, which is configured b
 
 **Pop-up subtitle and attribute expressions**
 
-Often, it is hard to distinguish features when there are multiple identify results for features with the same pop-up definition. You can define an Arcade expression that extracts relevant information into a short subtitle or summary. You can define the pop-ups subtitle by storing that Arcade expression in the pop-up's `Attribute Expressions` collection with the title `Subtitle expression`. By convention, the app knows to check pop-ups for that attribute expression and display it where appropriate.
+Often, it is hard to distinguish features when there are multiple identify results for features with the same pop-up definition. You can define an [Arcade](https://developers.arcgis.com/arcade/) expression that extracts relevant information into a short subtitle or summary. You can define the pop-up's subtitle by storing that Arcade expression in the pop-up's `Attribute Expressions` collection with a title/alias matching the value defined by the `PopupExpressionForSubtitle` setting. By convention, the app knows to check pop-ups for that attribute expression and display it where appropriate.
 
 > **Note**: By default, the web map viewer will add new attribute expressions to the pop-ups display fields. You can manually configure the pop-up to exclude the subtitle expression from the displayed attributes.
 
@@ -373,7 +373,7 @@ When the user clicks or taps on the map, all of the map's layers and all of the 
 
 The subtitle is computed via an [Arcade expression](https://developers.arcgis.com/arcade/) defined in the pop-up configuration's *Attribute Expressions* collection. The app will only display a subtitle if the attribute expression has the alias or title set to match the **PopupExpressionForSubtitle** key defined in the app's settings.
 
-> **Note**, the `Subtitle expression` is found by an exact string match. Do not change the title when localizing the web map or for any other reason.
+> **Note**, the key is set to `subtitle` by default. That value is used for the tree survey sample web map.
 
 ### Add feature rules
 
