@@ -183,7 +183,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
 
                 // set identify parameters
                 var pixelTolerance = 10;
-                var returnPopupsOnly = false;
+                var returnPopupsOnly = true;
                 var maxResultCount = Settings.Default.MaxIdentifyResultsPerLayer;
 
                 IReadOnlyList<IdentifyLayerResult> layerResults = null;

@@ -846,11 +846,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 foreach (var identifyResult in e.LayerResults.Where(m => m.Popups?.Any() ?? false))
                 {
                     // get feature
-                    foreach (var feature in identifyResult.GeoElements.OfType<ArcGISFeature>())
+                    foreach (var popupFeature in identifyResult.Popups.Select(popup => popup.GeoElement).OfType<ArcGISFeature>())
                     {
-                        
                         // set the viewmodel for the feature
-                        var identifyVM = new IdentifiedFeatureViewModel(feature, ConnectivityMode, this);
+                        var identifyVM = new IdentifiedFeatureViewModel(popupFeature, ConnectivityMode, this);
                         identifiedFeatureVMs.Add(identifyVM);
                     }
                 }
