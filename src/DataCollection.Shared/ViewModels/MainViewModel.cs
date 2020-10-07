@@ -56,6 +56,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
 #elif NETFX_CORE
         private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#elif DOT_NET_CORE_TEST
+        private static string _localFolder = Environment.GetEnvironmentVariable("LocalAppData");
 #else
         // will throw if another platform is added without handling this 
         throw new NotImplementedException();
@@ -135,9 +137,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     MapViewModel.ClearSelection();
                     IdentifyResultViewModel.IdentifiedFeatures.ForEach(f => MapViewModel.SelectFeature(f.Feature, false));
                 }
+            }
+            else if (e.PropertyName == nameof(IdentifyResultViewModel.IdentifiedFeatures))
+            {
+                if (IdentifyResultViewModel.IdentifiedFeatures == null)
+                {
+                    MapViewModel.ClearSelection();
+                }
                 else
                 {
                     MapViewModel.ClearSelection();
+                    IdentifyResultViewModel.IdentifiedFeatures.ForEach(f => MapViewModel.SelectFeature(f.Feature, false));
                 }
             }
         }
@@ -736,14 +746,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
                                     // set feature geometry as the pinpoint's position
                                     var frameworkElement = (FrameworkElement)pinpointElement;
+                                    
+                                    MapPoint newFeatureGeometry = null;
 #if WPF
                                     var point = new Point(frameworkElement.Width / 2, frameworkElement.Height / 2);
-                                    var newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(frameworkElement.TranslatePoint(point, MapAccessoryViewModel.MapView));
-#else
+                                    newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(frameworkElement.TranslatePoint(point, MapAccessoryViewModel.MapView));
+#elif NETFX_CORE
                                     var transform = frameworkElement.TransformToVisual(MapAccessoryViewModel.MapView);
                                     // Get the actual center point. CenterPoint here defaults to top left
                                     var point = new Point(frameworkElement.CenterPoint.X + frameworkElement.Width / 2, frameworkElement.CenterPoint.Y + frameworkElement.Height / 2);
-                                    var newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(transform.TransformPoint(point));
+                                    newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(transform.TransformPoint(point));
+#else
+                                    throw new NotImplementedException();
 #endif
 
                                     // call method to perform custom workflow for the custom tree dataset

@@ -31,15 +31,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
 {
     // Singleton class to provide access to settings from Configuration.xml
     [Serializable()]
-    public class Settings
+    public class Settings : ISettings
     {
-        private static Settings _instance;
+        private static ISettings _instance;
 
         // set the path on disk for the settings file
 #if WPF
         private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
 #elif NETFX_CORE
         private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#elif DOT_NET_CORE_TEST
+        private static string _localFolder = Environment.GetEnvironmentVariable("LocalAppData");
 #else
         // will throw if another platform is added without handling this 
         throw new NotImplementedException();
@@ -54,20 +56,26 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         /// <summary>
         /// Default instance of the <see cref="Settings"/> class
         /// </summary>
-        public static Settings Default
+        public static ISettings Default
         {
             get
             {
+#if DOT_NET_CORE_TEST
+                _instance = new Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks.Settings();
+                return _instance;
+                }}
+#else
                 if (_instance == null)
                 {
                     // if settings file doesn't exist on disk, make a new one and save it
                     if (!File.Exists(_settingsPath))
                     {
                         // get settings file shipped with the app
+                        string streamPath;
 #if WPF
-                        var streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Properties.Configuration.xml";
+                        streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Properties.Configuration.xml";
 #elif NETFX_CORE
-                        var streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Properties.Configuration.xml";
+                        streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Properties.Configuration.xml";
 #else
                         // will throw if another platform is added without handling this 
                         throw new NotImplementedException();
@@ -79,7 +87,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                         }
 
                         // serialize to save the new settings xml file
-                        SerializeSettings(_instance);
+                        SerializeSettings((Settings)_instance);
                     }
                     else
                     {
@@ -88,13 +96,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                         {
                             _instance = DeserializeSettings(settingsFile);
                         }
-                        ApplyMigrations(_instance);
+                        ApplyMigrations((Settings)_instance);
                     }
                 }
 
                 return _instance;
             }
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
@@ -133,7 +142,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                 return;
             }
 
-            SerializeSettings(_instance);
+            SerializeSettings((Settings)_instance);
         }
 
         [XmlElement("ArcGISOnlineURL")]
@@ -288,7 +297,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
             {
                 _settingsInstance.MaxIdentifyResultsPerLayer = 8;
             }
-            
+
             if (string.IsNullOrEmpty(_settingsInstance.PopupExpressionForSubtitle))
             {
                 _settingsInstance.PopupExpressionForSubtitle = "subtitle";

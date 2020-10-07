@@ -14,12 +14,12 @@
 
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
-#if WPF
-using System.Windows;
-using System.Windows.Controls;
-#elif NETFX_CORE
+#if NETFX_CORE
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+#else
+using System.Windows;
+using System.Windows.Controls;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities

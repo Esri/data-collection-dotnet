@@ -47,6 +47,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\AppRules.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\UserPromptResponseChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FieldContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\ISettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\Resources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\AttributeEditorDataTemplateSelector.cs" />

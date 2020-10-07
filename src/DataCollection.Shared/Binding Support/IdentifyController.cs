@@ -31,6 +31,10 @@ using System.Threading.Tasks;
 #if NETFX_CORE
 using Windows.UI.Xaml;
 using Windows.Foundation;
+#elif DOT_NET_CORE_TEST
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks;
+using Settings = Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks.Settings;
+using System.Windows;
 #else
 using System.Windows;
 #endif

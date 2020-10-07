@@ -329,6 +329,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         private void UpdateAuthenticationManager()
         {
+            #if DOT_NET_CORE_TEST
+            return;
+            #endif
             // Define the server information for ArcGIS Online
             var portalServerInfo = new ServerInfo
             {

@@ -51,6 +51,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get => _featureIndex;
             set
             {
+                if (value != null && value >= ResultCount)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (value != null && value < 0)
+                {
+                    value = null;
+                }
+
                 if (value != _featureIndex)
                 {
                     _featureIndex = value;
@@ -74,7 +84,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     CurrentFeatureIndex = null;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ResultCount));
-                    OnPropertyChanged(nameof(CurrentlySelectedFeature));
                 }
             }
         }

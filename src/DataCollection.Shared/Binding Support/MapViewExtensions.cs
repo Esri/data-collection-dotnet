@@ -16,9 +16,12 @@
 
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.UI.Controls;
-#if NETFX_CORE
+#if WPF
+using System.Windows;
+#elif NETFX_CORE
 using Windows.UI.Xaml;
-#else
+#elif DOT_NET_CORE_TEST
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks;
 using System.Windows;
 #endif
 
