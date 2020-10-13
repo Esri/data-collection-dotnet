@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2019 Esri
+  * Copyright 2020 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -14,25 +14,34 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.Data;
 using System;
-using System.Collections.Generic;
+using Windows.UI.Xaml.Data;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
 {
-    public class IdentifyEventArgs : EventArgs
+    /// <summary>
+    /// Converter applies a format string to a date time
+    /// </summary>
+    public class NullableIntToIntConverter : IValueConverter
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="IdentifyEventArgs"/> class.
+        /// Converts an int? to an int
         /// </summary>
-        internal IdentifyEventArgs(IReadOnlyList<IdentifyLayerResult> layerResults)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            LayerResults = layerResults ?? new List<IdentifyLayerResult>().AsReadOnly();
+            if (value is int intvalue)
+            {
+                return intvalue;
+            }
+            return -1;
         }
 
         /// <summary>
-        /// Gets or sets the results for performing Identify on layers
+        /// Converts an int to an int?
         /// </summary>
-        public IReadOnlyList<IdentifyLayerResult> LayerResults { get; private set; }
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return value;
+        }
     }
 }

@@ -23,14 +23,20 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <views:CardBar Title="{Binding IdentifiedFeatureViewModel.PopupManager.Title}"
+        <views:CardBar x:Name="CardBar"
+                       Title="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.PopupManager.Title}"
                        CloseCommand="{Binding ClearIdentifiedFeatureCommand}"
-                       ImageSource="{Binding IdentifiedFeatureViewModel.IconImageSource}"
-                       OwningCard="{Binding ElementName=Self}" />
+                       CurrentResultIndex="{Binding IdentifyResultViewModel.CurrentFeatureIndex}"
+                       ImageSource="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.IconImageSource}"
+                       NextCommand="{Binding IdentifyResultViewModel.NextResultCommand}"
+                       OwningCard="{Binding ElementName=Self}"
+                       PreviousCommand="{Binding IdentifyResultViewModel.PreviousResultCommand}"
+                       ResultCount="{Binding IdentifyResultViewModel.ResultCount}"
+                       ShowNavigationControls="{Binding IdentifyResultViewModel.IdentifiedFeatures, Converter={StaticResource EmptyCollectionToBoolConverter}, ConverterParameter=NoSingleton}" />
         <TabControl Grid.Row="1"
                     Background="{StaticResource ContentBackgroundBrush}"
                     BorderThickness="0"
-                    DataContext="{Binding IdentifiedFeatureViewModel}"
+                    DataContext="{Binding IdentifyResultViewModel.CurrentlySelectedFeature}"
                     Foreground="{StaticResource ContentForegroundBrush}">
             <TabItem Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DetailsHeading}" Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the identified feature  -->
@@ -91,7 +97,7 @@
                                                     </StackPanel>
                                                 </StackPanel>
                                                 <Button Grid.Column="1"
-                                                        Command="{Binding DataContext.IdentifiedFeatureViewModel.SetSelectedDestinationRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        Command="{Binding DataContext.IdentifyResultViewModel.CurrentlySelectedFeature.SetSelectedDestinationRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                         CommandParameter="{Binding}"
                                                         Style="{StaticResource FieldAccessoryButtonStyle}"
                                                         ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
@@ -120,7 +126,7 @@
                                             <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=RelatedRecordTableSuffix}" />
                                         </TextBlock>
                                         <Button Margin="{StaticResource TopBottomMediumThickness}"
-                                                Command="{Binding DataContext.IdentifiedFeatureViewModel.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                Command="{Binding DataContext.IdentifyResultViewModel.CurrentlySelectedFeature.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding .}"
                                                 Style="{StaticResource MapOverlayButtonStyle}"
                                                 ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}">
@@ -161,7 +167,7 @@
                                                                 </StackPanel>
                                                             </StackPanel>
                                                             <Button Grid.Column="1"
-                                                                    Command="{Binding DataContext.IdentifiedFeatureViewModel.SetSelectedOriginRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    Command="{Binding DataContext.IdentifyResultViewModel.CurrentlySelectedFeature.SetSelectedOriginRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                                     CommandParameter="{Binding PopupManager}"
                                                                     Style="{StaticResource FieldAccessoryButtonStyle}"
                                                                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
@@ -244,36 +250,36 @@
             <!--  Bottom buttons to edit or delete record  -->
             <Button Grid.Column="1"
                     HorizontalAlignment="Right"
-                    Command="{Binding IdentifiedFeatureViewModel.EditFeatureCommand}"
+                    Command="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditFeatureCommand}"
                     Style="{StaticResource CardControlStripButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
-                    Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    Visibility="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                 <Path Data="{StaticResource icon-pencil-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
             <Button Grid.Column="2"
                     HorizontalAlignment="Right"
                     Command="{Binding DeleteFeatureCommand}"
-                    CommandParameter="{Binding IdentifiedFeatureViewModel}"
+                    CommandParameter="{Binding IdentifyResultViewModel.CurrentlySelectedFeature}"
                     Style="{StaticResource CardControlStripButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
-                    Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    Visibility="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                 <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
 
             <!--  Bottom buttons to save or discard changes to record  -->
             <Button Grid.Column="1"
-                    Command="{Binding IdentifiedFeatureViewModel.SaveEditsCommand}"
+                    Command="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SaveEditsCommand}"
                     Style="{StaticResource CardControlStripButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
-                    Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                    Visibility="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                 <Path Data="{StaticResource icon-save-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
             <Button Grid.Column="2"
                     HorizontalAlignment="Right"
-                    Command="{Binding IdentifiedFeatureViewModel.CancelEditsCommand}"
+                    Command="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.CancelEditsCommand}"
                     Style="{StaticResource CardControlStripButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
-                    Visibility="{Binding IdentifiedFeatureViewModel.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                    Visibility="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                 <Path Data="{StaticResource icon-x-16}" Style="{StaticResource CardButtonIconStyle}" />
             </Button>
 
@@ -282,7 +288,7 @@
             <Button Grid.Column="0"
                     HorizontalAlignment="Left"
                     Click="AddAttachmentButton_Click"
-                    Command="{Binding IdentifiedFeatureViewModel.EditFeatureCommand}"
+                    Command="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditFeatureCommand}"
                     Style="{StaticResource CardControlStripButtonStyle}"
                     ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
                     Visibility="{Binding ElementName=AttachmentsTabItem, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -292,7 +298,7 @@
 
         <!--  Hidden element used to pass new attachment path to the viewmodel  -->
         <TextBlock x:Name="AttachmentPathTextBlock"
-                   Text="{Binding IdentifiedFeatureViewModel.AttachmentsViewModel.NewAttachmentPath, Mode=TwoWay}"
+                   Text="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.AttachmentsViewModel.NewAttachmentPath, Mode=TwoWay}"
                    Visibility="Collapsed" />
     </Grid>
 </ctrl:CardBase>

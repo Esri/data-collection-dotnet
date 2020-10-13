@@ -8,12 +8,15 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0"
+                   Width="22"
+                   Height="22"
                    Margin="{StaticResource UniformMediumThickness}"
                    Source="{x:Bind ImageSource, Mode=OneWay}"
-                   Style="{StaticResource TitleBarImageStyle}"
-                   Width="10" Height="10"
                    Visibility="{x:Bind Path=ImageSource, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
             <!--
                 This uses Binding instead of x:Bind (and DataContext is set to this above) because
@@ -43,6 +46,29 @@
                 <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconStyle}" />
             </Button>
             <Button Grid.Column="3"
+                    Command="{x:Bind PreviousCommand, Mode=OneWay}"
+                    Style="{StaticResource CloseButtonStyle}"
+                    Visibility="{x:Bind ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                <Path Data="{StaticResource icon-chevron-left-16}" Style="{StaticResource PathIconStyle}" />
+            </Button>
+            <TextBlock Grid.Column="4"
+                       Margin="8"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource SmallFontSize}"
+                       Style="{StaticResource BaseTextBlockStyle}"
+                       TextAlignment="Center"
+                       Visibility="{x:Bind ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                <Run Text="{x:Bind CurrentResultIndex, Mode=OneWay, Converter={StaticResource PlusOneConverter}}" />
+                <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=Of_ResultSeparator}" />
+                <Run Text="{x:Bind ResultCount, Mode=OneWay}" />
+            </TextBlock>
+            <Button Grid.Column="5"
+                    Command="{x:Bind NextCommand, Mode=OneWay}"
+                    Style="{StaticResource CloseButtonStyle}"
+                    Visibility="{x:Bind ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                <Path Data="{StaticResource icon-chevron-right-16}" Style="{StaticResource PathIconStyle}" />
+            </Button>
+            <Button Grid.Column="6"
                     Command="{x:Bind CloseCommand, Mode=OneWay}"
                     Style="{StaticResource CloseButtonStyle}">
                 <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconStyle}" />

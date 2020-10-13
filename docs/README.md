@@ -30,7 +30,7 @@
 - [Identity model](#identity-model)   
    - [Public map, social login](#public-map-social-login)   
 - [Using map definition & pop-up configurations to drive app behavior](#using-map-definition-pop-up-configurations-to-drive-app-behavior)   
-   - [Map identify rules](#map-identify-rules)   
+   - [Multiple identify results](#multiple-identify-results)
    - [Add feature rules](#add-feature-rules)   
    - [Pop-up view rules](#pop-up-view-rules)   
       - [View mode](#view-mode)   
@@ -285,6 +285,12 @@ Within the app, a pop-up view can be in display mode or edit mode and attributes
 
 These attributes' values are accompanied by a title label, which is configured by the attribute's field alias. It is recommended to configure the field alias with a label that is easily understood to represent what is contained by that field.
 
+**Pop-up subtitle and attribute expressions**
+
+Often, it is hard to distinguish features when there are multiple identify results for features with the same pop-up definition. You can define an [Arcade](https://developers.arcgis.com/arcade/) expression that extracts relevant information into a short subtitle or summary. You can define the pop-up's subtitle by storing that Arcade expression in the pop-up's `Attribute Expressions` collection with a title/alias matching the value defined by the `PopupExpressionForSubtitle` setting. By convention, the app knows to check pop-ups for that attribute expression and display it where appropriate.
+
+> **Note**: By default, the web map viewer will add new attribute expressions to the pop-ups display fields. You can manually configure the pop-up to exclude the subtitle expression from the displayed attributes.
+
 ## Identity model
 
 The app leverages the ArcGIS [identity](https://developers.arcgis.com/authentication/) model to provide access to resources via the [named user](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/#named-user-login) login pattern. When attempting to access secured resources such as secured web maps, layers, or premium content, the app prompts you for your organization’s portal credentials used to obtain a token. The ArcGIS Runtime SDKs provide a simple-to-use API for dealing with ArcGIS logins.
@@ -359,26 +365,15 @@ The app allows a user to authenticate against a portal as well as use social cre
 
 The app operates on a set of rules driven by map definitions and pop-up configurations. To learn how to configure your web map, see the section entitled [_Configure Web Map & Feature Services for Data Collection_](#configure-web-map-feature-services-for-data-collection).
 
-### Map identify rules
+### Multiple identify results
 
-A tap gesture or click on the map view performs an identify function where only results for layers that adhere to certain rules are considered. These rules ask that the layer is visible, is of point type geometry and pop-ups are enabled.
+When the user clicks or taps on the map, all of the map's layers and all of the map view's graphics overlays are queried. The results are displayed in a list showing each result's graphical representation, popup title, and configured subtitle.
 
-These rules are wrapped conveniently as extensions into a static class named `AppRules`.
+> **Note**, subtitles are not a standard part of the ArcGIS platform and require special attention to set up.
 
-```csharp
- public static bool IsIdentifiable(this Layer layer)
-{
-    if (layer is FeatureLayer featureLayer)
-    {
-        if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null &&
-            featureLayer.FeatureTable.GeometryType == Geometry.GeometryType.Point)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-```
+The subtitle is computed via an [Arcade expression](https://developers.arcgis.com/arcade/) defined in the pop-up configuration's *Attribute Expressions* collection. The app will only display a subtitle if the attribute expression has the alias or title set to match the **PopupExpressionForSubtitle** key defined in the app's settings.
+
+> **Note**, the key is set to `subtitle` by default. That value is used for the tree survey sample web map.
 
 ### Add feature rules
 
@@ -917,6 +912,8 @@ The shared `Configuration.xml` contains a series of static configuration resourc
 * **DefaultZoomScale**: integer that sets how far the current location button will zoom in when pushed
 * **AppClientID**: Used for OAuth authentication
 * **RedirectURL**: Used for OAuth authentication
+* **PopupExpressionForSubtitle**: The title of the popup expression to be used to compute a subtitle for features. The feature subtitle helps differentiate features when there are multiple identify results.
+* **MaxIdentifyResultsPerLayer**: Sets the maximum number of results to return when performing an identify operation.
 
 Settings used specifically and only with the *Tree Survey* dataset. These should not be modified.
 

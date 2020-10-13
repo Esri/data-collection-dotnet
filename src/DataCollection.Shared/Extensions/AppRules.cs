@@ -26,22 +26,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions
     public static class AppRules
     {
         /// <summary>
-        /// Rule applied to feature layers to determine if they are identifiable
-        /// </summary>
-        public static bool IsIdentifiable(this Layer layer)
-        {
-            if (layer is FeatureLayer featureLayer)
-            {
-                if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null &&
-                    featureLayer.FeatureTable.GeometryType == Geometry.GeometryType.Point)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
         /// Rule applied to relationships to determine if they are valid in the context of this application
         /// </summary>
         public static bool IsValidRelationship(this RelatedFeatureQueryResult relatedFeatureQueryResult)

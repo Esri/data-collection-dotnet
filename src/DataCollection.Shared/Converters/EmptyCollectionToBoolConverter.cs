@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2019 Esri
+  * Copyright 2020 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
 ******************************************************************************/
 
 using System;
-using System.Globalization;
+using System.Linq;
+using System.Collections.Generic;
 #if NETFX_CORE
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -29,32 +30,39 @@ using CustomCultureInfo = System.Globalization.CultureInfo;
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
 {
     /// <summary>
-    /// Converts null to visibility
+    /// Converts boolean to visibility
     /// </summary>
-    class NullToVisibilityConverter : IValueConverter
+    class EmptyCollectionToBoolConverter : IValueConverter
     {
+        /// <summary>
+        /// Convert from a collection size to a bool; used to either show a list view or a placeholder message e.g. "No attachments found"
+        /// </summary>
+        /// <remarks>
+        /// If NoSingleton is used as the parameter, collections with a single element are treated as if they were empty.
+        /// </remarks>
         object IValueConverter.Convert(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-            // Handle null to visibility and not null (inverse) to visibility
-            if (parameter != null && parameter.ToString() == "Inverse")
+            if (value is IEnumerable<object> collection)
             {
-                //if value is null, visibility = visible (inverse)
-                return (value == null) ? Visibility.Visible : Visibility.Collapsed;
+                if (parameter != null && parameter.ToString() == "Inverse")
+                {
+                    return !collection.Any();
+                }
+                else if (parameter != null && parameter.ToString() == "NoSingleton")
+                {
+                    return collection.Count() > 1;
+                }
+                else
+                {
+                    return collection.Any();
+                }
             }
-            else if (parameter != null && parameter.ToString() == "EmptyString")
-            {
-                return string.IsNullOrEmpty(value?.ToString()) ? Visibility.Collapsed : Visibility.Visible;
-            }
-            else
-            {
-                //if value is null, visibility is collapsed 
-                return (value == null) ? Visibility.Collapsed : Visibility.Visible;
-            }
+            return false;
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CustomCultureInfo culture)
         {
-            throw new NotSupportedException();
+            throw new NotImplementedException();
         }
     }
 }

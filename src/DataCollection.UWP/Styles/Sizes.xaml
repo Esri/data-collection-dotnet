@@ -31,5 +31,6 @@
     <x:Double x:Key="ThumbnailLength">40</x:Double>
     <x:Double x:Key="PopupMinWidth">300</x:Double>
     <x:Double x:Key="PopupMaxWidth">350</x:Double>
+    <x:Double x:Key="SmallFontSize">10</x:Double>
     <core:CoreCursorType x:Key="ActionCursor">Hand</core:CoreCursorType>
 </ResourceDictionary>

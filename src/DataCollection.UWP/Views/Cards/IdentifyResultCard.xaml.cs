@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2019 Esri
+  * Copyright 2020 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -14,25 +14,25 @@
   *   limitations under the License.
 ******************************************************************************/
 
-using Esri.ArcGISRuntime.Data;
-using System;
-using System.Collections.Generic;
+using Windows.UI.Xaml;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
 {
-    public class IdentifyEventArgs : EventArgs
+    public sealed partial class IdentifyResultCard
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IdentifyEventArgs"/> class.
-        /// </summary>
-        internal IdentifyEventArgs(IReadOnlyList<IdentifyLayerResult> layerResults)
+        public IdentifyResultCard()
         {
-            LayerResults = layerResults ?? new List<IdentifyLayerResult>().AsReadOnly();
+            InitializeComponent();
         }
 
-        /// <summary>
-        /// Gets or sets the results for performing Identify on layers
-        /// </summary>
-        public IReadOnlyList<IdentifyLayerResult> LayerResults { get; private set; }
+        public MainViewModel MainViewModel
+        {
+            get => (MainViewModel)GetValue(MainViewModelProperty);
+            set => SetValue(MainViewModelProperty, value);
+        }
+
+        public static readonly DependencyProperty MainViewModelProperty =
+            DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(IdentifyResultCard), new PropertyMetadata(null));
     }
 }

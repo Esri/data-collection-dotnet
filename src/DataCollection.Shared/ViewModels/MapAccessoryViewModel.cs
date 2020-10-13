@@ -198,7 +198,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         public ICommand ToggleBookmarksCommand => _toggleBookmarksCommand ?? (_toggleBookmarksCommand = new DelegateCommand(async (parm) =>
         {
-            if (await _mainViewModel.AttemptCloseEditorsAsync())
+            if (await _mainViewModel.AttemptCloseEditorsAsync(true))
             {
                 IsBookmarksOpen = !IsBookmarksOpen;
             }
@@ -209,7 +209,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         public ICommand ToggleTableOfContentsCommand => _toggleTableOfContentsCommand ?? (_toggleTableOfContentsCommand = new DelegateCommand(async (parm) =>
         {
-            if (await _mainViewModel.AttemptCloseEditorsAsync())
+            if (await _mainViewModel.AttemptCloseEditorsAsync(true))
             {
                 IsTableOfContentsOpen = !IsTableOfContentsOpen;
             }
@@ -220,7 +220,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         public ICommand ToggleLegendCommand => _toggleLegendCommand ?? (_toggleLegendCommand = new DelegateCommand(async (parm) =>
         {
-            if (await _mainViewModel.AttemptCloseEditorsAsync())
+            if (await _mainViewModel.AttemptCloseEditorsAsync(true))
             {
                 IsLegendOpen = !IsLegendOpen;
             }

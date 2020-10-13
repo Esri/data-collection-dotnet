@@ -12,14 +12,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <views:CardBar Title="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
-                       CloseCommand="{x:Bind MainViewModel.IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
-                       ImageSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
+        <views:CardBar Title="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.PopupManager.Title, Mode=OneWay}"
+                       CloseCommand="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.ClearRelationshipsCommand, Mode=OneWay}"
+                       ImageSource="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.IconImageSource, Mode=OneWay}"
                        OwningCard="{x:Bind}" />
         <ScrollViewer Grid.Row="1">
             <Grid Padding="{StaticResource UniformLargeThickness}">
                 <!--  Attribute information for the destination relationship selected  -->
-                <ItemsControl ItemTemplate="{StaticResource CardSimpleFieldViewer}" ItemsSource="{x:Bind MainViewModel.IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
+                <ItemsControl ItemTemplate="{StaticResource CardSimpleFieldViewer}" ItemsSource="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}" />
             </Grid>
         </ScrollViewer>
     </Grid>

@@ -5,6 +5,7 @@
     <core:Double x:Key="IconLargeLength">16</core:Double>
     <core:Double x:Key="IconSmallLength">8</core:Double>
     <core:Double x:Key="LargeFontSize">16</core:Double>
+    <core:Double x:Key="SmallFontSize">10</core:Double>
     <core:Double x:Key="ThumbnailLength">40</core:Double>
     <Cursor x:Key="ActionCursor">Hand</Cursor>
     <FontWeight x:Key="CardTitleFontWeight">Light</FontWeight>

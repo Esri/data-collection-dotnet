@@ -183,11 +183,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
 
                 // set identify parameters
                 var pixelTolerance = 10;
-                var returnPopupsOnly = false;
-                var maxResultCount = 5;
+                var returnPopupsOnly = true;
+                var maxResultCount = Settings.Default.MaxIdentifyResultsPerLayer;
 
                 IReadOnlyList<IdentifyLayerResult> layerResults = null;
-                IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults = null;
                 CancellationTokenSource _currentSource = _cancellationTokenSource;
                 if (target == null)
                 {
@@ -196,19 +195,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                     var identifyOverlaysTask = mapView.IdentifyGraphicsOverlaysAsync(TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount);
                     await Task.WhenAll(identifyLayersTask, identifyOverlaysTask);
                     layerResults = identifyLayersTask.Result;
-                    graphicsOverlayResults = identifyOverlaysTask.Result;
                 }
                 else if (target is Layer targetLayer && mapView.Map.OperationalLayers.Contains(target as Layer))
                 {
                     // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
                     var identifyResult = await mapView.IdentifyLayerAsync(targetLayer, TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
                     layerResults = new List<IdentifyLayerResult> { identifyResult }.AsReadOnly();
-                }
-                else if (target is GraphicsOverlay targetOverlay && mapView.GraphicsOverlays.Contains(target as GraphicsOverlay))
-                {
-                    // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                    var identifyResult = await mapView.IdentifyGraphicsOverlayAsync(targetOverlay, TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount);
-                    graphicsOverlayResults = new List<IdentifyGraphicsOverlayResult> { identifyResult }.AsReadOnly();
                 }
                 else if (target is ArcGISSublayer sublayer)
                 {
@@ -230,7 +222,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 {
                     return;
                 }
-                OnIdentifyCompleted(layerResults, graphicsOverlayResults);
+                OnIdentifyCompleted(layerResults);
             }
             catch (TaskCanceledException)
             {
@@ -281,10 +273,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         public event EventHandler<IdentifyEventArgs> IdentifyCompleted;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnIdentifyCompleted(IReadOnlyList<IdentifyLayerResult> layerResults,
-            IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults)
+        private void OnIdentifyCompleted(IReadOnlyList<IdentifyLayerResult> layerResults)
         {
-            IdentifyCompleted?.Invoke(this, new IdentifyEventArgs(layerResults, graphicsOverlayResults));
+            IdentifyCompleted?.Invoke(this, new IdentifyEventArgs(layerResults));
         }
 
         /// <summary>

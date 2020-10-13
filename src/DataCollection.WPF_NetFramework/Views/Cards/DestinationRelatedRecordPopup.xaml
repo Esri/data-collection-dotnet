@@ -15,13 +15,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <views:CardBar Title="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.Title}"
-                       CloseCommand="{Binding IdentifiedFeatureViewModel.ClearRelationshipsCommand, Mode=OneWay}"
-                       ImageSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.IconImageSource}"
+        <views:CardBar Title="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.PopupManager.Title}"
+                       CloseCommand="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.ClearRelationshipsCommand, Mode=OneWay}"
+                       ImageSource="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.IconImageSource}"
                        OwningCard="{Binding ElementName=Self}" />
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <!--  Attribute information for the destination relationship selected  -->
-            <ItemsControl Margin="{StaticResource UniformLargeThickness}" ItemsSource="{Binding IdentifiedFeatureViewModel.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}">
+            <ItemsControl Margin="{StaticResource UniformLargeThickness}" ItemsSource="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

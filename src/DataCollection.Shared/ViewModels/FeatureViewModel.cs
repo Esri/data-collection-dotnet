@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Esri.ArcGISRuntime.UI;
+using System.Linq;
 
 #if __UWP__
 using Windows.UI.Xaml.Media;
@@ -59,6 +60,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         });
 
                         UpdateImageSource();
+                        ComputeSubtitle();
                     }
                     OnPropertyChanged();
                 }
@@ -94,7 +96,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     return;
                 }
 
-                var symbol = await PopupManager.Symbol.CreateSwatchAsync(16, 16, 192, System.Drawing.Color.Transparent);
+                var symbol = await PopupManager.Symbol.CreateSwatchAsync(192);
                 var imageSource = await symbol.ToImageSourceAsync();
                 IconImageSource = imageSource;
             }
@@ -165,7 +167,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Gets or sets the feature currently selected
         /// </summary>
-        public Feature Feature {
+        public Feature Feature
+        {
             get => _feature;
             set
             {
@@ -205,7 +208,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Gets or sets the ConnectivityMode
         /// </summary>
-        public ConnectivityMode ConnectivityMode {
+        public ConnectivityMode ConnectivityMode
+        {
             get => _connectivityMode;
 
             set
@@ -302,6 +306,45 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             {
                 Args = operation
             });
+        }
+
+        /// <summary>
+        /// Uses the Arcade Expression defined in the associated layer's expressions with the title defined by the PopupExpressionForSubtitle setting to
+        /// set the <see cref="Subtitle"/>.
+        /// </summary>
+        public async Task ComputeSubtitle()
+        {
+            try
+            {
+                // Evaluate all expressions.
+                var listOfEvaluationResults = await PopupManager.EvaluateExpressionsAsync();
+
+                // Find the matching subtitle expression, if defined.
+                var resultFromCustomExpression = listOfEvaluationResults.FirstOrDefault(res => res.PopupExpression.Title == Settings.Default.PopupExpressionForSubtitle);
+                Subtitle = resultFromCustomExpression?.Result?.ToString();
+            }
+            catch
+            {
+                // Ignore
+            }
+        }
+
+        private string _subtitle = "";
+
+        /// <summary>
+        /// Gets the subtitle to show to differentiate features when there are multiple identify results.
+        /// </summary>
+        public string Subtitle
+        {
+            get => _subtitle;
+            private set
+            {
+                if (value != _subtitle)
+                {
+                    _subtitle = value;
+                    OnPropertyChanged();
+                }
+            }
         }
     }
 

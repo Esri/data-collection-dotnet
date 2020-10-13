@@ -99,6 +99,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NullReadyCalendarDatePicker.cs" />
+    <Compile Include="Converters\NullableIntToIntConverter.cs" />
     <Compile Include="Converters\DateTimeStringFormatConverter.cs" />
     <Compile Include="Converters\SelectedPivotIndexToVisibilityConverter.cs" />
     <Compile Include="Converters\TitleBarConnectivityModeToColorConverter.cs" />
@@ -113,6 +114,9 @@
     </Compile>
     <Compile Include="Views\Cards\BookmarksCard.xaml.cs">
       <DependentUpon>BookmarksCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\IdentifyResultCard.xaml.cs">
+      <DependentUpon>IdentifyResultCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Cards\LegendCard.xaml.cs">
       <DependentUpon>LegendCard.xaml</DependentUpon>
@@ -205,6 +209,7 @@
     <Content Include="Assets\Calcite\launch-32.png" />
     <Content Include="Assets\Calcite\layers-32.png" />
     <Content Include="Assets\Calcite\legend-32.png" />
+    <Content Include="Assets\Calcite\list-32.png" />
     <Content Include="Assets\Calcite\offline-32.png" />
     <Content Include="Assets\Calcite\online-32.png" />
     <Content Include="Assets\Calcite\pencil-32.png" />
@@ -316,6 +321,10 @@
     <Page Include="Views\Cards\BookmarksCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\IdentifyResultCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Cards\LegendCard.xaml">
       <SubType>Designer</SubType>

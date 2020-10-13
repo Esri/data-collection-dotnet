@@ -88,6 +88,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                         {
                             _instance = DeserializeSettings(settingsFile);
                         }
+                        ApplyMigrations(_instance);
                     }
                 }
 
@@ -200,6 +201,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         [XmlElement("CurrentOfflineSubdirectory")]
         public string CurrentOfflineSubdirectory { get; set; }
 
+        // The title of the popup expression to use as a subtitle when displaying multiple identify results
+        [XmlElement("PopupExpressionForSubtitle")]
+        public string PopupExpressionForSubtitle { get; set; }
+
+        [XmlElement("MaxIdentifyResultsPerLayer")]
+        public int MaxIdentifyResultsPerLayer { get; set; }
+
         /// <summary>
         /// Serializes Settings object and saves it to the settings file
         /// </summary>
@@ -264,6 +272,30 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Applies migrations to the settings file. Call after deserializing but before using settings
+        /// </summary>
+        /// <remarks>
+        /// The settings file schema changes over time as new features and settings are added.
+        /// This step ensures that newer versions of the app work with older settings files.
+        /// </remarks>
+        /// <param name="_settingsInstance">Settings instance created by deserializing the settings file.</param>
+        private static void ApplyMigrations(Settings _settingsInstance)
+        {
+            if (_settingsInstance.MaxIdentifyResultsPerLayer < 1)
+            {
+                // The value was previously set to 8.
+                // 8 is a good number of results to fill the UI comfortably.
+                _settingsInstance.MaxIdentifyResultsPerLayer = 8;
+            }
+            
+            if (string.IsNullOrEmpty(_settingsInstance.PopupExpressionForSubtitle))
+            {
+                _settingsInstance.PopupExpressionForSubtitle = "subtitle";
+            }
+            SerializeSettings(_settingsInstance);
         }
     }
 }

@@ -9,6 +9,7 @@
     <Geometry x:Key="icon-caret-square-down-16">M1.929 1A.929.929 0 0 0 1 1.929V14.07a.929.929 0 0 0 .929.929H14.07a.929.929 0 0 0 .929-.929V1.93a.929.929 0 0 0-.928-.93zM14 14H2V2h12zm-6-3.9L3.9 6h8.2z</Geometry>
     <Geometry x:Key="icon-caret-square-up-16">M14.071 15a.929.929 0 0 0 .929-.929V1.93a.929.929 0 0 0-.929-.93H1.93a.929.929 0 0 0-.93.929V14.07a.929.929 0 0 0 .929.929zM2 2h12v12H2zm6 3.9l4.1 4.1H3.9z</Geometry>
     <Geometry x:Key="icon-check-circle-16">M4.735 9.346l.738-.738 2.084 2.088 4.77-4.77.738.737-5.508 5.505zM15.8 8.5a7.3 7.3 0 1 1-7.3-7.3 7.3 7.3 0 0 1 7.3 7.3zm-1 0a6.3 6.3 0 1 0-6.3 6.3 6.307 6.307 0 0 0 6.3-6.3z</Geometry>
+    <Geometry x:Key="icon-chevron-left-16">M10.207 4l-4 4 4 4H8.793l-4-4 4-4z</Geometry>
     <Geometry x:Key="icon-chevron-right-16">M5.793 12l4-4-4-4h1.414l4 4-4 4z</Geometry>
     <Geometry x:Key="icon-download-16">M4 11v1h-.5a3.493 3.493 0 0 1-1.484-6.659 1.966 1.966 0 0 1 2.617-1.73 4.968 4.968 0 0 1 9.298 1.701A3.486 3.486 0 0 1 13 11.95v-1a2.495 2.495 0 0 0 .52-4.725l-.503-.227-.077-.548a3.968 3.968 0 0 0-7.43-1.357l-.403.734-.794-.266A.978.978 0 0 0 4 4.5a.989.989 0 0 0-.987.92L2.966 6l-.525.246A2.494 2.494 0 0 0 3.5 11zm6.62.675L9 13.295V7H8v6.26l-1.585-1.585-.707.707 2.81 2.81L9.708 14l1.618-1.618z</Geometry>
     <Geometry x:Key="icon-ellipsis-16">M 14,9.5 A 1.5,1.5 0 1 1 15.5,8 1.501,1.501 0 0 1 14,9.5 Z M 9.5,8 A 1.5,1.5 0 1 0 8,9.5 1.501,1.501 0 0 0 9.5,8 Z m -6,0 A 1.5,1.5 0 1 0 2,9.5 1.501,1.501 0 0 0 3.5,8 Z</Geometry>
@@ -23,6 +24,8 @@
     <Geometry x:Key="icon-layers-32">M30.5 11.492L16 3 1.5 11.492 16 20zM16 4.16l12.522 7.334L16 18.841 3.478 11.493zM16 25L1.5 16.492l2.781-1.629.989.58-1.792 1.05L16 23.841l12.522-7.348-1.792-1.05.989-.58 2.781 1.63zm0 5L1.5 21.492l2.781-1.629.989.58-1.792 1.05L16 28.841l12.522-7.348-1.792-1.05.989-.58 2.781 1.63z</Geometry>
     <Geometry x:Key="icon-legend-16">M1 6.5A1.5 1.5 0 1 1 2.5 8 1.502 1.502 0 0 1 1 6.5zM15 2H6v1h9zM6 7h9V6H6zm0 4h9v-1H6zm0 4h9v-1H6zm-3.51-2L.87 16h3.257zM4 4H1V1h3zM3 2H2v1h1zm1 10H1V9h3zm-1-2H2v1h1zm-.5-4a.5.5 0 1 0 .5.5.5.5 0 0 0-.5-.5z</Geometry>
     <Geometry x:Key="icon-legend-32">M 11,5 H 29 V 6 H 11 Z m 0,8 H 29 V 12 H 11 Z m 0,7 H 29 V 19 H 11 Z m 0,7 H 29 V 26 H 11 Z M 3,12.5 A 2.5000001,2.5 0 1 1 5.5000001,15 2.5000001,2.5 0 0 1 3,12.5 Z m 1.0000001,0 a 1.5000001,1.5 0 1 0 1.5,-1.5 1.5000001,1.5 0 0 0 -1.5,1.5 z M 8.1540002,29 H 2.846 L 5.5000001,23.932 Z M 4.4980001,28 H 6.5020002 L 5.5000001,26.087 Z M 8.0000002,8 H 3 V 3 H 8.0000002 Z M 7.0000001,4 h -3 v 3 h 3 z M 3,17 h 5.0000002 v 5 H 3 Z m 1.0000001,4 h 3 v -3 h -3 z</Geometry>
+    <Geometry x:Key="icon-list-16">M6 14h9v1H6zm-2 2H1v-3h3zm-1-2H2v1h1zM15 2H6v1h9zM6 9h9V8H6zM4 4H1V1h3zM3 2H2v1h1zm1 8H1V7h3zM3 8H2v1h1z</Geometry>
+    <Geometry x:Key="icon-list-32">M29 7H11V6h18zm0 9H11v1h18zm0 10H11v1h18zM8 9H3V4h5zM7 5H4v3h3zm1 14H3v-5h5zm-1-4H4v3h3zm1 14H3v-5h5zm-1-4H4v3h3z</Geometry>
     <Geometry x:Key="icon-maximize-16">M16 4V1H0v14h16zM1 2h14v2H1zm14 12H1V5h14z</Geometry>
     <Geometry x:Key="icon-minimize-16">M16 0H5v5h1V4h9v5h-3v1h4zm-1 3H6V1h9zm-4 3H0v10h11zM1 7h9v2H1zm0 8v-5h9v5z</Geometry>
     <Geometry x:Key="icon-minus-16">M 13,8 V 9 H 3 V 8 Z</Geometry>

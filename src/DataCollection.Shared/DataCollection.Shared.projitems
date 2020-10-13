@@ -15,11 +15,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolInverseConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\EmptyCollectionToBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EmptyCollectionToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\LocalizationConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NumberToResultCountConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\PlusOneConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\PopupFieldToFormattedValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BytesToHumanReadableSizeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ProgressToVisibilityConverter.cs" />
@@ -54,6 +57,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DownloadViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FeatureViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IdentifyResultViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MapAccessoryViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SyncViewModel.cs" />

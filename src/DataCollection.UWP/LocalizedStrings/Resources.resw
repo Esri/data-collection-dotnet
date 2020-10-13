@@ -513,4 +513,10 @@
   <data name="OpenOfflineMap_Subtitle" xml:space="preserve">
     <value>Open Offline Map</value>
   </data>
+  <data name="ResultsPlural" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="Of_ResultSeparator" xml:space="preserve">
+    <value>of</value>
+  </data>
 </root>

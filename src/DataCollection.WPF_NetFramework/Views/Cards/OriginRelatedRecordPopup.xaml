@@ -14,14 +14,14 @@
             <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{StaticResource ContentBackgroundBrush}" DataContext="{Binding IdentifiedFeatureViewModel.SelectedOriginRelationship}">
+    <Grid Background="{StaticResource ContentBackgroundBrush}" DataContext="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <views:CardBar Title="{Binding PopupManager.Title}"
-                       CloseCommand="{Binding ElementName=Self, Path=DataContext.IdentifiedFeatureViewModel.ClearRelationshipsCommand}"
+                       CloseCommand="{Binding ElementName=Self, Path=DataContext.IdentifyResultViewModel.CurrentlySelectedFeature.ClearRelationshipsCommand}"
                        ImageSource="{Binding IconImageSource}"
                        OwningCard="{Binding ElementName=Self}" />
         <TabControl Grid.Row="1"
