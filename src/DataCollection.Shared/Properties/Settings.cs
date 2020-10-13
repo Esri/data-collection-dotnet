@@ -286,6 +286,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         {
             if (_settingsInstance.MaxIdentifyResultsPerLayer < 1)
             {
+                // The value was previously set to 8.
+                // 8 is a good number of results to fill the UI comfortably.
                 _settingsInstance.MaxIdentifyResultsPerLayer = 8;
             }
             
