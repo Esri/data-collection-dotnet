@@ -19,6 +19,9 @@ using Esri.ArcGISRuntime.UI.Controls;
 using System;
 #if NETFX_CORE
 using Windows.UI.Xaml;
+#elif DOT_NET_CORE_TEST
+using System.Windows;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks;
 #else
 using System.Windows;
 #endif

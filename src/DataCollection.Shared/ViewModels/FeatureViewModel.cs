@@ -28,8 +28,12 @@ using System.Linq;
 
 #if __UWP__
 using Windows.UI.Xaml.Media;
-#else
+#elif WPF
 using System.Windows.Media;
+#elif DOT_NET_CORE_TEST
+using System.Windows.Media;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks;
+using Settings = Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks.Settings;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels

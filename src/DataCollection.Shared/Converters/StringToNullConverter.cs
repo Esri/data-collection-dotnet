@@ -18,7 +18,7 @@ using System;
 #if __UWP__
 using lang = System.String;
 using Windows.UI.Xaml.Data;
-#elif WPF
+#else
 using lang = System.Globalization.CultureInfo;
 using System.Windows.Data;
 #endif

@@ -21,13 +21,13 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-#if WPF
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-#elif NETFX_CORE
+#if NETFX_CORE
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+#else
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models

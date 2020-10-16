@@ -16,9 +16,14 @@
 
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
-using Esri.ArcGISRuntime.UI.Controls;
 using System;
 using System.Windows.Input;
+
+#if DOT_NET_CORE_TEST
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks;
+#else
+using Esri.ArcGISRuntime.UI.Controls;
+#endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {

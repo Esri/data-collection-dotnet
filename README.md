@@ -161,3 +161,5 @@ This project uses the following 3rd-party components:
 * [Windows UI Library 2](https://github.com/microsoft/microsoft-ui-xaml) - [Microsoft License](https://www.nuget.org/packages/Microsoft.UI.Xaml/2.3.200213001/license)
 * [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf) - [MIT License](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)
 * [ControlzEx](https://github.com/ControlzEx/ControlzEx) - [MIT License](https://github.com/ControlzEx/ControlzEx/blob/develop/LICENSE)
+* [NUnit 3](https://nunit.org/) - [MIT License](https://github.com/nunit/nunit/blob/master/LICENSE.txt)
+* [NUnit 3 VS Test Adapter](https://github.com/nunit/nunit3-vs-adapter) - [MIT License](https://github.com/nunit/nunit3-vs-adapter/blob/master/LICENSE.txt)

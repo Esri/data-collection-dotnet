@@ -62,6 +62,7 @@
    - [App modes](#app-modes)   
    - [ViewModels organization](#viewmodels-organization)   
    - [Internationalization](#internationalization)   
+   - [Automated tests](#automated-tests)
 - [Configuration and customization](#configuration-and-customization)   
    - [App static configuration](#app-static-configuration)   
    - [App dynamic configuration](#app-dynamic-configuration)   
@@ -900,6 +901,17 @@ UserPromptMessenger.Instance.RaiseMessageValueChanged(
     null,
     Resources.GetString("DiscardButton_Content"));
 ```
+
+### Automated tests
+
+Automated unit tests, enabled by [NUnit](https://nunit.org/), were added with the 1.3.0 release. Unit tests were only added to substantial new code.
+
+Tests are in the following test projects:
+
+* **DataCollection.Shared.Tests** - includes tests exercising functionality in the shared view models
+* **Controls\ControlsTest** - includes test that exercise the custom layout panel used by the app
+
+Because this app uses a shared code project, all of the code in the shared project needs to be compilable when included in the .NET Core unit test project. To enable that, mock UI objects (UI objects aren't available in the .NET standard Runtime libraries) are included in the shared test project. Additional changes were made to the shared code project to ensure that tests can run.
 
 ## Configuration and customization
 

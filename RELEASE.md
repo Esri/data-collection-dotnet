@@ -10,6 +10,8 @@
 * Updates the code called at sign out to revoke credentials from the server, when possible, and delete them locally.
 * Adds support for identifying mulitple items on the map simultaneously and displaying them in a list.
     * An Arcade expression defined per layer is used to create subtitles that help you differentiate identified features.
+* Adds unit tests for new code added to support multiple identify results.
+    * Changes were made to shared code to facilitate unit testing of view models.
 
 ## 1.2.3
 
