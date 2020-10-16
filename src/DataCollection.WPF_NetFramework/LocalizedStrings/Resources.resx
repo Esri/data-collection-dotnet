@@ -519,4 +519,22 @@
   <data name="Of_ResultSeparator" xml:space="preserve">
     <value>of</value>
   </data>
+  <data name="AppInfo_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AppInfo_LicenseButtonText" xml:space="preserve">
+    <value>View Licenses and Acknowledgements</value>
+  </data>
+  <data name="AppInfo_LicenseLink" xml:space="preserve">
+    <value>https://github.com/Esri/data-collection-dotnet#license</value>
+  </data>
+  <data name="AppInfo_PoweredBy" xml:space="preserve">
+    <value>Powered By:</value>
+  </data>
+  <data name="AppInfo_Version" xml:space="preserve">
+    <value>App Version:</value>
+  </data>
+  <data name="Error_LaunchURLFailed" xml:space="preserve">
+    <value>Unable to start link</value>
+  </data>
 </root>

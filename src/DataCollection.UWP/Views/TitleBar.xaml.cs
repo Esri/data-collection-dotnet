@@ -61,6 +61,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
                 OfflineMapFlyout.Hide();
                 OnlineMapFlyout.Hide();
                 UserPanelFlyout.Hide();
+                AppInfoFlyout.Hide();
             }
         }
 

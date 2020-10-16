@@ -53,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\AttributeEditorDataTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\ConnectivityHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\FileExtensionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AppInfoViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AttachmentsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AuthViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />

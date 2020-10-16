@@ -68,6 +68,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
         public MainViewModel()
         {
+            AppInfoViewModel = new AppInfoViewModel();
+
             _webMapURL = Settings.Default.WebmapURL;
             _downloadPathRoot = Path.Combine(_localFolder,
                 typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
@@ -341,6 +343,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_authViewModel != value)
                 {
                     _authViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private AppInfoViewModel _appInfoViewModel;
+
+        public AppInfoViewModel AppInfoViewModel
+        {
+            get => _appInfoViewModel;
+            set
+            {
+                if (_appInfoViewModel != value)
+                {
+                    _appInfoViewModel = value;
                     OnPropertyChanged();
                 }
             }

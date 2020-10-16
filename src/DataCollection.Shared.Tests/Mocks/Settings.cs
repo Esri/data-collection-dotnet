@@ -44,5 +44,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks
         public string TreeDatasetWebmapUrl { get => ""; set { } }
         public string TreeDBHAttribute { get => ""; set { } }
         public string WebmapURL { get => ""; set { } }
+        public bool? ShowRuntimeVersion { get => false; set { } }
+        public bool? ShowAppVersion { get => false; set { } }
+        public bool? ShowLicenseInfo { get => false; set { } }
     }
 }
