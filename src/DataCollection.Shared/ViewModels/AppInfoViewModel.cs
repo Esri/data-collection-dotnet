@@ -101,10 +101,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             {
                 if (_runtimeVersion == null)
                 {
+                    #if NETFX_CORE
+                    var version = FileVersionInfo.GetVersionInfo(System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.Installed­Location.Path, "RuntimeCoreNet.dll"));
+                    #else
                     var runtimeTypeInfo = typeof(ArcGISRuntimeEnvironment).GetTypeInfo();
                     var version = FileVersionInfo.GetVersionInfo(runtimeTypeInfo.Assembly.Location);
+                    #endif
                     var buildparts = version.FileVersion.Split('.');
-                    _runtimeVersion = $"ArcGIS Runtime {version.ProductVersion} ({buildparts[buildparts.Length - 1]})";
+                    var build = buildparts[buildparts.Length - 1];
+                    var productVersion = version.ProductVersion;
+
+                    if (productVersion.EndsWith(build))
+                    {
+                        productVersion = productVersion.Substring(0, productVersion.Length - (build.Length + 1));
+                    }
+                    _runtimeVersion = $"ArcGIS Runtime {productVersion} ({build})";
                 }
                 return _runtimeVersion;
             }
