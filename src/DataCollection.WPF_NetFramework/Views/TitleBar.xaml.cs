@@ -73,10 +73,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
             {
                 TitleIconContainer.Visibility = Visibility.Collapsed;
 
-                Grid.SetRow(CenterButtonContainer, 1);
-                Grid.SetColumn(CenterButtonContainer, 0);
-                Grid.SetColumnSpan(CenterButtonContainer, 5);
-                CenterButtonContainer.HorizontalAlignment = HorizontalAlignment.Center;
+                Grid.SetRow(MapStatusButton, 1);
+                Grid.SetColumn(MapStatusButton, 0);
+                Grid.SetColumnSpan(MapStatusButton, 5);
+                MapStatusButton.HorizontalAlignment = HorizontalAlignment.Center;
 
                 Grid.SetColumn(RightPanel, 3);
                 Grid.SetRow(RightPanel, 0);
@@ -88,10 +88,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
             {
                 TitleIconContainer.Visibility = Visibility.Collapsed;
 
-                Grid.SetRow(CenterButtonContainer, 0);
-                Grid.SetColumn(CenterButtonContainer, 0);
-                Grid.SetColumnSpan(CenterButtonContainer, 3);
-                CenterButtonContainer.HorizontalAlignment = HorizontalAlignment.Left;
+                Grid.SetRow(MapStatusButton, 0);
+                Grid.SetColumn(MapStatusButton, 0);
+                Grid.SetColumnSpan(MapStatusButton, 3);
+                MapStatusButton.HorizontalAlignment = HorizontalAlignment.Left;
 
                 Grid.SetColumn(RightPanel, 2);
                 Grid.SetRow(RightPanel, 0);
@@ -103,9 +103,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
                 Grid.SetRow(TitleIconContainer, 0);
                 Grid.SetColumn(TitleIconContainer, 0);
 
-                Grid.SetRow(CenterButtonContainer, 0);
-                Grid.SetColumn(CenterButtonContainer, 1);
-                Grid.SetColumnSpan(CenterButtonContainer, 1);
+                Grid.SetRow(MapStatusButton, 0);
+                Grid.SetColumn(MapStatusButton, 1);
+                Grid.SetColumnSpan(MapStatusButton, 1);
 
                 Grid.SetColumn(RightPanel, 2);
                 Grid.SetRow(RightPanel, 0);
@@ -163,12 +163,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         /// <summary>
         /// Corrects popup behavior with toggle button.
         /// </summary>
-        private void ToggleButton_MouseEnter(object sender, MouseEventArgs e) => UserPopup.StaysOpen = OfflinePopup.StaysOpen = OnlinePopup.StaysOpen = true;
+        private void ToggleButton_MouseEnter(object sender, MouseEventArgs e) => UserPopup.StaysOpen = MapStatusPopup.StaysOpen = true;
 
         /// <summary>
         /// Corrects popup behavior with toggle button.
         /// </summary>
-        private void ToggleButton_MouseLeave(object sender, MouseEventArgs e) => UserPopup.StaysOpen = OfflinePopup.StaysOpen = OnlinePopup.StaysOpen = false;
+        private void ToggleButton_MouseLeave(object sender, MouseEventArgs e) => UserPopup.StaysOpen = MapStatusPopup.StaysOpen = false;
 
         #region Custom window management based on Fluent Ribbon's RibbonWindow implementation
         // Code based on Fluent.Ribbon's implementation

@@ -283,6 +283,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         IsLocationOnlyMode = true;
                     }
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsMajorStateChangeAllowed));
                 }
             }
         }
@@ -309,6 +310,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         IsLocationOnlyMode = true;
                     }
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsMajorStateChangeAllowed));
                 }
             }
         }
@@ -959,6 +961,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
             return null;
         }
+
+        /// <summary>
+        /// Gets whether the app is in a state where the user should be allowed to sign out, delete the map, go online or offline, or sync.
+        /// </summary>
+        public bool IsMajorStateChangeAllowed => DownloadViewModel == null && SyncViewModel == null;
 
         /// <summary>
         /// Method to prepare the offline map package for future deletion

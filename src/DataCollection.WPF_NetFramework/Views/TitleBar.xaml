@@ -30,19 +30,17 @@
                     <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=TitleBar_Suffix_WPF}" />
                 </TextBlock>
             </StackPanel>
-            <StackPanel x:Name="CenterButtonContainer"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Orientation="Horizontal">
-                <ToggleButton x:Name="WorkOnlineButton"
-                              HorizontalAlignment="Center"
-                              IsChecked="{Binding MapAccessoryViewModel.IsMapStatusPanelOpen, Mode=TwoWay}"
-                              MouseEnter="ToggleButton_MouseEnter"
-                              MouseLeave="ToggleButton_MouseLeave"
-                              Style="{StaticResource TitleBarToggleButtonStyle}"
-                              ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip, Converter={StaticResource LocalizationConverter}}"
-                              Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal">
+            <ToggleButton x:Name="MapStatusButton"
+                          Grid.Row="0"
+                          Grid.Column="1"
+                          IsChecked="{Binding MapAccessoryViewModel.IsMapStatusPanelOpen, Mode=TwoWay}"
+                          IsEnabled="{Binding IsMajorStateChangeAllowed, Mode=OneWay}"
+                          MouseEnter="ToggleButton_MouseEnter"
+                          MouseLeave="ToggleButton_MouseLeave"
+                          Style="{StaticResource TitleBarToggleButtonStyle}">
+                <Grid>
+                    <!--  Content when online  -->
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
                         <Path Margin="{StaticResource RightMediumThickness}"
                               Data="{StaticResource icon-arcgis-online-16}"
                               Fill="{DynamicResource SuccessBrush}"
@@ -54,16 +52,8 @@
                         </TextBlock>
                         <Path Fill="{DynamicResource SuccessBrush}" Style="{StaticResource TitleBarCaretIconStyle}" />
                     </StackPanel>
-                </ToggleButton>
-                <ToggleButton x:Name="WorkOfflineButton"
-                              HorizontalAlignment="Center"
-                              IsChecked="{Binding MapAccessoryViewModel.IsOfflinePanelOpen, Mode=TwoWay}"
-                              MouseEnter="ToggleButton_MouseEnter"
-                              MouseLeave="ToggleButton_MouseLeave"
-                              Style="{StaticResource TitleBarToggleButtonStyle}"
-                              ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip, Converter={StaticResource LocalizationConverter}}"
-                              Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
-                    <StackPanel Orientation="Horizontal">
+                    <!--  Content when offline  -->
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
                         <Path Margin="{StaticResource RightMediumThickness}"
                               Data="{StaticResource icon-offline-16}"
                               Style="{StaticResource TitleBarButtonIconPathStyle}" />
@@ -74,8 +64,8 @@
                         </TextBlock>
                         <Path Style="{StaticResource TitleBarCaretIconStyle}" />
                     </StackPanel>
-                </ToggleButton>
-            </StackPanel>
+                </Grid>
+            </ToggleButton>
             <StackPanel x:Name="RightPanel"
                         Grid.Row="0"
                         Grid.Column="0"
@@ -84,6 +74,7 @@
                 <Button HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
                         Command="{Binding AuthViewModel.SignInCommand, Mode=OneWay}"
+                        IsEnabled="{Binding IsMajorStateChangeAllowed, Mode=OneWay}"
                         Style="{StaticResource TitleBarButtonStyle}"
                         Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                     <StackPanel Orientation="Horizontal">
@@ -94,6 +85,7 @@
                 <ToggleButton x:Name="UserPopupButton"
                               HorizontalAlignment="Right"
                               IsChecked="{Binding MapAccessoryViewModel.IsUserPanelOpen, Mode=TwoWay}"
+                              IsEnabled="{Binding IsMajorStateChangeAllowed, Mode=OneWay}"
                               MouseEnter="ToggleButton_MouseEnter"
                               MouseLeave="ToggleButton_MouseLeave"
                               Style="{StaticResource TitleBarToggleButtonStyle}"
@@ -136,26 +128,15 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <!--  Floating 'Working Online' Panel  -->
-        <Popup x:Name="OnlinePopup"
+        <!--  Floating Map Status Panel  -->
+        <Popup x:Name="MapStatusPopup"
                HorizontalAlignment="Center"
                IsOpen="{Binding MapAccessoryViewModel.IsMapStatusPanelOpen, Mode=TwoWay}"
                Placement="Bottom"
-               PlacementTarget="{Binding ElementName=WorkOnlineButton}"
+               PlacementTarget="{Binding ElementName=MapStatusButton}"
                Style="{StaticResource PopupStyle}">
             <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
-                <panels:OnlineMapPanel DataContext="{Binding .}" />
-            </Border>
-        </Popup>
-        <!--  Floating 'Working Offline' Panel  -->
-        <Popup x:Name="OfflinePopup"
-               HorizontalAlignment="Center"
-               IsOpen="{Binding MapAccessoryViewModel.IsOfflinePanelOpen, Mode=TwoWay}"
-               Placement="Bottom"
-               PlacementTarget="{Binding ElementName=WorkOfflineButton}"
-               Style="{StaticResource PopupStyle}">
-            <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
-                <panels:MapPanel DataContext="{Binding .}" />
+                <panels:MapStatusPanel DataContext="{Binding .}" />
             </Border>
         </Popup>
         <!--  Floating User Panel  -->
