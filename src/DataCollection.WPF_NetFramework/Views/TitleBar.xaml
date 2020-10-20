@@ -119,7 +119,10 @@
                               Style="{StaticResource TitleBarToggleButtonStyle}"
                               ToolTip="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=AppInfo_About}"
                               Visibility="{Binding AppInfoViewModel.ShowAppInfo, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Path Data="{StaticResource icon-information-16}" Style="{StaticResource PathIconBase}" />
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-information-16}" Style="{StaticResource PathIconBase}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
                 </ToggleButton>
                 <TextBlock Margin="{StaticResource SidesMediumThickness}"
                            VerticalAlignment="Center"
