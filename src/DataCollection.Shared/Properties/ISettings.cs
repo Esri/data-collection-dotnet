@@ -44,5 +44,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         bool? ShowRuntimeVersion { get; set; }
         bool? ShowAppVersion { get; set; }
         bool? ShowLicenseInfo { get; set; }
+        string LicenseInfoLink { get; set; }
     }
 }

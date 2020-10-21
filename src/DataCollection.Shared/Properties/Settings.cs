@@ -226,6 +226,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         [XmlElement("ShowLicenseInfo")]
         public bool? ShowLicenseInfo { get; set; }
 
+        [XmlElement("LicenseInfoLink")]
+        public string LicenseInfoLink { get; set;}
+
         /// <summary>
         /// Serializes Settings object and saves it to the settings file
         /// </summary>
@@ -327,6 +330,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
             if (_settingsInstance.ShowLicenseInfo == null)
             {
                 _settingsInstance.ShowLicenseInfo = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(_settingsInstance.LicenseInfoLink))
+            {
+                _settingsInstance.ShowLicenseInfo = false;
             }
 
             SerializeSettings(_settingsInstance);

@@ -525,9 +525,6 @@
   <data name="AppInfo_LicenseButtonText" xml:space="preserve">
     <value>View Licenses and Acknowledgements</value>
   </data>
-  <data name="AppInfo_LicenseLink" xml:space="preserve">
-    <value>https://github.com/Esri/data-collection-dotnet#license</value>
-  </data>
   <data name="AppInfo_PoweredBy" xml:space="preserve">
     <value>Powered By:</value>
   </data>

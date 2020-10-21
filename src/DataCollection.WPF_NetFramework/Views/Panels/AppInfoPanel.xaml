@@ -9,7 +9,17 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
+        <Image Grid.RowSpan="6"
+               Width="40"
+               Height="40"
+               Margin="0,8,8,0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Source="../../Images/ArcGIS_Open_Source_Apps.ico" />
 
         <TextBlock Grid.Row="0"
                    Style="{StaticResource StatusPanelTitleStyle}"
@@ -21,8 +31,13 @@
 
         <TextBlock Grid.Row="2"
                    Style="{StaticResource SubtleTextStyle}"
-                   Text="{Binding AppVersion, Mode=OneTime}"
-                   Visibility="{Binding ShowAppVersion, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+                   Visibility="{Binding ShowAppVersion, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Run Text="{Binding AppVersionNamePart, Mode=OneTime}" />
+            <LineBreak />
+            <Run Text="{Binding AppVersionPlatformPart, Mode=OneTime}" />
+            <LineBreak />
+            <Run Text="{Binding AppVersionNumberPart, Mode=OneTime}" />
+        </TextBlock>
 
         <TextBlock Grid.Row="3"
                    Style="{StaticResource FieldLabelStyle}"
@@ -30,8 +45,11 @@
 
         <TextBlock Grid.Row="4"
                    Style="{StaticResource SubtleTextStyle}"
-                   Text="{Binding RuntimeVersion, Mode=OneTime}"
-                   Visibility="{Binding ShowRuntimeVersion, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+                   Visibility="{Binding ShowRuntimeVersion, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Run Text="{Binding RuntimeVersionNamePart, Mode=OneTime}" />
+            <Run Text="{Binding RuntimeVersionNumberPart, Mode=OneTime}" />
+            <Run Text="(" /><Run Text="{Binding RuntimeVersionBuildPart, Mode=OneTime}" /><Run Text=")" />
+        </TextBlock>
 
         <Button Grid.Row="5"
                 Margin="{StaticResource TopMediumThickness}"

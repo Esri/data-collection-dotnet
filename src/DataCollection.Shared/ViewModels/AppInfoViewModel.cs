@@ -30,14 +30,29 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
     public class AppInfoViewModel : BaseViewModel
     {
         /// <summary>
-        /// Defines the _appVersion.
+        /// Defines the _appVersionNamePart.
         /// </summary>
-        private string _appVersion;
+        private string _appVersionNamePart;
 
         /// <summary>
-        /// Defines the _runtimeVersion.
+        /// Defines the _appVersionNumberPart.
         /// </summary>
-        private string _runtimeVersion;
+        private string _appVersionNumberPart;
+
+        /// <summary>
+        /// Defines the _runtimeVersionNamePart.
+        /// </summary>
+        private string _runtimeVersionNamePart;
+
+        /// <summary>
+        /// Defines the _runtimeVersionNumberPart.
+        /// </summary>
+        private string _runtimeVersionNumberPart;
+
+        /// <summary>
+        /// Defines the _runtimeVersionBuildPart.
+        /// </summary>
+        private string _runtimeVersionBuildPart;
 
         /// <summary>
         /// Defines the _launchLicenseInfoCommand.
@@ -45,17 +60,19 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private ICommand _launchLicenseInfoCommand;
 
         /// <summary>
-        /// Gets a value indicating if the version of ArcGIS Runtime should be shown in the UI.
+        /// Gets a value indicating whether ShowRuntimeVersion
+        /// Gets a value indicating if the version of ArcGIS Runtime should be shown in the UI..
         /// </summary>
         public bool ShowRuntimeVersion { get => Settings.Default.ShowRuntimeVersion ?? false; }
 
         /// <summary>
-        /// Gets a value indicating if the version of the app should be shown in the UI.
+        /// Gets a value indicating whether ShowAppVersion
+        /// Gets a value indicating if the version of the app should be shown in the UI..
         /// </summary>
         public bool ShowAppVersion { get => Settings.Default.ShowAppVersion ?? false; }
 
         /// <summary>
-        /// Gets a value indicating whether a link to license info should be shown in the UI.
+        /// Gets a value indicating whether a link to license info should be shown in the UI..
         /// </summary>
         public bool ShowLicenseInfo { get => Settings.Default.ShowLicenseInfo ?? false; }
 
@@ -65,64 +82,129 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         public bool ShowAppInfo { get => ShowAppVersion || ShowRuntimeVersion || ShowLicenseInfo; }
 
         /// <summary>
-        /// Gets a formatted string including the app's name, platform, and version.
+        /// Gets the AppVersionNamePart
+        /// Gets a string with the app's name..
         /// </summary>
-        public string AppVersion
+        public string AppVersionNamePart
         {
             get
             {
-                if (_appVersion == null)
+                if (_appVersionNamePart == null)
                 {
+                    _appVersionNamePart = Resources.GetString("TitleBar_Name_App");
+                }
+                return _appVersionNamePart;
+            }
+        }
 
-                    var appName = Resources.GetString("TitleBar_Name_App");
-                    var platform = "";
+        /// <summary>
+        /// Gets the AppVersionPlatformPart
+        /// Gets a string with the app's UI platform..
+        /// </summary>
+        public string AppVersionPlatformPart
+        {
+            get
+            {
 #if NET_CORE
-                    platform = "WPF (.NET Core)";
+                return "WPF (.NET Core)";
 #elif WPF
-                    platform = "WPF (.NET Framework)";
+                return "WPF (.NET Framework)";
 #elif NETFX_CORE
-                    platform = "UWP";
+                return "UWP";
+#else
+                return "Unknown";
 #endif
-
-                    var version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-                    _appVersion = $"{appName}\n{platform}\n{version}";
-                }
-                return _appVersion;
             }
         }
 
         /// <summary>
-        /// Gets the version of Runtime used by the app.
+        /// Gets the AppVersionNumberPart
+        /// Gets a string with the app's version number..
         /// </summary>
-        public string RuntimeVersion
+        public string AppVersionNumberPart
         {
             get
             {
-                if (_runtimeVersion == null)
+                if (_appVersionNumberPart == null)
                 {
-                    #if NETFX_CORE
-                    var version = FileVersionInfo.GetVersionInfo(System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.Installed­Location.Path, "RuntimeCoreNet.dll"));
-                    #else
-                    var runtimeTypeInfo = typeof(ArcGISRuntimeEnvironment).GetTypeInfo();
-                    var version = FileVersionInfo.GetVersionInfo(runtimeTypeInfo.Assembly.Location);
-                    #endif
-                    var buildparts = version.FileVersion.Split('.');
-                    var build = buildparts[buildparts.Length - 1];
-                    var productVersion = version.ProductVersion;
-
-                    if (productVersion.EndsWith(build))
-                    {
-                        productVersion = productVersion.Substring(0, productVersion.Length - (build.Length + 1));
-                    }
-                    _runtimeVersion = $"ArcGIS Runtime {productVersion} ({build})";
+                    _appVersionNumberPart = Assembly.GetExecutingAssembly().GetName().Version.ToString();
                 }
-                return _runtimeVersion;
+                return _appVersionNumberPart;
             }
         }
 
         /// <summary>
-        /// Gets the command that launches the license info page.
+        /// The PopulateRuntimeVersion.
+        /// </summary>
+        private void PopulateRuntimeVersion()
+        {
+#if NETFX_CORE
+                    var version = FileVersionInfo.GetVersionInfo(System.IO.Path.Combine(Windows.ApplicationModel.Package.Current.Installed­Location.Path, "RuntimeCoreNet.dll"));
+#else
+            var runtimeTypeInfo = typeof(ArcGISRuntimeEnvironment).GetTypeInfo();
+            var version = FileVersionInfo.GetVersionInfo(runtimeTypeInfo.Assembly.Location);
+#endif
+            var buildparts = version.FileVersion.Split('.');
+            var build = buildparts[buildparts.Length - 1];
+            var productVersion = version.ProductVersion;
+
+            if (productVersion.EndsWith(build))
+            {
+                productVersion = productVersion.Substring(0, productVersion.Length - (build.Length + 1));
+            }
+
+            _runtimeVersionBuildPart = build;
+            _runtimeVersionNamePart = version.ProductName;
+            _runtimeVersionNumberPart = productVersion;
+        }
+
+        /// <summary>
+        /// Gets the name of ArcGIS Runtime used by the app..
+        /// </summary>
+        public string RuntimeVersionNamePart
+        {
+            get
+            {
+                if (_runtimeVersionNamePart == null)
+                {
+                    PopulateRuntimeVersion();
+                }
+                return _runtimeVersionNamePart;
+            }
+        }
+
+        /// <summary>
+        /// Gets the RuntimeVersionNumberPart.
+        /// </summary>
+        public string RuntimeVersionNumberPart
+        {
+            get
+            {
+                if (_runtimeVersionNumberPart == null)
+                {
+                    PopulateRuntimeVersion();
+                }
+                return _runtimeVersionNumberPart;
+            }
+        }
+
+        /// <summary>
+        /// Gets the RuntimeVersionBuildPart.
+        /// </summary>
+        public string RuntimeVersionBuildPart
+        {
+            get
+            {
+                if (_runtimeVersionBuildPart == null)
+                {
+                    PopulateRuntimeVersion();
+                }
+                return _runtimeVersionBuildPart;
+            }
+        }
+
+        /// <summary>
+        /// Gets the command that launches the license info page..
         /// </summary>
         public ICommand LaunchLicenseInfoCommand
         {
@@ -134,10 +216,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         try
                         {
 #if NETFX_CORE
-                            var url = Resources.GetString("AppInfo_LicenseLink");
+                            var url = Settings.Default.LicenseInfoLink;
                             _ = Windows.System.Launcher.LaunchUriAsync(new Uri(url));
 #else
-                            ProcessStartInfo psi = new ProcessStartInfo(Resources.GetString("AppInfo_LicenseLink")) { UseShellExecute = true };
+                            ProcessStartInfo psi = new ProcessStartInfo(Settings.Default.LicenseInfoLink) { UseShellExecute = true };
                             Process.Start(psi);
 #endif
                         }
