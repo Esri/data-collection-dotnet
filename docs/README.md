@@ -929,6 +929,7 @@ The shared `Configuration.xml` contains a series of static configuration resourc
 * **ShowAppVersion**: Controls whether the app's version is shown in the UI.
 * **ShowRuntimeVersion**: Controls whether the ArcGIS Runtime version is shown in the UI.
 * **ShowLicenseInfo**: Controls whether a link to show license info is shown in the UI.
+* **LicenseInfoLink**: Sets the link to navigate to for license info.
 
 Settings used specifically and only with the *Tree Survey* dataset. These should not be modified.
 

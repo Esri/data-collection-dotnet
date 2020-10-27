@@ -350,6 +350,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
         private AppInfoViewModel _appInfoViewModel;
 
+        /// <summary>
+        /// Gets or sets the viewmodel that manages the app's about page.
+        /// </summary>
         public AppInfoViewModel AppInfoViewModel
         {
             get => _appInfoViewModel;

@@ -20,7 +20,7 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels
 {
     /// <summary>
-    /// Control shows details about the signed-in user.
+    /// Control shows details about the app.
     /// </summary>
     public sealed partial class AppInfoPanel
     {

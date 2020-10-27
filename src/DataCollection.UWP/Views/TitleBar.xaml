@@ -23,8 +23,10 @@
             <StackPanel x:Name="LeftPanel"
                         Grid.Column="0"
                         Orientation="Horizontal">
-                <Image Margin="{StaticResource LeftLargeThickness}"
-                       Source="../Assets/TitleBarIcon.png" Width="20" Height="20"
+                <Image Width="20"
+                       Height="20"
+                       Margin="{StaticResource LeftLargeThickness}"
+                       Source="../Assets/TitleBarIcon.png"
                        Style="{StaticResource TitleBarImageStyle}" />
                 <TextBlock Style="{StaticResource TitleBarTitleStyle}">
                     <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />

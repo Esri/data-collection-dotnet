@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Border HorizontalAlignment="Stretch" Style="{StaticResource PopupBorder}">
         <Grid>
-            <Image HorizontalAlignment="Right" VerticalAlignment="Top"
-                   Source="../../Assets/TitleBarIcon.png"
-                   Width="40" Height="40" />
+            <Image Width="40"
+                   Height="40"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Source="../../Assets/TitleBarIcon.png" />
             <StackPanel Spacing="{StaticResource LargeRowSpacing}">
                 <TextBlock Style="{StaticResource PopupProminentText}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AppInfo_About}" />
                 <TextBlock Style="{StaticResource PopupProminentText}"
