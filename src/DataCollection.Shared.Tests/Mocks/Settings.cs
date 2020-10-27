@@ -47,5 +47,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks
         public bool? ShowRuntimeVersion { get => false; set { } }
         public bool? ShowAppVersion { get => false; set { } }
         public bool? ShowLicenseInfo { get => false; set { } }
+        public string LicenseInfoLink { get => ""; set { } }
     }
 }
