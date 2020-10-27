@@ -115,7 +115,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             var loadTasks = new List<Task>();
             var relationshipTaks = new List<Task>();
 
-            foreach (var feature in IdentifiedFeatures)
+            foreach (var feature in IdentifiedFeatures ?? Enumerable.Empty<IdentifiedFeatureViewModel>())
             {
                 if (feature.Feature is ArcGISFeature arcGISFeature)
                 {
