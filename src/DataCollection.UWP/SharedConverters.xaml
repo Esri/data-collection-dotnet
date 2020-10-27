@@ -5,6 +5,7 @@
                     xmlns:uwpconverters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters">
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+    <converters:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
     <converters:EmptyCollectionToBoolConverter x:Key="EmptyCollectionToBoolConverter" />
     <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -12,6 +13,5 @@
     <converters:PlusOneConverter x:Key="PlusOneConverter" />
     <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
     <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
-    <uwpconverters:DateTimeStringFormatConverter x:Key="DateTimeStringFormatConverter" />
     <uwpconverters:NullableIntToIntConverter x:Key="NullableIntToIntConverter" />
 </ResourceDictionary>

@@ -39,7 +39,6 @@
                     Style="{StaticResource TitleBarButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}">
                 <Grid>
-
                     <StackPanel Orientation="Horizontal" Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
                         <!--<Path Data="{StaticResource icon-arcgis-online-16}"
                               Fill="{ThemeResource SuccessBrush}"
@@ -83,6 +82,8 @@
                         <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource PathIconStyle}" />
                         <TextBlock Margin="{StaticResource LeftLargeThickness}"
                                    VerticalAlignment="Center"
+                                   FontWeight="Normal"
+                                   Style="{StaticResource TitleBarTitleStyle}"
                                    Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}" />
                     </StackPanel>
                 </Button>

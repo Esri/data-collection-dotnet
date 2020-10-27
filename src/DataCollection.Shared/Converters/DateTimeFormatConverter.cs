@@ -15,30 +15,36 @@
 ******************************************************************************/
 
 using System;
+#if NETFX_CORE
 using Windows.UI.Xaml.Data;
+using CustomCultureInfo = System.String;
+#else
+using System.Windows.Data;
+using CustomCultureInfo = System.Globalization.CultureInfo;
+#endif
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
 {
     /// <summary>
-    /// Converter applies a format string to a date time
+    /// Converter converts to local time zone and then applies the given format string.
     /// </summary>
-    public class DateTimeStringFormatConverter : IValueConverter
+    public class DateTimeFormatConverter : IValueConverter
     {
         /// <summary>
         /// Applies format string specified in <paramref name="parameter"/> to the input <paramref name="value"/>, which is expected to
         /// be a <see cref="DateTime"/> or <see cref="DateTimeOffset"/>.
         /// </summary>
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public object Convert(object value, Type targetType, object parameter, CustomCultureInfo language)
         {
             if (parameter is string format)
             {
                 if (value is DateTimeOffset dto)
                 {
-                    return dto.ToString(format);
+                    return dto.ToLocalTime().ToString(format);
                 }
                 else if (value is DateTime date)
                 {
-                    return date.ToString(format);
+                    return date.ToLocalTime().ToString(format);
                 }
             }
 
@@ -48,6 +54,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
         /// <summary>
         /// Not implemented
         /// </summary>
-        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CustomCultureInfo language) => throw new NotImplementedException();
     }
 }

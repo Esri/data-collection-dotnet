@@ -93,7 +93,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                                 Settings.Default.OAuthRefreshToken);
 
             ConnectivityMode = Settings.Default.ConnectivityMode == "Online" ? ConnectivityMode.Online : ConnectivityMode.Offline;
-            SyncDate = DateTime.TryParse(Settings.Default.SyncDate, out DateTime syncDate) ? syncDate : DateTime.MinValue;
             _defaultZoomScale = Settings.Default.DefaultZoomScale;
 
             // set the download path and connectivity mode as they change
@@ -407,19 +406,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private DateTime? _syncDate;
-
         /// <summary>
         /// Gets or sets the date the map was downloaded or synced
         /// </summary>
         public DateTime? SyncDate
         {
-            get { return _syncDate; }
+            get
+            {
+                return DateTime.TryParse(Settings.Default.SyncDate, out var syncDate) ? syncDate : (DateTime?)null;
+            }
             set
             {
-                if (_syncDate != value)
+                if (SyncDate != value)
                 {
-                    _syncDate = value;
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(value?.ToUniversalTime().ToString("O"), BroadcastMessageKey.SyncDate);
                     OnPropertyChanged();
                 }
             }
@@ -491,7 +491,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                             {
                                 // set and save download date 
                                 SyncDate = DateTime.Now;
-                                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(SyncDate, BroadcastMessageKey.SyncDate);
 
                                 // set app mode to offline and load the offline map
                                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(ConnectivityMode.Offline, BroadcastMessageKey.ConnectivityMode);
@@ -672,7 +671,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                 {
                                     // set and save sync date
                                     SyncDate = DateTime.Now;
-                                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(SyncDate, BroadcastMessageKey.SyncDate);
                                 }
 
                                 SyncViewModel = null;
@@ -987,6 +985,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 Mmpk.Close();
                 Mmpk = null;
             }
+
+            // clear the sync date
+            SyncDate = null;
 
             // try deleting the folder
             try

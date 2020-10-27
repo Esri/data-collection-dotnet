@@ -5,6 +5,7 @@
                     xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters">
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+    <converters:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
     <converters:EmptyCollectionToBoolConverter x:Key="EmptyCollectionToBoolConverter" />
     <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
     <converters:LocalizationConverter x:Key="LocalizationConverter" />

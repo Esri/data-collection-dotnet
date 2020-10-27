@@ -283,7 +283,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LocalizedStrings\Resources.resx" />
+    <EmbeddedResource Include="LocalizedStrings\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentDocument.png">

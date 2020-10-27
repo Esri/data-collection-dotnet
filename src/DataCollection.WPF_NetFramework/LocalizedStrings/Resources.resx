@@ -399,9 +399,6 @@
   <data name="OfflineMapPanel_LastSync_FieldLabel" xml:space="preserve">
     <value>Last Sync:</value>
   </data>
-  <data name="OfflineMapPanel_SyncButton_Text" xml:space="preserve">
-    <value>Synchronize</value>
-  </data>
   <data name="OfflineMapPanel_WorkOnlineButton_Text" xml:space="preserve">
     <value>Work Online</value>
   </data>
@@ -518,5 +515,8 @@
   </data>
   <data name="Of_ResultSeparator" xml:space="preserve">
     <value>of</value>
+  </data>
+  <data name="OfflineMap_SectionTitle" xml:space="preserve">
+    <value>Offline Map</value>
   </data>
 </root>
