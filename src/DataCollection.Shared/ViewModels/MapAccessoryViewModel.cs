@@ -53,6 +53,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
         private bool _isUserPanelOpen;
         private bool _isMapStatusPanelOpen;
+        private bool _isAppInfoPanelOpen;
 
         private MainViewModel _mainViewModel;
 
@@ -320,12 +321,29 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
+        /// True if the panel showing app info (versions) should be open.
+        /// </summary>
+        public bool IsAppInfoPanelOpen
+        {
+            get => _isAppInfoPanelOpen;
+            set
+            {
+                if (_isAppInfoPanelOpen != value)
+                {
+                    _isAppInfoPanelOpen = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// Closes all open accessory panels/cards.
         /// </summary>
         public void CloseAccessories()
         {
             IsUserPanelOpen = false;
             IsMapStatusPanelOpen = false;
+            IsAppInfoPanelOpen = false;
 
             IsBookmarksOpen = false;
             IsLegendOpen = false;

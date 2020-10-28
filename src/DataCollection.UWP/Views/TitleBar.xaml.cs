@@ -60,6 +60,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
             {
                 MapStatusFlyout.Hide();
                 UserPanelFlyout.Hide();
+                AppInfoFlyout.Hide();
             }
         }
 

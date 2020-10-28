@@ -163,12 +163,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views
         /// <summary>
         /// Corrects popup behavior with toggle button.
         /// </summary>
-        private void ToggleButton_MouseEnter(object sender, MouseEventArgs e) => UserPopup.StaysOpen = MapStatusPopup.StaysOpen = true;
+        private void ToggleButton_MouseEnter(object sender, MouseEventArgs e) => UserPopup.StaysOpen = MapStatusPopup.StaysOpen = AppInfoPopup.StaysOpen = true;
 
         /// <summary>
         /// Corrects popup behavior with toggle button.
         /// </summary>
-        private void ToggleButton_MouseLeave(object sender, MouseEventArgs e) => UserPopup.StaysOpen = MapStatusPopup.StaysOpen = false;
+        private void ToggleButton_MouseLeave(object sender, MouseEventArgs e) => UserPopup.StaysOpen = MapStatusPopup.StaysOpen = AppInfoPopup.StaysOpen = false;
 
         #region Custom window management based on Fluent Ribbon's RibbonWindow implementation
         // Code based on Fluent.Ribbon's implementation

@@ -93,6 +93,9 @@
     <Compile Include="Views\Cards\IdentifyResultCard.xaml.cs">
       <DependentUpon>IdentifyResultCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Panels\AppInfoPanel.xaml.cs">
+      <DependentUpon>AppInfoPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TitleBar.xaml.cs">
       <DependentUpon>TitleBar.xaml</DependentUpon>
     </Compile>
@@ -199,6 +202,10 @@
     <Page Include="Views\Cards\IdentifyResultCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\AppInfoPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TitleBar.xaml">
       <SubType>Designer</SubType>

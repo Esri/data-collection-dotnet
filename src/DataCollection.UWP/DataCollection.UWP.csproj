@@ -156,6 +156,9 @@
     <Compile Include="Views\Panels\MapStatusPanel.xaml.cs">
       <DependentUpon>MapStatusPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Panels\AppInfoPanel.xaml.cs">
+      <DependentUpon>AppInfoPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Panels\SignedInUserPanel.xaml.cs">
       <DependentUpon>SignedInUserPanel.xaml</DependentUpon>
     </Compile>
@@ -373,6 +376,10 @@
     <Page Include="Views\Panels\MapStatusPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\AppInfoPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Panels\SignedInUserPanel.xaml">
       <SubType>Designer</SubType>

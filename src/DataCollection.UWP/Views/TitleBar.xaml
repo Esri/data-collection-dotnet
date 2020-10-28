@@ -114,6 +114,20 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
+                <Button HorizontalAlignment="Center"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=AppInfo_About}"
+                        Visibility="{x:Bind MainViewModel.AppInfoViewModel.ShowAppInfo, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-information-16}" Style="{StaticResource PathIconStyle}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <Flyout x:Name="AppInfoFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                            <panels:AppInfoPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
                 <TextBlock Width="48"
                            HorizontalAlignment="Center"
                            Opacity="0.8"

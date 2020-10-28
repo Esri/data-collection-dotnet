@@ -41,5 +41,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         string TreeDatasetWebmapUrl { get; set; }
         string TreeDBHAttribute { get; set; }
         string WebmapURL { get; set; }
+        bool? ShowRuntimeVersion { get; set; }
+        bool? ShowAppVersion { get; set; }
+        bool? ShowLicenseInfo { get; set; }
+        string LicenseInfoLink { get; set; }
     }
 }
