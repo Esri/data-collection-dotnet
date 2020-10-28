@@ -111,6 +111,19 @@
                         <Path Style="{StaticResource TitleBarCaretIconStyle}" />
                     </StackPanel>
                 </ToggleButton>
+                <ToggleButton x:Name="AppInfoButton"
+                              HorizontalAlignment="Right"
+                              IsChecked="{Binding MapAccessoryViewModel.IsAppInfoPanelOpen, Mode=TwoWay}"
+                              MouseEnter="ToggleButton_MouseEnter"
+                              MouseLeave="ToggleButton_MouseLeave"
+                              Style="{StaticResource TitleBarToggleButtonStyle}"
+                              ToolTip="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=AppInfo_About}"
+                              Visibility="{Binding AppInfoViewModel.ShowAppInfo, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-information-16}" Style="{StaticResource PathIconBase}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                </ToggleButton>
                 <TextBlock Margin="{StaticResource SidesMediumThickness}"
                            VerticalAlignment="Center"
                            FontWeight="SemiBold"
@@ -167,6 +180,18 @@
                Style="{StaticResource PopupStyle}">
             <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
                 <panels:UserAccountPanel DataContext="{Binding AuthViewModel, Mode=TwoWay}" />
+            </Border>
+        </Popup>
+
+        <Popup x:Name="AppInfoPopup"
+               HorizontalAlignment="Center"
+               HorizontalOffset="-150"
+               IsOpen="{Binding MapAccessoryViewModel.IsAppInfoPanelOpen, Mode=TwoWay}"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=AppInfoButton}"
+               Style="{StaticResource PopupStyle}">
+            <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <panels:AppInfoPanel DataContext="{Binding AppInfoViewModel, Mode=OneWay}" />
             </Border>
         </Popup>
     </Grid>

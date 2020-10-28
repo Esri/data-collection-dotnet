@@ -12,6 +12,7 @@
     * An Arcade expression defined per layer is used to create subtitles that help you differentiate identified features.
 * Adds unit tests for new code added to support multiple identify results.
     * Changes were made to shared code to facilitate unit testing of view models.
+* Adds a new 'About' page, which shows the app version, ArcGIS Runtime version, and a link to a page detailing licenses. The appearance of these fields can be controlled via the app's configuration.
 
 ## 1.2.3
 

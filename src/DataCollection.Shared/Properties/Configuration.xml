@@ -8,6 +8,12 @@
   <RedirectURL>data-collection://auth</RedirectURL>
   <PopupExpressionForSubtitle>subtitle</PopupExpressionForSubtitle>
   <MaxIdentifyResultsPerLayer>8</MaxIdentifyResultsPerLayer>
+
+  <!-- Settings related to app UI appearance -->
+  <ShowAppVersion>true</ShowAppVersion>
+  <ShowRuntimeVersion>true</ShowRuntimeVersion>
+  <ShowLicenseInfo>true</ShowLicenseInfo>
+  <LicenseInfoLink>https://github.com/Esri/data-collection-dotnet#license</LicenseInfoLink>
   
   <!-- The settings below are speficic to the Tree Survey dataset and workflow. Do not modify -->
   <TreeDatasetWebmapUrl>https://arcgisruntime.maps.arcgis.com/home/item.html?id=16f1b8ba37b44dc3884afc8d5f454dd2</TreeDatasetWebmapUrl>

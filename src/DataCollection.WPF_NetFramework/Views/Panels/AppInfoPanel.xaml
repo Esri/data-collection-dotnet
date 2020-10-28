@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels.AppInfoPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Image Grid.RowSpan="6"
+               Width="40"
+               Height="40"
+               Margin="0,8,8,0"
+               HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Source="../../Images/ArcGIS_Open_Source_Apps.ico" />
+
+        <TextBlock Grid.Row="0"
+                   Style="{StaticResource StatusPanelTitleStyle}"
+                   Text="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=AppInfo_About}" />
+
+        <TextBlock Grid.Row="1"
+                   Style="{StaticResource FieldLabelStyle}"
+                   Text="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=AppInfo_Version}" />
+
+        <TextBlock Grid.Row="2"
+                   Style="{StaticResource SubtleTextStyle}"
+                   Visibility="{Binding ShowAppVersion, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Run Text="{Binding AppVersionNamePart, Mode=OneTime}" />
+            <LineBreak />
+            <Run Text="{Binding AppVersionPlatformPart, Mode=OneTime}" />
+            <LineBreak />
+            <Run Text="{Binding AppVersionNumberPart, Mode=OneTime}" />
+        </TextBlock>
+
+        <TextBlock Grid.Row="3"
+                   Style="{StaticResource FieldLabelStyle}"
+                   Text="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=AppInfo_PoweredBy}" />
+
+        <TextBlock Grid.Row="4"
+                   Style="{StaticResource SubtleTextStyle}"
+                   Visibility="{Binding ShowRuntimeVersion, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Run Text="{Binding RuntimeVersionNamePart, Mode=OneTime}" />
+            <Run Text="{Binding RuntimeVersionNumberPart, Mode=OneTime}" />
+            <Run Text="(" /><Run Text="{Binding RuntimeVersionBuildPart, Mode=OneTime}" /><Run Text=")" />
+        </TextBlock>
+
+        <Button Grid.Row="5"
+                Margin="{StaticResource TopMediumThickness}"
+                Command="{Binding LaunchLicenseInfoCommand, Mode=OneTime}"
+                Style="{StaticResource MapOverlayButtonStyle}"
+                Visibility="{Binding ShowLicenseInfo, Mode=OneTime, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Path Data="{StaticResource icon-launch-16}" Style="{StaticResource CardButtonIconStyle}" />
+                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}"
+                           Text="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=AppInfo_LicenseButtonText}"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>

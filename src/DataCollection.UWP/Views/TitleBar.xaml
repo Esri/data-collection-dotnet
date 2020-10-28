@@ -23,8 +23,10 @@
             <StackPanel x:Name="LeftPanel"
                         Grid.Column="0"
                         Orientation="Horizontal">
-                <Image Margin="{StaticResource LeftLargeThickness}"
-                       Source="../Assets/TitleBarIcon.png" Width="20" Height="20"
+                <Image Width="20"
+                       Height="20"
+                       Margin="{StaticResource LeftLargeThickness}"
+                       Source="../Assets/TitleBarIcon.png"
                        Style="{StaticResource TitleBarImageStyle}" />
                 <TextBlock Style="{StaticResource TitleBarTitleStyle}">
                     <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Name_App}" />
@@ -114,6 +116,20 @@
                     <Button.Flyout>
                         <Flyout x:Name="UserPanelFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
                             <panels:SignedInUserPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button HorizontalAlignment="Center"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=AppInfo_About}"
+                        Visibility="{x:Bind MainViewModel.AppInfoViewModel.ShowAppInfo, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-information-16}" Style="{StaticResource PathIconStyle}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <Flyout x:Name="AppInfoFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                            <panels:AppInfoPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>

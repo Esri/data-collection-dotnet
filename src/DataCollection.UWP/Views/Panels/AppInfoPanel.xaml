@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels.AppInfoPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border HorizontalAlignment="Stretch" Style="{StaticResource PopupBorder}">
+        <Grid>
+            <Image Width="40"
+                   Height="40"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Source="../../Assets/TitleBarIcon.png" />
+            <StackPanel Spacing="{StaticResource LargeRowSpacing}">
+                <TextBlock Style="{StaticResource PopupProminentText}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AppInfo_About}" />
+                <TextBlock Style="{StaticResource PopupProminentText}"
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AppInfo_Version}"
+                           Visibility="{x:Bind MainViewModel.AppInfoViewModel.ShowAppVersion, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <TextBlock Style="{StaticResource PopupText}" Visibility="{x:Bind MainViewModel.AppInfoViewModel.ShowAppVersion, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Run Text="{x:Bind MainViewModel.AppInfoViewModel.AppVersionNamePart, Mode=OneTime}" />
+                    <LineBreak />
+                    <Run Text="{x:Bind MainViewModel.AppInfoViewModel.AppVersionPlatformPart, Mode=OneTime}" />
+                    <LineBreak />
+                    <Run Text="{x:Bind MainViewModel.AppInfoViewModel.AppVersionNumberPart, Mode=OneTime}" />
+                </TextBlock>
+                <TextBlock Style="{StaticResource PopupProminentText}"
+                           Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AppInfo_PoweredBy}"
+                           Visibility="{x:Bind MainViewModel.AppInfoViewModel.ShowRuntimeVersion, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <TextBlock Style="{StaticResource PopupText}" Visibility="{x:Bind MainViewModel.AppInfoViewModel.ShowRuntimeVersion, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Run Text="{x:Bind MainViewModel.AppInfoViewModel.RuntimeVersionNamePart, Mode=OneTime}" />
+                    <Run Text="{x:Bind MainViewModel.AppInfoViewModel.RuntimeVersionNumberPart, Mode=OneTime}" />
+                    <Run Text="(" /><Run Text="{x:Bind MainViewModel.AppInfoViewModel.RuntimeVersionBuildPart, Mode=OneTime}" /><Run Text=")" />
+                </TextBlock>
+                <Button HorizontalAlignment="Stretch"
+                        Command="{x:Bind MainViewModel.AppInfoViewModel.LaunchLicenseInfoCommand}"
+                        Style="{StaticResource MapOverlayButtonStyle}"
+                        Visibility="{x:Bind MainViewModel.AppInfoViewModel.ShowLicenseInfo, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <!--<Path Style="{StaticResource PathIconStyle}" Data="{StaticResource icon-launch-16}" />-->
+                        <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/launch-32.png" />
+                        <TextBlock Style="{StaticResource TextBlockBaseStyle}" Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AppInfo_LicenseButtonText}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

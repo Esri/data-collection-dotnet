@@ -919,13 +919,17 @@ Because this app uses a shared code project, all of the code in the shared proje
 
 The shared `Configuration.xml` contains a series of static configuration resources. Modify these configurations to suit your needs. They include:
 
-* **WebmapURL**: the url for the webmap that will populate the app. The app can only work with one webmap at a time
-* **ArcGISOnlineURL**: used for OAuth authentication `https://www.arcgis.com/sharing/rest`
-* **DefaultZoomScale**: integer that sets how far the current location button will zoom in when pushed
+* **WebmapURL**: The url for the webmap that will populate the app. The app can only work with one webmap at a time
+* **ArcGISOnlineURL**: Used for OAuth authentication `https://www.arcgis.com/sharing/rest`
+* **DefaultZoomScale**: Integer that sets how far the current location button will zoom in when pushed
 * **AppClientID**: Used for OAuth authentication
 * **RedirectURL**: Used for OAuth authentication
 * **PopupExpressionForSubtitle**: The title of the popup expression to be used to compute a subtitle for features. The feature subtitle helps differentiate features when there are multiple identify results.
 * **MaxIdentifyResultsPerLayer**: Sets the maximum number of results to return when performing an identify operation.
+* **ShowAppVersion**: Controls whether the app's version is shown in the UI.
+* **ShowRuntimeVersion**: Controls whether the ArcGIS Runtime version is shown in the UI.
+* **ShowLicenseInfo**: Controls whether a link to show license info is shown in the UI.
+* **LicenseInfoLink**: Sets the link to navigate to for license info.
 
 Settings used specifically and only with the *Tree Survey* dataset. These should not be modified.
 

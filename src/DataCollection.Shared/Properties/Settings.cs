@@ -216,6 +216,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
 
         [XmlElement("MaxIdentifyResultsPerLayer")]
         public int MaxIdentifyResultsPerLayer { get; set; }
+        
+        [XmlElement("ShowRuntimeVersion")]
+        public bool? ShowRuntimeVersion { get; set; }
+
+        [XmlElement("ShowAppVersion")]
+        public bool? ShowAppVersion { get; set; }
+
+        [XmlElement("ShowLicenseInfo")]
+        public bool? ShowLicenseInfo { get; set; }
+
+        [XmlElement("LicenseInfoLink")]
+        public string LicenseInfoLink { get; set;}
 
         /// <summary>
         /// Serializes Settings object and saves it to the settings file
@@ -304,6 +316,27 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
             {
                 _settingsInstance.PopupExpressionForSubtitle = "subtitle";
             }
+
+            if (_settingsInstance.ShowRuntimeVersion == null)
+            {
+                _settingsInstance.ShowRuntimeVersion = true;
+            }
+
+            if (_settingsInstance.ShowAppVersion == null)
+            {
+                _settingsInstance.ShowAppVersion = true;
+            }
+
+            if (_settingsInstance.ShowLicenseInfo == null)
+            {
+                _settingsInstance.ShowLicenseInfo = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(_settingsInstance.LicenseInfoLink))
+            {
+                _settingsInstance.ShowLicenseInfo = false;
+            }
+
             SerializeSettings(_settingsInstance);
         }
     }
