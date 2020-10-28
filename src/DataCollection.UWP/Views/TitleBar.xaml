@@ -33,12 +33,13 @@
                     <Run Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_Suffix_UWP}" />
                 </TextBlock>
             </StackPanel>
-            <Grid x:Name="CenterPanel">
-                <Button HorizontalAlignment="Center"
-                        Style="{StaticResource TitleBarButtonStyle}"
-                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}"
-                        Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
-                    <StackPanel Orientation="Horizontal">
+            <Button x:Name="MapStatusButton"
+                    HorizontalAlignment="Center"
+                    IsEnabled="{x:Bind MainViewModel.IsMajorStateChangeAllowed, Mode=OneWay}"
+                    Style="{StaticResource TitleBarButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOnlineButton_Tooltip}">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, Mode=OneWay}">
                         <!--<Path Data="{StaticResource icon-arcgis-online-16}"
                               Fill="{ThemeResource SuccessBrush}"
                               Style="{StaticResource PathIconStyle}" />-->
@@ -52,17 +53,7 @@
                         </TextBlock>
                         <Path Fill="{ThemeResource SuccessBrush}" Style="{StaticResource TitleBarCaretIconStyle}" />
                     </StackPanel>
-                    <Button.Flyout>
-                        <Flyout x:Name="OnlineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
-                            <panels:OnlineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <Button HorizontalAlignment="Center"
-                        Style="{StaticResource TitleBarButtonStyle}"
-                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_WorkingOfflineButton_Tooltip}"
-                        Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Visibility="{x:Bind MainViewModel.ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
                         <!--<Path Data="{StaticResource icon-offline-16}" Style="{StaticResource PathIconStyle}" />-->
                         <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/offline-32.png" />
                         <TextBlock Margin="{StaticResource LeftLargeThickness}" Style="{StaticResource TextBlockBaseStyle}">
@@ -72,17 +63,18 @@
                         </TextBlock>
                         <Path Style="{StaticResource TitleBarCaretIconStyle}" />
                     </StackPanel>
-                    <Button.Flyout>
-                        <Flyout x:Name="OfflineMapFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
-                            <panels:OfflineMapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-            </Grid>
+                </Grid>
+                <Button.Flyout>
+                    <Flyout x:Name="MapStatusFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                        <panels:MapStatusPanel MainViewModel="{x:Bind MainViewModel, Mode=OneWay}" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
             <StackPanel x:Name="RightPanel"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
                 <Button Command="{x:Bind MainViewModel.AuthViewModel.SignInCommand, Mode=OneWay}"
+                        IsEnabled="{x:Bind MainViewModel.IsMajorStateChangeAllowed, Mode=OneWay}"
                         Style="{StaticResource TitleBarButtonStyle}"
                         ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}"
                         Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}">
@@ -90,10 +82,13 @@
                         <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource PathIconStyle}" />
                         <TextBlock Margin="{StaticResource LeftLargeThickness}"
                                    VerticalAlignment="Center"
+                                   FontWeight="Normal"
+                                   Style="{StaticResource TitleBarTitleStyle}"
                                    Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_SignInButton_Text}" />
                     </StackPanel>
                 </Button>
                 <Button HorizontalAlignment="Center"
+                        IsEnabled="{x:Bind MainViewModel.IsMajorStateChangeAllowed, Mode=OneWay}"
                         Style="{StaticResource TitleBarButtonStyle}"
                         ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=TitleBar_UserButton_Tooltip}"
                         Visibility="{x:Bind MainViewModel.AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}">
@@ -151,12 +146,12 @@
                         <Setter Target="LeftPanel.Visibility" Value="Visible" />
                         <Setter Target="LeftPanel.(Grid.Row)" Value="0" />
                         <Setter Target="LeftPanel.(Grid.Column)" Value="0" />
-                        <Setter Target="CenterPanel.(Grid.Column)" Value="1" />
-                        <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="MapStatusButton.(Grid.Column)" Value="1" />
+                        <Setter Target="MapStatusButton.(Grid.Row)" Value="0" />
                         <Setter Target="RightPanel.(Grid.Column)" Value="2" />
                         <Setter Target="RightPanel.(Grid.Row)" Value="0" />
                         <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="MapStatusButton.(Grid.ColumnSpan)" Value="1" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Intermediate">
@@ -165,13 +160,13 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
-                        <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
-                        <Setter Target="CenterPanel.(Grid.Row)" Value="0" />
-                        <Setter Target="CenterPanel.HorizontalAlignment" Value="Left" />
+                        <Setter Target="MapStatusButton.(Grid.Column)" Value="0" />
+                        <Setter Target="MapStatusButton.(Grid.Row)" Value="0" />
+                        <Setter Target="MapStatusButton.HorizontalAlignment" Value="Left" />
                         <Setter Target="RightPanel.(Grid.Column)" Value="2" />
                         <Setter Target="RightPanel.(Grid.Row)" Value="0" />
                         <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="3" />
+                        <Setter Target="MapStatusButton.(Grid.ColumnSpan)" Value="3" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Smallest">
@@ -180,13 +175,13 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LeftPanel.Visibility" Value="Collapsed" />
-                        <Setter Target="CenterPanel.(Grid.Column)" Value="0" />
-                        <Setter Target="CenterPanel.(Grid.Row)" Value="1" />
+                        <Setter Target="MapStatusButton.(Grid.Column)" Value="0" />
+                        <Setter Target="MapStatusButton.(Grid.Row)" Value="1" />
                         <Setter Target="RightPanel.(Grid.Column)" Value="3" />
                         <Setter Target="RightPanel.(Grid.Row)" Value="0" />
-                        <Setter Target="CenterPanel.(Grid.ColumnSpan)" Value="5" />
+                        <Setter Target="MapStatusButton.(Grid.ColumnSpan)" Value="5" />
                         <Setter Target="RightPanel.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="CenterPanel.HorizontalAlignment" Value="Center" />
+                        <Setter Target="MapStatusButton.HorizontalAlignment" Value="Center" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

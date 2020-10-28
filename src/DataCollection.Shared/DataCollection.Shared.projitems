@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolInverseConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DateTimeFormatConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EmptyCollectionToBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\EmptyCollectionToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConnectivityModeToVisibilityConverter.cs" />

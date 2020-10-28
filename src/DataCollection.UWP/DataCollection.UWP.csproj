@@ -100,7 +100,6 @@
     </Compile>
     <Compile Include="Controls\NullReadyCalendarDatePicker.cs" />
     <Compile Include="Converters\NullableIntToIntConverter.cs" />
-    <Compile Include="Converters\DateTimeStringFormatConverter.cs" />
     <Compile Include="Converters\SelectedPivotIndexToVisibilityConverter.cs" />
     <Compile Include="Converters\TitleBarConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ObjectToDateTimeOffsetConverter.cs" />
@@ -154,11 +153,8 @@
     <Compile Include="Views\NavBar.xaml.cs">
       <DependentUpon>NavBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Panels\OfflineMapStatusPanel.xaml.cs">
-      <DependentUpon>OfflineMapStatusPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Panels\OnlineMapStatusPanel.xaml.cs">
-      <DependentUpon>OnlineMapStatusPanel.xaml</DependentUpon>
+    <Compile Include="Views\Panels\MapStatusPanel.xaml.cs">
+      <DependentUpon>MapStatusPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Panels\AppInfoPanel.xaml.cs">
       <DependentUpon>AppInfoPanel.xaml</DependentUpon>
@@ -377,11 +373,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Panels\OfflineMapStatusPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Panels\OnlineMapStatusPanel.xaml">
+    <Page Include="Views\Panels\MapStatusPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

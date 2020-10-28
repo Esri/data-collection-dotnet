@@ -58,8 +58,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views
         {
             if (e.Args.Key == Shared.Models.BroadcastMessageKey.ClosePopups)
             {
-                OfflineMapFlyout.Hide();
-                OnlineMapFlyout.Hide();
+                MapStatusFlyout.Hide();
                 UserPanelFlyout.Hide();
                 AppInfoFlyout.Hide();
             }

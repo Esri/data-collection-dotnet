@@ -43,8 +43,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private ICommand _zoomOutCommand;
         private ICommand _toggleAttributionCommand;
 
-        private ICommand _toggleOnlinePanelCommand;
-        private ICommand _toggleOfflinePanelCommand;
+        private ICommand _toggleMapStatusPanelCommand;
         private ICommand _toggleUserCommand;
 
         private bool _bookmarksOpen;
@@ -52,9 +51,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private bool _legendOpen;
         private bool _isAttributionOpen = false;
 
-        private bool _isOfflineMapStatusPanelOpen;
         private bool _isUserPanelOpen;
-        private bool _isOnlineMapStatusPanelOpen;
+        private bool _isMapStatusPanelOpen;
         private bool _isAppInfoPanelOpen;
 
         private MainViewModel _mainViewModel;
@@ -282,48 +280,25 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         }));
 
         /// <summary>
-        /// Toggles the display of the panel showing the details of the offline map.
+        /// Toggles the display of the panel showing the details of the map.
         /// </summary>
-        public ICommand ToggleOfflinePanelCommand => _toggleOfflinePanelCommand ?? (_toggleOfflinePanelCommand = new DelegateCommand((parm) =>
-        {
-            IsOfflinePanelOpen = !IsOfflinePanelOpen;
-        }));
-
-        /// <summary>
-        /// Toggles the display of the panel showing the details of the online map.
-        /// </summary>
-        public ICommand ToggleOnlinePanelCommand => _toggleOnlinePanelCommand ?? (_toggleOnlinePanelCommand = new DelegateCommand((parm) =>
+        public ICommand ToggleMapStatusPanelCommand => _toggleMapStatusPanelCommand ?? (_toggleMapStatusPanelCommand = new DelegateCommand((parm) =>
         {
             IsMapStatusPanelOpen = !IsMapStatusPanelOpen;
         }));
 
-        /// <summary>
-        /// True if the panel showing details about the active offline map should be open.
-        /// </summary>
-        public bool IsOfflinePanelOpen
-        {
-            get => _isOfflineMapStatusPanelOpen;
-            set
-            {
-                if (_isOfflineMapStatusPanelOpen != value)
-                {
-                    _isOfflineMapStatusPanelOpen = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         /// <summary>
-        /// True if the panel showing details about the active online map should be open.
+        /// True if the panel showing details about the active map should be open.
         /// </summary>
         public bool IsMapStatusPanelOpen
         {
-            get => _isOnlineMapStatusPanelOpen;
+            get => _isMapStatusPanelOpen;
             set
             {
-                if (_isOnlineMapStatusPanelOpen != value)
+                if (_isMapStatusPanelOpen != value)
                 {
-                    _isOnlineMapStatusPanelOpen = value;
+                    _isMapStatusPanelOpen = value;
                     OnPropertyChanged();
                 }
             }
@@ -367,7 +342,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         public void CloseAccessories()
         {
             IsUserPanelOpen = false;
-            IsOfflinePanelOpen = false;
             IsMapStatusPanelOpen = false;
             IsAppInfoPanelOpen = false;
 

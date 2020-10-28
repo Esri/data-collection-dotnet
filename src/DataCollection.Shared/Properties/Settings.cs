@@ -317,6 +317,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                 _settingsInstance.PopupExpressionForSubtitle = "subtitle";
             }
 
+            // Reset sync date if it is not in UTC / 'O' format
+            if (!string.IsNullOrEmpty(_settingsInstance.SyncDate) && !_settingsInstance.SyncDate.EndsWith("Z"))
+            {
+                _settingsInstance.SyncDate = null;
+            }
+
             if (_settingsInstance.ShowRuntimeVersion == null)
             {
                 _settingsInstance.ShowRuntimeVersion = true;

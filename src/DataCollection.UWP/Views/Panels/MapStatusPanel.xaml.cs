@@ -22,9 +22,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels
     /// <summary>
     /// Control shows details about the online map.
     /// </summary>
-    public sealed partial class OnlineMapStatusPanel
+    public sealed partial class MapStatusPanel
     {
-        public OnlineMapStatusPanel()
+        public MapStatusPanel()
         {
             InitializeComponent();
         }
@@ -36,6 +36,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Panels
         }
 
         public static readonly DependencyProperty MainViewModelProperty =
-            DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(OnlineMapStatusPanel), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(MainViewModel), typeof(MainViewModel), typeof(MapStatusPanel), new PropertyMetadata(null));
     }
 }

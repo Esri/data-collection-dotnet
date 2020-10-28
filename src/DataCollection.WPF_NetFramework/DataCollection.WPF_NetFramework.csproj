@@ -123,11 +123,8 @@
     <Compile Include="Views\Cards\IdentifiedFeaturePopup.xaml.cs">
       <DependentUpon>IdentifiedFeaturePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Panels\MapPanel.xaml.cs">
-      <DependentUpon>MapPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Panels\OnlineMapPanel.xaml.cs">
-      <DependentUpon>OnlineMapPanel.xaml</DependentUpon>
+    <Compile Include="Views\Panels\MapStatusPanel.xaml.cs">
+      <DependentUpon>MapStatusPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Panels\UserAccountPanel.xaml.cs">
       <DependentUpon>UserAccountPanel.xaml</DependentUpon>
@@ -246,11 +243,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Panels\MapPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Panels\OnlineMapPanel.xaml">
+    <Page Include="Views\Panels\MapStatusPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -297,7 +290,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LocalizedStrings\Resources.resx" />
+    <EmbeddedResource Include="LocalizedStrings\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\DataCollection.Shared\Resources\Images\AttachmentDocument.png">

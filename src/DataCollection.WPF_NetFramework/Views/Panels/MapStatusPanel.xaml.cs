@@ -16,9 +16,9 @@
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels
 {
-    public partial class OnlineMapPanel
+    public partial class MapStatusPanel 
     {
-        public OnlineMapPanel()
+        public  MapStatusPanel()
         {
             InitializeComponent();
         }
