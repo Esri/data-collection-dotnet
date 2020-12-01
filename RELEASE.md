@@ -14,6 +14,7 @@
     * Changes were made to shared code to facilitate unit testing of view models.
 * Adds a new 'About' page, which shows the app version, ArcGIS Runtime version, and a link to a page detailing licenses. The appearance of these fields can be controlled via the app's configuration.
 * Updates doc and many code comments to avoid all use of `http:`.
+* Updates ArcGIS Runtime to 100.10.
 
 ## 1.2.3
 
