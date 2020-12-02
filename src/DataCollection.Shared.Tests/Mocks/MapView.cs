@@ -25,6 +25,8 @@ using System.Windows;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks
 {
+#pragma warning disable CS0067
+#pragma warning disable CS1998
     public class MapView : DependencyObject
     {
         public event EventHandler<GeoViewInputEventArgs> GeoViewTapped;
@@ -40,4 +42,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks
         public Map Map { get; set;}
         public LocationDisplay LocationDisplay { get; set; }
     }
+#pragma warning restore CS0067
+#pragma warning restore CS1998
 }

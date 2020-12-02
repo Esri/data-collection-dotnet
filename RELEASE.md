@@ -8,13 +8,14 @@
     * Switches to vector icons where possible.
 * Moves the .NET Core WPF project to a separate folder to prevent possible build issues.
 * Updates the code called at sign out to revoke credentials from the server, when possible, and delete them locally.
-* Adds support for identifying mulitple items on the map simultaneously and displaying them in a list.
+* Adds support for identifying multiple items on the map simultaneously and displaying them in a list.
     * An Arcade expression defined per layer is used to create subtitles that help you differentiate identified features.
 * Adds unit tests for new code added to support multiple identify results.
     * Changes were made to shared code to facilitate unit testing of view models.
 * Adds a new 'About' page, which shows the app version, ArcGIS Runtime version, and a link to a page detailing licenses. The appearance of these fields can be controlled via the app's configuration.
 * Updates doc and many code comments to avoid all use of `http:`.
 * Updates ArcGIS Runtime to 100.10.
+* Fixes warnings related to deprecated APIs and other issues.
 
 ## 1.2.3
 

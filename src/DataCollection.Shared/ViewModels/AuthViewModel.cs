@@ -207,7 +207,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             // Create generate token options if necessary
             if (info.GenerateTokenOptions == null)
             {
-                info.GenerateTokenOptions = new GenerateTokenOptions { TokenValidity = -1 };
+                info.GenerateTokenOptions = new GenerateTokenOptions { TokenExpirationInterval = new TimeSpan(365, 0, 0, 0) };
             }
 
             // if no refresh token, call to generate credentials
@@ -331,18 +331,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         {
             #if DOT_NET_CORE_TEST
             return;
-            #endif
+#endif
             // Define the server information for ArcGIS Online
-            var portalServerInfo = new ServerInfo
+#pragma warning disable CS0162 // Unreachable code
+            var portalServerInfo = new ServerInfo(new Uri(_arcGISOnlineURL))
             {
-                ServerUri = new Uri(_arcGISOnlineURL),
                 TokenAuthenticationType = TokenAuthenticationType.OAuthAuthorizationCode,
-                OAuthClientInfo = new OAuthClientInfo
-                {
-                    ClientId = _appClientID,
-                    RedirectUri = new Uri(_redirectURL)
-                },
+                OAuthClientInfo = new OAuthClientInfo(_appClientID, new Uri(_redirectURL))
             };
+#pragma warning restore CS0162 // Unreachable code
 
             try
             {

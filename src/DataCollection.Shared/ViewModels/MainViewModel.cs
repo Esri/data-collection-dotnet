@@ -781,6 +781,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 #endif
 
                                     // call method to perform custom workflow for the custom tree dataset
+#pragma warning disable CS0162 // Unreachable code detected
                                     await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);
 
                                     // create the feature and its corresponding viewmodel
@@ -802,6 +803,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                     MapViewModel.SelectFeature(feature);
 
                                     break;
+#pragma warning restore CS0162 // Unreachable code detected
                                 }
                                 catch (Exception ex)
                                 {
