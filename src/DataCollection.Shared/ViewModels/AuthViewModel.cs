@@ -199,7 +199,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             // Create generate token options if necessary
             if (info.GenerateTokenOptions == null)
             {
-                info.GenerateTokenOptions = new GenerateTokenOptions { TokenValidity = -1 };
+                info.GenerateTokenOptions = new GenerateTokenOptions { };
             }
 
             // if no refresh token, call to generate credentials
@@ -322,15 +322,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private void UpdateAuthenticationManager()
         {
             // Define the server information for ArcGIS Online
-            var portalServerInfo = new ServerInfo
+            var portalServerInfo = new ServerInfo(new Uri(_arcGISOnlineURL))
             {
-                ServerUri = new Uri(_arcGISOnlineURL),
                 TokenAuthenticationType = TokenAuthenticationType.OAuthAuthorizationCode,
-                OAuthClientInfo = new OAuthClientInfo
-                {
-                    ClientId = _appClientID,
-                    RedirectUri = new Uri(_redirectURL)
-                },
+                OAuthClientInfo = new OAuthClientInfo(_appClientID, new Uri(_redirectURL))
             };
 
             try
