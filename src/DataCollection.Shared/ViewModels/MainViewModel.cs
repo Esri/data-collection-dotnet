@@ -805,7 +805,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(Resources.GetString("AddFeatureError_Title"), 
+                                Resources.GetString("AddFeatureError_Message"), true, ex.StackTrace);
                         }
                     }));
             }
