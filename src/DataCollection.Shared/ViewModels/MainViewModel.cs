@@ -754,62 +754,59 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         // specifying the first points layer as the target of the Add operation
                         // lines and polygons are not supported in this version of the app
                         // adding to multiple layers in not supported in this version of the app
-                        foreach (var layer in MapViewModel.Map.OperationalLayers)
+                        try
                         {
-                            // check to see that layer is identifiable based on the app rules
-                            if (layer is FeatureLayer featureLayer)
-                            {
-                                try
-                                {
-                                    // create new feature 
-                                    var feature = featureLayer.FeatureTable.CreateFeature();
+                            var eligibleLayer = MapViewModel.Map.OperationalLayers.OfType<FeatureLayer>()
+                                                .Where(layer => layer.FeatureTable.GeometryType == GeometryType.Point && layer.FeatureTable.CanAdd())
+                                                .First();
+                            // create new feature 
+                            var feature = eligibleLayer.FeatureTable.CreateFeature();
 
-                                    // set feature geometry as the pinpoint's position
-                                    var frameworkElement = (FrameworkElement)pinpointElement;
+                            // set feature geometry as the pinpoint's position
+                            var frameworkElement = (FrameworkElement)pinpointElement;
                                     
-                                    MapPoint newFeatureGeometry = null;
+                            MapPoint newFeatureGeometry = null;
 #if WPF
-                                    var point = new Point(frameworkElement.Width / 2, frameworkElement.Height / 2);
-                                    newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(frameworkElement.TranslatePoint(point, MapAccessoryViewModel.MapView));
+                            var point = new Point(frameworkElement.Width / 2, frameworkElement.Height / 2);
+                            newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(frameworkElement.TranslatePoint(point, MapAccessoryViewModel.MapView));
 #elif NETFX_CORE
-                                    var transform = frameworkElement.TransformToVisual(MapAccessoryViewModel.MapView);
-                                    // Get the actual center point. CenterPoint here defaults to top left
-                                    var point = new Point(frameworkElement.CenterPoint.X + frameworkElement.Width / 2, frameworkElement.CenterPoint.Y + frameworkElement.Height / 2);
-                                    newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(transform.TransformPoint(point));
+                            var transform = frameworkElement.TransformToVisual(MapAccessoryViewModel.MapView);
+                            // Get the actual center point. CenterPoint here defaults to top left
+                            var point = new Point(frameworkElement.CenterPoint.X + frameworkElement.Width / 2, frameworkElement.CenterPoint.Y + frameworkElement.Height / 2);
+                            newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(transform.TransformPoint(point));
 #else
-                                    throw new NotImplementedException();
+                            throw new NotImplementedException();
 #endif
 
-                                    // call method to perform custom workflow for the custom tree dataset
+                            // call method to perform custom workflow for the custom tree dataset
 #pragma warning disable CS0162 // Unreachable code detected
-                                    await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);
+                            await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);
 
-                                    // create the feature and its corresponding viewmodel
-                                    var featureVM = new IdentifiedFeatureViewModel(feature, ConnectivityMode, this)
-                                    {
-                                        EditViewModel = new EditViewModel(ConnectivityMode)
-                                    };
-                                    featureVM.EditViewModel.CreateFeature(newFeatureGeometry, feature as ArcGISFeature, featureVM.PopupManager);
+                            // create the feature and its corresponding viewmodel
+                            var featureVM = new IdentifiedFeatureViewModel(feature, ConnectivityMode, this)
+                            {
+                                EditViewModel = new EditViewModel(ConnectivityMode)
+                            };
+                            featureVM.EditViewModel.CreateFeature(newFeatureGeometry, feature as ArcGISFeature, featureVM.PopupManager);
 
-                                    //get relationship information for the newly added feature
-                                    await featureVM.GetRelationshipInfoForFeature(feature as ArcGISFeature);
+                            //get relationship information for the newly added feature
+                            await featureVM.GetRelationshipInfoForFeature(feature as ArcGISFeature);
 
-                                    // Add the feature to the table so that it is visible on the map.
-                                    await feature.FeatureTable.AddFeatureAsync(feature);
+                            // Add the feature to the table so that it is visible on the map.
+                            await feature.FeatureTable.AddFeatureAsync(feature);
 
-                                    IdentifyResultViewModel.SetNewIdentifyResult(new List<IdentifiedFeatureViewModel>() { featureVM });
+                            IdentifyResultViewModel.SetNewIdentifyResult(new List<IdentifiedFeatureViewModel>() { featureVM });
 
-                                    // select the new feature
-                                    MapViewModel.SelectFeature(feature);
+                            // select the new feature
+                            MapViewModel.SelectFeature(feature);
 
-                                    break;
+                            return;
 #pragma warning restore CS0162 // Unreachable code detected
-                                }
-                                catch (Exception ex)
-                                {
-                                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                                }
-                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(Resources.GetString("AddFeatureError_Title"), 
+                                Resources.GetString("AddFeatureError_Message"), true, ex.StackTrace);
                         }
                     }));
             }

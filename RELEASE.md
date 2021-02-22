@@ -16,6 +16,7 @@
 * Updates doc and many code comments to avoid all use of `http:`.
 * Updates ArcGIS Runtime to 100.10.
 * Fixes warnings related to deprecated APIs and other issues.
+* Fixes an issue that would prevent addition of new features in some circumstances.
 
 ## 1.2.3
 
