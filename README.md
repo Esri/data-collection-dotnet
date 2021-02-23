@@ -102,8 +102,8 @@ The app can be run as-is, but it's recommended you do some configuration to set 
 For OAuth configuration, create a new Application in your ArcGIS Portal to obtain a `Client ID` and configure a `Redirect URL`. The **Client ID** configures the ArcGIS Runtime to show your users, during the login process, that the application was built by you and can be trusted. The **Redirect URL** configures the OAuth process to then return to your app once authentication is complete.
 
 1. Log in to [https://developers.arcgis.com](https://developers.arcgis.com) with either your ArcGIS Organizational Account or an ArcGIS Developer Account.
-2. Register a new Application. ![Register ArcGIS Application](https://user-images.githubusercontent.com/20545379/48228207-6885e500-e359-11e8-99dd-fe528dc50875.png)
-3. In the Authentication tab, note the **Client ID** and add a **Redirect URL**, e.g. `data-collection://auth`. We will use this URL in the **Configuring the project** section below. ![Configure ArcGIS Application](https://user-images.githubusercontent.com/20545379/48228212-6de32f80-e359-11e8-9404-aa50858f7cb3.png)
+2. Register a new Application, following the instructions in [Register your applications](https://developers.arcgis.com/documentation/security-and-authentication/oauth-2.0/register-your-application/).
+3. Note the **Client ID** and add a **Redirect URL**, e.g. `data-collection://auth`. You will use these values in the **Configuring the project** section below.
 
 #### 2. Configure the project
 
@@ -116,13 +116,13 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 
 ## Learn more
 
-Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/example-apps).
+Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/documentation/app-templates-and-builders/open-source-apps/).
 
 ## Requirements
 
 * [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later
   * Visual Studio 2019 is required if you want to use the .NET Core version of the WPF app.
-* [ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/downloads/apis-and-sdks?product=net)
+* [ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/downloads/)
 * To edit records or take a web map offline you will need an ArcGIS Online Organizational account, an ArcGIS Online Developer account, or an ArcGIS Online account authenticated using a social login.
 * To consume your own web map you will need an ArcGIS Online Organizational account.
 
@@ -151,7 +151,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 A copy of the license is available in the repository's [LICENSE](LICENSE) file.
 
-For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/net/latest/wpf/guide/license-your-app.htm).
+For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/net/license-and-deployment/license/).
 
 ### 3rd-party component licensing
 
