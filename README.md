@@ -116,13 +116,13 @@ For OAuth configuration, create a new Application in your ArcGIS Portal to obtai
 
 ## Learn more
 
-Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/example-apps).
+Learn more about Esri Open Source Apps [here](https://developers.arcgis.com/documentation/app-templates-and-builders/open-source-apps/).
 
 ## Requirements
 
 * [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/) or later
   * Visual Studio 2019 is required if you want to use the .NET Core version of the WPF app.
-* [ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/downloads/apis-and-sdks?product=net)
+* [ArcGIS Runtime SDK for .NET](https://developers.arcgis.com/downloads/)
 * To edit records or take a web map offline you will need an ArcGIS Online Organizational account, an ArcGIS Online Developer account, or an ArcGIS Online account authenticated using a social login.
 * To consume your own web map you will need an ArcGIS Online Organizational account.
 
@@ -151,7 +151,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 A copy of the license is available in the repository's [LICENSE](LICENSE) file.
 
-For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/net/latest/wpf/guide/license-your-app.htm).
+For information about licensing your deployed app, see [License your app](https://developers.arcgis.com/net/license-and-deployment/license/).
 
 ### 3rd-party component licensing
 
