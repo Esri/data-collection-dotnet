@@ -447,4 +447,11 @@
         <Setter Property="BorderBrush" Value="{ThemeResource TintBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource TopMediumThickness}" />
     </Style>
+    <Style TargetType="TimePicker" x:Key="TimePickerStyle">
+        <Setter Property="Background" Value="{ThemeResource ChromeBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource ChromeForegroundBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="BorderBrush" Value="{ThemeResource ChromeBorderBrush}" />
+        <Setter Property="MinHeight" Value="38" />
+    </Style>
 </ResourceDictionary>

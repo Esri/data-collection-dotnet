@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="Styles/Sizes.xaml" />
                 <ResourceDictionary Source="Styles/ControlOverrides.xaml" />
                 <ResourceDictionary Source="Styles/Controls.xaml" />
+                <ResourceDictionary Source="Styles/TimePickerOverride.xaml" />
                 <ResourceDictionary Source="Styles/DataTemplates.xaml" />
                 <ResourceDictionary Source="SharedConverters.xaml" />
             </ResourceDictionary.MergedDictionaries>

@@ -10,6 +10,7 @@
         <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
         <converters:StringToNullConverter x:Key="StringToNullConverter" />
         <localConverters:ObjectToDateTimeOffsetConverter x:Key="ObjectToDateTimeOffsetConverter" />
+        <localConverters:DateTimeOffsetToJustTimeConverter x:Key="DateTimeOffsetToJustTimeConverter" />
     </UserControl.Resources>
     <Grid>
         <ItemsControl ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" ItemsSource="{Binding Fields, Mode=OneWay}">
@@ -32,9 +33,11 @@
                               x:DataType="models:FieldContainer">
                     <StackPanel>
                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
-                        <controls:NullReadyCalendarDatePicker Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
+                        <controls:DateTimeCompositeView DateTime="{x:Bind PopupFieldValue.Value, Mode=TwoWay, Converter={StaticResource ObjectToDateTimeOffsetConverter}}" />
+                        <!--<controls:NullReadyCalendarDatePicker x:Name="DatePicker" Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                               PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=FeatureEditor_CalendarPlaceholder}"
                                                               Style="{StaticResource CardEditorCalendarStyle}" />
+                        <TimePicker Time="{Binding PopupFieldValue, Mode=TwoWay, Converter={StaticResource DateTimeOffsetToJustTimeConverter}}" />-->
                         <TextBlock x:Name="RadiusReferenceText"
                                    Style="{StaticResource ValidationErrorTextStyle}"
                                    Text="{Binding PopupFieldValue.ValidationError.Message}"
@@ -45,7 +48,7 @@
                     <StackPanel>
                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
                         <TextBox Margin="{StaticResource TopBottomMediumThickness}"
-                                 InputScope="Digits"
+                                 InputScope="Digits" MinHeight="38"
                                  Style="{StaticResource FieldEditorTextBoxStyle}"
                                  Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}}" />
                         <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
