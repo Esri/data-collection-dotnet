@@ -58,6 +58,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
         internal async Task LoadAsync(PopupAttachment attachment)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
+            try
+            {
+
             Attachment = attachment;
 
             // this workflow is dependent on image location so it's fully segregated per platform
@@ -121,6 +124,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
                     // will throw if another platform is added without handling this 
                     throw new NotImplementedException();
 #endif
+
+            }
+            catch (Exception ex)
+            {
+                // Image conversion will sometimes fail if the underlying file is corrupt or invalid; app should not crash in that case.
+                UserPromptMessenger.Instance.RaiseMessageValueChanged("Error loading attachment", ex.Message, true, ex.StackTrace);
+            }
         }
 
         /// <summary>
