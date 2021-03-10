@@ -24,7 +24,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
         // Converts (casts) an type object to a DateTimeOffset type
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (DateTimeOffset?)value;
+            return (System.Nullable<DateTimeOffset>)value;
         }
 
         // Converting back isn't necessary as DateTimeOffset is an object
