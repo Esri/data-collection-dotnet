@@ -1,15 +1,35 @@
-﻿<UserControl
-    x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Controls.DateTimeEditor"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-     xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
-
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Controls.DateTimeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+             xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Controls">
+    <UserControl.Resources>
+        <x:Double x:Key="HeightWorkaround">38</x:Double>
+        <Style x:Key="InsetButtonStyle"
+               BasedOn="{StaticResource ButtonBaseStyle}"
+               TargetType="Button">
+            <Setter Property="Width" Value="36" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Margin" Value="0,1,1,1" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="IsTabStop" Value="False" />
+        </Style>
+        <Style x:Key="InsetButtonPathIcon"
+               BasedOn="{StaticResource PathIconStyle}"
+               TargetType="Path">
+            <Setter Property="Width" Value="12" />
+            <Setter Property="Height" Value="12" />
+        </Style>
+        <Style x:Key="ComplexTexEditorStyle"
+               BasedOn="{StaticResource FieldEditorTextBoxStyle}"
+               TargetType="TextBox">
+            <Setter Property="AcceptsReturn" Value="False" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -22,16 +42,51 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="DatePartTextBox" Grid.Column="0"
-                 Style="{StaticResource FieldEditorTextBoxStyle}"
-                 PlaceholderText="month/date/year"
-                 LostFocus="DatePartTextBox_TextChanged" />
-        <TextBox x:Name="TimePartTextBox" Grid.Column="1" 
-                 Style="{StaticResource FieldEditorTextBoxStyle}" 
-                 PlaceholderText="hour:minute AM/PM" 
-                 LostFocus="TimePartTextBox_TextChanged" />
-        <Button Style="{StaticResource CloseButtonStyle}" Grid.Column="2" Click="Reset_Button_Click" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-        <TextBlock x:Name="PreviewTextBox" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource FieldValueStyle}" Visibility="Visible" />
-        <TextBlock x:Name="ErrorBox" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource ValidationErrorTextStyle}" Text="Set date and time to valid value before saving" Visibility="Collapsed" />
+        <TextBox x:Name="DatePartTextBox" Style="{StaticResource ComplexTexEditorStyle}"
+                 PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_DatePart_Placeholder}"
+                 LostFocus="DatePartTextBox_TextChanged"
+                 GotFocus="TextBox_GotFocus"/>
+        <Button Style="{StaticResource InsetButtonStyle}"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_DateButton_Tooltip}">
+            <!--<Path Data="{StaticResource icon-calendar-16}" Style="{StaticResource InsetButtonPathIcon}" />-->
+            <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" 
+                        Width="12" Height="12"
+                        UriSource="Assets/Calcite/calendar-32.png" />
+            <Button.Flyout>
+                <Flyout x:Name="DatePickerFlyout" Placement="Bottom">
+                    <DatePicker x:Name="EmbeddedDatePicker" DateChanged="EmbeddedDatePicker_DateChanged" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+        <TextBox x:Name="TimePartTextBox" Style="{StaticResource ComplexTexEditorStyle}"
+                 Grid.Column="1"
+                 PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_TimePart_Placeholder}"
+                 LostFocus="TimePartTextBox_TextChanged"
+                 GotFocus="TextBox_GotFocus"/>
+        <Button Style="{StaticResource InsetButtonStyle}"
+                Grid.Column="1"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_TimeButton_Tooltip}">
+            <Path Data="{StaticResource icon-clock-16}" Style="{StaticResource InsetButtonPathIcon}" />
+            <Button.Flyout>
+                <Flyout x:Name="TimePickerFlyout" Placement="Bottom">
+                    <TimePicker x:Name="EmbeddedTimePicker" TimeChanged="EmbeddedTimePicker_TimeChanged" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+
+        <Button Style="{StaticResource CloseButtonStyle}"
+                Grid.Column="2" Padding="0"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_ResetButton_Tooltip}"
+                Click="Reset_Button_Click">
+            <!--<Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconStyle}" />-->
+            <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/trash-32.png" />
+        </Button>
+        <TextBlock x:Name="PreviewTextBox" Style="{StaticResource FieldValueStyle}"
+                   Grid.Row="1" Grid.ColumnSpan="3" />
+        <TextBlock x:Name="ErrorBox" Style="{StaticResource ValidationErrorTextStyle}"
+                   Grid.Row="2" Grid.ColumnSpan="3"
+                   Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_ValidationError_Message}"
+                   Visibility="Collapsed" />
     </Grid>
 </UserControl>
