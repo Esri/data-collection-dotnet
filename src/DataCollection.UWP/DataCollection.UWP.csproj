@@ -202,6 +202,7 @@
     <Content Include="Assets\Calcite\arcgis-online-16.png" />
     <Content Include="Assets\Calcite\arcgis-online-32.png" />
     <Content Include="Assets\Calcite\bookmark-32.png" />
+    <Content Include="Assets\Calcite\calendar-32.png" />
     <Content Include="Assets\Calcite\camera-32.png" />
     <Content Include="Assets\Calcite\chevron-right-32.png" />
     <Content Include="Assets\Calcite\ellipsis-32.png" />
