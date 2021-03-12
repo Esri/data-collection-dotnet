@@ -102,7 +102,6 @@
       <DependentUpon>DateTimeEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NullReadyCalendarDatePicker.cs" />
-    <Compile Include="Converters\DateTimeOffsetToDateTimeConverter.cs" />
     <Compile Include="Converters\NullableIntToIntConverter.cs" />
     <Compile Include="Converters\SelectedPivotIndexToVisibilityConverter.cs" />
     <Compile Include="Converters\TitleBarConnectivityModeToColorConverter.cs" />

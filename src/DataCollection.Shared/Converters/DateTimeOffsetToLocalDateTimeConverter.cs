@@ -1,19 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+#if NETFX_CORE
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using CustomCultureInfo = System.String;
+#else
+using System.Windows.Data;
+using System.Windows;
+using CustomCultureInfo = System.Globalization.CultureInfo;
+#endif
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
 {
-    class DateTimeOffsetToDateTimeConverter : IValueConverter
+    class DateTimeOffsetToLocalDateTimeConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public object Convert(object value, Type targetType, object parameter, CustomCultureInfo language)
         {
             if (value == null)
             {
-                return (DateTime?)null;
+                return null;
             }
             else if (value is DateTimeOffset universalTime)
             {
@@ -22,7 +26,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
             throw new NotImplementedException();
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        public object ConvertBack(object value, Type targetType, object parameter, CustomCultureInfo language)
         {
             if (value == null)
             {

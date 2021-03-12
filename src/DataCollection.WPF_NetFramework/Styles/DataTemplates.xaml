@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters">
+                    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters" xmlns:controls="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls">
     <converters:StringToNullConverter x:Key="StringToNullConverter" />
+    <converters:DateTimeOffsetToLocalDateTimeConverter x:Key="DateTimeOffsetToLocalDateTimeConverter" />
     <!--  Data templates for all the field types used in editing features  -->
     <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
         <StackPanel>
@@ -15,7 +16,7 @@
     <DataTemplate x:Key="DateTemplate" x:Name="DateTemplate">
         <StackPanel>
             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
-            <DatePicker Style="{StaticResource DatePickerValueStyle}" Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <controls:DateTimeEditor DateTime="{Binding PopupFieldValue.Value, Mode=TwoWay, Converter={StaticResource DateTimeOffsetToLocalDateTimeConverter}}" />
             <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                        Text="{Binding PopupFieldValue.ValidationError.Message}"
                        Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />

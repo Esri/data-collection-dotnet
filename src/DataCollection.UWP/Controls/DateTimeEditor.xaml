@@ -4,7 +4,6 @@
              xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Controls">
     <UserControl.Resources>
-        <x:Double x:Key="HeightWorkaround">38</x:Double>
         <Style x:Key="InsetButtonStyle"
                BasedOn="{StaticResource ButtonBaseStyle}"
                TargetType="Button">
@@ -42,15 +41,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="DatePartTextBox" Style="{StaticResource ComplexTexEditorStyle}"
-                 PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_DatePart_Placeholder}"
+        <TextBox x:Name="DatePartTextBox"
+                 GotFocus="TextBox_GotFocus"
                  LostFocus="DatePartTextBox_TextChanged"
-                 GotFocus="TextBox_GotFocus"/>
-        <Button Style="{StaticResource InsetButtonStyle}"
-                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_DateButton_Tooltip}">
+                 PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_DatePart_Placeholder}"
+                 Style="{StaticResource ComplexTexEditorStyle}" />
+        <Button Style="{StaticResource InsetButtonStyle}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_DateButton_Tooltip}">
             <!--<Path Data="{StaticResource icon-calendar-16}" Style="{StaticResource InsetButtonPathIcon}" />-->
-            <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" 
-                        Width="12" Height="12"
+            <BitmapIcon Width="12"
+                        Height="12"
+                        Style="{StaticResource PathIconWorkaroundStyle}"
                         UriSource="Assets/Calcite/calendar-32.png" />
             <Button.Flyout>
                 <Flyout x:Name="DatePickerFlyout" Placement="Bottom">
@@ -58,13 +58,14 @@
                 </Flyout>
             </Button.Flyout>
         </Button>
-        <TextBox x:Name="TimePartTextBox" Style="{StaticResource ComplexTexEditorStyle}"
+        <TextBox x:Name="TimePartTextBox"
                  Grid.Column="1"
-                 PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_TimePart_Placeholder}"
+                 GotFocus="TextBox_GotFocus"
                  LostFocus="TimePartTextBox_TextChanged"
-                 GotFocus="TextBox_GotFocus"/>
-        <Button Style="{StaticResource InsetButtonStyle}"
-                Grid.Column="1"
+                 PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_TimePart_Placeholder}"
+                 Style="{StaticResource ComplexTexEditorStyle}" />
+        <Button Grid.Column="1"
+                Style="{StaticResource InsetButtonStyle}"
                 ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_TimeButton_Tooltip}">
             <Path Data="{StaticResource icon-clock-16}" Style="{StaticResource InsetButtonPathIcon}" />
             <Button.Flyout>
@@ -74,18 +75,27 @@
             </Button.Flyout>
         </Button>
 
-        <Button Style="{StaticResource CloseButtonStyle}"
-                Grid.Column="2" Padding="0"
-                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_ResetButton_Tooltip}"
-                Click="Reset_Button_Click">
+        <Button Grid.Column="2"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                BorderThickness="0,1,1,1"
+                Click="Reset_Button_Click"
+                Style="{StaticResource CloseButtonStyle}"
+                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_ResetButton_Tooltip}">
             <!--<Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconStyle}" />-->
             <BitmapIcon Style="{StaticResource PathIconWorkaroundStyle}" UriSource="Assets/Calcite/trash-32.png" />
         </Button>
-        <TextBlock x:Name="PreviewTextBox" Style="{StaticResource FieldValueStyle}"
-                   Grid.Row="1" Grid.ColumnSpan="3" />
-        <TextBlock x:Name="ErrorBox" Style="{StaticResource ValidationErrorTextStyle}"
-                   Grid.Row="2" Grid.ColumnSpan="3"
+        <TextBlock x:Name="PreviewTextBox"
+                   Grid.Row="1"
+                   Grid.ColumnSpan="3"
+                   FontStyle="Italic"
+                   Style="{StaticResource FieldValueStyle}"
+                   Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_EmptyDate_Message}" />
+        <TextBlock x:Name="ErrorBox"
+                   Grid.Row="2"
+                   Grid.ColumnSpan="3"
+                   Style="{StaticResource ValidationErrorTextStyle}"
                    Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_ValidationError_Message}"
                    Visibility="Collapsed" />
     </Grid>
