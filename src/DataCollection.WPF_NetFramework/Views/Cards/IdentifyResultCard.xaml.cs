@@ -16,6 +16,7 @@
 
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
 {
@@ -37,5 +38,19 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
 
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(nameof(ViewModel), typeof(IdentifyResultViewModel), typeof(IdentifyResultCard), new PropertyMetadata(null));
+
+        private void ListView_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                (sender as ListView).GetBindingExpression(ListView.SelectedIndexProperty).UpdateSource();
+            }
+        }
+
+        private void ListView_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            
+            (sender as ListView).GetBindingExpression(ListView.SelectedIndexProperty).UpdateSource();
+        }
     }
 }

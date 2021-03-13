@@ -36,34 +36,38 @@
         <TabControl Grid.Row="1"
                     Background="{StaticResource ContentBackgroundBrush}"
                     BorderThickness="0"
+                    FocusVisualStyle="{DynamicResource ThemedFocusVisual}"
                     DataContext="{Binding IdentifyResultViewModel.CurrentlySelectedFeature}"
                     Foreground="{StaticResource ContentForegroundBrush}">
             <TabItem Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DetailsHeading}" Style="{StaticResource MinimalistTabItemStyle}">
                 <!--  Attribute information for the identified feature  -->
                 <ScrollViewer x:Name="DetailsView"
-                              Grid.Row="1"
+                              Grid.Row="1" Focusable="False"
                               Padding="{StaticResource UniformLargeThickness}"
                               VerticalAlignment="Stretch"
                               HorizontalScrollBarVisibility="Disabled"
                               PanningMode="VerticalOnly"
-                              VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
+                              VerticalScrollBarVisibility="Auto"
+                              FocusVisualStyle="{DynamicResource ThemedFocusVisual}">
+                    <StackPanel Focusable="False">
                         <TextBlock Margin="{StaticResource BottomMediumThickness}"
                                    Style="{StaticResource PopupSectionHeaderStyle}"
                                    Text="Attributes" />
                         <!--  View Mode  -->
                         <!--  List of attributes from identified feature  -->
-                        <ItemsControl ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                        <ItemsControl Focusable="False"
+                                      ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}" 
+                                      Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
+                                    <StackPanel Focusable="False">
                                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
                                         <TextBox Style="{StaticResource FieldValueStyle}" Text="{Binding ReformattedValue, Mode=OneWay}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Border Visibility="Collapsed">
+                        <Border Visibility="Collapsed" Focusable="False">
                             <TextBlock Margin="{StaticResource TopBottomMediumThickness}"
                                        Style="{StaticResource PopupSectionHeaderStyle}"
                                        Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=FeaturePopup_DestinationRelationships_Header}"
@@ -71,7 +75,7 @@
                         </Border>
                         <!--  View Mode  -->
                         <!--  List of relationships where identified feature is destination  -->
-                        <ItemsControl HorizontalContentAlignment="Stretch"
+                        <ItemsControl HorizontalContentAlignment="Stretch" Focusable="False"
                                       ItemsSource="{Binding DestinationRelationships}"
                                       Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
@@ -115,12 +119,12 @@
 
                         <!--  View Mode  -->
                         <!--  List of relationships where identified feature is origin  -->
-                        <ItemsControl HorizontalContentAlignment="Stretch"
+                        <ItemsControl HorizontalContentAlignment="Stretch" Focusable="False"
                                       ItemsSource="{Binding OriginRelationships}"
                                       Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Vertical" Focusable="False">
                                         <TextBlock Margin="{StaticResource TopBottomMediumThickness}" Style="{StaticResource PopupSectionHeaderStyle}">
                                             <Run Text="{Binding RelatedTable.PopupDefinition.Title}" />
                                             <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=RelatedRecordTableSuffix}" />
@@ -190,16 +194,16 @@
                         <!--  Edit Mode  -->
                         <!--  List of attributes from identified feature  -->
                         <ItemsControl ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}"
-                                      ItemsSource="{Binding Fields}"
+                                      ItemsSource="{Binding Fields}" Focusable="False"
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
 
                         <!--  Edit Mode  -->
                         <!--  List of relationships where identified feature is destination  -->
-                        <ItemsControl ItemsSource="{Binding DestinationRelationships}" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                        <ItemsControl ItemsSource="{Binding DestinationRelationships}" Focusable="False" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <Grid Focusable="False">
                                         <StackPanel>
                                             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding FeatureTable.TableName}" />
                                             <ComboBox HorizontalAlignment="Stretch"

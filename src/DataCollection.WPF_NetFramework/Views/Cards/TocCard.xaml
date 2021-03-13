@@ -23,6 +23,7 @@
                   ItemsSource="{Binding MapAccessoryViewModel.MapView.Map.OperationalLayers, Mode=OneWay}">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="TreeViewItem">
+                    <Setter Property="FocusVisualStyle" Value="{DynamicResource ThemedFocusVisual}" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TreeViewItem">
@@ -45,7 +46,6 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="Focusable" Value="False" />
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>

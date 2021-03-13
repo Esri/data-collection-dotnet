@@ -5,14 +5,28 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <Style x:Key="ThemedFocusVisual">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Margin="2"
+                               SnapsToDevicePixels="true"
+                               OverridesDefaultStyle="True"
+                               Stroke="{StaticResource TintBrush}"
+                               StrokeThickness="1" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SharedConverters.xaml" />
                 <ResourceDictionary Source="Themes/Light.xaml" />
                 <ResourceDictionary Source="Styles/Brushes.xaml" />
                 <ResourceDictionary Source="Icons.xaml" />
                 <ResourceDictionary Source="Styles/SizesAndAlignment.xaml" />
-                <ResourceDictionary Source="Styles/Controls.xaml" />
                 <ResourceDictionary Source="Styles/ControlOverrides.xaml" />
+                <ResourceDictionary Source="Styles/Controls.xaml" />
+                
                 <ResourceDictionary Source="Styles/DataTemplates.xaml" />
                 <ResourceDictionary Source="Styles/CalendarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>

@@ -17,9 +17,9 @@
             <viewModels:MainViewModel x:Key="MainViewModel" />
         </ResourceDictionary>
     </Window.Resources>
-    <Grid x:Name="OuterGrid" DataContext="{StaticResource MainViewModel}">
+    <Grid x:Name="OuterGrid" DataContext="{StaticResource MainViewModel}" Focusable="False">
         <ctrl:ModernMapPanel x:Name="ParentPanel"
-                             CollapsedCardHeight="300"
+                             CollapsedCardHeight="300" Focusable="False"
                              DataContext="{StaticResource MainViewModel}"
                              ExpandedCardWidth="350"
                              ExpandedWidthMinimum="600">
@@ -33,6 +33,7 @@
                           utils:MapViewExtensions.IdentifyController="{Binding IdentifyController}"
                           utils:MapViewExtensions.MapAccessoryViewModel="{Binding MapAccessoryViewModel}"
                           Cursor="{Binding IdentifyController.IsIdentifyInProgress, Converter={StaticResource BoolToCursorConverter}}"
+                          FocusVisualStyle="{DynamicResource ThemedFocusVisual}"
                           IsAttributionTextVisible="False"
                           Map="{Binding MapViewModel.Map, Mode=TwoWay}">
                 <utils:MapViewExtensions.ViewpointController>
@@ -155,7 +156,7 @@
             </StackPanel>
 
             <!--  Attribution. Any modifications to attribution display must follow the guidelines at https://developers.arcgis.com/terms/attribution/  -->
-            <Button ctrl:ModernMapPanel.Role="Attribution"
+            <Button ctrl:ModernMapPanel.Role="Attribution" FocusVisualStyle="{DynamicResource ThemedFocusVisual}"
                     Command="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel.ToggleAttributionCommand}"
                     Style="{StaticResource OnMapAttributionButtonStyle}">
                 <Grid>
@@ -230,7 +231,7 @@
 
             <!--  Sync View  -->
             <Grid HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
+                  VerticalAlignment="Stretch" Focusable="False"
                   ctrl:ModernMapPanel.Role="ModalLightbox"
                   Background="{StaticResource MapShadeBrush}"
                   Visibility="{Binding SyncViewModel, Converter={StaticResource NullToVisibilityConverter}}">
@@ -241,7 +242,7 @@
 
             <!--  Attribution overlay  -->
             <Grid HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
+                  VerticalAlignment="Stretch" Focusable="False"
                   ctrl:ModernMapPanel.Role="ModalLightbox"
                   Background="{StaticResource MapShadeBrush}"
                   Visibility="{Binding MapAccessoryViewModel.IsAttributionOpen, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -253,18 +254,21 @@
             <!--  New feature overlay  -->
             <overlays:AddFeatureView x:Name="AddFeatureView"
                                      ctrl:ModernMapPanel.Role="ModalLightbox"
+                                     Focusable="False"
                                      Visibility="{Binding IsAddingFeature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
             <!--  Download view  -->
             <overlays:DownloadView ctrl:ModernMapPanel.Role="ModalLightbox"
+                                   Focusable="False"
                                    Visibility="{Binding DownloadViewModel, Converter={StaticResource NullToVisibilityConverter}}"
                                    VisibleArea="{Binding ElementName=MapView, Path=VisibleArea}" />
 
             <!--  Sign In Window  -->
-            <overlays:SignInWindow ctrl:ModernMapPanel.Role="ModalLightbox" />
+            <overlays:SignInWindow ctrl:ModernMapPanel.Role="ModalLightbox" Focusable="False" />
 
             <Grid ctrl:ModernMapPanel.Role="ModalLightbox"
                   Background="{StaticResource MapShadeBrush}"
+                  Focusable="False"
                   Visibility="{Binding IsBusyWaiting, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                 <Border Style="{StaticResource StatusPanelBorderStyle}">
                     <StackPanel>

@@ -26,7 +26,10 @@
                       ItemsSource="{Binding ElementName=Self, Path=ViewModel.IdentifiedFeatures}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                      SelectedIndex="{Binding ElementName=Self, Path=ViewModel.CurrentFeatureIndex, Mode=TwoWay}">
+                      FocusVisualStyle="{DynamicResource ThemedFocusVisual}"
+                      SelectedIndex="{Binding ElementName=Self, Path=ViewModel.CurrentFeatureIndex, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                      Keyboard.KeyDown="ListView_KeyDown"
+                      MouseUp="ListView_MouseUp">
                 <ListView.Template>
                     <ControlTemplate>
                         <Grid Background="{TemplateBinding Background}">
