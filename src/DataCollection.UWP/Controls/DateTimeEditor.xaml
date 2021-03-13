@@ -90,8 +90,7 @@
                    Grid.Row="1"
                    Grid.ColumnSpan="3"
                    FontStyle="Italic"
-                   Style="{StaticResource FieldValueStyle}"
-                   Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=DTE_EmptyDate_Message}" />
+                   Style="{StaticResource FieldValueStyle}" />
         <TextBlock x:Name="ErrorBox"
                    Grid.Row="2"
                    Grid.ColumnSpan="3"

@@ -29,6 +29,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Controls
         public DateTimeEditor()
         {
             InitializeComponent();
+            UpdateFeedbackUi();
         }
 
         public DateTime? DateTime
