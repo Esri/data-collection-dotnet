@@ -261,7 +261,7 @@
                                 <Button x:Name="PART_HeaderButton" Style="{StaticResource ButtonBaseStyle}" Padding="0"
                                         Focusable="False" BorderThickness="1,0,1,1"
                                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center"
-                                        Grid.Column="1" Grid.Row="0" TextBlock.TextAlignment="Center"
+                                        Grid.Column="1" Grid.Row="0" TextBlock.TextAlignment="Center" Foreground="{StaticResource ChromeForegroundBrush}"
                                         HorizontalContentAlignment="Center" />
                                 <Button x:Name="PART_NextButton" Style="{StaticResource ButtonBaseStyle}" Focusable="False" Padding="0"
                                         HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0,0,0,1"
