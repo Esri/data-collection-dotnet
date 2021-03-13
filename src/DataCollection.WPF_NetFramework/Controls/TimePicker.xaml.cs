@@ -1,29 +1,36 @@
-﻿using System;
+﻿/*******************************************************************************
+  * Copyright 2021 Esri
+  *
+  *  Licensed under the Apache License, Version 2.0 (the "License");
+  *  you may not use this file except in compliance with the License.
+  *  You may obtain a copy of the License at
+  *
+  *  https://www.apache.org/licenses/LICENSE-2.0
+  *
+  *   Unless required by applicable law or agreed to in writing, software
+  *   distributed under the License is distributed on an "AS IS" BASIS,
+  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  *   See the License for the specific language governing permissions and
+  *   limitations under the License.
+******************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
 {
     /// <summary>
-    /// Interaction logic for TimePicker.xaml
+    /// Control for selecting a time using mouse or touch
     /// </summary>
     public partial class TimePicker : UserControl
     {
         public TimePicker()
         {
             InitializeComponent();
-            DataContext = this;
+            // Ensure control is set up with a default value
             HandleTimeChange(null);
         }
 
@@ -37,19 +44,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
             set { SetValue(SelectedTimeProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedTime.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedTimeProperty =
-            DependencyProperty.Register("SelectedTime", typeof(TimeSpan?), typeof(TimePicker), new PropertyMetadata(null, HandleTimeChanged));
+            DependencyProperty.Register(nameof(SelectedTime), typeof(TimeSpan?), typeof(TimePicker), new PropertyMetadata(null, HandleTimeChanged));
 
-
-
-
-        public static void HandleTimeChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs dpcea)
-        {
-            TimePicker sendingObject = (TimePicker)dpo;
-
-            sendingObject.HandleTimeChange((TimeSpan?)dpcea.NewValue);
-        }
+        public static void HandleTimeChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs dpcea) => ((TimePicker)dpo).HandleTimeChange((TimeSpan?)dpcea.NewValue);
 
         private void HandleTimeChange(TimeSpan? newTime)
         {
@@ -69,20 +67,27 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-
             SelectedTime = DateTime.Parse($"{DateTime.Now.ToShortDateString()} {HourPicker.SelectedItem}:{MinutePicker.SelectedItem} {AMPMPicker.SelectedItem}").TimeOfDay;
-
             SelectedTimeChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Reset value and notify listeners that close is requested
+        /// </summary>
         private void ClearClick(object sender, RoutedEventArgs e)
         {
             HandleTimeChange(SelectedTime);
             DismissRequested?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Raised when the user commits/saves the selection
+        /// </summary>
         public event EventHandler SelectedTimeChanged;
 
+        /// <summary>
+        /// Raised when the user cancels or clears the changes
+        /// </summary>
         public event EventHandler DismissRequested;
     }
 }

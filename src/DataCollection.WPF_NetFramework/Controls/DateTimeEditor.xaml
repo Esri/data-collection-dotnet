@@ -1,11 +1,8 @@
 ﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls.DateTimeEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters" xmlns:controls="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:controls="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls"
+             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters">
     <UserControl.Resources>
         <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter" />
         <Style x:Key="InsetButtonStyle"
@@ -32,7 +29,9 @@
             <Setter Property="AcceptsReturn" Value="False" />
             <Setter Property="TextWrapping" Value="NoWrap" />
         </Style>
-        <Style x:Key="PlaceholderStyle" TargetType="TextBlock" BasedOn="{StaticResource SubtleTextStyle}">
+        <Style x:Key="PlaceholderStyle"
+               BasedOn="{StaticResource SubtleTextStyle}"
+               TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Margin" Value="12,0,0,0" />
@@ -51,63 +50,84 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="DatePartTextBox" Style="{StaticResource ComplexTexEditorStyle}"
+        <TextBox x:Name="DatePartTextBox"
+                 GotFocus="TextBox_GotFocus"
                  LostFocus="DatePartTextBox_TextChanged"
-                 GotFocus="TextBox_GotFocus"/>
+                 Style="{StaticResource ComplexTexEditorStyle}" />
         <TextBlock Style="{StaticResource PlaceholderStyle}"
                    Text="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_DatePart_Placeholder, Mode=OneTime}"
                    Visibility="{Binding ElementName=DatePartTextBox, Path=Text, Converter={StaticResource EmptyStringToVisibilityConverter}, Mode=OneWay}" />
-        <Button Style="{StaticResource InsetButtonStyle}"
-                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_DateButton_Tooltip, Mode=OneTime}"
-                Click="Date_Button_Click">
+        <Button Click="Date_Button_Click"
+                Style="{StaticResource InsetButtonStyle}"
+                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_DateButton_Tooltip, Mode=OneTime}">
             <Path Data="{StaticResource icon-calendar-16}" Style="{StaticResource InsetButtonPathIcon}" />
         </Button>
         <Popup x:Name="DatePopup"
-               HorizontalAlignment="Left" VerticalOffset="2"
+               HorizontalAlignment="Left"
                Placement="Bottom"
                PlacementTarget="{Binding ElementName=DatePartTextBox}"
-               Style="{StaticResource PopupStyle}">
-            <Border Style="{StaticResource TitleBarPopoverBorderStyle}" Padding="0" MaxWidth="400" Margin="0" VerticalAlignment="Bottom">
-                <Calendar x:Name="EmbeddedDatePicker" SelectedDatesChanged="EmbeddedDatePicker_SelectedDatesChanged" SelectionMode="SingleDate" Padding="0" Margin="0" VerticalAlignment="Stretch" />
+               Style="{StaticResource PopupStyle}"
+               VerticalOffset="2">
+            <Border MaxWidth="400"
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <Calendar x:Name="EmbeddedDatePicker"
+                          Margin="0"
+                          Padding="0"
+                          VerticalAlignment="Stretch"
+                          SelectedDatesChanged="EmbeddedDatePicker_SelectedDatesChanged"
+                          SelectionMode="SingleDate" />
             </Border>
         </Popup>
-        <TextBox x:Name="TimePartTextBox" Style="{StaticResource ComplexTexEditorStyle}"
+        <TextBox x:Name="TimePartTextBox"
                  Grid.Column="1"
+                 GotFocus="TextBox_GotFocus"
                  LostFocus="TimePartTextBox_TextChanged"
-                 GotFocus="TextBox_GotFocus"/>
-        <TextBlock Style="{StaticResource PlaceholderStyle}"
-                   Grid.Column="1"
+                 Style="{StaticResource ComplexTexEditorStyle}" />
+        <TextBlock Grid.Column="1"
+                   Style="{StaticResource PlaceholderStyle}"
                    Text="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_TimePart_Placeholder, Mode=OneTime}"
                    Visibility="{Binding ElementName=TimePartTextBox, Path=Text, Converter={StaticResource EmptyStringToVisibilityConverter}, Mode=OneWay}" />
-        <Button Style="{StaticResource InsetButtonStyle}"
-                Grid.Column="1"
-                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_TimeButton_Tooltip, Mode=OneTime}"
-                Click="Time_Button_Click">
+        <Button Grid.Column="1"
+                Click="Time_Button_Click"
+                Style="{StaticResource InsetButtonStyle}"
+                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_TimeButton_Tooltip, Mode=OneTime}">
             <Path Data="{StaticResource icon-clock-16}" Style="{StaticResource InsetButtonPathIcon}" />
         </Button>
         <Popup x:Name="TimePopup"
                HorizontalAlignment="Left"
-               Placement="Bottom" VerticalOffset="2"
+               Placement="Bottom"
                PlacementTarget="{Binding ElementName=TimePartTextBox}"
-               Style="{StaticResource PopupStyle}">
-            <Border Style="{StaticResource TitleBarPopoverBorderStyle}" Padding="0">
-                <controls:TimePicker x:Name="EmbeddedTimePicker" SelectedTimeChanged="EmbeddedTimePicker_SelectedTimeChanged" DismissRequested="EmbeddedTimePicker_DismissRequested" />
+               Style="{StaticResource PopupStyle}"
+               VerticalOffset="2">
+            <Border Padding="0" Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <controls:TimePicker x:Name="EmbeddedTimePicker"
+                                     DismissRequested="EmbeddedTimePicker_DismissRequested"
+                                     SelectedTimeChanged="EmbeddedTimePicker_SelectedTimeChanged" />
             </Border>
         </Popup>
 
-        <Button Style="{StaticResource ButtonBaseStyle}"
-                Grid.Column="2" Padding="0" BorderThickness="0,1,1,1"
-                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_ResetButton_Tooltip, Mode=OneTime}"
-                Click="Reset_Button_Click">
+        <Button Grid.Column="2"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                BorderThickness="0,1,1,1"
+                Click="Reset_Button_Click"
+                Style="{StaticResource ButtonBaseStyle}"
+                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_ResetButton_Tooltip, Mode=OneTime}">
             <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource PathIconBase}" />
         </Button>
-        <TextBlock x:Name="PreviewTextBox" Style="{StaticResource FieldValueReadonlyStyle}"
-                   Text="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_EmptyDate_Message, Mode=OneTime}"
+        <TextBlock x:Name="PreviewTextBox"
+                   Grid.Row="1"
+                   Grid.ColumnSpan="3"
                    FontStyle="Italic"
-                   Grid.Row="1" Grid.ColumnSpan="3"  />
-        <TextBlock x:Name="ErrorBox" Style="{StaticResource ValidationErrorTextStyle}"
-                   Grid.Row="2" Grid.ColumnSpan="3"
+                   Style="{StaticResource FieldValueReadonlyStyle}"
+                   Text="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_EmptyDate_Message, Mode=OneTime}" />
+        <TextBlock x:Name="ErrorBox"
+                   Grid.Row="2"
+                   Grid.ColumnSpan="3"
+                   Style="{StaticResource ValidationErrorTextStyle}"
                    Text="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter=DTE_ValidationError_Message, Mode=OneTime}"
                    Visibility="Collapsed" />
     </Grid>

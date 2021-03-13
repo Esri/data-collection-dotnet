@@ -30,7 +30,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters
         {
             if (value is string valueString)
             {
-                // Arrow with hourglass or spinner
                 return string.IsNullOrEmpty(valueString) ? Visibility.Visible : Visibility.Hidden;
             }
 

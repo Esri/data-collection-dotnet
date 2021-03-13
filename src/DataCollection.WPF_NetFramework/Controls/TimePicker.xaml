@@ -1,13 +1,12 @@
-﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls.TimePicker"
+﻿<UserControl x:Name="Self"
+             x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls.TimePicker"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls"
-             mc:Ignorable="d" x:Name="Self"
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls">
     <UserControl.Resources>
-        <Style TargetType="ComboBoxItem" x:Key="LightweightComboboxItem" BasedOn="{StaticResource InternalComboboxItem}">
+        <Style x:Key="LightweightComboboxItem"
+               BasedOn="{StaticResource InternalComboboxItem}"
+               TargetType="ComboBoxItem">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="2" />
@@ -22,20 +21,38 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="HourPicker" ItemContainerStyle="{StaticResource LightweightComboboxItem}" ItemsSource="{Binding ElementName=Self, Path=ValidHours, Mode=OneTime}" IsEditable="False" />
-        <ComboBox x:Name="MinutePicker" ItemContainerStyle="{StaticResource LightweightComboboxItem}" Grid.Column="1" ItemsSource="{Binding ElementName=Self, Path=ValidMinutes, Mode=OneTime}" IsEditable="False">
+        <ComboBox x:Name="HourPicker"
+                  IsEditable="False"
+                  ItemContainerStyle="{StaticResource LightweightComboboxItem}"
+                  ItemsSource="{Binding ElementName=Self, Path=ValidHours, Mode=OneTime}" />
+        <ComboBox x:Name="MinutePicker"
+                  Grid.Column="1"
+                  IsEditable="False"
+                  ItemContainerStyle="{StaticResource LightweightComboboxItem}"
+                  ItemsSource="{Binding ElementName=Self, Path=ValidMinutes, Mode=OneTime}">
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="Integer">
                     <TextBlock Text="{Binding StringFormat='00'}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ComboBox x:Name="AMPMPicker" ItemContainerStyle="{StaticResource LightweightComboboxItem}" Grid.Column="2" IsEditable="False" SelectedIndex="0" ItemsSource="{Binding ElementName=Self, Path=AMPMValues, Mode=OneTime}" />
-        <Button Style="{StaticResource CardControlStripButtonStyle}" Grid.Column="3" Click="Save_Click">
-            <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-save-16}" />
+        <ComboBox x:Name="AMPMPicker"
+                  Grid.Column="2"
+                  IsEditable="False"
+                  ItemContainerStyle="{StaticResource LightweightComboboxItem}"
+                  ItemsSource="{Binding ElementName=Self, Path=AMPMValues, Mode=OneTime}"
+                  SelectedIndex="0" />
+        <Button Grid.Column="3"
+                Click="Save_Click"
+                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter='TP_SaveButton_Tooltip', Mode=OneTime}"
+                Style="{StaticResource CardControlStripButtonStyle}">
+            <Path Data="{StaticResource icon-save-16}" Style="{StaticResource CardButtonIconStyle}" />
         </Button>
-        <Button Style="{StaticResource CardControlStripButtonStyle}" Grid.Column="4" Click="ClearClick">
-            <Path Style="{StaticResource CardButtonIconStyle}" Data="{StaticResource icon-x-16}" />
+        <Button Grid.Column="4"
+                Click="ClearClick"
+                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter='TP_CancelButton_Tooltip', Mode=OneTime}"
+                Style="{StaticResource CardControlStripButtonStyle}">
+            <Path Data="{StaticResource icon-x-16}" Style="{StaticResource CardButtonIconStyle}" />
         </Button>
     </Grid>
 </UserControl>

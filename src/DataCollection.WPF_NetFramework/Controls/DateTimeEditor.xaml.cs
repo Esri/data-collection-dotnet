@@ -21,8 +21,12 @@ using System.Windows.Controls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
 {
+    /// <summary>
+    /// Custom control for conveniently editing Date+Time fields
+    /// </summary>
     public partial class DateTimeEditor : UserControl
     {
+        // Tracks textbox content validity to enable showing a helpful error message
         private bool _isDateInvalid;
         private bool _isTimeInvalid;
 
@@ -43,21 +47,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
         public static void HandleDateTimeChange(DependencyObject dpo, DependencyPropertyChangedEventArgs dpcea)
         {
             DateTimeEditor sendingObject = (DateTimeEditor)dpo;
-            sendingObject.UnsubscribeFromEvents();
-            sendingObject.UpdateUiForNewDate((DateTime?)dpcea.NewValue);
-            sendingObject.ResubscribeEvents();
-        }
-
-        private void UnsubscribeFromEvents()
-        {
-            DatePartTextBox.LostFocus -= DatePartTextBox_TextChanged;
-            TimePartTextBox.LostFocus -= TimePartTextBox_TextChanged;
-        }
-
-        private void ResubscribeEvents()
-        {
-            DatePartTextBox.LostFocus += DatePartTextBox_TextChanged;
-            TimePartTextBox.LostFocus += TimePartTextBox_TextChanged;
+            sendingObject.UpdateUiForNewDate();
         }
 
         private void EmbeddedDatePicker_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -70,9 +60,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
             DatePopup.IsOpen = false;
         }
 
-        private void UpdateUiForNewDate(DateTime? newValue)
+        private void UpdateUiForNewDate()
         {
-            if (!newValue.HasValue)
+            if (!DateTime.HasValue)
             {
                 DatePartTextBox.Text = string.Empty;
                 TimePartTextBox.Text = string.Empty;
@@ -83,10 +73,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
             }
             else
             {
-                DatePartTextBox.Text = newValue.Value.ToShortDateString();
-                TimePartTextBox.Text = newValue.Value.ToShortTimeString();
-                EmbeddedTimePicker.SelectedTime = newValue.Value.TimeOfDay;
-                EmbeddedDatePicker.SelectedDate = newValue.Value.Date;
+                DatePartTextBox.Text = DateTime.Value.ToShortDateString();
+                TimePartTextBox.Text = DateTime.Value.ToShortTimeString();
+                EmbeddedTimePicker.SelectedTime = DateTime.Value.TimeOfDay;
+                EmbeddedDatePicker.SelectedDate = DateTime.Value.Date;
             }
 
             _isDateInvalid = false;
@@ -115,13 +105,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
             if (DateTime == null && timePart != null)
             {
                 DateTime = System.DateTime.Now.Date.Add(timePart.Value);
-                UpdateUiForNewDate(DateTime);
+                UpdateUiForNewDate();
             }
             // else update datetime with new time part
             else if (DateTime != null && timePart != null)
             {
                 DateTime = DateTime.Value.Date.Add(timePart.Value);
-                UpdateUiForNewDate(DateTime);
+                UpdateUiForNewDate();
             }
         }
 
@@ -187,7 +177,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
         {
             if (DateTime == null)
             {
-                UpdateUiForNewDate(null);
+                UpdateUiForNewDate();
             }
             else
             {
@@ -195,21 +185,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
             }
         }
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            // Automatically select textbox contents on focus (improves editing experience)
-            ((TextBox)sender).SelectAll();
-        }
+        // Automatically select textbox contents on focus (improves editing experience)
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e) => ((TextBox)sender).SelectAll();
 
-        private void Date_Button_Click(object sender, RoutedEventArgs e)
-        {
-            DatePopup.IsOpen = true;
-        }
+        private void Date_Button_Click(object sender, RoutedEventArgs e) => DatePopup.IsOpen = true;
 
-        private void Time_Button_Click(object sender, RoutedEventArgs e)
-        {
-            TimePopup.IsOpen = true;
-        }
+        private void Time_Button_Click(object sender, RoutedEventArgs e) => TimePopup.IsOpen = true;
 
         private void EmbeddedTimePicker_SelectedTimeChanged(object sender, EventArgs e)
         {
@@ -221,9 +202,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
             TimePopup.IsOpen = false;
         }
 
-        private void EmbeddedTimePicker_DismissRequested(object sender, EventArgs e)
-        {
-            TimePopup.IsOpen = false;
-        }
+        private void EmbeddedTimePicker_DismissRequested(object sender, EventArgs e) => TimePopup.IsOpen = false;
     }
 }

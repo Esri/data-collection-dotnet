@@ -103,7 +103,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource InternalComboboxItem}" />
+    <Style BasedOn="{StaticResource InternalComboboxItem}" TargetType="{x:Type ComboBoxItem}" />
     <!--  Not an override but used by ComboBox template  -->
     <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
         <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
