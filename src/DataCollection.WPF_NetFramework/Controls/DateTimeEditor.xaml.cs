@@ -52,16 +52,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
         {
             DatePartTextBox.LostFocus -= DatePartTextBox_TextChanged;
             TimePartTextBox.LostFocus -= TimePartTextBox_TextChanged;
-            //EmbeddedDatePicker.DateChanged -= EmbeddedDatePicker_DateChanged;
-            //EmbeddedTimePicker.TimeChanged -= EmbeddedTimePicker_TimeChanged;
         }
 
         private void ResubscribeEvents()
         {
             DatePartTextBox.LostFocus += DatePartTextBox_TextChanged;
             TimePartTextBox.LostFocus += TimePartTextBox_TextChanged;
-            EmbeddedDatePicker.SelectedDatesChanged += EmbeddedDatePicker_SelectedDatesChanged; ;
-            //EmbeddedTimePicker.TimeChanged += EmbeddedTimePicker_TimeChanged;
         }
 
         private void EmbeddedDatePicker_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -81,7 +77,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
                 DatePartTextBox.Text = string.Empty;
                 TimePartTextBox.Text = string.Empty;
                 EmbeddedDatePicker.SelectedDate = null;
-                //EmbeddedTimePicker.SelectedTime = null;
+                EmbeddedTimePicker.SelectedTime = null;
                 _isDateInvalid = false;
                 _isTimeInvalid = false;
             }
@@ -89,7 +85,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
             {
                 DatePartTextBox.Text = newValue.Value.ToShortDateString();
                 TimePartTextBox.Text = newValue.Value.ToShortTimeString();
-                //EmbeddedTimePicker.SelectedTime = newValue.Value.TimeOfDay;
+                EmbeddedTimePicker.SelectedTime = newValue.Value.TimeOfDay;
                 EmbeddedDatePicker.SelectedDate = newValue.Value.Date;
             }
 
@@ -113,17 +109,19 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
             }
         }
 
-        private void SetNewTimePart(TimeSpan timePart)
+        private void SetNewTimePart(TimeSpan? timePart)
         {
             // If setting time first, assume current date
-            if (DateTime == null && timePart != TimeSpan.Zero)
+            if (DateTime == null && timePart != null)
             {
-                DateTime = System.DateTime.Now.Date.Add(timePart);
+                DateTime = System.DateTime.Now.Date.Add(timePart.Value);
+                UpdateUiForNewDate(DateTime);
             }
             // else update datetime with new time part
-            else if (DateTime != null)
+            else if (DateTime != null && timePart != null)
             {
-                DateTime = DateTime.Value.Date.Add(timePart);
+                DateTime = DateTime.Value.Date.Add(timePart.Value);
+                UpdateUiForNewDate(DateTime);
             }
         }
 
@@ -211,6 +209,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls
         private void Time_Button_Click(object sender, RoutedEventArgs e)
         {
             TimePopup.IsOpen = true;
+        }
+
+        private void EmbeddedTimePicker_SelectedTimeChanged(object sender, EventArgs e)
+        {
+            if (EmbeddedTimePicker.SelectedTime.HasValue)
+            {
+                SetNewTimePart(EmbeddedTimePicker.SelectedTime.Value);
+            }
+            UpdateFeedbackUi();
+            TimePopup.IsOpen = false;
+        }
+
+        private void EmbeddedTimePicker_DismissRequested(object sender, EventArgs e)
+        {
+            TimePopup.IsOpen = false;
         }
     }
 }

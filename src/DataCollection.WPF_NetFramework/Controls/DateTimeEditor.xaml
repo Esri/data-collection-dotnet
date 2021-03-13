@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters"
+             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters" xmlns:controls="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -63,7 +63,7 @@
             <Path Data="{StaticResource icon-calendar-16}" Style="{StaticResource InsetButtonPathIcon}" />
         </Button>
         <Popup x:Name="DatePopup"
-               HorizontalAlignment="Left"
+               HorizontalAlignment="Left" VerticalOffset="2"
                Placement="Bottom"
                PlacementTarget="{Binding ElementName=DatePartTextBox}"
                Style="{StaticResource PopupStyle}">
@@ -87,11 +87,11 @@
         </Button>
         <Popup x:Name="TimePopup"
                HorizontalAlignment="Left"
-               Placement="Bottom"
+               Placement="Bottom" VerticalOffset="2"
                PlacementTarget="{Binding ElementName=TimePartTextBox}"
                Style="{StaticResource PopupStyle}">
             <Border Style="{StaticResource TitleBarPopoverBorderStyle}" Padding="0">
-                <Label Content="Time picker to do" />
+                <controls:TimePicker x:Name="EmbeddedTimePicker" SelectedTimeChanged="EmbeddedTimePicker_SelectedTimeChanged" DismissRequested="EmbeddedTimePicker_DismissRequested" />
             </Border>
         </Popup>
 

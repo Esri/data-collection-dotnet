@@ -74,6 +74,9 @@
     <Compile Include="Controls\DateTimeEditor.xaml.cs">
       <DependentUpon>DateTimeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToCursorConverter.cs" />
     <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
@@ -143,6 +146,10 @@
       <DependentUpon>SyncProgressView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\DateTimeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
