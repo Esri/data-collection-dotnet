@@ -559,7 +559,7 @@
     <value>Set date and time to valid values before moving on</value>
   </data>
   <data name="DTE_EmptyDate_Message" xml:space="preserve">
-    <value>Saved as: null (no date/time)</value>
+    <value>Saved as: (no date/time)</value>
   </data>
   <data name="DTE_Preview_FormatString" xml:space="preserve">
     <value>Saved as: {0} {1} (local time)</value>
