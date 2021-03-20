@@ -71,6 +71,13 @@
     </ApplicationDefinition>
     <Compile Include="Binding Support\SourceController.cs" />
     <Compile Include="Binding Support\WebBrowserExtensions.cs" />
+    <Compile Include="Controls\DateTimeEditor.xaml.cs">
+      <DependentUpon>DateTimeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToCursorConverter.cs" />
     <Compile Include="Converters\ConnectivityModeToColorConverter.cs" />
     <Compile Include="Converters\ConvertValueToCodedValueDomainValue.cs" />
@@ -138,6 +145,14 @@
     <Compile Include="Views\Overlays\SyncProgressView.xaml.cs">
       <DependentUpon>SyncProgressView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\DateTimeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Brushes.xaml" />
+    <Page Include="Styles\CalendarStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ControlOverrides.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

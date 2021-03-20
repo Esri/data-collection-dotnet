@@ -540,4 +540,34 @@
   <data name="AddFeatureError_Title" xml:space="preserve">
     <value>Error adding feature</value>
   </data>
+  <data name="DTE_DateButton_Tooltip" xml:space="preserve">
+    <value>Select a date</value>
+  </data>
+  <data name="DTE_DatePart_Placeholder" xml:space="preserve">
+    <value>mm/dd/yyyy</value>
+  </data>
+  <data name="DTE_ResetButton_Tooltip" xml:space="preserve">
+    <value>Clear date and time</value>
+  </data>
+  <data name="DTE_TimeButton_Tooltip" xml:space="preserve">
+    <value>Select a time</value>
+  </data>
+  <data name="DTE_TimePart_Placeholder" xml:space="preserve">
+    <value>hh:mm AM/PM</value>
+  </data>
+  <data name="DTE_ValidationError_Message" xml:space="preserve">
+    <value>Set date and time to valid values before moving on</value>
+  </data>
+  <data name="DTE_EmptyDate_Message" xml:space="preserve">
+    <value>Saved as: (no date/time)</value>
+  </data>
+  <data name="DTE_Preview_FormatString" xml:space="preserve">
+    <value>Saved as: {0} {1} (local time)</value>
+  </data>
+  <data name="TP_CancelButton_Tooltip" xml:space="preserve">
+    <value>Discard Selected Time</value>
+  </data>
+  <data name="TP_SaveButton_Tooltip" xml:space="preserve">
+    <value>Save Selected Time</value>
+  </data>
 </root>

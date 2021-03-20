@@ -10,6 +10,7 @@
         <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
         <converters:StringToNullConverter x:Key="StringToNullConverter" />
         <localConverters:ObjectToDateTimeOffsetConverter x:Key="ObjectToDateTimeOffsetConverter" />
+        <converters:DateTimeOffsetToLocalDateTimeConverter x:Key="DateTimeOffsetToLocalDateTimeConverter" />
     </UserControl.Resources>
     <Grid>
         <ItemsControl ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" ItemsSource="{Binding Fields, Mode=OneWay}">
@@ -32,9 +33,12 @@
                               x:DataType="models:FieldContainer">
                     <StackPanel>
                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
-                        <controls:NullReadyCalendarDatePicker Date="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectToDateTimeOffsetConverter}}"
-                                                              PlaceholderText="{x:Bind Converter={StaticResource LC}, ConverterParameter=FeatureEditor_CalendarPlaceholder}"
-                                                              Style="{StaticResource CardEditorCalendarStyle}" />
+                        <!-- Note: due to an interaction between x:Bind behavior and PopupManager behavior, x:Bind can't be used as of Runtime 100.10 -->
+                        <controls:DateTimeEditor DateTime="{Binding PopupFieldValue.Value, Mode=TwoWay, Converter={StaticResource DateTimeOffsetToLocalDateTimeConverter}}" />
+                        <!--
+                            Note: This validation error comes from popup manager. DateTimeEditor has its own internal validation error that is shown when the
+                            user-provided text can't be parsed into a valid date or time.
+                        -->
                         <TextBlock x:Name="RadiusReferenceText"
                                    Style="{StaticResource ValidationErrorTextStyle}"
                                    Text="{Binding PopupFieldValue.ValidationError.Message}"

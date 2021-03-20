@@ -74,20 +74,20 @@
         <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
     <!--  Implicit control styles  -->
-    <Style TargetType="{x:Type ComboBoxItem}">
+    <Style x:Key="InternalComboboxItem" TargetType="ComboBoxItem">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
-        <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
+        <Setter Property="BorderThickness" Value="1,1,1,0" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
         <Setter Property="Cursor" Value="{StaticResource ActionCursor}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
                     <Border Name="Border"
-                            Margin="{StaticResource UniformMediumThickness}"
+                            Margin="0"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -103,6 +103,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style BasedOn="{StaticResource InternalComboboxItem}" TargetType="{x:Type ComboBoxItem}" />
     <!--  Not an override but used by ComboBox template  -->
     <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
         <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />

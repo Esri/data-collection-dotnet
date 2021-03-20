@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
-  * Copyright 2019 Esri
+  * Copyright 2021 Esri
   *
   *  Licensed under the Apache License, Version 2.0 (the "License");
   *  you may not use this file except in compliance with the License.
@@ -15,22 +15,30 @@
 ******************************************************************************/
 
 using System;
-using Windows.UI.Xaml.Data;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
 
-namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters
+namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters
 {
-    class ObjectToDateTimeOffsetConverter : IValueConverter
+    /// <summary>
+    /// Enables binding a visibility property to a string property.
+    /// </summary>
+    public class EmptyStringToVisibilityConverter : IValueConverter
     {
-        // Converts (casts) an type object to a DateTimeOffset type
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (System.Nullable<DateTimeOffset>)value;
+            if (value is string valueString)
+            {
+                return string.IsNullOrEmpty(valueString) ? Visibility.Visible : Visibility.Hidden;
+            }
+
+            return Visibility.Visible;
         }
 
-        // Converting back isn't necessary as DateTimeOffset is an object
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
+            throw new NotImplementedException();
         }
     }
 }
