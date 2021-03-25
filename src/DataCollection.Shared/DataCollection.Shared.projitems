@@ -36,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BroadcastMessengerEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\BusyWaitingMessenger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Messengers\WaitStatusChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FeatureTableQueryCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\OriginRelationship.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\WrappedPopupFieldValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StagedAttachment.cs" />
