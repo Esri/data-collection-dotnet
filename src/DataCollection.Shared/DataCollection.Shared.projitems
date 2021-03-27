@@ -14,6 +14,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\LocationDisplayController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\IdentifyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binding Support\ViewpointController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Caching\GlobalCaches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Caching\TypeCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolInverseConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\DateTimeFormatConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\DateTimeOffsetToLocalDateTimeConverter.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IdentifyResultViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MapAccessoryViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NewFeatureViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SyncViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\TreeSurveyWorkflows.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\DestinationRelationshipViewModel.cs" />

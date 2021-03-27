@@ -367,6 +367,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
         }
 
+        private NewFeatureViewModel _newFeatureViewModel;
+
+        public NewFeatureViewModel NewFeatureViewModel
+        {
+            get => _newFeatureViewModel;
+            private set
+            {
+                if (value != _newFeatureViewModel)
+                {
+                    _newFeatureViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public IdentifyResultViewModel IdentifyResultViewModel { get; } = new IdentifyResultViewModel();
 
         private Map _offlineMap;
@@ -726,7 +741,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _startNewFeatureCommand ?? (_startNewFeatureCommand = new DelegateCommand(
-                    (x) => { BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups); IsAddingFeature = true; IsLocationOnlyMode = true; }));
+                    (x) => { 
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
+                        NewFeatureViewModel = new NewFeatureViewModel(MapViewModel.Map, CancelNewFeatureCommand);
+                    }));
             }
         }
 
@@ -735,7 +753,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _cancelNewFeatureCommand ?? (_cancelNewFeatureCommand = new DelegateCommand(
-                    (x) => { IsAddingFeature = false; IsLocationOnlyMode = false; }));
+                    (x) => {
+                        NewFeatureViewModel = null;
+                    }));
             }
         }
 

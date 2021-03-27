@@ -211,6 +211,11 @@
                                               ctrl:ModernMapPanel.Title="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship.PopupManager.Title}"
                                               DataContext="{StaticResource MainViewModel}"
                                               IsOpen="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SelectedDestinationRelationship, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}" />
+            <cc:NewFeatureCard Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,4,0,0|8,8,0,8'}"
+                               ctrl:ModernMapPanel.Role="Card"
+                               ctrl:ModernMapPanel.Title="New Feature"
+                               ViewModel="{Binding NewFeatureViewModel}"
+                               IsOpen="{Binding NewFeatureViewModel, Converter={StaticResource NullToBoolConverter}, FallbackValue=False}" />
             <cc:TocCard Margin="{Binding ElementName=ParentPanel, Path=IsCollapsed, Converter={StaticResource ResponsiveValueConverter}, ConverterParameter='0,4,0,0|8,8,0,8'}"
                         ctrl:ModernMapPanel.Role="Card"
                         ctrl:ModernMapPanel.Title="{Binding Source={x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=TOC_PanelHeader}"

@@ -94,6 +94,9 @@
     <Compile Include="Views\Cards\LegendCard.xaml.cs">
       <DependentUpon>LegendCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Cards\NewFeatureCard.xaml.cs">
+      <DependentUpon>NewFeatureCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NavBar.xaml.cs">
       <DependentUpon>NavBar.xaml</DependentUpon>
     </Compile>
@@ -211,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Cards\LegendCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\NewFeatureCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

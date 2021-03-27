@@ -1,0 +1,32 @@
+﻿<ctrl:CardBase x:Name="Self"
+               x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards.NewFeatureCard"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+               xmlns:local="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards"
+               xmlns:viewmodels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels"
+               xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <views:CardBar Title="New Feature"
+                       Grid.Row="0"
+                       CloseCommand="{Binding ElementName=Self, Path=ViewModel.CloseCommand}"
+                       IconGeometry="{StaticResource icon-plus-16}"
+                       OwningCard="{Binding ElementName=Self}" />
+
+        <ListView Background="{StaticResource ContentBackgroundBrush}" Grid.Row="1" 
+                  ItemsSource="{Binding ElementName=Self, Path=ViewModel.AvailableTemplates}">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:FeatureTemplateViewModel}">
+                    <StackPanel>
+                        <Image Width="30" Height="30" Source="{Binding Path=IconImageSource}" />
+                        <TextBlock Text="{Binding Path=Template.Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ctrl:CardBase>
