@@ -200,11 +200,24 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding FeatureTable.TableName}" />
-                                            <ComboBox HorizontalAlignment="Stretch"
-                                                      ItemsSource="{Binding OrderedAvailableValues}"
-                                                      SelectedItem="{Binding DataContext.PopupManager, RelativeSource={RelativeSource AncestorType=StackPanel}}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="32" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Row="0"
+                                                       Grid.ColumnSpan="2"
+                                                       Style="{StaticResource FieldLabelStyle}"
+                                                       Text="{Binding FeatureTable.TableName}" />
+                                            <ComboBox Grid.Row="1"
+                                                      Grid.ColumnSpan="2"
+                                                      HorizontalAlignment="Stretch"
+                                                      ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
+                                                      SelectedItem="{Binding PopupManager, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel>
@@ -220,7 +233,25 @@
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-                                        </StackPanel>
+                                            <Button Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Height="32"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Top"
+                                                    Command="{Binding RefreshValuesCommand, Mode=OneWay}"
+                                                    Style="{StaticResource ButtonBaseStyle}"
+                                                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_RefreshTooltip}">
+                                                <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconBase}" />
+                                            </Button>
+                                            <Border HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch"
+                                                    Background="{StaticResource ChromeBackgroundBrush}"
+                                                    Opacity="0.8"
+                                                    Cursor="Wait"
+                                                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_LoadingTooltip}"
+                                                    Visibility="{Binding IsRefreshingValues, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        </Grid>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

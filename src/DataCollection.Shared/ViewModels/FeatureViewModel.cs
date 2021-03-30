@@ -50,7 +50,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get { return _popupManager; }
             set
             {
-                if (_popupManager != value)
+                if (_popupManager != value && value != null)
                 {
                     _popupManager = value;
                     if (value != null)
@@ -58,9 +58,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         Fields = FieldContainer.GetFields(value);
 
                         // If the selected related record changes, fetch the attachments and create a new AttachmentsViewModel
-                        PopupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t =>
+                        _popupManager.AttachmentManager.FetchAttachmentsAsync().ContinueWith(t =>
                         {
-                            AttachmentsViewModel = new AttachmentsViewModel(PopupManager, FeatureTable);
+                            AttachmentsViewModel = new AttachmentsViewModel(_popupManager, FeatureTable);
                         });
 
                         UpdateImageSource();

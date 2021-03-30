@@ -349,8 +349,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         // this is a one to many relationship so it will never return more than one result
                         var relatedFeatureQueryResult = relationships.Where(r => r.IsValidRelationship()).First();
 
-                        var destinationRelationshipViewModel = new DestinationRelationshipViewModel(relationshipInfo, relatedTable, ConnectivityMode);
-                        await destinationRelationshipViewModel.InitializeAsync(relatedFeatureQueryResult);
+                        var destinationRelationshipViewModel = new DestinationRelationshipViewModel(relationshipInfo, relatedTable, ConnectivityMode, relatedFeatureQueryResult);
+                        await destinationRelationshipViewModel.LoadViewModel();
 
                         DestinationRelationships.Add(destinationRelationshipViewModel);
                         OnPropertyChanged(nameof(HasDestinationRelationships));
@@ -451,6 +451,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     async (x) =>
                     {
                         await DiscardChanges();
+                        if (DestinationRelationships?.Any() ?? false)
+                        {
+                            foreach(var relationship in DestinationRelationships)
+                            {
+                                // restore original values
+                                await relationship.LoadViewModel();
+                            }
+                        }
                         if (IsNewFeature)
                         {
                             OwningViewModel.IdentifyResultViewModel.ClearResultsCommand.Execute(null);

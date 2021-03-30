@@ -570,4 +570,10 @@
   <data name="TP_SaveButton_Tooltip" xml:space="preserve">
     <value>Save Selected Time</value>
   </data>
+  <data name="DestinationCombo_LoadingTooltip" xml:space="preserve">
+    <value>Loading Options...</value>
+  </data>
+  <data name="DestinationCombo_RefreshTooltip" xml:space="preserve">
+    <value>Refresh Options</value>
+  </data>
 </root>

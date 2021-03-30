@@ -24,64 +24,55 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Windows.Input;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Commands;
+using System.Threading;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
     public class DestinationRelationshipViewModel : FeatureViewModel
-    { 
+    {
+        private static Dictionary<ArcGISFeatureTable, IEnumerable<PopupManager>> CachedTableResults = new Dictionary<ArcGISFeatureTable, IEnumerable<PopupManager>>();
+        private static SemaphoreSlim cacheMutex = new SemaphoreSlim(1, 1);
+        private RelatedFeatureQueryResult _relatedFeatureQueryResult;
+        private bool _isRefreshingValues;
+        private ICommand _refreshValuesCommand;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DestinationRelationshipViewModel"/> class.
         /// </summary>
-        public DestinationRelationshipViewModel(RelationshipInfo relationshipInfo, ArcGISFeatureTable relatedTable, ConnectivityMode connectivityMode)
+        public DestinationRelationshipViewModel(RelationshipInfo relationshipInfo, ArcGISFeatureTable relatedTable, ConnectivityMode connectivityMode, RelatedFeatureQueryResult relatedFeatureQueryResult)
         {
             RelationshipInfo = relationshipInfo;
             FeatureTable = relatedTable;
             ConnectivityMode = connectivityMode;
-        }
-
-        private TaskCompletionSource<bool> _initTcs;
-
-        /// <summary>
-        /// Initialization code for the DestinationRelationshipViewModel
-        /// </summary>
-        public Task InitializeAsync(RelatedFeatureQueryResult relatedFeatureQueryResult)
-        {
-            if (_initTcs == null)
-            {
-                _initTcs = new TaskCompletionSource<bool>();
-                // Run initialization
-                LoadViewModel(relatedFeatureQueryResult).ContinueWith(t =>
-                {
-                    // When init completes, set the task to complete
-                    _initTcs.TrySetResult(true);
-                });
-            }
-
-            return _initTcs.Task;
+            _relatedFeatureQueryResult = relatedFeatureQueryResult;
         }
 
         /// <summary>
         /// Loads the necessary prerequisites for DestinationRelationshipViewModel
         /// </summary>
-        public async Task LoadViewModel(RelatedFeatureQueryResult relatedFeatureQueryResult)
+        public async Task LoadViewModel()
         {
             // get the related records for all the destination relationships to make available for editing
-            await GetAvailableValues();
+            await RefreshAvailableValues();
+            await LoadSelectedFeaturePopup();
+        }
 
-            if (relatedFeatureQueryResult.Count() > 0)
+        public async Task LoadSelectedFeaturePopup()
+        {
+            if (_relatedFeatureQueryResult.FirstOrDefault() is ArcGISFeature relatedRecord)
             {
-                var relatedRecord = relatedFeatureQueryResult.First();
-
                 // load feature to be able to access popup
-                if (relatedRecord is ArcGISFeature loadableFeature)
-                    await loadableFeature.LoadAsync();
+                await relatedRecord.LoadAsync();
 
                 // choose the selected related record from the list of available values
                 // this will enable seamless binding during editing to the list of available values and to the selected value
                 foreach (var popupManager in OrderedAvailableValues)
                 {
                     if (popupManager.DisplayedFields.Count() > 0 && AreAttributeValuesTheSame(popupManager, relatedRecord))
-                    { 
+                    {
                         PopupManager = popupManager;
                         return;
                     }
@@ -97,21 +88,61 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Gets or sets the collection of available values to select from for the related record
         /// </summary>
-        public IOrderedEnumerable<PopupManager> OrderedAvailableValues { get; private set; }
+        public IEnumerable<PopupManager> OrderedAvailableValues
+        {
+            get => CachedTableResults.ContainsKey(FeatureTable) ? CachedTableResults[FeatureTable] : null;
+            set
+            {
+                CachedTableResults[FeatureTable] = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsRefreshingValues
+        {
+            get => _isRefreshingValues;
+            set
+            {
+                if (_isRefreshingValues != value)
+                {
+                    _isRefreshingValues = value;
+                    OnPropertyChanged();
+                    (RefreshValuesCommand as DelegateCommand)?.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        /// </summary>
+        public ICommand RefreshValuesCommand => _refreshValuesCommand ?? (_refreshValuesCommand = new DelegateCommand(parm =>
+		    {
+	            _ = RefreshAvailableValues(true).ContinueWith(res => LoadSelectedFeaturePopup());
+		    },
+            (param) =>
+            {
+                return !IsRefreshingValues;
+            })
+        );
 
         /// <summary>
         /// Get all of the values in the related table to display when editing feature
         /// </summary>
-        private async Task GetAvailableValues()
+        private async Task RefreshAvailableValues(bool invalidateCache = false)
         {
-            var queryParams = new QueryParameters()
-            {
-                ReturnGeometry = false,
-                WhereClause = "1=1",
-            };
+            await cacheMutex.WaitAsync();
 
             try
             {
+                if (!invalidateCache && CachedTableResults.ContainsKey(FeatureTable))
+                {
+                    return;
+                }
+                IsRefreshingValues = true;
+
+                var queryParams = new QueryParameters()
+                {
+                    ReturnGeometry = false,
+                    WhereClause = "1=1",
+                };
                 // Query and load all related records
                 var featureQueryResult = await FeatureTable.QueryFeatures(queryParams);
                 var availableValues = new ObservableCollection<PopupManager>();
@@ -134,6 +165,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             catch (Exception ex)
             {
                 UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+            }
+            finally
+            {
+                IsRefreshingValues = false;
+                cacheMutex.Release();
             }
         }
 
