@@ -6,7 +6,7 @@
                          xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
                          xmlns:convertersUWP="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
                          xmlns:customcontrols="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
-                         xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views">
+                         xmlns:local="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views" xmlns:viewmodels="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels" xmlns:popups="using:Esri.ArcGISRuntime.Mapping.Popups">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
@@ -165,15 +165,15 @@
                         <!--  List of relationships where identified feature is destination  -->
                         <ItemsControl ItemsSource="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.DestinationRelationships, Mode=OneWay}" Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="viewmodels:DestinationRelationshipViewModel">
                                     <Grid>
                                         <StackPanel x:Name="DestinationRelationshipsStackPanel" DataContext="{Binding}">
                                             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
-                                            <ComboBox ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
-                                                      SelectedItem="{Binding ElementName=DestinationRelationshipsStackPanel, Path=DataContext.PopupManager, Mode=TwoWay}"
+                                            <ComboBox ItemsSource="{x:Bind OrderedAvailableValues, Mode=OneWay}"
+                                                      SelectedItem="{x:Bind PopupManager, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                                       Style="{StaticResource ComboBoxStyle}">
                                                 <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
+                                                    <DataTemplate x:DataType="popups:PopupManager">
                                                         <StackPanel>
                                                             <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}">
                                                                 <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label, Mode=OneWay}" />

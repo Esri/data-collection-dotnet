@@ -29,53 +29,49 @@ using System.Collections.Generic;
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
     public class DestinationRelationshipViewModel : FeatureViewModel
-    { 
+    {
+
+        private RelatedFeatureQueryResult _relatedFeatureQueryResult;
         /// <summary>
         /// Initializes a new instance of the <see cref="DestinationRelationshipViewModel"/> class.
         /// </summary>
-        public DestinationRelationshipViewModel(RelationshipInfo relationshipInfo, ArcGISFeatureTable relatedTable, ConnectivityMode connectivityMode)
+        public DestinationRelationshipViewModel(RelationshipInfo relationshipInfo, ArcGISFeatureTable relatedTable, ConnectivityMode connectivityMode, RelatedFeatureQueryResult relatedFeatureQueryResult)
         {
             RelationshipInfo = relationshipInfo;
             FeatureTable = relatedTable;
             ConnectivityMode = connectivityMode;
-        }
-
-        private TaskCompletionSource<bool> _initTcs;
-
-        /// <summary>
-        /// Initialization code for the DestinationRelationshipViewModel
-        /// </summary>
-        public Task InitializeAsync(RelatedFeatureQueryResult relatedFeatureQueryResult)
-        {
-            if (_initTcs == null)
-            {
-                _initTcs = new TaskCompletionSource<bool>();
-                // Run initialization
-                LoadViewModel(relatedFeatureQueryResult).ContinueWith(t =>
-                {
-                    // When init completes, set the task to complete
-                    _initTcs.TrySetResult(true);
-                });
-            }
-
-            return _initTcs.Task;
+            _relatedFeatureQueryResult = relatedFeatureQueryResult;
         }
 
         /// <summary>
-        /// Loads the necessary prerequisites for DestinationRelationshipViewModel
+        /// Populates the popup manager cache if not already loaded, then selects the matching popup manager for this feature from the cache.
+        /// If cache is already populated but a matching popup is not found, the cache is invalidated and re-populated.
         /// </summary>
-        public async Task LoadViewModel(RelatedFeatureQueryResult relatedFeatureQueryResult)
+        public async Task LoadViewModel()
         {
-            // get the related records for all the destination relationships to make available for editing
             if (!FeaturePopupCache.Instance.PopupManagersByTable.ContainsKey(FeatureTable))
             {
+                // get the related records for all the destination relationships to make available for editing
                 await FeaturePopupCache.Instance.PopulateCache(FeatureTable);
                 OnPropertyChanged(nameof(OrderedAvailableValues));
             }
+            await RefreshSelection();
 
-            if (relatedFeatureQueryResult.Count() > 0)
+            // Re-try loading table if matching popup isn't found
+            if (PopupManager == null && _relatedFeatureQueryResult.Any())
             {
-                var relatedRecord = relatedFeatureQueryResult.First();
+                await RefreshValues();
+            }
+        }
+
+        /// <summary>
+        /// Select the popup manager for this feature if it exists in the list of popup managers.
+        /// </summary>
+        private async Task RefreshSelection()
+        {
+            if (_relatedFeatureQueryResult.Count() > 0)
+            {
+                var relatedRecord = _relatedFeatureQueryResult.First();
 
                 // load feature to be able to access popup
                 if (relatedRecord is ArcGISFeature loadableFeature)
@@ -86,12 +82,23 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 foreach (var popupManager in FeaturePopupCache.Instance.PopupManagersByTable[FeatureTable])
                 {
                     if (popupManager.DisplayedFields.Count() > 0 && AreAttributeValuesTheSame(popupManager, relatedRecord))
-                    { 
+                    {
                         PopupManager = popupManager;
                         return;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Re-load the popup manager cache, then re-select the matching popup manager from the cache.
+        /// </summary>
+        public async Task RefreshValues()
+        {
+            // get the related records for all the destination relationships to make available for editing
+            await FeaturePopupCache.Instance.PopulateCache(FeatureTable, true);
+            OnPropertyChanged(nameof(OrderedAvailableValues));
+            await RefreshSelection();
         }
 
         /// <summary>

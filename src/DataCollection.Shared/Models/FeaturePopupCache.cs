@@ -18,6 +18,7 @@ using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
@@ -28,6 +29,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
     /// </summary>
     public class FeaturePopupCache
     {
+        private static SemaphoreSlim SlowStuffSemaphore = new SemaphoreSlim(1, 1);
         /// <summary>
         /// Static reference is available for shared use
         /// </summary>
@@ -40,14 +42,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
 
         /// <summary>
         /// Performs the query, populating the cache with an ordered list of popup managers, each manager representing a feature in the table.
-        /// </summary>
-        public async Task PopulateCache(FeatureTable table)
+        /// </summary> 
+        public async Task PopulateCache(FeatureTable table, bool invalidateCache = false)
         {
-            if (PopupManagersByTable.ContainsKey(table))
+            await SlowStuffSemaphore.WaitAsync();
+            if (!invalidateCache && PopupManagersByTable.ContainsKey(table))
             {
+                SlowStuffSemaphore.Release();
                 return;
             }
-
             if (table is ServiceFeatureTable sft)
             {
                 sft.FeatureRequestMode = FeatureRequestMode.ManualCache;
@@ -70,6 +73,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
                     .OrderBy(popupmanager => popupmanager?.DisplayedFields?.FirstOrDefault()?.Value)
                     .ToList();
             }
+            SlowStuffSemaphore.Release();
         }
     }
 }

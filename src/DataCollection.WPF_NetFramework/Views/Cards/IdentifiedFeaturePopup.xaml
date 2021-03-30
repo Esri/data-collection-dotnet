@@ -203,8 +203,8 @@
                                         <StackPanel>
                                             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding FeatureTable.TableName}" />
                                             <ComboBox HorizontalAlignment="Stretch"
-                                                      ItemsSource="{Binding OrderedAvailableValues}"
-                                                      SelectedItem="{Binding DataContext.PopupManager, RelativeSource={RelativeSource AncestorType=StackPanel}}">
+                                                      ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
+                                                      SelectedItem="{Binding PopupManager, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel>

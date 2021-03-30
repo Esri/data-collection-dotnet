@@ -56,7 +56,7 @@
                                        Style="{StaticResource FieldLabelStyle}"
                                        Text="{x:Bind Subtitle, Mode=OneWay}"
                                        TextWrapping="Wrap"
-                                       Visibility="{x:Bind Subtitle, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=EmptyString}" />
+                                       Visibility="{x:Bind Subtitle, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=EmptyString}" />
                         </Grid>
                     </Grid>
                 </DataTemplate>
