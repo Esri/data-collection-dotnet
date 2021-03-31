@@ -49,10 +49,10 @@
                                       ItemsSource="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.DestinationRelationships, Mode=OneWay}"
                                       Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="viewmodels:DestinationRelationshipViewModel">
                                     <StackPanel>
-                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupManager.Title}" />
-                                        <Border Style="{StaticResource CardGroupContainerStyle}" Visibility="{Binding PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{x:Bind PopupManager.Title,Mode=OneWay}" />
+                                        <Border Style="{StaticResource CardGroupContainerStyle}" Visibility="{x:Bind PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
@@ -181,8 +181,8 @@
                                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{x:Bind FeatureTable.TableName, Mode=OneWay}" />
                                         <ComboBox Grid.Row="1"
                                                   Grid.ColumnSpan="2"
-                                                  ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
-                                                  SelectedItem="{Binding PopupManager, Mode=TwoWay}"
+                                                  ItemsSource="{x:Bind OrderedAvailableValues, Mode=OneWay}"
+                                                  SelectedItem="{x:Bind PopupManager, Mode=TwoWay}"
                                                   Style="{StaticResource ComboBoxStyle}">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate x:DataType="popups:PopupManager">
