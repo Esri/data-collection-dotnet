@@ -95,8 +95,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
                 case PopupAttachmentType.Image:
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
-                        var image = await Attachment.CreateThumbnailAsync(64, 64);
-                        Thumbnail = await image.ToImageSourceAsync();
+                        try 
+                        {
+                            var image = await Attachment.CreateThumbnailAsync(64, 64);
+                            Thumbnail = await image.ToImageSourceAsync();
+                        }
+                        catch (Esri.ArcGISRuntime.ArcGISRuntimeException ex)
+                        {
+                            // Image conversion will sometimes fail if the underlying file is corrupt or invalid; app should not crash in that case.
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged("Error loading attachment", ex.Message, true, ex.StackTrace);
+                        }
                     });
                     break;
 
