@@ -21,7 +21,6 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -33,8 +32,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
     public class DestinationRelationshipViewModel : FeatureViewModel
     {
+        // Global cache reduces repetitive queries when loading multiple results
         private static Dictionary<ArcGISFeatureTable, IEnumerable<PopupManager>> CachedTableResults = new Dictionary<ArcGISFeatureTable, IEnumerable<PopupManager>>();
+        // Synchronizes access to the global cache when loading multiple results in parallel
         private static SemaphoreSlim cacheMutex = new SemaphoreSlim(1, 1);
+        // Local copy of available values
+        private IEnumerable<PopupManager> _availableValues;
+
         private RelatedFeatureQueryResult _relatedFeatureQueryResult;
         private bool _isRefreshingValues;
         private ICommand _refreshValuesCommand;
@@ -55,11 +59,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         public async Task LoadViewModel()
         {
-            // get the related records for all the destination relationships to make available for editing
+            // Loads all popups in the table to enable selection from a list
             await RefreshAvailableValues();
+            // Updates the popup representing current selection to ensure it matches entry in list of values (important for combobox binding)
             await LoadSelectedFeaturePopup();
         }
 
+        /// <summary>
+        /// Finds the popup in <see cref="OrderedAvailableValues"/> that matches the currently selected value to <see cref="FeatureViewModel.PopupManager"/>.
+        /// </summary>
         public async Task LoadSelectedFeaturePopup()
         {
             if (_relatedFeatureQueryResult.FirstOrDefault() is ArcGISFeature relatedRecord)
@@ -90,14 +98,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         public IEnumerable<PopupManager> OrderedAvailableValues
         {
-            get => CachedTableResults.ContainsKey(FeatureTable) ? CachedTableResults[FeatureTable] : null;
-            set
+            get => _availableValues;
+            private set
             {
-                CachedTableResults[FeatureTable] = value;
+                _availableValues = value;
                 OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// Tracks whether a refresh of <see cref="OrderedAvailableValues"/> is in progress
+        /// </summary>
         public bool IsRefreshingValues
         {
             get => _isRefreshingValues;
@@ -112,6 +123,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
         }
 
+        /// <summary>
+        /// Starts a refresh of the <see cref="OrderedAvailableValues"/> collection.
         /// </summary>
         public ICommand RefreshValuesCommand => _refreshValuesCommand ?? (_refreshValuesCommand = new DelegateCommand(parm =>
 		    {
@@ -124,42 +137,40 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         );
 
         /// <summary>
-        /// Get all of the values in the related table to display when editing feature
+        /// Loads <see cref="OrderedAvailableValues"/> with popups for all of the entries in the relevant table.
+        /// Values loaded from cache if <paramref name="invalidateCache"/> is false, otherwise cache is overwritten.
         /// </summary>
         private async Task RefreshAvailableValues(bool invalidateCache = false)
         {
+            // Ensures that cache is only updated/checked by one Task at a time
             await cacheMutex.WaitAsync();
 
             try
             {
                 if (!invalidateCache && CachedTableResults.ContainsKey(FeatureTable))
                 {
+                    OrderedAvailableValues = CachedTableResults[FeatureTable];
                     return;
                 }
                 IsRefreshingValues = true;
 
-                var queryParams = new QueryParameters()
-                {
-                    ReturnGeometry = false,
-                    WhereClause = "1=1",
-                };
+                var queryParams = new QueryParameters { ReturnGeometry = false, WhereClause = "1=1" };
+
                 // Query and load all related records
-                var featureQueryResult = await FeatureTable.QueryFeatures(queryParams);
-                var availableValues = new ObservableCollection<PopupManager>();
+                var featureQueryResult = (await FeatureTable.QueryFeatures(queryParams)).ToList();
+                var availableValues = new List<PopupManager>(featureQueryResult.Count);
 
                 foreach (ArcGISFeature result in featureQueryResult)
                 {
-                    if (result.LoadStatus != LoadStatus.Loaded)
-                    {
-                        await result.LoadAsync();
-                    }
+                    await result.LoadAsync();
                     availableValues.Add(new PopupManager(new Popup(result, result.FeatureTable.PopupDefinition)));
                 }
 
                 // sort the list of related records based on the first display field from the popup manager
-                if (availableValues.Count > 0 && availableValues.First().DisplayedFields.Count() > 0)
+                if (availableValues.FirstOrDefault()?.DisplayedFields?.Any() ?? false)
                 {
-                    OrderedAvailableValues = availableValues.OrderBy(PopupManager => PopupManager?.DisplayedFields?.First().Value);
+                    OrderedAvailableValues = availableValues.OrderBy(PopupManager => PopupManager?.DisplayedFields?.First().Value).ToList();
+                    CachedTableResults[FeatureTable] = OrderedAvailableValues;
                 }
             }
             catch (Exception ex)
