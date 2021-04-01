@@ -79,7 +79,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 // this will enable seamless binding during editing to the list of available values and to the selected value
                 foreach (var popupManager in OrderedAvailableValues)
                 {
-                    if (popupManager.DisplayedFields.Count() > 0 && AreAttributeValuesTheSame(popupManager, relatedRecord))
+                    if (popupManager.DisplayedFields.Any() && AreAttributeValuesTheSame(popupManager, relatedRecord))
                     {
                         PopupManager = popupManager;
                         return;
@@ -149,7 +149,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             {
                 if (!invalidateCache && CachedTableResults.ContainsKey(FeatureTable))
                 {
-                    OrderedAvailableValues = CachedTableResults[FeatureTable];
+                    if (OrderedAvailableValues != CachedTableResults[FeatureTable])
+                    {
+                        OrderedAvailableValues = CachedTableResults[FeatureTable];
+                    }
                     return;
                 }
                 IsRefreshingValues = true;
@@ -160,11 +163,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 var featureQueryResult = (await FeatureTable.QueryFeatures(queryParams)).ToList();
                 var availableValues = new List<PopupManager>(featureQueryResult.Count);
 
-                foreach (ArcGISFeature result in featureQueryResult)
+                // Use batch loading if possible
+                if (FeatureTable is ServiceFeatureTable sft)
                 {
-                    await result.LoadAsync();
-                    availableValues.Add(new PopupManager(new Popup(result, result.FeatureTable.PopupDefinition)));
+                    await sft.LoadOrRefreshFeaturesAsync(featureQueryResult);
                 }
+                else
+                {
+                    foreach (ArcGISFeature result in featureQueryResult)
+                    {
+                        await result.LoadAsync();
+                    }
+                }
+
+                availableValues.AddRange(featureQueryResult.Select(res => new PopupManager(new Popup(res, res.FeatureTable.PopupDefinition))));
 
                 // sort the list of related records based on the first display field from the popup manager
                 if (availableValues.FirstOrDefault()?.DisplayedFields?.Any() ?? false)
