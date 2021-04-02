@@ -35,7 +35,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         // Global cache reduces repetitive queries when loading multiple results
         private static Dictionary<ArcGISFeatureTable, IEnumerable<PopupManager>> CachedTableResults = new Dictionary<ArcGISFeatureTable, IEnumerable<PopupManager>>();
         // Synchronizes access to the global cache when loading multiple results in parallel
-        private static SemaphoreSlim cacheMutex = new SemaphoreSlim(1, 1);
+        private static readonly SemaphoreSlim _cacheMutex = new SemaphoreSlim(1, 1);
         // Local copy of available values
         private IEnumerable<PopupManager> _availableValues;
 
@@ -143,7 +143,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private async Task RefreshAvailableValues(bool invalidateCache = false)
         {
             // Ensures that cache is only updated/checked by one Task at a time
-            await cacheMutex.WaitAsync();
+            await _cacheMutex.WaitAsync();
 
             try
             {
@@ -192,7 +192,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             finally
             {
                 IsRefreshingValues = false;
-                cacheMutex.Release();
+                _cacheMutex.Release();
             }
         }
 
