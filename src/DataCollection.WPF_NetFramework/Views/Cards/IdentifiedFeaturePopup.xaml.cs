@@ -15,6 +15,8 @@
 ******************************************************************************/
 
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Helpers;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
@@ -35,6 +37,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
         private void AddAttachmentButton_Click(object sender, RoutedEventArgs e)
         {
             AttachmentPathTextBlock.Text = BrowseHelper.GetFileFromUser();
+        }
+
+        private void ComboButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((sender as FrameworkElement).Tag as Popup).IsOpen = true;
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ((sender as FrameworkElement).Tag as Popup).IsOpen = false;
         }
     }
 }

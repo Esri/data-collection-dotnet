@@ -199,60 +199,108 @@
                         <ItemsControl ItemsSource="{Binding DestinationRelationships}" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="32" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Row="0"
-                                                       Grid.ColumnSpan="2"
-                                                       Style="{StaticResource FieldLabelStyle}"
-                                                       Text="{Binding FeatureTable.TableName}" />
-                                            <ComboBox Grid.Row="1"
-                                                      Grid.ColumnSpan="2"
-                                                      HorizontalAlignment="Stretch"
-                                                      ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
-                                                      SelectedItem="{Binding PopupManager, Mode=TwoWay}">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel>
-                                                            <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}">
-                                                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
-                                                                <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
-                                                            </StackPanel>
-                                                            <StackPanel DataContext="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}">
-                                                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
-                                                                <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
-                                                            </StackPanel>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-                                            <Button Grid.Row="1"
-                                                    Grid.Column="1"
-                                                    Height="32"
-                                                    Padding="0"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Top"
-                                                    Command="{Binding RefreshValuesCommand, Mode=OneWay}"
-                                                    Style="{StaticResource ButtonBaseStyle}"
-                                                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_RefreshTooltip}">
-                                                <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconBase}" />
-                                            </Button>
-                                            <Border HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Stretch"
-                                                    Background="{StaticResource ChromeBackgroundBrush}"
-                                                    Opacity="0.8"
-                                                    Cursor="Wait"
-                                                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_LoadingTooltip}"
-                                                    Visibility="{Binding IsRefreshingValues, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                        </Grid>
-                                    </Grid>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
+                                        <Button x:Name="ComboButton"
+                                                Click="ComboButton_Click"
+                                                Style="{StaticResource ButtonBaseStyle}"
+                                                Tag="{Binding ElementName=ComboPopup}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel DataContext="{Binding PopupManager, Mode=OneWay}">
+                                                    <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                    </StackPanel>
+                                                    <StackPanel DataContext="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <Path x:Name="Arrow"
+                                                      Grid.Column="1"
+                                                      Width="12"
+                                                      Height="12"
+                                                      Margin="{StaticResource RightMediumThickness}"
+                                                      HorizontalAlignment="Right"
+                                                      VerticalAlignment="Center"
+                                                      Data="{StaticResource icon-caret-down-16}"
+                                                      Style="{StaticResource PathIconBase}" />
+                                            </Grid>
+                                        </Button>
+                                        <Popup x:Name="ComboPopup"
+                                               Placement="Top"
+                                               PlacementTarget="{Binding ElementName=ComboButton}"
+                                               Style="{StaticResource PopupStyle}">
+                                            <Border Background="{StaticResource ChromeBackgroundBrush}"
+                                                    BorderBrush="{StaticResource ChromeBorderBrush}"
+                                                    BorderThickness="{StaticResource ChromeBorderThickness}">
+
+                                                <Grid Width="{Binding ElementName=ComboButton, Path=ActualWidth}" Background="{StaticResource ChromeBackgroundBrush}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="32" />
+                                                        <RowDefinition Height="200" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="32" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Row="0"
+                                                               Grid.Column="0"
+                                                               Margin="{StaticResource LeftLargeThickness}"
+                                                               VerticalAlignment="Center"
+                                                               Style="{StaticResource FieldLabelStyle}"
+                                                               Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
+                                                    <Button Grid.Row="0"
+                                                            Grid.Column="1"
+                                                            Margin="0"
+                                                            Padding="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Stretch"
+                                                            BorderThickness="0"
+                                                            Command="{Binding RefreshValuesCommand, Mode=OneWay}"
+                                                            Style="{StaticResource ButtonBaseStyle}"
+                                                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_RefreshTooltip}">
+                                                        <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconBase}" />
+                                                    </Button>
+                                                    <ListView Grid.Row="1"
+                                                              Grid.ColumnSpan="2"
+                                                              ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
+                                                              SelectedItem="{Binding PopupManager, Mode=TwoWay}"
+                                                              SelectionChanged="ListView_SelectionChanged"
+                                                              Tag="{Binding ElementName=ComboPopup}">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+
+                                                                <StackPanel>
+                                                                    <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                                    </StackPanel>
+                                                                    <StackPanel DataContext="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                                    </StackPanel>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                    <Border Grid.RowSpan="2"
+                                                            Grid.ColumnSpan="2"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Stretch"
+                                                            Background="{StaticResource ChromeBackgroundBrush}"
+                                                            Cursor="Wait"
+                                                            Opacity="0.8"
+                                                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_LoadingTooltip}"
+                                                            Visibility="{Binding IsRefreshingValues, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                </Grid>
+                                            </Border>
+                                        </Popup>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
