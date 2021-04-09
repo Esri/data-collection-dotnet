@@ -51,7 +51,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="viewmodels:DestinationRelationshipViewModel">
                                     <StackPanel>
-                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{x:Bind PopupManager.Title,Mode=OneWay}" />
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{x:Bind PopupManager.Title, Mode=OneWay}" />
                                         <Border Style="{StaticResource CardGroupContainerStyle}" Visibility="{x:Bind PopupManager, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
@@ -169,24 +169,78 @@
                         <ItemsControl ItemsSource="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.DestinationRelationships, Mode=OneWay}" Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="viewmodels:DestinationRelationshipViewModel">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="32" />
-                                        </Grid.ColumnDefinitions>
+                                    <StackPanel>
                                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{x:Bind FeatureTable.TableName, Mode=OneWay}" />
-                                        <ComboBox Grid.Row="1"
-                                                  Grid.ColumnSpan="2"
-                                                  ItemsSource="{x:Bind OrderedAvailableValues, Mode=OneWay}"
-                                                  SelectedItem="{x:Bind PopupManager, Mode=TwoWay}"
-                                                  Style="{StaticResource ComboBoxStyle}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate x:DataType="popups:PopupManager">
-                                                    <StackPanel>
+                                        <Button HorizontalAlignment="Stretch" Style="{StaticResource ButtonBaseStyle}">
+                                            <Button.Flyout>
+                                                <Flyout x:Name="PopupFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                                                    <Grid Background="{StaticResource ChromeBackgroundBrush}">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="32" />
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="200" />
+                                                            <ColumnDefinition Width="32" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Margin="{StaticResource LeftLargeThickness}"
+                                                                   Style="{StaticResource FieldLabelStyle}"
+                                                                   Text="{x:Bind FeatureTable.TableName, Mode=OneWay}" />
+                                                        <Button Grid.Row="0"
+                                                                Grid.Column="1"
+                                                                Margin="0"
+                                                                HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Stretch"
+                                                                BorderThickness="0"
+                                                                Command="{x:Bind RefreshValuesCommand, Mode=OneWay}"
+                                                                Style="{StaticResource ButtonBaseStyle}"
+                                                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DestinationCombo_RefreshTooltip}">
+                                                            <Path Margin="0"
+                                                                  Data="{StaticResource icon-refresh-16}"
+                                                                  Style="{StaticResource PathIconStyle}" />
+                                                        </Button>
+                                                        <ListView Grid.Row="1"
+                                                                  Grid.ColumnSpan="2"
+                                                                  ItemsSource="{x:Bind OrderedAvailableValues, Mode=OneWay}"
+                                                                  SelectedItem="{x:Bind PopupManager, Mode=TwoWay}"
+                                                                  SelectionChanged="PopupList_SelectionChanged"
+                                                                  Tag="{Binding ElementName=PopupFlyout}">
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Margin="{StaticResource BottomMediumThickness}">
+                                                                        <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}">
+                                                                            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label, Mode=OneWay}" />
+                                                                            <TextBlock Style="{StaticResource FieldValueStyle}" Text="{Binding ReformattedValue, Mode=OneWay}" />
+                                                                        </StackPanel>
+                                                                        <StackPanel DataContext="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}">
+                                                                            <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label, Mode=OneWay}" />
+                                                                            <TextBlock Style="{StaticResource FieldValueStyle}" Text="{Binding ReformattedValue, Mode=OneWay}" />
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
+                                                        </ListView>
+                                                        <Border Grid.Row="1"
+                                                                Grid.ColumnSpan="2"
+                                                                HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Stretch"
+                                                                ext:Mouse.Cursor="Wait"
+                                                                Background="{StaticResource ChromeBackgroundBrush}"
+                                                                Opacity="0.8"
+                                                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DestinationCombo_LoadingTooltip}"
+                                                                Visibility="{x:Bind IsRefreshingValues, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                    </Grid>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                            <Button.Content>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="32" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Margin="{StaticResource BottomMediumThickness}" DataContext="{x:Bind PopupManager, Mode=OneWay}">
                                                         <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}, Mode=OneWay}">
                                                             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label, Mode=OneWay}" />
                                                             <TextBlock Style="{StaticResource FieldValueStyle}" Text="{Binding ReformattedValue, Mode=OneWay}" />
@@ -196,31 +250,16 @@
                                                             <TextBlock Style="{StaticResource FieldValueStyle}" Text="{Binding ReformattedValue, Mode=OneWay}" />
                                                         </StackPanel>
                                                     </StackPanel>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <Button Grid.Row="1"
-                                                Grid.Column="1"
-                                                Height="32"
-                                                Margin="0"
-                                                Padding="0"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Top"
-                                                Command="{x:Bind RefreshValuesCommand, Mode=OneWay}"
-                                                Style="{StaticResource ButtonBaseStyle}"
-                                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DestinationCombo_RefreshTooltip}">
-                                            <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconStyle}" />
+                                                    <Path Grid.Column="1"
+                                                          Width="10"
+                                                          Height="10"
+                                                          HorizontalAlignment="Right"
+                                                          Data="{StaticResource icon-chevron-right-16}"
+                                                          Style="{StaticResource PathIconStyle}" />
+                                                </Grid>
+                                            </Button.Content>
                                         </Button>
-                                        <Border Grid.Row="1"
-                                                Grid.ColumnSpan="2"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                ext:Mouse.Cursor="Wait"
-                                                Background="{StaticResource ChromeBackgroundBrush}"
-                                                Opacity="0.8"
-                                                ToolTipService.ToolTip="{x:Bind Converter={StaticResource LC}, ConverterParameter=DestinationCombo_LoadingTooltip}"
-                                                Visibility="{x:Bind IsRefreshingValues, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    </Grid>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

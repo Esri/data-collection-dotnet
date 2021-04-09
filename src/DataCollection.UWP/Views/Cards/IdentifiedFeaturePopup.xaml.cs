@@ -20,6 +20,7 @@ using Windows.UI.Xaml;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Helpers;
+using Windows.UI.Xaml.Controls;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
 {
@@ -78,6 +79,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
                     true,
                     ex.StackTrace);
             }
+        }
+
+        private void PopupList_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        {
+            ((sender as ListView).Tag as Flyout).Hide();
         }
     }
 }
