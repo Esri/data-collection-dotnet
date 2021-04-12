@@ -232,9 +232,11 @@
                                             </Grid>
                                         </Button>
                                         <Popup x:Name="ComboPopup"
+                                               Opened="ComboPopup_Opened"
                                                Placement="Top"
                                                PlacementTarget="{Binding ElementName=ComboButton}"
-                                               Style="{StaticResource PopupStyle}">
+                                               Style="{StaticResource PopupStyle}"
+                                               Tag="{Binding ElementName=SelectionListView, Mode=OneTime}">
                                             <Border Background="{StaticResource ChromeBackgroundBrush}"
                                                     BorderBrush="{StaticResource ChromeBorderBrush}"
                                                     BorderThickness="{StaticResource ChromeBorderThickness}">
@@ -266,7 +268,8 @@
                                                             ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_RefreshTooltip}">
                                                         <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconBase}" />
                                                     </Button>
-                                                    <ListView Grid.Row="1"
+                                                    <ListView x:Name="SelectionListView"
+                                                              Grid.Row="1"
                                                               Grid.ColumnSpan="2"
                                                               ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
                                                               SelectedItem="{Binding PopupManager, Mode=TwoWay}"
@@ -274,7 +277,6 @@
                                                               Tag="{Binding ElementName=ComboPopup}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
-
                                                                 <StackPanel>
                                                                     <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}">
                                                                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />

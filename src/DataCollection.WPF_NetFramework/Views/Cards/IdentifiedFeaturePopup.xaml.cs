@@ -17,6 +17,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Helpers;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
@@ -46,7 +47,26 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ((sender as FrameworkElement).Tag as Popup).IsOpen = false;
+            if (sender is ListView lv && lv.DataContext is DestinationRelationshipViewModel vm)
+            {
+                if (!vm.IsRefreshingValues)
+                {
+                    ((sender as FrameworkElement).Tag as Popup).IsOpen = false;
+                }
+                if (e.AddedItems.Count > 0)
+                {
+                    lv.ScrollIntoView(e.AddedItems[0]);
+                }
+            }
+        }
+
+        private void ComboPopup_Opened(object sender, System.EventArgs e)
+        {
+            if (sender is Popup sendingPopup && sendingPopup.Tag is ListView childListView &&
+                childListView.DataContext is DestinationRelationshipViewModel vm && vm.PopupManager != null)
+            {
+                childListView.ScrollIntoView(vm.PopupManager);
+            }
         }
     }
 }

@@ -128,7 +128,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         public ICommand RefreshValuesCommand => _refreshValuesCommand ?? (_refreshValuesCommand = new DelegateCommand(parm =>
 		    {
-	            _ = RefreshAvailableValues(true).ContinueWith(res => LoadSelectedFeaturePopup());
+	            _ = RefreshAvailableValues(true);
 		    },
             (param) =>
             {
@@ -184,6 +184,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     OrderedAvailableValues = availableValues.OrderBy(PopupManager => PopupManager?.DisplayedFields?.First().Value).ToList();
                     CachedTableResults[FeatureTable] = OrderedAvailableValues;
                 }
+
+                await LoadSelectedFeaturePopup();
             }
             catch (Exception ex)
             {

@@ -173,7 +173,9 @@
                                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{x:Bind FeatureTable.TableName, Mode=OneWay}" />
                                         <Button HorizontalAlignment="Stretch" Style="{StaticResource ButtonBaseStyle}">
                                             <Button.Flyout>
-                                                <Flyout x:Name="PopupFlyout" FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}">
+                                                <Flyout x:Name="PopupFlyout"
+                                                        FlyoutPresenterStyle="{StaticResource FlyoutPresenterStyle}"
+                                                        Opened="PopupFlyout_Opened">
                                                     <Grid Background="{StaticResource ChromeBackgroundBrush}">
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="32" />
