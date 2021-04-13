@@ -33,7 +33,7 @@
                               x:DataType="models:FieldContainer">
                     <StackPanel>
                         <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
-                        <!-- Note: due to an interaction between x:Bind behavior and PopupManager behavior, x:Bind can't be used as of Runtime 100.10 -->
+                        <!--  Note: due to an interaction between x:Bind behavior and PopupManager behavior, x:Bind can't be used as of Runtime 100.10  -->
                         <controls:DateTimeEditor DateTime="{Binding PopupFieldValue.Value, Mode=TwoWay, Converter={StaticResource DateTimeOffsetToLocalDateTimeConverter}}" />
                         <!--
                             Note: This validation error comes from popup manager. DateTimeEditor has its own internal validation error that is shown when the

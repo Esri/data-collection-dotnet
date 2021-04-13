@@ -44,14 +44,14 @@
                   SelectedIndex="0" />
         <Button Grid.Column="3"
                 Click="Save_Click"
-                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter='TP_SaveButton_Tooltip', Mode=OneTime}"
-                Style="{StaticResource CardControlStripButtonStyle}">
+                Style="{StaticResource CardControlStripButtonStyle}"
+                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter='TP_SaveButton_Tooltip', Mode=OneTime}">
             <Path Data="{StaticResource icon-save-16}" Style="{StaticResource CardButtonIconStyle}" />
         </Button>
         <Button Grid.Column="4"
                 Click="ClearClick"
-                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter='TP_CancelButton_Tooltip', Mode=OneTime}"
-                Style="{StaticResource CardControlStripButtonStyle}">
+                Style="{StaticResource CardControlStripButtonStyle}"
+                ToolTip="{Binding Converter={StaticResource LocalizationConverter}, ConverterParameter='TP_CancelButton_Tooltip', Mode=OneTime}">
             <Path Data="{StaticResource icon-x-16}" Style="{StaticResource CardButtonIconStyle}" />
         </Button>
     </Grid>

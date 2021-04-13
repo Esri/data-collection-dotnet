@@ -32,8 +32,8 @@
             <Image Width="23"
                    Height="34"
                    Source="ms-appx:///Assets/GenericPin.png" />
-            <Image Width="21"
-                   x:Name="Shadow"
+            <Image x:Name="Shadow"
+                   Width="21"
                    Height="5"
                    Source="ms-appx:///Assets/PinShadow.png" />
         </StackPanel>
