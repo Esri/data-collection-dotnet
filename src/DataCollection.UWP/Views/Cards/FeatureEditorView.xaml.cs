@@ -18,6 +18,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Esri.ArcGISRuntime.Data;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -29,6 +30,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
         {
             InitializeComponent();
         }
+
+
+
+        public FeatureViewModel ViewModel
+        {
+            get { return (FeatureViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register(nameof(ViewModel), typeof(FeatureViewModel), typeof(FeatureEditorView), new PropertyMetadata(null));
+
+
 
         /// <summary>
         /// Event handler gets the selected item and sets the tag. The tag is used to create the two way binding

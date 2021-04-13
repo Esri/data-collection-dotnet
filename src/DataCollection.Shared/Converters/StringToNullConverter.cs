@@ -34,7 +34,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters
         /// <summary>
         /// Returns the input value unmodified.
         /// </summary>
-        public object Convert(object value, Type targetType, object parameter, lang culture) => value;
+        public object Convert(object value, Type targetType, object parameter, lang culture) => value?.ToString();
 
         /// <summary>
         /// For input strings, returns null if the string is null or empty. Returns unmodified value for all other inputs.

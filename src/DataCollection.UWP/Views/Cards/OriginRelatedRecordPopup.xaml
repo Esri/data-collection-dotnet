@@ -35,7 +35,7 @@
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
                         <!--  Origin related record in Edit mode  -->
-                        <cards:FeatureEditorView DataContext="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship, Mode=OneWay}" Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <cards:FeatureEditorView ViewModel="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship, Mode=OneWay}" Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

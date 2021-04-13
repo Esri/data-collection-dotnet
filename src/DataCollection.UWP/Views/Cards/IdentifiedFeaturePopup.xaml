@@ -162,7 +162,7 @@
 
                         <!--  Edit Mode  -->
                         <!--  List of attributes from identified feature  -->
-                        <cards:FeatureEditorView DataContext="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature, Mode=OneWay}" Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <cards:FeatureEditorView ViewModel="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature, Mode=OneWay}" Visibility="{x:Bind MainViewModel.IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 
                         <!--  Edit Mode  -->
                         <!--  List of relationships where identified feature is destination  -->

@@ -39,5 +39,23 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
             }
             return null;
         }
+
+        public IEnumerable<CodedValue> Domain { get => (OriginalField?.Domain as CodedValueDomain)?.CodedValues ?? null; }
+
+        public object SelectedCodedValue
+        {
+            get
+            {
+                var fc = this;
+                return (OriginalField?.Domain as CodedValueDomain)?.CodedValues.FirstOrDefault(cv => fc.PopupFieldValue?.Value?.Equals(cv.Code) ?? false);
+            }
+            set
+            {
+                if (value is CodedValue cv)
+                {
+                    this.PopupFieldValue.Value = cv.Code;
+                }
+            }
+        }
     }
 }
