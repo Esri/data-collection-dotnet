@@ -20,6 +20,8 @@ using Windows.UI.Xaml;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Messengers;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Helpers;
+using Windows.UI.Xaml.Controls;
+using System.Linq;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
 {
@@ -77,6 +79,26 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards
                     ex.Message,
                     true,
                     ex.StackTrace);
+            }
+        }
+
+        private void PopupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListView lv && lv.Tag is Flyout flyout && lv.DataContext is DestinationRelationshipViewModel vm)
+            {
+                if (e.AddedItems.Any())
+                {
+                    lv.ScrollIntoView(e.AddedItems.First());
+                }
+            }
+        }
+
+        private void PopupFlyout_Opened(object sender, object e)
+        {
+            if (sender is Flyout flyout && flyout.Content is Grid grid && grid.Children.OfType<ListView>().FirstOrDefault() is ListView lv 
+                && lv.DataContext is DestinationRelationshipViewModel vm && vm.PopupManager != null)
+            {
+                lv.ScrollIntoView(vm.PopupManager);
             }
         }
     }

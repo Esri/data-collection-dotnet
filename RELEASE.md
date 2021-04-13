@@ -18,6 +18,7 @@
 * Fixes warnings related to deprecated APIs and other issues.
 * Fixes an issue that would prevent addition of new features in some circumstances.
 * Adds a new combined date and time editing control for UWP and WPF. The new datetime field editor supports editing the date and time portion independently, with support for both touch and keyboard editing scenarios.
+* Improves performance for feature identification and improves the destination related record selection UI for features, now with the ability to refresh the list with the latest options from the server.
 
 ## 1.2.3
 
