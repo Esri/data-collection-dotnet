@@ -32,7 +32,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -525,7 +525,9 @@
         <Setter Property="BorderBrush" Value="{StaticResource TintBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource TopMediumThickness}" />
     </Style>
-    <Style x:Key="SubtleTextStyle" TargetType="TextBlock" BasedOn="{StaticResource FieldLabelStyle}">
+    <Style x:Key="SubtleTextStyle"
+           BasedOn="{StaticResource FieldLabelStyle}"
+           TargetType="TextBlock">
         <Setter Property="Opacity" Value="0.9" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="TextWrapping" Value="Wrap" />

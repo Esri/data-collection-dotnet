@@ -108,30 +108,31 @@
     <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
         <Setter Property="BorderBrush" Value="{StaticResource ChromeBorderBrush}" />
         <Setter Property="Background" Value="{StaticResource ChromeBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{StaticResource ChromeForegroundBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource ChromeBorderThickness}" />
         <Setter Property="Padding" Value="{StaticResource UniformLargeThickness}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
                     <Grid x:Name="OuterGrid">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="Border"
+                        <Border
                                 Grid.ColumnSpan="2"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="0" />
-                        <Border Grid.Column="0"
+                        <ContentPresenter Grid.Column="0" Content="{TemplateBinding Content}" />
+                        <Border Grid.Column="1"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
                                 BorderThickness="{TemplateBinding Padding}"
                                 CornerRadius="0">
 
-                            <Path x:Name="Arrow"
+                            <Path
                                   Grid.Column="1"
                                   Width="12"
                                   Height="12"
@@ -179,7 +180,7 @@
                                       Focusable="false"
                                       Foreground="{TemplateBinding Foreground}"
                                       IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                      Style="{StaticResource ComboBoxToggleButton}" />
+                                      Style="{StaticResource ComboBoxToggleButton}">
                         <ContentPresenter Name="ContentSite"
                                           Margin="{StaticResource UniformLargeThickness}"
                                           HorizontalAlignment="Left"
@@ -188,6 +189,7 @@
                                           ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                           ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           IsHitTestVisible="False" />
+                        </ToggleButton>
                         <TextBox x:Name="PART_EditableTextBox"
                                  Margin="{StaticResource UniformLargeThickness}"
                                  HorizontalAlignment="Left"

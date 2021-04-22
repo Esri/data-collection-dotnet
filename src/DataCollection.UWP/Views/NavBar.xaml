@@ -20,8 +20,8 @@
                                Grid.Column="0"
                                Margin="0"
                                VerticalAlignment="Center"
-                               Foreground="{ThemeResource TintOffsetBrush}"
                                FontSize="12"
+                               Foreground="{ThemeResource TintOffsetBrush}"
                                Text="{Binding}" />
                     <Path Grid.Column="1"
                           Width="8"

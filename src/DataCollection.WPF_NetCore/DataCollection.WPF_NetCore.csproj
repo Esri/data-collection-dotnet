@@ -36,8 +36,8 @@
 
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="4.3.2" />
-    <PackageReference Include="Esri.ArcGISRuntime.Toolkit" Version="100.10.0" />
-    <PackageReference Include="Esri.ArcGISRuntime.WPF" Version="100.10.0" />
+    <PackageReference Include="Esri.ArcGISRuntime.Toolkit" Version="100.11.0" />
+    <PackageReference Include="Esri.ArcGISRuntime.WPF" Version="100.11.0" />
     <PackageReference Include="Humanizer.Core" Version="2.7.9" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
   </ItemGroup>

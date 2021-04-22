@@ -14,11 +14,11 @@
     * Changes were made to shared code to facilitate unit testing of view models.
 * Adds a new 'About' page, which shows the app version, ArcGIS Runtime version, and a link to a page detailing licenses. The appearance of these fields can be controlled via the app's configuration.
 * Updates doc and many code comments to avoid all use of `http:`.
-* Updates ArcGIS Runtime to 100.10.
 * Fixes warnings related to deprecated APIs and other issues.
 * Fixes an issue that would prevent addition of new features in some circumstances.
 * Adds a new combined date and time editing control for UWP and WPF. The new datetime field editor supports editing the date and time portion independently, with support for both touch and keyboard editing scenarios.
 * Improves performance for feature identification and improves the destination related record selection UI for features, now with the ability to refresh the list with the latest options from the server.
+* Updates all versions of the app to use the latest 100.11 release of ArcGIS Runtime.
 
 ## 1.2.3
 
