@@ -29,7 +29,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF
             try
             {
                 // Deployed applications must be licensed at the Lite level or greater. 
-                // See https://developers.arcgis.com/licensing for further details.
+                // See https://developers.arcgis.com/net/license-and-deployment/license/ for further details.
 
                 // Initialize the ArcGIS Runtime before any components are created.
                 ArcGISRuntimeEnvironment.Initialize();

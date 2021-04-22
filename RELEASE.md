@@ -20,6 +20,11 @@
 * Improves performance for feature identification and improves the destination related record selection UI for features, now with the ability to refresh the list with the latest options from the server.
 * Updates all versions of the app to use the latest 100.11 release of ArcGIS Runtime.
 
+## 1.2.4
+
+* Updates all versions of the app to use the latest 100.10 release of ArcGIS Runtime.
+* Updates the documentation and README to account for the new ArcGIS for Developers website.
+
 ## 1.2.3
 
 * Updates all versions of the app to use the latest 100.9 release of ArcGIS Runtime.
