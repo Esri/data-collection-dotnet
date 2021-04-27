@@ -1,5 +1,25 @@
 # Release notes
 
+## 1.3.0
+
+* Updates both WPF and UWP with a new design that adapts to work well for any screen size.
+    * Adds a `ModernMapPanel` custom layout panel to facilitate consistent, responsive design for UWP and WPF.
+    * Refactors styles and related XAML.
+    * Switches to vector icons where possible.
+* Moves the .NET Core WPF project to a separate folder to prevent possible build issues.
+* Updates the code called at sign out to revoke credentials from the server, when possible, and delete them locally.
+* Adds support for identifying multiple items on the map simultaneously and displaying them in a list.
+    * An Arcade expression defined per layer is used to create subtitles that help you differentiate identified features.
+* Adds unit tests for new code added to support multiple identify results.
+    * Changes were made to shared code to facilitate unit testing of view models.
+* Adds a new 'About' page, which shows the app version, ArcGIS Runtime version, and a link to a page detailing licenses. The appearance of these fields can be controlled via the app's configuration.
+* Updates doc and many code comments to access secured `https:` endpoints.
+* Fixes warnings related to deprecated APIs and other issues.
+* Fixes an issue that would prevent addition of new features in some circumstances.
+* Adds a new combined date and time editing control for UWP and WPF. The new datetime field editor supports editing the date and time portion independently, with support for both touch and keyboard editing scenarios.
+* Improves performance for feature identification and improves the destination related record selection UI for features, now with the ability to refresh the list with the latest options from the server.
+* Updates all versions of the app to use the latest 100.11 release of ArcGIS Runtime.
+
 ## 1.2.4
 
 * Updates all versions of the app to use the latest 100.10 release of ArcGIS Runtime.

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels.UserAccountPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid MinWidth="200">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Ellipse Grid.Row="0"
+                 Grid.RowSpan="2"
+                 Grid.Column="0"
+                 Width="{StaticResource ThumbnailLength}"
+                 Height="{StaticResource ThumbnailLength}"
+                 Margin="{StaticResource RightMediumThickness}"
+                 Visibility="{Binding AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="{Binding AuthenticatedUser.ThumbnailUri}" />
+            </Ellipse.Fill>
+        </Ellipse>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   Style="{StaticResource TitleBarPopoverProminentLabelStyle}"
+                   Text="{Binding AuthenticatedUser.FullName}" />
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   Style="{StaticResource TitleBarPopoverLabelStyle}"
+                   Text="{Binding AuthenticatedUser.UserName}" />
+        <Button Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="{StaticResource TopMediumThickness}"
+                Command="{Binding SignOutCommand}"
+                Style="{StaticResource MapOverlayButtonStyle}"
+                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton_Label}"
+                Visibility="{Binding AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Path Data="{StaticResource icon-sign-out-16}" Style="{StaticResource PathIconBase}" />
+                <TextBlock Style="{StaticResource MapOverlayButtonTextStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SignOutButton_Label}" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>

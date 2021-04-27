@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,15 +31,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
 {
     // Singleton class to provide access to settings from Configuration.xml
     [Serializable()]
-    public class Settings
+    public class Settings : ISettings
     {
-        private static Settings _instance;
+        private static ISettings _instance;
 
         // set the path on disk for the settings file
 #if WPF
         private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
 #elif NETFX_CORE
         private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#elif DOT_NET_CORE_TEST
+        private static string _localFolder = Environment.GetEnvironmentVariable("LocalAppData");
 #else
         // will throw if another platform is added without handling this 
         throw new NotImplementedException();
@@ -54,20 +56,26 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         /// <summary>
         /// Default instance of the <see cref="Settings"/> class
         /// </summary>
-        public static Settings Default
+        public static ISettings Default
         {
             get
             {
+#if DOT_NET_CORE_TEST
+                _instance = new Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks.Settings();
+                return _instance;
+                }}
+#else
                 if (_instance == null)
                 {
                     // if settings file doesn't exist on disk, make a new one and save it
                     if (!File.Exists(_settingsPath))
                     {
                         // get settings file shipped with the app
+                        string streamPath;
 #if WPF
-                        var streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Properties.Configuration.xml";
+                        streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Properties.Configuration.xml";
 #elif NETFX_CORE
-                        var streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Properties.Configuration.xml";
+                        streamPath = "Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Properties.Configuration.xml";
 #else
                         // will throw if another platform is added without handling this 
                         throw new NotImplementedException();
@@ -79,7 +87,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                         }
 
                         // serialize to save the new settings xml file
-                        SerializeSettings(_instance);
+                        SerializeSettings((Settings)_instance);
                     }
                     else
                     {
@@ -88,12 +96,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                         {
                             _instance = DeserializeSettings(settingsFile);
                         }
+                        ApplyMigrations((Settings)_instance);
                     }
                 }
 
                 return _instance;
             }
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
@@ -127,8 +137,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
             {
                 _instance.CurrentOfflineSubdirectory = l.Args.Value?.ToString();
             }
+            else if (l.Args.Key == BroadcastMessageKey.ClosePopups)
+            {
+                return;
+            }
 
-            SerializeSettings(_instance);
+            SerializeSettings((Settings)_instance);
         }
 
         [XmlElement("ArcGISOnlineURL")]
@@ -196,6 +210,25 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
         [XmlElement("CurrentOfflineSubdirectory")]
         public string CurrentOfflineSubdirectory { get; set; }
 
+        // The title of the popup expression to use as a subtitle when displaying multiple identify results
+        [XmlElement("PopupExpressionForSubtitle")]
+        public string PopupExpressionForSubtitle { get; set; }
+
+        [XmlElement("MaxIdentifyResultsPerLayer")]
+        public int MaxIdentifyResultsPerLayer { get; set; }
+        
+        [XmlElement("ShowRuntimeVersion")]
+        public bool? ShowRuntimeVersion { get; set; }
+
+        [XmlElement("ShowAppVersion")]
+        public bool? ShowAppVersion { get; set; }
+
+        [XmlElement("ShowLicenseInfo")]
+        public bool? ShowLicenseInfo { get; set; }
+
+        [XmlElement("LicenseInfoLink")]
+        public string LicenseInfoLink { get; set;}
+
         /// <summary>
         /// Serializes Settings object and saves it to the settings file
         /// </summary>
@@ -260,6 +293,57 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Applies migrations to the settings file. Call after deserializing but before using settings
+        /// </summary>
+        /// <remarks>
+        /// The settings file schema changes over time as new features and settings are added.
+        /// This step ensures that newer versions of the app work with older settings files.
+        /// </remarks>
+        /// <param name="_settingsInstance">Settings instance created by deserializing the settings file.</param>
+        private static void ApplyMigrations(Settings _settingsInstance)
+        {
+            if (_settingsInstance.MaxIdentifyResultsPerLayer < 1)
+            {
+                // The value was previously set to 8.
+                // 8 is a good number of results to fill the UI comfortably.
+                _settingsInstance.MaxIdentifyResultsPerLayer = 8;
+            }
+
+            if (string.IsNullOrEmpty(_settingsInstance.PopupExpressionForSubtitle))
+            {
+                _settingsInstance.PopupExpressionForSubtitle = "subtitle";
+            }
+
+            // Reset sync date if it is not in UTC / 'O' format
+            if (!string.IsNullOrEmpty(_settingsInstance.SyncDate) && !_settingsInstance.SyncDate.EndsWith("Z"))
+            {
+                _settingsInstance.SyncDate = null;
+            }
+
+            if (_settingsInstance.ShowRuntimeVersion == null)
+            {
+                _settingsInstance.ShowRuntimeVersion = true;
+            }
+
+            if (_settingsInstance.ShowAppVersion == null)
+            {
+                _settingsInstance.ShowAppVersion = true;
+            }
+
+            if (_settingsInstance.ShowLicenseInfo == null)
+            {
+                _settingsInstance.ShowLicenseInfo = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(_settingsInstance.LicenseInfoLink))
+            {
+                _settingsInstance.ShowLicenseInfo = false;
+            }
+
+            SerializeSettings(_settingsInstance);
         }
     }
 }

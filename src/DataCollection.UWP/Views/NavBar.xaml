@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.NavBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ItemsControl Background="{ThemeResource TintBrush}" ItemsSource="{x:Bind ParentPanel.NavigationTitles, Mode=OneWay}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Padding="4,2,4,0"
+                            Background="{ThemeResource TintBrush}"
+                            Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Margin="0"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               Foreground="{ThemeResource TintOffsetBrush}"
+                               Text="{Binding}" />
+                    <Path Grid.Column="1"
+                          Width="8"
+                          Height="8"
+                          Margin="4,8,8,4"
+                          Data="{StaticResource icon-chevron-right-16}"
+                          Fill="{ThemeResource TintOffsetBrush}"
+                          Opacity="0.5"
+                          Style="{StaticResource PathIconStyle}" />
+                </Grid>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

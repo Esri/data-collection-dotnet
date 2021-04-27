@@ -1,0 +1,179 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.TitleBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:panels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Panels">
+    <Grid>
+        <Grid x:Name="TitleBarGrid"
+              Grid.Row="0"
+              Background="{StaticResource ChromeBackgroundBrush}"
+              MouseLeftButtonDown="OnMouseLeftButtonDown"
+              MouseRightButtonUp="OnMouseRightButtonUp">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="TitleIconContainer"
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+                <Image Source="../Images/ArcGIS_Open_Source_Apps.ico" Style="{StaticResource TitleBarIconImageStyle}" />
+                <TextBlock VerticalAlignment="Center"
+                           FontWeight="{StaticResource HeadingFontWeight}"
+                           Foreground="{StaticResource ChromeForegroundBrush}">
+                    <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=TitleBar_Name_App}" />
+                    <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=TitleBar_Suffix_WPF}" />
+                </TextBlock>
+            </StackPanel>
+            <ToggleButton x:Name="MapStatusButton"
+                          Grid.Row="0"
+                          Grid.Column="1"
+                          IsChecked="{Binding MapAccessoryViewModel.IsMapStatusPanelOpen, Mode=TwoWay}"
+                          IsEnabled="{Binding IsMajorStateChangeAllowed, Mode=OneWay}"
+                          MouseEnter="ToggleButton_MouseEnter"
+                          MouseLeave="ToggleButton_MouseLeave"
+                          Style="{StaticResource TitleBarToggleButtonStyle}">
+                <Grid>
+                    <!--  Content when online  -->
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}}">
+                        <Path Margin="{StaticResource RightMediumThickness}"
+                              Data="{StaticResource icon-arcgis-online-16}"
+                              Fill="{DynamicResource SuccessBrush}"
+                              Style="{StaticResource TitleBarButtonIconPathStyle}" />
+                        <TextBlock Foreground="{DynamicResource SuccessBrush}" Style="{StaticResource TitleBarButtonTextStyle}">
+                            <Run FontWeight="SemiBold" Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOnlineButton_LabelPart, Converter={StaticResource LocalizationConverter}, Mode=OneWay}" />
+                            <Run Text=" - " />
+                            <Run Text="{Binding MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
+                        <Path Fill="{DynamicResource SuccessBrush}" Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                    <!--  Content when offline  -->
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ConnectivityMode, Converter={StaticResource ConnectivityModeToVisibilityConverter}, ConverterParameter=Inverse}">
+                        <Path Margin="{StaticResource RightMediumThickness}"
+                              Data="{StaticResource icon-offline-16}"
+                              Style="{StaticResource TitleBarButtonIconPathStyle}" />
+                        <TextBlock Style="{StaticResource TitleBarButtonTextStyle}">
+                            <Run FontWeight="SemiBold" Text="{Binding {x:Null}, ConverterParameter=TitleBar_WorkingOfflineButton_LabelPart, Converter={StaticResource LocalizationConverter}, Mode=OneWay}" />
+                            <Run Text=" - " />
+                            <Run Text="{Binding MapViewModel.Map.Item.Title, Mode=OneWay}" />
+                        </TextBlock>
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                </Grid>
+            </ToggleButton>
+            <StackPanel x:Name="RightPanel"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Command="{Binding AuthViewModel.SignInCommand, Mode=OneWay}"
+                        IsEnabled="{Binding IsMajorStateChangeAllowed, Mode=OneWay}"
+                        Style="{StaticResource TitleBarButtonStyle}"
+                        Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-sign-in-16}" Style="{StaticResource TitleBarButtonIconPathStyle}" />
+                        <TextBlock Style="{StaticResource TitleBarButtonTextStyle}" Text="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=TitleBar_SignInButton_Text}" />
+                    </StackPanel>
+                </Button>
+                <ToggleButton x:Name="UserPopupButton"
+                              HorizontalAlignment="Right"
+                              IsChecked="{Binding MapAccessoryViewModel.IsUserPanelOpen, Mode=TwoWay}"
+                              IsEnabled="{Binding IsMajorStateChangeAllowed, Mode=OneWay}"
+                              MouseEnter="ToggleButton_MouseEnter"
+                              MouseLeave="ToggleButton_MouseLeave"
+                              Style="{StaticResource TitleBarToggleButtonStyle}"
+                              ToolTip="{Binding {x:Null}, ConverterParameter=TitleBar_UserButton_Tooltip, Converter={StaticResource LocalizationConverter}}"
+                              Visibility="{Binding AuthViewModel.AuthenticatedUser, Converter={StaticResource NullToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="{StaticResource IconLargeLength}"
+                                 Height="{StaticResource IconLargeLength}"
+                                 Visibility="{Binding AuthViewModel.AuthenticatedUser.ThumbnailUri, Converter={StaticResource NullToVisibilityConverter}}">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding AuthViewModel.AuthenticatedUser.ThumbnailUri}" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Style="{StaticResource TitleBarButtonTextStyle}" Text="{Binding AuthViewModel.AuthenticatedUser.FullName, Mode=OneWay}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                </ToggleButton>
+                <ToggleButton x:Name="AppInfoButton"
+                              HorizontalAlignment="Right"
+                              IsChecked="{Binding MapAccessoryViewModel.IsAppInfoPanelOpen, Mode=TwoWay}"
+                              MouseEnter="ToggleButton_MouseEnter"
+                              MouseLeave="ToggleButton_MouseLeave"
+                              Style="{StaticResource TitleBarToggleButtonStyle}"
+                              ToolTip="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=AppInfo_About}"
+                              Visibility="{Binding AppInfoViewModel.ShowAppInfo, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-information-16}" Style="{StaticResource PathIconBase}" />
+                        <Path Style="{StaticResource TitleBarCaretIconStyle}" />
+                    </StackPanel>
+                </ToggleButton>
+                <TextBlock Margin="{StaticResource SidesMediumThickness}"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource ChromeForegroundBrush}"
+                           Opacity="0.5"
+                           Text="|" />
+                <Button Click="OnMinimizeWindow" Style="{StaticResource TitleBarBlueButtonStyle}">
+                    <Path Data="{StaticResource icon-underscore-16}" Style="{StaticResource WindowButtonIconStyle}" />
+                </Button>
+                <Button Click="OnMaximizeWindow" Style="{StaticResource TitleBarBlueButtonStyle}">
+                    <Grid>
+                        <Path x:Name="MinimizePath"
+                              Data="{StaticResource icon-minimize-16}"
+                              Style="{StaticResource WindowButtonIconStyle}" />
+                        <Path x:Name="MaximizePath"
+                              Data="{StaticResource icon-maximize-16}"
+                              Style="{StaticResource WindowButtonIconStyle}"
+                              Visibility="Collapsed" />
+                    </Grid>
+                </Button>
+                <Button Click="OnCloseWindow" Style="{StaticResource TitleBarRedButtonStyle}">
+                    <Path Data="{StaticResource icon-x-16}" Style="{StaticResource WindowButtonIconStyle}" />
+                </Button>
+            </StackPanel>
+        </Grid>
+        <!--  Floating Map Status Panel  -->
+        <Popup x:Name="MapStatusPopup"
+               HorizontalAlignment="Center"
+               IsOpen="{Binding MapAccessoryViewModel.IsMapStatusPanelOpen, Mode=TwoWay}"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=MapStatusButton}"
+               Style="{StaticResource PopupStyle}">
+            <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <panels:MapStatusPanel DataContext="{Binding .}" />
+            </Border>
+        </Popup>
+        <!--  Floating User Panel  -->
+        <Popup x:Name="UserPopup"
+               HorizontalAlignment="Center"
+               IsOpen="{Binding MapAccessoryViewModel.IsUserPanelOpen, Mode=TwoWay}"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=UserPopupButton}"
+               Style="{StaticResource PopupStyle}">
+            <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <panels:UserAccountPanel DataContext="{Binding AuthViewModel, Mode=TwoWay}" />
+            </Border>
+        </Popup>
+
+        <Popup x:Name="AppInfoPopup"
+               HorizontalAlignment="Center"
+               HorizontalOffset="-150"
+               IsOpen="{Binding MapAccessoryViewModel.IsAppInfoPanelOpen, Mode=TwoWay}"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=AppInfoButton}"
+               Style="{StaticResource PopupStyle}">
+            <Border Style="{StaticResource TitleBarPopoverBorderStyle}">
+                <panels:AppInfoPanel DataContext="{Binding AppInfoViewModel, Mode=OneWay}" />
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

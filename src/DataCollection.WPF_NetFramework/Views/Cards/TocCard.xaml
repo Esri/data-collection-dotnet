@@ -1,0 +1,58 @@
+﻿<ctrl:CardBase x:Name="Self"
+               x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards.TocCard"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+               xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
+               xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
+    <Grid Background="{StaticResource ContentBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <views:CardBar Title="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=TOC_PanelHeader}"
+                       CloseCommand="{Binding MapAccessoryViewModel.ToggleTableOfContentsCommand}"
+                       IconGeometry="{StaticResource icon-layers-16}"
+                       OwningCard="{Binding ElementName=Self}" />
+        <TreeView Grid.Row="1"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Background="{StaticResource ContentBackgroundBrush}"
+                  BorderThickness="0"
+                  Foreground="{StaticResource ContentForegroundBrush}"
+                  ItemsSource="{Binding MapAccessoryViewModel.MapView.Map.OperationalLayers, Mode=OneWay}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TreeViewItem">
+                                <StackPanel>
+                                    <ContentPresenter ContentSource="Header" />
+                                    <ItemsPresenter Name="ItemsHost" Visibility="Collapsed" />
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="ExpansionStates">
+                                            <VisualState x:Name="Expanded">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemsHost" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Collapsed" />
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Focusable" Value="False" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="esri:ILayerContent" ItemsSource="{Binding SublayerContents}">
+                    <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay}" Style="{StaticResource TocCheckboxStyle}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
+</ctrl:CardBase>

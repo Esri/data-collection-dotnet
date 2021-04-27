@@ -1,0 +1,20 @@
+﻿<ContentDialog x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Dialogs.FileNameDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               Title="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_Title}"
+               Background="{ThemeResource ChromeBackgroundBrush}"
+               Foreground="{ThemeResource ChromeForegroundBrush}"
+               PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+               PrimaryButtonText="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_PrimaryButtonText}">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBox x:Name="FileNameTextBox"
+                     AcceptsReturn="False"
+                     KeyDown="FileNameTextBox_KeyDown"
+                     Style="{StaticResource FieldEditorTextBoxStyle}"
+                     Text="{x:Bind Converter={StaticResource LC}, ConverterParameter=AttachmentNameDialog_DefaultAttachmentName}"
+                     TextChanged="FileNameTextBox_TextChanged" />
+            <TextBlock x:Name="ValidationTextBlock" Style="{StaticResource ValidationErrorTextStyle}" />
+        </StackPanel>
+    </Grid>
+</ContentDialog>

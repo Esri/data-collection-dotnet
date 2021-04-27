@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,9 @@ using Esri.ArcGISRuntime.UI.Controls;
 using System;
 #if NETFX_CORE
 using Windows.UI.Xaml;
+#elif DOT_NET_CORE_TEST
+using System.Windows;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks;
 #else
 using System.Windows;
 #endif

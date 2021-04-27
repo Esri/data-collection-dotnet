@@ -1,0 +1,385 @@
+<ctrl:CardBase x:Name="Self"
+               x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards.IdentifiedFeaturePopup"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:cards="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards"
+               xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+               xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+               xmlns:utilities="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities"
+               xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:DisplayedFieldsToRealDisplayedFieldsConverter x:Key="PopupFieldFormatConverter" />
+            <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
+            <Style x:Key="PopupSectionHeaderStyle" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{StaticResource TintBrush}" />
+                <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="{StaticResource ContentBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <views:CardBar x:Name="CardBar"
+                       Title="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.PopupManager.Title}"
+                       CloseCommand="{Binding ClearIdentifiedFeatureCommand}"
+                       CurrentResultIndex="{Binding IdentifyResultViewModel.CurrentFeatureIndex}"
+                       ImageSource="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.IconImageSource}"
+                       NextCommand="{Binding IdentifyResultViewModel.NextResultCommand}"
+                       OwningCard="{Binding ElementName=Self}"
+                       PreviousCommand="{Binding IdentifyResultViewModel.PreviousResultCommand}"
+                       ResultCount="{Binding IdentifyResultViewModel.ResultCount}"
+                       ShowNavigationControls="{Binding IdentifyResultViewModel.IdentifiedFeatures, Converter={StaticResource EmptyCollectionToBoolConverter}, ConverterParameter=NoSingleton}" />
+        <TabControl Grid.Row="1"
+                    Background="{StaticResource ContentBackgroundBrush}"
+                    BorderThickness="0"
+                    DataContext="{Binding IdentifyResultViewModel.CurrentlySelectedFeature}"
+                    Foreground="{StaticResource ContentForegroundBrush}">
+            <TabItem Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DetailsHeading}" Style="{StaticResource MinimalistTabItemStyle}">
+                <!--  Attribute information for the identified feature  -->
+                <ScrollViewer x:Name="DetailsView"
+                              Grid.Row="1"
+                              Padding="{StaticResource UniformLargeThickness}"
+                              VerticalAlignment="Stretch"
+                              HorizontalScrollBarVisibility="Disabled"
+                              PanningMode="VerticalOnly"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Margin="{StaticResource BottomMediumThickness}"
+                                   Style="{StaticResource PopupSectionHeaderStyle}"
+                                   Text="Attributes" />
+                        <!--  View Mode  -->
+                        <!--  List of attributes from identified feature  -->
+                        <ItemsControl ItemsSource="{Binding PopupManager.DisplayedFields, Converter={StaticResource PopupFieldFormatConverter}}" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                        <TextBox Style="{StaticResource FieldValueStyle}" Text="{Binding ReformattedValue, Mode=OneWay}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Border Visibility="Collapsed">
+                            <TextBlock Margin="{StaticResource TopBottomMediumThickness}"
+                                       Style="{StaticResource PopupSectionHeaderStyle}"
+                                       Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=FeaturePopup_DestinationRelationships_Header}"
+                                       Visibility="{Binding HasDestinationRelationships, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </Border>
+                        <!--  View Mode  -->
+                        <!--  List of relationships where identified feature is destination  -->
+                        <ItemsControl HorizontalContentAlignment="Stretch"
+                                      ItemsSource="{Binding DestinationRelationships}"
+                                      Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}"
+                                                   Text="{Binding PopupManager.Title}"
+                                                   Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}" />
+                                        <Border Style="{StaticResource RecordCardBorderStyle}" Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}">
+                                            <Grid Visibility="{Binding PopupManager, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0">
+                                                    <StackPanel DataContext="{Binding PopupManager.DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                    </StackPanel>
+                                                    <StackPanel DataContext="{Binding PopupManager.DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue, Converter={StaticResource PopupFieldFormatConverter}}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <Button Grid.Column="1"
+                                                        Command="{Binding DataContext.IdentifyResultViewModel.CurrentlySelectedFeature.SetSelectedDestinationRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Style="{StaticResource FieldAccessoryButtonStyle}"
+                                                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
+                                                    <Path Width="12"
+                                                          Height="12"
+                                                          Data="{StaticResource icon-chevron-right-16}"
+                                                          Style="{StaticResource CardButtonIconStyle}" />
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!--  View Mode  -->
+                        <!--  List of relationships where identified feature is origin  -->
+                        <ItemsControl HorizontalContentAlignment="Stretch"
+                                      ItemsSource="{Binding OriginRelationships}"
+                                      Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Margin="{StaticResource TopBottomMediumThickness}" Style="{StaticResource PopupSectionHeaderStyle}">
+                                            <Run Text="{Binding RelatedTable.PopupDefinition.Title}" />
+                                            <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=RelatedRecordTableSuffix}" />
+                                        </TextBlock>
+                                        <Button Margin="{StaticResource TopBottomMediumThickness}"
+                                                Command="{Binding DataContext.IdentifyResultViewModel.CurrentlySelectedFeature.AddOriginRelatedFeatureCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding .}"
+                                                Style="{StaticResource MapOverlayButtonStyle}"
+                                                ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Tooltip}">
+                                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                                <Path Data="{StaticResource icon-plus-circle-16}"
+                                                      Fill="{StaticResource TintBrush}"
+                                                      Style="{StaticResource CardButtonIconStyle}" />
+                                                <TextBlock Margin="{StaticResource SidesMediumThickness}" Style="{StaticResource MapOverlayButtonTextStyle}">
+                                                    <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Button_part1}" />
+                                                    <Run Text="{Binding RelatedTable.PopupDefinition.Title}" />
+                                                    <Run Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddRelatedRecord_Button_part3}" />
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                        <ItemsControl ItemsSource="{Binding OriginRelationshipViewModelCollection}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Style="{StaticResource RecordCardBorderStyle}" Visibility="{Binding IsNewFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                                                        <Grid Visibility="{Binding IsNewFeature, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Grid.Column="0"
+                                                                        DataContext="{Binding PopupManager}"
+                                                                        Orientation="Vertical">
+                                                                <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                                    <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                                    <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                                </StackPanel>
+                                                                <StackPanel DataContext="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                                    <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                                    <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                                </StackPanel>
+                                                                <StackPanel DataContext="{Binding DisplayedFields[2], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                                    <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                                    <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                                </StackPanel>
+                                                            </StackPanel>
+                                                            <Button Grid.Column="1"
+                                                                    Command="{Binding DataContext.IdentifyResultViewModel.CurrentlySelectedFeature.SetSelectedOriginRelationshipCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                    CommandParameter="{Binding PopupManager}"
+                                                                    Style="{StaticResource FieldAccessoryButtonStyle}"
+                                                                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowDetailButton_Tooltip}">
+                                                                <Path Width="12"
+                                                                      Height="12"
+                                                                      Data="{StaticResource icon-chevron-right-16}"
+                                                                      Style="{StaticResource CardButtonIconStyle}" />
+                                                            </Button>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!--  Edit Mode  -->
+                        <!--  List of attributes from identified feature  -->
+                        <ItemsControl ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}"
+                                      ItemsSource="{Binding Fields}"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}" />
+
+                        <!--  Edit Mode  -->
+                        <!--  List of relationships where identified feature is destination  -->
+                        <ItemsControl ItemsSource="{Binding DestinationRelationships}" Visibility="{Binding EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
+                                        <Button x:Name="ComboButton"
+                                                Click="ComboButton_Click"
+                                                Style="{StaticResource ButtonBaseStyle}"
+                                                Tag="{Binding ElementName=ComboPopup}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel DataContext="{Binding PopupManager, Mode=OneWay}">
+                                                    <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                    </StackPanel>
+                                                    <StackPanel DataContext="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <Path x:Name="Arrow"
+                                                      Grid.Column="1"
+                                                      Width="12"
+                                                      Height="12"
+                                                      Margin="{StaticResource RightMediumThickness}"
+                                                      HorizontalAlignment="Right"
+                                                      VerticalAlignment="Center"
+                                                      Data="{StaticResource icon-caret-down-16}"
+                                                      Style="{StaticResource PathIconBase}" />
+                                            </Grid>
+                                        </Button>
+                                        <Popup x:Name="ComboPopup"
+                                               Opened="ComboPopup_Opened"
+                                               Placement="Top"
+                                               PlacementTarget="{Binding ElementName=ComboButton}"
+                                               Style="{StaticResource PopupStyle}"
+                                               Tag="{Binding ElementName=SelectionListView, Mode=OneTime}">
+                                            <Border Background="{StaticResource ChromeBackgroundBrush}"
+                                                    BorderBrush="{StaticResource ChromeBorderBrush}"
+                                                    BorderThickness="{StaticResource ChromeBorderThickness}">
+
+                                                <Grid Width="{Binding ElementName=ComboButton, Path=ActualWidth}" Background="{StaticResource ChromeBackgroundBrush}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="32" />
+                                                        <RowDefinition Height="200" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="32" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Row="0"
+                                                               Grid.Column="0"
+                                                               Margin="{StaticResource LeftLargeThickness}"
+                                                               VerticalAlignment="Center"
+                                                               Style="{StaticResource FieldLabelStyle}"
+                                                               Text="{Binding FeatureTable.TableName, Mode=OneWay}" />
+                                                    <Button Grid.Row="0"
+                                                            Grid.Column="1"
+                                                            Margin="0"
+                                                            Padding="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Stretch"
+                                                            BorderThickness="0"
+                                                            Command="{Binding RefreshValuesCommand, Mode=OneWay}"
+                                                            Style="{StaticResource ButtonBaseStyle}"
+                                                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_RefreshTooltip}">
+                                                        <Path Data="{StaticResource icon-refresh-16}" Style="{StaticResource PathIconBase}" />
+                                                    </Button>
+                                                    <ListView x:Name="SelectionListView"
+                                                              Grid.Row="1"
+                                                              Grid.ColumnSpan="2"
+                                                              ItemsSource="{Binding OrderedAvailableValues, Mode=OneWay}"
+                                                              SelectedItem="{Binding PopupManager, Mode=TwoWay}"
+                                                              SelectionChanged="ListView_SelectionChanged"
+                                                              Tag="{Binding ElementName=ComboPopup}">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <StackPanel DataContext="{Binding DisplayedFields[0], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                                    </StackPanel>
+                                                                    <StackPanel DataContext="{Binding DisplayedFields[1], Converter={StaticResource PopupFieldFormatConverter}}">
+                                                                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding Field.Label}" />
+                                                                        <TextBlock Style="{StaticResource FieldValueReadonlyStyle}" Text="{Binding ReformattedValue}" />
+                                                                    </StackPanel>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                    <Border Grid.RowSpan="2"
+                                                            Grid.ColumnSpan="2"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Stretch"
+                                                            Background="{StaticResource ChromeBackgroundBrush}"
+                                                            Cursor="Wait"
+                                                            Opacity="0.8"
+                                                            ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DestinationCombo_LoadingTooltip}"
+                                                            Visibility="{Binding IsRefreshingValues, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                </Grid>
+                                            </Border>
+                                        </Popup>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem x:Name="AttachmentsTabItem"
+                     Header="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AttachmentsHeading}"
+                     Style="{StaticResource MinimalistTabItemStyle}">
+                <!--  Attachments view  -->
+                <cards:AttachmentsView x:Name="AttachmentsView"
+                                       VerticalAlignment="Stretch"
+                                       DataContext="{Binding ., Mode=OneWay}" />
+            </TabItem>
+        </TabControl>
+
+        <!--  Bottom Buttons  -->
+        <Grid Grid.Row="2" Style="{StaticResource CardControlStripStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Bottom buttons to edit or delete record  -->
+            <Button Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Command="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditFeatureCommand}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=EditRecord_Tooltip}"
+                    Visibility="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <Path Data="{StaticResource icon-pencil-16}" Style="{StaticResource CardButtonIconStyle}" />
+            </Button>
+            <Button Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Command="{Binding DeleteFeatureCommand}"
+                    CommandParameter="{Binding IdentifyResultViewModel.CurrentlySelectedFeature}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=DeleteRecord_Tooltip}"
+                    Visibility="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <Path Data="{StaticResource icon-trash-16}" Style="{StaticResource CardButtonIconStyle}" />
+            </Button>
+
+            <!--  Bottom buttons to save or discard changes to record  -->
+            <Button Grid.Column="1"
+                    Command="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.SaveEditsCommand}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SaveEdits_Tooltip}"
+                    Visibility="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                <Path Data="{StaticResource icon-save-16}" Style="{StaticResource CardButtonIconStyle}" />
+            </Button>
+            <Button Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Command="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.CancelEditsCommand}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=CancelEdits_Tooltip}"
+                    Visibility="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditViewModel, Converter={StaticResource NullToVisibilityConverter}}">
+                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource CardButtonIconStyle}" />
+            </Button>
+
+            <!--  Button to add new attachment  -->
+            <!--  Clicking this button switches user to Attachments tab, begins edit mode, and starts up a browse dialog  -->
+            <Button Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Click="AddAttachmentButton_Click"
+                    Command="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.EditFeatureCommand}"
+                    Style="{StaticResource CardControlStripButtonStyle}"
+                    ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=AddAttachment_Tooltip}"
+                    Visibility="{Binding ElementName=AttachmentsTabItem, Path=IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Path Data="{StaticResource icon-folder-open-16}" Style="{StaticResource CardButtonIconStyle}" />
+            </Button>
+        </Grid>
+
+        <!--  Hidden element used to pass new attachment path to the viewmodel  -->
+        <TextBlock x:Name="AttachmentPathTextBlock"
+                   Text="{Binding IdentifyResultViewModel.CurrentlySelectedFeature.AttachmentsViewModel.NewAttachmentPath, Mode=TwoWay}"
+                   Visibility="Collapsed" />
+    </Grid>
+</ctrl:CardBase>

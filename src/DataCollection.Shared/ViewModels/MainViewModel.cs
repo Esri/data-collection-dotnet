@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,13 +30,16 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
-#if WPF
 using System.Windows;
+using System.Collections.Generic;
+#if WPF
 using static System.Environment;
 #elif NETFX_CORE
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.Storage;
+using Windows.Foundation;
+using Windows.UI.Xaml;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
@@ -53,6 +56,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private static string _localFolder = GetFolderPath(SpecialFolder.LocalApplicationData);
 #elif NETFX_CORE
         private static string _localFolder = ApplicationData.Current.LocalFolder.Path;
+#elif DOT_NET_CORE_TEST
+        private static string _localFolder = Environment.GetEnvironmentVariable("LocalAppData");
 #else
         // will throw if another platform is added without handling this 
         throw new NotImplementedException();
@@ -63,6 +68,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 
         public MainViewModel()
         {
+            AppInfoViewModel = new AppInfoViewModel();
+
             _webMapURL = Settings.Default.WebmapURL;
             _downloadPathRoot = Path.Combine(_localFolder,
                 typeof(Settings).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
@@ -80,12 +87,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             // TODO - set _currentOfflineSubdirectory
             DeleteOldMapPackages();
 
+            AuthViewModel = new AuthViewModel(Settings.Default.WebmapURL,
+                                                Settings.Default.ArcGISOnlineURL,
+                                                Settings.Default.AppClientID,
+                                                Settings.Default.RedirectURL,
+                                                Settings.Default.AuthenticatedUserName,
+                                                Settings.Default.OAuthRefreshToken);
+
             ConnectivityMode = Settings.Default.ConnectivityMode == "Online" ? ConnectivityMode.Online : ConnectivityMode.Offline;
-            SyncDate = DateTime.TryParse(Settings.Default.SyncDate, out DateTime syncDate) ? syncDate : DateTime.MinValue;
             _defaultZoomScale = Settings.Default.DefaultZoomScale;
 
             // set the download path and connectivity mode as they change
-            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += (s, l) =>
+            BroadcastMessenger.Instance.BroadcastMessengerValueChanged += async (s, l) =>
             {
                 if (l.Args.Key == BroadcastMessageKey.ConnectivityMode && ConnectivityMode != (ConnectivityMode)l.Args.Value)
                 {
@@ -97,6 +110,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             IdentifyController = new IdentifyController();
             IdentifyController.IdentifyCompleted += IdentifyController_IdentifyCompleted;
 
+            // Update the map when the selected identify result changes
+            IdentifyResultViewModel.PropertyChanged += IdentifyResultViewModel_PropertyChanged;
+
+            MapAccessoryViewModel = new MapAccessoryViewModel(this);
+
             // call method to retrieve map based on app state, connection and offline file availability
             GetMap().ContinueWith(t =>
             {
@@ -107,10 +125,65 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             });
         }
 
+        private void IdentifyResultViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(IdentifyResultViewModel.CurrentlySelectedFeature))
+            {
+                if (IdentifyResultViewModel.CurrentlySelectedFeature != null)
+                {
+                    MapViewModel.SelectFeature(IdentifyResultViewModel.CurrentlySelectedFeature.Feature);
+                }
+                else if (IdentifyResultViewModel.IdentifiedFeatures?.Any() ?? false)
+                {
+                    MapViewModel.ClearSelection();
+                    IdentifyResultViewModel.IdentifiedFeatures.ForEach(f => MapViewModel.SelectFeature(f.Feature, false));
+                }
+            }
+            else if (e.PropertyName == nameof(IdentifyResultViewModel.IdentifiedFeatures))
+            {
+                if (IdentifyResultViewModel.IdentifiedFeatures == null)
+                {
+                    MapViewModel.ClearSelection();
+                }
+                else
+                {
+                    MapViewModel.ClearSelection();
+                    IdentifyResultViewModel.IdentifiedFeatures.ForEach(f => MapViewModel.SelectFeature(f.Feature, false));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Attempts to close active feature and relationship views. If <paramref name="clearAllIdentifyResults"/> is true,
+        /// or there are exactly one identify results, all identify results will be cleared
+        /// </summary>
+        /// <returns>True if editors successfully closed, false if the user chose to keep their editing session.</returns>
+        public async Task<bool> AttemptCloseEditorsAsync(bool clearAllIdentifyResults = false)
+        {
+            bool result = true;
+            if (IdentifyResultViewModel.CurrentlySelectedFeature != null && !await IdentifyResultViewModel.CurrentlySelectedFeature.ClearRelationships())
+            {
+                result = false;
+            }
+            else if (IdentifyResultViewModel.CurrentlySelectedFeature?.EditViewModel != null && !await IdentifyResultViewModel.CurrentlySelectedFeature.DiscardChanges())
+            {
+                result = false;
+            }
+            else if (clearAllIdentifyResults || IdentifyResultViewModel.IdentifiedFeatures?.Count == 1)
+            {
+                IdentifyResultViewModel.ClearResultsCommand.Execute(null);
+            }
+            else
+            {
+                IdentifyResultViewModel.ClearSelectionCommand.Execute(null);
+            }
+            return result;
+        }
+
         private void DeleteOldMapPackages()
         {
             // Delete all of the non-current map packages from previous runs.
-            foreach(var directory in new DirectoryInfo(_downloadPathRoot).GetDirectories())
+            foreach (var directory in new DirectoryInfo(_downloadPathRoot).GetDirectories())
             {
                 try
                 {
@@ -159,7 +232,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     _isLocationOnlyMode = value;
                     if (_isLocationOnlyMode)
                     {
-                        IdentifiedFeatureViewModel = null;
+                        IdentifyResultViewModel.ClearResultsCommand.Execute(null);
+                        IdentifyController.IsIdentifyPaused = true;
+                    }
+                    else
+                    {
+                        IdentifyController.IsIdentifyPaused = false;
                     }
                     OnPropertyChanged();
                 }
@@ -206,6 +284,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         IsLocationOnlyMode = true;
                     }
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsMajorStateChangeAllowed));
                 }
             }
         }
@@ -232,6 +311,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         IsLocationOnlyMode = true;
                     }
                     OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsMajorStateChangeAllowed));
                 }
             }
         }
@@ -253,6 +333,41 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 }
             }
         }
+
+        private AuthViewModel _authViewModel;
+
+        public AuthViewModel AuthViewModel
+        {
+            get => _authViewModel;
+            set
+            {
+                if (_authViewModel != value)
+                {
+                    _authViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private AppInfoViewModel _appInfoViewModel;
+
+        /// <summary>
+        /// Gets or sets the viewmodel that manages the app's about page.
+        /// </summary>
+        public AppInfoViewModel AppInfoViewModel
+        {
+            get => _appInfoViewModel;
+            set
+            {
+                if (_appInfoViewModel != value)
+                {
+                    _appInfoViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public IdentifyResultViewModel IdentifyResultViewModel { get; } = new IdentifyResultViewModel();
 
         private Map _offlineMap;
 
@@ -311,44 +426,36 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             }
         }
 
-        private DateTime? _syncDate;
-
         /// <summary>
         /// Gets or sets the date the map was downloaded or synced
         /// </summary>
         public DateTime? SyncDate
         {
-            get { return _syncDate; }
+            get
+            {
+                return DateTime.TryParse(Settings.Default.SyncDate, out var syncDate) ? syncDate : (DateTime?)null;
+            }
             set
             {
-                if (_syncDate != value)
+                if (SyncDate != value)
                 {
-                    _syncDate = value;
+                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(value?.ToUniversalTime().ToString("O"), BroadcastMessageKey.SyncDate);
                     OnPropertyChanged();
                 }
             }
         }
 
-        private IdentifiedFeatureViewModel _identifiedFeatureViewModel;
+        private MapAccessoryViewModel _mapAccessoryViewModel;
 
-        /// <summary>
-        /// Gets or sets the view model that handles the identified feature
-        /// </summary>
-        public IdentifiedFeatureViewModel IdentifiedFeatureViewModel
+        public MapAccessoryViewModel MapAccessoryViewModel
         {
-            get { return _identifiedFeatureViewModel; }
+            get => _mapAccessoryViewModel;
             set
             {
-                if (_identifiedFeatureViewModel != value)
+                if (_mapAccessoryViewModel != value)
                 {
-                    _identifiedFeatureViewModel = value;
+                    _mapAccessoryViewModel = value;
                     OnPropertyChanged();
-
-                    if (value == null && MapViewModel != null)
-                    {
-                        // clear any selected features on the map
-                        MapViewModel.ClearSelection();
-                    }
                 }
             }
         }
@@ -370,8 +477,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _workOfflineCommand ?? (_workOfflineCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        // Reset UI state
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
+
                         // reset the identify view model so the feature selected is deselected
-                        IdentifiedFeatureViewModel = null;
+                        if (!await AttemptCloseEditorsAsync())
+                        {
+                            return;
+                        }
 
                         // load offline map if it exists
                         // prompt uset to download map if it doesn't exist
@@ -398,7 +511,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                             {
                                 // set and save download date 
                                 SyncDate = DateTime.Now;
-                                BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(SyncDate, BroadcastMessageKey.SyncDate);
 
                                 // set app mode to offline and load the offline map
                                 BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(ConnectivityMode.Offline, BroadcastMessageKey.ConnectivityMode);
@@ -435,11 +547,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _workOnlineCommand ?? (_workOnlineCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        // Reset UI state
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
+
                         // retrieve active viewpoint from offline map to pass to online map 
                         var activeViewpoint = ((x is Polygon) ? new Viewpoint((Polygon)x) : (Viewpoint)x) ?? null;
 
                         // reset the identify view model so the feature selected is deselected
-                        IdentifiedFeatureViewModel = null;
+                        if (!await AttemptCloseEditorsAsync())
+                        {
+                            return;
+                        }
 
                         // if online map is unreachable, do not proceed
                         if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
@@ -483,6 +601,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 return _deleteOfflineMapCommand ?? (_deleteOfflineMapCommand = new DelegateCommand(
                     async (x) =>
                     {
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
+
                         // if online map is unreachable, do not proceed
                         if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
@@ -545,6 +665,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                             return;
                         }
 
+                        // Reset UI state
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
+
                         // if online map is unreachable, do not proceed
                         if (!await ConnectivityHelper.IsWebmapAccessible(_webMapURL))
                         {
@@ -568,7 +691,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                                 {
                                     // set and save sync date
                                     SyncDate = DateTime.Now;
-                                    BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(SyncDate, BroadcastMessageKey.SyncDate);
                                 }
 
                                 SyncViewModel = null;
@@ -588,9 +710,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _clearIdentifiedFeatureCommand ?? (_clearIdentifiedFeatureCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
-                        IdentifiedFeatureViewModel = null;
+                        await AttemptCloseEditorsAsync();
                     }));
             }
         }
@@ -604,7 +726,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _startNewFeatureCommand ?? (_startNewFeatureCommand = new DelegateCommand(
-                    (x) => { IsAddingFeature = true; IsLocationOnlyMode = true; }));
+                    (x) => { BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups); IsAddingFeature = true; IsLocationOnlyMode = true; }));
             }
         }
 
@@ -625,49 +747,66 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _saveNewFeatureCommand ?? (_saveNewFeatureCommand = new DelegateCommand(
-                    async (x) =>
+                    async (pinpointElement) =>
                     {
                         IsAddingFeature = false;
                         IsLocationOnlyMode = false;
                         // specifying the first points layer as the target of the Add operation
                         // lines and polygons are not supported in this version of the app
                         // adding to multiple layers in not supported in this version of the app
-                        foreach (var layer in MapViewModel.Map.OperationalLayers)
+                        try
                         {
-                            // check to see that layer is identifiable based on the app rules
-                            if (layer is FeatureLayer && layer.IsIdentifiable())
+                            var eligibleLayer = MapViewModel.Map.OperationalLayers.OfType<FeatureLayer>()
+                                                .Where(layer => layer.FeatureTable.GeometryType == GeometryType.Point && layer.FeatureTable.CanAdd())
+                                                .First();
+                            // create new feature 
+                            var feature = eligibleLayer.FeatureTable.CreateFeature();
+
+                            // set feature geometry as the pinpoint's position
+                            var frameworkElement = (FrameworkElement)pinpointElement;
+                                    
+                            MapPoint newFeatureGeometry = null;
+#if WPF
+                            var point = new Point(frameworkElement.Width / 2, frameworkElement.Height / 2);
+                            newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(frameworkElement.TranslatePoint(point, MapAccessoryViewModel.MapView));
+#elif NETFX_CORE
+                            var transform = frameworkElement.TransformToVisual(MapAccessoryViewModel.MapView);
+                            // Get the actual center point. CenterPoint here defaults to top left
+                            var point = new Point(frameworkElement.CenterPoint.X + frameworkElement.Width / 2, frameworkElement.CenterPoint.Y + frameworkElement.Height / 2);
+                            newFeatureGeometry = MapAccessoryViewModel.MapView.ScreenToLocation(transform.TransformPoint(point));
+#else
+                            throw new NotImplementedException();
+#endif
+
+                            // call method to perform custom workflow for the custom tree dataset
+#pragma warning disable CS0162 // Unreachable code detected
+                            await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);
+
+                            // create the feature and its corresponding viewmodel
+                            var featureVM = new IdentifiedFeatureViewModel(feature, ConnectivityMode, this)
                             {
-                                try
-                                {
-                                    // create new feature 
-                                    var feature = ((FeatureLayer)layer).FeatureTable.CreateFeature();
+                                EditViewModel = new EditViewModel(ConnectivityMode)
+                            };
+                            featureVM.EditViewModel.CreateFeature(newFeatureGeometry, feature as ArcGISFeature, featureVM.PopupManager);
 
-                                    // set feature geometry as the mapview's center
-                                    var newFeatureGeometry = MapViewModel.AreaOfInterest?.TargetGeometry.Extent.GetCenter() as MapPoint;
+                            //get relationship information for the newly added feature
+                            await featureVM.GetRelationshipInfoForFeature(feature as ArcGISFeature);
 
-                                    // call method to perform custom workflow for the custom tree dataset
-                                    await TreeSurveyWorkflows.PerformNewTreeWorkflow(MapViewModel.Map.OperationalLayers, feature, newFeatureGeometry);
+                            // Add the feature to the table so that it is visible on the map.
+                            await feature.FeatureTable.AddFeatureAsync(feature);
 
-                                    // create the feature and its corresponding viewmodel
-                                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode)
-                                    {
-                                        EditViewModel = new EditViewModel(ConnectivityMode)
-                                    };
-                                    IdentifiedFeatureViewModel.EditViewModel.CreateFeature(newFeatureGeometry, feature as ArcGISFeature, IdentifiedFeatureViewModel.PopupManager);
+                            IdentifyResultViewModel.SetNewIdentifyResult(new List<IdentifiedFeatureViewModel>() { featureVM });
 
-                                    //get relationship information for the newly added feature
-                                    await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature as ArcGISFeature);
+                            // select the new feature
+                            MapViewModel.SelectFeature(feature);
 
-                                    // select the new feature
-                                    MapViewModel.SelectFeature(feature);
-
-                                    break;
-                                }
-                                catch (Exception ex)
-                                {
-                                    UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
-                                }
-                            }
+                            return;
+#pragma warning restore CS0162 // Unreachable code detected
+                        }
+                        catch (Exception ex)
+                        {
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged(Resources.GetString("AddFeatureError_Title"), 
+                                Resources.GetString("AddFeatureError_Message"), true, ex.StackTrace);
                         }
                     }));
             }
@@ -683,7 +822,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _deleteFeatureCommand ?? (_deleteFeatureCommand = new DelegateCommand(
-                    async (x) =>
+                    async (commandParameter) =>
                     {
                         // wait for response from the user if they truly want to delete the feature
                         bool deleteConfirmed = await UserPromptMessenger.Instance.AwaitConfirmation(
@@ -696,55 +835,23 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         if (deleteConfirmed)
                         {
                             // determine if the feature is coming from the main feature class or a related table
-                            if (x is IdentifiedFeatureViewModel)
+                            if (commandParameter is IdentifiedFeatureViewModel)
                             {
-                                if (await IdentifiedFeatureViewModel.DeleteFeature())
+                                if (await IdentifyResultViewModel.CurrentlySelectedFeature.DeleteFeature())
                                 {
-                                    IdentifiedFeatureViewModel = null;
+                                    IdentifyResultViewModel.ClearResultsCommand.Execute(null);
+                                }
+                            }
+                            else if (commandParameter is OriginRelationshipViewModel)
+                            {
+                                if (await IdentifyResultViewModel.CurrentlySelectedFeature.SelectedOriginRelationship.DeleteFeature())
+                                {
+                                    IdentifyResultViewModel.ClearResultsCommand.Execute(null);
                                 }
                             }
                             else
                             {
-                                if (await IdentifiedFeatureViewModel.SelectedOriginRelationship.DeleteFeature())
-                                {
-                                    IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
-                                }
-                            }
-                        }
-                    }));
-            }
-        }
-
-        private ICommand _cancelEditsCommand;
-
-        /// <summary>
-        /// Gets the command to delete the selected feature
-        /// </summary>
-        public ICommand CancelEditsCommand
-        {
-            get
-            {
-                return _cancelEditsCommand ?? (_cancelEditsCommand = new DelegateCommand(
-                    async (x) =>
-                    {
-                        if (x is IdentifiedFeatureViewModel)
-                        {
-                            if (await IdentifiedFeatureViewModel.DiscardChanges() &&
-                            IdentifiedFeatureViewModel.Feature.IsNewFeature())
-                            {
-                                IdentifiedFeatureViewModel = null;
-                            }
-                        }
-                        else if (x is OriginRelationshipViewModel originRelationshipVM)
-                        {
-                            var feature = originRelationshipVM?.PopupManager?.Popup?.GeoElement as ArcGISFeature;
-
-                            if (feature != null && await IdentifiedFeatureViewModel.SelectedOriginRelationship.DiscardChanges() && feature.IsNewFeature())
-                            {
-                                IdentifiedFeatureViewModel.SelectedOriginRelationship = null;
-                                // remove viewmodel from collection
-                                var originRelationshipVMCollection = (IdentifiedFeatureViewModel.OriginRelationships.FirstOrDefault(o => o.RelationshipInfo == originRelationshipVM.RelationshipInfo)).OriginRelationshipViewModelCollection;
-                                originRelationshipVMCollection.Remove(originRelationshipVM);
+                                System.Diagnostics.Debug.Fail("Binding error, should never get to this point; ensure command parameter is set");
                             }
                         }
                     }));
@@ -757,8 +864,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         private async void IdentifyController_IdentifyCompleted(object sender, IdentifyEventArgs e)
         {
             // do not perform the Identify if user is editing
-            if (IdentifiedFeatureViewModel?.EditViewModel != null ||
-                IdentifiedFeatureViewModel?.SelectedOriginRelationship?.EditViewModel != null || IsLocationOnlyMode)
+            if (IdentifyResultViewModel.CurrentlySelectedFeature?.EditViewModel != null ||
+                IdentifyResultViewModel.CurrentlySelectedFeature?.SelectedOriginRelationship?.EditViewModel != null || IsLocationOnlyMode)
             {
                 return;
             }
@@ -766,65 +873,26 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             // get first identified layer from the collection that matches the app rules
             if (e.LayerResults.Count > 0)
             {
-                // get the first result that meets the app rules
-                var identifyLayerResult = e.LayerResults.Where(l => (l.LayerContent as Layer).IsIdentifiable()).FirstOrDefault();
+                var identifiedFeatureVMs = new List<IdentifiedFeatureViewModel>();
 
                 // get the closest identified feature to the location user tapped
-                if (identifyLayerResult?.Popups?.Count() > 0)
+                foreach (var identifyResult in e.LayerResults.Where(m => m.Popups?.Any() ?? false))
                 {
                     // get feature
-                    var feature = ((IdentifyController)sender).FindNearestGeoElement(identifyLayerResult.GeoElements) as ArcGISFeature;
-
-                    if (feature != null)
+                    foreach (var popupFeature in identifyResult.Popups.Select(popup => popup.GeoElement).OfType<ArcGISFeature>())
                     {
-                        // select the identified feature
-                        MapViewModel.SelectFeature(feature);
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                    // load feature to access its relationship info
-                    if (feature.LoadStatus != LoadStatus.Loaded)
-                    {
-                        try
-                        {
-                            await feature.LoadAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            UserPromptMessenger.Instance.RaiseMessageValueChanged(
-                                Resources.GetString("GenericError_Title"),
-                                ex.Message,
-                                true,
-                                ex.StackTrace);
-                        }
-                    }
-
-                    // set the viewmodel for the feature
-                    IdentifiedFeatureViewModel = new IdentifiedFeatureViewModel(feature, ConnectivityMode);
-
-                    try
-                    {
-                        // Call method to set up relationship info
-                        await IdentifiedFeatureViewModel.GetRelationshipInfoForFeature(feature);
-                    }
-                    catch (Exception ex)
-                    {
-                        UserPromptMessenger.Instance.RaiseMessageValueChanged(null, ex.Message, true, ex.StackTrace);
+                        // set the viewmodel for the feature
+                        var identifyVM = new IdentifiedFeatureViewModel(popupFeature, ConnectivityMode, this);
+                        identifiedFeatureVMs.Add(identifyVM);
                     }
                 }
-                else
-                {
-                    // Reset selection
-                    IdentifiedFeatureViewModel = null;
-                }
+                MapAccessoryViewModel.CloseAccessories();
+                IdentifyResultViewModel.SetNewIdentifyResult(identifiedFeatureVMs);
             }
             else
             {
                 // Reset selection
-                IdentifiedFeatureViewModel = null;
+                IdentifyResultViewModel.SetNewIdentifyResult(null);
             }
         }
 
@@ -912,6 +980,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         }
 
         /// <summary>
+        /// Gets whether the app is in a state where the user should be allowed to sign out, delete the map, go online or offline, or sync.
+        /// </summary>
+        public bool IsMajorStateChangeAllowed => DownloadViewModel == null && SyncViewModel == null;
+
+        /// <summary>
         /// Method to prepare the offline map package for future deletion
         /// </summary>
         private void ReleaseOfflineMap()
@@ -932,6 +1005,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 Mmpk = null;
             }
 
+            // clear the sync date
+            SyncDate = null;
+
             // try deleting the folder
             try
             {
@@ -941,8 +1017,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     Directory.Delete(currentPath, true);
                 }
             }
-            catch 
-            { 
+            catch
+            {
                 // Ignore, it will be deleted later.
             }
             finally

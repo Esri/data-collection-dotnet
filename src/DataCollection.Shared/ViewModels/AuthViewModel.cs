@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -110,12 +110,20 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             get
             {
                 return _signOutCommand ?? (_signOutCommand = new DelegateCommand(
-                    (x) =>
+                    async (x) =>
                     {
-                        // clear credentials
-                        foreach (var credential in AuthenticationManager.Current.Credentials)
+                        // Close any popups
+                        BroadcastMessenger.Instance.RaiseBroadcastMessengerValueChanged(null, BroadcastMessageKey.ClosePopups);
+
+                        try 
+                        { 
+                            // Revoke and remove all credentials
+                            await AuthenticationManager.Current.RemoveAndRevokeAllCredentialsAsync();
+                        }
+                        catch (Exception)
                         {
-                            AuthenticationManager.Current.RemoveCredential(credential);
+                            // If revocation fails (e.g. because of network issues), just delete the credentials
+                            AuthenticationManager.Current.RemoveAllCredentials();
                         }
 
                         // clear authenticated user property
@@ -199,7 +207,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
             // Create generate token options if necessary
             if (info.GenerateTokenOptions == null)
             {
-                info.GenerateTokenOptions = new GenerateTokenOptions { };
+                info.GenerateTokenOptions = new GenerateTokenOptions { TokenExpirationInterval = new TimeSpan(365, 0, 0, 0) };
             }
 
             // if no refresh token, call to generate credentials
@@ -321,12 +329,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         private void UpdateAuthenticationManager()
         {
+            #if DOT_NET_CORE_TEST
+            return;
+#endif
             // Define the server information for ArcGIS Online
+#pragma warning disable CS0162 // Unreachable code
             var portalServerInfo = new ServerInfo(new Uri(_arcGISOnlineURL))
             {
                 TokenAuthenticationType = TokenAuthenticationType.OAuthAuthorizationCode,
                 OAuthClientInfo = new OAuthClientInfo(_appClientID, new Uri(_redirectURL))
             };
+#pragma warning restore CS0162 // Unreachable code
 
             try
             {

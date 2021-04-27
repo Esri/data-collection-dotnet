@@ -141,11 +141,11 @@ Generating table of contents for documents in this repository was performed usin
 
 ## License
 
-Copyright 2020 Esri
+Copyright 2021 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
-[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+[https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
@@ -159,4 +159,7 @@ This project uses the following 3rd-party components:
 
 * [Humanizer](https://github.com/Humanizr/Humanizer) - [MIT License](https://github.com/Humanizr/Humanizer/blob/master/LICENSE)
 * [Windows UI Library 2](https://github.com/microsoft/microsoft-ui-xaml) - [Microsoft License](https://www.nuget.org/packages/Microsoft.UI.Xaml/2.3.200213001/license)
-* [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf) - [MIT license](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)
+* [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf) - [MIT License](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)
+* [ControlzEx](https://github.com/ControlzEx/ControlzEx) - [MIT License](https://github.com/ControlzEx/ControlzEx/blob/develop/LICENSE)
+* [NUnit 3](https://nunit.org/) - [MIT License](https://github.com/nunit/nunit/blob/master/LICENSE.txt)
+* [NUnit 3 VS Test Adapter](https://github.com/nunit/nunit3-vs-adapter) - [MIT License](https://github.com/nunit/nunit3-vs-adapter/blob/master/LICENSE.txt)

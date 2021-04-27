@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+                    xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+                    xmlns:localconverters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Converters">
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converters:ConnectivityModeToVisibilityConverter x:Key="ConnectivityModeToVisibilityConverter" />
+    <converters:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
+    <converters:EmptyCollectionToBoolConverter x:Key="EmptyCollectionToBoolConverter" />
+    <converters:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter" />
+    <converters:LocalizationConverter x:Key="LocalizationConverter" />
+    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <converters:NumberToResultCountConverter x:Key="NumberToResultCountConverter" />
+    <converters:PlusOneConverter x:Key="PlusOneConverter" />
+    <ctrl:ResponsiveValueConverter x:Key="ResponsiveValueConverter" />
+    <localconverters:BoolToCursorConverter x:Key="BoolToCursorConverter" />
+    <localconverters:ConvertValueToCodedValueDomainValue x:Key="ConvertValueToCodedValueDomainValue" />
+</ResourceDictionary>

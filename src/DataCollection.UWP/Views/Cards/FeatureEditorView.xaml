@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Views.Cards.FeatureEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Controls"
+             xmlns:converters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters"
+             xmlns:localConverters="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.UWP.Converters"
+             xmlns:models="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models"
+             xmlns:utilities="using:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utilities">
+    <UserControl.Resources>
+        <utilities:AttributeEditorDataTemplateSelector x:Key="AttributeEditorDataTemplateSelector" />
+        <converters:StringToNullConverter x:Key="StringToNullConverter" />
+        <localConverters:ObjectToDateTimeOffsetConverter x:Key="ObjectToDateTimeOffsetConverter" />
+        <converters:DateTimeOffsetToLocalDateTimeConverter x:Key="DateTimeOffsetToLocalDateTimeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <ItemsControl ItemTemplateSelector="{StaticResource AttributeEditorDataTemplateSelector}" ItemsSource="{Binding Fields, Mode=OneWay}">
+            <ItemsControl.Resources>
+                <!--  Data templates for all the field types used in editing features  -->
+                <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <!--  Minheight setting is workaround for UWP layout/sizing issue when textbox is showing whitespace  -->
+                        <TextBox MinHeight="38"
+                                 Style="{StaticResource FieldEditorTextBoxStyle}"
+                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                                   Text="{Binding PopupFieldValue.ValidationError.Message}"
+                                   Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Name="DateTemplate"
+                              x:Key="DateTemplate"
+                              x:DataType="models:FieldContainer">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <!--  Note: due to an interaction between x:Bind behavior and PopupManager behavior, x:Bind can't be used as of Runtime 100.11  -->
+                        <controls:DateTimeEditor DateTime="{Binding PopupFieldValue.Value, Mode=TwoWay, Converter={StaticResource DateTimeOffsetToLocalDateTimeConverter}}" />
+                        <!--
+                            Note: This validation error comes from popup manager. DateTimeEditor has its own internal validation error that is shown when the
+                            user-provided text can't be parsed into a valid date or time.
+                        -->
+                        <TextBlock x:Name="RadiusReferenceText"
+                                   Style="{StaticResource ValidationErrorTextStyle}"
+                                   Text="{Binding PopupFieldValue.ValidationError.Message}"
+                                   Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Key="NumberTemplate" x:Name="NumberTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBox Margin="{StaticResource TopBottomMediumThickness}"
+                                 InputScope="Digits"
+                                 Style="{StaticResource FieldEditorTextBoxStyle}"
+                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}}" />
+                        <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                                   Text="{Binding PopupFieldValue.ValidationError.Message}"
+                                   Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Key="RangeDomainTemplate" x:Name="RangeDomainTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <TextBox Margin="{StaticResource TopBottomMediumThickness}"
+                                 InputScope="Digits"
+                                 Style="{StaticResource FieldEditorTextBoxStyle}"
+                                 Text="{Binding PopupFieldValue.Value, Mode=TwoWay, Converter={StaticResource StringToNullConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                                   Text="{Binding PopupFieldValue.ValidationError.Message}"
+                                   Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+                <DataTemplate x:Key="CodedValueDomainTemplate" x:Name="CodedValueDomainTemplate">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label, Mode=OneWay}" />
+                        <ComboBox DisplayMemberPath="Name"
+                                  ItemsSource="{Binding OriginalField.Domain.CodedValues, Mode=OneWay}"
+                                  Loaded="ComboBox_Loaded"
+                                  SelectionChanged="ComboBox_SelectionChanged"
+                                  Style="{StaticResource ComboBoxStyle}"
+                                  Tag="{Binding PopupFieldValue.Value, Mode=TwoWay}" />
+                        <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
+                                   Text="{Binding PopupFieldValue.ValidationError.Message}"
+                                   Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.Resources>
+        </ItemsControl>
+    </Grid>
+</UserControl>

@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,10 +14,14 @@
   *   limitations under the License.
 ******************************************************************************/
 
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels;
 using Esri.ArcGISRuntime.UI.Controls;
-#if NETFX_CORE
+#if WPF
+using System.Windows;
+#elif NETFX_CORE
 using Windows.UI.Xaml;
-#else
+#elif DOT_NET_CORE_TEST
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks;
 using System.Windows;
 #endif
 
@@ -117,5 +121,34 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
             (mapView as MapView)?.SetValue(ViewpointControllerProperty, viewpointController);
         }
 
+        /// <summary>
+        /// Defines an accessory view model attached property.
+        /// </summary>
+        public static readonly DependencyProperty MapAccessoryViewModelProperty = DependencyProperty.RegisterAttached(
+            nameof(MapAccessoryViewModel),
+            typeof(MapAccessoryViewModel),
+            typeof(MapViewExtensions),
+            new PropertyMetadata(null, OnMapAccessoryViewModelChanged));
+
+        /// <summary>
+        /// Updates the map accessory view model's reference to the MapView
+        /// </summary>
+        private static void OnMapAccessoryViewModelChanged(DependencyObject dependency, DependencyPropertyChangedEventArgs args)
+        {
+            if (args.NewValue is MapAccessoryViewModel)
+            {
+                ((MapAccessoryViewModel)args.NewValue).MapView = dependency as MapView;
+            }
+        }
+
+        /// <summary>
+        /// MapAccessoryViewModel getter method.
+        /// </summary>
+        public static MapAccessoryViewModel GetMapAccessoryViewModel(DependencyObject mapView) => (mapView as MapView)?.GetValue(MapAccessoryViewModelProperty) as MapAccessoryViewModel;
+
+        /// <summary>
+        /// MapAccessoryViewModel setter method
+        /// </summary>
+        public static void SetMapAccessoryViewModel(DependencyObject mapView, MapAccessoryViewModel mapAccessoryViewModel) => (mapView as MapView)?.SetValue(MapAccessoryViewModelProperty, mapAccessoryViewModel);
     }
 }

@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,10 +21,7 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Properties;
 using Esri.ArcGISRuntime.Location;
 using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.Portal;
-using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
@@ -129,7 +126,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                 if (_areaOfInterest != value)
                 {
                     _areaOfInterest = value;
-                    OnPropertyChanged();
+                    // PropertyChange omitted because of issue when two-way x:Bind bound on UWP
                 }
             }
         }
@@ -148,26 +145,32 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     {
                         // Set viewpoint to the user's current location
                         if (_lastLocation != null)
+                        {
                             AreaOfInterest = new Viewpoint(_lastLocation?.Position, _defaultZoomScale);
+                            OnPropertyChanged(nameof(AreaOfInterest));
+                        }
                     }));
             }
         }
 
         /// <summary>
-        /// Perform feature selection 
+        /// Perform feature selection, clearing all other selections if <paramref name="clearAll"/> is true.
         /// </summary>
-        internal void SelectFeature(Feature feature)
+        internal void SelectFeature(Feature feature, bool clearAll = true)
         {
             if (feature?.FeatureTable?.Layer is FeatureLayer featureLayer)
             {
-                // Clear all selected features in all map feature layers
-                foreach (var layer in this.Map.OperationalLayers.OfType<FeatureLayer>())
+                if (clearAll)
                 {
-                    try
+                    // Clear all selected features in all map feature layers
+                    foreach (var layer in Map.OperationalLayers.OfType<FeatureLayer>())
                     {
-                        layer.ClearSelection();
+                        try
+                        {
+                            layer.ClearSelection();
+                        }
+                        catch { }
                     }
-                    catch { }
                 }
 
                 // Select feature

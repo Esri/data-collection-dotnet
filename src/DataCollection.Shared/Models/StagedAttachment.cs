@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,13 +21,13 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-#if WPF
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-#elif NETFX_CORE
+#if NETFX_CORE
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+#else
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
@@ -58,6 +58,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
         internal async Task LoadAsync(PopupAttachment attachment)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
+            try
+            {
+
             Attachment = attachment;
 
             // this workflow is dependent on image location so it's fully segregated per platform
@@ -67,7 +70,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
             {
                 // create thumbnail for the image attachments
                 case PopupAttachmentType.Image:
-                    Thumbnail = new BitmapImage(new Uri("pack://application:,,,/Images/AttachmentImage.png"));
+                    var image = await Attachment.CreateThumbnailAsync(64, 64);
+                    Thumbnail = await image.ToImageSourceAsync();
                     break;
                 // use placeholder images for the rest of the attachments
                 case PopupAttachmentType.Video:
@@ -89,9 +93,18 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
                 // create thumbnail for the image attachments
                 // must do this on UI thread due to bindings 
                 case PopupAttachmentType.Image:
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
-                        Thumbnail = new BitmapImage(new Uri("ms-appx:///Assets/AttachmentImage.png"));
+                        try 
+                        {
+                            var image = await Attachment.CreateThumbnailAsync(64, 64);
+                            Thumbnail = await image.ToImageSourceAsync();
+                        }
+                        catch (Esri.ArcGISRuntime.ArcGISRuntimeException ex)
+                        {
+                            // Image conversion will sometimes fail if the underlying file is corrupt or invalid; app should not crash in that case.
+                            UserPromptMessenger.Instance.RaiseMessageValueChanged("Error loading attachment", ex.Message, true, ex.StackTrace);
+                        }
                     });
                     break;
 
@@ -119,6 +132,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models
                     // will throw if another platform is added without handling this 
                     throw new NotImplementedException();
 #endif
+
+            }
+            catch (Exception ex)
+            {
+                // Image conversion will sometimes fail if the underlying file is corrupt or invalid; app should not crash in that case.
+                UserPromptMessenger.Instance.RaiseMessageValueChanged("Error loading attachment", ex.Message, true, ex.StackTrace);
+            }
         }
 
         /// <summary>

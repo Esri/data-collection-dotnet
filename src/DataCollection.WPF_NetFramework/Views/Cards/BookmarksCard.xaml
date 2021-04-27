@@ -1,0 +1,23 @@
+﻿<ctrl:CardBase x:Name="Self"
+               x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards.BookmarksCard"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+               xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
+               xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <views:CardBar Title="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=Bookmarks_PanelHeader}"
+                       Grid.Row="0"
+                       CloseCommand="{Binding MapAccessoryViewModel.ToggleBookmarksCommand, Mode=OneWay}"
+                       IconGeometry="{StaticResource icon-bookmark-16}"
+                       OwningCard="{Binding ElementName=Self}" />
+        <esri:BookmarksView Grid.Row="1"
+                            Margin="0"
+                            GeoView="{Binding MapAccessoryViewModel.MapView, Mode=OneTime}"
+                            ItemTemplate="{StaticResource BookmarksViewItemTemplate}" />
+    </Grid>
+</ctrl:CardBase>

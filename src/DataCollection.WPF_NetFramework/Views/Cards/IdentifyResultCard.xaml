@@ -1,0 +1,72 @@
+﻿<customcontrols:CardBase x:Name="Self"
+                         x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Cards.IdentifyResultCard"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:customcontrols="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+                         xmlns:featureVM="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels"
+                         xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <views:CardBar Title="{Binding ElementName=Self, Path=ViewModel.ResultCount, Converter={StaticResource NumberToResultCountConverter}, ConverterParameter=ResultsPlural}"
+                       Grid.Row="0"
+                       CloseCommand="{Binding ElementName=Self, Path=ViewModel.ClearResultsCommand}"
+                       IconGeometry="{StaticResource icon-list-16}"
+                       OwningCard="{Binding ElementName=Self}" />
+        <!--
+            Scrollviewer and disabled listview scrolling works around an issue where the
+            scrollbar will re-appear after deselecting an identify result, even when the scrollbar should be hidden.
+        -->
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <ListView Background="{StaticResource ContentBackgroundBrush}"
+                      ItemsSource="{Binding ElementName=Self, Path=ViewModel.IdentifiedFeatures}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      SelectedIndex="{Binding ElementName=Self, Path=ViewModel.CurrentFeatureIndex, Mode=TwoWay}">
+                <ListView.Template>
+                    <ControlTemplate>
+                        <Grid Background="{TemplateBinding Background}">
+
+                            <ItemsPresenter />
+                        </Grid>
+                    </ControlTemplate>
+                </ListView.Template>
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="{x:Type featureVM:IdentifiedFeatureViewModel}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Row="0"
+                                   Grid.Column="0"
+                                   Width="22"
+                                   Height="22"
+                                   Margin="4,0,8,0"
+                                   Source="{Binding IconImageSource}" />
+                            <Grid Grid.Column="1" VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupManager.Title}" />
+                                <TextBlock Grid.Row="1"
+                                           Margin="0,0,0,8"
+                                           FontWeight="Normal"
+                                           Opacity="0.8"
+                                           Style="{StaticResource FieldLabelStyle}"
+                                           Text="{Binding Subtitle}"
+                                           TextWrapping="Wrap"
+                                           Visibility="{Binding Subtitle, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=EmptyString}" />
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</customcontrols:CardBase>

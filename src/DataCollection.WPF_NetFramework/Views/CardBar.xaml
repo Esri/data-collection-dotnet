@@ -1,0 +1,77 @@
+﻿<UserControl x:Name="Self"
+             x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.CardBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource CardTitleBorderStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0"
+                   Width="22"
+                   Height="22"
+                   Margin="{StaticResource LeftLargeThickness}"
+                   Source="{Binding ImageSource, ElementName=Self}"
+                   Style="{StaticResource TitleBarIconImageStyle}"
+                   Visibility="{Binding Path=ImageSource, ElementName=Self, Converter={StaticResource NullToVisibilityConverter}}" />
+            <Path Grid.Column="0"
+                  Margin="{StaticResource LeftLargeThickness}"
+                  Data="{Binding ElementName=Self, Path=IconGeometry}"
+                  Style="{StaticResource PathIconBase}"
+                  Visibility="{Binding Path=IconGeometry, ElementName=Self, Converter={StaticResource NullToVisibilityConverter}}" />
+            <TextBlock Grid.Column="1"
+                       Margin="{StaticResource LeftLargeThickness}"
+                       Style="{StaticResource CardTitleStyle}"
+                       Text="{Binding Title, ElementName=Self}" />
+            <Button Grid.Column="2"
+                    Command="{Binding OwningCard.ToggleStateCommand, ElementName=Self}"
+                    Style="{StaticResource CardCloseButtonStyle}"
+                    Visibility="{Binding OwningCard.ParentPanel.ShouldEnableCardMaximize, Converter={StaticResource BoolToVisibilityConverter}, ElementName=Self}">
+                <Path Data="{StaticResource icon-caret-square-up-16}" Style="{StaticResource PathIconBase}" />
+            </Button>
+            <Button Grid.Column="2"
+                    Command="{Binding OwningCard.ToggleStateCommand, ElementName=Self}"
+                    Style="{StaticResource CardCloseButtonStyle}"
+                    Visibility="{Binding OwningCard.ParentPanel.ShouldEnableCardMinimize, Converter={StaticResource BoolToVisibilityConverter}, ElementName=Self}">
+                <Path Data="{StaticResource icon-caret-square-down-16}" Style="{StaticResource PathIconBase}" />
+            </Button>
+            <Button Grid.Column="3"
+                    Command="{Binding PreviousCommand, Mode=OneWay, ElementName=Self}"
+                    Style="{StaticResource CardCloseButtonStyle}"
+                    Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Path Margin="4,4,0,4"
+                      Data="{StaticResource icon-chevron-left-16}"
+                      Style="{StaticResource PathIconBase}" />
+            </Button>
+            <TextBlock Grid.Column="4"
+                       Margin="4"
+                       FontSize="{StaticResource SmallFontSize}"
+                       Style="{StaticResource CardTitleStyle}"
+                       TextAlignment="Center"
+                       Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Run Text="{Binding ElementName=Self, Path=CurrentResultIndex, Converter={StaticResource PlusOneConverter}}" />
+                <Run Text="{Binding Path=., Converter={StaticResource LocalizationConverter}, ConverterParameter=Of_ResultSeparator, Mode=OneTime}" />
+                <Run Text="{Binding ElementName=Self, Path=ResultCount}" />
+            </TextBlock>
+            <Button Grid.Column="5"
+                    Command="{Binding ElementName=Self, Path=NextCommand, Mode=OneWay}"
+                    Style="{StaticResource CardCloseButtonStyle}"
+                    Visibility="{Binding ElementName=Self, Path=ShowNavigationControls, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Path Margin="0,4,4,4"
+                      Data="{StaticResource icon-chevron-right-16}"
+                      Style="{StaticResource PathIconBase}" />
+            </Button>
+            <Button Grid.Column="6"
+                    Command="{Binding CloseCommand, Mode=OneWay, ElementName=Self}"
+                    Style="{StaticResource CardCloseButtonStyle}">
+                <Path Data="{StaticResource icon-x-16}" Style="{StaticResource PathIconBase}" />
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>

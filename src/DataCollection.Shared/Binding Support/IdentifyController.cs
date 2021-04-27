@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,6 +30,11 @@ using System.Threading;
 using System.Threading.Tasks;
 #if NETFX_CORE
 using Windows.UI.Xaml;
+using Windows.Foundation;
+#elif DOT_NET_CORE_TEST
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks;
+using Settings = Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Tests.Mocks.Settings;
+using System.Windows;
 #else
 using System.Windows;
 #endif
@@ -97,7 +102,43 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         /// <summary>
         /// Gets or sets the location where user has tapped to identify
         /// </summary>
-        private Geometry.Geometry _tappedLocation;
+        private MapPoint _tappedLocation;
+
+        public MapPoint TappedLocation
+        {
+            get => _tappedLocation;
+            set
+            {
+                if (value != _tappedLocation)
+                {
+                    _tappedLocation = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TappedLocation)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Stores the most-recently-tapped screen location.
+        /// </summary>
+        private Point _tappedScreenPosition;
+
+        /// <summary>
+        /// Gets the most-recently-tapped screen location.
+        /// </summary>
+        /// <remarks>Enables the convenient placement of UI elements through binding, e.g. an identify-in-progress spinner.</remarks>
+        public Point TappedScreenPosition
+        {
+            get => _tappedScreenPosition;
+            private set
+            {
+                if (_tappedScreenPosition != value)
+                {
+                    _tappedScreenPosition = value;
+
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TappedScreenPosition)));
+                }
+            }
+        }
 
         /// <summary>
         /// Invoked when GeoViewTapped event is firing
@@ -119,6 +160,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                     return;
                 }
 
+                if (IsIdentifyPaused)
+                {
+                    return;
+                }
+
                 if (IsIdentifyInProgress)
                 {
                     _cancellationTokenSource.Cancel();
@@ -136,37 +182,29 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 }
 
                 // get the tap location in screen units and geographic coordinates
-                var tapScreenPoint = e.Position;
-                _tappedLocation = e.Location;
+                TappedScreenPosition = e.Position;
+                TappedLocation = e.Location;
 
                 // set identify parameters
                 var pixelTolerance = 10;
-                var returnPopupsOnly = false;
-                var maxResultCount = 5;
+                var returnPopupsOnly = true;
+                var maxResultCount = Settings.Default.MaxIdentifyResultsPerLayer;
 
                 IReadOnlyList<IdentifyLayerResult> layerResults = null;
-                IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults = null;
                 CancellationTokenSource _currentSource = _cancellationTokenSource;
                 if (target == null)
                 {
                     // An identify target is not specified, so identify all layers and overlays
-                    var identifyLayersTask = mapView.IdentifyLayersAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
-                    var identifyOverlaysTask = mapView.IdentifyGraphicsOverlaysAsync(tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
+                    var identifyLayersTask = mapView.IdentifyLayersAsync(TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                    var identifyOverlaysTask = mapView.IdentifyGraphicsOverlaysAsync(TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount);
                     await Task.WhenAll(identifyLayersTask, identifyOverlaysTask);
                     layerResults = identifyLayersTask.Result;
-                    graphicsOverlayResults = identifyOverlaysTask.Result;
                 }
                 else if (target is Layer targetLayer && mapView.Map.OperationalLayers.Contains(target as Layer))
                 {
                     // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                    var identifyResult = await mapView.IdentifyLayerAsync(targetLayer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                    var identifyResult = await mapView.IdentifyLayerAsync(targetLayer, TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
                     layerResults = new List<IdentifyLayerResult> { identifyResult }.AsReadOnly();
-                }
-                else if (target is GraphicsOverlay targetOverlay && mapView.GraphicsOverlays.Contains(target as GraphicsOverlay))
-                {
-                    // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                    var identifyResult = await mapView.IdentifyGraphicsOverlayAsync(targetOverlay, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount);
-                    graphicsOverlayResults = new List<IdentifyGraphicsOverlayResult> { identifyResult }.AsReadOnly();
                 }
                 else if (target is ArcGISSublayer sublayer)
                 {
@@ -176,7 +214,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                     {
 
                         // identify features in the target layer, passing the tap point, tolerance, types to return, and max results
-                        var topLevelIdentifyResult = await mapView.IdentifyLayerAsync(layer, tapScreenPoint, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
+                        var topLevelIdentifyResult = await mapView.IdentifyLayerAsync(layer, TappedScreenPosition, pixelTolerance, returnPopupsOnly, maxResultCount, _currentSource.Token);
                         var sublayerIdentifyResult = topLevelIdentifyResult?.SublayerResults?.Where(r => r.LayerContent.Equals(sublayer)).FirstOrDefault();
 
                         layerResults = new List<IdentifyLayerResult> { sublayerIdentifyResult }.AsReadOnly();
@@ -188,7 +226,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 {
                     return;
                 }
-                OnIdentifyCompleted(layerResults, graphicsOverlayResults);
+                OnIdentifyCompleted(layerResults);
             }
             catch (TaskCanceledException)
             {
@@ -239,10 +277,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         public event EventHandler<IdentifyEventArgs> IdentifyCompleted;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnIdentifyCompleted(IReadOnlyList<IdentifyLayerResult> layerResults,
-            IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults)
+        private void OnIdentifyCompleted(IReadOnlyList<IdentifyLayerResult> layerResults)
         {
-            IdentifyCompleted?.Invoke(this, new IdentifyEventArgs(layerResults, graphicsOverlayResults));
+            IdentifyCompleted?.Invoke(this, new IdentifyEventArgs(layerResults));
         }
 
         /// <summary>
@@ -257,6 +294,24 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
                 {
                     _isIdentifyInProgress = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIdentifyInProgress)));
+                }
+            }
+        }
+
+        private bool _isIdentifyPaused;
+
+        /// <summary>
+        /// Gets or sets whether attempts to identify should be ignored.
+        /// </summary>
+        public bool IsIdentifyPaused
+        {
+            get => _isIdentifyPaused;
+            set
+            {
+                if (_isIdentifyPaused != value)
+                {
+                    _isIdentifyPaused = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIdentifyPaused)));
                 }
             }
         }

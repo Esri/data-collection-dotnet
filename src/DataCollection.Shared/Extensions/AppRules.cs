@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,22 +25,6 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions
     /// </summary>
     public static class AppRules
     {
-        /// <summary>
-        /// Rule applied to feature layers to determine if they are identifiable
-        /// </summary>
-        public static bool IsIdentifiable(this Layer layer)
-        {
-            if (layer is FeatureLayer featureLayer)
-            {
-                if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null &&
-                    featureLayer.FeatureTable.GeometryType == Geometry.GeometryType.Point)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         /// <summary>
         /// Rule applied to relationships to determine if they are valid in the context of this application
         /// </summary>

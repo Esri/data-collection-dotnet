@@ -7,11 +7,10 @@
    - [Trees of Portland](#trees-of-portland)   
    - [Custom behavior](#custom-behavior)   
 - [Using the app](#using-the-app)   
-   - [Manage the app's context](#manage-the-apps-context)   
-      - [Sign in and out of ArcGIS](#sign-in-and-out-of-arcgis)   
-      - [App work mode](#app-work-mode)   
-         - [_Online Work Mode_](#_online-work-mode_)   
-         - [_Offline Work Mode_](#_offline-work-mode_)   
+   - [Sign in and out of ArcGIS](#sign-in-and-out-of-arcgis)   
+   - [App work mode](#app-work-mode)   
+      - [_Online Work Mode_](#_online-work-mode_)   
+      - [_Offline Work Mode_](#_offline-work-mode_)   
    - [View map bookmarks](#view-map-bookmarks)   
    - [View the map's legend](#view-the-maps-legend)   
    - [Hide and show layers with the TOC](#hide-and-show-layers-with-the-toc)   
@@ -31,7 +30,7 @@
 - [Identity model](#identity-model)   
    - [Public map, social login](#public-map-social-login)   
 - [Using map definition & pop-up configurations to drive app behavior](#using-map-definition-pop-up-configurations-to-drive-app-behavior)   
-   - [Map identify rules](#map-identify-rules)   
+   - [Multiple identify results](#multiple-identify-results)
    - [Add feature rules](#add-feature-rules)   
    - [Pop-up view rules](#pop-up-view-rules)   
       - [View mode](#view-mode)   
@@ -63,6 +62,7 @@
    - [App modes](#app-modes)   
    - [ViewModels organization](#viewmodels-organization)   
    - [Internationalization](#internationalization)   
+   - [Automated tests](#automated-tests)
 - [Configuration and customization](#configuration-and-customization)   
    - [App static configuration](#app-static-configuration)   
    - [App dynamic configuration](#app-dynamic-configuration)   
@@ -77,6 +77,8 @@ This is a data collection app that uses your organization's web maps and the Arc
 ### Generic application
 
 The app was designed to work in a generic context and thus your organization can configure the app to consume your own web map, out of the box. To accomplish this, the web map is configured by a set of rules that the app adheres to, driving the app's behavior. These rules are defined by the map's definition and by the map's layers' pop-up configurations. To learn more about what drives the app's behavior, read the section entitled [_Using Map Definition & Pop-up Configurations to Drive App Behavior_](#using-map-definition--pop-up-configurations-to-drive-app-behavior).
+
+Theming of the app's UI is controlled by values defined in files in the **Themes** folder. Each platform has light and dark variants. For more significant changes to the appearance of controls, see the **Styles** folder.
 
 ### Trees of Portland
 
@@ -110,40 +112,21 @@ The app launches a map view containing the pre-configured web map.
 |-----|-----|
 | ![Main Map View](/docs/images/anatomy-map-view-uwp.png) | ![Main Map View](/docs/images/anatomy-map-view.png) |
 
-The navigation bar's title reflects the name of the web map and the navigation bar button items are as follows:
+### Sign in and out of ArcGIS
 
-| Icon | Description |
-| ---- | ----------- |
-| ![Bookmarks icon](/src/DataCollection.UWP/Assets/Calcite/bookmark-32.png) | Bookmarks button reveals list of bookmarks in the map |
-| ![TOC icon](/src/DataCollection.UWP/Assets/Calcite/layers-32.png) | TOC button shows a list of layers, which can be toggled on and off |
-| ![Legend icon](/src/DataCollection.UWP/Assets/Calcite/legend-32.png) | Legend button shows the layer symbols for the map |
-| ![Hamburger Drawer View](/src/DataCollection.UWP/Assets/Calcite/ellipsis-32.png) | Ellipsis button to reveal or hide the app context drawer view. |
-| ![Zoom To Location](/src/DataCollection.UWP/Assets/Calcite/gps-on-32.png) | Zoom to user's location. |
-| ![Add Feature](/src/DataCollection.UWP/Assets/Calcite/plus-circle-32.png) | Add a new spatial feature to map. |
+Upon first launch, the user is not authenticated and the app does not prompt for authentication. To sign in, the user can tap the 'Sign in' button in the title bar.
 
-### Manage the app's context
+Upon successfully signing in, the button that previously read 'Sign in' is replaced by the user's name and picture. Clicking the user's name will reveal a menu with the option to sign out.
 
-Tapping the navigation bar's ellipsis button reveals the app context drawer view.
-
-| UWP | WPF |
-|-----|-----|
-| ![App Context Drawer View](/docs/images/anatomy-app-context-drawer-uwp.png) | ![App Context Drawer View](/docs/images/anatomy-app-context-drawer.png) |
-
-#### Sign in and out of ArcGIS
-
-Upon first launch the user is not authenticated and the app does not prompt for authentication. To sign in, the user can tap the navigation bar's ellipsis button to reveal the app context drawer view. Once revealed, the user can tap 'Sign in'. A modal sign-in view presents, prompting for the user's portal username and password. If valid credentials are provided, an authenticated user is associated with the portal and a refresh token is encrypted and stored locally.
-
-Upon successfully signing in, the button that previously read 'Sign in' now reads 'Sign out' and tapping the button now signs the user out and removes the refresh token.
-
-#### App work mode
+### App work mode
 
 The app supports a workflow for users in the field with the requirement to work both in connected (online) and disconnected (offline) environments.
 
-##### _Online Work Mode_
+#### _Online Work Mode_
 
 At initial launch the app loads the configured portal's public web map. A user does not need to authenticate to use the app provided that the web map and all of its layers are not private. The map can identify features and make edits. Edits can be made to the web map including adding new, updating existing and deleting records.
 
-##### _Offline Work Mode_
+#### _Offline Work Mode_
 
 A user may need to collect data in a location where they are disconnected from the network. The app allows the user to take a web map offline. Because Trees of Portland uses a premium content basemap, a user must be authenticated to fully take the web map offline.
 
@@ -245,7 +228,7 @@ For related records where the pop-up is the parent in the related record relatio
 
 ## Using web maps
 
-You can author your own web maps in [ArcGIS Online and ArcGIS Enterprise](http://enterprise.arcgis.com/en/portal/latest/use/what-is-web-map.htm) or [ArcGIS Desktop](http://desktop.arcgis.com/en/maps/) and share them in your app via your portal; this is the central power of the Web GIS model built into ArcGIS. Building an app which uses a web map allows the cartography and map configuration to be completed in ArcGIS Online and ArcGIS Enterprise rather than in code. This then allows the map to change over time, without any code changes or app updates. Learn more about the benefits of developing with web maps [here](https://developers.arcgis.com/web-map-specification/). Also, learn about authoring web maps in [ArcGIS Online and ArcGIS Portal](http://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm) and [ArcGIS Pro](http://pro.arcgis.com/en/pro-app/help/mapping/map-authoring/author-a-basemap.htm).
+You can author your own web maps in [ArcGIS Online and ArcGIS Enterprise](https://enterprise.arcgis.com/en/portal/latest/use/what-is-web-map.htm) or [ArcGIS Desktop](https://desktop.arcgis.com/en/maps/) and share them in your app via your portal; this is the central power of the Web GIS model built into ArcGIS. Building an app which uses a web map allows the cartography and map configuration to be completed in ArcGIS Online and ArcGIS Enterprise rather than in code. This then allows the map to change over time, without any code changes or app updates. Learn more about the benefits of developing with web maps [here](https://developers.arcgis.com/web-map-specification/). Also, learn about authoring web maps in [ArcGIS Online and ArcGIS Portal](https://doc.arcgis.com/en/arcgis-online/create-maps/make-your-first-map.htm) and [ArcGIS Pro](https://pro.arcgis.com/en/pro-app/help/mapping/map-authoring/author-a-basemap.htm).
 
 Loading web maps in code is easy; the app loads a web map from a portal (which may require the user to sign in, see the [_identity model_](#identity-model) section) with the following code:
 
@@ -265,15 +248,15 @@ The web map's title becomes the title of the map in the map view's navigation ba
 
 #### Organizing feature layers
 
-The [order](http://doc.arcgis.com/en/arcgis-online/create-maps/organize-layers.htm) of your web map's [feature layers](http://doc.arcgis.com/en/arcgis-online/reference/feature-layers.htm) matter. Layer precedence is assigned to the top-most layer (index 0) first with the next precedence assigned to the next layer beneath, and so on. This is important because only one feature can be identified at a time. When the app performs an identify operation, the layer whose index is nearest 0 and which returns results is the one whose features will be selected.
+The [order](https://doc.arcgis.com/en/arcgis-online/create-maps/organize-layers.htm) of your web map's [feature layers](https://doc.arcgis.com/en/arcgis-online/reference/feature-layers.htm) matter. Layer precedence is assigned to the top-most layer (index 0) first with the next precedence assigned to the next layer beneath, and so on. This is important because only one feature can be identified at a time. When the app performs an identify operation, the layer whose index is nearest 0 and which returns results is the one whose features will be selected.
 
 #### Feature layer visibility range
 
-It is generally recommended to consider the [visibility range](http://doc.arcgis.com/en/arcgis-online/create-maps/set-visibility.htm) of your feature layers. Beyond this general consideration, only visible layers are returned when an identify operation is performed. You'll want to consider which layers to make visible at what scale.
+It is generally recommended to consider the [visibility range](https://doc.arcgis.com/en/arcgis-online/create-maps/set-visibility.htm) of your feature layers. Beyond this general consideration, only visible layers are returned when an identify operation is performed. You'll want to consider which layers to make visible at what scale.
 
 #### Enable editing on feature layers and tables
 
-You'll want to consider whether to enable or disable [editing](http://doc.arcgis.com/en/arcgis-online/manage-data/edit-features.htm) of your feature layers and tables. Specifically, a user is only able to edit features or records on layers whose backing table has editing enabled. This includes related records for features. For instance, if a feature whose backing table does permit editing has a related record backed by a table that does not have editing enabled, that related record layer cannot be edited by the app.
+You'll want to consider whether to enable or disable [editing](https://doc.arcgis.com/en/arcgis-online/manage-data/edit-features.htm) of your feature layers and tables. Specifically, a user is only able to edit features or records on layers whose backing table has editing enabled. This includes related records for features. For instance, if a feature whose backing table does permit editing has a related record backed by a table that does not have editing enabled, that related record layer cannot be edited by the app.
 
 #### Enable pop-up on feature layers and tables
 
@@ -302,6 +285,12 @@ Precedence is assigned to top-most attributes first (index 0) with the next prec
 Within the app, a pop-up view can be in display mode or edit mode and attributes configured as such are made available for display or edit.
 
 These attributes' values are accompanied by a title label, which is configured by the attribute's field alias. It is recommended to configure the field alias with a label that is easily understood to represent what is contained by that field.
+
+**Pop-up subtitle and attribute expressions**
+
+Often, it is hard to distinguish features when there are multiple identify results for features with the same pop-up definition. You can define an [Arcade](https://developers.arcgis.com/arcade/) expression that extracts relevant information into a short subtitle or summary. You can define the pop-up's subtitle by storing that Arcade expression in the pop-up's `Attribute Expressions` collection with a title/alias matching the value defined by the `PopupExpressionForSubtitle` setting. By convention, the app knows to check pop-ups for that attribute expression and display it where appropriate.
+
+> **Note**: By default, the web map viewer will add new attribute expressions to the pop-ups display fields. You can manually configure the pop-up to exclude the subtitle expression from the displayed attributes.
 
 ## Identity model
 
@@ -369,7 +358,7 @@ For more details on configuring the app for OAuth, see [the main README.md](http
 
 ### Public map, social login
 
-The app allows a user to authenticate against a portal as well as use social credentials. If a user chooses to authenticate with social credentials and an account is not associated to those credentials, [ArcGIS online](http://doc.arcgis.com/en/arcgis-online/reference/sign-in.htm) creates an account for them.
+The app allows a user to authenticate against a portal as well as use social credentials. If a user chooses to authenticate with social credentials and an account is not associated to those credentials, [ArcGIS online](https://doc.arcgis.com/en/arcgis-online/reference/sign-in.htm) creates an account for them.
 
 > There might be additional logic to implement if your portal's web map is configured differently.
 
@@ -377,26 +366,15 @@ The app allows a user to authenticate against a portal as well as use social cre
 
 The app operates on a set of rules driven by map definitions and pop-up configurations. To learn how to configure your web map, see the section entitled [_Configure Web Map & Feature Services for Data Collection_](#configure-web-map-feature-services-for-data-collection).
 
-### Map identify rules
+### Multiple identify results
 
-A tap gesture or click on the map view performs an identify function where only results for layers that adhere to certain rules are considered. These rules ask that the layer is visible, is of point type geometry and pop-ups are enabled.
+When the user clicks or taps on the map, all of the map's layers and all of the map view's graphics overlays are queried. The results are displayed in a list showing each result's graphical representation, popup title, and configured subtitle.
 
-These rules are wrapped conveniently as extensions into a static class named `AppRules`.
+> **Note**, subtitles are not a standard part of the ArcGIS platform and require special attention to set up.
 
-```csharp
- public static bool IsIdentifiable(this Layer layer)
-{
-    if (layer is FeatureLayer featureLayer)
-    {
-        if (featureLayer.IsVisible && featureLayer.IsPopupEnabled && featureLayer.PopupDefinition != null &&
-            featureLayer.FeatureTable.GeometryType == Geometry.GeometryType.Point)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-```
+The subtitle is computed via an [Arcade expression](https://developers.arcgis.com/arcade/) defined in the pop-up configuration's *Attribute Expressions* collection. The app will only display a subtitle if the attribute expression has the alias or title set to match the **PopupExpressionForSubtitle** key defined in the app's settings.
+
+> **Note**, the key is set to `subtitle` by default. That value is used for the tree survey sample web map.
 
 ### Add feature rules
 
@@ -807,8 +785,8 @@ The Data Collection app is built with cross platform adaptability in mind. The a
 
 * **DataCollection.Shared** - contains shared code that applies to both platforms.
 * **DataCollection.UWP** - UWP UI.
-* **DataCollection.WPF** - WPF UI using .NET Framework.
-* **DataCollection.WPF (.NET Core)** - WPF UI using .NET Core.
+* **DataCollection.WPF_NetFramework** - WPF UI using .NET Framework.
+* **DataCollection.WPF_NetCore** - WPF UI using .NET Core.
     * Note: requires Visual Studio 2019 or later
 
 Just as the UWP and WPF projects refer to the shared code project, Xamarin projects can be added to support mobile platforms. There are no substantive differences between the .NET Framework and .NET Core versions of the WPF data collection projects.
@@ -911,6 +889,8 @@ object IValueConverter.Convert(object value, Type targetType, object parameter, 
 
 All of the buttons, prompts, and other text containing controls in the app are being populated from a `Resources.resx` file. This allows a developer to easily switch the language of the app by providing the equivalent of the resources file translated in their language. The app reads the resources and populates the text accordingly.
 
+> **Note**: UWP uses a `Resources.resw` file, which is updated to match the contents of `Resources.resx` automatically as part of the solution build process.
+
 Code below demonstrates retrieving text from resources when prompting the user to answer whether they are sure they want to discard edits performed:
 
 ```csharp
@@ -922,22 +902,39 @@ UserPromptMessenger.Instance.RaiseMessageValueChanged(
     Resources.GetString("DiscardButton_Content"));
 ```
 
+### Automated tests
+
+Automated unit tests, enabled by [NUnit](https://nunit.org/), were added with the 1.3.0 release. Unit tests were only added to substantial new code.
+
+Tests are in the following test projects:
+
+* **DataCollection.Shared.Tests** - includes tests exercising functionality in the shared view models
+* **Controls\ControlsTest** - includes test that exercise the custom layout panel used by the app
+
+Because this app uses a shared code project, all of the code in the shared project needs to be compilable when included in the .NET Core unit test project. To enable that, mock UI objects (UI objects aren't available in the .NET standard Runtime libraries) are included in the shared test project. Additional changes were made to the shared code project to ensure that tests can run.
+
 ## Configuration and customization
 
 ### App static configuration
 
 The shared `Configuration.xml` contains a series of static configuration resources. Modify these configurations to suit your needs. They include:
 
-* **WebmapURL**: the url for the webmap that will populate the app. The app can only work with one webmap at a time
-* **ArcGISOnlineURL**: used for OAuth authentication `https://www.arcgis.com/sharing/rest`
-* **DefaultZoomScale**: integer that sets how far the current location button will zoom in when pushed
+* **WebmapURL**: The url for the webmap that will populate the app. The app can only work with one webmap at a time
+* **ArcGISOnlineURL**: Used for OAuth authentication `https://www.arcgis.com/sharing/rest`
+* **DefaultZoomScale**: Integer that sets how far the current location button will zoom in when pushed
 * **AppClientID**: Used for OAuth authentication
 * **RedirectURL**: Used for OAuth authentication
+* **PopupExpressionForSubtitle**: The title of the popup expression to be used to compute a subtitle for features. The feature subtitle helps differentiate features when there are multiple identify results.
+* **MaxIdentifyResultsPerLayer**: Sets the maximum number of results to return when performing an identify operation.
+* **ShowAppVersion**: Controls whether the app's version is shown in the UI.
+* **ShowRuntimeVersion**: Controls whether the ArcGIS Runtime version is shown in the UI.
+* **ShowLicenseInfo**: Controls whether a link to show license info is shown in the UI.
+* **LicenseInfoLink**: Sets the link to navigate to for license info.
 
 Settings used specifically and only with the *Tree Survey* dataset. These should not be modified.
 
 ```xml
-<TreeDatasetWebmapUrl>http://runtime.maps.arcgis.com/home/item.html?id=fcc7fc65bb96464c9c0986576c119a92</TreeDatasetWebmapUrl>
+<TreeDatasetWebmapUrl>https://runtime.maps.arcgis.com/home/item.html?id=fcc7fc65bb96464c9c0986576c119a92</TreeDatasetWebmapUrl>
 <GeocodeUrl>https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer</GeocodeUrl>
 <OfflineLocatorPath>\Resources\AddressLocator.loc</OfflineLocatorPath>
 <NeighborhoodOperationalLayerId>0</NeighborhoodOperationalLayerId>

@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,20 +25,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentifyEventArgs"/> class.
         /// </summary>
-        internal IdentifyEventArgs(IReadOnlyList<IdentifyLayerResult> layerResults, IReadOnlyList<IdentifyGraphicsOverlayResult> graphicsOverlayResults)
+        internal IdentifyEventArgs(IReadOnlyList<IdentifyLayerResult> layerResults)
         {
             LayerResults = layerResults ?? new List<IdentifyLayerResult>().AsReadOnly();
-            GraphicsOverlayResults = graphicsOverlayResults ?? new List<IdentifyGraphicsOverlayResult>().AsReadOnly();
         }
 
         /// <summary>
         /// Gets or sets the results for performing Identify on layers
         /// </summary>
         public IReadOnlyList<IdentifyLayerResult> LayerResults { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the results for performing Identify on graphis overlays
-        /// </summary>
-        public IReadOnlyList<IdentifyGraphicsOverlayResult> GraphicsOverlayResults { get; private set; }
     }
 }

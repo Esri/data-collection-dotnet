@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:core="clr-namespace:System;assembly=mscorlib">
+    <core:Double x:Key="DefaultFontSize">12</core:Double>
+    <core:Double x:Key="IconLargeLength">16</core:Double>
+    <core:Double x:Key="IconSmallLength">8</core:Double>
+    <core:Double x:Key="LargeFontSize">16</core:Double>
+    <core:Double x:Key="SmallFontSize">10</core:Double>
+    <core:Double x:Key="ThumbnailLength">40</core:Double>
+    <Cursor x:Key="ActionCursor">Hand</Cursor>
+    <FontWeight x:Key="CardTitleFontWeight">Light</FontWeight>
+    <FontWeight x:Key="HeadingFontWeight">SemiBold</FontWeight>
+    <FontWeight x:Key="NormalFontWeight">Normal</FontWeight>
+    <Thickness x:Key="BottomMediumThickness">0,0,0,4</Thickness>
+    <Thickness x:Key="ChromeBorderThickness">1</Thickness>
+    <Thickness x:Key="LeftLargeThickness">8,0,0,0</Thickness>
+    <Thickness x:Key="MapLightBoxBorderThickness">100,100,100,200</Thickness>
+    <Thickness x:Key="RightLargeThickness">0,0,8,0</Thickness>
+    <Thickness x:Key="RightMediumThickness">0,0,4,0</Thickness>
+    <Thickness x:Key="SidesMediumThickness">4,0,4,0</Thickness>
+    <Thickness x:Key="TopBottomLargeThickness">0,8,0,8</Thickness>
+    <Thickness x:Key="TopBottomMediumThickness">0,4,0,4</Thickness>
+    <Thickness x:Key="TopMediumThickness">0,4,0,0</Thickness>
+    <Thickness x:Key="TopSidesLargeThickness">8,8,8,0</Thickness>
+    <Thickness x:Key="UniformLargeThickness">8</Thickness>
+    <Thickness x:Key="UniformMediumThickness">4</Thickness>
+    <Thickness x:Key="UniformXlThickness">16</Thickness>
+    <Thickness x:Key="WidePaddingThickness">16,8,16,8</Thickness>
+    <Thickness x:Key="WidePaddingXlThickness">32,16,32,16</Thickness>
+</ResourceDictionary>

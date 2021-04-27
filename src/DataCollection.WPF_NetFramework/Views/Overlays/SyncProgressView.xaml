@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Overlays.SyncProgressView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Converters">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <!--  Expects DataContext to be set to SyncViewModel  -->
+    <Grid VerticalAlignment="Stretch"
+          Background="{StaticResource MapShadeBrush}"
+          Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}}">
+        <Border Style="{StaticResource StatusPanelBorderStyle}">
+            <StackPanel>
+                <ProgressBar Maximum="100"
+                             Minimum="0"
+                             Style="{StaticResource StatusPanelProgressBarStyle}"
+                             Value="{Binding Progress}" />
+                <TextBlock Style="{StaticResource StatusPanelTitleStyle}" Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=SynchingMessage_Text}" />
+                <Button Margin="{StaticResource TopMediumThickness}"
+                        BorderBrush="{DynamicResource DangerBrush}"
+                        Command="{Binding CancelSyncCommand}"
+                        Style="{StaticResource MapOverlayButtonStyle}"
+                        ToolTip="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Path Data="{StaticResource icon-x-circle-32}"
+                              Fill="{DynamicResource DangerBrush}"
+                              Style="{StaticResource PathIconBase}" />
+                        <TextBlock Foreground="{DynamicResource DangerBrush}"
+                                   Style="{StaticResource MapOverlayButtonTextStyle}"
+                                   Text="{Binding ., Converter={StaticResource LocalizationConverter}, ConverterParameter=GenericNegativeButton_Content}" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

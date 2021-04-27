@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,8 @@ using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Models;
 using Esri.ArcGISRuntime.Mapping.Popups;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Extensions;
+using System.Linq;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
 {
@@ -29,11 +31,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="DestinationRelationshipViewModel"/> class.
         /// </summary>
-        public OriginRelationshipViewModel(RelationshipInfo relationshipInfo, ConnectivityMode connectivityMode)
+        public OriginRelationshipViewModel(RelationshipInfo relationshipInfo, ConnectivityMode connectivityMode, IdentifiedFeatureViewModel RelatedVM)
         {
             RelationshipInfo = relationshipInfo;
             ConnectivityMode = connectivityMode;
+            RelatedFeatureViewModel = RelatedVM;
         }
+
+        public IdentifiedFeatureViewModel RelatedFeatureViewModel { get; private set;}
 
         /// <summary>
         /// Loads the necessary prerequisites for OriginRelationshipViewModel
@@ -70,6 +75,44 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                         PopupManager.StartEditing();
                     }));
             }
+        }
+        
+        private ICommand _cancelEditsCommand;
+
+        /// <summary>
+        /// Gets the command to delete the selected feature
+        /// </summary>
+        public ICommand CancelEditsCommand
+        {
+            get
+            {
+                return _cancelEditsCommand ?? (_cancelEditsCommand = new DelegateCommand(
+                    async (x) =>
+                    {
+                        await CancelEdits();
+                    }));
+            }
+        }
+
+        public async Task<bool> CancelEdits()
+        {
+            if (PopupManager?.Popup?.GeoElement is ArcGISFeature feature)
+            {
+                // Discard the changes to this feature.
+                var cancelConfirmed = await DiscardChanges();
+
+                // If this feature is new, remove it from the parent feature view model.
+                if (cancelConfirmed && IsNewFeature)
+                {
+                    var relationshipsCollection = RelatedFeatureViewModel.OriginRelationships.FirstOrDefault(o => o.RelationshipInfo == RelationshipInfo)?.OriginRelationshipViewModelCollection;
+                    relationshipsCollection.Remove(this);
+
+                    // Remove the circular reference to the identified feature view model
+                    RelatedFeatureViewModel = null;
+                }
+                return cancelConfirmed;
+            }
+            return false;
         }
 
         private ICommand _saveEditsCommand;

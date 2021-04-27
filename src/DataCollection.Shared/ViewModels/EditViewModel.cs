@@ -5,7 +5,7 @@
   *  you may not use this file except in compliance with the License.
   *  You may obtain a copy of the License at
   *
-  *  http://www.apache.org/licenses/LICENSE-2.0
+  *  https://www.apache.org/licenses/LICENSE-2.0
   *
   *   Unless required by applicable law or agreed to in writing, software
   *   distributed under the License is distributed on an "AS IS" BASIS,
@@ -64,10 +64,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
         /// </summary>
         internal void CreateFeature(MapPoint point, ArcGISFeature feature, PopupManager popupManager)
         {
-            popupManager.StartEditing();
-
             try
             {
+                popupManager.StartEditing();
                 // if appropriate, add geometry to the newly created feature
                 if (point != null)
                 {
@@ -104,8 +103,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels
                     Properties.Resources.GetString("SavingEditsWait_Message"));
 
                 // exit the PopupManager edit session
-                await popupManager.FinishEditingAsync();
-
+                try
+                {
+                    // TODO - find out why feature can't be saved without manual editing
+                    await popupManager.FinishEditingAsync();
+                }
+                catch (Exception popupException)
+                {
+                    throw new Exception("You must make edits before saving", popupException);
+                }
+                
                 // get relationship changes (if they exist) and relate them to the feature
                 foreach (var destinationRelationship in destinationRelationships ?? new ObservableCollection<DestinationRelationshipViewModel>())
                 {
