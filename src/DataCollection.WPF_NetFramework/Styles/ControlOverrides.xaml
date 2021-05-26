@@ -119,8 +119,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Border
-                                Grid.ColumnSpan="2"
+                        <Border Grid.ColumnSpan="2"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
@@ -132,8 +131,7 @@
                                 BorderThickness="{TemplateBinding Padding}"
                                 CornerRadius="0">
 
-                            <Path
-                                  Grid.Column="1"
+                            <Path Grid.Column="1"
                                   Width="12"
                                   Height="12"
                                   Margin="{StaticResource RightMediumThickness}"
@@ -181,14 +179,14 @@
                                       Foreground="{TemplateBinding Foreground}"
                                       IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       Style="{StaticResource ComboBoxToggleButton}">
-                        <ContentPresenter Name="ContentSite"
-                                          Margin="{StaticResource UniformLargeThickness}"
-                                          HorizontalAlignment="Left"
-                                          VerticalAlignment="Center"
-                                          Content="{TemplateBinding SelectionBoxItem}"
-                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                          IsHitTestVisible="False" />
+                            <ContentPresenter Name="ContentSite"
+                                              Margin="{StaticResource UniformLargeThickness}"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              IsHitTestVisible="False" />
                         </ToggleButton>
                         <TextBox x:Name="PART_EditableTextBox"
                                  Margin="{StaticResource UniformLargeThickness}"

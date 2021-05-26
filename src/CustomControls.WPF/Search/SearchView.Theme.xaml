@@ -1,0 +1,100 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converter="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+                    xmlns:search="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search">
+    <ControlTemplate x:Key="DefaultSearchViewTemplate" TargetType="{x:Type search:SearchView}">
+        <ControlTemplate.Resources>
+            <converter:EmptyStringToVisibilityConverter x:Key="PlaceholderVisibilityConverter" />
+            <converter:CollectionIsEmptyToBoolConverter x:Key="CollectionIsEmptyToBoolConverter" />
+            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ControlTemplate.Resources>
+        <Border x:Name="Self"
+                Padding="4"
+                Background="White">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <ToggleButton x:Name="SourceSelectToggle"
+                              Grid.Column="0"
+                              Width="50"
+                              Content="V" />
+                <Popup Width="100"
+                       Height="200"
+                       IsOpen="{Binding ElementName=SourceSelectToggle, Path=IsChecked, Mode=TwoWay}"
+                       StaysOpen="False">
+                    <Border Background="White">
+                        <ListBox Width="100"
+                                 Height="100"
+                                 ItemsSource="{Binding SearchViewModel.Sources, Mode=OneWay}"
+                                 SelectedItem="{Binding SearchViewModel.ActiveSource, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type search:ISearchSource}">
+                                    <TextBlock Text="{Binding DisplayName, Mode=OneWay}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
+                </Popup>
+                <TextBox x:Name="QueryEntry"
+                         Grid.Column="1"
+                         VerticalContentAlignment="Center"
+                         MaxLines="1"
+                         Text="{Binding SearchViewModel.CurrentQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Column="1"
+                           Margin="8"
+                           VerticalAlignment="Center"
+                           IsHitTestVisible="False"
+                           Text="{Binding SearchViewModel.DefaultPlaceholder, Mode=OneWay}"
+                           Visibility="{Binding ElementName=QueryEntry, Path=Text, Converter={StaticResource PlaceholderVisibilityConverter}}" />
+                <Popup Width="200"
+                       Height="200"
+                       IsOpen="{Binding SearchViewModel.Suggestions.Count, Mode=OneWay, Converter={StaticResource CollectionIsEmptyToBoolConverter}, ConverterParameter='NotEmpty'}">
+                    <ListView Width="200"
+                              Height="200"
+                              ItemsSource="{Binding SearchViewModel.Suggestions, Mode=OneWay}"
+                              SelectedItem="{Binding SelectedSuggestion, Mode=OneWayToSource}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="{x:Type search:SearchSuggestion}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0"
+                                            Width="8"
+                                            Height="8"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Background="Red"
+                                            CornerRadius="4"
+                                            Visibility="{Binding SuggestResult.IsCollection, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <Border Grid.Column="0"
+                                            Width="8"
+                                            Height="8"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Background="Blue"
+                                            CornerRadius="4"
+                                            Visibility="{Binding SuggestResult.IsCollection, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding DisplayTitle, Mode=OneTime}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Popup>
+                <Button Grid.Column="2"
+                        Width="50"
+                        Content="Go" />
+            </Grid>
+        </Border>
+    </ControlTemplate>
+    <Style TargetType="{x:Type search:SearchView}">
+        <Setter Property="Template" Value="{StaticResource DefaultSearchViewTemplate}" />
+    </Style>
+</ResourceDictionary>

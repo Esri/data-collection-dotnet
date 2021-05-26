@@ -8,7 +8,7 @@
     <DataTemplate x:Key="StringTemplate" x:Name="StringTemplate">
         <StackPanel>
             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
             <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                        Text="{Binding PopupFieldValue.ValidationError.Message}"
                        Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
@@ -26,7 +26,7 @@
     <DataTemplate x:Key="DoubleTemplate" x:Name="DoubleTemplate">
         <StackPanel>
             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}}" />
+            <TextBox Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}, ValidatesOnExceptions=True}" />
             <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                        Text="{Binding PopupFieldValue.ValidationError.Message}"
                        Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
@@ -35,7 +35,7 @@
     <DataTemplate x:Key="IntTemplate" x:Name="IntTemplate">
         <StackPanel>
             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}}" />
+            <TextBox Text="{Binding PopupFieldValue.Value, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToNullConverter}}" />
             <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                        Text="{Binding PopupFieldValue.ValidationError.Message}"
                        Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
@@ -62,7 +62,7 @@
     <DataTemplate x:Key="IntegerRangeDomainTemplate" x:Name="IntegerRangeDomainTemplate">
         <StackPanel>
             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding PopupFieldValue.Value, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                        Text="{Binding PopupFieldValue.ValidationError.Message}"
                        Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />
@@ -71,7 +71,7 @@
     <DataTemplate x:Key="DoubleRangeDomainTemplate" x:Name="DoubleRangeDomainTemplate">
         <StackPanel>
             <TextBlock Style="{StaticResource FieldLabelStyle}" Text="{Binding PopupFieldValue.Field.Label}" />
-            <TextBox Style="{StaticResource EditableFieldValueStyle}" Text="{Binding PopupFieldValue.Value, Converter={StaticResource StringToNullConverter}, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding PopupFieldValue.Value, ValidatesOnExceptions=True, Converter={StaticResource StringToNullConverter}, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Style="{StaticResource ValidationErrorTextStyle}"
                        Text="{Binding PopupFieldValue.ValidationError.Message}"
                        Visibility="{Binding PopupFieldValue.ValidationError, Converter={StaticResource NullToVisibilityConverter}}" />

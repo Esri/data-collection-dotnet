@@ -7,7 +7,7 @@
         xmlns:overlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Overlays"
         xmlns:utils="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
         xmlns:viewModels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels"
-        xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views"
+        xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views" xmlns:search="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
         Title="Data Collection for .NET (WPF)"
         BorderBrush="{StaticResource TintBrush}"
         BorderThickness="{StaticResource ChromeBorderThickness}"
@@ -117,6 +117,9 @@
             <StackPanel HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         ctrl:ModernMapPanel.Role="Accessory">
+                <StackPanel>
+                <search:SearchView GeoView="{Binding ElementName=MapView, Mode=OneTime}" Width="200" Height="50" />
+                </StackPanel>
                 <!--  Widget Controls  -->
                 <StackPanel DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}" Style="{StaticResource MapAccessoryPanelStyle}">
                     <Button Command="{Binding ToggleBookmarksCommand, Mode=OneTime}"
