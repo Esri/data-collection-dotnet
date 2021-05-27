@@ -2,99 +2,204 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converter="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
                     xmlns:search="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search">
+    <converter:EmptyStringToVisibilityConverter x:Key="PlaceholderVisibilityConverter" />
+    <converter:CollectionIsEmptyToBoolConverter x:Key="CollectionIsEmptyToBoolConverter" />
+    <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converter:NullToBoolSelectionConverterConverter x:Key="NullToBoolSelectionConverter" />
     <ControlTemplate x:Key="DefaultSearchViewTemplate" TargetType="{x:Type search:SearchView}">
-        <ControlTemplate.Resources>
-            <converter:EmptyStringToVisibilityConverter x:Key="PlaceholderVisibilityConverter" />
-            <converter:CollectionIsEmptyToBoolConverter x:Key="CollectionIsEmptyToBoolConverter" />
-            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        </ControlTemplate.Resources>
-        <Border x:Name="Self"
-                Padding="4"
-                Background="White">
+        <Border x:Name="Self" Style="{TemplateBinding SearchBarBorderStyle}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <ToggleButton x:Name="SourceSelectToggle"
                               Grid.Column="0"
-                              Width="50"
-                              Content="V" />
-                <Popup Width="100"
-                       Height="200"
+                              Style="{TemplateBinding SourceSelectButtonStyle}" />
+                <Popup Width="{Binding ElementName=Self, Path=ActualWidth, Mode=OneWay}"
                        IsOpen="{Binding ElementName=SourceSelectToggle, Path=IsChecked, Mode=TwoWay}"
                        StaysOpen="False">
-                    <Border Background="White">
-                        <ListBox Width="100"
-                                 Height="100"
-                                 ItemsSource="{Binding SearchViewModel.Sources, Mode=OneWay}"
-                                 SelectedItem="{Binding SearchViewModel.ActiveSource, Mode=TwoWay}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate DataType="{x:Type search:ISearchSource}">
-                                    <TextBlock Text="{Binding DisplayName, Mode=OneWay}" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                    <Border>
+                        <StackPanel>
+                            <ToggleButton Style="{TemplateBinding SourceSelectButtonStyle}"
+                                          Width="{Binding ElementName=sourseList, Path=ActualWidth, Mode=OneWay}"
+                                          IsChecked="{Binding SearchViewModel.ActiveSource, Mode=TwoWay, Converter={StaticResource NullToBoolSelectionConverter}}">
+                                <TextBlock Text="All Sources" />
+                            </ToggleButton>
+                            <ListView x:Name="sourseList" ItemsSource="{Binding SearchViewModel.Sources, Mode=OneWay}" SelectedItem="{Binding SearchViewModel.ActiveSource, Mode=TwoWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type search:ISearchSource}">
+                                        <TextBlock Text="{Binding DisplayName, Mode=OneWay}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
                     </Border>
                 </Popup>
                 <TextBox x:Name="QueryEntry"
                          Grid.Column="1"
-                         VerticalContentAlignment="Center"
-                         MaxLines="1"
+                         Style="{TemplateBinding QueryTextBoxStyle}"
                          Text="{Binding SearchViewModel.CurrentQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Column="1"
-                           Margin="8"
-                           VerticalAlignment="Center"
-                           IsHitTestVisible="False"
+                           Style="{TemplateBinding PlaceholderTextBlockStyle}"
                            Text="{Binding SearchViewModel.DefaultPlaceholder, Mode=OneWay}"
                            Visibility="{Binding ElementName=QueryEntry, Path=Text, Converter={StaticResource PlaceholderVisibilityConverter}}" />
-                <Popup Width="200"
-                       Height="200"
-                       IsOpen="{Binding SearchViewModel.Suggestions.Count, Mode=OneWay, Converter={StaticResource CollectionIsEmptyToBoolConverter}, ConverterParameter='NotEmpty'}">
-                    <ListView Width="200"
-                              Height="200"
-                              ItemsSource="{Binding SearchViewModel.Suggestions, Mode=OneWay}"
-                              SelectedItem="{Binding SelectedSuggestion, Mode=OneWayToSource}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate DataType="{x:Type search:SearchSuggestion}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="10" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0"
-                                            Width="8"
-                                            Height="8"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Background="Red"
-                                            CornerRadius="4"
-                                            Visibility="{Binding SuggestResult.IsCollection, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Border Grid.Column="0"
-                                            Width="8"
-                                            Height="8"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Background="Blue"
-                                            CornerRadius="4"
-                                            Visibility="{Binding SuggestResult.IsCollection, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}" />
-                                    <TextBlock Grid.Column="1" Text="{Binding DisplayTitle, Mode=OneTime}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Popup>
                 <Button Grid.Column="2"
-                        Width="50"
-                        Content="Go" />
+                        Command="{Binding ClearCommand}"
+                        Style="{TemplateBinding ClearButtonStyle}"
+                        Visibility="{Binding ElementName=QueryEntry, Path=Text, Converter={StaticResource PlaceholderVisibilityConverter}, ConverterParameter='NotEmpty'}" />
+                <Popup Width="{Binding ElementName=Self, Path=ActualWidth, Mode=OneWay}"
+                       IsOpen="{Binding SearchViewModel.Suggestions.Count, Mode=OneWay, Converter={StaticResource CollectionIsEmptyToBoolConverter}, ConverterParameter='NotEmpty'}">
+                    <ListView ItemTemplate="{TemplateBinding SearchSuggestionTemplate}"
+                              ItemsSource="{Binding SearchViewModel.Suggestions, Mode=OneWay}"
+                              SelectedItem="{Binding SelectedSuggestion, Mode=OneWayToSource}" />
+                </Popup>
+                <Button Grid.Column="3"
+                        Command="{Binding SearchCommand, Mode=OneTime}"
+                        Style="{TemplateBinding GoButtonStyle}" />
+                <Border Grid.Row="1"
+                        Grid.ColumnSpan="4"
+                        Height="300"
+                        Background="White"
+                        Visibility="{Binding ResultViewVisibility, Mode=OneWay}">
+                    <ListView ItemTemplate="{TemplateBinding SearchResultTemplate}"
+                              ItemsSource="{Binding SearchViewModel.Results, Mode=OneWay}"
+                              SelectedItem="{Binding SearchViewModel.SelectedResult, Mode=OneWayToSource}" />
+                </Border>
             </Grid>
         </Border>
     </ControlTemplate>
+    <Style x:Key="SearchViewSearchButtonStyle" TargetType="ButtonBase">
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="BorderThickness" Value="1,0,0,0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="ToolTip" Value="Search" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <Path Width="16"
+                      Height="16"
+                      Data="M14.482 13.784L9.708 9.011a4.8 4.8 0 1 0-.69.69l4.773 4.773zM3.315 8.687a3.8 3.8 0 1 1 2.687 1.112 3.806 3.806 0 0 1-2.687-1.112z"
+                      Stretch="Uniform"
+                      Stroke="Black" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SarchClearButtonStyle"
+           BasedOn="{StaticResource SearchViewSearchButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="Content">
+            <Setter.Value>
+                <Path Width="16"
+                      Height="16"
+                      Data="M3.98 11.303L7.281 8 3.98 4.697l.707-.707L7.99 7.293l.01-.01.01.01 3.304-3.303.707.707L8.718 8l3.303 3.303-.707.707L8.01 8.707l-.01.01-.01-.01-3.304 3.303z"
+                      Stretch="Uniform"
+                      Stroke="Black" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SourceSelectStyle"
+           BasedOn="{StaticResource SearchViewSearchButtonStyle}"
+           TargetType="ButtonBase">
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
+        <Setter Property="Content">
+            <Setter.Value>
+                <Path Width="16"
+                      Height="16"
+                      Data="M13.1 6L8 11.1 2.9 6z"
+                      Stretch="Uniform"
+                      Stroke="Black" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="BarContainerStyle" TargetType="Border">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style x:Key="SearchViewTextBlockStyle" TargetType="TextBox">
+        <Setter Property="Padding" Value="8,0,8,0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="MaxLines" Value="1" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="PlaceholderStyle" TargetType="TextBlock">
+        <Setter Property="Padding" Value="8,0,8,0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="DarkGray" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+    <Style x:Key="DefaultSuggestionPopupStyle" TargetType="Popup" />
+    <DataTemplate x:Key="DefaultSearchResultTemplate" DataType="{x:Type search:SearchResult}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="24" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Width="16"
+                    Height="16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Gray"
+                    CornerRadius="8" />
+            <TextBlock Grid.Row="0"
+                       Grid.Column="1"
+                       Text="{Binding Path=Title}" />
+            <TextBlock Grid.Row="1"
+                       Grid.Column="1"
+                       Foreground="DarkSlateGray"
+                       Text="{Binding Path=Subtitle}" />
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="DefaultSearchSuggestionTemplate" DataType="{x:Type search:SearchSuggestion}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0"
+                    Width="8"
+                    Height="8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Red"
+                    CornerRadius="4"
+                    Visibility="{Binding SuggestResult.IsCollection, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Border Grid.Column="0"
+                    Width="8"
+                    Height="8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Blue"
+                    CornerRadius="4"
+                    Visibility="{Binding SuggestResult.IsCollection, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='Inverse'}" />
+            <TextBlock Grid.Column="1" Text="{Binding DisplayTitle, Mode=OneTime}" />
+        </Grid>
+    </DataTemplate>
     <Style TargetType="{x:Type search:SearchView}">
         <Setter Property="Template" Value="{StaticResource DefaultSearchViewTemplate}" />
+        <Setter Property="GoButtonStyle" Value="{StaticResource SearchViewSearchButtonStyle}" />
+        <Setter Property="SourceSelectButtonStyle" Value="{StaticResource SourceSelectStyle}" />
+        <Setter Property="SearchBarBorderStyle" Value="{StaticResource BarContainerStyle}" />
+        <Setter Property="ClearButtonStyle" Value="{StaticResource SarchClearButtonStyle}" />
+        <Setter Property="QueryTextBoxStyle" Value="{StaticResource SearchViewTextBlockStyle}" />
+        <Setter Property="PlaceholderTextBlockStyle" Value="{StaticResource PlaceholderStyle}" />
+        <Setter Property="SearchResultTemplate" Value="{StaticResource DefaultSearchResultTemplate}" />
+        <Setter Property="SearchSuggestionTemplate" Value="{StaticResource DefaultSearchSuggestionTemplate}" />
+        <Setter Property="SuggestionPopupStyle" Value="{StaticResource DefaultSuggestionPopupStyle}" />
     </Style>
 </ResourceDictionary>

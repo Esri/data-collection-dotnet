@@ -114,14 +114,17 @@
                               GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
             </StackPanel>
 
+
             <StackPanel HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         ctrl:ModernMapPanel.Role="Accessory">
-                <StackPanel>
-                <search:SearchView GeoView="{Binding ElementName=MapView, Mode=OneTime}" Width="200" Height="50" />
+                <StackPanel Style="{StaticResource MapAccessoryPanelStyle}">
+                    <search:SearchView GeoView="{Binding ElementName=MapView, Mode=OneTime}" Width="244" />
                 </StackPanel>
                 <!--  Widget Controls  -->
-                <StackPanel DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}" Style="{StaticResource MapAccessoryPanelStyle}">
+                <StackPanel DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}" 
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource MapAccessoryPanelStyle}">
                     <Button Command="{Binding ToggleBookmarksCommand, Mode=OneTime}"
                             Style="{StaticResource MapAccessoryButtonStyle}"
                             ToolTip="{Binding {x:Null}, Converter={StaticResource LocalizationConverter}, ConverterParameter=ShowBookmarksButton_Label}"
@@ -143,7 +146,9 @@
                 </StackPanel>
 
                 <!--  Editing Controls  -->
-                <StackPanel Margin="{StaticResource UniformLargeThickness}" Style="{StaticResource MapAccessoryPanelStyle}">
+                <StackPanel Margin="{StaticResource UniformLargeThickness}" 
+                HorizontalAlignment="Right"
+                            Style="{StaticResource MapAccessoryPanelStyle}">
                     <!--  Add Feature Button  -->
                     <Button Command="{Binding Source={StaticResource MainViewModel}, Path=StartNewFeatureCommand, Mode=OneWay}"
                             IsEnabled="{Binding ElementName=MapView, Path=Map, Converter={StaticResource NullToBoolConverter}}"

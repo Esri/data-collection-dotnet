@@ -23,6 +23,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
         private SearchResultMode _searchMode = SearchResultMode.Automatic;
         private Geometry.Geometry _queryArea;
         private MapPoint _queryCenter;
+        private List<SearchResult> _results;
+        private List<SearchSuggestion> _suggestions;
 
         public ISearchSource ActiveSource { get => _activeSource; set => SetPropertyChanged(value, ref _activeSource); }
         public SearchResult SelectedResult { get => _selectedResult; set => SetPropertyChanged(value, ref _selectedResult); }
@@ -33,13 +35,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
         public MapPoint QueryCenter { get => _queryCenter; set => SetPropertyChanged(value, ref _queryCenter); }
         
         public ObservableCollection<ISearchSource> Sources { get; } = new ObservableCollection<ISearchSource>();
-        public ObservableCollection<SearchResult> Results { get; } = new ObservableCollection<SearchResult>();
-        public ObservableCollection<SearchSuggestion> Suggestions { get; } = new ObservableCollection<SearchSuggestion>();
+        public List<SearchResult> Results { get => _results; private set => SetPropertyChanged(value, ref _results); }
+        public List<SearchSuggestion> Suggestions { get => _suggestions; private set => SetPropertyChanged(value, ref _suggestions); }
 
         public async Task CommitSearch()
         {
-            Suggestions.Clear();
-            Results.Clear();
+            Suggestions = null;
+            Results = null;
 
             var sourcesToSearch = SourcesToSearch();
 
@@ -51,15 +53,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
 
             var allResults = await Task.WhenAll(sourcesToSearch.Select(s => s.SearchAsync(CurrentQuery)));
 
-            foreach(var result in allResults.SelectMany(l => l))
-            {
-                Results.Add(result);
-            }
+            Results = allResults.SelectMany(l => l).ToList();
         }
 
         public async Task UpdateSuggestions()
         {
-            Suggestions.Clear();
+            Suggestions = null;
             if (string.IsNullOrWhiteSpace(CurrentQuery))
             {
                 return;
@@ -74,43 +73,39 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
 
             var allSuggestions = await Task.WhenAll(sourcesToSearch.Select(s => s.SuggestAsync(CurrentQuery)));
 
-            foreach(var suggestion in allSuggestions.SelectMany(s => s))
-            {
-                Suggestions.Add(suggestion);
-            }
+            Suggestions = allSuggestions.SelectMany(l => l).ToList();
         }
 
         public async Task AcceptSuggestion(SearchSuggestion suggestion)
         {
-            Suggestions.Clear();
-            Results.Clear();
+            Suggestions = null;
+            Results = null;
             SelectedResult = null;
 
             if (suggestion == null) return;
 
+            // Update the UI just so it matches user expectation
+            CurrentQuery = suggestion.DisplayTitle;
+
             var selectedSource = suggestion.OwningSource;
             var results = await selectedSource.SearchAsync(suggestion);
-
-            // TODO figure out showing no result message
-            if (!results.Any())
-                return;
 
             switch (SearchMode)
             {
                 case SearchResultMode.Single:
-                    Results.Add(results.First());
+                    Results = new List<SearchResult> { results.First() };
                     SelectedResult = Results.First();
                     break;
                 case SearchResultMode.Multiple:
-                    Results.AddRange(results);
+                    Results = results.ToList();
                     break;
                 case SearchResultMode.Automatic:
                     if (suggestion.SuggestResult?.IsCollection ?? true)
-                        Results.AddRange(results);
+                        Results = results.ToList();
                     else
-                        Results.Add(results.First());
+                        Results = new List<SearchResult>() { results.First() };
 
-                    if (Results.Count == 1)
+                    if (Results?.Count == 1)
                         SelectedResult = Results.First();
                     break;
             }
@@ -126,7 +121,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             // TODO - enable localization
             this.DefaultPlaceholder = "Find a place or address";
 
-            // Read default search hint
+            // Read default search hint from JSON
 
             // Add ArcGIS Online
             Sources.Add(new LocatorSearchSource(new LocatorTask(new Uri("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"))));
@@ -149,7 +144,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                     // TODO - handle
                 }
             }
+        }
 
+        public void ClearSearch()
+        {
+            SelectedResult = null;
+            Results = null;
+            Suggestions = null;
+            CurrentQuery = null;
         }
 
         private List<ISearchSource> SourcesToSearch()

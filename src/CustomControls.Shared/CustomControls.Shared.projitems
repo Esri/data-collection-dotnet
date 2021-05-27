@@ -16,14 +16,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)ResponsiveValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\BoolToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\CollectionIsEmptyToBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Search\DelegateCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\ExtensionMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\ISearchSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\LocatorSearchSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Search\NullToBoolSelectionConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\SearchResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\SearchResultMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\SearchSuggestion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\SearchView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Search\SearchView.Styling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\SearchViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToggleCommand.cs" />
   </ItemGroup>
