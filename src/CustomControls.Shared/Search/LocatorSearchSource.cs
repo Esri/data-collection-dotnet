@@ -29,6 +29,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
         public Geometry.Geometry SearchEnvelope { get => GeocodeParameters.SearchArea; set => GeocodeParameters.SearchArea = SuggestParameters.SearchArea = value; }
         public MapPoint SearchLocation { get => GeocodeParameters.PreferredSearchLocation; set => GeocodeParameters.PreferredSearchLocation = SuggestParameters.PreferredSearchLocation = value; }
 
+        public Func<SearchResult, CalloutDefinition> CalloutDefinitionProvider { get; set; } = null;
+
         public LocatorSearchSource(LocatorTask locator)
         {
             _locator = locator;
@@ -87,12 +89,67 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             {
                 this.DisplayName = _locator?.LocatorInfo?.Description;
             }
+
+            // Add any compatible attributes
+            var desiredAttributes = new [] {"LongLabel", "Type"};
+            if (_locator?.LocatorInfo?.ResultAttributes?.Any() ?? false)
+            {
+                foreach(var attr in desiredAttributes)
+                {
+                    if (_locator.LocatorInfo.ResultAttributes.Where(at => at.Name == attr).Any())
+                    {
+                        GeocodeParameters.ResultAttributeNames.Add(attr);
+                    }
+                }
+            }
+            else
+            {
+                GeocodeParameters.ResultAttributeNames.Add("*");
+            }
         }
 
         private SearchResult GeocodeResultToSearchResult(GeocodeResult r)
         {
-            SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle.Circle, System.Drawing.Color.Red, 8);
-            return new SearchResult(r.Label,$"Match Percent: {r.Score}", this, new Graphic(r.DisplayLocation, r.Attributes, symbol), new Mapping.Viewpoint(r.Extent));
+            var symbol = SymbolForResult(r);
+            string subtitle = $"Match percent: {r.Score}";
+            if (r.Attributes.ContainsKey("LongLabel"))
+            {
+                subtitle = r.Attributes["LongLabel"].ToString();;
+            }
+
+            return new SearchResult(r.Label, subtitle, this, new Graphic(r.DisplayLocation, r.Attributes, symbol), new Mapping.Viewpoint(r.Extent));
+        }
+
+        private Symbol SymbolForResult(GeocodeResult r)
+        {
+            // Based on list from: https://developers.arcgis.com/rest/geocode/api-reference/geocoding-category-filtering.htm
+
+            // TODO = use offline symbols
+
+            if (r.Attributes.ContainsKey("Type"))
+            {
+                // Food
+                if (r.Attributes["Type"].ToString().Contains("Food"))
+                {
+                    return new PictureMarkerSymbol(new Uri("https://static.arcgis.com/images/Symbols/SafetyHealth/FireStation.png"))
+                    {
+                        Height = 24,
+                        Width = 24
+                    };
+                }
+                // Coffee
+                if (r.Attributes["Type"].ToString().Contains("Coffee"))
+                {
+                    return new PictureMarkerSymbol(new Uri("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae"))
+                    {
+                        Height = 24,
+                        Width = 24
+                    };
+                }
+            }
+            var symbol = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle.Circle, System.Drawing.Color.Red, 8);
+
+            return symbol;
         }
 
         private void SetPropertyChanged<T>(T value, ref T field, [CallerMemberName] string propertyName = "")
@@ -109,9 +166,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Task<IList<SearchResult>> SearchAsync(string QueryString)
+        public async Task<IList<SearchResult>> SearchAsync(string QueryString)
         {
-            throw new NotImplementedException();
+            await EnsureLoaded();
+            var result = await _locator.GeocodeAsync(QueryString, GeocodeParameters);
+            return result.Select(r => GeocodeResultToSearchResult(r)).ToList();
+        }
+
+        public void NotifySelected(SearchResult result)
+        {
+            // This space intentionally left blank.
+        }
+
+        public void NotifyDeselected(SearchResult result)
+        {
+            // This space intentionally left blank.
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

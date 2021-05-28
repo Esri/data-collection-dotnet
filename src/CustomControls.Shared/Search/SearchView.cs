@@ -5,12 +5,17 @@ using Esri.ArcGISRuntime.UI.Controls;
 using Esri.ArcGISRuntime.Mapping;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Esri.ArcGISRuntime.UI;
+using System.Linq;
+using Esri.ArcGISRuntime.Geometry;
 #if __WPF__
 using System.Windows.Controls;
 using System.Windows;
 #else
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
+using Windows.Foundation;
 #endif
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
@@ -18,6 +23,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
     public partial class SearchView : Control, INotifyPropertyChanged
     {
         private Map _lastUsedMap;
+        private GraphicsOverlay _resultOverlay;
         public SearchView()
         {
             DefaultStyleKey = typeof(SearchView);
@@ -26,8 +32,17 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             NoResultMessage = "No Results";
             DefaultPlaceholder = "Search for a place or address";
             EnableAutoconfiguration = true;
+            _resultOverlay = new GraphicsOverlay();
             ClearCommand = new DelegateCommand(() => { SearchViewModel?.ClearSearch();});
-            SearchCommand = new DelegateCommand(() => { SearchViewModel?.CommitSearch();});
+            SearchCommand = new DelegateCommand(() => { 
+                UpdateModelForNewViewpoint();
+                SearchViewModel?.CommitSearch();
+            });
+        }
+
+        private void GeoView_ViewpointChanged(object sender, EventArgs e)
+        {
+            UpdateModelForNewViewpoint();
         }
 
         public GeoView GeoView
@@ -66,6 +81,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             set { SetValue(DefaultPlaceholderProperty, value); }
         }
 
+        public double MultipleResultZoomBuffer
+        {
+            get { return (double)GetValue(MultipleResultZoomBufferProperty); }
+            set { SetValue(MultipleResultZoomBufferProperty, value); }
+        }
+
         public ICommand ClearCommand { get; private set; }
         public ICommand SearchCommand { get; private set; }
         public static readonly DependencyProperty NoResultMessageProperty =
@@ -80,6 +101,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             DependencyProperty.Register("SearchViewModel", typeof(SearchViewModel), typeof(SearchView), new PropertyMetadata(null, OnViewModelChanged));
         public static readonly DependencyProperty EnableResultListViewProperty =
             DependencyProperty.Register("EnableResultListView", typeof(bool), typeof(SearchView), new PropertyMetadata(true, OnEnableResultListViewChanged));
+        public static readonly DependencyProperty MultipleResultZoomBufferProperty =
+            DependencyProperty.Register("MultipleResultZoomBuffer", typeof(double), typeof(SearchView), new PropertyMetadata(64.0));
 
         private static void OnGeoViewPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -88,15 +111,22 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             {
                 sender.ConfigureForCurrentMap();
             }
-            if (e.OldValue is INotifyPropertyChanged oldNotifier)
-            {
-                oldNotifier.PropertyChanged -= sender.HandleMapChange;
-                sender._lastUsedMap = null;
-            }
 
-            if (e.NewValue is INotifyPropertyChanged newNotifier)
+            if (e.OldValue is GeoView gv)
             {
-                newNotifier.PropertyChanged += sender.HandleMapChange;
+                gv.ViewpointChanged -= sender.GeoView_ViewpointChanged;
+                sender._lastUsedMap = null;
+                (gv as INotifyPropertyChanged).PropertyChanged -= sender.HandleMapChange;
+                if (gv.GraphicsOverlays.Contains(sender._resultOverlay))
+                {
+                    gv.GraphicsOverlays.Remove(sender._resultOverlay);
+                }
+            }
+            if (e.NewValue is GeoView ngv)
+            {
+                (ngv as INotifyPropertyChanged).PropertyChanged += sender.HandleMapChange;
+                ngv.ViewpointChanged += sender.GeoView_ViewpointChanged;
+                ngv.GraphicsOverlays.Add(sender._resultOverlay);
             }
         }
 
@@ -160,9 +190,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
 
             _waitFlag = true;
             // TODO - make configurable
-            await Task.Delay(200);
+            await Task.Delay(75);
             _waitFlag = false;
 
+            UpdateModelForNewViewpoint();
             await SearchViewModel.UpdateSuggestions().ConfigureAwait(false);
         }
 
@@ -173,9 +204,78 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             else if (e.PropertyName == nameof(SearchViewModel.SearchMode))
                 NotifyPropertyChange(nameof(ResultViewVisibility));
             else if (e.PropertyName == nameof(SearchViewModel.Results))
+            {
                 NotifyPropertyChange(nameof(ResultViewVisibility));
+                if (SearchViewModel.Results == null)
+                {
+                    _resultOverlay.Graphics.Clear();
+                }
+                else if (SearchViewModel.SelectedResult == null)
+                {
+                    _resultOverlay.Graphics.Clear();
+                    foreach(var result in SearchViewModel.Results)
+                    {
+                        AddResultToGeoView(result);
+                    }
+                    if (GeoView != null)
+                    {
+                        var zoomableResults = SearchViewModel.Results
+                                                .Where(res => res.GeoElement?.Geometry != null)
+                                                .Select(res => res.GeoElement.Geometry).ToList();
+
+                        if (zoomableResults.Any())
+                        {
+                            var newViewpoint = Geometry.GeometryEngine.CombineExtents(zoomableResults);
+                            if (GeoView is MapView mv)
+                            {
+                                _ = mv.SetViewpointGeometryAsync(newViewpoint, MultipleResultZoomBuffer);
+                            }
+                            else
+                            {
+                                // TODO - figure out what this will mean with Scenes
+                                GeoView.SetViewpoint(new Viewpoint(newViewpoint));
+                            }
+                        }
+                    }
+                }
+            }
             else if (e.PropertyName == nameof(SearchViewModel.SelectedResult))
+            {
                 NotifyPropertyChange(nameof(ResultViewVisibility));
+                if (SearchViewModel.SelectedResult != null)
+                {
+                    _resultOverlay.Graphics.Clear();
+                    if (SearchViewModel?.SelectedResult is SearchResult selectedResult)
+                    {
+                        AddResultToGeoView(selectedResult);
+                        // Handle feature layers later
+                        // Zoom to the feature
+                        if (selectedResult.SelectionViewpoint != null && GeoView != null)
+                        {
+                            GeoView.SetViewpoint(selectedResult.SelectionViewpoint);
+                        }
+                        if (GeoView != null)
+                        {
+                            // This isn't a result of user tap, why is the API trying to force me to pass a tap location or a separate MapPoint; The GeoElement knows where it is...
+                            GeoView.ShowCalloutForGeoElement(selectedResult.GeoElement, new Point(0,0), selectedResult.CalloutDefinition);
+                        }
+                    }
+                }
+                else
+                {
+                    GeoView.DismissCallout();
+                }
+            }
+        }
+
+        private void AddResultToGeoView(SearchResult result)
+        {
+            result?.OwningSource?.NotifySelected(result);
+            if (result?.GeoElement is Graphic graphic)
+            {
+                _resultOverlay.Graphics.Add(graphic);
+            }
+            // Handle other layers (e.g. feature layers) later
         }
 
         #endregion WaitingBehavior
@@ -191,11 +291,34 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                 if(value == null) return;
 
                 SearchSuggestion userSelection = value;
+                UpdateModelForNewViewpoint();
                 _acceptingSuggestionFlag = true;
                 _ = SearchViewModel.AcceptSuggestion(userSelection)
                     .ContinueWith(tt => _acceptingSuggestionFlag = false, TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
+
+        private void UpdateModelForNewViewpoint()
+        {
+            if (GeoView is MapView mv)
+            {
+                if (mv.GetCurrentViewpoint(ViewpointType.BoundingGeometry)?.TargetGeometry is Geometry.Geometry newView)
+                {
+                    SearchViewModel.QueryCenter = null;
+                    SearchViewModel.QueryArea = newView;
+                }
+            }
+            else if (GeoView is SceneView sv)
+            {
+                var newviewpoint = sv.GetCurrentViewpoint(ViewpointType.CenterAndScale);
+                if (newviewpoint?.TargetGeometry is MapPoint mp)
+                {
+                    SearchViewModel.QueryArea = null;
+                    SearchViewModel.QueryCenter = mp;
+                }
+            }
+        }
+
         // Convenience property to hide or show results view
         public Visibility ResultViewVisibility { 
             get

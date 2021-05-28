@@ -124,7 +124,8 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             // Read default search hint from JSON
 
             // Add ArcGIS Online
-            Sources.Add(new LocatorSearchSource(new LocatorTask(new Uri("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"))));
+            var locatorSource = new LocatorSearchSource(new LocatorTask(new Uri("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer")));
+            Sources.Add(locatorSource);
 
             // Add any layers from JSON
 

@@ -27,12 +27,14 @@
                        StaysOpen="False">
                     <Border>
                         <StackPanel>
-                            <ToggleButton Style="{TemplateBinding SourceSelectButtonStyle}"
-                                          Width="{Binding ElementName=sourseList, Path=ActualWidth, Mode=OneWay}"
-                                          IsChecked="{Binding SearchViewModel.ActiveSource, Mode=TwoWay, Converter={StaticResource NullToBoolSelectionConverter}}">
+                            <ToggleButton Width="{Binding ElementName=sourseList, Path=ActualWidth, Mode=OneWay}"
+                                          IsChecked="{Binding SearchViewModel.ActiveSource, Mode=TwoWay, Converter={StaticResource NullToBoolSelectionConverter}}"
+                                          Style="{TemplateBinding SourceSelectButtonStyle}">
                                 <TextBlock Text="All Sources" />
                             </ToggleButton>
-                            <ListView x:Name="sourseList" ItemsSource="{Binding SearchViewModel.Sources, Mode=OneWay}" SelectedItem="{Binding SearchViewModel.ActiveSource, Mode=TwoWay}">
+                            <ListView x:Name="sourseList"
+                                      ItemsSource="{Binding SearchViewModel.Sources, Mode=OneWay}"
+                                      SelectedItem="{Binding SearchViewModel.ActiveSource, Mode=TwoWay}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate DataType="{x:Type search:ISearchSource}">
                                         <TextBlock Text="{Binding DisplayName, Mode=OneWay}" />
@@ -54,8 +56,7 @@
                         Command="{Binding ClearCommand}"
                         Style="{TemplateBinding ClearButtonStyle}"
                         Visibility="{Binding ElementName=QueryEntry, Path=Text, Converter={StaticResource PlaceholderVisibilityConverter}, ConverterParameter='NotEmpty'}" />
-                <Popup Width="{Binding ElementName=Self, Path=ActualWidth, Mode=OneWay}"
-                       IsOpen="{Binding SearchViewModel.Suggestions.Count, Mode=OneWay, Converter={StaticResource CollectionIsEmptyToBoolConverter}, ConverterParameter='NotEmpty'}">
+                <Popup Width="{Binding ElementName=Self, Path=ActualWidth, Mode=OneWay}" IsOpen="{Binding SearchViewModel.Suggestions.Count, Mode=OneWay, Converter={StaticResource CollectionIsEmptyToBoolConverter}, ConverterParameter='NotEmpty'}">
                     <ListView ItemTemplate="{TemplateBinding SearchSuggestionTemplate}"
                               ItemsSource="{Binding SearchViewModel.Suggestions, Mode=OneWay}"
                               SelectedItem="{Binding SelectedSuggestion, Mode=OneWayToSource}" />
@@ -128,6 +129,7 @@
         <Setter Property="Padding" Value="8,0,8,0" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MaxLines" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
     <Style x:Key="PlaceholderStyle" TargetType="TextBlock">
@@ -148,14 +150,12 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Border Grid.RowSpan="2"
-                    Grid.Column="0"
-                    Width="16"
-                    Height="16"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Background="Gray"
-                    CornerRadius="8" />
+            <Image Width="16"
+                   Height="16"
+                   Grid.RowSpan="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Source="{Binding Path=MarkerImage, Mode=OneWay}" />
             <TextBlock Grid.Row="0"
                        Grid.Column="1"
                        Text="{Binding Path=Title}" />
