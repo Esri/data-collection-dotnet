@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Search\SearchView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\SearchView.Styling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\SearchViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Search\SuggestionComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ToggleCommand.cs" />
   </ItemGroup>
 </Project>
