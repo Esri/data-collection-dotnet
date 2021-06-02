@@ -17,10 +17,12 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
     {
         private string _displayName;
         private int _maxResults = 6;
-        private int _maxSuggestions  = 6;
+        private int _maxSuggestions = 6;
         private int _minResults = 1;
         private int _minSuggestions = 6;
         private LocatorTask _locator;
+
+        private SymbolStyle _esriStyle;
 
         public string DisplayName { get => _displayName; set => SetPropertyChanged(value, ref _displayName); }
         public int MaximumResults { get => _maxResults; set => SetPropertyChanged(value, ref _maxResults); }
@@ -40,13 +42,15 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             _locator = locator;
             _displayName = _locator?.LocatorInfo?.Name;
             GeocodeParameters = new GeocodeParameters { MaxResults = this.MaximumResults };
-            SuggestParameters = new SuggestParameters { MaxResults  = this.MaximumSuggestions };
+            SuggestParameters = new SuggestParameters { MaxResults = this.MaximumSuggestions };
             _ = EnsureLoaded();
         }
 
-        public async Task<IList<SearchResult>> SearchAsync(string QueryString, Geometry.Geometry geometry)
+        public async Task<IList<SearchResult>> SearchAsync(string QueryString, Geometry.Geometry geometry, CancellationToken? token)
         {
             await EnsureLoaded();
+
+            token?.ThrowIfCancellationRequested();
 
             // Search with explicit area constraint
             if (geometry != null)
@@ -54,15 +58,16 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                 var tempParams = CopyGeocodeParameters();
                 tempParams.PreferredSearchLocation = null;
                 tempParams.SearchArea = geometry;
-                var areaSearchResult = await _locator.GeocodeAsync(QueryString, tempParams);
-                return areaSearchResult.Select(r => GeocodeResultToSearchResult(r)).ToList();
-            }
-
-            // Search using center and area as configured
-            var results = await _locator.GeocodeAsync(QueryString, GeocodeParameters);
-            if (results.Count >= RepeatSearchResultThreshold)
-            {
-                return results.Select(r => GeocodeResultToSearchResult(r)).ToList();
+                if (token.HasValue)
+                {
+                    var areaSearchResult = await _locator.GeocodeAsync(QueryString, tempParams, token.Value);
+                    return await ResultToSearchResult(areaSearchResult.ToList());
+                }
+                else
+                {
+                    var areaSearchResult = await _locator.GeocodeAsync(QueryString, tempParams);
+                    return await ResultToSearchResult(areaSearchResult.Take(MaximumResults).ToList());
+                }
             }
 
             // Search using just the center, no constraint
@@ -86,31 +91,27 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             }
             var comparer = new SuggestionComparer<GeocodeResult>();
 
-            var centerOnlyResult = results.Union(await _locator.GeocodeAsync(QueryString, centerParams), comparer);
-            if (centerOnlyResult.Count() >= RepeatSearchResultThreshold)
+            var otherResults = token.HasValue ? await _locator.GeocodeAsync(QueryString, centerParams, token.Value)
+                                              : await _locator.GeocodeAsync(QueryString, centerParams);
+            if (otherResults.Count() >= RepeatSearchResultThreshold)
             {
-                return centerOnlyResult.Take(MaximumResults).Select(r => GeocodeResultToSearchResult(r)).ToList();
+                return await ResultToSearchResult(otherResults.Take(MaximumResults).ToList());
             }
 
             // Repeat with all spatial constraints removed
             var nonSpatialParams = CopyGeocodeParameters();
             nonSpatialParams.SearchArea = null;
             nonSpatialParams.PreferredSearchLocation = null;
-            var fullResults = centerOnlyResult.Union( await _locator.GeocodeAsync(QueryString, nonSpatialParams), comparer);
-            return fullResults.Take(MaximumResults).Select(r => GeocodeResultToSearchResult(r)).ToList();
+            var otherResults2 = token.HasValue ? await _locator.GeocodeAsync(QueryString, nonSpatialParams, token.Value)
+                                               : await _locator.GeocodeAsync(QueryString, nonSpatialParams);
+            var fullResults = otherResults.Union(otherResults2, comparer);
+            return await ResultToSearchResult(fullResults.Take(MaximumResults).ToList());
         }
 
         // TODO = abstract away commonalities between SearchAsync with suggestion and string
-        public async Task<IList<SearchResult>> SearchAsync(SearchSuggestion suggestion)
+        public async Task<IList<SearchResult>> SearchAsync(SearchSuggestion suggestion, CancellationToken? token)
         {
             await EnsureLoaded();
-            // Search using center and area as configured
-            var results = await _locator.GeocodeAsync(suggestion.SuggestResult, GeocodeParameters);
-            if (results.Count >= RepeatSearchResultThreshold)
-            {
-                return results.Select(r => GeocodeResultToSearchResult(r)).ToList();
-            }
-
             // Search using just the center, no constraint
             var centerParams = CopyGeocodeParameters();
             if (centerParams.PreferredSearchLocation == null && centerParams.SearchArea != null)
@@ -131,30 +132,27 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                 centerParams.SearchArea = null;
             }
 
-            var centerOnlyResult = results.Union(await _locator.GeocodeAsync(suggestion.SuggestResult, centerParams));
-            if (centerOnlyResult.Count() >= RepeatSearchResultThreshold)
+            var centerResults = token.HasValue ? await _locator.GeocodeAsync(suggestion.SuggestResult, centerParams, token.Value)
+                                               : await _locator.GeocodeAsync(suggestion.SuggestResult, centerParams);
+
+            if (centerResults.Count() >= RepeatSearchResultThreshold)
             {
-                return centerOnlyResult.Take(MaximumResults).Select(r => GeocodeResultToSearchResult(r)).ToList();
+                return await ResultToSearchResult(centerResults.Take(MaximumResults).ToList());
             }
 
             // Repeat with all spatial constraints removed
             var nonSpatialParams = CopyGeocodeParameters();
             nonSpatialParams.SearchArea = null;
             nonSpatialParams.PreferredSearchLocation = null;
-            var fullResults = centerOnlyResult.Union(await _locator.GeocodeAsync(suggestion.SuggestResult, nonSpatialParams));
-            return fullResults.Take(MaximumResults).Select(r => GeocodeResultToSearchResult(r)).ToList();
+            var fullR = token.HasValue ? await _locator.GeocodeAsync(suggestion.SuggestResult, nonSpatialParams, token.Value)
+                                       : await _locator.GeocodeAsync(suggestion.SuggestResult, nonSpatialParams);
+            var fullResults = centerResults.Union(fullR);
+            return await ResultToSearchResult(fullResults.Take(MaximumResults).ToList());
         }
 
-        public async Task<IList<SearchSuggestion>> SuggestAsync(string QueryString)
+        public async Task<IList<SearchSuggestion>> SuggestAsync(string QueryString, CancellationToken? token)
         {
             await EnsureLoaded();
-
-            // Start with all constraints
-            var constrainedSuggestions  = await _locator.SuggestAsync(QueryString, SuggestParameters);
-            if (constrainedSuggestions.Count >= RepeatSuggestResultThreshold)
-            {
-                return constrainedSuggestions.Select(s => new SearchSuggestion(s.Label, null, this, s)).ToList();
-            }
 
             // Remove area constraint
             var centerOnlyParams = CopySuggestParameters();
@@ -178,23 +176,31 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             }
             var comparer = new SuggestionComparer<SuggestResult>();
 
-            var centerOnlySuggestions = constrainedSuggestions.Union(await _locator.SuggestAsync(QueryString, centerOnlyParams), comparer);
-            if (centerOnlySuggestions.Count() >= RepeatSuggestResultThreshold)
+            var cenerResults = token.HasValue ? await _locator.SuggestAsync(QueryString, centerOnlyParams, token.Value)
+                                              : await _locator.SuggestAsync(QueryString, centerOnlyParams);
+
+            if (cenerResults.Count() >= RepeatSuggestResultThreshold)
             {
-                return centerOnlySuggestions.Take(MaximumSuggestions).Select(s => new SearchSuggestion(s.Label, null, this, s)).ToList();
+                return cenerResults.Take(MaximumSuggestions).Select(s => new SearchSuggestion(s.Label, null, this, s)).ToList();
             }
 
             // Remove remaining constraints
             var unconstrainedParams = CopySuggestParameters();
             unconstrainedParams.PreferredSearchLocation = null;
             unconstrainedParams.SearchArea = null;
+            var allResults = token.HasValue ? await _locator.SuggestAsync(QueryString, unconstrainedParams, token.Value)
+                                            : await _locator.SuggestAsync(QueryString, unconstrainedParams);
 
-            var unconstrainedResults = centerOnlySuggestions.Union(await _locator.SuggestAsync(QueryString, unconstrainedParams), comparer);
+            var unconstrainedResults = cenerResults.Union(allResults, comparer);
             return unconstrainedResults.Take(MaximumSuggestions).Select(s => new SearchSuggestion(s.Label, null, this, s)).ToList();
         }
 
         private async Task EnsureLoaded()
         {
+            if (_esriStyle == null)
+            {
+                _esriStyle = await SymbolStyle.OpenAsync(styleName: "Esri2DPointSymbolsStyle", portal: null);
+            }
             if (_locator.LoadStatus == LoadStatus.Loaded)
             {
                 return;
@@ -202,13 +208,13 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
 
             try
             {
-            await _locator.RetryLoadAsync();
-
+                await _locator.RetryLoadAsync();
             }
             catch (Exception ex)
             {
 
             }
+
 
             if (!string.IsNullOrWhiteSpace(_locator?.LocatorInfo?.Name))
             {
@@ -221,11 +227,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             }
 
             // Add any compatible attributes
-            var desiredAttributes = new [] {"LongLabel", "Type"};
-            //GeocodeParameters.ResultAttributeNames.Add("extent");
+            var desiredAttributes = new[] { "LongLabel", "Type" };
             if (_locator?.LocatorInfo?.ResultAttributes?.Any() ?? false)
             {
-                foreach(var attr in desiredAttributes)
+                foreach (var attr in desiredAttributes)
                 {
                     if (_locator.LocatorInfo.ResultAttributes.Where(at => at.Name == attr).Any())
                     {
@@ -239,43 +244,37 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             }
         }
 
-        private SearchResult GeocodeResultToSearchResult(GeocodeResult r)
+        private async Task<SearchResult> GeocodeResultToSearchResult(GeocodeResult r)
         {
-            var symbol = SymbolForResult(r);
+            var symbol = await SymbolForResult(r);
             string subtitle = $"Match percent: {r.Score}";
             if (r.Attributes.ContainsKey("LongLabel"))
             {
-                subtitle = r.Attributes["LongLabel"].ToString();;
+                subtitle = r.Attributes["LongLabel"].ToString(); ;
             }
 
             return new SearchResult(r.Label, subtitle, this, new Graphic(r.DisplayLocation, r.Attributes, symbol), new Mapping.Viewpoint(r.Extent));
         }
 
-        private Symbol SymbolForResult(GeocodeResult r)
+        private async Task<Symbol> SymbolForResult(GeocodeResult r)
         {
-            // Based on list from: https://developers.arcgis.com/rest/geocode/api-reference/geocoding-category-filtering.htm
-
-            // TODO = use offline symbols
-
             if (r.Attributes.ContainsKey("Type"))
             {
-                // Food
-                if (r.Attributes["Type"].ToString().Contains("Food"))
+                var typeAttrs = r.Attributes["Type"];
+                var firstResult = await _esriStyle.GetSymbolAsync(new[] { typeAttrs.ToString().Replace(' ', '-').ToLower() });
+                if (firstResult != null)
                 {
-                    return new PictureMarkerSymbol(new Uri("https://static.arcgis.com/images/Symbols/SafetyHealth/FireStation.png"))
-                    {
-                        Height = 24,
-                        Width = 24
-                    };
+                    return firstResult;
                 }
-                // Coffee
-                if (r.Attributes["Type"].ToString().Contains("Coffee"))
+                var symbParams = await _esriStyle.GetDefaultSearchParametersAsync();
+                symbParams.Names.Clear();
+                symbParams.Names.Add(typeAttrs.ToString());
+                symbParams.NamesStrictlyMatch = false;
+                var symbolResult = await _esriStyle.SearchSymbolsAsync(symbParams);
+
+                if (symbolResult.Any())
                 {
-                    return new PictureMarkerSymbol(new Uri("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae"))
-                    {
-                        Height = 24,
-                        Width = 24
-                    };
+                    return await symbolResult.First().GetSymbolAsync();
                 }
             }
             var symbol = new SimpleMarkerSymbol(SimpleMarkerSymbolStyle.Circle, System.Drawing.Color.Red, 8);
@@ -301,7 +300,14 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
         {
             await EnsureLoaded();
             var result = await _locator.GeocodeAsync(QueryString, GeocodeParameters);
-            return result.Select(r => GeocodeResultToSearchResult(r)).ToList();
+            return await ResultToSearchResult(result);
+        }
+
+        private async Task<IList<SearchResult>> ResultToSearchResult(IReadOnlyList<GeocodeResult> input)
+        {
+            var results = await Task.WhenAll(input.Select(i => GeocodeResultToSearchResult(i)));
+
+            return results.ToList();
         }
 
         public void NotifySelected(SearchResult result)
@@ -327,11 +333,11 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                 PreferredSearchLocation = GeocodeParameters.PreferredSearchLocation,
                 SearchArea = GeocodeParameters.SearchArea,
             };
-            foreach(var category in GeocodeParameters.Categories)
+            foreach (var category in GeocodeParameters.Categories)
             {
                 newParams.Categories.Add(category);
             }
-            foreach(var attrName in GeocodeParameters.ResultAttributeNames)
+            foreach (var attrName in GeocodeParameters.ResultAttributeNames)
             {
                 newParams.ResultAttributeNames.Add(attrName);
             }
@@ -345,7 +351,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             newParameters.MaxResults = SuggestParameters.MaxResults;
             newParameters.PreferredSearchLocation = SuggestParameters.PreferredSearchLocation;
             newParameters.SearchArea = SuggestParameters.SearchArea;
-            foreach(var cat in SuggestParameters.Categories)
+            foreach (var cat in SuggestParameters.Categories)
             {
                 newParameters.Categories.Add(cat);
             }

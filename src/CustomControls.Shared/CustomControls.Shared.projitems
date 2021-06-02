@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ModernMapPanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ResponsiveValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\BoolToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Search\CollectionIsEmptyToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\CollectionIsEmptyToBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\DelegateCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Search\EmptyStringToVisibilityConverter.cs" />

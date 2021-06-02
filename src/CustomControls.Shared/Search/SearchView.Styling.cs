@@ -11,10 +11,10 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
 {
     public partial class SearchView
     {
-        public Style GoButtonStyle
+        public Style SearchButtonStyle
         {
-            get { return (Style)GetValue(GoButtonStyleProperty); }
-            set { SetValue(GoButtonStyleProperty, value); }
+            get { return (Style)GetValue(SearchButtonStyleProperty); }
+            set { SetValue(SearchButtonStyleProperty, value); }
         }
 
         public Style SourceSelectButtonStyle
@@ -81,7 +81,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             DependencyProperty.Register("SuggestionPopupStyle", typeof(Style), typeof(SearchView), new PropertyMetadata(null));
         public static readonly DependencyProperty SearchBarBorderStyleProperty =
             DependencyProperty.Register("SearchBarBorderStyle", typeof(Style), typeof(SearchView), new PropertyMetadata(null));
-        public static readonly DependencyProperty GoButtonStyleProperty =
-            DependencyProperty.Register("GoButtonStyle", typeof(Style), typeof(SearchView), new PropertyMetadata(null));
+        public static readonly DependencyProperty SearchButtonStyleProperty =
+            DependencyProperty.Register("SearchButtonStyle", typeof(Style), typeof(SearchView), new PropertyMetadata(null));
     }
 }

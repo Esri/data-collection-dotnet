@@ -24,6 +24,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
     {
         private Map _lastUsedMap;
         private GraphicsOverlay _resultOverlay;
+        private bool _hasViewpointChangedPostSearch;
         public SearchView()
         {
             DefaultStyleKey = typeof(SearchView);
@@ -38,10 +39,22 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                 UpdateModelForNewViewpoint();
                 SearchViewModel?.CommitSearch();
             });
+            RepeatSearchHereCommand = new DelegateCommand(() =>
+            {
+                UpdateModelForNewViewpoint();
+                SearchViewModel?.CommitSearch(true);
+            });
         }
+
+        private bool _ignoreViewpointChangedFlag = false;
 
         private void GeoView_ViewpointChanged(object sender, EventArgs e)
         {
+            // Don't push updates from automatic navigation
+            // TODO = intent is to prevent IsEligibleForReSearch from becoming true after selecting result
+            //        find a better way; maybe pass a flag to viewmodel indicating whether navigation was automatic or manual
+            if (_ignoreViewpointChangedFlag)
+                return;
             UpdateModelForNewViewpoint();
         }
 
@@ -89,6 +102,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
 
         public ICommand ClearCommand { get; private set; }
         public ICommand SearchCommand { get; private set; }
+        public ICommand RepeatSearchHereCommand { get; private set; }
         public static readonly DependencyProperty NoResultMessageProperty =
             DependencyProperty.Register("NoResultMessage", typeof(string), typeof(SearchView), new PropertyMetadata(null));
         public static readonly DependencyProperty DefaultPlaceholderProperty =
@@ -194,7 +208,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             _waitFlag = false;
 
             UpdateModelForNewViewpoint();
-            await SearchViewModel.UpdateSuggestions().ConfigureAwait(false);
+            await SearchViewModel.UpdateSuggestions();
         }
 
         private async void SearchViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -223,8 +237,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                                                 .Where(res => res.GeoElement?.Geometry != null)
                                                 .Select(res => res.GeoElement.Geometry).ToList();
 
-                        if (zoomableResults.Any())
+                        if (zoomableResults.Count > 1)
                         {
+                            _ignoreViewpointChangedFlag = true;
                             var newViewpoint = Geometry.GeometryEngine.CombineExtents(zoomableResults);
                             if (GeoView is MapView mv)
                             {
@@ -235,6 +250,7 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                                 // TODO - figure out what this will mean with Scenes
                                 GeoView.SetViewpoint(new Viewpoint(newViewpoint));
                             }
+                            _ignoreViewpointChangedFlag = false;
                         }
                     }
                 }
@@ -252,7 +268,9 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
                         // Zoom to the feature
                         if (selectedResult.SelectionViewpoint != null && GeoView != null)
                         {
+                            _ignoreViewpointChangedFlag = true;
                             GeoView.SetViewpoint(selectedResult.SelectionViewpoint);
+                            _ignoreViewpointChangedFlag = false;
                         }
                         if (GeoView != null)
                         {

@@ -5,9 +5,10 @@
         xmlns:ctrl="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
         xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
         xmlns:overlays="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views.Overlays"
+        xmlns:search="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
         xmlns:utils="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.Utils"
         xmlns:viewModels="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.Shared.ViewModels"
-        xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views" xmlns:search="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search;assembly=Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls"
+        xmlns:views="clr-namespace:Esri.ArcGISRuntime.OpenSourceApps.DataCollection.WPF.Views"
         Title="Data Collection for .NET (WPF)"
         BorderBrush="{StaticResource TintBrush}"
         BorderThickness="{StaticResource ChromeBorderThickness}"
@@ -114,16 +115,29 @@
                               GeoView="{Binding ElementName=MapView, Mode=OneWay}" />
             </StackPanel>
 
+            <Button Width="200"
+                    Height="80"
+                    Margin="8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    ctrl:ModernMapPanel.Role="Accessory"
+                    Command="{Binding ElementName=SearchView, Path=RepeatSearchHereCommand, Mode=OneTime}"
+                    Content="Repeat Search Here"
+                    Style="{StaticResource MapAccessoryButtonStyle}"
+                    Visibility="{Binding ElementName=SearchView, Path=SearchViewModel.IsEligibleForRequery, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
 
             <StackPanel HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         ctrl:ModernMapPanel.Role="Accessory">
                 <StackPanel Style="{StaticResource MapAccessoryPanelStyle}">
-                    <search:SearchView GeoView="{Binding ElementName=MapView, Mode=OneTime}" Width="244" />
+                    <search:SearchView x:Name="SearchView"
+                                       Width="244"
+                                       GeoView="{Binding ElementName=MapView, Mode=OneTime}" />
                 </StackPanel>
                 <!--  Widget Controls  -->
-                <StackPanel DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}" 
-                            HorizontalAlignment="Right"
+                <StackPanel HorizontalAlignment="Right"
+                            DataContext="{Binding Source={StaticResource MainViewModel}, Path=MapAccessoryViewModel}"
                             Style="{StaticResource MapAccessoryPanelStyle}">
                     <Button Command="{Binding ToggleBookmarksCommand, Mode=OneTime}"
                             Style="{StaticResource MapAccessoryButtonStyle}"
@@ -146,8 +160,8 @@
                 </StackPanel>
 
                 <!--  Editing Controls  -->
-                <StackPanel Margin="{StaticResource UniformLargeThickness}" 
-                HorizontalAlignment="Right"
+                <StackPanel Margin="{StaticResource UniformLargeThickness}"
+                            HorizontalAlignment="Right"
                             Style="{StaticResource MapAccessoryPanelStyle}">
                     <!--  Add Feature Button  -->
                     <Button Command="{Binding Source={StaticResource MainViewModel}, Path=StartNewFeatureCommand, Mode=OneWay}"

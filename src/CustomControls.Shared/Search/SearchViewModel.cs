@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
@@ -26,89 +27,165 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
         private List<SearchResult> _results;
         private List<SearchSuggestion> _suggestions;
 
+        private CancellationTokenSource _activeSearchCancellation;
+        private CancellationTokenSource _activeSuggestCancellation;
+
         public ISearchSource ActiveSource { get => _activeSource; set => SetPropertyChanged(value, ref _activeSource); }
         public SearchResult SelectedResult { get => _selectedResult; set => SetPropertyChanged(value, ref _selectedResult); }
         public string CurrentQuery { get => _currentQuery; set => SetPropertyChanged(value, ref _currentQuery); }
         public string DefaultPlaceholder { get => _defaultPlaceholder; set => SetPropertyChanged(value, ref _defaultPlaceholder); }
         public SearchResultMode SearchMode { get => _searchMode; set => SetPropertyChanged(value, ref _searchMode); }
-        public Geometry.Geometry QueryArea { get => _queryArea; set => SetPropertyChanged(value, ref _queryArea); }
+        public Geometry.Geometry QueryArea { get => _queryArea; 
+            set {
+                SetPropertyChanged(value, ref _queryArea);
+                if (Results != null && value != null)
+                {
+                    IsEligibleForRequery = true;
+                }
+                } 
+            }
         public MapPoint QueryCenter { get => _queryCenter; set => SetPropertyChanged(value, ref _queryCenter); }
-        
+
         public ObservableCollection<ISearchSource> Sources { get; } = new ObservableCollection<ISearchSource>();
         public List<SearchResult> Results { get => _results; private set => SetPropertyChanged(value, ref _results); }
         public List<SearchSuggestion> Suggestions { get => _suggestions; private set => SetPropertyChanged(value, ref _suggestions); }
 
-        public async Task CommitSearch()
+        private bool _viewpointChangedSinceResultReturned;
+
+        public bool IsEligibleForRequery
         {
-            Suggestions = null;
-            Results = null;
+            get => _viewpointChangedSinceResultReturned;
+            private set => SetPropertyChanged(value, ref _viewpointChangedSinceResultReturned);
+        }
 
-            var sourcesToSearch = SourcesToSearch();
+        public async Task CommitSearch(bool restrictToViewArea = false)
+        {
+            if (_activeSearchCancellation != null)
+                _activeSearchCancellation.Cancel();
 
-            foreach(var source in sourcesToSearch)
+            using (CancellationTokenSource searchCancellation = new CancellationTokenSource(2000))
             {
-                source.SearchEnvelope = QueryArea;
-                source.SearchLocation = QueryCenter;
+                try
+                {
+                    _activeSearchCancellation = searchCancellation;
+                    Suggestions = null;
+                    Results = null;
+                    IsEligibleForRequery = false;
+                    var sourcesToSearch = SourcesToSearch();
+
+                    foreach (var source in sourcesToSearch)
+                    {
+                        source.SearchEnvelope = QueryArea;
+                        source.SearchLocation = QueryCenter;
+                    }
+                    var queryRestrictionArea = restrictToViewArea ? QueryArea : null;
+
+                    var allResults = await Task.WhenAll(sourcesToSearch.Select(s => s.SearchAsync(CurrentQuery, queryRestrictionArea, searchCancellation.Token)));
+
+                    Results = allResults.SelectMany(l => l).ToList();
+                }
+                catch (Exception)
+                {
+
+                }
+                finally
+                {
+                    _activeSearchCancellation = null;
+                }
             }
 
-            var allResults = await Task.WhenAll(sourcesToSearch.Select(s => s.SearchAsync(CurrentQuery)));
-
-            Results = allResults.SelectMany(l => l).ToList();
         }
 
         public async Task UpdateSuggestions()
         {
-            Suggestions = null;
-            if (string.IsNullOrWhiteSpace(CurrentQuery))
+            if (_activeSuggestCancellation != null)
+                _activeSuggestCancellation.Cancel();
+
+            using (CancellationTokenSource suggestCancellation = new CancellationTokenSource(1000))
             {
-                return;
+                try
+                {
+                    _activeSuggestCancellation = suggestCancellation;
+                    Suggestions = null;
+                    if (string.IsNullOrWhiteSpace(CurrentQuery))
+                    {
+                        return;
+                    }
+                    var sourcesToSearch = SourcesToSearch();
+
+                    foreach (var source in sourcesToSearch)
+                    {
+                        source.SearchEnvelope = QueryArea;
+                        source.SearchLocation = QueryCenter;
+                    }
+
+                    var allSuggestions = await Task.WhenAll(sourcesToSearch.Select(s => s.SuggestAsync(CurrentQuery, suggestCancellation.Token)));
+
+                    Suggestions = allSuggestions.SelectMany(l => l).ToList();
+                }
+                catch (Exception)
+                {
+                }
+                finally
+                {
+                    _activeSuggestCancellation = null;
+                }
             }
-            var sourcesToSearch = SourcesToSearch();
-
-            foreach(var source in sourcesToSearch)
-            {
-                source.SearchEnvelope = QueryArea;
-                source.SearchLocation = QueryCenter;
-            }
-
-            var allSuggestions = await Task.WhenAll(sourcesToSearch.Select(s => s.SuggestAsync(CurrentQuery)));
-
-            Suggestions = allSuggestions.SelectMany(l => l).ToList();
         }
 
         public async Task AcceptSuggestion(SearchSuggestion suggestion)
         {
-            Suggestions = null;
-            Results = null;
-            SelectedResult = null;
+            if (_activeSearchCancellation != null)
+                _activeSearchCancellation.Cancel();
 
-            if (suggestion == null) return;
-
-            // Update the UI just so it matches user expectation
-            CurrentQuery = suggestion.DisplayTitle;
-
-            var selectedSource = suggestion.OwningSource;
-            var results = await selectedSource.SearchAsync(suggestion);
-
-            switch (SearchMode)
+            using (CancellationTokenSource searchCancellation = new CancellationTokenSource(2000))
             {
-                case SearchResultMode.Single:
-                    Results = new List<SearchResult> { results.First() };
-                    SelectedResult = Results.First();
-                    break;
-                case SearchResultMode.Multiple:
-                    Results = results.ToList();
-                    break;
-                case SearchResultMode.Automatic:
-                    if (suggestion.SuggestResult?.IsCollection ?? true)
-                        Results = results.ToList();
-                    else
-                        Results = new List<SearchResult>() { results.First() };
+                try
+                {
+                    _activeSearchCancellation = searchCancellation;
+                    Suggestions = null;
+                    Results = null;
+                    SelectedResult = null;
+                    IsEligibleForRequery = false;
 
-                    if (Results?.Count == 1)
-                        SelectedResult = Results.First();
-                    break;
+                    if (suggestion == null) return;
+
+                    // Update the UI just so it matches user expectation
+                    CurrentQuery = suggestion.DisplayTitle;
+
+                    var selectedSource = suggestion.OwningSource;
+                    var results = await selectedSource.SearchAsync(suggestion, searchCancellation.Token);
+
+                    switch (SearchMode)
+                    {
+                        case SearchResultMode.Single:
+                            Results = new List<SearchResult> { results.First() };
+                            SelectedResult = Results.First();
+                            break;
+                        case SearchResultMode.Multiple:
+                            Results = results.ToList();
+                            break;
+                        case SearchResultMode.Automatic:
+                            if (suggestion.SuggestResult?.IsCollection ?? true)
+                                Results = results.ToList();
+                            else
+                                Results = new List<SearchResult>() { results.First() };
+
+                            if (Results?.Count == 1)
+                                SelectedResult = Results.First();
+                            break;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+                finally
+                {
+                    _activeSearchCancellation = null;
+                }
             }
+
         }
 
         public async Task ConfigureFromMap(Map map)
@@ -153,10 +230,21 @@ namespace Esri.ArcGISRuntime.OpenSourceApps.DataCollection.CustomControls.Search
             Results = null;
             Suggestions = null;
             CurrentQuery = null;
+            IsEligibleForRequery = false;
+        }
+
+        public void CancelSearch()
+        {
+            _activeSearchCancellation?.Cancel();
+        }
+
+        public void CancelSuggestion()
+        {
+            _activeSuggestCancellation?.Cancel();
         }
 
         private List<ISearchSource> SourcesToSearch()
-        { 
+        {
             var selectedSources = new List<ISearchSource>();
             if (ActiveSource == null)
             {
